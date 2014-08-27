@@ -334,6 +334,7 @@ class system_controller_config extends admin_controller
 				break;
 			case 'eaccelerator':
 				$support = (extension_loaded('eaccelerator') && function_exists('eaccelerator_get'));
+				break;
 			case 'apc':
 				$support = function_exists('apc_cache_info');
 				break;
