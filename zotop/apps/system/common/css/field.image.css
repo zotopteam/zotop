@@ -1,0 +1,5 @@
+.image-control {}
+.image-control .image-preview{float:left;margin-right: 5px;}
+.image-control .image-preview .thumb{width:80px;height:60px;}
+.image-control .input{margin-bottom:3px;}
+.image-control .text{clear:both;width:514px;}

@@ -1,0 +1,6 @@
+#
+# robots.txt for zotop
+#
+User-agent: * 
+Disallow: /install
+Disallow: /zotop

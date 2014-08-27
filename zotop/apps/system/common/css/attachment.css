@@ -1,0 +1,40 @@
+.icon-ext{overflow:hidden;display:-moz-inline-box;-moz-box-align:center;display:inline-block;+display:inline;zoom:1;vertical-align:middle;text-align:center;background:url(../image/icon-ext.png) no-repeat center center;}
+.icon-ext:before{content:''}
+
+i.icon-ext{width:16px;height:16px;}
+b.icon-ext{width:32px;height:32px;}
+
+
+i.icon-ext{background-position:0 0;}
+i.icon-folder{background-position:-896px -32px;}
+i.icon-text,i.icon-txt{background-position:-672px 0;}
+i.icon-archive,i.icon-rar,i.icon-zip,i.icon-7z,i.icon-kz{background-position:-160px 0;}
+i.icon-doc,i.icon-docx{background-position:-64px 0;}
+i.icon-xls,i.icon-xlsx{background-position:-32px 0}
+i.icon-ppt,i.icon-pptx,i.icon-pps{background-position:-96px 0;}
+i.icon-pdf{background-position:-512px 0;}
+i.icon-jpg{background-position:0 -32px;}
+i.icon-png{background-position:-64px -32px;}
+i.icon-gif{background-position:-32px -32px;}
+i.icon-htm,i.icon-html{background-position:-288px 0;}
+
+
+b.icon-ext{background-position:0 -64px;}
+b.icon-text,b.icon-txt{background-position:-672px -64px;}
+b.icon-archive,b.icon-rar{background-position:-160px -64px;}
+b.icon-doc,b.icon-docx{background-position:-64px -64px;}
+b.icon-xls,b.icon-xlsx{background-position:-32px -64px;}
+b.icon-ppt,b.icon-pptx,b.icon-pps{background-position:-96px -64px;}
+b.icon-pdf{background-position:-512px -64px;}
+b.icon-rtf{background-position:-704px 0;}
+b.icon-htm,b.icon-html{background-position:-288px -64px;}
+b.icon-js{background-position:-320px -64px;}
+b.icon-mov{background-position:-832px -64px;}
+
+div.image-preview{padding:2px;background:#fff;border:solid 1px #ebebeb;display:inline-block;line-height:0;}
+div.image-preview .thumb {display:table-cell;vertical-align:middle;text-align:center;width:36px;height:36px;background:#eee;*display:block;*font-size:32px; }
+div.image-preview .thumb img {vertical-align:middle;max-width:36px;max-height:36px;}
+
+div.total-progressbar{width:100%;border:0 none;}
+
+

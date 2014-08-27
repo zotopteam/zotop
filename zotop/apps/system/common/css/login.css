@@ -1,0 +1,43 @@
+/*
+  login css 
+  
+  Thanks for treetable
+  
+  @author   zotop team
+  @created  2012-10-25
+  @version  1.0
+  @site     http://zotop.com  
+*/
+html,body{width:100%;height:100%;overflow:hidden;background-image:url('../image/wallpaper.jpg');background-size: cover;}
+
+
+div.box{z-index:666;background:#fff;background:rgba(255, 255, 255, 0.5);padding:5px;width:500px;margin:0;border-radius:0px;box-shadow:0 0 12px rgba(0, 0, 0, 0.4);}
+div.box-body{background:#eff7ff;}
+
+
+div.form-header{height:140px;padding:0px;background:#fff url(../image/system.jpg) no-repeat center left;}
+div.form-status{text-indent:5px;padding:3px;color:#333;height:25px;line-height:25px;}
+div.form-body{margin-bottom:5px;}
+div.form-footer{text-align:right;*line-height:24px;position:relative;vertical-align:middle;display:block;zoom:1;padding:8px;border:0px none;}
+div.form-footer .remember{position:absolute;left:8px;top:12px;}
+
+table.field{background:transparent;}
+table.field td.label{width:80px;padding-left:25px;}
+
+
+input.text,input.password{width:320px;}
+input.captcha{width:110px;}
+
+a.captcha img{width:90px;vertical-align:middle;}
+
+div.notsupport{position:absolute;top:0;z-index:99999;background:#fff url(../image/wallpaper.jpg) repeat-x top center;width:100%;height:100%;text-align:center;clear:both;}
+div.notsupport h1{font-size:24px;font-weight:400;margin-top:300px;line-height:40px;}
+div.notsupport a,div.notsupport a:hover{display:block;width:200px;background:#0CF;color:#fff;margin:20px auto;padding:8px 12px;white-space:nowrap;}
+
+div.topbar{position:absolute;top:0;right:0;padding:5px 8px;}
+div.topbar a{color:#fff;font-weight:normal;font-size:14px;display:inline;float:none;padding:0px;line-height:24px;text-shadow: 0 0 5px #555;}
+div.topbar b{color:#fff;font-weight:normal;font-size:10px;padding:0 2px;}
+div.topbar i{color:#fff;text-shadow: 0 0 2px #555;}
+
+div.bottombar{position:absolute;bottom:0;right:0;left:0;padding:5px;color:#fff;text-shadow: 0 0 5px #555;}
+div.bottombar a{color:#fff;text-shadow: 0 0 5px #555;}

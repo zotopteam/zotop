@@ -1,0 +1,26 @@
+.CodeMirror{
+	height:100%;width:100%;
+	line-height: 1.5em;
+	font-family: Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace !important;
+	color-profile: sRGB;
+	rendering-intent: auto;
+}
+
+
+.CodeMirror pre{
+	padding:2px 4px;
+}
+
+.CodeMirror-linenumber{
+	padding: 2px 3px 2px 5px;
+}
+.CodeMirror-selected{
+}
+
+.CodeMirror-focused .CodeMirror-selected{
+	margin-top:0px;
+}
+
+.template-editor{width:650px;border:1px solid #d0d0d0;border-radius: 2px;}
+.template-editor-head{height:40px;border-bottom:solid 1px #d0d0d0;display:none;}
+.template-editor-body{height:260px;overflow:auto;}
