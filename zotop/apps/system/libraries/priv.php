@@ -26,8 +26,6 @@ class priv
 
 		if ( $groupid == 1 ) return true;
 
-		if ( $app == 'system' and $controller == 'admin' ) return true;
-
 		if ( empty($privs) )
 		{
 			$privs = m('system.rolepriv')->cache($groupid);

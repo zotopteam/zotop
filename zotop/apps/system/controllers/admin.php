@@ -10,6 +10,17 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class system_controller_admin extends admin_controller
 {
+	
+	/**
+	 * 覆盖系统默认的权限检查（系统信息不检查权限，只要是系统用户都可以访问）
+	 *
+     * @return bool	 
+	 */	
+	public function __checkPriv()
+	{
+		return true;
+	}
+		
 	/**
 	 * 系统管理首页
 	 *
