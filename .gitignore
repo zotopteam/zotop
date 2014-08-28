@@ -1,0 +1,11 @@
+/zotop/data/install.lock
+/zotop/runtime/backup
+/zotop/runtime/block
+/zotop/runtime/caches
+/zotop/runtime/session
+/zotop/runtime/temp
+/zotop/runtime/templates
+/zotop/runtime/config.php
+/zotop/runtime/global.php
+/zotop/runtime/preload.php
+/zotop/runtime

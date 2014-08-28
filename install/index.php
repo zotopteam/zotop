@@ -220,7 +220,7 @@ class install
 					}
 					elseif ( zotop::db($config)->exists() )
 					{
-						$msg = array('code'=>0, 'message'=>t('数据库 “%s” 已经存在，是否继续？如果继续系统将会删除原有数据',$mysql_database));
+						$msg = array('code'=>0, 'message'=>t('数据库 “%s” 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
 					}
 					else
 					{
@@ -229,7 +229,7 @@ class install
 				}
 				catch(Exception $e)
 				{
-					$msg = array('code'=>2, 'message'=>t('无法连接数据库服务器，请检查配置！'));
+					$msg = array('code'=>2, 'message'=>t('无法连接数据库服务器，请检查配置！%s', $e->getMessage()));
 				}
 			}
 		}
