@@ -12,7 +12,7 @@ class system_controller_admin extends admin_controller
 {
 	
 	/**
-	 * 覆盖系统默认的权限检查（系统信息不检查权限，只要是系统用户都可以访问）
+	 * 覆盖父类的权限检查,允许全部管理人员访问
 	 *
      * @return bool	 
 	 */	

@@ -456,12 +456,12 @@ class content_model_content extends model
 			$page = ( intval($page)>0 ) ? intval($page) : 0;
 
 			$return = $db->getPage($page, $size, intval($total));
-			$return['data'] = $this->process($return['data'], $model, $modeldata);
+			$return['data'] = $this->process($return['data'], $modelid, $modeldata);
 		}
 		else
 		{
 			$return = $db->limit($size)->getAll();
-			$return = $this->process($return, $model, $modeldata);
+			$return = $this->process($return, $modelid, $modeldata);
 		}
 
 		return $return;

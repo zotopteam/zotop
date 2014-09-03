@@ -20,8 +20,8 @@ class system_controller_attachment extends admin_controller
 	{
 		parent::__init();
 
-		$this->folder = m('system.attachment_folder');
-		$this->attachment = m('system.attachment');
+		$this->folder 		= m('system.attachment_folder');
+		$this->attachment 	= m('system.attachment');
 	}
 
  	/**

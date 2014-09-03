@@ -56,7 +56,7 @@
 
 	function getdatalist(index){
 		var page = index || 0;
-		var pagesize = 6;
+		var pagesize = 8;
 		var folderid = $('#folderid').val();
 		var loading = $.loading();
 

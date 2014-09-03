@@ -349,7 +349,7 @@ class database_mysql extends database
 			return false;
 		}
 
-		throw new zotop_exception(t('Cannot connect database host `%s`',$this->config['hostname'].':'.$this->config['hostport']));
+		throw new zotop_exception(t('Cannot connect database host `%s`', $this->config['hostname'].':'.$this->config['hostport']));
 	}
 
 	/*
@@ -374,7 +374,7 @@ class database_mysql extends database
 			return false;
 		}
 
-		throw new zotop_exception(t('Cannot connect database host `%s`',$this->config['hostname'].':'.$this->config['hostport']));
+		throw new zotop_exception(t('Cannot connect database host `%s`', $this->config['hostname'].':'.$this->config['hostport']));
 	}
 
 	/**

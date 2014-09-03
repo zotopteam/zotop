@@ -107,10 +107,7 @@ class zotop
      */
     public static function init()
     {
-        // boot函数只能运行一次
         if (zotop::$init) return;
-
-        zotop::$init = true;
 
         // 注册自动加载函数
         spl_autoload_register(array('zotop', 'autoload'));
@@ -128,18 +125,30 @@ class zotop
 		zotop::add('zotop.execute', array('application', 'execute'));
         zotop::add('zotop.render', array('application', 'render'));
 
-        // 如果不存在核心文件或者debug模式，自动生成runtime
-        if (file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG)
+        
+        if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG )
         {
+            // 预加载配置
             zotop::config(include(ZOTOP_PATH_RUNTIME . DS . "config.php"));
 
+            // 预加载文件
             zotop::load(ZOTOP_PATH_RUNTIME . DS . "preload.php");
+
+            // 加载全局文件
             zotop::load(ZOTOP_PATH_RUNTIME . DS . "global.php");
+        }
+        elseif ( file_exists(ZOTOP_PATH . DS . 'install' . DS . 'index.php') && !file_exists(ZOTOP_PATH_DATA . DS . "install.lock") && !defined('ZOTOP_INSTALL'))
+        {
+            //进入安装模式
+            header('location:'. ZOTOP_URL . '/install/index.php');
         }
         else
         {
+            // 如果不存在核心文件或者debug模式，自动生成runtime
             zotop::load(ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . "runtime.php") and runtime::build();
         }
+
+        zotop::$init = true;        
     }
 
     /**
