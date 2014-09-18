@@ -9,3 +9,10 @@
 /zotop/runtime/global.php
 /zotop/runtime/preload.php
 /zotop/runtime
+/zotop/apps/case
+/zotop/apps/shop
+/zotop/apps/solution
+/zotop/apps/test
+/zotop/apps/database
+/zotop/config/shop.php
+/zotop/config/test.php
