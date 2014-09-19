@@ -16,3 +16,5 @@
 /zotop/apps/database
 /zotop/config/shop.php
 /zotop/config/test.php
+
+*.tmp

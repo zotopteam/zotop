@@ -8,26 +8,19 @@
  * @license http://zotop.com/license
  */
 
-// TODO 检查是否支持zip
+// 设置安装时候需要用到的常量
+define('ZOTOP_DEBUG',			true);
+define('ZOTOP_INSTALL',			true);
+define('ZOTOP_PATH_INSTALL', 	dirname(__FILE__));
 
-// 设置默认报告的错误类型
-error_reporting(E_ERROR | E_WARNING | E_PARSE);
-
-define('ZOTOP_INSTALL',true);
-define('ZOTOP_DEBUG',true);
-define('ZOTOP_PATH_INSTALL', dirname(__FILE__));
-
-
+// 设置超时时间
 @set_time_limit(1000);
-
-if(phpversion() < '5.3.0') set_magic_quotes_runtime(0);
 
 //加载主文件
 require dirname(ZOTOP_PATH_INSTALL).DIRECTORY_SEPARATOR.'zotop'.DIRECTORY_SEPARATOR.'zotop.php';
 
 zotop::init();
 zotop::register(include(ZOTOP_PATH_CMS.DS.'preload.php'));
-
 
 $install = new install();
 
@@ -43,8 +36,8 @@ class install
 		//安装判断
 		if( is_file(ZOTOP_PATH_DATA.DS.'install.lock') )
 		{
-			//echo t('程序已经安装，如果要重新安装请删除%s文件','/'.basename(ZOTOP_PATH_CMS).'/data/install.lock');
-			//exit;
+			echo t('程序已经安装，如果要重新安装请删除%s文件','/'.basename(ZOTOP_PATH_CMS).'/data/install.lock');
+			exit;
 		}
 
 		$this->action = empty($_GET['action']) ? 'start' : $_GET['action'];
