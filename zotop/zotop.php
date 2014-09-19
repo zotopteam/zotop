@@ -116,15 +116,6 @@ class zotop
         $_GET    = zotop::sanitize($_GET);
         $_POST   = zotop::sanitize($_POST);
         $_COOKIE = zotop::sanitize($_COOKIE);
-
-        // 设置系统事件
-        zotop::add('zotop.boot', array('application', 'boot'));
-        zotop::add('zotop.boot', array('application', 'finduri'));
-        zotop::add('zotop.route', array('router', 'init'));
-		zotop::add('zotop.route', array('router', 'route'));
-		zotop::add('zotop.execute', array('application', 'execute'));
-        zotop::add('zotop.render', array('application', 'render'));
-
         
         if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG )
         {
@@ -147,6 +138,14 @@ class zotop
             // 如果不存在核心文件或者debug模式，自动生成runtime
             zotop::load(ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . "runtime.php") and runtime::build();
         }
+
+        // 设置系统事件
+        zotop::add('zotop.boot',    array('application', 'boot'));
+        zotop::add('zotop.boot',    array('application', 'finduri'));
+        zotop::add('zotop.route',   array('router', 'init'));
+        zotop::add('zotop.route',   array('router', 'route'));
+        zotop::add('zotop.execute', array('application', 'execute'));
+        zotop::add('zotop.render',  array('application', 'render'));        
 
         zotop::$init = true;        
     }
