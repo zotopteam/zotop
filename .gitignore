@@ -17,3 +17,4 @@
 /zotop/config/test.php
 
 *.tmp
+/zotop/data/zotop.db3
