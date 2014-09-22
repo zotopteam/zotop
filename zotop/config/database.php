@@ -2,14 +2,11 @@
 return array (
   'default' => 
   array (
-    'driver' => 'mysql',
-    'hostname' => 'localhost',
-    'hostport' => '3306',
-    'username' => 'root',
-    'password' => '123456',
-    'database' => 'zotop2',
-    'pconnect' => NULL,
+    'driver' => 'sqlite',
+    'hostname' => 'E:\\zotop2\\zotop\\data',
+    'database' => 'zotop.db3',
     'prefix' => 'zotop_',
+    'pconnect' => '0',
   ),
 );
 ?>
