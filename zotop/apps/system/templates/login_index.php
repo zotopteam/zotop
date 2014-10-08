@@ -16,12 +16,7 @@
 	<link rel="shortcut icon" type="image/x-icon" href="{A('system.url')}/zotop.ico" />
 	<link rel="icon" type="image/x-icon" href="{A('system.url')}/zotop.ico" />
 	<link rel="bookmark" type="image/x-icon" href="{A('system.url')}/zotop.ico" />
-
 	{hook 'admin.head'}
-
-	<style type="text/css">
-	html,body{background-image:url('http://1.su.bdimg.com/skin/{rand(1,100)}.jpg'); background-size:cover;}
-	</style>	
 </head>
 <body>
 

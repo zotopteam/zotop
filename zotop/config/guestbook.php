@@ -2,10 +2,11 @@
 return array (
   'addmail' => '1',
   'addmail_content' => '留言人：<b>{name}</b><br/>电子邮件：{email}<br/>留言内容：{content}',
+  'addmail_sendto' => '',
   'addmail_title' => '{site}：您有新的留言',
   'adminname' => '管理员',
   'captcha' => '0',
-  'description' => '<p>欢迎给我们留言，或者电话咨询，我们收到留言后将及时回复</p>',
+  'description' => '欢迎给我们留言，或者电话咨询，我们收到留言后将及时回复',
   'image' => '',
   'maxlength' => '500',
   'maxlinks' => '1',
@@ -18,7 +19,6 @@ return array (
   'showaudited' => '1',
   'showlist' => '1',
   'showreplied' => '1',
-  'siteid' => '1',
   'title' => '留言本',
 );
 ?>

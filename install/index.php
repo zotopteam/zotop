@@ -104,13 +104,13 @@ class install
 
 		// 目录和文件权限
     	$list = array(
-    		ZOTOP_PATH => array('name'=>t('根目录'), 'type'=>'folder', 'writable'=>true),
-    		ZOTOP_PATH_APPS => array('name'=>t('应用目录'), 'type'=>'folder', 'writable'=>true),
-    		ZOTOP_PATH_UPLOADS => array('name'=>t('文件上传目录'), 'type'=>'folder', 'writable'=>true),
-    		ZOTOP_PATH_DATA => array('name'=>t('数据目录'), 'type'=>'folder', 'writable'=>true),
-    		ZOTOP_PATH_CONFIG => array('name'=>t('设置目录'), 'type'=>'folder', 'writable'=>true),
-    		ZOTOP_PATH_RUNTIME => array('name'=>t('运行时目录'), 'type'=>'folder', 'writable'=>true),
-    		ZOTOP_PATH_THEMES => array('name'=>t('主题和模板目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH 			=> array('name'=>t('根目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH_APPS 	=> array('name'=>t('应用目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH_UPLOADS 	=> array('name'=>t('文件上传目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH_DATA 	=> array('name'=>t('数据目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH_CONFIG 	=> array('name'=>t('设置目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH_RUNTIME 	=> array('name'=>t('运行时目录'), 'type'=>'folder', 'writable'=>true),
+    		ZOTOP_PATH_THEMES 	=> array('name'=>t('主题和模板目录'), 'type'=>'folder', 'writable'=>true),
     	);
 
     	foreach ($list as $f => &$r)
