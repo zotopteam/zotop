@@ -141,8 +141,6 @@ class member_controller_field extends admin_controller
      */
 	public function action_check($key,$ignore='')
 	{
-		exit('true');
-
 		$ignore = empty($ignore) ? $_GET['ignore'] : $ignore;
 
 		if ( empty($ignore) )
