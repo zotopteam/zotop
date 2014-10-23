@@ -259,8 +259,9 @@ abstract class database
     }
 
     /**
-     * 重置链式查询的全部参数
+     * 重置链式查询的全部参数，参与链式查询
 	 *
+     * @return object 
      */
     public function reset()
     {
@@ -300,7 +301,6 @@ abstract class database
 
 	/**
 	 * 链式查询，设置查询数据表 "FROM ..."
-
 	 * <code>
 	 * $this->from('user');
 	 * $this->from('user','config');
@@ -434,6 +434,7 @@ abstract class database
 	 * orderby('creattime','desc')
 	 * orderby('creattime desc')
 	 * orderby('creattime desc,updatetime asc')
+	 * orderby(array('creattime'=>'desc','updatetime'=>'asc'))
 	 * </code>
 	 *
 	 * @param   string  orderby 排序字段
@@ -445,6 +446,10 @@ abstract class database
 		if ( $orderby === null )
 		{
 			$this->sqlBuilder['orderby'] = array(); //清除排序
+		}
+		elseif ( is_array($orderby) )
+		{
+			$this->sqlBuilder['orderby'] = array_merge((array)$this->sqlBuilder['orderby'], $orderby); //清除排序
 		}
 		elseif ( is_string($orderby) )
 		{
@@ -787,7 +792,7 @@ abstract class database
 		$str = '';
 
 		if ( is_array($orderby) )
-		{
+		{			
 			foreach ( $orderby as $key=>$direction )
 			{
 				$direction = strtoupper(trim($direction));
