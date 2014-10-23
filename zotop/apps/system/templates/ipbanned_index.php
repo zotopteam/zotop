@@ -9,7 +9,7 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-highlight btn-add dialog-open" href="{u('system/ipbanned/add')}" data-width="600px" data-height="160px">
+			<a class="btn btn-highlight btn-add dialog-open" href="{u('system/ipbanned/add')}" data-width="600px" data-height="350px">
 				{t('添加')}
 			</a>
 		</div>
@@ -34,7 +34,7 @@
 				<td>
 					<div class="title">{$r['ip']}</div>
 					<div class="manage">
-						<a class="dialog-open" href="{u('system/ipbanned/edit/'.$r['ip'])}" data-width="600px" data-height="160px">{t('编辑')}</a>
+						<a class="dialog-open" href="{u('system/ipbanned/edit/'.$r['ip'])}" data-width="600px" data-height="350px">{t('编辑')}</a>
 						<s></s>
 						<a class="dialog-confirm" href="{u('system/ipbanned/delete/'.$r['ip'])}">{t('删除')}</a>
 					</div>

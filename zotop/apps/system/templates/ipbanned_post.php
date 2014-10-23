@@ -15,7 +15,7 @@
 			<tr>
 				<td class="label">{form::label(t('解封时间'),'description',true)}</td>
 				<td class="input">
-					{form::field(array('type'=>'datetime','name'=>'expires','value'=>$data['expires'],'min'=>ZOTOP_TIME,'required'=>'required'))}
+					{form::field(array('type'=>'datetime','name'=>'expires','value'=>$data['expires'],'min'=>ZOTOP_TIME, 'inline'=>true, 'required'=>'required'))}
 				</td>
 			</tr>
 			</tbody>

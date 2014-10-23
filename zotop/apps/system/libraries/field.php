@@ -146,59 +146,55 @@ class system_field
 	public static function date($attrs)
 	{
 		// 属性设置
-		$attrs['value'] = empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
-		$attrs['value'] = is_int($attrs['value']) ? format::date($attrs['value'],"Y-m-d") : $attrs['value'];
+		$attrs['format'] 		= empty($attrs['format']) ? 'Y-m-d' : $attrs['format'];
+
+		$attrs['value'] 		= empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
+		$attrs['value'] 		= format::date($attrs['value'], $attrs['format']);
 
 		// 参数设置
 		$options = is_array($attrs['options']) ? $attrs['options'] : array();
 
-		foreach( array('min','max','start','format','double','readonly','showclear') as $attr )
+		foreach( array('min','max','start','format','double','inline','datepicker','timepicker') as $attr )
 		{
-			if ( isset($attrs[$attr]) and !empty($attrs[$attr]) )
+			if ( isset($attrs[$attr]) )
 			{
-				$options[$attr] = ( in_array($attr, array('min','max','start')) and is_int($attrs[$attr]) ) ? format::date($attrs[$attr],"Y-m-d H:i:s") : $attrs[$attr];
+				$options[$attr] = ( in_array($attr, array('min','max','start')) and is_int($attrs[$attr]) ) ? format::date($attrs[$attr], $attrs['format']) : $attrs[$attr];
 				unset($attrs[$attr]);
 			}
 		}
 
 		unset($attrs['options']);
 
-		$settings = array();
-		$settings['el'] = $attrs['id'];
-		$settings['dateFmt'] = empty($options['format']) ? 'yyyy-MM-dd' : $options['format']; //y=年 M=月 d=日 H=小时 m=分钟 s=秒 w=星期 W=周
-		$settings['doubleCalendar'] = (bool)$options['double'];
-		$settings['isShowClear'] = (bool)$options['showclear'];
-		$settings['readOnly'] =  (bool)$options['readonly'];
-		$settings['autoUpdateOnChanged'] =  true;
-		$settings['qsEnabled'] =  false;
+		$options['lang'] = 'ch'; //TODO 暂时只支持中文
+
 
 		if ( !empty($options['min']) and strtotime($options['min']) )  $settings['minDate'] = $options['min'];
 		if ( !empty($options['max']) and strtotime($options['max']) )  $settings['maxDate'] = $options['max'];
 		if ( !empty($options['start']) and strtotime($options['start']) )  $settings['startDate'] = $options['start'];
 
-		$html['field']		= form::field_text($attrs);
-		$html['js']			= html::import(A('system.url').'/common/datepicker/WdatePicker.js');
-		$html['selector']	= '<a tabindex="-1" class="btn btn-icon-text" onclick=\'WdatePicker('.json_encode($settings).')\'><i class="icon icon-calendar"></i><b>'.t('选择').'</b></a>';
-		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['field']	= form::field_text($attrs);
+		$html['js']		= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.js');
+		$html['css']	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.css');
+		$html['init']	= '<script>$(function(){$("#'.$attrs['id'].'").datetimepicker('.json_encode($options).');})</script>';
+		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		return implode("\n",$html);
-	}
+	}	
 
 	/**
-	 * 日期控件，带时间，如2013-04-19 13:52:39
+	 * 日期控件，带时间，如2013-04-19 13:52
 	 *
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
 	public static function datetime($attrs)
 	{
-		$attrs['value'] = empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
-		$attrs['value'] = is_numeric($attrs['value']) ? format::date($attrs['value'],"Y-m-d H:i:s") : $attrs['value'];
-		$attrs['options']['format'] = 'yyyy-MM-dd HH:mm:ss';
-
+		$attrs['format'] 		= 'Y-m-d H:i';
+		
+		$attrs['timepicker'] 	= true;		
 
 		return self::date($attrs);
-	}
+	}	
 
 	/**
 	 * 验证码控件
