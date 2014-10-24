@@ -12,15 +12,6 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class form_controller_index extends site_controller
 {
 	/**
-	 * 重载__init函数
-	 */
-	public function __init()
-	{
-		parent::__init();
-
-	}
-
-	/**
 	 * index 动作
 	 *
 	 */
@@ -30,6 +21,60 @@ class form_controller_index extends site_controller
 		$this->assign('title',t('自定义表单'));
 		$this->assign('data',$data);
 		$this->display('form/index.php');
+	}
+
+	/**
+	 * index 动作
+	 *
+	 */
+	public function action_list($formid)
+    {
+ 		// 获取表单数据
+		$form = m('form.form.get',$formid);
+
+		if ( empty($form) or $form['settings']['list'] == 0 )
+		{
+			return $this->_404(t('表单不存在', $formid));
+		}
+
+		// 获取当前表单字段
+		$fields = m('form.field.getall',$formid);
+
+		$this->assign('title',$form['name']);
+		$this->assign('formid',$formid);
+		$this->assign('form',$form);
+		$this->assign('fields',$fields);
+		$this->display($form['settings']['listtemplate']);
+	}
+
+	public function action_detail($formid, $id)
+	{
+		// 获取表单数据
+		$form = m('form.form.get',$formid);
+
+		if ( empty($form) or $form['settings']['detail'] == 0 )
+		{
+			return $this->_404(t('表单不存在', $formid));
+		}
+
+		// 获取当前表单字段
+		$fields = m('form.field.getall',$formid);
+
+		// 获取当前条目详细数据
+		$data 	= m('form.data.init',$formid)->get($id);
+
+		if ( empty($data) )
+		{
+			return $this->_404(t('数据不存在', $id));
+		}
+
+		$this->assign('title',$form['name']);
+		$this->assign('id',$id);
+		$this->assign('formid',$formid);
+		$this->assign('form',$form);
+		$this->assign('fields',$fields);
+		$this->assign('data',$data);
+		$this->display($form['settings']['detailtemplate']);		
 	}
 }
 ?>

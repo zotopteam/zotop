@@ -131,24 +131,25 @@ class form_model_form extends model
 
 	/*
 	 *  删除数据
-	 */
+	 *
+	 * @param int $id ID
+	 * @return bool
+	 */ 
 	public function delete($id)
 	{
-		// 获取模型信息
-		$data = $this->get($id);
-
 		// 对应数据表下有数据
-		if( m('form.table.init', $data['table'])->count() ) return $this->error(t('该表单下尚有数据，无法被删除'));
+		if ( m('form.data.init', $id)->count() ) return $this->error(t('该表单下尚有数据，无法被删除'));	
 
-		if ( parent::delete($id) )
+		// 删除数据表及数据
+		if ( $table = $this->get($id,'table') and parent::delete($id) )
 		{
-			// 删除模型表
-			$this->db->table($data['table'])->drop();
+			// 删除字段表中的相关数据
+			m('form.field')->deletebyformid($id);
 
-			// 删除用户及用户组中的相关数据
-			m('form.field')->deletebymodelid($id);
-			m('form.field')->cache(true);
+			// 删除数据表
+			$this->db->table($table)->drop();
 
+			// 重建缓存
 			$this->cache(true);
 			return true;
 		}
@@ -159,6 +160,8 @@ class form_model_form extends model
 	/**
 	 * 排序
 	 *
+	 * @param array $ids ID数组
+	 * @return bool
 	 */
 	public function order($ids)
 	{

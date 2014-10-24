@@ -311,10 +311,9 @@ table.table div.title{line-height:20px;padding:3px 0;font-size:16px;}
 table.table div.title a{font-size:16px;}
 table.table div.title span{color:#666;font-size:12px;margin-left:5px;}
 table.table div.title i.icon{margin:-3px 0 0 4px;color:#ff6600;}
-table.table div.manage{clear:both;white-space:nowrap;margin-top:2px;}
+table.table div.manage{clear:both;white-space:nowrap;}
 table.table div.manage a{font-size:13px;}
 table.table div.manage s{display:inline-block;font-size:0;overflow:hidden;line-height:0;width:1px;height:12px;background:#CCC;margin:-2px 5px 0 5px;vertical-align:middle;}
-table.table div.manage-inline{clear:none;float:right;margin:0 10px 0 0;}
 table.table div.description,table.table span.description{color:#666;font-size:12px;}
 
 

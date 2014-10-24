@@ -38,9 +38,9 @@
 					<td>
 						<div class="title textflow">{$r['name']}</div>
 						<div class="manage">
-							<a href="{u('form/table/index/'.$r['id'])}">{t('数据管理')}</a>
+							<a href="{u('form/data/index/'.$r['id'])}">{t('数据管理')}</a>
 							<s></s>
-							<a href="{u('form/fields/index/'.$r['id'])}">{t('字段管理')}</a>
+							<a href="{u('form/field/index/'.$r['id'])}">{t('字段管理')}</a>
 							<s></s>
 							<a href="{u('form/admin/edit/'.$r['id'])}">{t('表单设置')}</a>
 							<s></s>

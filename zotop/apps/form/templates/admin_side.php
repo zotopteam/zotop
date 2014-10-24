@@ -9,11 +9,13 @@
 			<i class="icon icon-admin"></i>{t('表单管理')}
 		</a>
 	</li>
+	{loop m('form.form.cache') $r}
 	<li>
-		<a href="{u('form/config')}"{if substr_count(ZOTOP_URI,'form/config')} class="current"{/if}>
-			<i class="icon icon-config"></i>{t('设置')}
+		<a href="{u('form/data/index/'.$r.id)}"{if !substr_count(ZOTOP_URI,'form/admin') and $formid==$r.id} class="current"{/if}>
+			<i class="icon icon-item"></i> {$r.name}
 		</a>
 	</li>
+	{/loop}
 </ul>
 
 </div><!-- side-body -->

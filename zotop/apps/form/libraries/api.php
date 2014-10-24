@@ -33,7 +33,7 @@ class form_api
 
 			$start['form_'.$form['table']] = array(
 				'text' => $form['name'],
-				'href' => U('form/admin'),
+				'href' => U('form/data/index/'.$id),
 				'icon' => A('form.url') . '/app.png',
 				'description' => $form['description']
 			);

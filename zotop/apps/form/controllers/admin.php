@@ -15,6 +15,8 @@ class form_controller_admin extends admin_controller
 
 	/**
 	 * 重载__init函数
+	 * 
+ 	 * @return void
 	 */
 	public function __init()
 	{
@@ -25,8 +27,9 @@ class form_controller_admin extends admin_controller
 
 	/**
 	 * 表单列表
-	 *
-	 */
+	 * 
+ 	 * @return void 显示页面
+     */
 	public function action_index()
     {
     	$data = $this->form->getall();
@@ -37,9 +40,10 @@ class form_controller_admin extends admin_controller
 	}
 
 	/**
-	 * 添加表单
+	 * 添加
 	 *
-	 */
+ 	 * @return void|json 显示页面或者返回操作结果
+     */
 	public function action_add()
 	{
 		if ( $post = $this->post() )
@@ -52,15 +56,22 @@ class form_controller_admin extends admin_controller
 			return $this->error($this->form->error());
 		}
 
+		$data = array();
+		$data['settings']['listtemplate'] 	= 'form/list.php';
+		$data['settings']['detailtemplate'] = 'form/detail.php';
+		$data['settings']['posttemplate'] 	= 'form/post.php';
+
 		$this->assign('title',t('添加表单'));
 		$this->assign('data',$data);
 		$this->display('form/admin_post.php');
 	}
 
 	/**
-	 * 添加表单
+	 * 编辑
 	 *
-	 */
+ 	 * @param  int $id 表单编号
+ 	 * @return void|json 显示页面或者返回操作结果
+     */
 	public function action_edit($id)
 	{
 		if ( $post = $this->post() )
@@ -83,7 +94,8 @@ class form_controller_admin extends admin_controller
     /**
      * 检查字段值是否被占用
      *
-     * @return bool
+ 	 * @param  string $ignore 允许忽略的数据
+ 	 * @return json 操作结果
      */
 	public function action_check($key,$ignore='')
 	{
@@ -102,7 +114,8 @@ class form_controller_admin extends admin_controller
     /**
      * 检查数据表名称是否被占用
      *
-     * @return bool
+ 	 * @param  string $ignore 允许忽略的数据
+ 	 * @return json 操作结果
      */
 	public function action_checktable($ignore='')
 	{
@@ -122,8 +135,8 @@ class form_controller_admin extends admin_controller
     /**
      * 设置状态，禁用或者启用
      *
-	 * @param string $id 应用标识(ID)
-     * @return void
+ 	 * @param  int $id 表单编号
+ 	 * @return json 操作结果
      */
 	public function action_status($id)
 	{
@@ -132,6 +145,21 @@ class form_controller_admin extends admin_controller
 			return $this->success(t('操作成功'),request::referer());
 		}
 		return $this->error($this->form->error());
-	}		
+	}
+
+ 	/**
+ 	 * 删除操作
+ 	 * 
+ 	 * @param  int $id 表单编号
+ 	 * @return json 操作结果
+ 	 */
+	public function action_delete($id)
+	{
+		if ( $this->form->delete($id) )
+		{
+			return $this->success(t('删除成功'),request::referer());
+		}
+		return $this->error($this->form->error());
+	}			
 }
 ?>
