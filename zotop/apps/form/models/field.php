@@ -14,7 +14,7 @@ class form_model_field extends model
 	protected $table 	= 'form_field';
 
 	public $controls;
-	public $system_fields = array('id','dataid','status','formid','table','orderby','page','size','cache','return','keywords');
+	public $system_fields = array('id','dataid','status','formid','table','select','orderby','page','size','cache','return','search','keywords');
 
 	public function __construct()
 	{
@@ -51,18 +51,20 @@ class form_model_field extends model
 		}
 
 		return $options;
-	}		
+	}
+
+	
 
 	/**
 	 * 获取数据集，支持链式查询
 	 *
 	 * @return array
 	 */
-	public function getall($formid='')
+	public function getall($formid)
 	{
 		$data = array();
 
-		$rows = $formid ?  $this->db()->where('formid',$formid)->orderby('listorder','asc')->getAll() : $this->db()->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->where('formid',$formid)->orderby('listorder','asc')->getAll();
 
 		foreach( $rows as &$r )
 		{
@@ -86,7 +88,7 @@ class form_model_field extends model
 		
 		$fields = array();
 
-		if ( $_fields = $this->where('formid',$formid)->getall() )
+		if ( $_fields = $this->cache($formid) )
 		{
 			foreach( $_fields as $i=>$r )
 			{
@@ -140,7 +142,8 @@ class form_model_field extends model
 		// 存储原始数据，可以用于hook
 		$field['value'] = $val;
 
-		switch ( $field['control'] ) {
+		switch ( $field['control'] )
+		{
 			case 'radio':
 			case 'select':
 
@@ -314,6 +317,10 @@ class form_model_field extends model
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields", null);
 
+				
+				// 更新字段缓存
+				$this->cache($data['formid'], true);
+
 				return $id;
 			}
 		}
@@ -349,6 +356,9 @@ class form_model_field extends model
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields",null);
 
+				// 更新字段缓存
+				$this->cache($data['formid'], true);				
+
 				return $id;
 			}
 		}
@@ -376,6 +386,9 @@ class form_model_field extends model
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields",null);
 
+				// 更新字段缓存
+				$this->cache($data['formid'], true);				
+
 				return true;
 			}
 		}
@@ -393,6 +406,12 @@ class form_model_field extends model
 			$this->update(array('listorder'=>$i+1), $id);
 		}
 
+		// 获取formid
+		$formid = $this->get($id, 'formid');
+
+		// 更新字段缓存
+		$this->cache($formid, true);		
+
 		return true;
 	}
 
@@ -404,14 +423,39 @@ class form_model_field extends model
 	 */
 	public function status($id)
 	{
-		$disabled = $this->get($id, 'disabled') ? 0 : 1;
+		
+		$formid 	= $this->get($id, 'formid');
+		$disabled 	= $this->get($id, 'disabled') ? 0 : 1;
 
 		if ( $this->update(array('disabled'=>$disabled), $id) )
 		{
+			// 更新字段缓存
+			$this->cache($formid, true);
+
 			return true;
 		}
 
 		return false;
-	}	
+	}
+
+	/**
+	 * 缓存数据
+	 *
+	 * @param bool $refresh 是否强制刷新缓存
+	 * @return bool
+	 */
+	public function cache($formid, $refresh=false)
+	{
+		$cache = zotop::cache("form.form.{$formid}");
+
+		if ( $refresh or empty($cache) or !is_array($cache) )
+		{
+			$cache = $this->getAll($formid);
+
+			zotop::cache("form.form.{$formid}", $cache, false);
+		}
+
+		return $cache;
+	}		
 }
 ?>

@@ -33,7 +33,7 @@ class form_controller_data extends admin_controller
     	$form 	= m('form.form.get', $formid);
 
 		// 获取显示字段
-		$fields = m('form.field.getall', $formid);
+		$fields = m('form.field.cache', $formid);
 
 		if( $fields )
 		{

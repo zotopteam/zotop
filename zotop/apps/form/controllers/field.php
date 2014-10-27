@@ -42,7 +42,7 @@ class form_controller_field extends admin_controller
 		}
 
 		// 获取模型字段
-		$data = $this->field->where('formid',$formid)->getall();
+		$data = $this->field->cache($formid);
 
 		$this->assign('title',m('form.form.get',$formid,'name'));
 		$this->assign('data',$data);
@@ -151,7 +151,7 @@ class form_controller_field extends admin_controller
 
 		if ( empty($ignore) )
 		{
-			$count = $this->field->where($key,$_GET[$key])->count();
+			$count = $this->field->where($key, $_GET[$key])->count();
 		}
 		else
 		{
@@ -166,8 +166,6 @@ class form_controller_field extends admin_controller
 	// 获取控件的设置
 	public function action_settings()
 	{
-		//debug::dump($_POST);
-		//exit();
 
 		// 获取当前控件
 		$control = $_POST['control'];

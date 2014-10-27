@@ -37,13 +37,9 @@ class form_controller_index extends site_controller
 			return $this->_404(t('表单不存在', $formid));
 		}
 
-		// 获取当前表单字段
-		$fields = m('form.field.getall',$formid);
-
 		$this->assign('title',$form['name']);
 		$this->assign('formid',$formid);
 		$this->assign('form',$form);
-		$this->assign('fields',$fields);
 		$this->display($form['settings']['listtemplate']);
 	}
 

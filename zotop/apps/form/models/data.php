@@ -155,7 +155,7 @@ class form_model_data extends model
 	 */
 	private function _dealdata($data)
 	{
-		$fields = m('form.field')->where('formid',$this->formid)->getall();
+		$fields = m('form.field.cache',$this->formid);
 
 		foreach ($data as $key => &$value)
 		{
