@@ -7,6 +7,14 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
+
+		{if $data.id}
+		<ul class="navbar">
+			<li><a href="{U('form/data/index/'.$data.id)}"><i class="icon icon-item"></i> {t('数据管理')}</a></li>
+			<li><a href="{U('form/field/index/'.$data.id)}"><i class="icon icon-database"></i> {t('字段管理')}</a></li>
+			<li class="current"><a href="{U('form/admin/edit/'.$data.id)}"><i class="icon icon-setting"></i> {t('表单设置')}</a></li>			
+		</ul>
+		{/if}
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 

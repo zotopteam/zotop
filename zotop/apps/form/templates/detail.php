@@ -4,19 +4,18 @@
     <ul>
         <li><a href="{u()}">{t('首页')}</a></li>
 		<li><a href="{U('form/index/list/'.$formid)}">{$form.name}</a></li>
+		<li>{t('详细信息')}</li>
     </ul>
 </div>
 
 <div class="blank"></div>
 
 <table class="table list">
-	{loop $fields $f}
-		{if $f.show}
+	{loop $show $key $val}
 		<tr>
-			<td class="w100 vt">{$f.label} :</td>
-			<td>{m('form.field.show',$data[$f.name],$f)}</td>
+			<td class="w100 vt">{$fields[$key]['label']} :</td>
+			<td>{$val}</td>
 		</tr>
-		{/if}
 	{/loop}
 </table>
 

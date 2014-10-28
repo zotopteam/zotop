@@ -53,9 +53,6 @@ class form_controller_index extends site_controller
 			return $this->_404(t('表单不存在', $formid));
 		}
 
-		// 获取当前表单字段
-		$fields = m('form.field.getall',$formid);
-
 		// 获取当前条目详细数据
 		$data 	= m('form.data.init',$formid)->get($id);
 
@@ -64,12 +61,22 @@ class form_controller_index extends site_controller
 			return $this->_404(t('数据不存在', $id));
 		}
 
+		// 获取当前表单字段
+		$fields = m('form.field.cache',$formid);
+
+		// 格式化的信息
+		foreach ($fields as $k => $f)
+		{
+			if ( $f['show'] ) $show[$k] = m('form.field.show',$data[$k], $f);
+		}
+
 		$this->assign('title',$form['name']);
 		$this->assign('id',$id);
 		$this->assign('formid',$formid);
 		$this->assign('form',$form);
 		$this->assign('fields',$fields);
 		$this->assign('data',$data);
+		$this->assign('show',$show);
 		$this->display($form['settings']['detailtemplate']);		
 	}
 }

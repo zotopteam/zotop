@@ -192,6 +192,14 @@ class form_model_field extends model
 				$val = $val ? '<a href="'.$val.'" target="_blank" class="btn btn-icon-text btn-highlight btn-filedownload"/><i class="icon icon-download"></i><b>'.t('下载').'</b></a>' : '';
 				
 				break;
+			case 'url' :
+				$val = $val ? '<a href="'.$val.'" target="_blank"><i class="icon icon-url"></i> '.$val.'</a>' : '';
+				break;
+
+			case 'email' :
+				$val = $val ? '<a href="mailto:'.$val.'" target="_blank"><i class="icon icon-mail"></i> '.$val.'</a>' : '';
+				break;
+
 			case 'textarea' :
 
 				$val = format::textarea($val);
@@ -201,7 +209,7 @@ class form_model_field extends model
 
 				$val = '<div class="html">'.$val.'</div>';
 				
-				break;				
+				break;			
 		}
 
 		return zotop::filter('form.field.show', $val, $field);

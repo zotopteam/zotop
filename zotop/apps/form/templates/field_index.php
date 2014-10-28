@@ -7,9 +7,9 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<ul class="navbar">
-			<li><a href="{U('form/data/index/'.$formid)}">{t('数据管理')}</a></li>
-			<li class="current"><a href="{U('form/field/index/'.$formid)}">{t('字段管理')}</a></li>
-			<li><a href="{U('form/admin/edit/'.$formid)}">{t('表单设置')}</a></li>			
+			<li><a href="{U('form/data/index/'.$formid)}"><i class="icon icon-item"></i> {t('数据管理')}</a></li>
+			<li class="current"><a href="{U('form/field/index/'.$formid)}"><i class="icon icon-database"></i> {t('字段管理')}</a></li>
+			<li><a href="{U('form/admin/edit/'.$formid)}"><i class="icon icon-setting"></i> {t('表单设置')}</a></li>			
 		</ul>
 		<div class="action">
 			<a class="btn btn-icon-text btn-highlight" href="{U('form/field/add/'.$formid)}">

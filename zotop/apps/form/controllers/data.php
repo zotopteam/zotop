@@ -34,48 +34,43 @@ class form_controller_data extends admin_controller
 
 		// 获取显示字段
 		$fields = m('form.field.cache', $formid);
-
-		if( $fields )
-		{
 		
-			foreach($fields as $i=>$r)
-			{
-				if ( $r['list'] ) $list[$r['name']] = $r;
+		foreach($fields as $i=>$r)
+		{
+			if ( $r['list'] ) $list[$r['name']] = $r;
 
-				if ( $r['order'] ) $orderby[$r['name']] = $r['order'];
+			if ( $r['order'] ) $orderby[$r['name']] = $r['order'];
 
-				if ( $r['search'] ) $search[$r['name']] = $r['label'];
-			}
-
-			$this->data = m('form.data.init',$formid);
-
-			if ( $orderby and is_array($orderby) )
-			{
-				$this->data->orderby($orderby);
-			}
-			else
-			{
-				$this->data->orderby('id','desc');
-			}
-
-			if ( $search and $keywords = $_REQUEST['keywords'] )	
-			{
-				$_search = array();
-
-				foreach ($search as $key => $r)
-				{
-					$_search[] = 'or';
-					$_search[] = array($key,'like', $keywords);
-				}
-
-				array_shift($_search);
-
-				$this->data->where($_search);
-			}	
-
-			$dataset = $this->data->getPage();
-
+			if ( $r['search'] ) $search[$r['name']] = $r['label'];
 		}
+
+		$this->data = m('form.data.init',$formid);
+
+		if ( $orderby and is_array($orderby) )
+		{
+			$this->data->orderby($orderby);
+		}
+		else
+		{
+			$this->data->orderby('id','desc');
+		}
+
+		if ( $search and $keywords = $_REQUEST['keywords'] )	
+		{
+			$_search = array();
+
+			foreach ($search as $key => $r)
+			{
+				$_search[] = 'or';
+				$_search[] = array($key,'like', $keywords);
+			}
+
+			array_shift($_search);
+
+			$this->data->where($_search);
+		}
+
+		$dataset = $this->data->getPage();	
 
 		$this->assign('title',$form['name']);		
 		$this->assign('formid',$formid);
@@ -87,6 +82,38 @@ class form_controller_data extends admin_controller
 		$this->assign($dataset);
 		$this->display();
 	}
+
+	/**
+	 * 多选操作
+	 *
+	 * @param $operation 操作
+	 * @return mixed
+	 */
+    public function action_operate($formid, $operation)
+    {
+		if ( $post = $this->post() )
+		{
+			$this->data = m('form.data.init',$formid);
+
+			switch($operation)
+			{
+				case 'delete' :
+					$result = $this->data->delete($post['id']);
+					break;
+				default :
+					break;
+			}
+
+			if ( $result )
+			{
+				return $this->success(t('%s成功',$post['operation']), request::referer());
+			}
+
+			$this->error(t('%s失败',$post['operation']));
+		}
+
+		$this->error(t('禁止访问'));
+    }		
 
 	/**
 	 * 添加

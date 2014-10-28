@@ -32,6 +32,16 @@ class form_controller_admin extends admin_controller
      */
 	public function action_index()
     {
+		if ( $post = $this->post() )
+		{
+			if ( $this->form->order($post['id']) )
+			{
+				return $this->success(t('操作成功'),request::referer());
+			}
+
+			return $this->error($this->form->error());
+		}
+
     	$data = $this->form->getall();
 
 		$this->assign('title',t('表单管理'));
@@ -86,7 +96,7 @@ class form_controller_admin extends admin_controller
 
 		$data = $this->form->get($id);
 
-		$this->assign('title',t('表单设置'));
+		$this->assign('title',$data['name']);
 		$this->assign('data',$data);
 		$this->display('form/admin_post.php');
 	}

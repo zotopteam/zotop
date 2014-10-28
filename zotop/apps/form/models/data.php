@@ -172,15 +172,11 @@ class form_model_data extends model
 	{
 		if ( $field['notnull'] and is_null($value) ) return $this->error(t('{1}不能为空', $field['label']));
 
-		if ( $field['settings']['maxlength']  and strlen($value) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength']));
-		if ( $field['settings']['minlength']  and strlen($value) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength']));
+		if ( $field['settings']['maxlength']  and str::len($value) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($value)));
+		if ( $field['settings']['minlength']  and str::len($value) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($value)));
 
 		if ( $field['settings']['max']  and intval($value) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
 		if ( $field['settings']['min']  and intval($value) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
-
-
-
-
 		
 		switch ($field['control'])
 		{
