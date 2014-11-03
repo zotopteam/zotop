@@ -65,7 +65,7 @@ class form_api
 	 */
 	public function data($attrs)
 	{
-		$params = arr::take($attrs,'formid','select','orderby','page','size','cache','return','search','keywords');
+		$params = arr::take($attrs,'formid','select','orderby','page','size','cache','where','return','search','keywords');
 
 		@extract($params);
 
@@ -104,22 +104,33 @@ class form_api
 				$db->where($_search);
 			}
 
+			// 自定义条件
+			foreach ($attrs as $key => $val)
+			{
+				$db->where($key, $val);	
+			}
+
+			if ( $where )
+			{
+				$db->where($where);	
+			}
+
 			// 查询结果
 			$size = intval($size) ? intval($size) : 10;
 
 			// 选择的字段
-			$select = $select ? $select : implode(',', array_keys($_list));
+			$select = $select ? $select : 'id,'.implode(',', array_keys($_list));
 
 			// 分页 page="true"
 			if ( strtolower($page) == 'true' )
 			{
-				$return = $db->select('id,'.$select)->getPage($page, $size, $total);
+				$return = $db->select($select)->getPage($page, $size, $total);
 
 				$return['data'] = form_api::process_data($return['data'], $fields);
 			}
 			else
 			{
-				$return = $db->select('id,'.$select)->limit($size)->getAll();
+				$return = $db->select($select)->limit($size)->getAll();
 				$return = form_api::process_data($return, $fields);
 			}
 

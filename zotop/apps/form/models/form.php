@@ -106,6 +106,9 @@ class form_model_form extends model
 		if ( empty($data['name']) ) return $this->error(t('名称不能为空'));
 		if ( empty($data['table']) ) return $this->error(t('数据表名不能为空'));
 
+		// 尝试修改表注释
+		$this->db->table($data['table'])->comment($data['name']);
+
 		// 更改数据表名称
 		if ( $this->get($id,'table') != $data['table'] )
 		{
@@ -113,7 +116,7 @@ class form_model_form extends model
 			if ( $this->db->table($data['table'])->exists() ) return $this->error(t('数据表名已经存在'));
 
 			if ( $this->db->table($this->get($id,'table'))->rename($data['table']) == false )
-			{
+			{				
 				unset($data['table']);
 			}
 		}
