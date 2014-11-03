@@ -27,7 +27,6 @@ class form
 			if( in_array($key, array('required','checked','selected')) )
 			{
 				// 标签 required 、checked、selected 必须成对出现，如：checked = "checked"
-
 				if ( empty($value) ) return '';
 			}
 
@@ -180,11 +179,11 @@ class form
 		elseif ( is_array($field) )
 		{
 			// 默认设置控件编号为控件名称
-			$field['id'] = empty($field['id']) ? $field['name'] : $field['id'];
-			$field['id'] = str_replace(array('.',']',' ','/','\\'), '', str_replace('[', '-', $field['id']));
+			$field['id'] 	= empty($field['id']) ? $field['name'] : $field['id'];
+			$field['id'] 	= str_replace(array('.',']',' ','/','\\'), '', str_replace('[', '-', $field['id']));
 
 			// 如果未设置控件类型，则默认为text
-			$field['type'] = empty($field['type']) ? 'text' : $field['type'];
+			$field['type'] 	= empty($field['type']) ? 'text' : $field['type'];
 
 			// 设置默认的class
 			$field['class'] = empty($field['class']) ? str_replace(',',' ',$field['type']) : str_replace(',',' ',$field['type']).' '.$field['class'];
@@ -340,11 +339,12 @@ class form
 		// options必须是数组，将字符串options转化为数组
 		$options = form::options($options);
 
+		// 如果没有设置值，默认选择第一个作为值
 		$value = isset($value) ? $value : reset(array_keys($options));
 
 	    $html = array('');
 
-		if(is_array($options))
+		if ( is_array($options) )
 	    {
 			$n = count($options);
 
@@ -355,7 +355,7 @@ class form
 
 			foreach($options as $val=>$text)
 			{
-				$checked = ( $val==$value ) ? ' checked="checked"' : '';
+				$checked = ( $val == $value ) ? ' checked="checked"' : '';
 
 				$html[] = '<label>';
 				$html[] = '	<input type="radio" name="'.$name.'" id="'.str_replace(']', '', str_replace('[', '-', $name)).'-'.$val.'" class="radio" value="'.$val.'"'.$checked.'/>';

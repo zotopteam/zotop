@@ -326,7 +326,7 @@ class template
 				$code .= $newline.'if ( is_array($' . $callback . ') ):';
 				$code .= $newline.'	if ( isset($' . $callback . '[\'total\']) ){extract($' . $callback . ');$' . $callback . ' = $data; $pagination = pagination::instance($total,$pagesize,$page);}'; // 分页
 				$code .= $newline.'	$n=0;'; //编号
-				$code .= $newline.'	foreach( $' . $callback . ' as $'.$return.' ):'; //循环
+				$code .= $newline.'	foreach( $' . $callback . ' as $key=>$'.$return.' ):'; //循环
 			}
         }
 

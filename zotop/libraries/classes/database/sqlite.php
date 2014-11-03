@@ -301,41 +301,37 @@ class database_sqlite extends database
 	/**
 	 * 返回全部的数据表信息
 	 *
-	 * @param $refresh 是否强制刷新数据表
 	 * @return mixed
 	 */
-	public function tables($refresh=false)
+	public function tables()
 	{
-		static $tables = array();
+		$tables = array();
 
-		if ( empty($tables) OR $refresh == true )
+		$results = $this->getAll("SELECT * FROM `sqlite_master` WHERE `type`='table' ORDER BY `name`;");
+
+		foreach((array)$results as $table)
 		{
-			$results = $this->getAll("SELECT * FROM `sqlite_master` WHERE `type`='table' ORDER BY `name`;");
+			//过滤掉系统创建的表
+			if ( substr($table['name'],0,7) == 'sqlite_'  ) continue;			
 
-			if ( is_array($results) )
-			{
-				foreach($results as $table)
-				{
-					//过滤掉系统创建的表
-					if ( substr($table['name'],0,7) == 'sqlite_'  ) continue;
+			if ( $this->config['prefix'] and substr($table['Name'],0,strlen($this->config['prefix'])) != $this->config['prefix'] ) continue;
 
-					$id = substr($table['name'],0,strlen($this->config['prefix'])) == $this->config['prefix'] ? substr($table['name'],strlen($this->config['prefix'])) : $table['name'];
+			$id = substr($table['Name'],strlen($this->config['prefix']));
 
-					$tables[$id] = array(
-						'name' => $table['name'],
-						'size' => false,
-						'datalength' => false,
-						'indexlength' => false,
-						'rows' => false,
-						'engine' => false,
-						'collation' => false,
-						'createtime' => false,
-						'updatetime' => false,
-						'comment' => false,
-					);
-				}
-			}
+			$tables[$id] = array(
+				'name' 			=> $table['name'],
+				'size' 			=> false,
+				'datalength' 	=> false,
+				'indexlength' 	=> false,
+				'rows' 			=> false,
+				'engine' 		=> false,
+				'collation' 	=> false,
+				'createtime' 	=> false,
+				'updatetime' 	=> false,
+				'comment' 		=> false,
+			);
 		}
+
 		return $tables;
 	}
 

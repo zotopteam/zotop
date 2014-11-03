@@ -297,38 +297,33 @@ class database_mysql extends database
 	/**
 	 * 返回全部的数据表信息
 	 *
-	 * @param $refresh 是否强制刷新数据表
 	 * @return mixed
 	 */
-	public function tables($refresh=false)
+	public function tables()
 	{
-		static $tables = array();
+		$tables 	= array();
+		$results 	= $this->getAll('SHOW TABLE STATUS');
 
-		if ( empty($tables) OR $refresh == true )
+		foreach((array)$results as $table)
 		{
-			$results = $this->getAll('SHOW TABLE STATUS');
+			if ( $this->config['prefix'] and substr($table['Name'],0,strlen($this->config['prefix'])) != $this->config['prefix'] ) continue;
 
-			if ( is_array($results) )
-			{
-				foreach($results as $table)
-				{
-					$id = substr($table['Name'],0,strlen($this->config['prefix'])) == $this->config['prefix'] ? substr($table['Name'],strlen($this->config['prefix'])) : $table['Name'];
+			$id = substr($table['Name'],strlen($this->config['prefix']));
 
-					$tables[$id] = array(
-						'name' => $table['Name'],
-						'size' => $table['Data_length'] + $table['Index_length'],
-						'datalength' => $table['Data_length'],
-						'indexlength' => $table['Index_length'],
-						'rows' => $table['Rows'],
-						'engine' => $table['Engine'],
-						'collation' => $table['Collation'],
-						'createtime' => $table['Create_time'],
-						'updatetime' => $table['Update_time'],
-						'comment' => $table['Comment'],
-					);
-				}
-			}
+			$tables[$id] = array(
+				'name' 			=> $table['Name'],
+				'size' 			=> $table['Data_length'] + $table['Index_length'],
+				'datalength' 	=> $table['Data_length'],
+				'indexlength' 	=> $table['Index_length'],
+				'rows' 			=> $table['Rows'],
+				'engine' 		=> $table['Engine'],
+				'collation' 	=> $table['Collation'],
+				'createtime' 	=> $table['Create_time'],
+				'updatetime' 	=> $table['Update_time'],
+				'comment' 		=> $table['Comment'],
+			);
 		}
+
 		return $tables;
 	}
 
