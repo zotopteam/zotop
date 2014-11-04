@@ -22,18 +22,17 @@ class database_mysql extends database
 		}
 
         $default = array(
-			//'driver' => 'mysql',
-			'username' => 'root',
-			'password' => '',
-			'hostname' => 'localhost',
-			'hostport' => '3306',
-			'database' => 'zotop',
-			'charset' => 'utf8',
-			'prefix'=>'zotop_',
-			'pconnect' => false
+			'hostname' 	=> 'localhost',
+			'hostport' 	=> '3306',
+			'username' 	=> 'root',
+			'password' 	=> '',			
+			'database'	=> '',
+			'charset' 	=> 'utf8',
+			'prefix'	=> '',
+			'pconnect' 	=> false
         );
 
-		$this->config = array_merge($default, $config);
+		$this->config 	= array_merge($default, $config);
 		$this->database = $config['hostname'].':'.$config['hostport'].'/'.$config['database'];
     }
 
@@ -77,12 +76,12 @@ class database_mysql extends database
 				}
 				else
 				{
-					throw new zotop_exception(t('Cannot use database `%s`',$this->config['database']));
+					throw new zotop_exception(t('无法访问数据库 `{1}`，请检查数据库是否存在',$this->config['database']));
 				}
 			}
 			else
 			{
-				throw new zotop_exception(t('Cannot connect database `%s`',$this->config['hostname'].':'.$this->config['hostport']));
+				throw new zotop_exception(t('无法连接数据库 `{1}`，请检查您的地址、端口、用户名或者密码是否正确', $this->config['hostname'].':'.$this->config['hostport']));
 			}
         }
 
@@ -306,9 +305,13 @@ class database_mysql extends database
 
 		foreach((array)$results as $table)
 		{
-			if ( $this->config['prefix'] and substr($table['Name'],0,strlen($this->config['prefix'])) != $this->config['prefix'] ) continue;
+			
+			$id = $table['Name'];
 
-			$id = substr($table['Name'],strlen($this->config['prefix']));
+			if ( $this->config['prefix'] and substr($table['Name'],0,strlen($this->config['prefix'])) == $this->config['prefix'] )
+			{
+				$id = substr($table['Name'], strlen($this->config['prefix']));
+			}
 
 			$tables[$id] = array(
 				'name' 			=> $table['Name'],
