@@ -17,7 +17,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	{formdata formid="$formid" size="10" page="true"}
+	{formdata formid="$formid" size="20" page="true"}
 		<tr>
 		{loop m('form.field.cache',$formid) $f}
 			{if $f.list and $f.show}<td>{$r[$f.name]}</td>{/if}

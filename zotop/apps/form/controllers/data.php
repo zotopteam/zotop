@@ -48,7 +48,7 @@ class form_controller_data extends admin_controller
 
 		if ( $orderby and is_array($orderby) )
 		{
-			$this->data->orderby($orderby);
+			$this->data->orderby($orderby)->orderby('id','desc');
 		}
 		else
 		{

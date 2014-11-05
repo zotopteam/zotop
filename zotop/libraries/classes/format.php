@@ -80,8 +80,24 @@ class format
 	 */
 	public static function textarea($string)
 	{
-		return nl2br(str_replace(' ', '&nbsp;', htmlspecialchars($string)));
+		return format::nl2p(str_replace(' ', '&nbsp;', htmlspecialchars($string)));
 	}
+
+	/**
+	 * 格式化文本，将换行 “/n” 转化为段落
+	 *
+	 * @param string $string String to be formatted.
+	 * @return string
+	 */
+	public static function nl2p($string)
+	{
+
+		$string = trim(str_replace(array('<p>', '</p>', '<br>', '<br/>','<br />'), '', $string));
+	    $string = '<p>'.preg_replace("/([\n]{1,})/i", "</p>\n<p>", $string).'</p>';
+	    $string = str_replace(array('<p><br/></p>','<p></p>'), '', $string);
+
+	    return $string;
+	}	
 
 
     /**

@@ -84,7 +84,7 @@ class form_api
 
 			// 查询排序，优先自定义排序，默认排序
 			$orderby = $orderby ? $orderby : $_orderby;
-			$orderby ? $db->orderby($orderby) : $db->orderby('id','desc');
+			$orderby ? $db->orderby($orderby)->orderby('id','desc') : $db->orderby('id','desc');
 
 			// 模糊查询， 优先自定义搜索字段，默认搜索字段
 			$search = $search ? explode(',', $search) : $_search;
