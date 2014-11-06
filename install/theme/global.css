@@ -204,7 +204,7 @@ html{background:#fff url(wallpaper.jpg) repeat-x top center;}
 .notsupport h1{font-size:24px;font-weight:400;margin-top:200px;line-height:40px;}
 .notsupport a,.notsupport a:hover{background:#0CF;color:#fff;margin:0 5px;padding:0 12px;white-space:nowrap;}
 
-.wrapper{width:960px;margin: 0 auto;padding:5px;background: #fff;position: absolute;border-radius: 5px;border:solid 1px #ebebeb;box-shadow:0 0 8px rgba(0, 0, 0, 0.4);}
+.wrapper{width:960px;margin: 0 auto;padding:5px;background: #fff;background:rgba(255, 255, 255, 0.4);position: absolute;border-radius:0;border:solid 1px #ebebeb;box-shadow:0 0 8px rgba(0, 0, 0, 0.4);}
 .header{background:#0072C6;position: relative;height:50px;}
 
 .logo{width:120px;height:50px;overflow:hidden;background:url(logo.png) no-repeat left center;float:left;}
@@ -219,7 +219,7 @@ html{background:#fff url(wallpaper.jpg) repeat-x top center;}
 
 
 /*主区域 无侧边 */
-.main{height:450px;}
+.main{height:450px;background:#fff;}
 .main-inner{padding:10px;clear:both;line-height:30px;}
 .main-installing{height:446px;}
 

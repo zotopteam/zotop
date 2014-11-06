@@ -32,8 +32,7 @@ $this->db->table('block_category')->create(array(
 
 // 默认插入的数据
 $default_category = array(
-	'1'	=>	array('id' => 1, 'name' => t('公共区块'), 'description' => t('全局共用区块'), 'listorder' => 1, 'posts' => 0 ),
-	'2'	=>	array('id' => 2, 'name' => t('首页区块'), 'description' => t('网站首页区块'), 'listorder' => 2, 'posts' => 0 ),
+	'1'	=>	array('id' => 1, 'name' => t('首页区块'), 'description' => t('网站首页区块'), 'listorder' => 1, 'posts' => 0 ),
 );
 
 // 插入数据
@@ -48,9 +47,9 @@ $this->db->table('block')->drop();
 $this->db->table('block')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
-		'uid'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('唯一编码，用于调用') ),
+		'uid'		=> array ( 'type'=>'char', 'length'=>32, 'default'=>null, 'comment' => t('唯一编码，用于调用') ),
 		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'default'=>'1', 'unsigned'=>true, 'comment' => t('分类编号') ),
-		'type'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'default'=>'html', 'comment' => t('类型，html:内容,list:列表,text:文本') ),
+		'type'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'default'=>'html', 'comment' => t('类型，html:内容,list:列表,hand:手动,text:文本') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>50, 'notnull'=>true, 'comment' => t('名称') ),
 		'description'=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('说明') ),
 		'rows'		=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>'0', 'comment' => t('行数，0为无限制') ),
@@ -69,7 +68,7 @@ $this->db->table('block')->create(array(
 	'unique'=>array(
 	),
 	'primary'=>array ( 'id' ),
-	'comment' => t('区块表')
+	'comment' => t('区块表') 
 ));
 
 // [block_datalist] 创建

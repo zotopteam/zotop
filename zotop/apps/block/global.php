@@ -15,7 +15,7 @@ function block_system_start($nav)
 {
     $nav['block'] = array(
         'text'          => A('block.name'),
-        'href'          => u('block/block'),
+        'href'          => u('block/admin'),
         'icon'          => A('block.url') . '/app.png',
         'description'   => A('block.description'),
         'allow'         => priv::allow('block'));
@@ -30,7 +30,7 @@ function block_system_globalnavbar($nav)
 {
     $nav['block'] = array(
         'text'          => t('区块'),
-        'href'          => u('block/block'),
+        'href'          => u('block/admin'),
         'icon'          => A('block.url') . '/app.png',
         'description'   => A('block.description'),
         'allow'         => priv::allow('block'),

@@ -34,7 +34,7 @@
 	<div class="box-body">
 		{form::header()}
 		<div class="form-header"></div>
-		<div class="form-status">{t('请输入您的账号和密码登录')}</div>
+		<div class="form-status">{t('请输入您的用户名和密码登录')}</div>
 		<div class="form-body">
 			<table class="field">
 				<tbody>
