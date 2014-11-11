@@ -12,6 +12,7 @@ class block_controller_datalist extends admin_controller
 {
 	protected $block;
 	protected $category;
+	protected $datalist;	
 
 	/*
 	 * 初始化
@@ -20,7 +21,7 @@ class block_controller_datalist extends admin_controller
 	{
 		parent::__init();
 
-		$this->block = m('block.block');
+		$this->block 	= m('block.block');
 		$this->category = m('block.category');
 		$this->datalist = m('block.datalist');
 	}
@@ -57,25 +58,17 @@ class block_controller_datalist extends admin_controller
 		{
 			if ( $id = $this->datalist->add($post) )
 			{
-				return $this->success(t('操作成功'),u('block/block/data/'.$blockid));
+				return $this->success(t('操作成功'),u('block/admin/data/'.$blockid));
 			}
 
 			return $this->error($this->datalist->error());
 		}
 
-		//全部分类
-		$categories = $this->category->cache();
-
 		// 应用数据
 		$block = $this->block->get($blockid);
 
-		// 获取当前分类
-		$category = $this->category->get($block['categoryid']);
-
-
 		$this->assign('title',t('添加数据'));
-		$this->assign('category',$category);
-		$this->assign('categories',$categories);
+		$this->assign('blockid',$blockid);
 		$this->assign('block',$block);
 		$this->display('block/datalist_post.php');
     }

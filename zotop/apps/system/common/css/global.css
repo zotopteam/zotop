@@ -417,7 +417,8 @@ input[type=radio]{-webkit-border-radius:50%;border-radius:50%;margin-2px 2px 0 0
 input[type=checkbox]:checked:before,input[type=radio]:checked:before{float:left;display:inline-block;vertical-align:middle;width:16px;font:normal 12px/1 zotop;speak:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 input[type=checkbox]:checked:before{content:'\e646';margin:1px 0 0 -1px;color:#00bcf2}
 input[type=radio]:checked:before{content:'\2022';text-indent:-9999px;-webkit-border-radius:50px;border-radius:50px;font-size:22px;width:7px;height:7px;margin:3px;line-height:18px;background-color:#00bcf2}
-input.readonly,textarea.readonly{background-color:#ddd}
+input[type=checkbox].disabled:before,input[type=radio].disabled:before{color:#999;}
+
 
 /* inline-radios */
 .inline-radios{ display:inline-block; vertical-align:middle; *display:inline;border: solid 1px #d0d0d0;border-radius:2px;padding: 1px;}

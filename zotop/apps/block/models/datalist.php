@@ -26,17 +26,40 @@ class block_model_datalist extends model
 			'pending'	=> t('待审'),
 			'reject'	=> t('退稿'),
 			'draft'		=> t('草稿'),
-			'trash'		=> t('回收站'),
+			'history'	=> t('历史'),
+			'trash'		=> t('回收'),
 		);
 	}
 
     /**
-     * 获取排序过的全部数据
-     *
+     * 根据区块获取区块的全部数据
+     * 
+     * @param  int $blockid 区块编号
+     * @return array        返回数据
      */
 	public function getAll($blockid)
 	{
-		return $this->db()->where('blockid','=',$blockid)->orderby('listorder','asc')->getAll();
+		return $this->db()->where('blockid','=',$blockid)->orderby('listorder','desc')->getAll();
+	}
+
+    /**
+     * 根据编号
+     * 
+     * @param  int $blockid 区块编号
+     * @return array        返回数据
+     */
+	public function getList($blockid, $status='publish')
+	{
+		$block = m('block.block.get',$blockid);
+
+		$db = $this->db()->where('blockid','=',$blockid)->where('status','=',$status)->orderby('listorder','desc');
+
+		if ( $block['rows'] > 0  )
+		{
+			$db->limit($block['rows']);
+		}
+
+		return $db->getAll();		
 	}
 
 
@@ -46,10 +69,7 @@ class block_model_datalist extends model
      */
 	public function get($id)
 	{
-		$data = $this->getbyid($id);
-		$data['custom'] = unserialize($data['custom']);
-
-		return $data;
+		return $this->getbyid($id);
 	}
 
     /**
@@ -61,10 +81,11 @@ class block_model_datalist extends model
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
 		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
 
-		$data['createtime'] =  ZOTOP_TIME ;
-		$data['updatetime'] =  ZOTOP_TIME ;
-		$data['userid'] = zotop::user('id');
-		$data['listorder'] = $this->max('listorder') + 1; // 默认排在后面
+		$data['createtime'] = ZOTOP_TIME ;
+		$data['updatetime'] = ZOTOP_TIME ;
+		$data['status'] 	= 'publish';
+		$data['userid'] 	= zotop::user('id');
+		$data['listorder'] 	= $this->max('listorder') + 1; // 默认排在后面
 
 		if ( $id = $this->insert($data) )
 		{
@@ -121,23 +142,16 @@ class block_model_datalist extends model
 	{
 		$data = array();
 
-		$datalist = $this->getAll($blockid);
+		$datalist = $this->getList($blockid);
 
 		foreach( $datalist as $list )
 		{
 			foreach( $list as $k=>$f )
 			{
-				if ( in_array($k, array('title','style','url','image','description','createtime')) )
+				if ( in_array($k, array('title','style','url','image','description','createtime','c1','c2','c3','c4','c5')) )
 				{
 					if ( $f ) $d[$k] = $f;
 				}
-			}
-
-			$custom = unserialize($list['custom']);
-
-			if ( is_array($custom) )
-			{
-				$d = array_merge($d, $custom);
 			}
 
 			$data[] = $d;

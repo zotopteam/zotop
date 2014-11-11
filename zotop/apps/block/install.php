@@ -47,7 +47,7 @@ $this->db->table('block')->drop();
 $this->db->table('block')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
-		'uid'		=> array ( 'type'=>'char', 'length'=>32, 'default'=>null, 'comment' => t('唯一编码，用于调用') ),
+		'uid'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('唯一标识，用于调用') ),
 		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'default'=>'1', 'unsigned'=>true, 'comment' => t('分类编号') ),
 		'type'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'default'=>'html', 'comment' => t('类型，html:内容,list:列表,hand:手动,text:文本') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>50, 'notnull'=>true, 'comment' => t('名称') ),
@@ -55,15 +55,16 @@ $this->db->table('block')->create(array(
 		'rows'		=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>'0', 'comment' => t('行数，0为无限制') ),
 		'data'		=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('数据') ),
 		'template'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('模版') ),
-		'interval'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'3600', 'comment' => t('更新频率') ),
+		'interval'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'3600', 'comment' => t('更新频率，单位秒，0：手动更新') ),
 		'fields'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('字段设置') ),
+		'commend'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否允许推送，0：不允许，1：允许且需审核，2：允许且无需审核') ),
 		'listorder'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'0', 'comment' => t('排序') ),
 		'userid'	=> array ( 'type'=>'mediumint', 'length'=>8, 'default'=>null, 'comment' => t('用户编号') ),
 		'createtime'=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'comment' => t('创建时间') ),
 		'updatetime'=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'comment' => t('更新时间') ),
 	),
 	'index'=>array(
-		'code'		 => array ( 'uid' ),
+		'uid'		 => array ( 'uid' ),
 	),
 	'unique'=>array(
 	),
@@ -76,7 +77,8 @@ $this->db->table('block_datalist')->drop();
 $this->db->table('block_datalist')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
-		'blockid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('区块编号') ),
+		'blockid'	=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'comment' => t('区块编号') ),
+		'app'		=> array ( 'type'=>'char', 'length'=>64, 'default'=>null, 'comment' => t('应用编号') ),
 		'contentid'	=> array ( 'type'=>'mediumint', 'length'=>8, 'default'=>null, 'unsigned'=>true, 'comment' => t('内容编号') ),
 		'title'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('标题') ),
 		'style'		=> array ( 'type'=>'varchar', 'length'=>50, 'default'=>null, 'comment' => t('标题样式') ),
@@ -84,7 +86,11 @@ $this->db->table('block_datalist')->create(array(
 		'image'		=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('图片') ),
 		'description'=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('摘要') ),
 		'createtime'=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('时间') ),
-		'custom'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义内容，数组') ),
+		'c1'		=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段1') ),
+		'c2'		=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段2') ),
+		'c3'		=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段3') ),
+		'c4'		=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段4') ),
+		'c5'		=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段5') ),
 		'userid'	=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('创建人编号') ),
 		'listorder'	=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
 		'status'	=> array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('状态') ),
@@ -95,7 +101,7 @@ $this->db->table('block_datalist')->create(array(
 	'unique'=>array(
 	),
 	'primary'=>array ( 'id' ),
-	'comment' => t('区块数据列表')
+	'comment' => t('区块数据列表') 
 ));
 
 ?>

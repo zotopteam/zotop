@@ -5,21 +5,17 @@
 
 		<table class="field">
 			<tbody>
-			{loop $block['fields'] $k $f}
-			{if $f['show']}
+			{loop $block.fields $k $f}
+			{if $f.show}
 			<tr>
-				<td class="label">{form::label($f['label'],$f['name'],true)}</td>
+				<td class="label">{form::label($f.label, $k, $f.required=='required')}</td>
 				<td class="input">
-					{if in_array($f['name'], array('title','url','image','description','createtime'))}
-						{if $f['name'] == 'title'}
-							{form::field(array_merge($f,array('value'=>$data[$f['name']],'style'=>$data['style'],'required'=>'required')))}
-						{elseif $f['name'] == 'image'}
-							{form::field(array_merge($f,array('value'=>$data[$f['name']],'dataid'=>'block-'.$block['id'],'required'=>'required')))}
-						{else}
-							{form::field(array_merge($f,array('value'=>$data[$f['name']],'required'=>'required')))}
-						{/if}
+					{if $f.type == 'title'}
+						{form::field(array_merge($f,array('value'=>$data[$k],'style'=>$data['style'])))}
+					{elseif in_array($f.type,array('image','file','images','files','editor'))}
+						{form::field(array_merge($f,array('value'=>$data[$k],'dataid'=>'block-'.$block['id'])))}
 					{else}
-						{form::field(array_merge($f,array('name'=>'custom['.$f[name].']','value'=>$data['custom'][$f['name']])))}
+						{form::field(array_merge($f,array('value'=>$data[$k])))}
 					{/if}
 				</td>
 			</tr>
@@ -38,7 +34,6 @@
 		$('form.form').submit();
 		return false;
 	};
-
 
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){

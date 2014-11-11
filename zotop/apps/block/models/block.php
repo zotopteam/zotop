@@ -13,29 +13,86 @@ class block_model_block extends model
 	protected $pk = 'id';
 	protected $table = 'block';
 
-	public $types = array();
-
-	public function __construct()
+	/**
+	 * 区块类型，当类型参数不为空时，返回类型名称
+	 * 
+	 * @param  string $type [description]
+	 * @return [type]       [description]
+	 */
+	public function types($type='')
 	{
-		parent::__construct();
-
-		$this->types = array
-		(
+		$types = array(
 			'list'	=> t('列表'),
 			'hand'	=> t('手动'),
 			'html'	=> t('内容'),
 			'text'	=> t('文本'),
 		);
+
+		return $type ? $types[$type] : $types;
 	}
+
+
+
+	/**
+	 *	列表中可以使用的字段 
+	 *
+	 * @param  array $fields 数据库中存储的字段集合
+	 * @return array 返回当前字段结合
+	 */
+	public function fieldlist($fields=array())
+	{
+		$fieldlist = array(
+			'title'			=> array('show'=>1,'label'=>t('标题'),'type'=>'title','name'=>'title','minlength'=>1,'maxlength'=>50, 'required'=>'required'),
+			'url'			=> array('show'=>1,'label'=>t('链接'),'type'=>'text','name'=>'url', 'required'=>'required'),
+			'image'			=> array('show'=>1,'label'=>t('图片'),'type'=>'image','name'=>'image', 'required'=>'required','image_resize'=>1,'image_width'=>'','image_height'=>'', 'watermark'=>0),
+			'description'	=> array('show'=>1,'label'=>t('摘要'),'type'=>'textarea','name'=>'description', 'required'=>'required','minlength'=>0,'maxlength'=>255),
+			'createtime'	=> array('show'=>1,'label'=>t('日期'),'type'=>'datetime','name'=>'createtime', 'required'=>'required'),
+			'c1'			=> array('show'=>0,'label'=>t('自定义1'),'type'=>'text','name'=>'c1'),
+			'c2'			=> array('show'=>0,'label'=>t('自定义2'),'type'=>'text','name'=>'c2'),
+			'c3'			=> array('show'=>0,'label'=>t('自定义3'),'type'=>'text','name'=>'c3'),
+			'c4'			=> array('show'=>0,'label'=>t('自定义4'),'type'=>'text','name'=>'c4'),
+			'c5'			=> array('show'=>0,'label'=>t('自定义5'),'type'=>'text','name'=>'c5'),
+		);
+
+		return array_merge($fieldlist, $fields);	
+	}
+
+	/**
+	 * 列表允许选择的字段类型，当类型参数不为空时，返回类型名称
+	 * 
+	 * @param  string $type 类型
+	 * @return mixed
+	 */
+	public function fieldtypes($type='')
+	{
+		$fieldtypes = zotop::filter('block.fieldtypes',array(
+			'text'		=>	t('单行文本'),
+			'textarea'	=>	t('多行文本'),
+			'number'	=>	t('数字'),
+			'url'		=>	t('文本'),
+			'image'		=>	t('图像'),
+			'file'		=>	t('文件'),
+			'date'		=>	t('日期'),
+			'datetime'	=>	t('日期时间'),
+			'editor'	=>	t('编辑器'),
+		));
+
+		return $type ? $fieldtypes[$type] : $fieldtypes;
+	}	
 
     /**
      * 获取
      *
      */
-	public function get($id)
+	public function get($id, $field='')
 	{
 		$data = $this->getbyid($id);
-		$data['fields'] = unserialize($data['fields']);
+
+		if ( in_array($data['type'], array('list','hand')) )
+		{
+			$data['data'] = unserialize($data['data']);
+			$data['fields'] = unserialize($data['fields']);
+		}
 
 		return $data;
 	}
@@ -46,7 +103,7 @@ class block_model_block extends model
      */
 	public function add($data)
 	{
-		if ( empty($data['uid']) ) return $this->error(t('区块编号不能为空'));
+		if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));		
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
 		$data['createtime'] =  ZOTOP_TIME ;
@@ -68,7 +125,7 @@ class block_model_block extends model
      */
 	public function edit($data, $id)
 	{
-		if ( empty($data['uid']) ) return $this->error(t('区块编号不能为空'));
+		if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));			
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
 		$data['updatetime'] =  ZOTOP_TIME ;

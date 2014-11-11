@@ -23,10 +23,10 @@
 		<thead>
 			<tr>
 			<td class="drag">&nbsp;</td>
-			<td>{t('标题')}</td>
-			<td class="w140">{t('标识')}</td>
-			<td class="w180 none">{t('模板标签')}</td>
+			<td class="w50 center none">{t('编号')}</td>
+			<td>{t('名称')}</td>
 			<td class="w80">{t('类型')}</td>
+			<td class="w200">{t('调用代码')}</td>			
 			<td class="w160">{t('更新时间')}</td>
 			</tr>
 		</thead>
@@ -37,12 +37,13 @@
 		{loop $data $r}
 			<tr>
 				<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+				<td class="center none">{$r.id}</td>
 				<td>
 					<div class="title textflow" title="{$r['title']}"{if $r['style']}style="{$r['style']}"{/if}>
 					{$r['name']}<span>{$r['description']}</span>
 					</div>
 					<div class="manage">
-						<a href="{u('block/admin/data/'.$r['id'])}">{t('数据管理')}</a>
+						<a href="{u('block/admin/data/'.$r['id'])}">{t('内容维护')}</a>
 						<s></s>
 						<a class="ajax-post" href="{u('block/admin/publish/'.$r['id'])}">{t('发布')}</a>
 						<s></s>
@@ -51,9 +52,8 @@
 						<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}">{t('删除')}</a>
 					</div>
 				</td>
-				<td>{$r['uid']}</td>
-				<td class="none"><input value="{$r['tag']}" class="text" style="width:80%"/></td>
-				<td><div class="textflow">{$types[$r['type']]}</div></td>
+				<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
+				<td>{$r.tag}</td>
 				<td>
 					<div>{m('system.user.get', $r['userid'], 'username')}</div>
 					<div class="f12 time">{format::date($r['updatetime'])}</div>

@@ -1,13 +1,20 @@
 {template 'header.php'}
 <div class="side">
-{template 'block/side.php'}
+{template 'block/admin_side.php'}
 </div>
 {form::header()}
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{$block['name']}</div>
+		<div class="title">{$title}</div>
+		<div class="position">
+			<a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a>
+			<s class="arrow">></s>
+			{t('内容维护')}			
+			<s class="arrow">></s>
+			{$block['name']}			
+		</div>		
 		<div class="action">
-			<a class="btn btn-icon-text" href="{u('block/block/edit/'.$block['id'])}"><i class="icon icon-setting"></i><b>{t('设置')}</b></a>
+			<a class="btn btn-icon-text" href="{u('block/admin/edit/'.$block['id'])}"><i class="icon icon-setting"></i><b>{t('设置')}</b></a>
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
@@ -38,12 +45,11 @@
 	</div><!-- main-body -->
 	<div class="main-footer">
 
-		<a class="btn btn-icon-text fr" href="{u('block/block/list/'.$categoryid)}"><i class="icon icon-back"></i><b>{t('返回')}</b></a>
-
 		{form::field(array('type'=>'button','value'=>t('保存并返回'),'class'=>'submit btn-highlight','rel'=>'submit'))}
 
 		{form::field(array('type'=>'button','value'=>t('保存'),'class'=>'submit btn-primary','rel'=>'save'))}
 
+		<a class="btn" href="{u('block/admin/index/'.$categoryid)}"><b>{t('取消')}</b></a>
 
 
 	</div><!-- main-footer -->
@@ -51,8 +57,8 @@
 {form::footer()}
 
 <style type="text/css">
-div.editor-area{margin:15px;}
-div.description{margin:15px;line-height:22px;font-size:14px;}
+div.editor-area{margin:15px 0;}
+div.description{line-height:22px;font-size:14px;clear: both; border: solid 1px #F2E6D1; background: #FCF7E4; color: #B25900; border-radius: 5px;margin: 10px 0; padding: 10px;}
 </style>
 <script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">

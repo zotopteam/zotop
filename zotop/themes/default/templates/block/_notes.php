@@ -17,5 +17,6 @@ return array (
   'image_slider.php' => '图片轮播',
   'list_top.php' => '头条',
   'list_atag.php' => '链接列表',
+  'hand_block.php' => '手动区块',
 );
 ?>

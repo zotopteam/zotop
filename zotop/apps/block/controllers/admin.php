@@ -58,6 +58,10 @@ class block_controller_admin extends admin_controller
 			$data = $this->block->where('categoryid',$categoryid)->getall();
 		}
 
+		foreach ($data as &$d)
+		{
+			$d['tag'] = '{block id="'.$d['uid'].'"}';
+		}
 
 		$this->assign('title', A('block.name'));
 		$this->assign('categories',$categories);
@@ -84,10 +88,10 @@ class block_controller_admin extends admin_controller
 			{
 				if ( $post['operate']=='submit' )
 				{
-					return $this->success(t('保存成功'), u('block/block/index/'.$post['categoryid']) );
+					return $this->success(t('保存成功'), u('block/admin/index/'.$post['categoryid']) );
 				}
 
-				return $this->success(t('保存成功'), u('block/block/data/'.$id), 1);
+				return $this->success(t('保存成功'), u('block/admin/data/'.$id), 1);
 			}
 
 			return $this->error($this->block->error());
@@ -102,20 +106,14 @@ class block_controller_admin extends admin_controller
 		$data = array(
 			'type'			=> 'list',
 			'categoryid' 	=> $categoryid,
-			'fields'		=> array(
-				array('show'=>1,'label'=>t('标题'),'type'=>'title','name'=>'title','minlength'=>1,'maxlength'=>50, 'required'=>'required'),
-				array('show'=>1,'label'=>t('链接'),'type'=>'text','name'=>'url', 'required'=>'required'),
-				array('show'=>1,'label'=>t('图片'),'type'=>'image','name'=>'image','image_resize'=>1,'image_width'=>'','image_height'=>'', 'watermark'=>0),
-				array('show'=>1,'label'=>t('摘要'),'type'=>'textarea','name'=>'description','minlength'=>0,'maxlength'=>255),
-				array('show'=>1,'label'=>t('日期'),'type'=>'datetime','name'=>'createtime'),
-			)
+			'fields'		=> $this->block->fieldlist(),
+			'template'		=> 'block/list.php',
 		);
 
 		$this->assign('title',t('新建区块'));
 		$this->assign('categoryid',$categoryid);
 		$this->assign('category',$category);
 		$this->assign('categories',$categories);
-		$this->assign('types',$this->block->types);
 		$this->assign('data',$data);
 		$this->display('block/admin_post.php');
     }
@@ -134,10 +132,10 @@ class block_controller_admin extends admin_controller
 			{
 				if ( $post['operate']=='submit' )
 				{
-					return $this->success(t('保存成功'), u('block/block/index/'.$post['categoryid']) );
+					return $this->success(t('保存成功'), u('block/admin/index/'.$post['categoryid']) );
 				}
 
-				return $this->success(t('保存成功'), u('block/block/data/'.$id), 1);
+				return $this->success(t('保存成功'), u('block/admin/data/'.$id), 1);
 			}
 
 			return $this->error($this->block->error());
@@ -157,10 +155,29 @@ class block_controller_admin extends admin_controller
 		$this->assign('category',$category);
 		$this->assign('categoryid',$category['id']);
 		$this->assign('categories',$categories);
-		$this->assign('types',$this->block->types);
 		$this->assign('data',$data);
 		$this->display('block/admin_post.php');
     }
+
+    /**
+     * 检查编号是否被占用
+     *
+     * @return bool
+     */
+	public function action_check($key)
+	{
+		if ( $ignore = $_GET['ignore'] )
+		{
+			$count = $this->block->where($key,$_GET[$key])->where($key,'!=',$ignore)->count();
+		}
+		else
+		{
+			$count = $this->block->where($key,$_GET[$key])->count();
+
+		}
+
+		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
+	}    
 
     /**
      * 表单扩展部分
@@ -211,29 +228,28 @@ class block_controller_admin extends admin_controller
 			// TODO 保存的时候是否发布的逻辑需要处理
 			if ( $this->block->savedata($post['data'], $id) )
 			{
-				return $post['operate']=='save' ? $this->success(t('保存成功')) : $this->success(t('保存成功'),u('block/block/index/'.$post['categoryid']));
+				return $post['operate']=='save' ? $this->success(t('保存成功')) : $this->success(t('保存成功'),u('block/admin/index/'.$post['categoryid']));
 			}
 
 			return $this->error($this->block->error());
 		}
 
 		//全部分类
-		$categories = $this->category->getall();
+		//$categories = $this->category->getall();
 
 		// 当前数据
 		$block = $this->block->get($id);
 
-		// 获取当前分类
-		$category = $this->category->get($block['categoryid']);
+		// 获取当前分类		
+		$category = $block['categoryid'] == 0 ? array('id'=>0,'name'=>t('全局区块')) : $this->category->get($block['categoryid']);
 
-		$this->assign('title',t('数据管理').'-'.$block['name']);
+		$this->assign('title',$block['name']);
 		$this->assign('category',$category);
 		$this->assign('categoryid',$category['id']);
-		$this->assign('categories',$categories);
-		$this->assign('types',$this->block->types);
+		//$this->assign('categories',$categories);
 		$this->assign('block',$block);
 		$this->assign('data',$data);
-		$this->display("block/block_data_{$block['type']}.php");
+		$this->display("block/admin_data_{$block['type']}.php");
 	}
 
 	/**
