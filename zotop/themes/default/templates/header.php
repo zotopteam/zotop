@@ -57,7 +57,7 @@
 </div>
 
 <div class="navbar">
-{block 'navbar'}
+{block id="7"}
 </div>
 
 <div class="body">

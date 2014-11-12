@@ -23,7 +23,7 @@
 		<thead>
 			<tr>
 			<td class="drag">&nbsp;</td>
-			<td class="w50 center none">{t('编号')}</td>
+			<td class="w50 center">{t('编号')}</td>
 			<td>{t('名称')}</td>
 			<td class="w80">{t('类型')}</td>
 			<td class="w200">{t('调用代码')}</td>			
@@ -37,7 +37,7 @@
 		{loop $data $r}
 			<tr>
 				<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-				<td class="center none">{$r.id}</td>
+				<td class="center">{$r.id}</td>
 				<td>
 					<div class="title textflow" title="{$r['title']}"{if $r['style']}style="{$r['style']}"{/if}>
 					{$r['name']}<span>{$r['description']}</span>

@@ -13,9 +13,6 @@
 	<script type="text/javascript" src="{A('system.url')}/common/js/jquery.plugins.js"></script>
 	<script type="text/javascript" src="{A('system.url')}/common/js/jquery.dialog.js"></script>
 	<script type="text/javascript" src="{A('system.url')}/common/js/global.js"></script>
-	<link rel="shortcut icon" type="image/x-icon" href="{A('system.url')}/icon.png" />
-	<link rel="icon" type="image/x-icon" href="{A('system.url')}/icon.png" />
-	<link rel="bookmark" type="image/x-icon" href="{A('system.url')}/icon.png" />
 	<script type="text/javascript">
 		var $dialog = $.dialog();
 			$dialog.statusbar('');

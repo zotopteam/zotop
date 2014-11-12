@@ -269,6 +269,27 @@ class template
 	}
 
     /**
+     * 将标签字符串转化为数组
+     * 
+     * 
+     * @param  string $str 标签字符串，所有参数都必须以半角（英文）双引号括起来，如： id="1" size="10"
+     * @return array
+     */
+    public function _attrs($str)
+    {
+        $attrs = array();
+
+        preg_match_all('/\s+([a-z_]+)\s*\=\s*\"(.*?)\"/i', stripslashes($str), $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $k => $v)
+        {
+            $attrs[$v[1]] = $v[2];
+        }
+
+        return $attrs;        
+    }
+
+    /**
      * 模板标签解析
      *
      * @param string $html 匹配到的HTML代码
@@ -307,14 +328,14 @@ class template
             if ( $cache )
             {
                 $code .= $newline.'if ( null === $' . $callback . ' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ):';
-				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . $this->attrs_code($attrs) . ') ) :';
+				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . $this->array_attrs($attrs) . ') ) :';
                 $code .= $newline.'		zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $' . $callback . ', ' . $cache . ');';
 				$code .= $newline.'	endif;';
                 $code .= $newline.'endif;';
             }
 			else
 			{
-				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . $this->attrs_code($attrs) . ');';
+				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . $this->array_attrs($attrs) . ');';
 			}
 
 			if ( $end )
@@ -356,7 +377,7 @@ class template
      * @param array $data 数组
      * @return code
      */
-    private function attrs_code($attrs)
+    private function array_attrs($attrs)
     {
         if (is_array($attrs))
         {
@@ -366,7 +387,7 @@ class template
             {
                 if (is_array($val))
                 {
-                    $str .= "'$key'=>" . $this->attrs_code($val) . ",";
+                    $str .= "'$key'=>" . $this->array_attrs($val) . ",";
                 }
                 else
                 {
@@ -436,25 +457,23 @@ class template
     /**
      * 解析和获取视图内容 用于输出
      *
-     * @param string $template 视图文件名
+     * @param string $template 视图文件
      * @param string $content 视图输出内容
      * @return string
      */
-    public function render($template='')
+    public function render($_template='')
     {
-        $template = $this->compile_template($template);
-
-        if ($template)
+        if ( $_template = $this->compile_template($_template) )
         {
             // 缓存视图页面
             ob_start();
             ob_implicit_flush(0);
 
             // 阵列变量分解成为独立变量
-            extract($this->vars, EXTR_OVERWRITE);
+            extract($this->vars, EXTR_OVERWRITE);            
 
             //加载视图文件
-            include $template;
+            include $_template;
 
             // 获取并清空缓存
             $content = ob_get_clean();

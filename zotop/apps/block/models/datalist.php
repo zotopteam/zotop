@@ -43,24 +43,26 @@ class block_model_datalist extends model
 	}
 
     /**
-     * 根据编号
+     * 根据编号获取发布数据列表
      * 
      * @param  int $blockid 区块编号
      * @return array        返回数据
      */
-	public function getList($blockid, $status='publish')
+	public function getList($blockid)
 	{
-		$block = m('block.block.get',$blockid);
+		$rows = m('block.block.get',$blockid,'rows');
 
-		$db = $this->db()->where('blockid','=',$blockid)->where('status','=',$status)->orderby('listorder','desc');
+		$db = $this->db()->where('blockid','=',$blockid)->where('status','=','publish')->orderby('listorder','desc');
 
-		if ( $block['rows'] > 0  )
+		if ( $rows > 0  )
 		{
-			$db->limit($block['rows']);
+			$db->limit($rows);
 		}
 
 		return $db->getAll();		
 	}
+
+
 
 
     /**
@@ -81,7 +83,7 @@ class block_model_datalist extends model
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
 		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
 
-		$data['createtime'] = ZOTOP_TIME ;
+		$data['createtime'] = strtotime($data['createtime']) ;
 		$data['updatetime'] = ZOTOP_TIME ;
 		$data['status'] 	= 'publish';
 		$data['userid'] 	= zotop::user('id');
@@ -105,6 +107,9 @@ class block_model_datalist extends model
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
 		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
 
+		$data['createtime'] = strtotime($data['createtime']) ;
+		$data['updatetime'] = ZOTOP_TIME ;
+		
 		if ( $this->update($data, $id) )
 		{
 			$this->updatedata($data['blockid']);
@@ -140,12 +145,13 @@ class block_model_datalist extends model
 	 */
 	public function updatedata($blockid)
 	{
-		$data = array();
-
-		$datalist = $this->getList($blockid);
+		$data 		= array();
+		$datalist 	= $this->getList($blockid);
 
 		foreach( $datalist as $list )
 		{
+			$d = array();
+
 			foreach( $list as $k=>$f )
 			{
 				if ( in_array($k, array('title','style','url','image','description','createtime','c1','c2','c3','c4','c5')) )
@@ -154,10 +160,17 @@ class block_model_datalist extends model
 				}
 			}
 
-			$data[] = $d;
+			$data[$list['id']] 	= $d;
+
 		}
 
-		return m('block.block')->savedata($data,$blockid);
+		// 将数据保存至更新数据主表
+		m('block.block')->savedata(array_values($data), $blockid);
+
+		// 将超出限制条目的已发布数据设置为历史状态
+		$this->where('status','publish')->where('id','not in', array_keys($data))->set('status','history')->update();
+
+		return true;
 	}
 
 }

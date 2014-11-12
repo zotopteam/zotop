@@ -18,5 +18,6 @@ return array (
   'list_top.php' => '头条',
   'list_atag.php' => '链接列表',
   'hand_block.php' => '手动区块',
+  'list.php' => '列表区块默认模板',
 );
 ?>

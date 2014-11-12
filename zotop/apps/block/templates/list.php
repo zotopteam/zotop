@@ -5,7 +5,7 @@
 <div class="box-body">
 	<ul class="list">
 	{loop $data $i $r}
-		<li><a href="{$r[url]}" target="_blank">{$r[title]}</a></li>
+		<li><a href="{$r.url}" target="_blank">{$r.title}</a></li>
 	{/loop}
 	</ul>
 <div>

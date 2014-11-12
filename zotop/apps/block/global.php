@@ -43,40 +43,41 @@ function block_system_globalnavbar($nav)
 /**
  * 模板hook，解析模板中的区块标签 {block '……'} 
  *
- * @param mixed $str 模板代码
+ * @param string $str 完整的模板代码
+ * @param object $tpl 模板对象
  * @return  $str 解析后的模板代码
  */
 zotop::add('template.parse', 'block_template_parse');
 
-function block_template_parse($str)
+function block_template_parse($str, $tpl)
 {
-    return preg_replace("/\{block\s+(.+)\}/", '<?php echo block_template_data(\\1, $this); ?>', $str);
+    return preg_replace("/\{block(\s+[^}]+?)\}/ie", "block_tag_parse('\\1',\$tpl)", $str);
 }
 
 /**
  * 获取区块解析后的数据
  *
- * @param string $uid 区块的唯一编号
+ * @param string $str 区块参数
  * @param obj $tpl 当前模板对象
  * @return string  区块数据
  */
-function block_template_data($uid, $tpl)
-{   
-    // 缓存已经存在，直接返回缓存的区块数据
-    if ( file_exists(BLOCK_PATH_CACHE . DS . "{$uid}.html") )
+function block_tag_parse($str, $tpl)
+{
+    $attrs = $tpl->_attrs($str);
+    $attrs = $attrs ? $attrs : array('id'=>$str);
+
+    if ( $id = $attrs['id'] )
     {
-        return file_get_contents(BLOCK_PATH_CACHE . DS . "{$uid}.html");
+        // 缓存已经存在，直接返回缓存的区块数据
+        if ( file_exists(BLOCK_PATH_CACHE . DS . "{$id}.shtml") )
+        {
+            return file_get_contents(BLOCK_PATH_CACHE . DS . "{$id}.shtml");
+        }
+
+        // 缓存不存在，自动生成缓存并换回数据
+        return m('block.block.publish', $id, $tpl, $attrs);
     }
 
-    // 缓存不存在，自动生成缓存并换回数据
-    $block = m('block.block');
-
-
-    if ( $c = $block->publish($uid, $tpl) )
-    {
-        return $c;
-    }
-
-    return '<div class="error block-error">' . $block->error() . '</div>';
+    return '<div class="error block-error">' . t('错误：区块标签缺少编号') . '</div>';
 }
 ?>

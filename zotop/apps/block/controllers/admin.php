@@ -60,7 +60,7 @@ class block_controller_admin extends admin_controller
 
 		foreach ($data as &$d)
 		{
-			$d['tag'] = '{block id="'.$d['uid'].'"}';
+			$d['tag'] = '{block id="'.$d['id'].'"}';
 		}
 
 		$this->assign('title', A('block.name'));
@@ -214,7 +214,6 @@ class block_controller_admin extends admin_controller
 		return $this->error($this->block->error());
 	}
 
-
 	/**
 	 * 维护内容
 	 *
@@ -234,9 +233,6 @@ class block_controller_admin extends admin_controller
 			return $this->error($this->block->error());
 		}
 
-		//全部分类
-		//$categories = $this->category->getall();
-
 		// 当前数据
 		$block = $this->block->get($id);
 
@@ -246,7 +242,6 @@ class block_controller_admin extends admin_controller
 		$this->assign('title',$block['name']);
 		$this->assign('category',$category);
 		$this->assign('categoryid',$category['id']);
-		//$this->assign('categories',$categories);
 		$this->assign('block',$block);
 		$this->assign('data',$data);
 		$this->display("block/admin_data_{$block['type']}.php");

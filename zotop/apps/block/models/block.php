@@ -23,7 +23,7 @@ class block_model_block extends model
 	{
 		$types = array(
 			'list'	=> t('列表'),
-			'hand'	=> t('手动'),
+			//'hand'	=> t('手动'),
 			'html'	=> t('内容'),
 			'text'	=> t('文本'),
 		);
@@ -90,11 +90,13 @@ class block_model_block extends model
 
 		if ( in_array($data['type'], array('list','hand')) )
 		{
-			$data['data'] = unserialize($data['data']);
+			$data['data'] 	= unserialize($data['data']);
+			$data['data'] 	= is_array($data['data']) ? $data['data'] : array();
+
 			$data['fields'] = unserialize($data['fields']);
 		}
 
-		return $data;
+		return $field ? $data[$field] : $data;
 	}
 
     /**
@@ -103,11 +105,11 @@ class block_model_block extends model
      */
 	public function add($data)
 	{
-		if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));		
+		//if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));		
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
-		$data['createtime'] =  ZOTOP_TIME ;
-		$data['updatetime'] =  ZOTOP_TIME ;
+		$data['createtime'] = ZOTOP_TIME ;
+		$data['updatetime'] = ZOTOP_TIME ;
 		$data['userid'] 	= zotop::user('id');
 		$data['listorder'] 	= $this->max('listorder') + 1; // 默认排在后面
 
@@ -125,10 +127,10 @@ class block_model_block extends model
      */
 	public function edit($data, $id)
 	{
-		if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));			
+		//if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));			
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
-		$data['updatetime'] =  ZOTOP_TIME ;
+		$data['updatetime'] = ZOTOP_TIME ;
 
 		if ( $this->update($data, $id) )
 		{
@@ -179,42 +181,56 @@ class block_model_block extends model
 		}
 
 		// 删除指定区块缓存
-		if( $uid = $this->where('id',$id)->getField('uid') )
-		{
-			return file::delete(BLOCK_PATH_CACHE.DS."{$uid}.html");
-		}
 
-		return false;		
+		return file::delete(BLOCK_PATH_CACHE.DS."{$id}.html");	
 	}
 
 
 	/**
 	 * 根据区块的唯一编号发布区块
 	 *
-	 * @param string $id ID
+	 * @param string $id 区块编号
+	 * @param object $tpl 模板对象
 	 * @return bool
 	 */
-	public function publish($uid, $tpl)
+	public function publish($id, $tpl, $attrs)
 	{
-		if( $uid and $block = $this->where('uid',$uid)->getRow() )
+		$block = $this->get($id);
+
+		if ( !$block )
 		{
-			if ( empty($block['data']) )	return $this->error(t('数据不能为空'));
-			
-			if ( $block['type'] == 'list' or $block['type'] == 'hand' )
-			{
-				$block['data'] = json_decode($block['data'], true);
-			}
+			$block = array_merge(array(
+				'type' => 'list',
+				'createtime' => ZOTOP_TIME,
+				'updatetime' => ZOTOP_TIME,
+				'userid' => 0,
+				'listorder' => $this->max('listorder') + 1,
+			),$attrs);
 
-			$template = $block['template']; unset($block['template']);
+			//$block['template'] = 
 
-			$content = $tpl->assign($block)->render($template);	
-
-			file::put(BLOCK_PATH_CACHE.DS."{$block['uid']}.html", $content);
-
-			return $content;
+			$this->insert($block);
 		}
 
-		return $this->error(t('区块 %s 不存在', $uid));
+			
+		if ( is_array($block['data']) )
+		{
+			foreach($block['data'] as &$d)
+			{
+				$d['url'] = U($d['url']);
+			}
+		}
+
+		if ( $block['template'] )
+		{
+			$content = $tpl->assign($block)->render($block['template']);	
+
+			file::put(BLOCK_PATH_CACHE.DS."{$id}.shtml", $content);
+
+			return $content;		
+		}
+
+		return '';
 	}
 
 	/**
