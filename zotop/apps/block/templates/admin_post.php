@@ -25,13 +25,6 @@
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
 				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('标识'),'uid',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'text','name'=>'uid','value'=>$data['uid'],'pattern'=>'^[a-zA-Z0-9-_]+$','maxlength'=>32,'required'=>'required','remote'=>u('block/admin/check/uid','ignore='.$data['uid'])))}
-					{form::tips(t('区块的唯一标识，允许使用英文、数字、短横杠及下划线，最大长度 32'))}
-				</td>
 			</tr>			
 			<tr>
 				<td class="label">{form::label(t('分类'),'type',true)}</td>

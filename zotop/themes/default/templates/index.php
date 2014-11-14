@@ -38,7 +38,7 @@
 </style>
 
 <div class="mainslider">
-	{block 'mainslider'}
+	{block id="2"}
 </div>
 
 

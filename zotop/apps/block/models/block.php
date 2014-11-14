@@ -54,7 +54,7 @@ class block_model_block extends model
 			'c5'			=> array('show'=>0,'label'=>t('自定义5'),'type'=>'text','name'=>'c5'),
 		);
 
-		return array_merge($fieldlist, $fields);	
+		return is_array($fields) ? array_merge($fieldlist, $fields) : $fieldlist;	
 	}
 
 	/**
@@ -105,7 +105,6 @@ class block_model_block extends model
      */
 	public function add($data)
 	{
-		//if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));		
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
 		$data['createtime'] = ZOTOP_TIME ;
@@ -127,14 +126,13 @@ class block_model_block extends model
      */
 	public function edit($data, $id)
 	{
-		//if ( empty($data['uid']) ) return $this->error(t('区块标识不能为空'));			
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
 		$data['updatetime'] = ZOTOP_TIME ;
 
 		if ( $this->update($data, $id) )
 		{
-			$data['data'] and $this->clearcache($id);
+			$this->clearcache($id);
 
 			return $id;
 		}
@@ -152,7 +150,7 @@ class block_model_block extends model
 
 		if ( $this->update(array('data'=>$data,'updatetime'=>ZOTOP_TIME), $id) )
 		{
-			$data and $this->clearcache($id);
+			$this->clearcache($id);
 
 			return $id;
 		}
@@ -181,38 +179,31 @@ class block_model_block extends model
 		}
 
 		// 删除指定区块缓存
-
 		return file::delete(BLOCK_PATH_CACHE.DS."{$id}.html");	
 	}
 
 
 	/**
-	 * 根据区块的唯一编号发布区块
+	 * 根据区块的编号发布区块
 	 *
 	 * @param string $id 区块编号
 	 * @param object $tpl 模板对象
 	 * @return bool
 	 */
-	public function publish($id, $tpl, $attrs)
-	{
+	public function publish($id, $tpl, $attrs=array())
+	{	
 		$block = $this->get($id);
 
-		if ( !$block )
+		// 自动创建区块
+		if ( empty($block) and is_array($attrs) )
 		{
-			$block = array_merge(array(
-				'type' => 'list',
-				'createtime' => ZOTOP_TIME,
-				'updatetime' => ZOTOP_TIME,
-				'userid' => 0,
-				'listorder' => $this->max('listorder') + 1,
-			),$attrs);
+			$block = array_merge(array('type'=>'list','name'=>t('自动创建'),'userid'=>0), $attrs);
+			$block['data'] = in_array($block['type'],array('list','hand')) ? array() : '';
+			$block['template'] = empty($block['template']) ? "block/{$block['type']}.php" : $block['template']; 
 
-			//$block['template'] = 
-
-			$this->insert($block);
+			$this->add($block);
 		}
 
-			
 		if ( is_array($block['data']) )
 		{
 			foreach($block['data'] as &$d)
@@ -221,16 +212,12 @@ class block_model_block extends model
 			}
 		}
 
-		if ( $block['template'] )
-		{
-			$content = $tpl->assign($block)->render($block['template']);	
+		$content = $tpl->assign($block)->render($block['template']);	
 
-			file::put(BLOCK_PATH_CACHE.DS."{$id}.shtml", $content);
+		file::put(BLOCK_PATH_CACHE.DS."{$id}.html", $content);
 
-			return $content;		
-		}
+		return $content;		
 
-		return '';
 	}
 
 	/**
@@ -270,7 +257,7 @@ class block_model_block extends model
 		{
 			if ( parent::delete($id) )
 			{
-				return $this->clearcache($block['uid']);
+				return $this->clearcache($id);
 			}
 		}
 

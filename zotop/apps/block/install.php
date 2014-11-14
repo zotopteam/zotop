@@ -47,8 +47,7 @@ $this->db->table('block')->drop();
 $this->db->table('block')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
-		'uid'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('唯一标识，用于调用') ),
-		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'default'=>'1', 'unsigned'=>true, 'comment' => t('分类编号') ),
+		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('分类编号') ),
 		'type'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'default'=>'html', 'comment' => t('类型，html:内容,list:列表,hand:手动,text:文本') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>50, 'notnull'=>true, 'comment' => t('名称') ),
 		'description'=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('说明') ),

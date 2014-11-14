@@ -64,20 +64,20 @@ function block_template_parse($str, $tpl)
 function block_tag_parse($str, $tpl)
 {
     $attrs = $tpl->_attrs($str);
-    $attrs = $attrs ? $attrs : array('id'=>$str);
+    $attrs = $attrs ? $attrs : array('id'=>trim(trim(trim($str),"'"),'"'));
 
-    if ( $id = $attrs['id'] )
+    if ( $id = intval($attrs['id']) )
     {
         // 缓存已经存在，直接返回缓存的区块数据
-        if ( file_exists(BLOCK_PATH_CACHE . DS . "{$id}.shtml") )
+        if ( file_exists(BLOCK_PATH_CACHE . DS . "{$id}.html") )
         {
-            return file_get_contents(BLOCK_PATH_CACHE . DS . "{$id}.shtml");
+            return file_get_contents(BLOCK_PATH_CACHE . DS . "{$id}.html");
         }
 
         // 缓存不存在，自动生成缓存并换回数据
         return m('block.block.publish', $id, $tpl, $attrs);
     }
 
-    return '<div class="error block-error">' . t('错误：区块标签缺少编号') . '</div>';
+    return '<div class="error block-error">'.t('区别编号错误').'</div>';
 }
 ?>
