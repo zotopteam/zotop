@@ -62,9 +62,6 @@ class block_model_datalist extends model
 		return $db->getAll();		
 	}
 
-
-
-
     /**
      * 获取
      *
@@ -127,14 +124,23 @@ class block_model_datalist extends model
 	 */
 	public function order($blockid, $ids)
 	{
-		foreach( (array)$ids as $i=>$id )
+		
+		if ( is_array($ids) )
 		{
-			$this->update(array('listorder' => $i+1), $id);
+			$ids = array_reverse($ids);
+
+			foreach( $ids as $i=>$id )
+			{
+				$this->update(array('listorder' => $i+1), $id);
+
+			}
+
+			$this->updatedata($blockid);
+			return true;
 
 		}
 
-		$this->updatedata($blockid);
-		return true;
+		return false;
 	}
 
 	/**

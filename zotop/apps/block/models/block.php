@@ -107,8 +107,8 @@ class block_model_block extends model
 	{
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
-		$data['createtime'] = ZOTOP_TIME ;
-		$data['updatetime'] = ZOTOP_TIME ;
+		$data['createtime'] = ZOTOP_TIME;
+		$data['updatetime'] = ZOTOP_TIME;
 		$data['userid'] 	= zotop::user('id');
 		$data['listorder'] 	= $this->max('listorder') + 1; // 默认排在后面
 

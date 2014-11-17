@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-{template 'block/side.php'}
+{template 'block/admin_side.php'}
 </div>
 <div class="main side-main">
 	<div class="main-header">
@@ -34,7 +34,7 @@
 				<td>
 					<div class="title">{$r['name']}</div>
 					<div class="manage">
-						<a href="{u('block/block/index/'.$r['id'])}">{t('区块管理')}</a>
+						<a href="{u('block/admin/index/'.$r['id'])}">{t('区块管理')}</a>
 						<s></s>
 						<a class="dialog-open"  data-width="600px" data-height="200px" href="{u('block/category/edit/'.$r['id'])}">{t('编辑')}</a>
 						<s></s>

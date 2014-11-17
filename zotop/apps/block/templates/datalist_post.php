@@ -5,7 +5,7 @@
 
 		<table class="field">
 			<tbody>
-			{loop $block.fields $k $f}
+			{loop m('block.block.fieldlist',$block.fields) $k $f}
 			{if $f.show}
 			<tr>
 				<td class="label">{form::label($f.label, $k, $f.required=='required')}</td>

@@ -46,7 +46,7 @@
             <button type="submit" class="icon icon-search"></button>
         </form>
         <div class="hot-keywords">
-        	{block 'hot-keywords'}
+        	{block id="3"}
         </div>       
 	</div>
 	<div class="button">

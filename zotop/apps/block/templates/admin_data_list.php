@@ -3,7 +3,7 @@
 {template 'block/admin_side.php'}
 </div>
 
-{form::header()}
+{form::header(U('block/datalist/order/'.$block.id))}
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
@@ -35,7 +35,7 @@
 				<tbody>
 				{loop m('block.datalist.getlist',$block.id) $i $r}
 					<tr>
-						<td class="drag">&nbsp;</td>
+						<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
 						<td class="w40 center">{($i+1)}</td>
 						<td>
 							<div class="title overflow">{$r.title}</div> 
@@ -48,7 +48,7 @@
 								<s>|</s>
 								<a href="{U('block/datalist/edit/'.$r.id)}" data-width="800px" data-height="400px" class="dialog-open"><i class="icon icon-edit"></i> {t('编辑')}</a>
 								<s>|</s>
-								<a href=""><i class="icon icon-delete"></i> {t('删除')}</a>
+								<a href="{U('block/datalist/delete/'.$r.id)}" class="dialog-confirm"><i class="icon icon-delete"></i> {t('删除')}</a>
 							</div>
 						</td>
 						<td class="w140">{format::date($r.createtime,'datetime')}</td>
@@ -76,4 +76,40 @@
 <style type="text/css">
 div.description{line-height:22px;font-size:14px;clear: both; border: solid 1px #F2E6D1; background: #FCF7E4; color: #B25900; border-radius: 5px;margin: 10px 0; padding: 10px;}
 </style>
+<script type="text/javascript">
+
+// 重排行号
+function linenumber(){
+    $("table.sortable tbody tr").each(function(d, a) {
+        $(a).find("td:eq(1)").text(d + 1);
+    });	
+}
+
+//sortable
+$(function(){
+	linenumber();
+
+	$("table.sortable").sortable({
+		items: "tbody > tr",
+		axis: "y",
+		placeholder:"ui-sortable-placeholder",
+		helper: function(e,tr){
+			tr.children().each(function(){
+				$(this).width($(this).width());
+			});
+			return tr;
+		},
+		update:function(){
+			var action 	= $(this).parents('form').attr('action');
+			var data 	= $(this).parents('form').serialize();
+
+			$.post(action, data, function(msg){
+				linenumber();
+				$.msg(msg);
+			},'json');
+		}
+	});
+});
+</script>
+
 {template 'footer.php'}
