@@ -52,7 +52,7 @@ class system_field
 	{
 		$attrs['id'] = $attrs['name'].'-'.$attrs['data-source'];
 
-		$html['field']	= form::field_text($attrs);		
+		$html['field']	= form::field_text($attrs);
 
 		if( $attrs['data-source'] )
 		{
@@ -78,7 +78,7 @@ class system_field
 	public static function image($attrs)
 	{
 		$attrs['placeholder'] = empty($options['placeholder']) ? t('请输入图片地址或者上传图片') : $options['placeholder'];
-		$attrs['accept'] = 'jpg|jpeg|gif|png|bmp';
+		$attrs['extension'] = 'jpg|jpeg|gif|png|bmp';
 
 		//上传参数
 		$upload = array('app'=>ZOTOP_APP,'field'=>$attrs['name'],'select'=>1);
@@ -179,7 +179,7 @@ class system_field
 		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		return implode("\n",$html);
-	}	
+	}
 
 	/**
 	 * 日期控件，带时间，如2013-04-19 13:52
@@ -190,11 +190,11 @@ class system_field
 	public static function datetime($attrs)
 	{
 		$attrs['format'] 		= 'Y-m-d H:i';
-		
-		$attrs['timepicker'] 	= true;		
+
+		$attrs['timepicker'] 	= true;
 
 		return self::date($attrs);
-	}	
+	}
 
 	/**
 	 * 验证码控件
@@ -247,7 +247,7 @@ class system_field
 
 		$attrs['id'] = $id;
 		$attrs['placeholder'] = empty($options['placeholder']) ? t('请输入模版地址或者选择模版') : $options['placeholder'];
-		$attrs['accept'] = 'php|tpl|htm|html';
+		$attrs['extension'] = 'php|tpl|htm|html';
 
 		//参数设置
 		$options = is_array($attrs['options']) ? $attrs['options'] : array();

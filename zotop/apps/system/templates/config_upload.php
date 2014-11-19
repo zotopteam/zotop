@@ -149,7 +149,7 @@
 						   'name'		=> 'watermark_image',
 						   'value'		=> c('system.watermark_image'),
 						   'required'	=> 'required',
-						   'accept'		=> 'png|jpg|jpeg|gif',
+						   'extension'	=> 'png|jpg|jpeg|gif',
 						))?>
 
 						<div id="upload-preview" class="clearfix">
