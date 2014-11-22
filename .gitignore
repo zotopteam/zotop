@@ -15,6 +15,7 @@
 /zotop/apps/database
 /zotop/config/shop.php
 /zotop/config/test.php
+/uploads
 
 *.tmp
 /zotop/data/zotop.db3
