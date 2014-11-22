@@ -6,7 +6,7 @@
 	<ul class="sidenavlist">
 		{loop m('block.category.getall') $c}
 		<li>
-			<a href="{u('block/admin/index/'.$c['id'])}"{if $c['id'] == $categoryid } class="current"{/if}>
+			<a href="{u('block/admin/index/'.$c['id'])}"{if substr_count(ZOTOP_URI,'block/admin') and $c['id'] == $categoryid} class="current"{/if}>
 				<i class="icon icon-folder"></i>{$c[name]}
 			</a>
 		</li>

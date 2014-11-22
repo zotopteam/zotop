@@ -10,9 +10,9 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('说明'),'description',true)}</td>
+				<td class="label">{form::label(t('说明'),'description',false)}</td>
 				<td class="input">
-					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'required'=>'required'))}
+					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}
 				</td>
 			</tr>
 			</tbody>

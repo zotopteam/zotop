@@ -32,14 +32,14 @@ class block_model_datalist extends model
 	}
 
     /**
-     * 根据区块获取区块的全部数据
+     * 根据区块获取区块的全部数据 TODO 暂时无用
      * 
      * @param  int $blockid 区块编号
      * @return array        返回数据
      */
 	public function getAll($blockid)
 	{
-		return $this->db()->where('blockid','=',$blockid)->orderby('listorder','desc')->getAll();
+		return $this->db()->where('blockid','=',$blockid)->orderby('stick','desc')->orderby('listorder','desc')->getAll();
 	}
 
     /**
@@ -52,7 +52,7 @@ class block_model_datalist extends model
 	{
 		$rows = m('block.block.get',$blockid,'rows');
 
-		$db = $this->db()->where('blockid','=',$blockid)->where('status','=','publish')->orderby('listorder','desc');
+		$db = $this->db()->where('blockid','=',$blockid)->where('status','=','publish')->orderby('stick','desc')->orderby('listorder','desc');
 
 		if ( $rows > 0  )
 		{
@@ -142,6 +142,29 @@ class block_model_datalist extends model
 
 		return false;
 	}
+
+    /**
+     * 根据ID自动判断并设置置顶状态
+     *
+     * @param string $id ID
+     * @return bool
+     */
+    public function stick($id)
+    {
+        if ( $data = $this->get($id) )
+        {
+            $stick = $data['stick'] ? 0 : 1;
+
+			if ( $this->update(array('stick'=>$stick),$id) )
+			{
+				$this->updatedata($data['blockid']);
+
+				return true;
+			}
+        }
+
+        return false;
+    }	
 
 	/**
 	 * 更新应用数据

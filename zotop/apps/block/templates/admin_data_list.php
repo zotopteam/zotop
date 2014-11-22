@@ -28,7 +28,7 @@
 						<td class="drag">&nbsp;</td>
 						<td class="w40 center">{t('行号')}</td>
 						<td>{t('标题')}</td>
-						<td class="w200">{t('操作')}</td>
+						<td class="w300">{t('操作')}</td>
 						<td class="w140">{t('发布时间')}</td>
 					</tr>
 				</thead>
@@ -36,14 +36,22 @@
 				{loop m('block.datalist.getlist',$block.id) $i $r}
 					<tr>
 						<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
-						<td class="w40 center">{($i+1)}</td>
+						<td class="w40 center"></td>
 						<td>
-							<div class="title overflow">{$r.title}</div> 
+							<div class="title overflow">
+							{if $r.url}
+								<a href="{U($r.url)}" target="_blank">{$r.title}</a>
+							{else}
+								{$r.title}
+							{/if}
+							</div> 
 						</td>
 						<td>
 							<div class="manage">
-								{if $r.url}
-								<a href="{U($r.url)}" target="_blank"><i class="icon icon-view"></i> {t('访问')}</a>
+								{if $r.stick}
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="icon icon-down"></i> {t('取消置顶')}</a>
+								{else}
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="icon icon-up"></i> {t('设为置顶')}</a>
 								{/if}
 								<s>|</s>
 								<a href="{U('block/datalist/edit/'.$r.id)}" data-width="800px" data-height="400px" class="dialog-open"><i class="icon icon-edit"></i> {t('编辑')}</a>

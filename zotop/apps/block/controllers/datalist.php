@@ -123,8 +123,24 @@ class block_controller_datalist extends admin_controller
 		{
 			return $this->success(t('删除成功'),request::referer());
 		}
+
 		return $this->error($this->datalist->error());
 	}
 
+	/**
+	 * 根据条目置顶状态设置置顶和取消置顶
+	 * 
+	 * @param  int $id 编号
+	 * @return json
+	 */
+	public function action_stick($id)
+	{
+		if ( $this->datalist->stick($id) )
+		{
+			return $this->success(t('操作成功'),request::referer());
+		}
+
+		return $this->error($this->datalist->error());		
+	}
 }
 ?>
