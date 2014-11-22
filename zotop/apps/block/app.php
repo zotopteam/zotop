@@ -7,7 +7,7 @@ return array (
   'type' => 'module',
   'tables' => 'block,block_category,block_datalist',
   'dependencies' => '',
-  'version' => '2.3',
+  'version' => '2.2',
   'author' => 'zotop.chenlei',
   'email' => 'zotop.chenlei@gmail.com',
   'homepage' => 'http://www.zotop.com',
