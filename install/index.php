@@ -306,7 +306,9 @@ class install
 				'username' => $admin_username,
 				'password' => $admin_password,
 				'email'    => $admin_email,
-			);		
+			);
+
+			$router = array();	
 
 			//写入默认数据库配置文件
 			file::put(ZOTOP_PATH_CONFIG.DS.'database.php', "<?php\nreturn ".var_export(array('default'=>$config),true).";\n?>");
@@ -318,7 +320,10 @@ class install
 			file::put(ZOTOP_PATH_CONFIG.DS.'cookie.php', "<?php\nreturn ".var_export($cookie,true).";\n?>");
 
 			// 写入session配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'session.php', "<?php\nreturn ".var_export($session,true).";\n?>");			
+			file::put(ZOTOP_PATH_CONFIG.DS.'session.php', "<?php\nreturn ".var_export($session,true).";\n?>");
+
+			// 写入router配置
+			file::put(ZOTOP_PATH_CONFIG.DS.'router.php', "<?php\nreturn ".var_export($router,true).";\n?>");			
 
 			// 记录创始人信息，用于写入数据库
 			file::put(ZOTOP_PATH_RUNTIME.DS.'admin.php', "<?php\nreturn ".var_export($admin,true).";\n?>");			
