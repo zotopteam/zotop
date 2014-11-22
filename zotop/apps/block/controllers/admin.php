@@ -48,15 +48,13 @@ class block_controller_admin extends admin_controller
 		// 获取分类信息
 		$categories = $this->category->getAll();
 
-		// 搜索结果
+		// 搜索关键词
 		if ( $keywords = $_REQUEST['keywords'] )
 		{
-			$data = $this->block->where('name','like', $keywords)->getall();
+			$this->block->where('name','like', $keywords);
 		}
-		else
-		{
-			$data = $this->block->where('categoryid',$categoryid)->getall();
-		}
+
+		$data = $this->block->where('categoryid',$categoryid)->getall();
 
 		foreach ($data as &$d)
 		{

@@ -63,15 +63,6 @@ class block_model_datalist extends model
 	}
 
     /**
-     * 获取
-     *
-     */
-	public function get($id)
-	{
-		return $this->getbyid($id);
-	}
-
-    /**
      * 插入
      *
      */

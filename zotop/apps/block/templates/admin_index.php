@@ -6,6 +6,14 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$category['name']} </div>
+		
+		{if $keywords}
+		<div class="position">
+			<a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a>
+			<s class="arrow">></s>
+			{t('搜索 “%s”',$keywords)}				
+		</div>
+		{/if}
 
 		<form class="searchbar" method="post" action="{u('block/admin')}">
 			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}"  x-webkit-speech/>

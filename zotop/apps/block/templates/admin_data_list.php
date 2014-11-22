@@ -10,9 +10,7 @@
 		<div class="position">
 			<a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a>
 			<s class="arrow">></s>
-			{t('内容维护')}			
-			<s class="arrow">></s>
-			{$block['name']}			
+			{t('内容维护')}		
 		</div>	
 		<div class="action">
 			<a class="btn btn-icon-text btn-highlight dialog-open" href="{u('block/datalist/add/'.$block['id'])}" data-width="800px" data-height="400px"><i class="icon icon-add"></i><b>{t('添加')}</b></a>

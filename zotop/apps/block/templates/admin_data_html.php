@@ -10,8 +10,6 @@
 			<a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a>
 			<s class="arrow">></s>
 			{t('内容维护')}			
-			<s class="arrow">></s>
-			{$block['name']}			
 		</div>		
 		<div class="action">
 			<a class="btn btn-icon-text" href="{u('block/admin/edit/'.$block['id'])}"><i class="icon icon-setting"></i><b>{t('设置')}</b></a>
