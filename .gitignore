@@ -1,8 +1,5 @@
 *.tmp
-/zotop/data/install.lock
-/zotop/data/zotop.db3
-/zotop/runtime/config.php
-/zotop/runtime/global.php
-/zotop/runtime/preload.php
-
+/zotop/data
+/zotop/runtime
+/zotop/config
 
