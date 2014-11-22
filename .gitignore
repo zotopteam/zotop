@@ -13,8 +13,7 @@
 /zotop/apps/solution
 /zotop/apps/test
 /zotop/apps/database
-/zotop/config/shop.php
-/zotop/config/test.php
+/zotop/config/*.*
 /uploads/2014
 /uploads/2015
 

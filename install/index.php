@@ -157,15 +157,15 @@ class install
 		$data = zotop::cookie('data');
 		$data = is_array($data) ? $data : array();
 		$data = $data + array(
-			'driver'			=>'mysql',
-			'prefix'			=>'zotop_',
-			'charset'			=>'utf8',
-			'pconnect'			=>false,
-			'mysql_hostname'	=>'localhost',
-			'mysql_hostport'	=>3306,
-			'mysql_username'	=>'root',
-			'mysql_database'	=>'zotop',
-			'sqlite_database'	=>'zotop.db3',
+			'driver'			=> 'mysql',
+			'prefix'			=> 'zotop_',
+			'charset'			=> 'utf8',
+			'pconnect'			=> false,
+			'mysql_hostname'	=> 'localhost',
+			'mysql_hostport'	=> 3306,
+			'mysql_username'	=> 'root',
+			'mysql_database'	=> 'zotop',
+			'sqlite_database'	=> 'zotop.db3',
 
 			'site_name' 		=> t('逐涛网'),
 
@@ -282,24 +282,24 @@ class install
 			);
 
 			$cookie = array (
-				'expire'=>3600,
-				'prefix'=>'zotop_',
-				'path'=>'/',
-				'domain'=>'',
+				'expire' => 3600,
+				'prefix' => 'zotop_',
+				'path'   => '/',
+				'domain' => '',
 			);
 
 			$session = array (
-			    'driver' => '',
-				'expire' => 1440,
-				'autostart' => true,
-				'name' => 'sessionid',
-				'path'=>'',
-			    'cache_limiter' => 'private_no_expire',
-			    'cache_expire' => '30',
-			    'user_cookie' => true,
-				//'cookie_domain' => '',
-			    //'cookie_path' => '',
-			    //'cookie_expire' => '0',
+				'driver'        => '',
+				'expire'        => 1440,
+				'autostart'     => true,
+				'name'          => 'sessionid',
+				'path'          => '',
+				'cache_limiter' => 'private_no_expire',
+				'cache_expire'  => '30',
+				'user_cookie'   => true,
+				'cookie_domain' => '',
+				'cookie_path'   => '',
+				'cookie_expire' => '0',
 			);			
 
 			//写入默认数据库配置文件
@@ -308,15 +308,17 @@ class install
 			// 写入站点配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'site.php', "<?php\nreturn ".var_export($site,true).";\n?>");
 
+			// 写入cookie配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'cookie.php', "<?php\nreturn ".var_export($cookie,true).";\n?>");
 
+			// 写入session配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'session.php', "<?php\nreturn ".var_export($session,true).";\n?>");			
 
 			// 写入账户信息
 			zotop::cookie('admin', array(
 				'username' => $admin_username,
 				'password' => $admin_password,
-				'email' => $admin_email,
+				'email'    => $admin_email,
 			));
 		}
 
