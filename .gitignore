@@ -13,9 +13,8 @@
 /zotop/apps/solution
 /zotop/apps/test
 /zotop/apps/database
-/zotop/config/*.*
-/uploads/2014
-/uploads/2015
+/zotop/config
+/uploads
 
 *.tmp
 /zotop/data/zotop.db3

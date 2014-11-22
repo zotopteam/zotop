@@ -28,6 +28,7 @@ class runtime
 
         // 加载已经安装的 app下的预加载和全局文件
         $app        = @include(ZOTOP_PATH_CONFIG . DS . 'app.php');
+        $app        = is_array($app) ? $app : array();
 
         foreach ($app as $a)
         {

@@ -300,7 +300,13 @@ class install
 				'cookie_domain' => '',
 				'cookie_path'   => '',
 				'cookie_expire' => '0',
-			);			
+			);
+
+			$admin = array (
+				'username' => $admin_username,
+				'password' => $admin_password,
+				'email'    => $admin_email,
+			);		
 
 			//写入默认数据库配置文件
 			file::put(ZOTOP_PATH_CONFIG.DS.'database.php', "<?php\nreturn ".var_export(array('default'=>$config),true).";\n?>");
@@ -314,12 +320,8 @@ class install
 			// 写入session配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'session.php', "<?php\nreturn ".var_export($session,true).";\n?>");			
 
-			// 写入账户信息
-			zotop::cookie('admin', array(
-				'username' => $admin_username,
-				'password' => $admin_password,
-				'email'    => $admin_email,
-			));
+			// 记录创始人信息，用于写入数据库
+			file::put(ZOTOP_PATH_RUNTIME.DS.'admin.php', "<?php\nreturn ".var_export($admin,true).";\n?>");			
 		}
 
 		exit(json_encode($msg));
@@ -481,13 +483,15 @@ class install
 
 	public function success()
 	{
-		//插入默认管理员
-		$admin = zotop::cookie('admin');
+		//写入默认管理员
+		$admin = include(ZOTOP_PATH_RUNTIME.DS.'admin.php');
+
+		file::delete(ZOTOP_PATH_RUNTIME.DS.'admin.php');
 
 		$user_data = array(
 			'id'		 => 1,
 			'username'	 => $admin['username'],
-			'password'	 => md5($admin['password']), //admin999
+			'password'	 => md5($admin['password']), //加密密码
 			'email'		 => $admin['email'],
 			'groupid'	 => 1, //角色为超级管理员
 			'modelid'	 => 'admin', //用户类型为系统用户
