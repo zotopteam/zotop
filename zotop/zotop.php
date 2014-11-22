@@ -160,10 +160,7 @@ class zotop
     public static function boot($uri = 'system/index')
     {
         // 设置全局uri值
-        if ($uri)
-        {
-            zotop::$uri = trim(trim($uri), '/');
-        }
+        zotop::$uri = trim(trim($uri), '/');
 
         // 系统运行
         zotop::run('zotop.boot');
