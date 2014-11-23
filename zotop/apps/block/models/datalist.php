@@ -31,19 +31,9 @@ class block_model_datalist extends model
 		);
 	}
 
-    /**
-     * 根据区块获取区块的全部数据 TODO 暂时无用
-     * 
-     * @param  int $blockid 区块编号
-     * @return array        返回数据
-     */
-	public function getAll($blockid)
-	{
-		return $this->db()->where('blockid','=',$blockid)->orderby('stick','desc')->orderby('listorder','desc')->getAll();
-	}
 
     /**
-     * 根据编号获取发布数据列表
+     * 根据编号获取发布数据列表，用于区块维护显示
      * 
      * @param  int $blockid 区块编号
      * @return array        返回数据
@@ -59,7 +49,38 @@ class block_model_datalist extends model
 			$db->limit($rows);
 		}
 
-		return $db->getAll();		
+		$list = $db->getall();
+
+		return arr::hashmap($list, 'id');		
+	}
+
+	/**
+	 * 根据区块编号获取区块数据
+	 * 
+	 * @param  [type] $blockid [description]
+	 * @return [type]          [description]
+	 */
+	public function getdata($blockid)
+	{
+		$data 		= array();
+
+		foreach( $this->getList($blockid) as $list )
+		{
+			$d = array();
+
+			foreach( $list as $k=>$f )
+			{
+				if ( in_array($k, array('title','style','url','image','description','time','c1','c2','c3','c4','c5')) )
+				{
+					if ( $f ) $d[$k] = $f;
+				}
+			}
+
+			$data[] = $d;
+
+		}
+
+		return $data;
 	}
 
     /**
@@ -71,11 +92,12 @@ class block_model_datalist extends model
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
 		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
 
-		$data['createtime'] = strtotime($data['createtime']) ;
+		$data['time']       = strtotime($data['time']) ;
+
 		$data['updatetime'] = ZOTOP_TIME ;
-		$data['status'] 	= 'publish';
-		$data['userid'] 	= zotop::user('id');
-		$data['listorder'] 	= $this->max('listorder') + 1; // 默认排在后面
+		$data['status']     = $data['status'] ? $data['status'] : 'publish';
+		$data['userid']     = zotop::user('id');
+		$data['listorder']  = $this->where('blockid',$data['blockid'])->max('listorder') + 1;
 
 		if ( $id = $this->insert($data) )
 		{
@@ -94,8 +116,9 @@ class block_model_datalist extends model
 	{
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
 		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
+		
+		$data['time']       = strtotime($data['time']) ;
 
-		$data['createtime'] = strtotime($data['createtime']) ;
 		$data['updatetime'] = ZOTOP_TIME ;
 		
 		if ( $this->update($data, $id) )
@@ -165,30 +188,14 @@ class block_model_datalist extends model
 	 */
 	public function updatedata($blockid)
 	{
-		$data 		= array();
-		$datalist 	= $this->getList($blockid);
-
-		foreach( $datalist as $list )
-		{
-			$d = array();
-
-			foreach( $list as $k=>$f )
-			{
-				if ( in_array($k, array('title','style','url','image','description','createtime','c1','c2','c3','c4','c5')) )
-				{
-					if ( $f ) $d[$k] = $f;
-				}
-			}
-
-			$data[$list['id']] 	= $d;
-
-		}
+		$data = $this->getdata($blockid);
+		$list = $this->getlist($blockid);
 
 		// 将数据保存至更新数据主表
-		m('block.block')->savedata(array_values($data), $blockid);
+		m('block.block')->savedata($data, $blockid);
 
 		// 将超出限制条目的已发布数据设置为历史状态
-		$this->where('status','publish')->where('id','not in', array_keys($data))->set('status','history')->update();
+		$this->where('status','publish')->where('id','not in', array_keys($list))->set('status','history')->update();
 
 		return true;
 	}

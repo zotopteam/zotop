@@ -46,7 +46,7 @@ class block_model_block extends model
 			'url'			=> array('show'=>1,'label'=>t('链接'),'type'=>'text','name'=>'url', 'required'=>'required'),
 			'image'			=> array('show'=>1,'label'=>t('图片'),'type'=>'image','name'=>'image', 'required'=>'required','image_resize'=>1,'image_width'=>'','image_height'=>'', 'watermark'=>0),
 			'description'	=> array('show'=>1,'label'=>t('摘要'),'type'=>'textarea','name'=>'description', 'required'=>'required','minlength'=>0,'maxlength'=>255),
-			'createtime'	=> array('show'=>1,'label'=>t('日期'),'type'=>'datetime','name'=>'createtime', 'required'=>'required'),
+			'time'			=> array('show'=>1,'label'=>t('日期'),'type'=>'datetime','name'=>'time', 'required'=>'required'),
 			'c1'			=> array('show'=>0,'label'=>t('自定义1'),'type'=>'text','name'=>'c1'),
 			'c2'			=> array('show'=>0,'label'=>t('自定义2'),'type'=>'text','name'=>'c2'),
 			'c3'			=> array('show'=>0,'label'=>t('自定义3'),'type'=>'text','name'=>'c3'),
@@ -197,8 +197,8 @@ class block_model_block extends model
 		// 自动创建区块
 		if ( empty($block) and is_array($attrs) )
 		{
-			$block = array_merge(array('type'=>'list','name'=>t('自动创建'),'userid'=>0), $attrs);
-			$block['data'] = in_array($block['type'],array('list','hand')) ? array() : '';
+			$block             = array_merge(array('type'=>'list','name'=>t('自动创建'),'userid'=>0), $attrs);
+			$block['data']     = in_array($block['type'],array('list','hand')) ? array() : '';
 			$block['template'] = empty($block['template']) ? "block/{$block['type']}.php" : $block['template']; 
 
 			$this->add($block);
@@ -255,6 +255,12 @@ class block_model_block extends model
 	{
 		if ( $block = $this->getbyid($id) )
 		{
+			//TODO 删除区块的时候同时删除全部数据
+			if ( in_array($block['type'], array('list','hand')) )
+			{
+				m('block.datalist')->where('blockid',$id)->delete();
+			}
+
 			if ( parent::delete($id) )
 			{
 				return $this->clearcache($id);
