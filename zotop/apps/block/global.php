@@ -2,12 +2,6 @@
 // 区块缓存路径
 define('BLOCK_PATH_CACHE', ZOTOP_PATH_RUNTIME . DS . 'block');
 
-//是否启用独立模板
-define('BLOCK_TEMPLATE_ALONE', false);
-
-//注册类库
-//zotop::register(array());
-
 //system_start
 zotop::add('system.start', 'block_system_start');
 
