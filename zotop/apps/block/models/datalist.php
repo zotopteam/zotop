@@ -178,7 +178,32 @@ class block_model_datalist extends model
         }
 
         return false;
-    }	
+    }
+
+    /**
+     * 重新推荐信息
+     *
+     * @param string $id ID
+     * @return bool
+     */
+    public function back($id)
+    {
+        if ( $data = $this->get($id) )
+        {
+			$data['updatetime'] = ZOTOP_TIME ;
+			$data['status']     = 'publish';
+			$data['listorder']  = $this->where('blockid',$data['blockid'])->max('listorder') + 1;
+
+			if ( $this->update($data, $id) )
+			{
+				$this->updatedata($data['blockid']);
+
+				return true;
+			}
+        }
+
+        return false;
+    } 
 
 	/**
 	 * 更新应用数据

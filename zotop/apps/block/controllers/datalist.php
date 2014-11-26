@@ -142,5 +142,46 @@ class block_controller_datalist extends admin_controller
 
 		return $this->error($this->datalist->error());		
 	}
+
+	/**
+	 * 附件库数据源
+	 *
+	 */
+	public function action_historydata()
+	{
+		@extract($_GET);
+
+		$dataset = $this->datalist->where('blockid',$blockid)->where('status','history')->orderby('id','desc')->getPage($page, $pagesize);
+
+		//格式化数据
+		foreach ($dataset['data'] as &$data)
+		{
+			$data['url']	= $data['url'] ? u($data['url']) : ''; 
+			$data['manage'] = array(
+				'back' 		=> u('block/datalist/back/'.$data['id']),
+				'edit' 		=> u('block/datalist/edit/'.$data['id']),
+				'delete' 	=> u('block/datalist/delete/'.$data['id']),
+			);
+		}
+
+		exit(json_encode($dataset));
+	}
+
+
+	/**
+	 * 历史记录重新推荐
+	 * 
+	 * @param  int $id 编号
+	 * @return json
+	 */
+	public function action_back($id)
+	{
+		if ( $this->datalist->back($id) )
+		{
+			return $this->success(t('操作成功'),request::referer());
+		}
+
+		return $this->error($this->datalist->error());		
+	}		
 }
 ?>

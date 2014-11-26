@@ -32,7 +32,7 @@ $(function(){
 
 //对话框
 $(function(){
-	$('a.dialog-confirm').on('click', function(event){
+	$(document).on('click', 'a.dialog-confirm', function(event){
 		event.preventDefault();
 
 		var href = $(this).attr('href');
@@ -48,7 +48,7 @@ $(function(){
 		}).title(text);
 	});
 
-	$('a.dialog-open').on('click', function(event){
+	$(document).on('click', 'a.dialog-open',function(event){
 		event.preventDefault();
 
 		var url = $(this).attr('href');
@@ -68,7 +68,7 @@ $(function(){
 		},true);
 	});
 
-	$("a.dialog-prompt").on("click", function(event){
+	$(document).on('click', 'a.dialog-prompt', function(event){
 		event.preventDefault();
 
 		var href = $(this).attr('href');
@@ -99,12 +99,9 @@ $(function(){
 		}, value).title(title);
 
 	});
-});
-
-$(function(){
 
 	// ajax post 点击链接使用post链接，并返回提示信息
-	$('a.ajax-post').on('click', function(event){
+	$(document).on('click', 'a.ajax-post',function(event){
 		event.preventDefault();
 		$.loading();
 		$.post($(this).attr('href'),{},function(msg){

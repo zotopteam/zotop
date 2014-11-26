@@ -19,6 +19,7 @@
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
+
 		{if $block.data and is_array($block.data)}		
 			<table class="table zebra list sortable" id="datalist" cellspacing="0" cellpadding="0">
 				<thead>
@@ -27,7 +28,6 @@
 						<td class="w40 center">{t('行号')}</td>
 						<td>{t('标题')}</td>
 						<td class="w300">{t('操作')}</td>
-						<td class="w140">{t('发布时间')}</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,6 +42,8 @@
 							{else}
 								{$r.title}
 							{/if}
+
+							{if $r.stick} <span class="f12 red">{t('已置顶')}</span> {/if}
 							</div> 
 						</td>
 						<td>
@@ -57,7 +59,6 @@
 								<a href="{U('block/datalist/delete/'.$r.id)}" class="dialog-confirm"><i class="icon icon-delete"></i> {t('删除')}</a>
 							</div>
 						</td>
-						<td class="w140">{format::date($r.createtime,'datetime')}</td>
 					</tr>					
 				{/loop}				
 				</tbody>
@@ -71,6 +72,44 @@
 			<div class="tips"><i class="icon icon-info alert"></i> {$block['description']} </div>
 		</div>
 		{/if}
+		
+		<dl class="list historylist none">
+			<dt>{t('历史记录')}</dt>
+			<dd>
+				<table class="table zebra list" id="historylist" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr>
+							<td>{t('标题')}</td>
+							<td class="w300">{t('操作')}</td>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+				</table>
+
+				<div class="blank"></div>			
+				<div>
+					<a href="javscript:void(0)" class="btn btn-icon-text refresh"><i class="icon icon-refresh"></i><b>{t('刷新')}</b></a>
+					<div id="pagination"></div>
+				</div>
+
+				<script id="historytemplate" type="text/x-jsrender">
+				  <tr>
+				    <td><a href="<[:url]>"><[:title]></a></td>
+				    <td>
+				    	<div class="manage">
+				    		<a href="<[:manage.back]>" class="ajax-post"><i class="icon icon-back"></i> {t('重新推荐')}</a>
+							<s>|</s>
+							<a href="<[:manage.edit]>" data-width="800px" data-height="400px" class="dialog-open"><i class="icon icon-edit"></i> {t('编辑')}</a>
+							<s>|</s>
+							<a href="<[:manage.delete]>" class="dialog-confirm"><i class="icon icon-delete"></i> {t('删除')}</a>				    		
+				    	</div>
+				    </td>
+				  </tr>
+				</script>
+			</dd>
+		</dl>
 
 	</div><!-- main-body -->
 	<div class="main-footer">
@@ -82,6 +121,9 @@
 <style type="text/css">
 div.description{line-height:22px;font-size:14px;clear: both; border: solid 1px #F2E6D1; background: #FCF7E4; color: #B25900; border-radius: 5px;margin: 10px 0; padding: 10px;}
 </style>
+
+<script type="text/javascript" src="{a('system.url')}/common/js/jquery.views.min.js"></script>
+<script type="text/javascript" src="{A('system.url')}/common/js/jquery.pagination.js"></script>
 <script type="text/javascript">
 
 // 重排行号
@@ -91,7 +133,7 @@ function linenumber(){
     });	
 }
 
-//sortable
+// 排序
 $(function(){
 	linenumber();
 
@@ -116,6 +158,62 @@ $(function(){
 		}
 	});
 });
+
+/**
+ * 获取历史记录，带分页功能
+ * 
+ * @param  int pageindex 页面索引，从0开始，如：第一页为 0
+ * @param  int pagesize  每页显示条数
+ * @return null
+ */
+function gethistorylist(pageindex, pagesize){
+
+	var loading = $.loading();
+
+	$.ajax({
+		url: "{u('block/datalist/historydata')}",
+		data:{page:pageindex + 1, pagesize:pagesize, blockid:{$block.id}},
+		dataType:'json',
+		success:function(result){
+			
+			loading.close();
+
+			if ( result.total == 0 ) return false; 
+
+			$('dl.historylist').show();
+	
+
+			$('#historylist tbody').html(function(){
+				return $('#historytemplate').render(result.data);
+			});
+
+			$('#pagination').pagination(result.total, {
+				current_page: pageindex,
+				items_per_page: pagesize,
+				num_edge_entries: 1,
+				num_display_entries: 7,
+				prev_text : "{t('前页')}",
+				next_text : "{t('下页')}",
+				load_first_page : false,
+				show_if_single_page : true,
+				link_to : '?history=__id__',
+				callback:function(index,jq){
+					gethistorylist(index, pagesize);
+				}
+			});
+		}
+	});
+}
+
+$(function(){
+	gethistorylist({intval($_GET.history)},10);
+
+	$('refresh').on('click',function(){
+		gethistorylist({intval($_GET.history)},10);
+	});
+})
+
+
 </script>
 
 {template 'footer.php'}
