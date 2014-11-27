@@ -187,6 +187,47 @@ class system_model_app extends model
 	}
 
 	/**
+	 * 应用升级
+	 * 
+	 * @param string $id 应用ID
+	 * @param  array  $options [description]
+	 * @return bool
+	 */
+	public function upgrade($id, $options=array())
+	{
+		//定义安装
+		define('ZOTOP_UPGRADE', true);		
+
+		$data = $this->getbyid($id);
+
+		$app  = include(ZOTOP_PATH_APPS.DS.$data['dir'].DS.'app.php');
+
+		if ( $app['version'] > $data['version'] )
+		{
+			$upgrade =  true;
+
+			if ( file::exists(ZOTOP_PATH_APPS.DS.$data['dir'].DS.'upgrade.php') )
+			{
+				$upgrade = include(ZOTOP_PATH_APPS.DS.$data['dir'].DS.'upgrade.php');
+			}
+
+			$app['updatetime'] 	= ZOTOP_TIME;
+
+			if ( $upgrade !== false and $this->update($app,$id))
+			{
+				// 删除升级标记
+				file::delete(ZOTOP_PATH_APPS.DS.$data['dir'].DS.'upgrade.lock');
+				
+				return true;
+			}
+
+			return false;	
+		}
+
+		return false;
+	}
+
+	/**
 	 * 将当前模块的config写入数据库并生成模块config文件
 	 *
 	 * @param array $config 配置组

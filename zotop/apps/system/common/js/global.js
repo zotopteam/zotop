@@ -9,15 +9,12 @@
 
 // 自定义提示
 $(function(){
-	// $('form.form').formsavior(zotop.t('离开这个页面, 您所做的更改将丢失'));
 
 	$('input[placeholder], textarea[placeholder]').placeholder();
 
 	$(document).tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
 	},selector:'[title]',container:'body',html:true});
-
-
 
 	$('.tip').tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
@@ -30,7 +27,7 @@ $(function(){
 
 
 
-//对话框
+// 常用操作
 $(function(){
 	$(document).on('click', 'a.dialog-confirm', function(event){
 		event.preventDefault();

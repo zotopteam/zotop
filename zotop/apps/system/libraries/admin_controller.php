@@ -20,7 +20,7 @@ class admin_controller extends controller
 		parent::__init();
 
 		//定义为后台入口
-		define('ZOTOP_ADMIN',true);
+		define('ZOTOP_ADMIN',true);	
 
 		//登录及权限检查
 		$this->__check();
@@ -44,11 +44,22 @@ class admin_controller extends controller
      */
 	public function __check()
 	{
-		//检查用户是否登录
+		$this->__checkUpgrade();
 		$this->__checkUser();
-
-		//检查权限是否足够
 		$this->__checkPriv();
+	}
+
+	/**
+	 * 检查是否升级
+	 * @return [type] [description]
+	 */
+	public function __checkUpgrade()
+	{
+        // 检查是否处于升级锁定状态 TODO 此处待完善
+        if ( file_exists(A(ZOTOP_APP.'.path').DS.'upgrade.lock') )
+        {	
+            m('system.app.upgrade',ZOTOP_APP);
+        }			
 	}
 
     /**

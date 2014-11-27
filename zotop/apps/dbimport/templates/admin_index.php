@@ -4,7 +4,7 @@
 <div class="main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<div class="position">
+		<div class="position none">
 			<a href="{u('dbimport/admin/index')}">{t('规则管理')}</a>			
 		</div>		
 		<div class="action">
@@ -15,7 +15,7 @@
 	</div>
 	<div class="main-body scrollable">
 		{if empty($data)}
-			<div class="nodata">{t('没有找到任何数据')}</div>
+			<div class="nodata">{t('暂时还没有任何规则，请新建一个数据导入规则')}</div>
 		{else}
 		<table class="table zebra list">
 			<thead>

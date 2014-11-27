@@ -81,7 +81,7 @@
 		</thead>
 		<tbody>
 		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
+			<tr class="nodata"><td colspan="7"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
 		{else}
 		{loop $data $r}
 			<tr>

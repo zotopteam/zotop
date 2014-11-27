@@ -144,7 +144,7 @@ class block_controller_datalist extends admin_controller
 	}
 
 	/**
-	 * 附件库数据源
+	 * 历史记录数据源
 	 *
 	 */
 	public function action_historydata()
@@ -156,11 +156,11 @@ class block_controller_datalist extends admin_controller
 		//格式化数据
 		foreach ($dataset['data'] as &$data)
 		{
-			$data['url']	= $data['url'] ? u($data['url']) : ''; 
+			$data['url']	= $data['url'] ? U($data['url']) : ''; 
 			$data['manage'] = array(
-				'back' 		=> u('block/datalist/back/'.$data['id']),
-				'edit' 		=> u('block/datalist/edit/'.$data['id']),
-				'delete' 	=> u('block/datalist/delete/'.$data['id']),
+				'back' 		=> U('block/datalist/back/'.$data['id']),
+				'edit' 		=> U('block/datalist/edit/'.$data['id']),
+				'delete' 	=> U('block/datalist/delete/'.$data['id']),
 			);
 		}
 

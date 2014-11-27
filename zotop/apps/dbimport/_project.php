@@ -6,10 +6,10 @@ return array (
   'type' => 'module',
   'tables' => 'dbimport',
   'dependencies' => '',
-  'description' => '导入旧版本数据',
-  'version' => '1.0',
-  'author' => '',
+  'description' => '从其它数据表导入数据',
+  'version' => '1.2',
+  'author' => 'zotop.chenlei',
   'email' => '',
-  'homepage' => '',
+  'homepage' => 'http://www.zotop.com',
 );
 ?>
