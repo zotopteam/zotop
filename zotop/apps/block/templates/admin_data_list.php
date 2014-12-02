@@ -73,7 +73,7 @@
 		</div>
 		{/if}
 		
-		<dl class="list historylist none">
+		<dl class="list none" id="historyarea">
 			<dt>{t('历史记录')}</dt>
 			<dd>
 				<table class="table zebra list" id="historylist" cellspacing="0" cellpadding="0">
@@ -90,8 +90,8 @@
 
 				<div class="blank"></div>			
 				<div>
-					<a href="javscript:void(0)" class="btn btn-icon-text refresh"><i class="icon icon-refresh"></i><b>{t('刷新')}</b></a>
-					<div id="pagination"></div>
+					<a href="javscript:void(0)" class="btn btn-icon-text" id="historyrefresh"><i class="icon icon-refresh"></i><b>{t('刷新')}</b></a>
+					<div id="historypagination"></div>
 				</div>
 
 				<script id="historytemplate" type="text/x-jsrender">
@@ -166,9 +166,10 @@ $(function(){
  * @param  int pagesize  每页显示条数
  * @return null
  */
-function gethistorylist(pageindex, pagesize){
+function gethistorylist(pageindex){
 
-	var loading = $.loading();
+	//var loading = $.loading();
+	var pagesize = 10;
 
 	$.ajax({
 		url: "{u('block/datalist/historydata')}",
@@ -176,18 +177,17 @@ function gethistorylist(pageindex, pagesize){
 		dataType:'json',
 		success:function(result){
 			
-			loading.close();
+			//loading.close();
 
 			if ( result.total == 0 ) return false; 
 
-			$('dl.historylist').show();
-	
+			$('#historyarea').show();	
 
 			$('#historylist tbody').html(function(){
 				return $('#historytemplate').render(result.data);
 			});
 
-			$('#pagination').pagination(result.total, {
+			$('#historypagination').pagination(result.total, {
 				current_page: pageindex,
 				items_per_page: pagesize,
 				num_edge_entries: 1,
@@ -196,9 +196,9 @@ function gethistorylist(pageindex, pagesize){
 				next_text : "{t('下页')}",
 				load_first_page : false,
 				show_if_single_page : true,
-				link_to : '?history=__id__',
+				link_to : '?pageindex=__id__',
 				callback:function(index,jq){
-					gethistorylist(index, pagesize);
+					//gethistorylist(index);
 				}
 			});
 		}
@@ -206,10 +206,15 @@ function gethistorylist(pageindex, pagesize){
 }
 
 $(function(){
-	gethistorylist({intval($_GET.history)},10);
 
-	$('refresh').on('click',function(){
-		gethistorylist({intval($_GET.history)},10);
+	var pageindex = {intval($_GET.pageindex)};
+
+	// 默认加载
+	gethistorylist(pageindex);
+
+	// 刷新历史记录
+	$('#historyrefresh').on('click',function(){
+		gethistorylist(pageindex);
 	});
 })
 
