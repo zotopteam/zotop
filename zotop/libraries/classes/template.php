@@ -377,7 +377,7 @@ class template
      * @param array $data 数组
      * @return code
      */
-    private function array_attrs($attrs)
+    public function array_attrs($attrs)
     {
         if (is_array($attrs))
         {

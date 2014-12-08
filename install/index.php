@@ -308,7 +308,7 @@ class install
 				'email'    => $admin_email,
 			);
 
-			$zotop = include(ZOTOP_INSTALL.DS.'zotop.php');			
+			$zotop = include(ZOTOP_PATH_INSTALL.DS.'zotop.php');			
 
 			$router = array();	
 

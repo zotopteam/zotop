@@ -220,7 +220,7 @@ class block_model_datalist extends model
 		m('block.block')->savedata($data, $blockid);
 
 		// 将超出限制条目的已发布数据设置为历史状态
-		$this->where('status','publish')->where('id','not in', array_keys($list))->set('status','history')->update();
+		$this->where('status','publish')->where('blockid',$blockid)->where('id','not in', array_keys($list))->set('status','history')->update();
 
 		return true;
 	}

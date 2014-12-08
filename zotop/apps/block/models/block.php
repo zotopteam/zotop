@@ -190,9 +190,9 @@ class block_model_block extends model
 	 * @param object $tpl 模板对象
 	 * @return bool
 	 */
-	public function publish($id, $tpl, $attrs=array())
+	public function publish($attrs, $tpl)
 	{	
-		$block = $this->get($id);
+		$block = $this->get($attrs['id']);
 
 		// 自动创建区块
 		if ( empty($block) and is_array($attrs) )
@@ -214,10 +214,9 @@ class block_model_block extends model
 
 		$content = $tpl->assign($block)->render($block['template']);	
 
-		file::put(BLOCK_PATH_CACHE.DS."{$id}.html", $content);
+		file::put(BLOCK_PATH_CACHE.DS."{$attrs['id']}.html", $content);
 
-		return $content;		
-
+		return $content;
 	}
 
 	/**
@@ -255,7 +254,7 @@ class block_model_block extends model
 	{
 		if ( $block = $this->getbyid($id) )
 		{
-			//TODO 删除区块的时候同时删除全部数据
+			//删除区块的时候同时删除全部数据
 			if ( in_array($block['type'], array('list','hand')) )
 			{
 				m('block.datalist')->where('blockid',$id)->delete();

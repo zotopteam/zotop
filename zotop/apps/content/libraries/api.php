@@ -27,13 +27,7 @@ class content_api
 				'description' => A('content.description'),
 				'allow' => priv::allow('content')
 			),
-			'content_config'=>array(
-				'text'=>t('内容设置'),
-				'href'=>u('content/config'),
-				'icon'=>zotop::app('content.url').'/icons/config.png',
-				'description'=>t('内容相关设置'),
-				'allow' => priv::allow('content','config')
-			),
+
 			'content_category'=>array(
 				'text'=>t('栏目管理'),
 				'href'=>u('content/category'),
