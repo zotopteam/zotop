@@ -43,6 +43,8 @@ $(function(){
 			},'json');
 			return false;
 		}).title(text);
+
+		event.stopPropagation();
 	});
 
 	$(document).on('click', 'a.dialog-open',function(event){
@@ -63,6 +65,8 @@ $(function(){
 			statusbar: '<i class="icon icon-loading"></i>',
 			opener:window
 		},true);
+
+		event.stopPropagation();
 	});
 
 	$(document).on('click', 'a.dialog-prompt', function(event){
@@ -95,15 +99,19 @@ $(function(){
 
 		}, value).title(title);
 
+		event.stopPropagation();
 	});
 
 	// ajax post 点击链接使用post链接，并返回提示信息
 	$(document).on('click', 'a.ajax-post',function(event){
 		event.preventDefault();
+		
 		$.loading();
 		$.post($(this).attr('href'),{},function(msg){
 			$.msg(msg);
 		},'json');
+
+		event.stopPropagation();
 	});
 
 });

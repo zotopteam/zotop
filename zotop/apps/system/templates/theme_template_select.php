@@ -114,7 +114,8 @@
 
 	// 选择模版
 	$(function(){
-		$('table.list').on('click','tr.template',function(e){
+		$(document).on('click','tr.template',function(e){
+			e.preventDefault();
 
 			//当点击为按钮时，禁止选择
 			if( $(e.target).parent().attr('tagName') == 'A' ) return false;
@@ -124,8 +125,6 @@
 			}else{
 				$(this).addClass('selected').siblings("tr.template").removeClass('selected'); //单选
 			}
-
-			return false;
 		});
 	});
 </script>
