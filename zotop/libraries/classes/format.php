@@ -133,11 +133,11 @@ class format
 
 			$uformat = empty($uformat) || $uformat == 'datetime' ? $dateformat.' '.$timeformat : ($uformat == 'date' ? $dateformat : ($uformat == 'time' ? $timeformat : $uformat));
 
-			$todaytimestamp = TIME - (TIME + $timeoffset * 3600) % 86400 + $timeoffset * 3600;
+			$todaytimestamp = ZOTOP_TIME - (ZOTOP_TIME + $timeoffset * 3600) % 86400 + $timeoffset * 3600;
 
 			$s = gmdate($uformat, $timestamp);
 
-			$time = TIME + $timeoffset * 3600 - $timestamp;
+			$time = ZOTOP_TIME + $timeoffset * 3600 - $timestamp;
 
 			if( $timestamp >= $todaytimestamp )
 			{
