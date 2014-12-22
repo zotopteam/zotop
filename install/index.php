@@ -165,6 +165,7 @@ class install
 			'mysql_hostport'	=> 3306,
 			'mysql_username'	=> 'root',
 			'mysql_database'	=> 'zotop',
+
 			'sqlite_database'	=> 'zotop.db3',
 
 			'site_name' 		=> t('逐涛网'),
@@ -238,7 +239,6 @@ class install
 			{
 				$config = array(
 					'driver' 	=> $driver,
-					'hostname' 	=> ZOTOP_PATH_DATA,
 					'database' 	=> $sqlite_database,
 					'prefix' 	=> $prefix,
 					'pconnect' 	=> $pconnect,
