@@ -107,8 +107,6 @@ class content_model_content extends model
 
     public function get($id, $field='')
     {
-        // 后置获取接口
-        zotop::run('content.before_get', $id);
 
         $data = $this->getbyid($id);
 
@@ -128,9 +126,6 @@ class content_model_content extends model
 
 			// 模型后置接口
 			$model->after_get($data);
-
-            // 后置获取接口
-            zotop::run('content.after_get', $data);
 
             unset($model);
         }
@@ -162,7 +157,7 @@ class content_model_content extends model
 		}
 
 		// 自动提取缩略图
-		if( intval(C('content.autothumb')) && empty($data['thumb']) && isset($data['content']) )
+		if ( intval(C('content.autothumb')) && empty($data['thumb']) && isset($data['content']) )
 		{
 			$imageid = intval(C('content.autothumb')) - 1 ; //自动提取第几张图片作为缩略图
 
@@ -172,8 +167,11 @@ class content_model_content extends model
 			}
 		}
 
-        // 中文逗号替换为英文逗号
-        $data['keywords'] = str_replace('，', ',', $data['keywords']);
+        // 关键词处理：中文逗号替换为英文逗号
+        if ( $data['keywords'] )
+        {
+            $data['keywords'] = str_replace('，', ',', $data['keywords']);
+        }
 
         return empty($data['id']) ? $this->add($data) : $this->edit($data);
     }
@@ -184,9 +182,6 @@ class content_model_content extends model
      */
     public function add($data)
     {
-        // 前置添加接口，可以接入自动获取别名，摘要等数据
-        zotop::run('content.before_add', $data);
-
         // 获取模型
         $model = m("{$data['app']}.{$data['modelid']}")->init($this);
 
@@ -214,10 +209,7 @@ class content_model_content extends model
         $data['status']     = empty($data['status']) ? 'pending' : $data['status'];
 
         // 添加数据
-        $data['id'] = $this->insert($data);
-
-        // 插入附加数据
-        if ($data['id'] and $model->add($data))
+        if ( $data['id'] = $this->insert($data) and $model->add($data) )
         {
             // 保存别名
             alias($data['alias'], "content/detail/{$data['id']}");
@@ -226,18 +218,16 @@ class content_model_content extends model
             m('system.attachment')->setRelated("content-{$data['id']}");
 
             // 保存标签
-            //m('content.tag')->setRelated($data['id'], $data['keywords']);
+            m('content.tag')->setRelated($data['id'], $data['keywords']);
 
             // 后置添加
             $model->after_add($data);
-
-            // 后置添加接口
-            zotop::run('content.after_add', $data);
 
             //添加数据成功
             return $data['id'];
         }
 
+        return false;
     }
 
     /**
@@ -246,9 +236,6 @@ class content_model_content extends model
      */
     public function edit($data)
     {
-        // 前置编辑接口，可以接入自动获取别名，摘要等数据
-        zotop::run('content.before_edit', $data);
-
         // 获取模型
         $model = m("{$data['app']}.{$data['modelid']}")->init($this);
 
@@ -273,28 +260,20 @@ class content_model_content extends model
         $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : strtotime($data['createtime']);
         $data['updatetime'] = ZOTOP_TIME;
 
-        if ($this->update($data))
+        if ( $this->update($data) and $model->edit($data) )
         {
-            if ($model->edit($data))
-            {
-                // 保存别名
-                alias($data['alias'], "content/detail/{$data['id']}");
+            // 保存别名
+            alias($data['alias'], "content/detail/{$data['id']}");
 
-                // 保存标签
-                //m('content.tag')->setRelated($data['id'], $data['keywords']);
+            // 保存标签
+            m('content.tag')->setRelated($data['id'], $data['keywords']);
 
-                // 后置编辑
-                $model->after_edit($data);
+            // 后置编辑
+            $model->after_edit($data);
 
-                // 后置编辑接口
-                zotop::run('content.after_edit', $data);
-
-                //编辑数据成功
-                return $data['id'];
-            }
+            //编辑数据成功
+            return $data['id'];
         }
-
-        unset($model);
 
         return false;
     }

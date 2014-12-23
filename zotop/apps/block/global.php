@@ -42,5 +42,5 @@ function block_show($attrs, $tpl)
 }
 
 // 注册控件：推荐位
-form::field('commend', 'block_api::field_commend');
+form::field('blockcommend', 'block_api::field_commend');
 ?>
