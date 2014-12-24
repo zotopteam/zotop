@@ -95,7 +95,7 @@
 	<tr>
 		<td class="label">{form::label(t('推送'),'commend',false)}</td>
 		<td class="input">
-			{form::field(array('type'=>'radio','options'=>array(0=>t('禁止推送'),1=>t('允许: 无需审核'),2=>t('允许: 需要审核')),'name'=>'commend','value'=>$data['commend']))}
+			{form::field(array('type'=>'radio','options'=>array(0=>t('禁止推送'),1=>t('允许推送')),'name'=>'commend','value'=>$data['commend']))}
 		</td>
 	</tr>
 

@@ -146,12 +146,9 @@ class block_model_block extends model
      */
 	public function savedata($data, $id)
 	{
-		if ( empty($data) ) return $this->error(t('内容不能为空'));
-
 		if ( $this->update(array('data'=>$data,'updatetime'=>ZOTOP_TIME), $id) )
 		{
 			$this->clearcache($id);
-
 			return $id;
 		}
 

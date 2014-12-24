@@ -148,6 +148,12 @@ class content_model_content extends model
         if ( empty($data['modelid']) ) return $this->error(t('模型不能为空'));
         if ( empty($data['categoryid']) ) return $this->error(t('栏目不能为空'));
 
+        // 检查别名是否存在
+        if ( $data['alias'] and $alias = alias($data['alias']) )
+        {
+            if ($alias != "content/detail/{$data['id']}") return $this->error(t('别名已经存在'));
+        }        
+
 		// 自动提取摘要
 		if ( intval(C('content.autosummary')) && empty($data['summary']) && isset($data['content']))
 		{
@@ -171,16 +177,43 @@ class content_model_content extends model
         if ( $data['keywords'] )
         {
             $data['keywords'] = str_replace('，', ',', $data['keywords']);
+        }    
+
+        // 保存
+        $result = empty($data['id']) ? $this->add($data) : $this->edit($data);
+
+        if ( $result )
+        {
+            // 保存别名
+            alias($data['alias'], "content/detail/{$data['id']}");
+
+            // 保存关联附件
+            m('system.attachment')->setRelated("content-{$data['id']}");
+
+            // 保存标签
+            m('content.tag')->setRelated($data['id'], $data['keywords']);
+
+            // 保存到区块
+            m('block.datalist')->setCommend($data['blockids'], array(
+                'app'           => 'content',
+                'dataid'        => "content-{$data['id']}",
+                'title'         => $data['title'],
+                'style'         => $data['style'],
+                'url'           => $data['alias'] ? $data['alias'] : "content/detail/{$data['id']}",                
+                'image'         => $data['thumb'],
+                'description'   => $data['summary'],
+                'time'          => $data['createtime']
+            ));
         }
 
-        return empty($data['id']) ? $this->add($data) : $this->edit($data);
+        return $result;
     }
 
     /**
      * 添加数据
      *
      */
-    public function add($data)
+    public function add(&$data)
     {
         // 获取模型
         $model = m("{$data['app']}.{$data['modelid']}")->init($this);
@@ -196,12 +229,6 @@ class content_model_content extends model
             return $this->error($model->error());
         }
 
-        // 别名检查
-        if ($data['alias'] and alias($data['alias']))
-        {
-            return $this->error(t('别名已经存在'));
-        }
-
         // 填充数据
         $data['id']         = null;
         $data['userid']     = zotop::user('id');
@@ -211,15 +238,6 @@ class content_model_content extends model
         // 添加数据
         if ( $data['id'] = $this->insert($data) and $model->add($data) )
         {
-            // 保存别名
-            alias($data['alias'], "content/detail/{$data['id']}");
-
-            // 保存关联附件
-            m('system.attachment')->setRelated("content-{$data['id']}");
-
-            // 保存标签
-            m('content.tag')->setRelated($data['id'], $data['keywords']);
-
             // 后置添加
             $model->after_add($data);
 
@@ -234,7 +252,7 @@ class content_model_content extends model
      * 编辑数据
      *
      */
-    public function edit($data)
+    public function edit(&$data)
     {
         // 获取模型
         $model = m("{$data['app']}.{$data['modelid']}")->init($this);
@@ -250,24 +268,12 @@ class content_model_content extends model
             return $this->error($model->error());
         }
 
-        // 检查别名是否存在
-        if ($data['alias'] and $alias = alias($data['alias']))
-        {
-            if ($alias != "content/detail/{$data['id']}") return $this->error(t('别名已经存在'));
-        }
-
         // 填充数据
         $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : strtotime($data['createtime']);
         $data['updatetime'] = ZOTOP_TIME;
 
         if ( $this->update($data) and $model->edit($data) )
         {
-            // 保存别名
-            alias($data['alias'], "content/detail/{$data['id']}");
-
-            // 保存标签
-            m('content.tag')->setRelated($data['id'], $data['keywords']);
-
             // 后置编辑
             $model->after_edit($data);
 

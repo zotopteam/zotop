@@ -225,6 +225,8 @@ class content_controller_content extends admin_controller
 
 		$data = $this->content->get($id);
 
+		$data['blockids'] = arr::column(m('block.datalist')->select('blockid')->where('app', 'content')->where('dataid',"content-{$id}")->getall(), 'blockid');
+
 		// 栏目数据
 		$category = $this->category->get($data['categoryid']);
 

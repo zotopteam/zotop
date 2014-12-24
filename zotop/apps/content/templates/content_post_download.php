@@ -115,6 +115,12 @@
 
 <table class="field">
 	<tbody>
+	<tr>
+		<td class="label">{form::label(t('推荐到区块'),'commend',false)}</td>
+		<td class="input">
+			{form::field(array('type'=>'blockcommend','name'=>'blockids','value'=>$data['blockids']))}
+		</td>
+	</tr>	
 	<tr class="options options-alias">
 		<td class="label">{form::label(t('URL别名'),'alias',false)}</td>
 		<td class="input">

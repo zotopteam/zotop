@@ -41,6 +41,12 @@
 		</td>
 	</tr>
 	<tr>
+		<td class="label">{form::label(t('推荐到区块'),'commend',false)}</td>
+		<td class="input">
+			{form::field(array('type'=>'blockcommend','name'=>'blockids','value'=>$data['blockids']))}
+		</td>
+	</tr>	
+	<tr>
 		<td class="label">{form::label(t('发布时间'),'createtime',false)}</td>
 		<td class="input">
 			{form::field(array('type'=>'datetime','name'=>'createtime','value'=>$data['createtime']))}

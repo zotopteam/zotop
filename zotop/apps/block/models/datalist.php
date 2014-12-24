@@ -49,9 +49,7 @@ class block_model_datalist extends model
 			$db->limit($rows);
 		}
 
-		$list = $db->getall();
-
-		return arr::hashmap($list, 'id');		
+		return arr::hashmap($db->getall(), 'id');		
 	}
 
 	/**
@@ -130,28 +128,20 @@ class block_model_datalist extends model
 		return false;
 	}
 
-	/**
-	 * 根据传入的编号顺序排序
-	 *
-	 * @param string $id ID
-	 * @return bool
-	 */
-	public function order($blockid, $ids)
+    /**
+     * 根据ID删除数据
+     *
+     * @param string $id ID
+     * @return bool
+     */
+	public function delete($id)
 	{
-		
-		if ( is_array($ids) )
+		$data = $this->get($id);
+
+		if ( parent::delete($id) )
 		{
-			$ids = array_reverse($ids);
-
-			foreach( $ids as $i=>$id )
-			{
-				$this->update(array('listorder' => $i+1), $id);
-
-			}
-
-			$this->updatedata($blockid);
-			return true;
-
+			$this->updatedata($data['blockid']);
+			return true;			
 		}
 
 		return false;
@@ -203,24 +193,113 @@ class block_model_datalist extends model
         }
 
         return false;
-    } 
+    }
 
 	/**
-	 * 更新应用数据
+	 * 根据传入的编号顺序排序
+	 *
+	 * @param string $id ID
+	 * @return bool
+	 */
+	public function order($blockid, $ids)
+	{
+		
+		if ( is_array($ids) )
+		{
+			$ids = array_reverse($ids);
+
+			foreach( $ids as $i=>$id )
+			{
+				$this->update(array('listorder' => $i+1), $id);
+
+			}
+
+			$this->updatedata($blockid);
+			return true;
+
+		}
+
+		return false;
+	}    
+
+	/**
+	 * 将数据保存至更新数据主表
 	 *
 	 * @param string $id ID
 	 * @return bool
 	 */
 	public function updatedata($blockid)
 	{
-		$data = $this->getdata($blockid);
-		$list = $this->getlist($blockid);
-
-		// 将数据保存至更新数据主表
-		m('block.block')->savedata($data, $blockid);
+		if ( is_array($blockid) )
+		{
+			return array_map(array($this,'updatedata'), $blockid);
+		}
 
 		// 将超出限制条目的已发布数据设置为历史状态
-		$this->where('status','publish')->where('blockid',$blockid)->where('id','not in', array_keys($list))->set('status','history')->update();
+		if ( $list = $this->getlist($blockid) )
+		{
+			$this->where('status','publish')->where('blockid',$blockid)->where('id','not in', array_keys($list))->set('status','history')->update();
+		}
+		
+		return m('block.block')->savedata($this->getdata($blockid), $blockid);
+	}
+
+	/**
+	 * 将数据推送到区块
+	 * 
+	 * @param  array|string $new 新的区块编号数据
+	 * @param  array $data  推送的数据
+	 * @param  bool $sync  同步更新已经存在的数据
+	 * @return bool 推送结果
+	 */
+	public function setcommend($new, $data, $sync=true)
+	{
+		if ( is_string($new) && preg_match( "#^[\\d\\,]+\$#", $new ) )
+		{
+			$new = explode(',', $new);
+		}
+
+		$new 	= is_array($new) ? $new : array();
+		$old 	= arr::column($this->select('blockid')->where('app', $data['app'])->where('dataid',$data['dataid'])->getall(), 'blockid'); 
+		$del 	= array_diff($old, $new);
+		$add 	= array_diff($new, $old);			
+		$edit 	= array_diff($old, $del);	
+
+		//throw new Exception(' old:'.implode(',', $old).' new:'.implode(',', $new).' del:'.implode(',', $del).' add:'.implode(',', $add).' edit:'.implode(',', $edit), 1);
+		
+		// 删除数据
+		if ( $del )
+		{
+			$this->db()->where('app', $data['app'])->where('dataid',$data['dataid'])->where('blockid','in', $del)->delete();	
+			$this->updatedata($del);			
+		}
+
+		// 更新数据
+		if ( $edit and $sync)
+		{
+			foreach ($edit as $blockid)
+			{
+				$this->where('app', $data['app'])->where('dataid',$data['dataid'])->where('blockid',$blockid)->update($data);						
+			}
+
+			$this->updatedata($edit);	
+		}
+
+		// 新增数据
+		if ( $add )
+		{
+			foreach ($add as $blockid)
+			{
+				$data['blockid'] 	= $blockid;
+				$data['status']     = 'publish';
+				$data['userid']     = zotop::user('id');
+				$data['listorder']  = $this->where('blockid',$data['blockid'])->max('listorder') + 1;				
+
+				$this->insert($data);						
+			}
+
+			$this->updatedata($add);	
+		}			
 
 		return true;
 	}
