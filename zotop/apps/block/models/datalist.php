@@ -313,6 +313,8 @@ class block_model_datalist extends model
 	 */
 	public function delcommend($dataid)
 	{
+		if ( empty($dataid) ) return false;
+		
 		if ( is_array($dataid) )
 		{
 			return array_map(array($this,'delcommend'), $dataid);
