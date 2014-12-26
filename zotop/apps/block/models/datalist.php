@@ -254,23 +254,24 @@ class block_model_datalist extends model
 	 */
 	public function setcommend($new, $data, $sync=true)
 	{
+		if ( empty($data) or !is_array($data) or empty($data['dataid']) ) return false;
+
+
 		if ( is_string($new) && preg_match( "#^[\\d\\,]+\$#", $new ) )
 		{
 			$new = explode(',', $new);
 		}
 
 		$new 	= is_array($new) ? $new : array();
-		$old 	= arr::column($this->select('blockid')->where('app', $data['app'])->where('dataid',$data['dataid'])->getall(), 'blockid'); 
+		$old 	= arr::column($this->select('blockid')->where('dataid',$data['dataid'])->getall(), 'blockid'); 
 		$del 	= array_diff($old, $new);
 		$add 	= array_diff($new, $old);			
 		$edit 	= array_diff($old, $del);	
-
-		//throw new Exception(' old:'.implode(',', $old).' new:'.implode(',', $new).' del:'.implode(',', $del).' add:'.implode(',', $add).' edit:'.implode(',', $edit), 1);
 		
 		// 删除数据
 		if ( $del )
 		{
-			$this->db()->where('app', $data['app'])->where('dataid',$data['dataid'])->where('blockid','in', $del)->delete();	
+			$this->db()->where('dataid',$data['dataid'])->where('blockid','in', $del)->delete();	
 			$this->updatedata($del);			
 		}
 
@@ -279,7 +280,7 @@ class block_model_datalist extends model
 		{
 			foreach ($edit as $blockid)
 			{
-				$this->where('app', $data['app'])->where('dataid',$data['dataid'])->where('blockid',$blockid)->update($data);						
+				$this->where('dataid',$data['dataid'])->where('blockid',$blockid)->update($data);						
 			}
 
 			$this->updatedata($edit);	
@@ -300,6 +301,32 @@ class block_model_datalist extends model
 
 			$this->updatedata($add);	
 		}			
+
+		return true;
+	}
+
+	/**
+	 * 删除推荐数据
+	 * 
+	 * @param  array||string $dataid 根据数据编号删除推荐的内容
+	 * @return bool
+	 */
+	public function delcommend($dataid)
+	{
+		if ( is_array($dataid) )
+		{
+			return array_map(array($this,'delcommend'), $dataid);
+		}
+
+		$datalist = $this->select('id,blockid')->where('dataid',$dataid)->getall();
+
+		foreach ($datalist as $data)
+		{
+			if ( parent::delete($data['id']) )
+			{
+				$this->updatedata($data['blockid']);
+			}
+		}
 
 		return true;
 	}

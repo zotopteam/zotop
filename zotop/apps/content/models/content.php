@@ -319,6 +319,9 @@ class content_model_content extends model
 				// 删除关联附件
 				m('system.attachment')->delRelated("content-{$id}");
 
+                //删除关联推荐
+                m('block.datalist')->delCommend("content-{$id}");
+
                 // 后置编辑
                 $model->after_delete($data);
 
