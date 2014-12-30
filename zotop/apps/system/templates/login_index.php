@@ -34,7 +34,7 @@
 	<div class="box-body">
 		{form::header()}
 		<div class="form-header"></div>
-		<div class="form-status">{t('请输入您的用户名和密码登录')}</div>
+		<div class="form-status"></div>
 		<div class="form-body">
 			<table class="field">
 				<tbody>
@@ -65,7 +65,7 @@
 			<span class="field remember">
 				<label>
 					<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" {if $remember_username}checked="checked"{/if}/>
-					{t('记住账号')}
+					{t('记住用户名')}
 				</label>
 			</span>
 			{form::field(array('type'=>'submit','value'=>t('登 录')))}
@@ -126,11 +126,10 @@
 				if (errorList[0]) $('.form-status').html('<span class="error">'+ errorList[0].message +'</span>');
 			},
 			submitHandler:function(form){
-				var action = $(form).attr('action');
-				var data = $(form).serialize();
 				$(form).find('.submit').disable(true);
 				$(form).find('.form-status').html('{t('正在登录中, 请稍后……')}');
-				$.post(action, data, function(msg){
+				
+				$.post($(form).attr('action'), $(form).serialize(), function(msg){
 					if( msg ) $(form).find('.form-status').html('<span class="'+msg.state+'">'+ msg.content +'</span>');
 					if( msg.url ){
 						location.href = msg.url;
