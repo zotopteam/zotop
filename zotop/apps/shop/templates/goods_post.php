@@ -211,8 +211,8 @@
 			data.typeid = typeid || data.typeid;
 
 		$('#attrs-area').html('<i class="icon icon-loading" style="margin-left:150px;"></i>').load("{u('shop/goods/attrs')}",data, function(){
-			$(this).find(".inline-checkboxes").checkboxes();
-			$(this).find(".inline-radios").radios();
+			$(this).find(".checkboxes").checkboxes();
+			$(this).find(".radios").radios();
 			$(this).find(".single-select").singleselect();			
 		});
 	}

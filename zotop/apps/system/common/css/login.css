@@ -11,15 +11,15 @@
 html,body{width:100%;height:100%;overflow:hidden;background-image:url('../image/wallpaper.jpg');background-size: cover;}
 
 
-div.box{z-index:666;background:#fff;background:rgba(255, 255, 255, 0.4);padding:3px;width:560px;margin:0;border-radius:0px;box-shadow:0 0 12px rgba(0, 0, 0, 0.4);}
+div.box{z-index:666;background:#fff;background:rgba(255, 255, 255, 0.4);padding:0px;width:560px;margin:0;border-radius:0px;box-shadow:0 0 12px rgba(0, 0, 0, 0.4);}
 div.box-body{background:#eff7ff;}
 
 
 div.form-header{height:200px;padding:0px;background:#00bcf2 url(../image/system.jpg) no-repeat center center;}
 div.form-status{text-indent:5px;padding:3px;color:#666;height:25px;line-height:25px;}
 div.form-body{margin-bottom:10px;}
-div.form-footer{text-align:right;*line-height:24px;position:relative;vertical-align:middle;display:block;zoom:1;padding:8px;border:0px none;}
-div.form-footer .remember{position:absolute;left:8px;top:12px;color: #777;}
+div.form-footer{text-align:right;*line-height:24px;position:relative;vertical-align:middle;display:block;zoom:1;padding:8px 12px;border:0px none;}
+div.form-footer .remember{position:absolute;left:12px;top:12px;color: #777;}
 
 table.field{background:transparent;}
 table.field td.label{width:90px;padding-left:35px;}
@@ -28,7 +28,7 @@ table.field td.label{width:90px;padding-left:35px;}
 input.text,input.password{width:350px;}
 input.captcha{width:110px;}
 
-a.captcha img{width:90px;vertical-align:middle;}
+a.captcha img{width:90px;vertical-align:middle;margin-right: 5px;}
 
 div.notsupport{position:absolute;top:0;z-index:99999;background:#fff url(../image/wallpaper.jpg) repeat-x top center;width:100%;height:100%;text-align:center;clear:both;}
 div.notsupport h1{font-size:24px;font-weight:400;margin-top:300px;line-height:40px;}

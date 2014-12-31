@@ -360,10 +360,9 @@
 .ui-dialog .msg.error .icon,.ui-dialog .msg.error .content{color:#ff0000;}
 .ui-dialog .msg.alert .icon, .ui-dialog .msg.alert .content{color:#ff9900;}
 
-
 .ui-dialog .prompt{margin-bottom:10px;}
-.ui-dialog .confirm{}
-.ui-dialog .alert{}
+.ui-dialog .confirm{margin:0 20px;}
+.ui-dialog .alert{margin:0 20px;}
 
 
 /*d-message 皮肤*/

@@ -348,7 +348,7 @@ class form
 	    {
 			$n = count($options);
 
-			$html[] = '<div class="radios '. ( $column > 0 ? 'block-radios' : 'inline-radios' ).'">';
+			$html[] = '<div class="radios'. ( $column > 0 ? ' multi-column' : '' ).'">';
 			$html[] = '<div>';
 
 			$i = 1;
@@ -398,7 +398,7 @@ class form
 	    {
 			$n = count($options);
 
-			$html[] = '<div class="checkboxes '. ( $column > 0 ? 'block-checkboxes' : 'inline-checkboxes' ).'">';
+			$html[] = '<div class="checkboxes'. ( $column > 0 ? ' multi-column' : '' ).'">';
 			$html[] = '<div>';
 
 			$i = 1;

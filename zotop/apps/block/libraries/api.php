@@ -94,7 +94,6 @@ class block_api
 		$options = arr::hashmap($options,'id','name');
 
 		$attrs['type'] 		= 'checkbox';
-		$attrs['column'] 	= $attrs['column'] ? $attrs['column'] : 5;
 		$attrs['options'] 	= $options;
 
 		return form::field($attrs);

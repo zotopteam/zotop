@@ -391,7 +391,7 @@ input.number{width:80px;}
 input.upload{width:360px;border:1px solid #bdc7d8;vertical-align:middle;padding:5px;background:#fff;cursor:pointer;height:auto;}
 input.date,input.datetime{width:180px;}
 input.ruler{background-image:url(../image/ruler.jpg);background-repeat:repeat-x;background-position:bottom left;}
-input.captcha{width:100px;}
+input.captcha{width:100px;margin-right:5px;}
 
 textarea.textarea{height:50px;padding:5px;overflow:auto;resize:none;}
 textarea.long{width:640px;height:240px;}
@@ -420,25 +420,25 @@ input[type=radio]:checked:before{content:'\2022';text-indent:-9999px;-webkit-bor
 input[type=checkbox].disabled:before,input[type=radio].disabled:before{color:#999;}
 
 
-/* inline-radios */
-.inline-radios{ display:inline-block; vertical-align:middle; *display:inline;border: solid 1px #d0d0d0;border-radius:2px;padding: 1px;}
-.inline-radios:after{ clear:both; content:"."; display:block; height:0; visibility:hidden; }
-.inline-radios a{ display:inline-block; float:left; padding:3px 15px; height:20px; line-height:20px; border-left:1px solid #d4d4d4; vertical-align:middle; color:#333; font-size:100%; cursor:pointer; border-radius: 2px;}
-.inline-radios a.item0{border:0 none;}
-.inline-radios a:hover{ background:#e5f3fb; text-decoration:none; }
-.inline-radios a:active{ text-decoration:none; }
-.inline-radios a.selected{ background:#00BCF2;color:#fff; }
+/* radios */
+.radios{ display:inline-block; vertical-align:middle; *display:inline;border: solid 1px #d0d0d0;border-radius:2px;padding: 1px;}
+.radios:after{ clear:both; content:"."; display:block; height:0; visibility:hidden; }
+.radios a{ display:inline-block; float:left; padding:3px 15px; height:20px; line-height:20px; border-left:1px solid #d4d4d4; vertical-align:middle; color:#333; font-size:100%; cursor:pointer; border-radius: 2px;}
+.radios a.item0{border:0 none;}
+.radios a:hover{ background:#e5f3fb; text-decoration:none; }
+.radios a:active{ text-decoration:none; }
+.radios a.selected{ background:#00BCF2;color:#fff;}
 
-/* inline-checkboxes */
-.inline-checkboxes{ display:inline-block; vertical-align:middle; *display:inline; border: solid 1px #d0d0d0;border-radius:2px;padding: 1px;}
-.inline-checkboxes:after{ clear:both; content:"."; display:block; height:0; visibility:hidden; }
-.inline-checkboxes .boxwrap{ display:inline-block; vertical-align:middle; }
-.inline-checkboxes a{ display:inline-block; float:left;padding:3px 15px; height:20px; line-height:20px; border-left:1px solid #d4d4d4; vertical-align:middle; color:#333; font-size:100%; cursor:pointer; border-radius: 2px;}
-.inline-checkboxes a.item0{border:0 none;}
-.inline-checkboxes a:hover{ background:#e5f3fb; text-decoration:none; }
-.inline-checkboxes a:active{ text-decoration:none; }
-.inline-checkboxes a.selected{ background:#00BCF2; color:#fff; }
-.inline-checkboxes a:last-child{ /*border-right:1px solid #d4d4d4;*/ }
+/* checkboxes */
+.checkboxes{}
+.checkboxes label{ float:left; position:relative; margin:0 8px 8px 0; line-height:20px; vertical-align:middle; display:block; padding:5px 10px; color:#666; min-width:10px; width:auto !important;  text-align:center; text-decoration:none; white-space:nowrap; border:1px solid #ccc; cursor:pointer;background:#f7f7f7;border-radius:2px;}
+.checkboxes label.selected{color:#333; border:2px solid #00BCF2;padding: 4px 9px;background:#fff url(../image/checked.png) no-repeat scroll right bottom;}
+
+
+/* multi-column */
+.multi-column{border:0 none;}
+.multi-column div{padding:3px 0;}
+.multi-column label{cursor: pointer;margin-right: 5px;}
 
 /* single-select */
 .single-select{ position:relative; display:inline-block; margin-right:5px; vertical-align:middle; cursor:pointer; *float:left; }
@@ -452,8 +452,7 @@ input[type=checkbox].disabled:before,input[type=radio].disabled:before{color:#99
 .single-select div ul li:hover{ color:#fff; text-decoration:none; background:#00BCF2; }
 .single-select div ul li.selected{ color:#fff; background:#00BCF2;margin:1px 0;}
 
-.block-radios div,.block-checkboxes div{padding:3px 0;}
-.block-radios label,.block-checkboxes label{cursor: pointer;margin-right: 5px;}
+
 
 /* radio or checkbox container */
 .controls label{font-size:14px;cursor:pointer;vertical-align:middle;white-space:nowrap;margin-right:5px;}

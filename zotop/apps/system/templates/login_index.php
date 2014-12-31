@@ -3,6 +3,7 @@
 <head>
 	<title>{$title} {t('逐涛网站管理系统')}</title>
 	<meta content="none" name="robots" />
+	<meta name="renderer" content="webkit" />
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/global.css"/>
 	<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/icon/style.css"/>

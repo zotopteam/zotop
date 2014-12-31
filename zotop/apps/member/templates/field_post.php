@@ -126,8 +126,8 @@
 			data.control = control;
 
 			$('#settings').load("{U('member/field/settings')}", data, function(){
-				$(this).find(".inline-checkboxes").checkboxes();
-				$(this).find(".inline-radios").radios();
+				$(this).find(".checkboxes").checkboxes();
+				$(this).find(".radios").radios();
 				$(this).find(".single-select").singleselect();		
 			});
 		}

@@ -166,30 +166,30 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 	//多项复选框
 	$.fn.checkboxes = function() {
 		var checkboxes = function(self) {
-			self.addClass("inline-checkboxes");
-			self.children().hide();
 
 			self.find(":checkbox").each(function(i) {
+				$(this).hide();
+
 				var index = self.find(":checkbox").index(this);
-				var item = $('<a href="javascript:;" class="item' + i + '">' + self.find('label').eq(index).text() + '</a>').appendTo(self);
+				var item = self.find('label').eq(index);
 
 				if ($(this).prop("checked") == true) {
 					item.addClass("selected");
 				}
 
 				if ($(this).prop("disabled") == true) {
-					item.css("cursor", "default");
+					item.addClass("disabled").css("cursor", "default");
 					return;
 				}
 
-				$(item).click(function() {
+				$(item).on('click', function() {
 					if ($(this).hasClass("selected")) {
 						$(this).removeClass("selected");
+						$(this).find(':checkbox').prop("checked", false).trigger("click");
 					} else {
 						$(this).addClass("selected");
+						$(this).find(':checkbox').prop("checked", true).trigger("click");
 					}
-
-					self.find(':checkbox').eq(index).trigger("click");
 				});
 			});
 		};
@@ -201,8 +201,11 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 	//多项单选
 	$.fn.radios = function() {
 		var multiRadio = function(self) {
-			self.addClass("inline-radios"); //添加样式
+
+			if ( self.hasClass('multi-column') ) return;
+			
 			self.children().hide(); //隐藏内容
+
 			self.find('input[type="radio"]').each(function(i) {
 				var index = self.find('input[type="radio"]').index(this);
 				var item = $('<a href="javascript:;" class="item' + i + '">' + self.find('label').eq(index).text() + '</a>').appendTo(self);
@@ -293,8 +296,8 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 	}
 
 	$(function() {
-		$(".inline-checkboxes").checkboxes();
-		$(".inline-radios").radios();
+		$(".checkboxes").checkboxes();
+		$(".radios").radios();
 		$(".single-select").singleselect();
 	});
 })(jQuery);

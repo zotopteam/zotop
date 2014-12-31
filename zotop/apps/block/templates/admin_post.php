@@ -113,8 +113,8 @@
 		$('[name=template]').val(post.template);
 
 		$('.extend').load("{U('block/admin/postextend')}", post, function(){
-			$(this).find(".inline-checkboxes").checkboxes();
-			$(this).find(".inline-radios").radios();
+			$(this).find(".checkboxes").checkboxes();
+			$(this).find(".radios").radios();
 			$(this).find(".single-select").singleselect();		
 		}).html('');
 	}
