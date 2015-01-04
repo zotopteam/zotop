@@ -29,7 +29,7 @@
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
-				<td class="w30 center"></td>
+				<td class="w40 center"></td>
 				<td>{t('名称')}</td>
 				<td class="w200"></td>
 				<td class="w100 center">{t('大小')}</td>
@@ -39,7 +39,7 @@
 		<tbody>
 		{loop $folders $f}
 			<tr>
-				<td class="center"><b class="icon icon-folder"></b></td>
+				<td class="center"><b class="icon icon-folder f32"></b></td>
 				<td>
 					<div class="textflow">
 						<a href="{u('system/theme/template?theme='.$theme.'&dir='.$f['path'])}"><b>{$f['name']}</b></a>
@@ -51,21 +51,23 @@
 				<td>
 					<div class="manage right hidden">
 						<a class="dialog-open" href="{u('system/theme/template_renamefolder?theme='.$theme.'&dir='.$f['path'])}" data-width="600px" data-height="200px">
-							{t('重命名')} & {t('注释')}
+							<i class="icon icon-config"></i> {t('重命名')} & {t('注释')}
 						</a>
 						<s></s>
-						<a class="dialog-confirm" href="{u('system/theme/template_deletefolder?theme='.$theme.'&dir='.$f['path'])}">{t('删除')}</a>
+						<a class="dialog-confirm" href="{u('system/theme/template_deletefolder?theme='.$theme.'&dir='.$f['path'])}">
+							<i class="icon icon-delete"></i> {t('删除')}
+						</a>
 					</div>
 				</td>
-				<td class="center">{$f['size']}</td>
-				<td></td>
+				<td class="center"></td>
+				<td>{format::date($f['time'])}</td>
 			</tr>
 		{/loop}
 		{loop $files $f}
 			<tr>
-				<td class="center"><b class="icon icon-file"></b></td>
+				<td class="center"><b class="icon icon-file f32"></b></td>
 				<td>
-					<span title="{$f['note']}" data-placement="right">{$f['name']}</span>
+					<div>{$f['name']}</div>
 					<div class="description">
 						{$f['note']}
 					</div>
@@ -74,14 +76,16 @@
 				<td>
 					<div class="manage right hidden">
 						<a class="dialog-open" href="{u('system/theme/template_edit?theme='.$theme.'&file='.$f['path'])}" data-width="800px" data-height="500px">
-							{t('编辑')}
+							<i class="icon icon-edit"></i> {t('编辑')}
 						</a>
 						<s></s>
 						<a class="dialog-open" href="{u('system/theme/template_renamefile?theme='.$theme.'&file='.$f['path'])}" data-width="600px" data-height="200px">
-							{t('重命名')} & {t('注释')}
+							<i class="icon icon-config"></i> {t('重命名')} & {t('注释')}
 						</a>
 						<s></s>
-						<a class="dialog-confirm" href="{u('system/theme/template_deletefile?theme='.$theme.'&file='.$f['path'])}">{t('删除')}</a>
+						<a class="dialog-confirm" href="{u('system/theme/template_deletefile?theme='.$theme.'&file='.$f['path'])}">
+							<i class="icon icon-delete"></i> {t('删除')}
+						</a>
 					</div>
 				</td>
 				<td class="center">{format::size($f['size'])}</td>

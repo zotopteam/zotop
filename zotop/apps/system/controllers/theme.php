@@ -224,7 +224,6 @@ class system_controller_theme extends admin_controller
 			if ( empty($post['name']) ) return $this->error(t('名称不能为空'));
 			if ( !preg_match( "/^\w+$/", $post['name'] ) ) return $this->error(t('名称只能由数字、英文字母和下划线组成'));
 
-			// 重命名文件夹
 			if ( folder::create($this->path.DS.$post['name']) )
 			{
 				//更改note
@@ -258,7 +257,6 @@ class system_controller_theme extends admin_controller
 			if ( empty($post['name']) ) return $this->error(t('名称不能为空'));
 			if ( !preg_match( "/^\w+$/", $post['name'] ) ) return $this->error(t('名称只能由数字、英文字母和下划线组成'));
 
-			// 重命名文件夹
 			if ( folder::rename($this->path, $post['name']) )
 			{
 				//更改note

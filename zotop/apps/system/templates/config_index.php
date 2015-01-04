@@ -79,7 +79,7 @@
 				<tr>
 					<td class="label">{form::label(t('网站描述'),'description',true)}</td>
 					<td class="input">
-						{form::field(array('type'=>'text','name'=>'description','value'=>c('site.description'),'required'=>'required'))}
+						{form::field(array('type'=>'textarea','name'=>'description','value'=>c('site.description'),'required'=>'required'))}
 						{form::tips(t('请填写网站描述信息(Meta Description)'))}
 					</td>
 				</tr>

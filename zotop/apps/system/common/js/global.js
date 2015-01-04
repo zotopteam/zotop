@@ -16,10 +16,10 @@ $(function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
 	},selector:'[title]',container:'body',html:true});
 
-	$('.tip').tooltip({placement:function(){
+	$('.tooltip-block').tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
 	},title:function(){
-		return '<div class="tip-data">'+ $(this).find('.tip-content').html() + '</div>';
+		return '<div class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</div>';
 	},container:'body',html:true});
 
 	$('input[maxlength],textarea[maxlength]').maxlength({alwaysShow:true,appendToParent:true,threshold:10,separator:'/',warningClass:'true',limitReachedClass:'true',placement:'top-right-inside'});

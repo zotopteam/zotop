@@ -34,7 +34,7 @@
 		<tbody>
 		{loop $folders $f}
 			<tr>
-				<td class="center"><b class="icon icon-folder"></b></td>
+				<td class="center"><b class="icon icon-folder f32"></b></td>
 				<td>
 					<div class="textflow"><a href="{u('system/theme/template/select?dir='.$f['path'])}">{$f['name']}</a></div>
 					<div class="description">{$f['note']}</div>
@@ -55,7 +55,7 @@
 		{/loop}
 		{loop $files $f}
 			<tr class="template {if $f['file'] == $_GET['file']}selected{/if}" data-file="{$f['file']}">
-				<td class="center"><b class="icon icon-file"></b></td>
+				<td class="center"><b class="icon icon-file f32"></b></td>
 				<td>
 					<div class="textflow">{$f['name']}</div>
 					<div class="description">{$f['note']}</div>

@@ -66,7 +66,7 @@
 								''			=> t('关闭'),
 								'.html'		=> '.html',
 								'.htm'		=> '.htm',
-								'.shtml'		=> '.shtml'
+								'.shtml'	=> '.shtml'
 							),
 							'name'=>'url_suffix',
 							'value'=>c('system.url_suffix')
@@ -76,24 +76,29 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="label">{form::label(t('路由规则'),'url_router',false)}</td>
+					<td class="label">
+						{form::label(t('路由规则'),'url_router',false)}
+						<i class="icon icon-help tooltip-block" data-placement="right">
+							<div class="tooltip-block-content">								
+
+								<h3>{t('示例参考')}：</h3>
+								<p>{html::encode('content/<c>/<id> => content/<c:index|list>-<id:num>.html')}</p>
+								<p>{html::encode('content/detail/<id> => content-<id:num>.html')}</p>
+
+								<h3>{t('参数说明')}：</h3>
+								<p>{t(':num 数字')}</p>
+								<p>{t(':str 字母、数字及下划线')}</p>
+								<p>{t(':\d+ 直接使用正则表达式，:\d+ 等同于 :num')}</p>								
+							</div>
+						</i>						
+					</td>
 					<td class="input">
 						<table class="table list border zebra sortable" id="datalist">
 							<thead>
 								<tr>
 									<td	class="drag">&nbsp;</td>
-									<td>
-										{t('路由规则')}&nbsp;
-										<i class="icon icon-help tip">
-											<div class="tip-content">
-												<h2>路由规则参数标记中可以使用正则或者正则替换符</h2>
-												<p>:num 数字</p>
-												<p>:str 字母、数字及下划线</p>
-												<p>:\d+ 直接使用正则表达式，:\d+ 等同于 :num</p>
-											</div>
-										</i>
-									</td>
 									<td>{t('应用/控制器/动作/参数……')}</td>
+									<td>{t('路由规则')}&nbsp;</td>
 									<td class="manage">{t('操作')}</td>
 								</tr>
 							</thead>
@@ -116,18 +121,18 @@
 	</div><!-- main-footer -->
 </div><!-- main -->
 {form::footer()}
+
 <script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	var datalist = [];
 
 		// 添加节点
 		datalist.addrow = function(pattern, route){
-			var pattern = pattern || '';
-			var route = route || '';
+			
 			var rowHtml = '<tr>'+
 			'<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;</td>'+
-			'<td><input type="text" class="text" style="width:90%" name="url_pattern[]" value="'+ pattern +'"></td>'+
-			'<td><input type="text" class="text" style="width:90%" name="url_route[]" value="'+ route +'"></td>'+
+			'<td><input type="text" class="text" style="width:90%" name="url_route[]" value="'+ ( route || '' ) +'"></td>'+
+			'<td><input type="text" class="text" style="width:90%" name="url_pattern[]" value="'+ ( pattern || '' ) +'"></td>'+
 			'<td class="manage"><a href="javascript:;" class="delete" onclick="datalist.delrow(this)" title="{t('删除')}"><i class="icon icon-delete"></i></a></td>'+
 			'</tr>';
 
@@ -142,7 +147,8 @@
 	// 生成默认数据
 	$(function(){
 
-		var dataset = {json_encode(c('router'))} || {};zotop.debug(dataset);
+		var dataset = {json_encode((object)C('router'))};
+			//dataset = dataset.length ? dataset : {'':''};
 
 		for (var key in dataset) {
 			datalist.addrow(key, dataset[key]);

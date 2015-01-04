@@ -181,16 +181,19 @@ class system_controller_config extends admin_controller
 			if ( isset($post['url_pattern']) and isset($post['url_route']) )
 			{
 				// 缓存数据
-				$router = array_combine($post['url_pattern'],$post['url_route']);
+				$router = array_combine($post['url_pattern'], $post['url_route']);
 
 				// 销毁额外数据
-				unset($post['url_pattern'],$post['url_route']);
+				unset($post['url_pattern'], $post['url_route']);
 
 				// 存储路由规则
-				zotop::data(ZOTOP_PATH_CONFIG.DS.'router.php',$router);
+				zotop::data(ZOTOP_PATH_CONFIG.DS.'router.php', $router);
 
 				// 销毁路由缓存
-				zotop::cache('system.router',null);
+				zotop::cache('zotop.router', null);
+
+				// 重启系统
+				zotop::reboot();
 			}
 
 			if ( m('system.app')->config($post) )

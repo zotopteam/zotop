@@ -255,23 +255,13 @@ $this->db->insert('user_group',array (
 $this->db->insert('user_group',array (
   'id' => '3',
   'modelid' => 'admin',
-  'name' => t('总编辑'),
-  'description' => t('站点内容管理'),
-  'settings' => '',
-  'listorder' => '4',
-  'disabled' => '0',
-));
-
-// [user_group] 插入数据
-$this->db->insert('user_group',array (
-  'id' => '4',
-  'modelid' => 'admin',
   'name' => t('编辑'),
   'description' => t('站点内容管理'),
   'settings' => '',
-  'listorder' => '4',
+  'listorder' => '3',
   'disabled' => '0',
 ));
+
 
 /*
  * 创建admin数据表
