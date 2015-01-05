@@ -21,13 +21,11 @@ div.form-body{margin-bottom:10px;}
 div.form-footer{text-align:right;*line-height:24px;position:relative;vertical-align:middle;display:block;zoom:1;padding:8px 12px;border:0px none;}
 div.form-footer .remember{position:absolute;left:12px;top:12px;color: #777;}
 
-table.field{background:transparent;}
-table.field td.label{width:90px;padding-left:35px;}
+div.input-group{margin:5px 60px;background: #fff;width:440px;}
+div.input-group i.icon{width:20px;font-size: 16px;text-align: center;}
 
-
-input.text,input.password{width:350px;}
-input.captcha{width:110px;}
-
+input.text,input.password{width:380px;padding:8px;}
+input.captcha{width:180px;}
 a.captcha img{width:90px;vertical-align:middle;margin-right: 5px;}
 
 div.notsupport{position:absolute;top:0;z-index:99999;background:#fff url(../image/wallpaper.jpg) repeat-x top center;width:100%;height:100%;text-align:center;clear:both;}

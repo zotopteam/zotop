@@ -24,7 +24,7 @@ class content_model_content extends model
             'pending'   => t('待审'),
             'reject'    => t('退稿'),
             'draft'     => t('草稿'),
-            'trash'     => t('回收站'),
+            //'trash'     => t('回收站'),
         );
     }
 

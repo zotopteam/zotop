@@ -42,7 +42,7 @@
 				<i class="icon icon-home"></i> {c('site.name')}
 			</a>
 		</li>
-		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='index'} current{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
+		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} current{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
 		{loop $_GLOBALNAVBAR $id $nav}
 			<li class="normal{if $nav['current']} current{/if}"><a href="{$nav['href']}">{$nav['text']}</a></li>
 		{/loop}

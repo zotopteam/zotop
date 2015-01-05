@@ -37,30 +37,24 @@
 		<div class="form-header"></div>
 		<div class="form-status"></div>
 		<div class="form-body">
-			<table class="field">
-				<tbody>
-					<tr>
-						<td class="label">{form::label(t('用户名'),'username')}</td>
-						<td class="input">
-							{form::field(array('type'=>'text','name'=>'username','value'=>($remember_username ? $remember_username : ''),'required'=>'required'))}
-						</td>
-					</tr>
-					<tr>
-						<td class="label">{form::label(t('密&nbsp;&nbsp;&nbsp;码'),'password')}</td>
-						<td class="input">
-							{form::field(array('type'=>'password','name'=>'password','required'=>'required'))}
-						</td>
-					</tr>
-					{if c('system.login_captcha')}
-					<tr>
-						<td class="label">{form::label(t('验证码'),'captcha')}</td>
-						<td class="input">
-							{form::field(array('type'=>'captcha','name'=>'captcha','required'=>'required'))}
-						</td>
-					</tr>
-					{/if}
-				</tbody>
-			</table>
+
+				<div class="input-group">
+					<label for="username" class="input-group-addon"><i class="icon icon-user"></i></label>
+					{form::field(array('type'=>'text','name'=>'username','value'=>($remember_username ? $remember_username : ''),'placeholder'=>t('用户名'),'required'=>'required'))}
+				</div>
+
+				<div class="input-group">
+					<label for="password" class="input-group-addon"><i class="icon icon-lock"></i></label>
+					{form::field(array('type'=>'password','name'=>'password','placeholder'=>t('密码'),'required'=>'required'))}
+				</div>
+				
+				{if c('system.login_captcha')}
+				<div class="input-group">
+					<label for="captcha" class="input-group-addon"><i class="icon icon-safe"></i></label>
+					{form::field(array('type'=>'captcha','name'=>'captcha','placeholder'=>t('验证码'),'required'=>'required'))}
+				</div>
+				{/if}
+
 		</div><!-- form-body -->
 		<div class="form-footer">
 			<span class="field remember">
