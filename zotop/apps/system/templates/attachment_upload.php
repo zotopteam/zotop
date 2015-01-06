@@ -7,12 +7,12 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title" style="line-height:32px;">
+		<div class="title" style="line-height:40px;">
 			<a class="btn btn-highlight btn-upload" id="upload" href="javascript:void(0)"><i class="icon icon-upload"></i>{t('上传%s', $typename)}</a>
 		</div>
 		<div class="action">
 			{if $type=='image'}
-			<span class="inline-radios">
+			<span class="radios">
 				<label><input type="radio" name="watermark" value="1" {if $params['watermark']==1}checked="checked"{/if}>{t('水印')}</label>
 				<label><input type="radio" name="watermark" value="0" {if $params['watermark']==0}checked="checked"{/if}>{t('无')}</label>
 			</span>
@@ -22,7 +22,7 @@
 	<div class="main-body" id="upload-dragdrop">
 		<div class="filelist" id="filelist"></div>
 	</div><!-- main-body -->
-	<div class="main-footer">
+	<div class="main-footer noborder">
 		<div id="upload-progress" class="total-progressbar progressbar"><span class="progress"></span><span class="percent">10%</span></div>
 	</div>
 </div><!-- main -->

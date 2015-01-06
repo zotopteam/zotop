@@ -6,8 +6,8 @@
 </div>
 <div class="main side-main">
 	<div class="main-header">
-		<div style="padding-top:6px;">
-		<select id="folderid" class="select" style="width:160px;">
+		<div style="padding-top:8px;">
+		<select id="folderid" class="select" style="width:200px;">
 			<option value="">{t('全部')}</option>
 			{loop $folders $f}
 			<option value="{$f['id']}">{$f['name']}</option>

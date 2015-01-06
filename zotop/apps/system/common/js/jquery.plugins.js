@@ -167,11 +167,12 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 	$.fn.checkboxes = function() {
 		var checkboxes = function(self) {
 
-			self.find(":checkbox").each(function(i) {
-				$(this).hide();
+			self.children().hide(); //隐藏内容
 
+			self.find(":checkbox").each(function(i) {
+				
 				var index = self.find(":checkbox").index(this);
-				var item = self.find('label').eq(index);
+				var item = $('<a href="javascript:;" class="item item' + i + '">' + self.find('label').eq(index).text() + '</a>').appendTo(self);
 
 				if ($(this).prop("checked") == true) {
 					item.addClass("selected");
@@ -183,14 +184,16 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 				}
 
 				$(item).on('click', function() {
+					
 					if ($(this).hasClass("selected")) {
 						$(this).removeClass("selected");
-						$(this).find(':checkbox').prop("checked", false).trigger("click");
 					} else {
 						$(this).addClass("selected");
-						$(this).find(':checkbox').prop("checked", true).trigger("click");
 					}
+
+					self.find(':checkbox').eq(index).trigger("click");
 				});
+			
 			});
 		};
 		return $(this).each(function() {
@@ -207,8 +210,10 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 			self.children().hide(); //隐藏内容
 
 			self.find('input[type="radio"]').each(function(i) {
+				
 				var index = self.find('input[type="radio"]').index(this);
-				var item = $('<a href="javascript:;" class="item' + i + '">' + self.find('label').eq(index).text() + '</a>').appendTo(self);
+				var item = $('<a href="javascript:;" class="item item' + i + '">' + self.find('label').eq(index).text() + '</a>').appendTo(self);
+				
 				if ($(this).prop("checked") == true) {
 					item.addClass("selected");
 				}
@@ -273,12 +278,11 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 			title.click(function(e) {
 				e.stopPropagation();
+				
 				if (items.is(":hidden")) {
 					$(".single-select .select-items").hide();
-					//items.css("z-index", "1");
 					items.show();
 				} else {
-					//items.css("z-index", "");
 					items.hide();
 				}
 			});

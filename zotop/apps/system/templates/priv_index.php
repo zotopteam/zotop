@@ -20,21 +20,21 @@
 			<tr>
 			<td class="w400">{t('权限名称')}</td>
 			<td>{t('权限标识')}</td>
-			<td class="w200">{t('管理')}</td>
+			<td class="w300">{t('管理')}</td>
 			</tr>
 		</thead>
 		<tbody>
 		{loop $dataset $data}
-			<tr data-tt-id="{$data['id']}"{if $data['parentid']} data-tt-parent-id="{$data['parentid']}"{/if}">
+			<tr data-tt-id="{$data['id']}"{if $data['parentid']} data-tt-parent-id="{$data['parentid']}"{/if}>
 				<td class="name"><i class="icon {if $data['_child']}icon-folder{else}icon-item{/if}"></i>{$data['name']}</td>
 				<td>{$data['app']}{if !empty($data['controller'])}/{$data['controller']}{/if}{if !empty($data['action'])}/{$data['action']}{/if}</td>
 				<td>
 					<div class="manage">
-						<a class="dialog-open" href="{u('system/priv/add/'.$data['id'])}" data-width="600px" data-height="260px">{t('添加子权限')}</a>
+						<a class="dialog-open" href="{u('system/priv/add/'.$data['id'])}" data-width="600px" data-height="260px"><i class="icon icon-add"></i>{t('添加子权限')}</a>
 						<s></s>
-						<a class="dialog-open" href="{u('system/priv/edit/'.$data['id'])}" data-width="600px" data-height="260px">{t('编辑')}</a>
+						<a class="dialog-open" href="{u('system/priv/edit/'.$data['id'])}" data-width="600px" data-height="260px"><i class="icon icon-edit"></i>{t('编辑')}</a>
 						<s></s>
-						<a class="dialog-confirm" href="{u('system/priv/delete/'.$data['id'])}">{t('删除')}</a>
+						<a class="dialog-confirm" href="{u('system/priv/delete/'.$data['id'])}"><i class="icon icon-delete"></i>{t('删除')}</a>
 					</div>
 				</td>
 			</tr>

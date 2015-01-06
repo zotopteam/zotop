@@ -8,13 +8,16 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-highlight btn-add dialog-open" href="{u('system/badword/add')}" data-width="600px" data-height="260px">
-				{t('添加')}
+			<a class="btn btn-icon-text btn-highlight btn-add dialog-open" href="{u('system/badword/add')}" data-width="600px" data-height="260px">
+				<i class="icon icon-add"></i><b>{t('添加')}</b>
 			</a>
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 
+		{if empty($data)}
+			<div class="nodata">{t('暂时没有任何数据')}</div>
+		{else}
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
@@ -26,10 +29,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
-		{loop $data $r}
+			{loop $data $r}
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				<td>{$r['word']}</td>
@@ -43,11 +43,10 @@
 					</div>
 				</td>
 			</tr>
-		{/loop}
-		{/if}
+			{/loop}		
 		</tbody>
 		</table>
-
+		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>

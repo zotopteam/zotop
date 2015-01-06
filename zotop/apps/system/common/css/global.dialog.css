@@ -10,6 +10,8 @@
 .side{width:150px;}
 .main{left:0;right:0;}
 .main.side-main{left:160px;}
+
+.main-header{}
 .main-header div.action{margin-right:5px;}
 .main-header div.position{margin:12px 0 0 10px;}
 

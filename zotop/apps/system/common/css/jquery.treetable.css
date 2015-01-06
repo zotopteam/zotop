@@ -60,7 +60,7 @@ table.treetable a{cursor:pointer;}
 table.treetable i.icon{margin:0px 5px 0 0;*margin:1px 5px 0 0;}
 
 table.navtree {}
-table.navtree tr.current a:after{right:0;border:8px solid transparent;content:"";height:0;width:0;position:absolute;pointer-events:none;border-right-color:#fff;top:50%;margin-top:-8px;}
+table.navtree tr.current a:after{right:0;border:8px solid transparent;content:"";height:0;width:0;position:absolute;pointer-events:none;border-right-color:#fff;top:50%;margin-top:-8px;z-index: 1001;}
 table.navtree td{line-height:16px;border:0 none;padding:11px 8px 7px 8px;}
 table.navtree td a,table.navtree td a:hover{padding:0;display:inline-block;background:transparent;}
 table.navtree td span.indenter{padding:0;}

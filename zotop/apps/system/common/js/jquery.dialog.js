@@ -207,7 +207,7 @@
 		return $.dialog({
 			id: 'Confirm',
 			fixed: true,
-			padding:'30px 60px',
+			padding:'30px 80px',
 			title: dialog.defaults.confirm,
 			content: '<div class="msg confirm"><b class="icon icon-ask"></b><div class="content">'+content+'</div></div>',
 			ok: ok,
@@ -224,7 +224,7 @@
 		return $.dialog({
 			id: 'Alert',
 			fixed: true,
-			padding:'30px 60px',
+			padding:'30px 80px',
 			title: dialog.defaults.alert,
 			content: '<div class="msg alert"><b class="icon icon-warning"></b><div class="content">'+content+'</div></div>',
 			ok: true,
@@ -234,7 +234,7 @@
 
 	$.extend(dialog.defaults, {
 		cssUri : '',
-		padding:5,
+		padding:0,
         backdropOpacity:.2,
         okValue: '确认',    
         cancelValue: '取消',

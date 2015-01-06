@@ -54,10 +54,10 @@
 .theme div.image{margin-left:-300px;float:left;}
 .theme div.image img{width:260px;max-width:260px;max-height:220px;overflow:hidden;border:solid 1px #ebebeb;background:#f7f7f7;padding:5px;}
 .theme div.name{margin-bottom:15px;}
-.theme div.name b{font-size:18px;font-weight:bold;}
+.theme div.name b{font-size:30px;font-weight:normal;}
 .theme div.name span{padding-left:10px;}
 .theme div.author{margin-bottom:15px;}
-.theme div.description{line-height:22px;height:84px;overflow:hidden;}
+.theme div.description{line-height:22px;height:65px;overflow:hidden;}
 .theme div.action{margin-top:15px;}
 .theme div.action s{display:inline-block;font-size:0;overflow:hidden;line-height:0;width:1px;height:12px;background:#CCC;margin:-2px 5px 0 5px;vertical-align:middle;}
 .theme div.action a{font-size:14px;}

@@ -52,17 +52,17 @@
 }
 .ui-dialog-header {
     white-space: nowrap;
-    border-bottom: 0px solid #E5E5E5;
+    border-bottom: 1px solid #EFEFEF;
 }
 .ui-dialog-close {
     position: relative;
     _position: absolute;
     float: right;
-    top: 8px;
+    top: 6px;
     right: 8px;
     _height: 26px;
     padding: 0 4px;
-    font-size: 30px;
+    font-size: 36px;
     line-height: 1;
     color: #000;
     text-shadow: 0 1px 0 #FFF;
@@ -110,7 +110,7 @@
 	height:100%;
 }
 .ui-dialog-footer {
-    padding: 5px 10px 10px 10px;
+    padding: 12px;
 }
 .ui-dialog-statusbar {
     float: left;
@@ -134,7 +134,7 @@
 }
 
 /*2014-5-30*/
-.ui-dialog-button .btn{margin-left:5px;}
+.ui-dialog-button .btn{margin-left:8px;padding: 3px 15px;}
 
 .ui-popup-top-left .ui-dialog,
 .ui-popup-top .ui-dialog,
