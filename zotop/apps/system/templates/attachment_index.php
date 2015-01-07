@@ -75,16 +75,13 @@
 					{/if}
 				</td>
 				<td class="vt">
-					<div class="title">
+					<div class="title textflow">
 						{$r['name']}
 					</div>
-					<div class="description">
+					<div class="description textflow">
 						<span>{strtoupper($r['ext'])}</span>
-
 						{if $r['width'] and $r['height']}<span> <cite class="nowrap green">{$r['width']}px × {$r['height']}px </cite></span>{/if}
-
 						<span>{$r['description']}</span>
-
 					</div>
 					<div class="manage">
 						<a href="{u('system/attachment/download/'.$r['id'])}">{t('下载')}</a>
@@ -178,7 +175,6 @@ $(function(){
 			multi:true,
 			params:{folderid:{$folderid}},
 			maxsize:'20mb',
-			chunk_size : '10kb',
 			fileext: '{$allowexts}',
 			filedescription : '{t('选择文件')}',
 			complete: function(up,files){

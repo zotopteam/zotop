@@ -63,6 +63,11 @@
 	</div><!-- main-header -->
 
 	<div class="main-body scrollable">
+		
+		{if empty($data)}		
+			<div class="nodata">{t('暂时没有任何数据')}</div>
+		{else}
+
 		{form::header()}
 		<table class="table list" id="datalist" cellspacing="0" cellpadding="0">
 		<thead>
@@ -80,9 +85,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($data)}
-			<tr class="nodata"><td colspan="7"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
+
 		{loop $data $r}
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
@@ -122,28 +125,31 @@
 				</td>
 			</tr>
 		{/loop}
-		{/if}
+		
 		</tbody>
 		</table>
 		{form::footer()}
+
+		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
+		{if empty($data)}
 
-		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
+		{else}
+			<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
 
-		<input type="checkbox" class="checkbox select-all middle">
+			<input type="checkbox" class="checkbox select-all middle">
 
-		{loop $statuses $s $t}
-		{if $status != $s}
-		<a class="btn operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>
+			{loop $statuses $s $t}
+				{if $status != $s}
+				<a class="btn operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>
+				{/if}
+			{/loop}
+
+			<a class="btn operate" href="{u('content/content/operate/weight')}" rel="weight">{t('权重')}</a>
+			<a class="btn operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
+			<a class="btn operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>
 		{/if}
-		{/loop}
-
-		<a class="btn operate" href="{u('content/content/operate/weight')}" rel="weight">{t('权重')}</a>
-
-		<a class="btn operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
-
-		<a class="btn operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>
 
 	</div><!-- main-footer -->
 

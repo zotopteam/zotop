@@ -18,6 +18,9 @@
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
+		{if empty($data)}
+			<div class="nodata">{t('暂时没有任何数据')}</div>
+		{else}
 		{form::header()}
 		<table class="table list sortable" cellspacing="0" cellpadding="0">
 		<thead>
@@ -31,10 +34,8 @@
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
-		{loop $data $r}
+
+			{loop $data $r}
 			<tr>
 				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
 				<td class="center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
@@ -68,11 +69,12 @@
 				<td>{$r['alias']}</td>
 				<td>{intval($r['datacount'])}</td>
 			</tr>
-		{/loop}
-		{/if}
+			{/loop}
+		
 		</tbody>
 		</table>
 		{form::footer()}
+		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="tips">

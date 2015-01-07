@@ -350,7 +350,7 @@ table.field td.label label{font-size:15px;font-weight:normal;cursor:pointer;}
 table.field td.label b.required{color:#ff0000;font-size:12px;font-weight:normal;padding:0 3px;}
 table.field td.label i.icon{margin:-2px 0 0 3px;}
 table.field td.input{padding:8px 0px;position:relative;}
-table.field td.input .field-text{font-size:14px;line-height:24px;}
+table.field td.input .field-text{font-size:14px;line-height:30px;}
 table.field td.input .field-tips{font-size:12px;color:#666;line-height:28px;display:block;clear:both;}
 table.field td.input .field-tips b{padding:0px 5px;font-weight:normal;color:#ff0000;}
 table.field td.input .field-options{padding:5px 0;}

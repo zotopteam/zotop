@@ -93,10 +93,15 @@ class block_api
 		$options = m('block.block')->select('id,name')->where('commend','>',0)->getall();
 		$options = arr::hashmap($options,'id','name');
 
-		$attrs['type'] 		= 'checkbox';
-		$attrs['options'] 	= $options;
+		if ( $options )
+		{
+			$attrs['type'] 		= 'checkbox';
+			$attrs['options'] 	= $options;
 
-		return form::field($attrs);
+			return form::field($attrs);
+		}
+
+		return '<div class="field-text">'.t('没有找到推荐区块，请进入区块管理添加').'</div>';
 	}
 }
 ?>

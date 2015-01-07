@@ -11,7 +11,7 @@
     _float: left;
     position: relative;
     background-color: #FFF;
-    border: 1px solid #D0D0D0;
+    border: 0px solid #D0D0D0;
     border-radius: 4px;
     outline: 0;
     background-clip: padding-box;
@@ -361,6 +361,7 @@
 .ui-dialog .msg.alert .icon, .ui-dialog .msg.alert .content{color:#ff9900;}
 
 .ui-dialog .prompt{margin-bottom:10px;}
+.ui-dialog .prompt-text{width: 400px;}
 .ui-dialog .confirm{margin:0 20px;}
 .ui-dialog .alert{margin:0 20px;}
 

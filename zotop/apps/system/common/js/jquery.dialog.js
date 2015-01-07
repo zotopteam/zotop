@@ -181,7 +181,7 @@
 				'<div class="prompt">',
 					prompt,
 				'</div>',
-				'<input type="text" class="text" value="',
+				'<input type="text" class="text prompt-text" value="',
 					value,
 				'" />',
 			].join(''),
