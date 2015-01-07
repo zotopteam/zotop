@@ -69,12 +69,12 @@
 				var html = '';
 
 				$.each(result.data,function(i,file){
-					html += '<div class="fileitem file clearfix" id="'+file.id+'" data-name="'+file.name+'" data-url="'+file.url+'" data-size="'+file.size+'" data-ext="'+file.ext+'" title="{t('名称')} : '+file.name+'<br/>' + '{t('大小')} : '+ zotop.formatsize(file.size) +'<br/> ' + (file.width > 0 ? '{t('宽高')} : '+file.width+'px × '+file.height+'px' : '') +'">';
+					html += '<div class="fileitem file clearfix" id="'+file.id+'" data-name="'+file.name+'" data-url="'+file.url+'" data-size="'+file.size+'" data-ext="'+file.ext+'">';
 					html += '<i class="icon icon-selected"></i>';
 					html += '<div class="preview">';
 					html += ( file.type == 'image' ) ? '	<div class="image"><img src="'+file.url+'"></div>' : '<div class="icon"><b class="icon icon-ext icon-'+file.type+' icon-'+file.ext+'"></b><b class="ext">'+file.ext+'</b></div>';
 					html += '</div>';
-					html += '<div class="title"><div class="name textflow">'+file.name+'</div><div class="info">'+zotop.formatsize(file.size)+'</div></div>';
+					html += '<div class="title"><div class="name textflow">'+file.name+'</div><div class="info">'+zotop.formatsize(file.size)+' ' + (file.width > 0 ? ' '+file.width+'px × '+file.height+'px' : '') +'</div></div>';
 					html += '<div class="action"><a class="delete" title="{t('删除')}"><i class="icon icon-delete"></i></a></div>';
 					html += '</div>';
 				});
