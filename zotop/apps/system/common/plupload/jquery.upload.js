@@ -256,8 +256,7 @@ jquery upload api
 						plupload.t('Allowed exts:') + allowedexts.substring(2);
 				});
 
-
-				zotop.debug(up);
+				//zotop.debug(up);
 
 			});
 
@@ -367,7 +366,7 @@ jquery upload api
 					uploader.disableBrowse(true);
 
 					// 如果找到总进度条，则显示
-					$('#'+id+'-progress').css('visibility','visible');
+					$('#'+id+'-progress').show();
 
 					typeof options.started == 'function' && options.started(uploader);
 				}else{
@@ -397,12 +396,12 @@ jquery upload api
 			// 设置上传进度
 			uploader.bind("UploadProgress", function(up, file) {
 
+				// 自定义进度
+				typeof options.progress == 'function' && options.progress(up, file);
+
 				// 更新总进度
 				$('#'+id+'-progress').find('.progress').css('width',up.total.percent + '%');
-				$('#'+id+'-progress').find('.percent').html(up.total.percent + '%');
-
-
-				typeof options.progress == 'function' && options.progress(up, file);
+				$('#'+id+'-progress').find('.percent').html(up.total.percent + '%');				
 			});
 
 			//文件上传文成
@@ -410,6 +409,10 @@ jquery upload api
 
 				var data = plupload.parseJSON(info.response);
 
+			    if (typeof console != 'undefined'){
+			        console.log(data);
+			    }
+			    
 				//每个上传成功都会调用该函数
 				typeof options.uploaded == 'function' && options.uploaded(up,file,data);
 
@@ -418,7 +421,7 @@ jquery upload api
 			// Set file specific progress
 			uploader.bind("UploadComplete", function(up, files) {
 
-				$('#'+id+'-progress').css('visibility','hidden');
+				$('#'+id+'-progress').hide();
 
 				typeof options.complete == 'function' && options.complete(up, files);
 			});

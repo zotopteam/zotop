@@ -1,8 +1,6 @@
 .dropbox {}
 .dropbox .dragdrop {width:100%;text-align:center;line-height:380px;font-size:16px;}
 
-
-
 ul.filelist-head{height:2.5em;line-height:2.5em;border-top: 1px solid #fafafa;border-bottom:1px solid #ebebeb;background:#f7f7f7;color:#42454A;clear:both;}
 ul.filelist-head li{float:left;}
 ul.filelist-head li.preview{width:30px;text-align:center;}
@@ -11,7 +9,7 @@ ul.filelist-head li.size{width:100px;}
 ul.filelist-head li.status{width:200px;}
 ul.filelist-head li.action{width:40px;}
 
-div.filelist{height:415px;overflow-x:hidden;overflow-y:auto;}
+div.filelist{height:376px;overflow-x:hidden;overflow-y:auto;}
 
 ul.fileitem{border-bottom:1px solid #ddd;}
 ul.fileitem li{float:left;height:36px;line-height:36px;}
@@ -45,12 +43,12 @@ div.fileitem div.preview {width:180px;padding:0px;margin:5px;text-align: center;
 div.fileitem div.progressbar{width:100%;height:3px;overflow:hidden;background:transparent;border:0 none;}
 div.fileitem div.progressbar .progress{display:block;width:0%;height:3px;text-indent:-999px;overflow:hidden;background:#c3f676;}
 div.fileitem div.title{margin:6px 5px;overflow:hidden;color:#333;}
-div.fileitem div.info {color:#999;}
+div.fileitem div.info {color:#999;font-size: 12px;}
 div.fileitem div.action{position:absolute;bottom:7px;right:5px;z-index:100;}
 div.fileitem i.icon-delete{cursor:pointer;color:red;font-size:16px;background:#f7f7f7;}
-div.fileitem i.icon-selected{visibility:hidden;position:absolute;bottom:7px;right:5px;color:green;font-size:16px;background:#f7f7f7;z-index:200;}
+div.fileitem i.icon-selected{visibility:hidden;position:absolute;bottom:7px;right:5px;color:#6b0;font-size:16px;background:#f7f7f7;z-index:200;}
 div.fileitem.uploaded{cursor:pointer;}
-div.fileitem.selected{border:solid 2px green;}
+div.fileitem.selected{border:solid 2px #6b0;}
 div.fileitem.selected i.icon-selected{visibility:visible;}
 div.fileitem.failed div.filemessage{color:#ff0000;}
 div.fileitem.failed div.progress{width:0px;}
@@ -58,21 +56,8 @@ div.fileitem.failed div.progress{width:0px;}
 div.fileitem div.image {width:180px;height:120px;overflow:hidden;display:table-cell;vertical-align:middle;background:#EFF5FB;*display:block;*font-size:108px;}
 div.fileitem div.image img{vertical-align:middle;max-width:180px;max-height:120px;}
 div.fileitem div.icon{background:#EFF5FB;text-align:center;width:100%;line-height:120px;height:120px;position:relative;}
-div.fileitem div.icon b.icon{font-size:80px;width:auto;height:auto;}
-div.fileitem div.icon b.ext{position:absolute;top:31px;left:103px;}
-
-
-b.icon-ext{width:75px;height:75px;background-position: 0 -144px}
-b.icon-text,b.icon-txt{background-position: -678px -219px;}
-b.icon-archive,b.icon-rar,b.icon-zip{background-position: -375px -144px;}
-b.icon-doc,b.icon-docx{background-position: -150px -144px;}
-b.icon-xls,b.icon-xlsx{background-position: -75px -144px;}
-b.icon-ppt,b.icon-pptx,b.icon-pps{background-position: -225px -144px;}
-b.icon-pdf{background-position: -300px -219px;}
-b.icon-rtf{background-position: -704px 0;}
-b.icon-htm,b.icon-html{background-position: -288px -144px;}
-b.icon-js{background-position: -320px -144px;}
-b.icon-mov{background-position: -832px -144px;}
+div.fileitem div.icon b.icon{font-size:64px;font-weight: normal;margin-top: -10px;}
+div.fileitem div.icon b.ext{position:absolute;top:42px;left:78px;font-size:12px;text-transform:uppercase}
 
 
 

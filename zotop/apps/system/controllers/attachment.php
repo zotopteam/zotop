@@ -30,6 +30,8 @@ class system_controller_attachment extends admin_controller
 	 */
 	public function action_index($type='list', $folderid=0)
 	{
+		$types 		= $this->attachment->types();
+		$allowexts 	= $this->attachment->allowexts;
 
 		// 如果传入类别参数
 		if( $folderid )
@@ -39,19 +41,12 @@ class system_controller_attachment extends admin_controller
 
 		$dataset = $this->attachment->where($where)->orderby('uploadtime','desc')->getPage();
 
-		$types = $this->attachment->types();
-		$allowexts = $this->attachment->allowexts;
-
-		$folders = $this->folder->orderby('listorder','asc')->getAll();
-		$folders = arr::hashmap($folders,'id');
-
 		$template = ( $type=='list' ) ? 'system/attachment_index.php' : 'system/attachment_advanced.php';
 
 		$this->assign('title',t('附件管理'));
 		$this->assign('type',$type);
 		$this->assign('types',$types);
 		$this->assign('allowexts',$allowexts);
-		$this->assign('folders',$folders);
 		$this->assign('folderid',$folderid);
 		$this->assign($dataset);
 		$this->display($template);
@@ -95,13 +90,9 @@ class system_controller_attachment extends admin_controller
 		// 允许文件类型名称，如：图像
 		$typename = empty($type) ? t('文件') : $this->attachment->types($type);
 
-		// 文件夹
-		$folders = $this->folder->orderby('listorder','asc')->getAll();
-
 		$this->assign('title',t('从库中选择'));
 		$this->assign('type',$type);
 		$this->assign('typename',$typename);
-		$this->assign('folders',$folders);
 		$this->assign($_GET);
 		$this->display();
 	}
@@ -187,8 +178,6 @@ class system_controller_attachment extends admin_controller
 				'type'	=>	$this->attachment->type($f)
 			);
 		}
-
-		//debug::dump($dir);debug::dump($folders);debug::dump($files);exit();
 
 		// 解析dir,生成position数组
 		$position[] =  array('text'=>t('上传目录'),'url'=>u("system/attachment/dirview/{$type}",array_merge($_GET, array('dir'=>''))));
@@ -291,10 +280,7 @@ class system_controller_attachment extends admin_controller
 	 * 'watermark','watermark_width','watermark_height','watermark_image','watermark_position','watermark_opacity'
 	 */
 	public function action_uploadprocess()
-	{
-		// 强制声明为AJAX状态
-		$_REQUEST['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
-
+	{	
 		// 全部文件类型
 		$types = array_keys($this->attachment->types());
 
@@ -313,11 +299,11 @@ class system_controller_attachment extends admin_controller
 				exit(json_encode($file));
 			}
 
-			$this->error($this->attachment->error());
+			exit($this->attachment->error());
 
 		}
 
-		$this->error(t('错误文件类型'));
+		exit(t('错误文件类型'));
 	}
 
 
@@ -395,7 +381,7 @@ class system_controller_attachment extends admin_controller
 			return $this->error($this->folder->error());
 		}
 
-		$folders = $this->folder->orderby('listorder','asc')->getAll();
+		$folders = $this->folder->category();
 
 		$this->assign('title',t('分类管理'));
 		$this->assign('folders',$folders);

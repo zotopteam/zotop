@@ -167,14 +167,15 @@ class system_model_attachment extends model
 				}
 			}
 
-			$data['id']		= md5($filepath);
-			$data['guid']	= md5_file($filepath);
-			$data['app']	= $app ? $app : ZOTOP_APP;
-			$data['field']	= $field;
-			$data['status'] = isset($status) ? $status : ( $dataid ? 1 : 0 );
-			$data['dataid'] = $dataid ? $dataid : zotop::session('[id]');
-			$data['path']	= format::path(substr($filepath, strlen(ZOTOP_PATH_UPLOADS)));
-			$data['url']	= format::url(ZOTOP_URL_UPLOADS.'/'.$data['path']);
+			$data['id']			= md5($filepath);
+			$data['guid']		= md5_file($filepath);
+			$data['folderid']	= $folderid;
+			$data['app']		= $app ? $app : ZOTOP_APP;
+			$data['field']		= $field;
+			$data['status'] 	= isset($status) ? $status : ( $dataid ? 1 : 0 );
+			$data['dataid'] 	= $dataid ? $dataid : zotop::session('[id]');
+			$data['path']		= format::path(substr($filepath, strlen(ZOTOP_PATH_UPLOADS)));
+			$data['url']		= format::url(ZOTOP_URL_UPLOADS.'/'.$data['path']);
 
 			if ( $this->add($data) )
 			{

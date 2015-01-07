@@ -1,5 +1,4 @@
 {template 'dialog.header.php'}
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/attachment.css" />
 
 <div class="side">
 	{template 'system/attachment_side.php'}
@@ -34,7 +33,7 @@
 						{if $f['type'] == 'image'}
 						<div class="image"><img src="{$f['url']}"></div>
 						{else}
-						<div class="icon"><b class="icon-ext icon-{$f['type']} icon-{$f['ext']}"></b><b class="ext">{$f['ext']}</b></div>
+						<div class="icon"><b class="icon icon-ext icon-{$f['type']} icon-{$f['ext']}"></b><b class="ext">{$f['ext']}</b></div>
 						{/if}
 					</div>
 					<div class="title textflow">{$f['name']}</div>

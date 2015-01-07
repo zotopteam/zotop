@@ -392,3 +392,28 @@
 .icon-html:before {
 	content: "\e64a";
 }
+
+.icon-spell-check:before {
+	content: "\e64e";
+}
+.icon-pdf:before {
+	content: "\e649";
+}
+.icon-doc:before,.icon-docx:before {
+	content: "\e64f";
+}
+.icon-xls:before,.icon-xlsx:before {
+	content: "\e650";
+}
+.icon-zip:before,.icon-rar:before,.icon-7z:before,.icon-gz:before {
+	content: "\e651";
+}
+.icon-ppt:before,.icon-pptx:before {
+	content: "\e653";
+}
+.icon-xml:before {
+	content: "\e656";
+}
+.icon-css:before {
+	content: "\e657";
+}

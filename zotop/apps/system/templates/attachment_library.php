@@ -1,15 +1,14 @@
 {template 'dialog.header.php'}
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/attachment.css" />
 
 <div class="side">
 	{template 'system/attachment_side.php'}
 </div>
 <div class="main side-main">
 	<div class="main-header">
-		<div style="padding-top:8px;">
+		<div class="single-select" style="padding-top:8px;">
 		<select id="folderid" class="select" style="width:200px;">
 			<option value="">{t('全部')}</option>
-			{loop $folders $f}
+			{loop  m('system.attachment_folder.category') $f}
 			<option value="{$f['id']}">{$f['name']}</option>
 			{/loop}
 		</select>
@@ -18,7 +17,7 @@
 	<div class="main-body">
 			<div class="filelist" id="filelist"></div>
 	</div><!-- main-body -->
-	<div class="main-footer">
+	<div class="main-footer noborder">
 		<div id="pagination"></div>&nbsp;
 	</div>
 </div><!-- main -->
@@ -65,7 +64,7 @@
 			data:{page:page+1,pagesize:pagesize, type: '{$type}', folderid:folderid},
 			dataType:'json',
 			success:function(result){
-				loading.close();
+				loading.close();zotop.debug(result);
 
 				var html = '';
 
@@ -73,10 +72,9 @@
 					html += '<div class="fileitem file clearfix" id="'+file.id+'" data-name="'+file.name+'" data-url="'+file.url+'" data-size="'+file.size+'" data-ext="'+file.ext+'" title="{t('名称')} : '+file.name+'<br/>' + '{t('大小')} : '+ zotop.formatsize(file.size) +'<br/> ' + (file.width > 0 ? '{t('宽高')} : '+file.width+'px × '+file.height+'px' : '') +'">';
 					html += '<i class="icon icon-selected"></i>';
 					html += '<div class="preview">';
-					html += ( file.type == 'image' ) ? '	<div class="image"><img src="'+file.url+'"></div>' : '<div class="icon"><b class="icon-ext icon-'+file.type+' icon-'+file.ext+'"></div></b>';
+					html += ( file.type == 'image' ) ? '	<div class="image"><img src="'+file.url+'"></div>' : '<div class="icon"><b class="icon icon-ext icon-'+file.type+' icon-'+file.ext+'"></b><b class="ext">'+file.ext+'</b></div>';
 					html += '</div>';
-					html += '<div class="progressbar"><span class="progress">100%</span></div>';
-					html += '<div class="title"><span class="textflow">'+file.name+'</span></div>';
+					html += '<div class="title"><div class="name textflow">'+file.name+'</div><div class="info">'+zotop.formatsize(file.size)+'</div></div>';
 					html += '<div class="action"><a class="delete" title="{t('删除')}"><i class="icon icon-delete"></i></a></div>';
 					html += '</div>';
 				});

@@ -172,11 +172,14 @@ class system_field
 		if ( !empty($options['max']) and strtotime($options['max']) )  $settings['maxDate'] = $options['max'];
 		if ( !empty($options['start']) and strtotime($options['start']) )  $settings['startDate'] = $options['start'];
 
-		$html['field']	= form::field_text($attrs);
-		$html['js']		= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.js');
-		$html['css']	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.css');
-		$html['init']	= '<script>$(function(){$("#'.$attrs['id'].'").datetimepicker('.json_encode($options).');})</script>';
-		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html[]	= '<div class="input-group">';
+		$html[]	= form::field_text($attrs);
+		$html[]	= '<span class="input-group-addon"><i class="icon icon-calendar"></i></span>';
+		$html[]	= '</div>';
+		$html[]	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.js');
+		$html[]	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.css');
+		$html[]	= '<script>$(function(){$("#'.$attrs['id'].'").datetimepicker('.json_encode($options).');})</script>';
+		$html[]	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		return implode("\n",$html);
 	}

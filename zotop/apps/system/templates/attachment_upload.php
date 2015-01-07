@@ -1,5 +1,4 @@
 {template 'dialog.header.php'}
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/attachment.css" />
 
 <div class="side">
 	{template 'system/attachment_side.php'}
@@ -23,7 +22,7 @@
 		<div class="filelist" id="filelist"></div>
 	</div><!-- main-body -->
 	<div class="main-footer noborder">
-		<div id="upload-progress" class="total-progressbar progressbar"><span class="progress"></span><span class="percent">10%</span></div>
+		<div id="upload-progress" class="total-progressbar progressbar none"><span class="progress"></span><span class="percent">10%</span></div>
 	</div>
 </div><!-- main -->
 
@@ -34,7 +33,7 @@
 			<[if type=='image']>
 			<div class="image"><img data-link="src[:url:]"/></div>
 			<[else]>
-			<div class="icon"><b class="icon-ext icon-<[:type]> icon-<[:ext]>"></b><b class="ext"><[:ext]></b></div>
+			<div class="icon"><b class="icon icon-ext icon-<[:type]> icon-<[:ext]>" ></b><b class="ext"><[:ext]></b></div>
 			<[/if]>
 		</div>
 		<div class="title">

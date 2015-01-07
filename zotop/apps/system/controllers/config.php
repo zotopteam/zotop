@@ -314,7 +314,7 @@ class system_controller_config extends admin_controller
 			return $this->success(t('上传成功'));
 		}
 
-		$this->error($upload->error);
+		return $this->error($upload->error);
 	}
 
 	/*

@@ -1,56 +1,60 @@
 {template 'header.php'}
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/attachment.css" />
-<div class="side main-side">
+
+<div class="side side-main">
 	<div class="side-header">
-		{t('附件分类')}
-		<div class="action">
-			<a href="{u('system/attachment/folder')}">
-				{t('分类管理')}
-			</a>
-		</div>
+		{t('附件')}
 	</div><!-- side-header -->
 	<div class="side-body scrollable">
 		<ul class="sidenavlist">
-			<li {if $folderid==0} class="current"{/if}>
-				<a href="{u('system/attachment/index/list')}">
+			<li>
+				<a href="{u('system/attachment/index/list')}" {if $folderid==0} class="current"{/if}>
 					<i class="icon icon-folder"></i> {t('全部附件')}
 				</a>
 			</li>
-			{loop $folders $f}
-			<li {if $folderid==$f['id']} class="current"{/if}>
-				<a href="{u('system/attachment/index/list/'.$f['id'])}">
+			{loop m('system.attachment_folder.category') $f}
+			<li>
+				<a href="{u('system/attachment/index/list/'.$f['id'])}" {if $folderid==$f['id']} class="current"{/if}>
 					<i class="icon icon-folder"></i> {$f['name']}
 				</a>
 			</li>
 			{/loop}
+			<li class="blank"></li>
+			<li>
+				<a href="{u('system/attachment/folder')}">
+					<i class="icon icon-category"></i>  {t('分类管理')}
+				</a>
+			</li>
 		</ul>
 	</div><!-- side-body -->
 </div>
 
 {form::header()}
-<div class="main main-side">
+<div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="position">
 			{if $folderid}
 			<a href="{u('system/attachment/index/list')}">全部附件</a>
 			<s class="arrow">></s>
-			{$folders[$folderid]['name']}
+			{m('system.attachment_folder.category', $folderid, 'name')}
 			{/if}
 		</div>
 		<div class="action">
-			<a id="upload" class="btn btn-highlight" href="javascript:;">
-				{t('附件上传')}
+			<a id="upload" class="btn btn-icon-text btn-highlight" href="javascript:;">
+				<i class="icon icon-upload"></i> <b>{t('附件上传')}</b>
 			</a>
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
+		{if empty($data)}
+			<div class="nodata">{t('暂时没有任何数据')}</div>
+		{else}
 
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-				<td class="w50"></td>
+				<td class="w80"></td>
 				<td>{t('名称')}</td>
 				<td class="w100">{t('大小')}</td>
 				<td class="w100">{t('分类')}</td>
@@ -58,51 +62,51 @@
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
-		{loop $data $r}
+			{loop $data $r}
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				<td class="center">
-					{if in_array($r['ext'],array('jpg','jpeg','png','gif','bmp'))}
+					{if in_array($r['ext'], array('jpg','jpeg','png','gif','bmp'))}
 						<div class="image-preview" data-src="{$r['url']}">
 							<div class="thumb"><img src="{$r['url']}"></div>
 						</div>
 					{else}
-						<b class="icon-ext icon-{$r['type']} icon-{$r['ext']}"></b>
+						<b class="icon icon-ext icon-{$r['type']} icon-{$r['ext']} f48"></b>
 					{/if}
 				</td>
 				<td class="vt">
 					<div class="title">
 						{$r['name']}
-						{if $r['width'] and $r['height']}
-						<span> <cite class="nowrap green">{$r['width']}px × {$r['height']}px </cite></span>
-						{/if}
+					</div>
+					<div class="description">
+						<span>{strtoupper($r['ext'])}</span>
+
+						{if $r['width'] and $r['height']}<span> <cite class="nowrap green">{$r['width']}px × {$r['height']}px </cite></span>{/if}
+
 						<span>{$r['description']}</span>
+
 					</div>
 					<div class="manage">
 						<a href="{u('system/attachment/download/'.$r['id'])}">{t('下载')}</a>
 						<s></s>
-						<a class="dialog-prompt" data-value="{$r['name']}" data-prompt="{t('请输入分类名称')}" href="{u('system/attachment/edit/name/'.$r['id'])}">{t('重命名')}</a>
+						<a class="dialog-prompt" data-value="{$r['name']}" data-prompt="{t('请输入文件名称')}" href="{u('system/attachment/edit/name/'.$r['id'])}">{t('重命名')}</a>
 						<s></s>
-						<a class="dialog-prompt" data-value="{$r['description']}" data-prompt="{t('请输入分类名称')}" href="{u('system/attachment/edit/description/'.$r['id'])}">{t('备注')}</a>
+						<a class="dialog-prompt" data-value="{$r['description']}" data-prompt="{t('请输入文件描述')}" href="{u('system/attachment/edit/description/'.$r['id'])}">{t('备注')}</a>
 						<s></s>
 						<a class="dialog-confirm" href="{u('system/attachment/delete/'.$r['id'])}">{t('删除')}</a>
 					</div>
 				</td>
 				<td>{format::size($r['size'])}</td>
-				<td>{$folders[$r['folderid']]['name']}</td>
+				<td>{m('system.attachment_folder.category', $r.folderid, 'name')}</td>
 				<td>
-					{$r['uploadip']}
+					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['uploadtime'])}</div>
 				</td>
 			</tr>
-		{/loop}
-		{/if}
+			{/loop}
 		</tbody>
 		</table>
-
+		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
@@ -112,7 +116,20 @@
 		<a class="btn operate" href="{u('system/attachment/operate/delete')}">{t('删除')}</a>
 	</div><!-- main-footer -->
 </div><!-- main -->
+
+<div id="upload-progress" class="total-progressbar progressbar"><span class="progress"></span><span class="percent">0%</span></div>
+
 {form::footer()}
+
+<style type="text/css">
+	div.image-preview{padding:2px;background:#fff;border:solid 1px #ebebeb;display:inline-block;line-height:0;}
+	div.image-preview .thumb {display:table-cell;vertical-align:middle;text-align:center;width:62px;height:62px;background:#eee;*display:block;*font-size:62px; }
+	div.image-preview .thumb img {vertical-align:middle;max-width:62px;max-height:62px;}
+
+	div.total-progressbar{position:absolute;width:50%;top:5px;right: 25%;left:25%;background: #fff;display: none;}
+
+</style>
+
 <script type="text/javascript">
 $(function(){
 	var tablelist = $('table.list').data('tablelist');
@@ -159,20 +176,15 @@ $(function(){
 		var uploader = $("#upload").upload({
 			url : "{u('system/attachment/uploadprocess')}",
 			multi:true,
-			params:{
-				folderid : {$folderid}
-			},
+			params:{folderid:{$folderid}},
 			maxsize:'20mb',
+			chunk_size : '10kb',
 			fileext: '{$allowexts}',
 			filedescription : '{t('选择文件')}',
-			progress : function(up,file){
-				up.self.html('{t('上传中……')}' +up.total.percent + '%');
-			},
-			complete : function(up,files){
-				up.self.html(up.content);
+			complete: function(up,files){
 				location.reload();
 			},
-			error : function(error,detail){
+			error: function(error,detail){
 				$.error(detail);
 			}
 		});

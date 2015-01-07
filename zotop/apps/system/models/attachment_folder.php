@@ -13,6 +13,31 @@ class system_model_attachment_folder extends model
 	protected $pk = 'id';
 	protected $table = 'attachment_folder';
 
+	/**
+	 * 获取分类信息
+	 * 
+	 * @param  int $id  编号
+	 * @param  string $key 字段名称
+	 * @return mixed
+	 */
+	public function category($id='', $key='')
+	{
+		static $data = array();
+
+		if ( empty($data) )
+		{
+			$data = $this->orderby('listorder','asc')->getAll();
+			$data = arr::hashmap($data,'id');			
+		}
+
+		if ( $key )
+		{		
+			return $data[$id][$key];
+		}
+
+		return $id ? $data[$id] : $data;		
+	}
+
     /**
      * 更新前处理数据
      * 

@@ -11,7 +11,7 @@ plupload.addI18n({
 	"File size error.": "文件大小错误",
 	"File {0} is too large,max file size: {1}": "文件 {0} 太大了, 最大 {1}",
 	"{0} already present in the queue": "{0} 已经在当前队列里。",
-	"Invalid file extension: {0}": "无效的文件扩展名:{0}",
+	"Invalid file extension: {0}": "无效的文件扩展名：{0}",
 	"Drag files here": "把文件拖到这里上传",
     "Upload URL might be wrong or doesn't exist": "上传的URL可能是错误的或不存在",
 	"Image format either wrong or not supported": "图片格式错误或者不支持",

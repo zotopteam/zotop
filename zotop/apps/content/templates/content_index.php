@@ -117,7 +117,7 @@
 				<td><div class="textflow">{$models[$r['modelid']]['name']}</div></td>
 				<td><div class="textflow">{$categorys[$r['categoryid']]['name']}</div></td>
 				<td>
-					<div>{m('system.user.get', $r['userid'], 'username')}</div>
+					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>
 				</td>
 			</tr>
