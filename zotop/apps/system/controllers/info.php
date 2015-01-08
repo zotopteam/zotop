@@ -140,12 +140,8 @@ class system_controller_info extends admin_controller
      */
 	public function action_about()
 	{
-		$license = file::get(A('system.path').DS.'license.txt');
-		$license = format::textarea($license);
-
 		$this->assign('title',t('系统信息'));
 		$this->assign('navbar',$this->navbar());
-		$this->assign('license',$license);
 	    $this->display();
 	}
 }

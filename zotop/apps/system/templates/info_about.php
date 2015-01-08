@@ -25,9 +25,7 @@
 
 		<div id="license">
 			<div id="license-title">{t('版权声明')}</div>
-			<div id="license-content" class="scrollable">
-				<p>{$license}</p>
-			</div>
+			<div id="license-content" class="scrollable">{file_get_contents(A('system.path').DS.'license.txt')}</div>
 		</div>
 
 		<div id="product">
@@ -53,7 +51,11 @@
 
 	#license {margin:20px;}
 	#license-title{font-size:20px;margin-bottom:8px;}
-	#license-content{height:240px;line-height:22px;font-size: 12px;border: solid 1px #ebebeb;padding: 8px;background: #f7f7f7;}
+	#license-content{height:240px;line-height:22px;font-size: 14px;border: solid 1px #ebebeb;padding: 8px;background: #f7f7f7;}
+	
+	#license-content h2{font-size: 20px;padding:10px 0px;}
+	#license-content h3{font-size:20px;padding:10px 0px;}
+	#license-content p{line-height:24px;font-size: 14px;text-indent: 2em;margin:5px 0;}
 
 	#product {line-height:26px;margin:20px;}
 </style>
