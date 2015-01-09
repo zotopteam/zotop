@@ -148,7 +148,7 @@
 	$(function(){
 
 		var dataset = {json_encode((object)C('router'))};
-			//dataset = dataset.length ? dataset : {'':''};
+			dataset = $.isEmptyObject(dataset) ?  {'':''} : dataset;
 
 		for (var key in dataset) {
 			datalist.addrow(key, dataset[key]);

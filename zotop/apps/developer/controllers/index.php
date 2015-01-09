@@ -32,7 +32,7 @@ class developer_controller_index extends admin_controller
 
 		foreach(glob(ZOTOP_PATH_APPS . DS . '*' . DS .'_project.php') as $file)
 		{
-			$projects[] = include($file);
+			$projects[] = include(dirname($file).DS.'app.php');
 		}
 
 		$this->assign('title',t('开发助手'));

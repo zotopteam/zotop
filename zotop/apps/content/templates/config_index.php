@@ -1,33 +1,30 @@
 {template 'header.php'}
 
 <div class="side">
-{template '[id]/admin_side.php'}
+{template 'content/admin_side.php'}
 </div>
 
 {form::header()}
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{t('[name]设置')}</div>
+		<div class="title">{t('内容设置')}</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
-
+			<!--configs: newflag, newflag_expires, autothumb, autosummary, autokeywords, attachment.delete, thumb_resize, thumb_width, thumb_height, thumb_quality, image_resize, image_width, image_height, image_quality, category_image_resize, category_image_width, category_image_height, category_image_quality-->
 			<table class="field">
 				<caption>{t('基本设置')}</caption>
 				<tbody>
 				<tr>
-					<td class="label">{form::label(t('[config_first]'),'[config_first]',false)}</td>
+					<td class="label">{form::label(t('newflag'),'newflag',false)}</td>
 					<td class="input">
-						{form::field(array('type'=>'text','name'=>'[config_first]','value'=>c('[id].[config_first]')))}
+						{form::field(array('type'=>'text','name'=>'newflag','value'=>c('content.newflag')))}
 						{form::tips(t('请修改提示信息'))}
 					</td>
 				</tr>
-				
-				<!-- {t('开发助手无法自动同步修改配置模板，请自行修改')} -->
-
 				</tbody>
 			</table>
 
-			
+			{t('开发助手暂时无法自动同步修改配置模板，请自行修改')}
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
@@ -50,5 +47,4 @@
 		}});
 	});
 </script>
-
 {template 'footer.php'}

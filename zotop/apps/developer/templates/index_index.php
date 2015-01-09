@@ -53,9 +53,32 @@
 							</tr>
 						</table>
 						<div class="manage">
-							<a class="btn btn-icon-text btn-highlight" href="{u('developer/project/index','project='.$r['dir'])}">
+							
+							<a class="btn btn-icon-text btn-highlight dialog-open" href="{U('developer/project/edit','project='.$r['dir'])}" data-width="800" data-height="400">
+								<i class="icon icon-edit"></i>
+								<b>{t('编辑信息')}</b>
+							</a>
+
+
+							<a class="btn btn-icon-text btn-highlight" href="{U('developer/project/config','project='.$r['dir'])}">
+								<i class="icon icon-config"></i>
+								<b>{t('配置管理')}</b>
+							</a>
+
+
+							<a class="btn btn-icon-text btn-highlight" href="{U('developer/project/table','project='.$r['dir'])}" data-width="800" data-height="400">
+								<i class="icon icon-database"></i>
+								<b>{t('数据表管理')}</b>
+							</a>
+
+
+							<a class="btn btn-icon-text btn-highlight hidden" href="{u('developer/project/index','project='.$r['dir'])}">
 								<i class="icon icon-edit"></i><b>{t('管理应用')}</b>
 							</a>
+
+							<a class="btn btn-icon-text dialog-confirm hidden" href="{U('developer/project/delete')}">
+								<i class="icon icon-delete"></i><b>{t('删除应用')}</b>
+							</a>								
 						</div>
 					</div>
 				</div>
@@ -68,6 +91,7 @@
 </div>
 <style type="text/css">
 .projects{border:solid 2px #ebebeb;margin:20px 0;background:#F3F3F3;}
+.projects:hover{border:solid 2px #d5d5d5;}
 .projects div.icon {float:left;padding:20px 0;width:120px;text-align:center;overflow:hidden;}
 .projects div.icon img{width:80px;}
 .projects div.info {margin-left:121px;font-size:15px;line-height:30px;}

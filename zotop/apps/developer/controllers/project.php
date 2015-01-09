@@ -14,6 +14,7 @@ class developer_controller_project extends admin_controller
 	protected $project; // 项目文件夹名称
 	protected $data = array();
 	protected $db;
+	protected $navbar = array();
 
     /**
      * 重载__init函数
@@ -49,11 +50,11 @@ class developer_controller_project extends admin_controller
 
 		if ( $this->project )
 		{
-			$this->data = @include(ZOTOP_PATH_APPS . DS . $this->project . DS .'_project.php');
+			$this->data = @include(ZOTOP_PATH_APPS . DS . $this->project . DS .'app.php');
 
 			if ( empty($this->data) or !is_array($this->data) )
 			{
-				return $this->error(t('错误的项目文件_'));
+				return $this->error(t('错误的项目文件'));
 			}
 		}
 
@@ -68,25 +69,9 @@ class developer_controller_project extends admin_controller
      */
     public function action_index()
     {
-		$config = @include(ZOTOP_PATH_APPS . DS . $this->project . DS .'config.php');
-		$config = is_array($config) ? $config : array(''=>'');
-
-		// 获取全部数据表
-		$tables = $this->db->tables();
-		
-		$apptables = explode(',',$this->data['tables']);
-
-		// 获取你属于模块的表
-		foreach( $tables as $k=>$table )
-		{
-			if ( !in_array($k,$apptables) ) unset($tables[$k]);
-		}
-
-        $this->assign('title', t('应用工程'));
+        $this->assign('title', t('基本信息'));
 		$this->assign('attrs',$this->attrs);
 		$this->assign('data',$this->clear_setting($this->data));
-		$this->assign('config',$config);
-		$this->assign('tables',$tables);
         $this->display();
     }
 
@@ -101,7 +86,7 @@ class developer_controller_project extends admin_controller
         {
 			if ( $this->create_baseapp($post) )
 			{
-				$this->success(t('创建成功'),U('developer/project/index',array('project'=>$post['dir'])));
+				$this->success(t('创建成功'), U('developer/developer/project',array('project'=>$post['dir'])));
 			}
 
 			return $this->error($this->error());
@@ -142,7 +127,7 @@ class developer_controller_project extends admin_controller
 			file::put($app_path . DS . '_project.php', "<?php\nreturn ".var_export($post, true).";\n?>");
 
 			// 保存并返回
-			return $this->success(t('保存成功'),U('developer/project/index'));
+			return $this->success(t('保存成功'),U('developer/developer/project'));
         }
 
         $this->assign('title', t('编辑应用'));
@@ -168,11 +153,14 @@ class developer_controller_project extends admin_controller
 			// 写入应用配置
 			file::put($config_path, "<?php\nreturn ".var_export($config, true).";\n?>");
 
+			
+			// 写入配置控制器
 			if ( !file::exists(ZOTOP_PATH_APPS . DS . $this->project . DS. 'controllers' .DS .'config.php') )
 			{
 				$this->create_file('controller_config.php', ZOTOP_PATH_APPS . DS . $this->project . DS . 'controllers' .DS. "config.php", $this->data);
 			}
 
+			// 写入配置模板，并写入第一项
 			$this->data['config_first'] = $post['config_key'][0];
 
 			if ( !file::exists(ZOTOP_PATH_APPS . DS . $this->project . DS. 'templates' .DS .'config_index.php') )
@@ -180,15 +168,38 @@ class developer_controller_project extends admin_controller
 				$this->create_file('template_config_index.php', ZOTOP_PATH_APPS . DS . $this->project . DS . 'templates' .DS. "config_index.php", $this->data);
 			}
 
-			// 写入全部配置项
-			$str = file::get(ZOTOP_PATH_APPS . DS . $this->project . DS . 'templates' .DS. "config_index.php");
-			$str = preg_replace("/\<\!\-\-configs:(.+?)\-\-\>/s", '<!--configs: '.implode(', ',array_keys($config)).'-->', $str);
-
-			file::put(ZOTOP_PATH_APPS . DS . $this->project . DS . 'templates' .DS. "config_index.php",$str);
-
 			return $this->success(t('保存成功'));
 		}
+
+		$config = @include(ZOTOP_PATH_APPS . DS . $this->project . DS .'config.php');
+		$config = is_array($config) ? $config : array(''=>'');
+
+        $this->assign('title', t('配置管理'));
+		$this->assign('config',$config);
+        $this->display();			
 	}
+
+    /**
+     * 项目页面
+     *
+     */
+    public function action_table()
+    {
+		// 获取全部数据表
+		$tables = $this->db->tables();
+		
+		$apptables = explode(',',$this->data['tables']);
+
+		// 获取你属于模块的表
+		foreach( $tables as $k=>$table )
+		{
+			if ( !in_array($k, $apptables) ) unset($tables[$k]);
+		}
+
+        $this->assign('title', t('数据表管理'));
+		$this->assign('tables',$tables);
+        $this->display();
+    }	
 
     /**
      * 创建数据表
@@ -230,7 +241,7 @@ class developer_controller_project extends admin_controller
 				// 写入项目文件
 				file::put(ZOTOP_PATH_APPS . DS . $this->project . DS . '_project.php', "<?php\nreturn ".var_export($data, true).";\n?>");
 
-				return $this->success(t('%s成功',t('新建数据表')),u('developer/project/index'));
+				return $this->success(t('%s成功',t('新建数据表')),u('developer/developer/project'));
 			}
 
 			return $this->error(t('%s失败',t('新建数据表')));
@@ -282,7 +293,7 @@ class developer_controller_project extends admin_controller
 			// 写入项目文件
 			file::put(ZOTOP_PATH_APPS . DS . $this->project . DS . '_project.php', "<?php\nreturn ".var_export($data, true).";\n?>");
 
-			return $this->success(t('操作成功'),u('developer/project/index'));
+			return $this->success(t('操作成功'),u('developer/developer/project'));
 		}
 
 		$tables = $this->db->tables();

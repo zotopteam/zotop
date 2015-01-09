@@ -54,12 +54,12 @@ class developer_controller_schema extends admin_controller
     {
 		$project = zotop::cookie('project');
 
-		$project = @include(ZOTOP_PATH_APPS . DS . $project . DS .'_project.php');
+		$project = @include(ZOTOP_PATH_APPS . DS . $project . DS .'app.php');
 
 		// 获取数据表结构信息
 		$schema = $this->db->table($table)->schema();
 
-		$this->assign('title',t('数据库管理'));
+		$this->assign('title',t('数据表管理'));
 		$this->assign('project',$project);
 		$this->assign('database',$database);
 		$this->assign('table',$table);

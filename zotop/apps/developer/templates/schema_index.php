@@ -1,4 +1,8 @@
 {template 'header.php'}
+<div class="side side-main">
+	{template 'developer/project_side.php'}
+</div>
+
 <div class="side main-side" style="width:300px;">
 	<div class="side-header">{t('索引信息')}</div>
 	<div class="side-body scrollable">
@@ -61,7 +65,8 @@
 		</table>
 	</div><!-- side-body -->
 </div>
-<div class="main main-side" style="right:306px;">
+
+<div class="main side-main" style="right:306px;">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="position">
@@ -69,7 +74,9 @@
 			<s class="arrow">></s>
 			<a href="{u('developer/project')}">{$project['name']}</a>
 			<s class="arrow">></s>
-			{t('数据表')} : {$table}
+			<a href="{u('developer/project/table')}">{t('数据表管理')}</a>
+			<s class="arrow">></s>			
+			{$table}
 		</div>
 		<div class="action">
 			<a class="btn btn-highlight btn-add dialog-open" href="{u('developer/schema/addfield/'.$table)}" data-width="800px" data-height="480px">
