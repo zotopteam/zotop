@@ -1,4 +1,4 @@
-#zotopcms rewrite rule
+#zotop rewrite rule
 
 <IfModule mod_rewrite.c>
 RewriteEngine On

@@ -462,6 +462,7 @@ div.input-group {display:inline-block;zoom:1;*display:inline;vertical-align:midd
 div.input-group .text {border:0 none;vertical-align:middle;border-radius: 0;}
 div.input-group .number{width:50px;}
 div.input-group .input-group-addon{zoom:1;font-size:14px;padding:0px 6px;vertical-align:middle;color:#555;}
+div.input-group .input-group-addon i{margin-top: -2px;}
 
 /* pagination */
 div.pagination{margin-top:3px;float:right;font-size:15px;}        

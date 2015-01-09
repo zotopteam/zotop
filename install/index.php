@@ -281,34 +281,12 @@ class install
 				'closedreason' 	=> t('暂时关闭'),								
 			);
 
-			$cookie = array (
-				'expire' => 3600,
-				'prefix' => 'zotop_',
-				'path'   => '/',
-				'domain' => '',
-			);
-
-			$session = array (
-				'driver'        => '',
-				'expire'        => 1440,
-				'autostart'     => true,
-				'name'          => 'sessionid',
-				'path'          => '',
-				'cache_limiter' => 'private_no_expire',
-				'cache_expire'  => '30',
-				'user_cookie'   => true,
-				'cookie_domain' => '',
-				'cookie_path'   => '',
-				'cookie_expire' => '0',
-			);
-
 			$admin = array (
 				'username' => $admin_username,
 				'password' => $admin_password,
 				'email'    => $admin_email,
 			);
 
-			$zotop = include(ZOTOP_PATH_INSTALL.DS.'zotop.php');			
 
 			$router = array();	
 
@@ -318,17 +296,8 @@ class install
 			// 写入站点配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'site.php', "<?php\nreturn ".var_export($site,true).";\n?>");
 
-			// 写入cookie配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'cookie.php', "<?php\nreturn ".var_export($cookie,true).";\n?>");
-
-			// 写入session配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'session.php', "<?php\nreturn ".var_export($session,true).";\n?>");
-
 			// 写入router配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'router.php', "<?php\nreturn ".var_export($router,true).";\n?>");
-
-			// 写入zotop配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'zotop.php', "<?php\nreturn ".var_export($zotop,true).";\n?>");							
+			file::put(ZOTOP_PATH_CONFIG.DS.'router.php', "<?php\nreturn ".var_export($router,true).";\n?>");						
 
 			// 记录创始人信息，用于写入数据库
 			file::put(ZOTOP_PATH_RUNTIME.DS.'admin.php', "<?php\nreturn ".var_export($admin,true).";\n?>");			
