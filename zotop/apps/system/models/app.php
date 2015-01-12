@@ -247,7 +247,6 @@ class system_model_app extends model
 			// 删除设置文件
 			zotop::data(ZOTOP_PATH_CONFIG.DS."{$app}.php", null);
 			zotop::reboot();
-
 			return true;
 		}
 
@@ -266,17 +265,13 @@ class system_model_app extends model
 			// 获取全部配置并写入配置文件
 			$results = $this->db->from('config')->select('key,value')->where('app',$app)->getAll();
 
-			if ( is_array($results) )
+			foreach( $results as $r )
 			{
-				foreach( $results as $r )
-				{
-					$data[$r['key']] = $r['value'];
-				}
-
-				zotop::data(ZOTOP_PATH_CONFIG.DS."{$app}.php", $data);
-				zotop::reboot();
+				$data[$r['key']] = $r['value'];
 			}
 
+			zotop::data(ZOTOP_PATH_CONFIG.DS."{$app}.php", $data);
+			zotop::reboot();
 			return true;
 		}
 
@@ -294,13 +289,10 @@ class system_model_app extends model
 		$data = array();
 
 		$result = $this->db()->orderby('listorder','asc')->getAll();
-
-		if ( is_array($result) )
+		
+		foreach($result as $r)
 		{
-			foreach($result as $r)
-			{
-				$data[strtolower($r['id'])] = $r;
-			}
+			$data[strtolower($r['id'])] = $r;
 		}
 
 		return $data;

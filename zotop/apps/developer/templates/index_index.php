@@ -53,26 +53,7 @@
 							</tr>
 						</table>
 						<div class="manage">
-							
-							<a class="btn btn-icon-text btn-highlight dialog-open" href="{U('developer/project/edit','project='.$r['dir'])}" data-width="800" data-height="400">
-								<i class="icon icon-edit"></i>
-								<b>{t('编辑信息')}</b>
-							</a>
-
-
-							<a class="btn btn-icon-text btn-highlight" href="{U('developer/project/config','project='.$r['dir'])}">
-								<i class="icon icon-config"></i>
-								<b>{t('配置管理')}</b>
-							</a>
-
-
-							<a class="btn btn-icon-text btn-highlight" href="{U('developer/project/table','project='.$r['dir'])}" data-width="800" data-height="400">
-								<i class="icon icon-database"></i>
-								<b>{t('数据表管理')}</b>
-							</a>
-
-
-							<a class="btn btn-icon-text btn-highlight hidden" href="{u('developer/project/index','project='.$r['dir'])}">
+							<a class="btn btn-icon-text btn-highlight" href="{u('developer/project/index','dir='.$r['dir'])}">
 								<i class="icon icon-edit"></i><b>{t('管理应用')}</b>
 							</a>
 

@@ -1,5 +1,5 @@
 <div class="side-header">
-	{t('开发助手')}
+	{$app.name}
 </div><!-- side-header -->
 <div class="side-body no-footer scrollable">
 
@@ -17,12 +17,12 @@
 		</li>
 		<li>
 			<a href="{u('developer/project/config')}" {if substr_count(ZOTOP_URI,'developer/project/config')} class="current"{/if}>
-				<i class="icon icon-app"></i>{t('配置管理')}
+				<i class="icon icon-config"></i>{t('配置项管理')}
 			</a>
 		</li>
 		<li>
 			<a href="{u('developer/project/table')}" {if substr_count(ZOTOP_URI,'developer/project/table') or substr_count(ZOTOP_URI,'developer/schema')} class="current"{/if}>
-				<i class="icon icon-app"></i>{t('数据表管理')}
+				<i class="icon icon-database"></i>{t('数据表管理')}
 			</a>
 		</li>											
 	</ul>

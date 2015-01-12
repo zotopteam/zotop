@@ -18,11 +18,10 @@
 table.field{margin:15px 0;}
 table.field td.label{width:100px;padding-left:20px;}
 
-input.text,textarea.textarea{width:340px;}
+input.text,textarea.textarea{width:360px;}
 input.tiny{width:120px;}
 input.short,input.date,input.datetime{width:180px;}
 input.medium,textarea.medium{width:320px;}
 input.date,input.datetime{width:180px;}
 select.select{width:352px;}
-
 textarea.editor{width:90%;}

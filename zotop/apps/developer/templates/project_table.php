@@ -6,9 +6,16 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{$title}</div>	
+		<div class="title">{$title}</div>
+		<div class="position">
+			<a href="{u('developer')}">{t('开发助手')}</a>
+			<s class="arrow">></s>
+			<a href="{u('developer/project')}">{$app['name']}</a>
+			<s class="arrow">></s>			
+			{$title}
+		</div>				
 		<div class="action">
-				<a class="btn btn-icon-text btn-highlight dialog-open" href="{U('developer/project/createtable')}" data-width="600" data-height="300">
+				<a class="btn btn-icon-text btn-highlight dialog-open" href="{U('developer/project/createtable')}" data-width="800" data-height="300">
 					<i class="icon icon-add"></i>
 					<b>{t('新建数据表')}</b>
 				</a>
@@ -39,7 +46,7 @@
 							<div class="manage">
 								<a href="{u('developer/schema/'.$id)}">{t('表结构')}</a>
 								<s>|</s>
-								<a class="dialog-open" href="{U('developer/project/edittable/'.$id)}" data-width="600" data-height="300">{t('表设置')}</a>
+								<a class="dialog-open" href="{U('developer/project/edittable/'.$id)}" data-width="800" data-height="300">{t('表设置')}</a>
 								<s>|</s>
 								<a class="dialog-confirm" href="{u('developer/database/delete/'.$id)}">{t('删除')}</a>
 							</div>
@@ -62,7 +69,7 @@
 
 	</div>
 	<div class="main-footer">
-		<div class="tips">{t('管理 apps 目录下在建的应用')}</div>
+		<div class="tips">{t('应用项关联的数据表，如果是从其他位置添加的数据表，请手动修改当前app.php中的tables一项')}</div>
 	</div>
 </div>
 

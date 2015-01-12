@@ -25,7 +25,7 @@ class shop_controller_config extends admin_controller
 					return $this->success(t('保存成功'));
 				}
 
-				return $this->error($app->error());
+				return $this->error(m('system.app')->error());
 			}
 
 			return $this->error(t('参数错误'));

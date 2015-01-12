@@ -5,7 +5,6 @@ return array (
   'autothumb' => '1',
   'autosummary' => '250',
   'autokeywords' => '1',
-  'attachment.delete' => '1',
   'thumb_resize' => '1',
   'thumb_width' => '680',
   'thumb_height' => '600',
@@ -18,5 +17,6 @@ return array (
   'category_image_width' => '1200',
   'category_image_height' => '600',
   'category_image_quality' => '98',
+  'attachment_delete' => '1',
 );
 ?>

@@ -12,17 +12,9 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class [id]_controller_index extends site_controller
 {
 	/**
-	 * 重载__init函数
-	 */
-	public function __init()
-	{
-		parent::__init();
-
-	}
-
-	/**
-	 * index 动作
-	 *
+	 * 默认动作
+	 * 
+	 * @return mixed
 	 */
 	public function action_index()
     {

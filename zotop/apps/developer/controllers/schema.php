@@ -52,15 +52,13 @@ class developer_controller_schema extends admin_controller
 	 */
 	public function action_index($table)
     {
-		$project = zotop::cookie('project');
-
-		$project = @include(ZOTOP_PATH_APPS . DS . $project . DS .'app.php');
+		$app = @include(ZOTOP_PATH_APPS . DS . zotop::cookie('project_dir') . DS .'app.php');
 
 		// 获取数据表结构信息
 		$schema = $this->db->table($table)->schema();
 
-		$this->assign('title',t('数据表管理'));
-		$this->assign('project',$project);
+		$this->assign('title',t('数据表结构'));
+		$this->assign('app',$app);
 		$this->assign('database',$database);
 		$this->assign('table',$table);
 		$this->assign('schema',$schema);

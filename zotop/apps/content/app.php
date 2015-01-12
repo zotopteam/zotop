@@ -7,8 +7,8 @@ return array (
   'type' => 'module',
   'tables' => 'content,content_category,content_model,content_fields,content_model_page,content_model_article,,content_model_gallery',
   'version' => '2.1',
-  'author' => 'zotop.chenlei',
-  'email' => 'zotop.chenlei@gmail.com',
+  'author' => 'zotop team',
+  'email' => '',
   'homepage' => 'http://www.zotop.com',
   'dependencies' => '',
 );

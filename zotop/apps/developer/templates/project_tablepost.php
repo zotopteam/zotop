@@ -5,8 +5,8 @@
 			<tr>
 				<td class="label">{form::label(t('数据表名称'),'name',true)}</td>
 				<td class="input">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required','remote'=>u('developer/project/check/table/'.$data['name'])))}
-					{form::tips(t('数据表名称只允许英文数字和下划线'))}
+					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required','remote'=>u('developer/project/checktable/'.$data['name'])))}
+					{form::tips(t('不含前缀的数据表名称，只允许英文数字和下划线'))}
 				</td>
 			</tr>
 			<tr>

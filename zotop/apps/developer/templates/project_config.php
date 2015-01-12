@@ -8,6 +8,13 @@
 
 	<div class="main-header">
 		<div class="title">{$title}</div>
+		<div class="position">
+			<a href="{u('developer')}">{t('开发助手')}</a>
+			<s class="arrow">></s>
+			<a href="{u('developer/project')}">{$app['name']}</a>
+			<s class="arrow">></s>			
+			{$title}
+		</div>			
 		<div class="action">
 			<a href="javascript:;" class="btn btn-icon-text btn-highlight" onclick="configlist.addrow()"><i class="icon icon-add"></i><b>{t('添加一项')}</b></a>
 		</div>

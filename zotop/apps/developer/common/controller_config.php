@@ -1,7 +1,7 @@
 <?php
 defined('ZOTOP') OR die('No direct access allowed.');
 /**
- * [id] 设置控制器
+ * [id] 应用设置控制器
  *
  * @package		[id]
  * @author		[author] [email]
@@ -11,24 +11,20 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class [id]_controller_config extends admin_controller
 {
 	/**
-	 * 设置
-	 *
+	 * 应用设置
+	 * 
+	 * @return mixed
 	 */
 	public function action_index()
     {
 		if ( $post = $this->post() )
 		{
-			if ( is_array($post) and !empty($post) )
+			if ( m('system.app')->config($post) )
 			{
-				if ( m('system.app')->config($post) )
-				{
-					return $this->success(t('保存成功'));
-				}
-
-				return $this->error($app->error());
+				return $this->success(t('保存成功'));
 			}
 
-			return $this->error(t('参数错误'));
+			return $this->error(m('system.app')->error());
 		}
 
 		$this->assign('title',t('[name]设置'));

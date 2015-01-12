@@ -41,7 +41,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
 		// 获取全部主题
@@ -89,7 +89,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
  		$this->assign('title',t('附件上传'));
@@ -116,7 +116,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
  		$this->assign('title',t('邮件发送'));
@@ -142,7 +142,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
  		$this->assign('title',t('缓存设置'));
@@ -162,7 +162,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
  		$this->assign('title',t('区域和语言'));
@@ -201,7 +201,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
  		$this->assign('title',t('链接和路由'));
@@ -221,7 +221,7 @@ class system_controller_config extends admin_controller
 				return $this->success(t('保存成功'));
 			}
 
-			return $this->error($app->error());
+			return $this->error(m('system.app')->error());
     	}
 
  		$this->assign('title',t('系统安全'));
