@@ -27,7 +27,7 @@ class rewrite
             $http = zotop::instance('http');
 
             // 设置cookie
-            $http->setCookie(zotop::cookie());
+            $http->setCookie($_COOKIE);
 
             // 访问回调页面
             if ( $http->get(U('system/system/rewritecallback')) )

@@ -914,52 +914,40 @@ class zotop
      *
      * @return mix
      */
-    public static function cookie($name = '', $value = '', $expire = '', $path = '', $domain = '')
+    public static function cookie($name, $value = '', $expire = null, $path = null, $domain = null)
     {
-        // 返回全部cookie
-        if ($name === '') return $_COOKIE;
+        $prefix = C('cookie.prefix');
+        $expire = is_null($expire) ? C('cookie.expire') : $expire;
+        $expire = empty($expire) ? 0 : intval($expire) + time();
+        $path   = empty($path) ? C('cookie.path') : $path;
+        $domain = empty($domain) ? C('cookie.domain') : $domain;   
 
-        // 清楚全部cookie
-        if ($name === null)
+        // 清除全部cookie
+        if ( is_null($name) )
         {
             unset($_COOKIE);
             return true;
         }
 
-        // cookie的前缀
-        $prefix = C('cookie.prefix');
-
-        // cookie的名字
-        $name = isset($name) ? str_replace('.', '_', $prefix . $name) : null;
-
-        // 过期时间
-        $expire = ($expire === '') ? C('cookie.expire') : $expire;
-        $expire = empty($expire) ? 0 : (int)$expire + time();
-
-        // 路径
-        $path = empty($path) ? C('cookie.path') : $path;
-
-        // 域名
-        $domain = empty($domain) ? C('cookie.domain') : $domain;
+        $name = str_replace('.', '_', $prefix . $name);
 
         // 清理单个cookie
-        if ($value === null)
+        if ( $value === null )
         {
             unset($_COOKIE[$name]);
             return setcookie($name, '', time() - 3600, $path, $domain);
         }
 
         // 获取单个cookie
-        if ($value === '')
+        if ( $value === '' )
         {
             // 检查cookie是否存在
-            if (0 === strpos($name, '?'))
+            if ( 0 === strpos($name, '?') )
             {
-                $name = substr($name, 1);
-                return isset($_COOKIE[$name]);
+                return isset($_COOKIE[substr($name, 1)]);
             }
 
-            if (isset($_COOKIE[$name]))
+            if ( isset($_COOKIE[$name]) )
             {
                 return unserialize(base64_decode($_COOKIE[$name]));
             }
@@ -968,7 +956,16 @@ class zotop
         }
 
         // 设置cookie
-        return setcookie($name, base64_encode(serialize($value)), $expire, $path, $domain);
+        $value = base64_encode(serialize($value));        
+               
+        if ( setcookie($name, $value, $expire, $path, $domain) )
+        {
+            $_COOKIE[$name] = $value;
+            
+            return true;
+        }
+
+        return false;
     }
 
     /**
