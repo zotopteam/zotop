@@ -12,33 +12,65 @@ class content_model_model extends model
 {
 	protected $pk = 'id';
 	protected $table = 'content_model';
-	protected $models = null;
 
-    /**
-     * 插入
-     *
-     */
+	protected $field = null; //字段模型
+
+	/**
+	 * 添加模型
+	 * 
+	 * @param array $data 模型数据
+	 * @return mixed
+	 */
 	public function add($data)
 	{
 		if ( empty($data['id']) ) return $this->error(t('模型编号不能为空'));
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
+		
+		$data['app'] 		= 'content';
+		$data['model'] 		= 'custom';
+		$data['tablename']	= 'content_model_'.$data['id']; 
+		$data['listorder']	= $this->max('listorder') + 1;
 
-		$data['listorder'] = $this->max('listorder') + 1;
+		$table = array(
+			'fields'	=> array('id' => array('type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号') )),
+			'index'		=> array(),
+			'unique'	=> array(),
+			'primary'	=> array('id'),
+			'comment' 	=> $data['name']
+		);
 
-		if ( $id = $this->insert($data, true) )
+		if ( $this->db->table($data['tablename'])->create($table) == false )
 		{
-			$this->cache(true);
-
-			return $id;
+			return $this->error(t('创建附加数据表 {1} 失败', $data['tablename']));
 		}
 
+		if ( $this->field = m('content.field') )
+		{
+			foreach ( $this->field->system_fields as $field)
+			{
+				$field['modelid'] = $data['id'];
+				$this->field->insert($field);
+			}
+		}
+
+		if ( $this->insert($data, true) )
+		{
+			$this->cache(true);
+			return $id;
+		}
+		
+		$this->field->where('modelid', $data['id'])->delete();
+		$this->db->table($data['tablename'])->drop();
 		return false;
 	}
 
-    /**
-     * 编辑
-     *
-     */
+	/**
+	 * 修改模型
+	 * 
+	 * @param array $data 模型数据
+	 * @param  string $id  模型编号
+	 * @return mixed
+	 */
 	public function edit($data, $id)
 	{
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
@@ -46,7 +78,6 @@ class content_model_model extends model
 		if ( $this->update($data, $id) )
 		{
 			$this->cache(true);
-
 			return $id;
 		}
 
@@ -62,17 +93,17 @@ class content_model_model extends model
 		if ( parent::delete($id) )
 		{
 			$this->cache(true);
-
 			return true;
 		}
 
 		return false;
 	}
 
-    /**
-     * 获取排序过的全部数据
-     *
-     */
+	/**
+	 * 获取排序过的全部数据
+	 * 
+	 * @return array
+	 */
 	public function getAll()
 	{
 		$result = array();
@@ -81,8 +112,6 @@ class content_model_model extends model
 
 		foreach( $data as &$d )
 		{
-			$d['settings'] = unserialize($d['settings']);
-
 			$result[$d['id']] = $d;
 		}
 
@@ -97,31 +126,33 @@ class content_model_model extends model
      */
 	public function get($id, $field='')
 	{
-		if ( $id )
-		{
-			if ( !is_array($this->models) ) $this->models = $this->cache();
+		$data = $this->cache();
 
-			if ( is_array($this->models) and isset($this->models[$id]) )
-			{
-				return $this->models[$id];
-			}
+		if ( empty($field) )
+		{
+			return isset($data[$id]) ? $data[$id] : array();
 		}
 
-		return array();
+		if ( isset($data[$id]) )
+		{
+			list($field, $key) = explode('.', $field);
+
+			return ( $key and is_array($data[$id][$field]) ) ? $data[$id][$field][$key] : $data[$id][$field];
+		}
+
+		return '';
 	}
 
 
 	/*
-	 * 重新模型栏目数据
+	 * 计算模型已有的内容数据
 	 *
 	 * @param string $id 模型ID
-	 * @return string 缓存数据
+	 * @return int
 	 */
 	public function datacount($id)
 	{
-		$count = m('content.content')->where('modelid','=',$id)->count();
-
-		return $count;
+		return m('content.content')->where('modelid','=',$id)->count();
 	}
 
 	/**
@@ -136,7 +167,6 @@ class content_model_model extends model
 		}
 
 		$this->cache(true);
-
 		return true;
 	}
 
@@ -160,7 +190,6 @@ class content_model_model extends model
 		if ( $this->update(array('disabled'=>$disabled),$id) )
 		{
 			$this->cache(true);
-
 			return true;
 		}
 

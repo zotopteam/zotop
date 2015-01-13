@@ -124,17 +124,16 @@ $this->db->table('content_model_download')->create(array(
 ));
 
 
-/*
- * 创建content_model数据表
- */
+// [content_model] 创建	
 $this->db->table('content_model')->drop();
 $this->db->table('content_model')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID，如：news') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('名称') ),
 		'description'=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('说明') ),
-		'tablename'	=> array ( 'type'=>'char', 'length'=>64, 'default'=>null, 'comment' => t('数据表名称（不含前缀）') ),
-		'app'	=> array ( 'type'=>'char', 'length'=>32, 'default'=>null, 'comment' => t('隶属应用ID') ),
+		'tablename'	=> array ( 'type'=>'char', 'length'=>64, 'default'=>null, 'comment' => t('数据表名称（不含前缀），一般为：conten_model_[id]，为空则为虚拟模型，如链接模型') ),
+		'app'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('隶属应用ID') ),
+		'model'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('对应app中的模型') ),
 		'template'	=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('详细页面模版') ),
 		'settings'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('模型设置') ),
 		'posts'		=> array ( 'type'=>'mediumint', 'length'=>8, 'default'=>'0', 'unsigned'=>true, 'comment' => t('数据量') ),
@@ -146,71 +145,112 @@ $this->db->table('content_model')->create(array(
 	'unique'=>array(
 	),
 	'primary'=>array ( 'id' ),
-	'comment' => t('内容模型')
+	'comment' => t('内容模型') 
 ));
 
-$this->db->insert('content_model',array(
-	'id' => 'page',
-	'name' => t('页面'),
-	'description' => t('单页面或普通页面'),
-	'tablename' => 'content_model_page',
-	'app' => 'content',
-	'template' => 'content/detail_page.php',
-	'posts' => 0,
-	'listorder' => 1,
-	'disabled' => 0
+// [content_model] 插入数据
+$this->db->insert('content_model',array (
+  'id' => 'page',
+  'name' => '页面',
+  'description' => '单页面或普通页面',
+  'tablename' => 'content_model_page',
+  'app' => 'content',
+  'model' => 'page',
+  'template' => 'content/detail_page.php',
+  'settings' => NULL,
+  'posts' => '0',
+  'listorder' => '1',
+  'disabled' => '0',
 ));
 
-$this->db->insert('content_model',array(
-	'id' => 'article',
-	'name' => t('文章'),
-	'description' => t('新闻或文章'),
-	'tablename' => 'content_model_article',
-	'app' => 'content',
-	'template' => 'content/detail_article.php',
-	'posts' => 0,
-	'listorder' => 2,
-	'disabled' => 0
+$this->db->insert('content_model',array (
+  'id' => 'article',
+  'name' => '文章',
+  'description' => '新闻或文章',
+  'tablename' => 'content_model_article',
+  'app' => 'content',
+  'model' => 'article',
+  'template' => 'content/detail_article.php',
+  'settings' => NULL,
+  'posts' => '0',
+  'listorder' => '2',
+  'disabled' => '0',
 ));
 
-$this->db->insert('content_model',array(
-	'id' => 'gallery',
-	'name' => t('组图'),
-	'description' => t('图集或画廊'),
-	'tablename' => 'content_model_gallery',
-	'app' => 'content',
-	'template' => 'content/detail_gallery.php',
-	'posts' => 0,
-	'listorder' => 3,
-	'disabled' => 0
+$this->db->insert('content_model',array (
+  'id' => 'gallery',
+  'name' => '组图',
+  'description' => '图集或画廊',
+  'tablename' => 'content_model_gallery',
+  'app' => 'content',
+  'model' => 'gallery',
+  'template' => 'content/detail_gallery.php',
+  'settings' => NULL,
+  'posts' => '0',
+  'listorder' => '3',
+  'disabled' => '0',
 ));
 
-$this->db->insert('content_model',array(
-	'id' => 'download',
-	'name' => t('下载'),
-	'description' => t('文件下载'),
-	'tablename' => 'content_model_download',
-	'app' => 'content',
-	'template' => 'content/detail_download.php',
-	'posts' => 0,
-	'listorder' => 4,
-	'disabled' => 0
+$this->db->insert('content_model',array (
+  'id' => 'download',
+  'name' => '下载',
+  'description' => '文件下载',
+  'tablename' => 'content_model_download',
+  'app' => 'content',
+  'model' => 'download',
+  'template' => 'content/detail_download.php',
+  'settings' => NULL,
+  'posts' => '0',
+  'listorder' => '4',
+  'disabled' => '0',
+));
+
+$this->db->insert('content_model',array (
+  'id' => 'link',
+  'name' => '链接',
+  'description' => '指向其它页面的链接',
+  'tablename' => NULL,
+  'app' => 'content',
+  'model' => 'link',
+  'template' => NULL,
+  'settings' => NULL,
+  'posts' => '0',
+  'listorder' => '99',
+  'disabled' => '0',
 ));
 
 
-$this->db->insert('content_model',array(
-	'id' => 'link',
-	'name' => t('链接'),
-	'description' => t('指向其它页面的链接'),
-	'tablename' => null,
-	'app' => 'content',
-	'template' => null,
-	'posts' => 0,
-	'listorder' => 99,
-	'disabled' => 0
+// [content_field] 创建	
+$this->db->table('content_field')->drop();
+$this->db->table('content_field')->create(array(
+	'fields'=>array(
+		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
+		'modelid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型编号') ),
+		'control'	=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('控件类型，如text，number等') ),
+		'label'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('显示的标签名称') ),
+		'name'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('数据库中的字段名称') ),
+		'type'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('字段类型，如char，varchar，int等') ),
+		'length'	=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>null, 'unsigned'=>true, 'comment' => t('字段长度') ),
+		'default'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('默认值') ),
+		'notnull'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否允许空子，0：允许，1：不允许') ),
+		'unique'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否唯一，0：非唯一，1：必须是唯一值') ),
+		'settings'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('字段其它设置，如radio，select等的选项') ),
+		'tips'		=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('字段提示信息') ),
+		'list'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否在列表显示，0：不显示，1：显示') ),
+		'show'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'1', 'unsigned'=>true, 'comment' => t('是否在详细页面显示，0：不显示，1：显示') ),
+		'post'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'1', 'unsigned'=>true, 'comment' => t('是否允许前台填写提交，0：不允许，1：允许') ),
+		'search'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否允许搜索，0：禁止，1：允许') ),
+		'order'		=> array ( 'type'=>'char', 'length'=>4, 'default'=>null, 'comment' => t('是否参与排序，空=不参与，ASC=顺序，DESC=倒序') ),
+		'listorder'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序字段') ),
+		'disabled'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否禁用，0：未禁用，1：禁用') ),
+	),
+	'index'=>array(
+	),
+	'unique'=>array(
+	),
+	'primary'=>array ( 'id' ),
+	'comment' => t('表单字段') 
 ));
-
-
 
 /*
  * 创建content_category数据表

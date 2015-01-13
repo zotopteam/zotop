@@ -15,18 +15,26 @@
 			<caption>{t('基本属性')}</caption>
 			<tbody>
 			<tr>
-				<td class="label">{form::label(t('模型'),'id',false)}</td>
+				<td class="label">{form::label(t('模型标识'),'id',false)}</td>
 				<td class="input">
+					{if $data.id}
 					<div class="field-text"><b>{$data['id']}</b></div>
+					{else}
+
+					{form::field(array('type'=>'text','name'=>'id','value'=>$data['id'],'maxlength'=>32,'required'=>'required'))}
+
+					{form::tips(t('模型标识，只允许因为字符和数字，最大长度32位'))}
+
+					{/if}
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('名称'),'name',true)}</td>
+				<td class="label">{form::label(t('模型名称'),'name',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
 				</td>
 			</tr>
-			{if $data['tablename']}
+			{if $data.tablename}
 			<tr>
 				<td class="label">{form::label(t('内容页模板'),'template',true)}</td>
 				<td class="input">
@@ -35,7 +43,7 @@
 			</tr>
 			{/if}
 			<tr>
-				<td class="label">{form::label(t('描述'),'description',true)}</td>
+				<td class="label">{form::label(t('模型描述'),'description',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'required'=>'required'))}
 				</td>
@@ -48,11 +56,6 @@
 			</tr>
 			</tbody>
 		</table>
-
-		{if $data['settingspath']}
-			{template $data['settingspath']}
-		{/if}
-
 
 	</div><!-- main-body -->
 	<div class="main-footer">

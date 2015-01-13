@@ -5,8 +5,14 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
+		<div class="action">
+			<a href="{u('content/model/add')}" class="btn btn-icon-text btn-highlight">
+				<i class="icon icon-add"></i><b>{t('添加')}</b>
+			</a>
+		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
+
 		{form::header()}
 		<table class="table list sortable" cellspacing="0" cellpadding="0">
 		<thead>
@@ -15,16 +21,12 @@
 			<td class="w40 center">{t('状态')}</td>
 			<td class="w240">{t('名称')}</td>
 			<td class="w140">{t('标识')}</td>
-
 			<td class="w120">{t('应用')}</td>
 			<td class="w80">{t('数据')}</td>
 			<td>{t('描述')}</td>
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($models)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
 		{loop $models $data}
 			<tr>
 				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$data['id']}"></td>
@@ -43,10 +45,10 @@
 				<td>{$data['description']}</td>
 			</tr>
 		{/loop}
-		{/if}
 		</tbody>
 		</table>
 		{form::footer()}
+
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
