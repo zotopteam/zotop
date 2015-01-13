@@ -917,7 +917,7 @@ class zotop
     public static function cookie($name, $value = '', $expire = null, $path = null, $domain = null)
     {
         $prefix = C('cookie.prefix');
-        $expire = is_null($expire) ? C('cookie.expire') : $expire;
+        $expire = empty($expire) ? C('cookie.expire') : $expire;
         $expire = empty($expire) ? 0 : intval($expire) + time();
         $path   = empty($path) ? C('cookie.path') : $path;
         $domain = empty($domain) ? C('cookie.domain') : $domain;   
@@ -971,29 +971,33 @@ class zotop
     /**
      * session
      *
-     * @param string|array $name 字符串为session名称， 数组则为session初始化，初始化必须在session_start()之前进行
+     * @code
+     *
+     * zotop::session('name'); //session
+     * zotop::session('?name'); //检查session是否存在
+     * zotop::session('name','value'); //session
+     * zotop::session('name',null); //清除名字为ame的session
+     * zotop::session(null); //清除全部session
+     *
+     * @endcode
+     *
+     * @param string|array $name 字符串为session名称， 数组则为session初始化
      * @param mixed $value session值
      * @return mixed
      */
     public static function session($name, $value = '')
     {
-        static $session;
+        session::instance(C('session'));
 
-        // 初始化session
-        if (!isset($session))
+        if ( $value === '' )
         {
-            $session = session::instance(C('session'));
-        }
-
-        if ($value === '')
-        {
-            if (strpos($name, '?') === 0) return isset($_SESSION[substr($name, 1)]); // 检查session
-            if ($name === null) $_SESSION = array(); // 清空session
-            if ($name == '[id]') return session_id(); // 暂停session
-            if ($name == '[pause]') session_write_close(); // 暂停session
-            if ($name == '[start]') session_start(); // 启动session
-            if ($name == '[regenerate]') session_regenerate_id(); // 重新生成id
-            if ($name == '[destroy]') // 销毁session
+            if ( strpos($name, '?') === 0 ) return isset($_SESSION[substr($name, 1)]); // 检查session
+            if ( $name === null ) $_SESSION = array(); // 清空session
+            if ( $name == '[id]' ) return session_id(); // 暂停session
+            if ( $name == '[pause]' ) session_write_close(); // 暂停session
+            if ( $name == '[start]' ) session_start(); // 启动session
+            if ( $name == '[regenerate]' ) session_regenerate_id(); // 重新生成id
+            if ( $name == '[destroy]' ) // 销毁session
             {
                 $_SESSION = array();
                 session_unset();
