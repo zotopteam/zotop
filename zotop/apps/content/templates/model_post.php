@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-{template 'content/side.php'}
+{template 'content/admin_side.php'}
 </div>
 
 {form::header()}
@@ -48,7 +48,7 @@
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'required'=>'required'))}
 				</td>
 			</tr>
-			<tr>
+			<tr class="none">
 				<td class="label">{form::label(t('禁用'),'disabled',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'bool','name'=>'disabled','value'=>$data['disabled']))}

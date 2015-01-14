@@ -24,10 +24,9 @@ class form
 
 		if ( is_string($key) )
 		{
-			if( in_array($key, array('required','checked','selected')) )
+			if ( in_array($key, array('checked','selected','readonly','disabled')) )
 			{
-				// 标签 required 、checked、selected 必须成对出现，如：checked = "checked"
-				if ( empty($value) ) return '';
+				return $value ? $key : '';
 			}
 
 			if( $value === null )

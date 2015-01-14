@@ -40,15 +40,16 @@ class content_controller_model extends admin_controller
 			return $this->error($this->model->error());
 		}
 
-		$models = $this->model->orderby('listorder','asc')->getAll();
+		$data = $this->model->orderby('listorder','asc')->getAll();
 
-		foreach( $models as &$m )
+		foreach( $data as &$d )
 		{
-			$m['datacount'] = $this->model->datacount($m['id']);
+			$d['datacount'] = $this->model->datacount($d['id']);
+			$d['iscustom'] 	= ( $d['app'] == 'content' and $d['model'] == 'custom' ) ? true : false;
 		}
 
 		$this->assign('title',t('模型管理'));
-		$this->assign('models',$models);
+		$this->assign('data',$data);
 		$this->display();
 	}
 
@@ -61,14 +62,12 @@ class content_controller_model extends admin_controller
     {
 		if ( $post = $this->post() )
 		{
-			$data = array('name' =>	$post['newvalue']);
-
-			if ( $this->model->add($data) )
+			if ( $this->model->add($post) )
 			{
 				return $this->success(t('操作成功'),request::referer());
 			}
 
-			return $this->error(t('操作失败'));
+			return $this->error($this->model->error());
 		}
 
 		$this->assign('title',t('新建模型'));
@@ -90,17 +89,10 @@ class content_controller_model extends admin_controller
 				return $this->success(t('操作成功'),u('content/model'));
 			}
 
-			return $this->error(t('操作失败'));
+			return $this->error($this->model->error());
 		}
 
 		$data = $this->model->get($id);
-
-		$settingspath = a("{$data['app']}.path").DS."templates".DS."model_post_{$data['id']}.php";
-
-		if ( file::exists($settingspath) )
-		{
-			$data['settingspath'] = $settingspath;
-		}
 
 		$this->assign('title',t('模型设置'));
 		$this->assign('data',$data);

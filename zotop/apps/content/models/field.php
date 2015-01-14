@@ -38,7 +38,10 @@ class content_model_field extends model
         ));
 
         $this->system_fields = array(
-        	array('control'=>'text','label'=>t('标题'),'name' =>'title','type'=>'varchar','length'=>'255','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','list' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>'','listorder'=>'1','disabled'=>'0'),
+        	array('control'=>'title','label'=>t('标题'),'name' =>'title','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'1','unique' => '0','settings'=>'','tips' =>'','base' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>''),
+        	array('control'=>'image','label'=>t('缩略图'),'name' =>'thumb','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>''),
+         	array('control'=>'textarea','label'=>t('摘要'),'name' =>'summary','type'=>'varchar','length'=>'1000','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>''),
+        	array('control'=>'datatime','label'=>t('发布时间'),'name' =>'createtime','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'0','show'=>'1','post'=>'1','search'=>'1','order'=>''),       
         );
 	}
 
@@ -64,11 +67,11 @@ class content_model_field extends model
 	 *
 	 * @return array
 	 */
-	public function getall($formid)
+	public function getall($modelid)
 	{
 		$data = array();
 
-		$rows = $this->db()->where('formid',$formid)->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->where('modelid',$modelid)->orderby('listorder','asc')->getAll();
 
 		foreach( $rows as &$r )
 		{
@@ -83,16 +86,16 @@ class content_model_field extends model
 	/**
 	 * 获取添加编辑时的表单字段并格式化
 	 * 
-	 * @param  int $formid 表单编号
+	 * @param  int $modelid 表单编号
 	 * @param  array  $data  表单数据
 	 * @return array 格式化的表单
 	 */
-	public function getfields($formid, $data=array())
+	public function getfields($modelid, $data=array())
 	{
 		
 		$fields = array();
 
-		if ( $_fields = $this->cache($formid) )
+		if ( $_fields = $this->cache($modelid) )
 		{
 			foreach( $_fields as $i=>$r )
 			{
@@ -111,7 +114,7 @@ class content_model_field extends model
 
 				if ( $r['unique'] )
 				{
-					$fields[$i]['field']['remote']	= U('form/data/check/'.$formid.'/'.$fields[$i]['field']['name'].'/'.$fields[$i]['field']['value']);
+					$fields[$i]['field']['remote']	= U('form/data/check/'.$modelid.'/'.$fields[$i]['field']['name'].'/'.$fields[$i]['field']['value']);
 				}
 
 				// 将settings中的属性合并到字段
@@ -125,7 +128,7 @@ class content_model_field extends model
 				// 增加上传数据编号
 				if ( in_array($r['control'], array('editor','image','file')) and $data['id'] )
 				{
-					$fields[$i]['field']['dataid']	= "form-{$formid}-{$data['id']}";
+					$fields[$i]['field']['dataid']	= "form-{$modelid}-{$data['id']}";
 				}
 
 			}
@@ -255,7 +258,7 @@ class content_model_field extends model
 	{
 		if ( empty($data['name']) ) return $this->error(t('字段名不能为空'));
 		if ( empty($data['label']) ) return $this->error(t('标签名不能为空'));
-		if ( empty($data['formid']) ) return $this->error(t('表单编号不能为空'));
+		if ( empty($data['modelid']) ) return $this->error(t('模型编号不能为空'));
 		if ( empty($data['type']) ) return $this->error(t('数据类型不能为空'));
 
 		if ( in_array($data['name'], $this->system_fields) )
@@ -277,8 +280,8 @@ class content_model_field extends model
 		// 大数据字段不能参与排序
 		$data['order'] 	= in_array($data['type'], array('text','mediumtext')) ? '' : $data['order'];
 
-		// 自动获取对应的数据表名称
-		$data['table'] = empty($data['table']) ? m('form.form.get', $data['formid'], 'table') : empty($data['table']);
+		// 默认的表名称为 content_model_[modelid]
+		$data['tablename'] = "content_model_{$data['modelid']}";
 
 		return $data;
 	}
@@ -312,11 +315,27 @@ class content_model_field extends model
 	 */
 	public function add($data)
 	{
-		$data['listorder'] = $this->max('id') + 1;
-
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['table']);
+			$table = $this->db->table($data['tablename']);
+
+			if ( !$table->exists() )
+			{
+				$table = array(
+					'fields'	=> array(
+						'id' => array('type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号'))
+					),
+					'index'		=> array(),
+					'unique'	=> array(),
+					'primary'	=> array('id'),
+					'comment' 	=> $data['name']
+				);
+
+				if ( !$this->db->table($data['tablename'])->create($table) )
+				{
+					return $this->error(t('创建附加数据表 {1} 失败', $data['tablename']));
+				}				
+			}
 
 			// 检查字段名称是否已经存在
 			if ( $table->existsField($data['name']) )
@@ -324,14 +343,15 @@ class content_model_field extends model
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
+			$data['listorder'] = $this->max('id') + 1;
+
 			if ( $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['table']}.fields", null);
-
+				zotop::cache("{$tablename}.fields", null);
 				
 				// 更新字段缓存
-				$this->cache($data['formid'], true);
+				$this->cache($data['modelid'], true);
 
 				return $id;
 			}
@@ -349,12 +369,14 @@ class content_model_field extends model
 	 */
 	public function edit($data,$id)
 	{
-
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['table']);
+			$tablename = m('content.model.get', $data['modelid'], 'tablename');
 
-			$name = $data['_name'] ? $data['_name'] : $data['name']; //改变字段名称
+			$table = $this->db->table($tablename);
+
+			//改变字段名称
+			$name = $data['_name'] ? $data['_name'] : $data['name'];
 
 			// 更名的时候检查字段名称是否已经存在
 			if ( $name != $data['name'] and $table->existsField($data['name']) )
@@ -366,10 +388,10 @@ class content_model_field extends model
 			if ( $table->changeField($name, $this->fielddata($data)) and $this->update($data,$id) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['table']}.fields",null);
+				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['formid'], true);				
+				$this->cache($data['modelid'], true);				
 
 				return $id;
 			}
@@ -388,18 +410,18 @@ class content_model_field extends model
 	{
 		if ( $data = $this->get($id) )
 		{
-			if ( empty($data['table']) )
+			if ( empty($data['tablename']) )
 			{
-				$data['table'] = m('form.form.get', $data['formid'], 'table');
+				$data['tablename'] = m('content.model.get', $data['modelid'], 'tablename');
 			}
 
-			if ( $this->db->table($data['table'])->dropField($data['name']) and parent::delete($id) )
+			if ( $this->db->table($data['tablename'])->dropField($data['name']) and parent::delete($id) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['table']}.fields",null);
+				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['formid'], true);				
+				$this->cache($data['modelid'], true);				
 
 				return true;
 			}
@@ -418,11 +440,11 @@ class content_model_field extends model
 			$this->update(array('listorder'=>$i+1), $id);
 		}
 
-		// 获取formid
-		$formid = $this->get($id, 'formid');
+		// 获取modelid
+		$modelid = $this->get($id, 'modelid');
 
 		// 更新字段缓存
-		$this->cache($formid, true);		
+		$this->cache($modelid, true);		
 
 		return true;
 	}
@@ -436,13 +458,13 @@ class content_model_field extends model
 	public function status($id)
 	{
 		
-		$formid 	= $this->get($id, 'formid');
+		$modelid 	= $this->get($id, 'modelid');
 		$disabled 	= $this->get($id, 'disabled') ? 0 : 1;
 
 		if ( $this->update(array('disabled'=>$disabled), $id) )
 		{
 			// 更新字段缓存
-			$this->cache($formid, true);
+			$this->cache($modelid, true);
 
 			return true;
 		}
@@ -456,15 +478,15 @@ class content_model_field extends model
 	 * @param bool $refresh 是否强制刷新缓存
 	 * @return bool
 	 */
-	public function cache($formid, $refresh=false)
+	public function cache($modelid, $refresh=false)
 	{
-		$cache = zotop::cache("form.form.{$formid}");
+		$cache = zotop::cache("content.field.{$modelid}");
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll($formid);
+			$cache = $this->getAll($modelid);
 
-			zotop::cache("form.form.{$formid}", $cache, false);
+			zotop::cache("content.field.{$modelid}", $cache, false);
 		}
 
 		return $cache;

@@ -1,7 +1,7 @@
 {template 'header.php'}
 {form::header(u('content/config/save'))}
 <div class="side">
-{template 'content/side.php'}
+{template 'content/admin_side.php'}
 </div>
 <div class="main side-main">
 	<div class="main-header">

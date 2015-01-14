@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-{template 'content/side.php'}
+{template 'content/admin_side.php'}
 </div>
 <div class="main side-main">
 	<div class="main-header">
@@ -19,30 +19,36 @@
 			<tr>
 			<td class="drag">&nbsp;</td>
 			<td class="w40 center">{t('状态')}</td>
-			<td class="w240">{t('名称')}</td>
+			<td class="w300">{t('名称')}</td>
 			<td class="w140">{t('标识')}</td>
-			<td class="w120">{t('应用')}</td>
+			<td class="w140">{t('应用')}</td>
 			<td class="w80">{t('数据')}</td>
 			<td>{t('描述')}</td>
 			</tr>
 		</thead>
 		<tbody>
-		{loop $models $data}
+		{loop $data $r}
 			<tr>
-				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$data['id']}"></td>
-				<td class="center">{if $data['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
+				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+				<td class="center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
 				<td>
-					<div class="title">{$data['name']} </div>
+					<div class="title">{$r['name']} </div>
 					<div class="manage">
-						<a class="dialog-confirm" href="{u('content/model/status/'.$data['id'])}">{if $data['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
+						<a class="dialog-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
 						<s></s>
-						<a href="{u('content/model/edit/'.$data['id'])}">{t('设置')}</a>
+						<a href="{u('content/model/edit/'.$r['id'])}">{t('设置')}</a>
+						{if $r.iscustom}
+						<s></s>
+						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>						
+						<s></s>
+						<a href="{u('content/model/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
+						{/if}					
 					</div>
 				</td>
-				<td>{$data['id']}</td>
-				<td>{A($data['app'].'.name')}</td>
-				<td>{$data['datacount']}</td>
-				<td>{$data['description']}</td>
+				<td>{$r['id']}</td>
+				<td>{A($r['app'].'.name')}</td>
+				<td>{$r['datacount']}</td>
+				<td>{$r['description']}</td>
 			</tr>
 		{/loop}
 		</tbody>

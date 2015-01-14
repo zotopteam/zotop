@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-	{template 'content/side.php'}
+	{template 'content/admin_side.php'}
 </div>
 
 <div class="main side-main">

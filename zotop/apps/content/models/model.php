@@ -26,41 +26,32 @@ class content_model_model extends model
 		if ( empty($data['id']) ) return $this->error(t('模型编号不能为空'));
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
 		
-		$data['app'] 		= 'content';
-		$data['model'] 		= 'custom';
-		$data['tablename']	= 'content_model_'.$data['id']; 
+		$data['app'] 		= $data['app'] ? $data['app'] : 'content';
+		$data['model'] 		= $data['model'] ? $data['model'] : 'custom';
+		$data['template']	= $data['template'] ? $data['template'] : 'content/detail_'.$data['id'].'.php';
 		$data['listorder']	= $this->max('listorder') + 1;
 
-		$table = array(
-			'fields'	=> array('id' => array('type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号') )),
-			'index'		=> array(),
-			'unique'	=> array(),
-			'primary'	=> array('id'),
-			'comment' 	=> $data['name']
-		);
-
-		if ( $this->db->table($data['tablename'])->create($table) == false )
+		if ( $id = $this->insert($data) )
 		{
-			return $this->error(t('创建附加数据表 {1} 失败', $data['tablename']));
-		}
-
-		if ( $this->field = m('content.field') )
-		{
-			foreach ( $this->field->system_fields as $field)
+			// 如果是自定义模型则插入系统字段集
+			if ( $data['app'] == 'content' and $data['model'] == 'custom' )
 			{
-				$field['modelid'] = $data['id'];
-				$this->field->insert($field);
-			}
-		}
+				$this->field = m('content.field');
 
-		if ( $this->insert($data, true) )
-		{
+				foreach ( $this->field->system_fields as $i=>$field)
+				{
+					$field['system'] 	= 1;
+					$field['modelid'] 	= $data['id'];
+					$field['listorder'] = $i;
+
+					$this->field->insert($field);
+				}			
+			}
+
 			$this->cache(true);
 			return $id;
 		}
 		
-		$this->field->where('modelid', $data['id'])->delete();
-		$this->db->table($data['tablename'])->drop();
 		return false;
 	}
 
