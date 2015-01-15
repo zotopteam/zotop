@@ -9,7 +9,8 @@
 		<div class="title">{$title}</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
-		{form::field(array('type'=>'hidden','name'=>'formid','value'=>$data['formid'],'required'=>'required'))}
+
+		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
 		{form::field(array('type'=>'hidden','name'=>'type','value'=>$data['type'],'required'=>'required'))}
 		{form::field(array('type'=>'hidden','name'=>'length','value'=>$data['length'],'required'=>'required'))}
 
@@ -58,81 +59,10 @@
 			</table>
 
 			<!-- 字段类型相关参数，从设定的模板加载HTML -->
-			<div id="settings">	</div>
+			<div id="settings">
+			
+			</div>
 
-			<!-- /字段类型相关参数 -->
-			<table class="field">
-			<tr>
-				<td class="label">{form::label(t('控件样式'),'settings[style]',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'text','name'=>'settings[style]','value'=>$data['settings']['style']))}
-					{form::tips('定义控件的[style]样式，如：width:200px;height:300px;')}
-				</td>
-			</tr>
-
-			<tr>
-				<td class="label">{form::label(t('不能为空'),'notnull',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'bool','name'=>'notnull','value'=>(int)$data['notnull']))}
-
-					{form::tips('当录入数据时该字段是否不能为空')}
-				</td>
-			</tr>
-			<tr class="extend unique">
-				<td class="label">{form::label(t('值唯一'),'unique',false)}</td>
-				<td class="input">
-					
-					{form::field(array('type'=>'bool','name'=>'unique','value'=>(int)$data['unique']))}
-					
-					{form::tips('录入的数据需要全局唯一值')}
-
-				</td>
-			</tr>
-
-			<tr>
-				<td class="label">{form::label(t('前台投稿'),'base',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'bool','name'=>'post','value'=>$data['post']))}
-					{form::tips('当表单允许前台发布时是否显示该字段并允许录入数据')}
-				</td>
-			</tr>
-
-			<tr class="extend list">
-				<td class="label">{form::label(t('基本信息'),'list',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'bool','name'=>'base','value'=>(int)$data['list']))}
-
-					{form::tips('基本信息将显示在添加编辑页面的主要位置')}
-				</td>
-			</tr>			
-
-			<tr class="extend show">
-				<td class="label">{form::label(t('前台显示'),'show',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'bool','name'=>'show','value'=>$data['show']))}
-
-					{form::tips('字段是否在详细页面显示')}
-				</td>
-			</tr>
-
-			<tr class="extend search">
-				<td class="label">{form::label(t('允许搜索'),'search',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'bool','name'=>'search','value'=>(int)$data['search']))}
-
-					{form::tips('字段是否搜索')}
-				</td>
-			</tr>
-
-			<tr class="extend order">
-				<td class="label">{form::label(t('排序'),'search',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'radio','name'=>'order','options'=>array(''=>t('否'),'ASC'=>t('升序'),'DESC'=>t('降序')),'value'=>$data['order']))}
-					{form::tips('列表数据是否根据该字段进行排序')}
-				</td>
-			</tr>										
-
-		</table>
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
@@ -152,8 +82,8 @@
 			var data = {json_encode($data)};
 				data.control = control;
 
-			$('tr.extend').show();
-			$('#settings').load("{U('form/field/settings')}", data, function(){
+			$('tr.field-extend').show();
+			$('#settings').load("{U('content/field/settings')}", data, function(){
 				$(this).find(".checkboxes").checkboxes();
 				$(this).find(".radios").radios();
 				$(this).find(".single-select").singleselect();		

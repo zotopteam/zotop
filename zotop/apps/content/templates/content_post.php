@@ -26,7 +26,19 @@
 		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
 		<input type="hidden" name="status" value="{$data['status']}">
 
-		{template $data['app'].'/content_post_'.$data['modelid'].'.php'}
+		<table class="field">
+			<tbody>
+			{loop m('content.field.getfields',$data.modelid,$data) $f}
+			<tr>
+				<td class="label">{form::label($f['label'],$f['for'],$f['required'])}</td>
+				<td class="input">
+					{form::field($f['field'])}
+					{form::tips($f['tips'])}
+				</td>
+			</tr>
+			{/loop}
+			</tbody>
+		</table>		
 
 	</div><!-- main-body -->
 	<div class="main-footer">

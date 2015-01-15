@@ -193,9 +193,7 @@ class system_field
 	public static function datetime($attrs)
 	{
 		$attrs['format'] 		= 'Y-m-d H:i';
-
 		$attrs['timepicker'] 	= true;
-
 		return self::date($attrs);
 	}
 

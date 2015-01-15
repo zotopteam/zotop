@@ -128,5 +128,60 @@ class content_controller_model extends admin_controller
 		return $this->error($this->content->error());
 	}
 	*/
+
+    /**
+     * 导出模型
+     *
+	 * @param string $id 应用标识(ID)
+     * @return void
+     */
+	public function action_export($id)
+	{
+		$data = $this->model->get($id);
+		$fields = m('content.field')->getall($id);
+
+		function var_export_min($var, $return = false)
+		{
+		    if (is_array($var))
+		    {
+		        $toImplode = array();
+		        foreach ($var as $key => $value)
+		        {
+		            $toImplode[] = var_export($key, true).'=>'.var_export_min($value, true);
+		        }
+		        $code = 'array('.implode(',', $toImplode).')';
+		        if ($return)
+		        {
+		        	return $code;
+		        } 
+		        else
+		        {
+		        	echo $code;	
+		        }
+		    } else {
+		        return var_export($var, $return);
+		    }
+		}		
+
+		$code  = "";
+		$code .= "array(";
+		foreach ($data as $key => $val)
+		{
+			$code .= "\n	'{$key}'=>'{$val}'";
+		}
+		$code .= "\n	'fields'=>array(";
+		foreach ($fields as $key => $val)
+		{
+			$code .= "\n		'{$key}'=>".var_export_min($val,true).",";
+		}
+		$code .= "\n	)";
+		$code .= "\n)";
+
+		$code = str_replace(',)',')',$code);
+
+		header('Content-Disposition: attachment; filename="'.$id.'.model"');
+		echo $code;
+		exit;
+	}
 }
 ?>

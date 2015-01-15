@@ -23,15 +23,13 @@
 					<td class="drag"></td>
 					<td class="center w50">{t('状态')}</td>
 					<td>{t('标签名')}</td>
-					<td class="w100">{t('字段名')}</td>
-					<td class="w100 none">{t('控件')}</td>
-					<td class="w80 center">{t('系统')}</td>
-					<td class="w80 center">{t('投稿')}</td>
-					<td class="w80 center">{t('前台显示')}</td>
-					<td class="w80 center">{t('必填')}</td>
+					<td>{t('字段名')}</td>
+					<td>{t('控件类型')}</td>
+					<td class="w80 center">{t('系统字段')}</td>
+					<td class="w80 center">{t('前台投稿')}</td>
+					<td class="w80 center">{t('不能为空')}</td>
 					<td class="w80 center">{t('值唯一')}</td>
 					<td class="w80 center">{t('允许搜索')}</td>
-					<td class="w80 center">{t('排序')}</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -60,24 +58,14 @@
 						</div>
 					</td>
 					<td>{$r['name']}</td>
-					<td class="none">{$controls[$r['control']]['name']}</td>
+					<td>
+						{if $controls[$r['control']]}<span title="{$r['control']}">{$controls[$r['control']]['name']}</span>{else}{$r['control']}{/if}
+					</td>
 					<td class="center">{if $r['system']}<i class="icon icon-true true"></i>{else}<i class="icon icon-false false"></i>{/if}</td>
 					<td class="center">{if $r['post']}<i class="icon icon-true true"></i>{else}<i class="icon icon-false false"></i>{/if}</td>
-					<td class="center">{if $r['show']}<i class="icon icon-true true"></i>{else}<i class="icon icon-false false"></i>{/if}</td>					
 					<td class="center">{if $r['notnull']}<i class="icon icon-true true"></i>{else}<i class="icon icon-false false"></i>{/if}</td>
 					<td class="center">{if $r['unique']}<i class="icon icon-true true"></i>{else}<i class="icon icon-false false"></i>{/if}</td>
 					<td class="center">{if $r['search']}<i class="icon icon-true true"></i>{else}<i class="icon icon-false false"></i>{/if}</td>
-					<td class="center">
-						{if $r['order']=='ASC'}
-							<span class="true">{t('升序')}</span>
-						{elseif $r['order']=='DESC'}
-							<span class="true">{t('降序')}</span>
-						{else}
-							
-						{/if}
-						
-					</td>
-
 				</tr>
 			{/loop}
 			<tbody>

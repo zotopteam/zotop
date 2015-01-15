@@ -32,16 +32,18 @@ class content_model_field extends model
 			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
 			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),
 			'image'		=> array('name'=>t('图片'),'type'=>'varchar', 'length'=>'100'),
-			'file'		=> array('name'=>t('文件'),'type'=>'varchar', 'length'=>'100'),	
+			'images'	=> array('name'=>t('图集'),'type'=>'text'),
+			'file'		=> array('name'=>t('文件'),'type'=>'varchar', 'length'=>'100'),
+			'files'		=> array('name'=>t('文件集'),'type'=>'text'),
 			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
-			'datetime'	=> array('name'=>t('日期 + 时间'),'type'=>'int', 'length'=>'10'),					
+			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),					
         ));
 
         $this->system_fields = array(
-        	array('control'=>'title','label'=>t('标题'),'name' =>'title','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'1','unique' => '0','settings'=>'','tips' =>'','base' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>''),
-        	array('control'=>'image','label'=>t('缩略图'),'name' =>'thumb','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>''),
-         	array('control'=>'textarea','label'=>t('摘要'),'name' =>'summary','type'=>'varchar','length'=>'1000','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','show'=>'1','post'=>'1','search'=>'1','order'=>''),
-        	array('control'=>'datatime','label'=>t('发布时间'),'name' =>'createtime','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'0','show'=>'1','post'=>'1','search'=>'1','order'=>''),       
+        	array('control'=>'title','label'=>t('标题'),'name' =>'title','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'1','unique' => '0','settings'=>'','tips' =>'','base' =>'1','post'=>'1','search'=>'1'),
+        	array('control'=>'image','label'=>t('缩略图'),'name' =>'thumb','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','post'=>'1','search'=>'0'),
+         	array('control'=>'textarea','label'=>t('摘要'),'name' =>'summary','type'=>'varchar','length'=>'1000','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','post'=>'1','search'=>'1'),
+        	array('control'=>'datatime','label'=>t('发布时间'),'name' =>'createtime','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'0','post'=>'1','search'=>'0'),       
         );
 	}
 
@@ -114,7 +116,7 @@ class content_model_field extends model
 
 				if ( $r['unique'] )
 				{
-					$fields[$i]['field']['remote']	= U('form/data/check/'.$modelid.'/'.$fields[$i]['field']['name'].'/'.$fields[$i]['field']['value']);
+					$fields[$i]['field']['remote']	= U('content/content/check/'.$modelid.'/'.$fields[$i]['field']['name'].'/'.$fields[$i]['field']['value']);
 				}
 
 				// 将settings中的属性合并到字段
@@ -126,9 +128,9 @@ class content_model_field extends model
 				}				
 
 				// 增加上传数据编号
-				if ( in_array($r['control'], array('editor','image','file')) and $data['id'] )
+				if ( in_array($r['control'], array('editor','image','images','file','files')) and $data['id'] )
 				{
-					$fields[$i]['field']['dataid']	= "form-{$modelid}-{$data['id']}";
+					$fields[$i]['field']['dataid']	= $data['id'];
 				}
 
 			}

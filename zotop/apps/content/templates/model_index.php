@@ -42,6 +42,8 @@
 						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>						
 						<s></s>
 						<a href="{u('content/model/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
+						<s></s>
+						<a href="{u('content/model/export/'.$r['id'])}">{t('导出')}</a>
 						{/if}					
 					</div>
 				</td>
