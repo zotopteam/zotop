@@ -60,10 +60,7 @@ class application
         }
 
         // 获取pathinfo
-        foreach (array(
-            'PATH_INFO',
-            'ORIG_PATH_INFO',
-            'PHP_SELF') as $v)
+        foreach (array('PATH_INFO','ORIG_PATH_INFO','PHP_SELF') as $v)
         {
             if (isset($_SERVER[$v]) and $_SERVER[$v])
             {
@@ -209,7 +206,8 @@ class application
         //输出头部信息
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('ETag: "' . $strlen . '-' . time() . '"');
-        header('X-Powered-By: zotop');
+        header('X-Powered-By: zotop v'.c('zotop.version'));
+        header('Author: zotop team && zotop.com');
         header('Accept-Ranges: bytes');
 
         return $data;
@@ -268,12 +266,12 @@ class application
 	{
 		try
 		{
-			$type = get_class($e);
-			$code = $e->getCode();
+			$type    = get_class($e);
+			$code    = $e->getCode();
 			$message = $e->getMessage();
-			$file = $e->getFile();
-			$line = $e->getLine();
-			$trace = $e->getTrace();
+			$file    = $e->getFile();
+			$line    = $e->getLine();
+			$trace   = $e->getTrace();
 
 			if ( $e instanceof ErrorException )
 			{

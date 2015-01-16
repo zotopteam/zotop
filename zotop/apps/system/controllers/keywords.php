@@ -21,7 +21,7 @@ class system_controller_keywords extends admin_controller
 		$title 		= strip_tags($_POST['title']);
 		$content 	= strip_tags(preg_replace("/\[.+?\]/U", '', $_POST['content']));
 
-		$title 		= rawurlencode($title);
+		$title 		= rawurlencode(str::cut($title,500));
 		$content 	= rawurlencode(str::cut($content,500));
 
 		$data = @implode('', file("http://keyword.discuz.com/related_kw.html?ics=utf-8&ocs=utf-8&title={$title}&content={$content}"));

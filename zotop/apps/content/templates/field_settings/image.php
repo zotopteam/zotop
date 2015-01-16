@@ -1,7 +1,7 @@
 <?php
-	if ( empty( $data['settings']['image_resize'] ) )
+	if ( !isset( $data['settings']['image_resize'] ) )
 	{
-		$data['settings']['image_resize'] = 1;
+		$data['settings']['image_resize'] = c('system.image_resize');
 	}
 
 	if ( empty( $data['settings']['image_width'] ) )
@@ -55,23 +55,10 @@
 
 <!-- /字段类型相关参数 -->
 <table class="field">
-	<tr class="field-extend field-style none">
-		<td class="label">{form::label(t('控件样式'),'settings[style]',false)}</td>
-		<td class="input">
-			{form::field(array('type'=>'text','name'=>'settings[style]','value'=>$data['settings']['style']))}
-			{form::tips('定义控件的[style]样式，如：width:200px;height:300px;')}
-		</td>
-	</tr>
-	<tr class="field-extend field-notnull none">
+	<tr class="field-extend field-notnull">
 		<td class="label">{form::label(t('不能为空'),'notnull',false)}</td>
 		<td class="input">
 			{form::field(array('type'=>'bool','name'=>'notnull','value'=>(int)$data['notnull']))}
-		</td>
-	</tr>
-	<tr class="field-extend field-unique none">
-		<td class="label">{form::label(t('值唯一'),'unique',false)}</td>
-		<td class="input">			
-			{form::field(array('type'=>'bool','name'=>'unique','value'=>(int)$data['unique']))}			
 		</td>
 	</tr>
 	<tr class="field-extend field-post">
@@ -85,12 +72,6 @@
 		<td class="label">{form::label(t('基本信息'),'base',false)} <i class="icon icon-help" title="{t('基本信息将显示在添加编辑页面的主要位置')}"></i></td>
 		<td class="input">
 			{form::field(array('type'=>'bool','name'=>'base','value'=>(int)$data['base']))}			
-		</td>
-	</tr>
-	<tr class="field-extend field-search none">
-		<td class="label">{form::label(t('允许搜索'),'search',false)}</td>
-		<td class="input">
-			{form::field(array('type'=>'bool','name'=>'search','value'=>(int)$data['search']))}
 		</td>
 	</tr>
 </table>

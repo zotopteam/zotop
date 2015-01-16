@@ -33,7 +33,8 @@ zotop::add('member.navlist','content_api::membernavlist');
  * 注册控件
  */
 form::field('title', 'content_api::field_title');
-form::field('gallery', 'content_api::field_gallery');
+form::field('images', 'content_api::field_images');
+form::field('summary', 'content_api::field_summary');
 
 
 /**

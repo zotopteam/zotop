@@ -79,7 +79,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('简介'),'shop',false)}</td>
+				<td class="label">{form::label(t('简介'),'content',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'editor','name'=>'content','value'=>$data['content'],'tools'=>true,'theme'=>'full','dataid'=>$data['dataid']))}
 				</td>
@@ -87,7 +87,7 @@
 			<tr>
 				<td class="label">{form::label(t('关键词'),'keywords',false)}</td>
 				<td class="input">
-					{form::field(array('type'=>'keywords','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'shop'))}
+					{form::field(array('type'=>'keywords','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'title,content'))}
 				</td>
 			</tr>
 			<tr>

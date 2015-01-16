@@ -8,7 +8,7 @@
 {form::header(u('kefu/config/save'))}
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{t('留言本设置')}</div>
+		<div class="title">{t('设置')}</div>
 		<div class="action">
 
 		</div>

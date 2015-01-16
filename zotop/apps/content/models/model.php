@@ -28,9 +28,11 @@ class content_model_model extends model
 		
 		$data['app'] 		= $data['app'] ? $data['app'] : 'content';
 		$data['model'] 		= $data['model'] ? $data['model'] : 'custom';
-		$data['template']	= $data['template'] ? $data['template'] : 'content/detail_'.$data['id'].'.php';
 		$data['listorder']	= $this->max('listorder') + 1;
+		$data['disabled']	= 0;
 
+		//$data['template']	= $data['template'] ? $data['template'] : 'content/detail_'.$data['id'].'.php';
+		
 		if ( $id = $this->insert($data) )
 		{
 			// 如果是自定义模型则插入系统字段集
@@ -81,8 +83,14 @@ class content_model_model extends model
      */
 	public function delete($id)
 	{
+		if ( $this->datacount($id) ) return $this->error(t('该模型下面尚有数据，无法删除'));
+
 		if ( parent::delete($id) )
 		{
+			// 删除模型字段
+			m('content.field')->db()->where('modelid',$id)->delete();
+
+			// 重建缓存
 			$this->cache(true);
 			return true;
 		}

@@ -50,18 +50,18 @@ class system_field
 	 */
 	public static function keywords($attrs)
 	{
-		$attrs['id'] = $attrs['name'].'-'.$attrs['data-source'];
-
 		$html['field']	= form::field_text($attrs);
 
 		if( $attrs['data-source'] )
 		{
+			list($source_title, $source_content) = explode(',', $attrs['data-source']);
+
 			$html['js']		= html::import(A('system.url').'/common/js/field.keywords.js');
-			$html['get'] = '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
+			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
 		}
 
-		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
-		$html['tips']	= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
+		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['tips']		= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
 
 		// hook
 		$html = zotop::filter('system.field.keywords', $html, $attrs, $options);

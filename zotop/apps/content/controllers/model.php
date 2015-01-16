@@ -21,12 +21,12 @@ class content_controller_model extends admin_controller
 		parent::__init();
 
 		$this->model = m('content.model');
-		$this->content = m('content.content');
 	}
 
  	/**
 	 * 模型管理
-	 *
+	 * 
+     * @return mixed
 	 */
 	public function action_index()
 	{
@@ -56,7 +56,8 @@ class content_controller_model extends admin_controller
 	/**
 	 * 添加模型
 	 *
-	 * @return mixed
+	 * @param string $id 模型标识(ID)
+     * @return mixed
 	 */
     public function action_add()
     {
@@ -78,7 +79,8 @@ class content_controller_model extends admin_controller
 	/**
 	 * 编辑模型
 	 *
-	 * @return mixed
+	 * @param string $id 模型标识(ID)
+     * @return mixed
 	 */
     public function action_edit($id)
     {
@@ -102,8 +104,8 @@ class content_controller_model extends admin_controller
     /**
      * 设置状态，禁用或者启用
      *
-	 * @param string $id 应用标识(ID)
-     * @return void
+	 * @param string $id 模型标识(ID)
+     * @return mixed
      */
 	public function action_status($id)
 	{
@@ -114,42 +116,52 @@ class content_controller_model extends admin_controller
 		return $this->error($this->model->error());
 	}
 
- 	/**
-	 * 禁止删除模型
-	 *
+
+	/**
+	 * 删除模型
+	 * 
+	 * @param string $id 模型标识(ID)
+     * @return mixed
 	 */
-	/*
 	public function action_delete($id)
 	{
 		if ( $this->model->delete($id) )
 		{
 			return $this->success(t('删除成功'),request::referer());
 		}
-		return $this->error($this->content->error());
+		return $this->error($this->model->error());
 	}
-	*/
 
     /**
      * 导出模型
      *
-	 * @param string $id 应用标识(ID)
+	 * @param string $id 模型标识(ID)
      * @return void
      */
 	public function action_export($id)
 	{
 		$data = $this->model->get($id);
+
 		$fields = m('content.field')->getall($id);
+
+		foreach ($fields as &$f)
+		{
+			unset($f['id']);unset($f['modelid']);unset($f['listorder']);
+		}
 
 		function var_export_min($var, $return = false)
 		{
 		    if (is_array($var))
 		    {
-		        $toImplode = array();
+		        $implode = array();
+
 		        foreach ($var as $key => $value)
 		        {
-		            $toImplode[] = var_export($key, true).'=>'.var_export_min($value, true);
+		            $implode[] = var_export($key, true).'=>'.var_export_min($value, true);
 		        }
-		        $code = 'array('.implode(',', $toImplode).')';
+		        
+		        $code = 'array('.implode(',', $implode).')';
+		        
 		        if ($return)
 		        {
 		        	return $code;
@@ -158,13 +170,15 @@ class content_controller_model extends admin_controller
 		        {
 		        	echo $code;	
 		        }
-		    } else {
+		    }
+		    else
+		    {
 		        return var_export($var, $return);
 		    }
 		}		
 
-		$code  = "";
-		$code .= "array(";
+		$code  = "<?php ";
+		$code .= "\nreturn array(";
 		foreach ($data as $key => $val)
 		{
 			$code .= "\n	'{$key}'=>'{$val}'";
@@ -172,10 +186,11 @@ class content_controller_model extends admin_controller
 		$code .= "\n	'fields'=>array(";
 		foreach ($fields as $key => $val)
 		{
-			$code .= "\n		'{$key}'=>".var_export_min($val,true).",";
+			$code .= "\n		".var_export_min($val,true).",";
 		}
 		$code .= "\n	)";
-		$code .= "\n)";
+		$code .= "\n);";
+		$code .= "\n?>";
 
 		$code = str_replace(',)',')',$code);
 

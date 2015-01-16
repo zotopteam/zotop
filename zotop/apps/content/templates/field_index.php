@@ -6,10 +6,19 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
+		<div class="position">
+			<a href="{u('content/model')}">{t('模型管理')}</a>
+			<s class="arrow">></s>
+			{$title} : {m('content.model.get',$modelid,'name')}
+		</div>
 		<div class="action">
 			<a class="btn btn-icon-text btn-highlight" href="{U('content/field/add/'.$modelid)}">
 				<i class="icon icon-add"></i><b>{t('添加字段')}</b>
 			</a>
+
+			<a class="btn btn-icon-text" href="{U('content/field/view/'.$modelid)}">
+				<i class="icon icon-view"></i><b>{t('预览表单')}</b>
+			</a>			
 		</div>
 	</div>
 	<div class="main-body scrollable">
@@ -40,7 +49,7 @@
 					<td>
 						<div class="title textflow">{$r['label']}</div>
 						<div class="manage">
-							<a href="{u('content/field/edit/'.$r['id'])}">{t('编辑字段')}</a>
+							<a href="{u('content/field/edit/'.$r['id'])}">{t('修改字段')}</a>
 
 							<s></s>
 							{if $r['disabled']}

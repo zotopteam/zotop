@@ -136,12 +136,23 @@ class content_api
 	}
 
 	/**
+	 * 摘要控件
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function field_summary($attrs)
+	{
+		return form::field_textarea($attrs);
+	}	
+
+	/**
 	 * 多图控件
 	 *
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
-	public static function field_gallery($attrs)
+	public static function field_images($attrs)
 	{
 		$attrs['id'] = $attrs['id'] ? $attrs['id'] : $attrs['name'];
 

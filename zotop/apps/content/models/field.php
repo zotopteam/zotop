@@ -38,13 +38,20 @@ class content_model_field extends model
 			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
 			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),					
         ));
-
+		
+		// TODO 标签翻译问题
         $this->system_fields = array(
-        	array('control'=>'title','label'=>t('标题'),'name' =>'title','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'1','unique' => '0','settings'=>'','tips' =>'','base' =>'1','post'=>'1','search'=>'1'),
-        	array('control'=>'image','label'=>t('缩略图'),'name' =>'thumb','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','post'=>'1','search'=>'0'),
-         	array('control'=>'textarea','label'=>t('摘要'),'name' =>'summary','type'=>'varchar','length'=>'1000','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'1','post'=>'1','search'=>'1'),
-        	array('control'=>'datatime','label'=>t('发布时间'),'name' =>'createtime','type'=>'varchar','length'=>'100','default' =>'','notnull'=>'0','unique' => '0','settings'=>'','tips' =>'','base' =>'0','post'=>'1','search'=>'0'),       
-        );
+			array('control'=>'title','label'=>'标题','name'=>'title','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'1','unique'=>'0','settings'=>array('minlength'=>'0','maxlength'=>'100'),'tips'=>'','base'=>'1','post'=>'1','search'=>'1','system'=>'1','disabled'=>'0'),
+			array('control'=>'image','label'=>'缩略图','name'=>'image','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'keywords','label'=>'关键词','name'=>'keywords','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array('data-source'=>'title,content'),'tips'=>'','base'=>'1','post'=>'1','search'=>'1','system'=>'1','disabled'=>'0'),
+			array('control'=>'summary','label'=>'摘要','name'=>'summary','type'=>'varchar','length'=>'1000','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'1','system'=>'1','disabled'=>'0'),
+			array('control'=>'url','label'=>'链接','name'=>'url','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'blockcommend','label'=>'推荐到区块','name'=>'blockids','type'=>'varchar','length'=>'128','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'bool','label'=>'评论','name'=>'comment','type'=>'tinyint','length'=>'1','default'=>'1','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'alias','label'=>'URL别名','name'=>'alias','type'=>'varchar','length'=>'128','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'template','label'=>'模板','name'=>'template','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'datetime','label'=>'发布时间','name'=>'createtime','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'0','system'=>'1','disabled'=>'0'),
+		);
 	}
 
 	/*
@@ -273,14 +280,8 @@ class content_model_field extends model
 			return $this->error(t('数据字段长度不能为空'));
 		}
 
-		// 大数据字段不能在后台显示
-		$data['list'] 	= in_array($data['type'], array('text','mediumtext')) ? 0 : $data['list'];
-
 		// 大数据字段不能设为值唯一
 		$data['unique'] = in_array($data['type'], array('text','mediumtext')) ? 0 : $data['unique'];
-		
-		// 大数据字段不能参与排序
-		$data['order'] 	= in_array($data['type'], array('text','mediumtext')) ? '' : $data['order'];
 
 		// 默认的表名称为 content_model_[modelid]
 		$data['tablename'] = "content_model_{$data['modelid']}";
@@ -350,7 +351,7 @@ class content_model_field extends model
 			if ( $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$tablename}.fields", null);
+				zotop::cache("{$data['tablename']}.fields", null);
 				
 				// 更新字段缓存
 				$this->cache($data['modelid'], true);
@@ -369,13 +370,18 @@ class content_model_field extends model
 	 * @param  int $id   字段编号
 	 * @return mixed  操作结果或者字段编号
 	 */
-	public function edit($data,$id)
+	public function edit($data, $id)
 	{
+		if ( intval($data['system']) )
+		{
+			$this->update($data,$id);
+			$this->cache($data['modelid'], true);
+			return $id;
+		}
+
 		if ( $data = $this->checkdata($data) )
 		{
-			$tablename = m('content.model.get', $data['modelid'], 'tablename');
-
-			$table = $this->db->table($tablename);
+			$table = $this->db->table($data['tablename']);
 
 			//改变字段名称
 			$name = $data['_name'] ? $data['_name'] : $data['name'];
@@ -390,7 +396,7 @@ class content_model_field extends model
 			if ( $table->changeField($name, $this->fielddata($data)) and $this->update($data,$id) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$tablename}.fields",null);
+				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
 				$this->cache($data['modelid'], true);				
@@ -412,9 +418,11 @@ class content_model_field extends model
 	{
 		if ( $data = $this->get($id) )
 		{
+			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除'));
+
 			if ( empty($data['tablename']) )
 			{
-				$data['tablename'] = m('content.model.get', $data['modelid'], 'tablename');
+				$data['tablename'] = "content_model_{$data['modelid']}";
 			}
 
 			if ( $this->db->table($data['tablename'])->dropField($data['name']) and parent::delete($id) )

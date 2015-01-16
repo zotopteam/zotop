@@ -6,11 +6,20 @@
 {form::header()}
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{$title}</div>
+		<div class="title">{t('字段管理')}</div>
+		<div class="position">
+			<a href="{u('content/model')}">{t('模型管理')}</a>
+			<s class="arrow">></s>
+			<a href="{u('content/field/index/'.$data.modelid)}">{t('字段管理')} : {m('content.model.get',$data.modelid,'name')}</a>
+			<s class="arrow">></s>
+			{$title} {if $data.label}: {$data.label}{/if}
+		</div>		
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 
 		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'system','value'=>$data['system'],'required'=>'required'))}
+
 		{form::field(array('type'=>'hidden','name'=>'type','value'=>$data['type'],'required'=>'required'))}
 		{form::field(array('type'=>'hidden','name'=>'length','value'=>$data['length'],'required'=>'required'))}
 

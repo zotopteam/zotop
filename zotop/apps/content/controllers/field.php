@@ -26,8 +26,10 @@ class content_controller_field extends admin_controller
 	}
 
 	/**
-	 * index
-	 *
+	 * 字段管理首页
+	 * 
+	 * @param  string $modelid 模型编号
+	 * @return mixed
 	 */
 	public function action_index($modelid)
     {
@@ -44,10 +46,23 @@ class content_controller_field extends admin_controller
 		// 获取模型字段
 		$data = $this->field->cache($modelid);
 
-		$this->assign('title', '['.m('content.model.get',$modelid,'name').'] '.t('字段管理'));		
+		$this->assign('title', t('字段管理'));		
 		$this->assign('modelid',$modelid);
 		$this->assign('controls',$this->field->controls);
 		$this->assign('data',$data);
+		$this->display();
+	}
+
+	/**
+	 * 表单预览
+	 * 
+	 * @param  string $modelid 模型编号
+	 * @return mixed
+	 */
+	public function action_view($modelid)
+    {
+		$this->assign('title', t('表单预览'));		
+		$this->assign('modelid',$modelid);
 		$this->display();
 	}
 
@@ -74,7 +89,7 @@ class content_controller_field extends admin_controller
 			'length'	=> $this->field->controls['text']['length']
 		);
 
-		$this->assign('title',t('添加字段'));
+		$this->assign('title',t('新建字段'));
 		$this->assign('data',$data);
 		$this->assign('modelid',$modelid);
 		$this->assign('controls',$this->field->controls);
@@ -99,7 +114,7 @@ class content_controller_field extends admin_controller
 
 		$data = $this->field->get($id);
 
-		$this->assign('title',t('编辑字段'));
+		$this->assign('title',t('修改字段'));
 		$this->assign('data',$data);
 		$this->assign('modelid',$data['modelid']);
 		$this->assign('controls',$this->field->controls);

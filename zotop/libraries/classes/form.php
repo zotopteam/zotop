@@ -24,9 +24,9 @@ class form
 
 		if ( is_string($key) )
 		{
-			if ( in_array($key, array('checked','selected','readonly','disabled')) )
+			if ( in_array($key, array('checked','selected','readonly','disabled','required')) )
 			{
-				return $value ? $key : '';
+				return $value ? ' '.$key : '';
 			}
 
 			if( $value === null )
@@ -182,7 +182,7 @@ class form
 			$field['id'] 	= str_replace(array('.',']',' ','/','\\'), '', str_replace('[', '-', $field['id']));
 
 			// 如果未设置控件类型，则默认为text
-			$field['type'] 	= empty($field['type']) ? 'text' : $field['type'];
+			$field['type'] 	= empty($field['type']) ? 'text' : strtolower($field['type']);
 
 			// 设置默认的class
 			$field['class'] = empty($field['class']) ? str_replace(',',' ',$field['type']) : str_replace(',',' ',$field['type']).' '.$field['class'];
@@ -190,7 +190,7 @@ class form
 			// 处理required标签( validation 在ie下无法正常解析 required = "true" 或者 required = "required")
 			if ( $field['required'] )
 			{
-				$field['class'] = $field['class'].' required'; unset($field['required']);
+				$field['class'] = $field['class'].' required';
 			}
 
 			//debug::dump($field);
@@ -201,7 +201,7 @@ class form
 			foreach($types as $type)
 			{
 				// 调用设置的控件
-				if ( $callback = $fields[strtolower($type)] )
+				if ( $callback = $fields[$type] )
 				{
 					return call_user_func_array($callback, array($field));
 				}

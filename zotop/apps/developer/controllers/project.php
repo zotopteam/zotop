@@ -43,7 +43,7 @@ class developer_controller_project extends admin_controller
 			// 获取工程信息
 			if ( $_GET['dir'] )
 			{
-				zotop::cookie('project_dir', $_GET['dir']);
+				zotop::cookie('project_dir', $_GET['dir'], 365*86400);
 			}
 
 			if ( $this->dir = zotop::cookie('project_dir') )
@@ -294,7 +294,7 @@ class developer_controller_project extends admin_controller
 			file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($app, true).";\n?>");
 
 
-			return $this->success(t('操作成功'),u('developer/project'));
+			return $this->success(t('操作成功'),u('developer/project/table'));
 		}
 
 		$tables = $this->db->tables();
