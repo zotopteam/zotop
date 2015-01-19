@@ -49,7 +49,7 @@ class content_model_field extends model
 			array('control'=>'blockcommend','label'=>'推荐到区块','name'=>'blockids','type'=>'varchar','length'=>'128','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
 			array('control'=>'bool','label'=>'评论','name'=>'comment','type'=>'tinyint','length'=>'1','default'=>'1','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
 			array('control'=>'alias','label'=>'URL别名','name'=>'alias','type'=>'varchar','length'=>'128','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'template','label'=>'模板','name'=>'template','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
+			array('control'=>'template','label'=>'内容页模板','name'=>'template','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
 			array('control'=>'datetime','label'=>'发布时间','name'=>'createtime','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'0','system'=>'1','disabled'=>'0'),
 		);
 	}
@@ -143,7 +143,7 @@ class content_model_field extends model
 			}
 		}
 
-		return $fields;
+		return zotop::filter('content.field.getfields', $fields, $modelid, $data);
 	}
 
 	/**
@@ -283,9 +283,6 @@ class content_model_field extends model
 		// 大数据字段不能设为值唯一
 		$data['unique'] = in_array($data['type'], array('text','mediumtext')) ? 0 : $data['unique'];
 
-		// 默认的表名称为 content_model_[modelid]
-		$data['tablename'] = "content_model_{$data['modelid']}";
-
 		return $data;
 	}
 
@@ -320,9 +317,13 @@ class content_model_field extends model
 	{
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['tablename']);
+			// 获取模型表名称 content_model_[modelid]
+			if ( $tablename = m('content.model.get',$data['modelid'],'tablename') )
+			{
+				$table = $this->db->table($tablename);
+			}		
 
-			if ( !$table->exists() )
+			if ( $table and !$table->exists() )
 			{
 				$table = array(
 					'fields'	=> array(
@@ -334,24 +335,29 @@ class content_model_field extends model
 					'comment' 	=> $data['name']
 				);
 
-				if ( !$this->db->table($data['tablename'])->create($table) )
+				if ( !$this->db->table($tablename)->create($table) )
 				{
-					return $this->error(t('创建附加数据表 {1} 失败', $data['tablename']));
-				}				
+					return $this->error(t('创建附加数据表 {1} 失败', $tablename));
+				}
+
+				$table = $this->db->table($tablename);	
 			}
 
 			// 检查字段名称是否已经存在
-			if ( $table->existsField($data['name']) )
+			if ( $table and $table->existsField($data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
-			$data['listorder'] = $this->max('id') + 1;
+			if ( empty($data['listorder']) )
+			{
+				$data['listorder'] = $this->max('id') + 1;
+			}			
 
-			if ( $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $table and $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['tablename']}.fields", null);
+				zotop::cache("{$tablename}.fields", null);
 				
 				// 更新字段缓存
 				$this->cache($data['modelid'], true);
@@ -372,6 +378,7 @@ class content_model_field extends model
 	 */
 	public function edit($data, $id)
 	{
+		// 系统字段
 		if ( intval($data['system']) )
 		{
 			$this->update($data,$id);
@@ -379,24 +386,25 @@ class content_model_field extends model
 			return $id;
 		}
 
+		// 用户自定义字段
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['tablename']);
-
-			//改变字段名称
-			$name = $data['_name'] ? $data['_name'] : $data['name'];
+			if ( $tablename = m('content.model.get',$data['modelid'],'tablename') )
+			{
+				$table = $this->db->table($tablename);
+			}			
 
 			// 更名的时候检查字段名称是否已经存在
-			if ( $name != $data['name'] and $table->existsField($data['name']) )
+			if ( $table and $data['_name'] != $data['name'] and $table->existsField($data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
 			// 更该字段
-			if ( $table->changeField($name, $this->fielddata($data)) and $this->update($data,$id) )
+			if ( $table and $table->changeField($data['_name'], $this->fielddata($data)) and $this->update($data,$id) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['tablename']}.fields",null);
+				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
 				$this->cache($data['modelid'], true);				
@@ -420,15 +428,15 @@ class content_model_field extends model
 		{
 			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除'));
 
-			if ( empty($data['tablename']) )
+			if ( $tablename = m('content.model.get',$data['modelid'],'tablename') )
 			{
-				$data['tablename'] = "content_model_{$data['modelid']}";
+				$table = $this->db->table($tablename);
 			}
 
-			if ( $this->db->table($data['tablename'])->dropField($data['name']) and parent::delete($id) )
+			if ( $table and $table->dropField($data['name']) and parent::delete($id) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['tablename']}.fields",null);
+				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
 				$this->cache($data['modelid'], true);				

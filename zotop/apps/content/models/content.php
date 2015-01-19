@@ -99,6 +99,31 @@ class content_model_content extends model
     }
 
     /**
+     * 获取扩展模型对象
+     * 
+     * @param  string $modelid 模型id
+     * @return object 模型对象
+     */
+    public function extend($modelid)
+    {
+        $models = m('content.model.cache');
+
+        if ( $models[$modelid] )
+        {
+            try 
+            {
+                return m($models[$modelid]['app'].'.'.$models[$modelid]['model'].'.init', $this);
+            }
+            catch (Exception $e)
+            {
+                return null;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * 获取数据
      *
      * @param int $id 内容编号
@@ -107,27 +132,20 @@ class content_model_content extends model
 
     public function get($id, $field='')
     {
-
         $data = $this->getbyid($id);
 
-        if ( is_array($data) and $data['app'] and $data['modelid'] )
+        if ( is_array($data) )
         {
             // 附件编号
             $data['dataid'] = "content-{$id}";
 
-            // 初始化模型
-            $model = m("{$data['app']}.{$data['modelid']}")->init($this);
+            // 扩展模型数据
+            if ( $extend = $this->extend($data['modelid']) )
+            {
+                $data = array_merge($data, $extend->get($id));
+            }
 
-			// 模型前置接口
-			$model->before_get($data);
-
-			// 合并数据
-			$data = array_merge($data, $model->get($id));
-
-			// 模型后置接口
-			$model->after_get($data);
-
-            unset($model);
+            unset($extend);
         }
 
         return $data;
@@ -144,7 +162,6 @@ class content_model_content extends model
     public function save($data)
     {
         if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
-        if ( empty($data['app']) ) return $this->error(t('应用不能为空'));
         if ( empty($data['modelid']) ) return $this->error(t('模型不能为空'));
         if ( empty($data['categoryid']) ) return $this->error(t('栏目不能为空'));
 
@@ -163,13 +180,13 @@ class content_model_content extends model
 		}
 
 		// 自动提取缩略图
-		if ( intval(C('content.autothumb')) && empty($data['thumb']) && isset($data['content']) )
+		if ( intval(C('content.autothumb')) && empty($data['image']) && isset($data['content']) )
 		{
 			$imageid = intval(C('content.autothumb')) - 1 ; //自动提取第几张图片作为缩略图
 
 			if( $imageid >= 0 and preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", stripslashes($data['content']), $matches) )
 			{
-				$data['thumb'] = $matches[3][$imageid];
+				$data['image'] = $matches[3][$imageid];
 			}
 		}
 
@@ -200,7 +217,7 @@ class content_model_content extends model
                 'title'         => $data['title'],
                 'style'         => $data['style'],
                 'url'           => $data['alias'] ? $data['alias'] : "content/detail/{$data['id']}",                
-                'image'         => $data['thumb'],
+                'image'         => $data['image'],
                 'description'   => $data['summary'],
                 'time'          => $data['createtime']
             ));
@@ -215,20 +232,6 @@ class content_model_content extends model
      */
     public function add(&$data)
     {
-        // 获取模型
-        $model = m("{$data['app']}.{$data['modelid']}")->init($this);
-
-        if (!$model)
-        {
-            return $this->error(t('模型 %s 不存在', $data['app'] . '.' . $data['modelid']));
-        }
-
-        // 前置添加检验
-        if (false === $model->before_add($data))
-        {
-            return $this->error($model->error());
-        }
-
         // 填充数据
         $data['id']         = null;
         $data['userid']     = zotop::user('id');
@@ -236,12 +239,13 @@ class content_model_content extends model
         $data['status']     = empty($data['status']) ? 'pending' : $data['status'];
 
         // 添加数据
-        if ( $data['id'] = $this->insert($data) and $model->add($data) )
+        if ( $data['id'] = $this->insert($data) )
         {
-            // 后置添加
-            $model->after_add($data);
+            if ( $extend = $this->extend($data['modelid']) )
+            {
+                $extend->insert($data);
+            }
 
-            //添加数据成功
             return $data['id'];
         }
 
@@ -254,30 +258,18 @@ class content_model_content extends model
      */
     public function edit(&$data)
     {
-        // 获取模型
-        $model = m("{$data['app']}.{$data['modelid']}")->init($this);
-
-        if (!$model)
-        {
-            return $this->error(t('模型 %s 不存在', $data['app'] . '.' . $data['modelid']));
-        }
-
-        // 前置编辑检验
-        if (false === $model->before_edit($data))
-        {
-            return $this->error($model->error());
-        }
-
         // 填充数据
         $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : strtotime($data['createtime']);
         $data['updatetime'] = ZOTOP_TIME;
 
-        if ( $this->update($data) and $model->edit($data) )
+        // 更新数据
+        if ( $this->update($data) )
         {
-            // 后置编辑
-            $model->after_edit($data);
+            if ( $extend = $this->extend($data['modelid']) )
+            {
+                $extend->update($data, $data['id']);
+            }
 
-            //编辑数据成功
             return $data['id'];
         }
 
@@ -389,8 +381,8 @@ class content_model_content extends model
 		if ( $modelid ) $db->where('modelid','=',$modelid);
 
 		// 查询结果是否必须包含缩略图
-		if ( strtolower($thumb) == 'true' ) $db->where('thumb','!=','');
-		if ( strtolower($thumb) == 'false' ) $db->where('thumb','=','');
+		if ( strtolower($image) == 'true' ) $db->where('image','!=','');
+		if ( strtolower($image) == 'false' ) $db->where('image','=','');
 
 		// 前后的ID数据
 		if ( intval($prev) ) { $db->where('id','>',intval($prev)); $orderby = 'id asc'; }
@@ -481,7 +473,6 @@ class content_model_content extends model
 			}
 
             // 处理tags
-
             $d['tags'] = explode(',', $d['keywords']);
 
 			$return[$d['id']] = $d;

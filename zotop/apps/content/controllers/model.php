@@ -65,7 +65,7 @@ class content_controller_model extends admin_controller
 		{
 			if ( $this->model->add($post) )
 			{
-				return $this->success(t('操作成功'),request::referer());
+				return $this->success(t('操作成功'),u('content/model'));
 			}
 
 			return $this->error($this->model->error());

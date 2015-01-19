@@ -70,8 +70,8 @@
 					<table class="controls">
 						<thead>
 							<tr>
-								<td class="w100">{t('使用模型')}</td>
-								<td>{t('模型内容页模版')}</td>
+								<td class="w100">{t('模型')}</td>
+								<td>{t('内容页模版')}</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -84,8 +84,8 @@
 									</label>
 								</td>
 								<td>
-									{if $m['tablename']}
-										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'style'=>'width:340px;'))}
+									{if $m['template']}
+										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'required'=>'required','style'=>'width:360px;'))}
 									{/if}
 								<td>
 							</tr>
@@ -108,7 +108,7 @@
 			<tr>
 				<td class="label">{form::label(t('栏目关键词'),'keywords',false)}</td>
 				<td class="input">
-					{form::field(array('type'=>'keywords','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'content'))}
+					{form::field(array('type'=>'text','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'title,description'))}
 				</td>
 			</tr>
 			<tr>
@@ -193,12 +193,12 @@
 	});
 
 	$(function(){
-		$('[name=name]').change(function(){
+		$('[name="name"]').change(function(){
 			var name = $(this).val();
 
-			$('[name=title]').val(name);
-			$('[name=keywords]').val(name);
-			$('[name=description]').val(name);
+			$('[name="title"]').val(name);
+			$('[name="keywords"]').val(name);
+			$('[name="description"]').val(name);
 		});
 	})
 </script>
