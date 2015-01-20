@@ -7,36 +7,34 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @package    zotop.util
  * @author     zotop team
  * @license    http://zotop.com/license.html
-
  * @code
  * // 创建数据表,返回表是否存在
  *
  *   $table->create(array(
-		'fields' => array(
-			'id'        => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE),
-			'vid'       => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE,'default' => 0),
-			'type'      => array('type' => 'char','length' => 32,'notnull' => TRUE, 'default' => ''),
-			'language'  => array('type' => 'char','length' => 12,'notnull' => TRUE,'default' => ''),
-			'title'     => array('type' => 'varchar','length' => 255,'notnull' => TRUE, 'default' => ''),
-			'uid'       => array('type' => 'int', 'notnull' => TRUE, 'default' => 0),
-			'nid'      => array('type' => 'tinyint', 'unsigned' => TRUE, 'notnull' => TRUE, 'default' => 0),
-		),
-		'index' => array(
-			'uid'		=> array('uid'),
-			'nid'	=> array('vid','nid'),
-			'types'	=> array(array('type', 4)),
-			'title_type'  => array('title', array('type', 4)),
-		),
-		'unique' => array(
-			'vid' => array('vid'),
-		),
-		'foreign' => array(
-			'uid' => array('users' => 'uid'),
-		),
-		'primary' => array('id'),
-		'comment' => 'The description for table.',
-   ));
-
+ *		'fields' => array(
+ *			'id'        => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE),
+ *			'vid'       => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE,'default' => 0),
+ *			'type'      => array('type' => 'char','length' => 32,'notnull' => TRUE, 'default' => ''),
+ *			'language'  => array('type' => 'char','length' => 12,'notnull' => TRUE,'default' => ''),
+ *			'title'     => array('type' => 'varchar','length' => 255,'notnull' => TRUE, 'default' => ''),
+ *			'uid'       => array('type' => 'int', 'notnull' => TRUE, 'default' => 0),
+ *			'nid'      => array('type' => 'tinyint', 'unsigned' => TRUE, 'notnull' => TRUE, 'default' => 0),
+ *		),
+ *		'index' => array(
+ *			'uid'		=> array('uid'),
+ *			'nid'	=> array('vid','nid'),
+ *			'types'	=> array(array('type', 4)),
+ *			'title_type'  => array('title', array('type', 4)),
+ *		),
+ *		'unique' => array(
+ *			'vid' => array('vid'),
+ *		),
+ *		'foreign' => array(
+ *			'uid' => array('users' => 'uid'),
+ *		),
+ *		'primary' => array('id'),
+ *		'comment' => 'The description for table.',
+ *   ));
  *
  * // 设置主键，设置主键之前必须删除主键
  * $table->dropPrimary();
@@ -50,7 +48,6 @@ defined('ZOTOP') OR die('No direct access allowed.');
  *
  * // 更改字段
  * $table->changeField('title2',array('table'=>'title','type'=>'varchar','length'=>50,'pk'=>false));
-
  * @endcode
 */
 
@@ -62,9 +59,9 @@ abstract class database_table
 
 	public function __construct(&$db , $table)
 	{
-		$this->db = &$db;
-		$this->table = $table ;
-		$this->prefix = $this->db->config['prefix'] ;
+		$this->db 		= &$db;
+		$this->table 	= $table;
+		$this->prefix 	= $this->db->config['prefix'] ;
 	}
 
 	/**
@@ -247,31 +244,31 @@ abstract class database_table
 	 * 创建数据表,返回表是否存在
 	 *
 	 * @code
-	   $table->create(array(
-			'fields' => array(
-				'id'        => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE),
-				'vid'       => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE,'default' => 0),
-				'type'      => array('type' => 'char','length' => 32,'notnull' => TRUE, 'default' => ''),
-				'language'  => array('type' => 'char','length' => 12,'notnull' => TRUE,'default' => ''),
-				'title'     => array('type' => 'varchar','length' => 255,'notnull' => TRUE, 'default' => ''),
-				'uid'       => array('type' => 'int', 'notnull' => TRUE, 'default' => 0),
-				'nid'      => array('type' => 'tinyint', 'unsigned' => TRUE, 'notnull' => TRUE, 'default' => 0),
-			),
-			'index' => array(
-				'uid'		=> array('uid'),
-				'nid'	=> array('vid','nid'),
-				'types'	=> array(array('type', 4)),
-				'title_type'  => array('title', array('type', 4)),
-			),
-			'unique' => array(
-				'vid' => array('vid'),
-			),
-			'foreign' => array(
-				'uid' => array('users' => 'uid'),
-			),
-			'primary' => array('id'),
-			'comment' => 'The description for table.',
-	   ));
+	 *   $table->create(array(
+	 *		'fields' => array(
+	 *			'id'        => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE),
+	 *			'vid'       => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE,'default' => 0),
+	 *			'type'      => array('type' => 'char','length' => 32,'notnull' => TRUE, 'default' => ''),
+	 *			'language'  => array('type' => 'char','length' => 12,'notnull' => TRUE,'default' => ''),
+	 *			'title'     => array('type' => 'varchar','length' => 255,'notnull' => TRUE, 'default' => ''),
+	 *			'uid'       => array('type' => 'int', 'notnull' => TRUE, 'default' => 0),
+	 *			'nid'      => array('type' => 'tinyint', 'unsigned' => TRUE, 'notnull' => TRUE, 'default' => 0),
+	 *		),
+	 *		'index' => array(
+	 *			'uid'		=> array('uid'),
+	 *			'nid'	=> array('vid','nid'),
+	 *			'types'	=> array(array('type', 4)),
+	 *			'title_type'  => array('title', array('type', 4)),
+	 *		),
+	 *		'unique' => array(
+	 *			'vid' => array('vid'),
+	 *		),
+	 *		'foreign' => array(
+	 *			'uid' => array('users' => 'uid'),
+	 *		),
+	 *		'primary' => array('id'),
+	 *		'comment' => 'The description for table.',
+	 *   ));
 	 * @endcode
 	 *
      * @access public

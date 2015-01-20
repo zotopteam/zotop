@@ -99,7 +99,7 @@
 				</td>
 				<td>
 					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>
-					{$r['title']}{if $r['thumb']}<i class="icon icon-image" data-src="{$r['thumb']}"></i>{/if}
+					{$r['title']}{if $r['image']}<i class="icon icon-image" data-src="{$r['image']}"></i>{/if}
 					</div>
 					<div class="manage">
 						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
@@ -234,7 +234,7 @@ $(function(){
 
 $(function(){
 	$('.icon-image').tooltip({placement:'auto bottom',container:'body',html:true,title:function(){
-		return '<p style="margin-bottom:8px;font-size:14px;">{t('缩略图')}</p><img src="'+$(this).attr('data-src')+'" style="max-width:400px;max-height:300px;"/>';
+		return '<p style="margin-bottom:8px;font-size:14px;">{t('缩略图')}</p><img src="'+$(this).attr('data-src')+'" style="max-width:300px;max-height:200px;"/>';
 	}});
 });
 </script>

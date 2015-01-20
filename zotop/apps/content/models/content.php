@@ -108,20 +108,14 @@ class content_model_content extends model
     {
         $models = m('content.model.cache');
 
-        if ( $models[$modelid] )
+        if ( $models[$modelid] and $models[$modelid]['app'] and $models[$modelid]['model'] )
         {
-            try 
-            {
-                return m($models[$modelid]['app'].'.'.$models[$modelid]['model'].'.init', $this);
-            }
-            catch (Exception $e)
-            {
-                return null;
-            }
+            return m("{$models[$modelid]['app']}.{$models[$modelid]['model']}")->init($this, $modelid);
         }
 
         return null;
     }
+
 
     /**
      * 获取数据
@@ -152,6 +146,44 @@ class content_model_content extends model
 
     }
 
+    /**
+     * 检查保存的数据
+     * 
+     * @param  mixed $value 待保存的数据
+     * @param  array $field 模型编号
+     * @return mixed 返回处理后的数据
+     */
+    public function checkdata($value, $field)
+    {
+        if ( $field['notnull'] and is_null($value) ) return $this->error(t('{1}不能为空', $field['label']));
+
+        if ( $field['settings']['maxlength']  and str::len($value) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($value)));
+        if ( $field['settings']['minlength']  and str::len($value) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($value)));
+
+        if ( $field['settings']['max']  and intval($value) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
+        if ( $field['settings']['min']  and intval($value) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
+        
+        switch ($field['control'])
+        {
+            case 'date':
+            case 'datetime':                
+                $value = empty($value) ? ZOTOP_TIME : strtotime($value);
+                break;
+            case 'keywords':
+                $value = str_replace('，', ',', $value);
+                break;
+            case 'editor':
+
+                break;
+            case 'images':
+                
+                break;          
+            default:
+                break;
+        }
+
+        return zotop::filter('content.content.checkdata', $value, $field);
+    }
 
     /**
      * 保存数据，根据传入编号自动判断是新增还是保存
@@ -190,11 +222,30 @@ class content_model_content extends model
 			}
 		}
 
-        // 关键词处理：中文逗号替换为英文逗号
-        if ( $data['keywords'] )
+
+        // 预处理数据
+        $fields = m('content.field.cache', $data['modelid']);
+        
+        foreach ($data as $key => &$val)
         {
-            $data['keywords'] = str_replace('，', ',', $data['keywords']);
-        }    
+            if ( false === ( $field = $fields[$key]) ) continue;
+
+            if ( $field['notnull'] and empty($val) ) return $this->error(t('{1}不能为空', $field['label']));
+            if ( $field['settings']['maxlength'] and str::len($val) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($val)));
+            if ( $field['settings']['minlength'] and str::len($val) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($val)));
+            if ( $field['settings']['max'] and intval($val) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
+            if ( $field['settings']['min'] and intval($val) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
+            
+            if ( $field['control'] == 'date' or $field['control'] == 'datetime' ) $val = empty($val) ? ZOTOP_TIME : strtotime($val);
+            if ( $field['control'] == 'keywords' and $val ) $val = str_replace('，', ',', $val);
+            if ( $field['control'] == 'editor' and intval(C('content.autosummary')) and empty($data['summary']) and $val )
+            {
+                $data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($val)));
+                $data['summary'] = str::cut($data['summary'], intval(C('content.autosummary')));                
+            }
+
+
+        }
 
         // 保存
         $result = empty($data['id']) ? $this->add($data) : $this->edit($data);
@@ -263,11 +314,11 @@ class content_model_content extends model
         $data['updatetime'] = ZOTOP_TIME;
 
         // 更新数据
-        if ( $this->update($data) )
+        if ( $this->update($data, $data['id']) )
         {
             if ( $extend = $this->extend($data['modelid']) )
             {
-                $extend->update($data, $data['id']);
+                $extend->insert($data, true);
             }
 
             return $data['id'];
@@ -287,24 +338,16 @@ class content_model_content extends model
 
         if (empty($id)) return $this->error(t('编号格式错误'));
 
-        // 前置删除接口
-        zotop::run('content.before_delete', $id);
-
-        if ($data = $this->getbyid($id))
+        if ( $data = $this->getbyid($id) )
         {
-            $model = m("{$data['app']}.{$data['modelid']}")->init($this);
+            // TODO 顺序
+            if ( $extend = $this->extend($data['modelid']) )
+            {
+                $extend->delete($id);
+            }
 
-			// 前置编辑检验
-			if ( false === $model->before_delete($data) )
+			if ( parent::delete($id) )
 			{
-				return $this->error($model->error());
-			}
-
-			if (parent::delete($id))
-			{
-				// 删除附表数据
-				$model->delete($id);
-
 				// 删除数据的同时删除别名
 				alias(null, "content/detail/{$id}");
 
@@ -314,16 +357,9 @@ class content_model_content extends model
                 //删除关联推荐
                 m('block.datalist')->delCommend("content-{$id}");
 
-                // 后置编辑
-                $model->after_delete($data);
-
-				// 后置删除接口
-				zotop::run('content.after_delete', $data);
-
 				return true;
 			}
 
-            unset($model);
         }
 
         return $this->error(t('编号[%s]数据不存在', $id));

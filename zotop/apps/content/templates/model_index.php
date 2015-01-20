@@ -21,7 +21,7 @@
 			<td class="w40 center">{t('状态')}</td>
 			<td class="w300">{t('名称')}</td>
 			<td class="w140">{t('标识')}</td>
-			<td class="w140">{t('应用')}</td>
+			<td class="w140">{t('类型')}</td>
 			<td class="w80">{t('数据')}</td>
 			<td>{t('描述')}</td>
 			</tr>
@@ -36,21 +36,24 @@
 					<div class="manage">
 						<a class="dialog-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
 						<s></s>
-						<a href="{u('content/model/edit/'.$r['id'])}" class="dialog-open" data-width="750px" data-height="450px">{t('设置')}</a>
-						{if $r.iscustom}
+						<a href="{u('content/model/edit/'.$r['id'])}" class="dialog-open" data-width="750px" data-height="450px">{t('设置')}</a>						
 						<s></s>
 						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>
 						<s></s>
 						<a href="{u('content/model/export/'.$r['id'])}">{t('导出')}</a>												
 						<s></s>
 						<a href="{u('content/model/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
-
-						{/if}					
 					</div>
 				</td>
 				<td>{$r['id']}</td>
-				<td>{A($r['app'].'.name')}</td>
-				<td>{$r['datacount']}</td>
+				<td>
+					{A($r['app'].'.name')}
+					
+					{if $r.app='content'}
+						{if $r.model=='extend'} {t('扩展模型')} {else} {t('基础模型')} {/if}
+					{/if}
+				</td>
+				<td>{$r['datacount']} {t('条')}</td>
 				<td>{$r['description']}</td>
 			</tr>
 		{/loop}

@@ -83,7 +83,7 @@ class cache_file
             unlink($file);
 		}
 
-		return false;
+		return null;
 	}
 
     /**

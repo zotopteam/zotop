@@ -27,28 +27,22 @@ class content_model_model extends model
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
 		
 		$data['app'] 		= $data['app'] ? $data['app'] : 'content';
-		$data['model'] 		= $data['model'] ? $data['model'] : 'custom';
 		$data['listorder']	= $this->max('listorder') + 1;
 		$data['disabled']	= 0;
-
-		//$data['template']	= $data['template'] ? $data['template'] : 'content/detail_'.$data['id'].'.php';
 		
 		if ( $id = $this->insert($data) )
 		{
-			// 如果是自定义模型则插入系统字段集
-			if ( $data['app'] == 'content' and $data['model'] == 'custom' )
+			// 插入系统字段
+			$this->field = m('content.field');
+
+			foreach ( $this->field->system_fields as $i=>$field)
 			{
-				$this->field = m('content.field');
+				$field['system'] 	= 1;
+				$field['modelid'] 	= $data['id'];
+				$field['listorder'] = $i;
 
-				foreach ( $this->field->system_fields as $i=>$field)
-				{
-					$field['system'] 	= 1;
-					$field['modelid'] 	= $data['id'];
-					$field['listorder'] = $i;
-
-					$this->field->insert($field);
-				}			
-			}
+				$this->field->insert($field);
+			}		
 
 			$this->cache(true);
 			return $id;
@@ -90,8 +84,12 @@ class content_model_model extends model
 			// 删除模型字段
 			m('content.field')->db()->where('modelid',$id)->delete();
 
+			// 删除模型表
+			$this->db->table("content_model_{$id}")->drop();
+			
 			// 重建缓存
 			$this->cache(true);
+
 			return true;
 		}
 

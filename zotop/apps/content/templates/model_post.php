@@ -9,28 +9,21 @@
 				<td class="label">{form::label(t('模型名称'),'name',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
+					{form::tips(t('可读名称，如： 页面、文章、产品、下载'))}
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<td class="label">{form::label(t('模型标识'),'id',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'id','value'=>$data['id'],'maxlength'=>32,'pattern'=>'^[a-z]{1}[a-z0-9]{0,31}$','required'=>'required','readonly'=>$data['id']))}
-					{form::tips(t('只允许因为字符和数字，最大长度32位'))}
+					{form::tips(t('模型唯一标识，如： page、article，只允许因为字符和数字，最大长度32位'))}
 				</td>
 			</tr>
-			<tr class="none">
-				<td class="label">{form::label(t('模型类型'),'id',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'radio','name'=>'type','options'=>array('1'=>t('扩展模型'),'0'=>t('基础模型')),'value'=>$data['tablename']?1:0))}
-					{form::tips(t('基础模型不允许添加自定义字段，扩展模型可以添加自定义字段'))}
-				</td>
-			</tr>
-
 			<tr>
 				<td class="label">{form::label(t('内容页模板'),'template',false)}</td>
 				<td class="input">				
 					{form::field(array('type'=>'template','name'=>'template','value'=>$data['template']))}
-					{form::tips(t('内容页指的是内容的详细页面，如果没有内容页（如“链接”模型）则无需填写此项'))}
+					{form::tips(t('内容的详细页面模板，如果没有内容页（如“链接”模型）则无需填写此项'))}
 				</td>
 			</tr>
 

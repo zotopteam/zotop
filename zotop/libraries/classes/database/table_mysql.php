@@ -486,6 +486,8 @@ class database_table_mysql extends database_table
 		{
 			return false;
 		}
+
+		return false;
 	}
 
 	/**

@@ -45,7 +45,6 @@ class content_controller_model extends admin_controller
 		foreach( $data as &$d )
 		{
 			$d['datacount'] = $this->model->datacount($d['id']);
-			$d['iscustom'] 	= ( $d['app'] == 'content' and $d['model'] == 'custom' ) ? true : false;
 		}
 
 		$this->assign('title',t('模型管理'));

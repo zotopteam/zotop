@@ -21,7 +21,7 @@
 	<div class="main-body scrollable">
 
 		<input type="hidden" name="id" value="{$data['id']}">
-		<input type="hidden" name="app" value="{$data['app']}">
+		<input type="hidden" name="parentid" value="{$data['parentid']}">
 		<input type="hidden" name="modelid" value="{$data['modelid']}">
 		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
 		<input type="hidden" name="status" value="{$data['status']}">

@@ -193,7 +193,8 @@ class content_controller_field extends admin_controller
 
 		if ( !file::exists($template) )
 		{
-			$template = A('content.path').DS.'templates'.DS.'field_settings'.DS.'common.php';
+			//$template = A('content.path').DS.'templates'.DS.'field_settings'.DS.'common.php';
+			exit('');
 		}
 
 		$this->assign('data',$_POST);

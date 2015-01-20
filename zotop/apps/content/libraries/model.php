@@ -10,12 +10,13 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class content_model extends model
 {
+	protected $pk = 'id';
 	protected $content = null; 
 	
 	/*
 	 * 初始化模型 
 	 */
-	public function init(&$content)
+	public function init(&$content, $modelid)
 	{
 		$this->content = &$content;
 		

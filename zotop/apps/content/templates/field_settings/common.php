@@ -1,12 +1,5 @@
 <!-- /字段类型相关参数 -->
 <table class="field">
-	<tr class="field-extend field-style none">
-		<td class="label">{form::label(t('控件样式'),'settings[style]',false)}</td>
-		<td class="input">
-			{form::field(array('type'=>'text','name'=>'settings[style]','value'=>$data['settings']['style']))}
-			{form::tips('定义控件的[style]样式，如：width:200px;height:300px;')}
-		</td>
-	</tr>
 	<tr class="field-extend field-notnull">
 		<td class="label">{form::label(t('不能为空'),'notnull',false)}</td>
 		<td class="input">
