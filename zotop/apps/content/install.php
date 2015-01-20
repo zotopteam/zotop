@@ -45,84 +45,6 @@ $this->db->table('content')->create(array(
 	'comment' => t('内容主表') 
 ));
 
-
-/*
- * 创建content_model_article表
- */
-$this->db->table('content_model_article')->drop();
-$this->db->table('content_model_article')->create(array(
-	'fields'=>array(
-		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号') ),
-		'author'	=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>false, 'comment' => t('作者') ),
-		'source'	=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>false, 'comment' => t('来源') ),
-		'content'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('内容') ),
-	),
-	'index'=>array(
-	),
-	'unique'=>array(
-	),
-	'primary'=>array ( 'id' ),
-	'comment' => t('文章表')
-));
-
-/*
- * 创建content_model_page表
- */
-$this->db->table('content_model_page')->drop();
-$this->db->table('content_model_page')->create(array(
-	'fields'=>array(
-		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号') ),
-		'content'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('内容') ),
-	),
-	'index'=>array(
-	),
-	'unique'=>array(
-	),
-	'primary'=>array ( 'id' ),
-	'comment' => t('页面表')
-));
-
-/*
- * 创建 content_model_gallery 表
- */
-$this->db->table('content_model_gallery')->drop();
-$this->db->table('content_model_gallery')->create(array(
-	'fields'=>array(
-		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('内容编号') ),
-		'total'		=> array ( 'type'=>'tinyint', 'length'=>3, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('图片个数') ),
-		'gallery'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('图片集，array数据') ),
-	),
-	'index'=>array(
-	),
-	'unique'=>array(
-	),
-	'primary'=>array ( 'id' ),
-	'comment' => t('图集表')
-));
-
-
-// [content_model_download] 创建
-$this->db->table('content_model_download')->drop();
-$this->db->table('content_model_download')->create(array(
-	'fields'=>array(
-		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号') ),		
-		'local'		=> array ( 'type'=>'tinyint', 'length'=>1, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('0：远程文件，1：本地文件') ),
-		'filepath'	=> array ( 'type'=>'varchar', 'length'=>255, 'notnull'=>true, 'comment' => t('文件地址或者下载页面地址') ),
-		'filename'	=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('文件名称') ),
-		'filesize'	=> array ( 'type'=>'char', 'length'=>20, 'default'=>null, 'comment' => t('文件大小') ),
-		'fileext'	=> array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('文件格式') ),
-		'download'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('下载次数') ),
-		'content'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('介绍') ),
-	),
-	'index'=>array(
-	),
-	'unique'=>array(
-	),
-	'primary'=>array ( 'id' ),
-	'comment' => t('下载表') 
-));
-
-
 // [content_model] 创建	
 $this->db->table('content_model')->drop();
 $this->db->table('content_model')->create(array(
@@ -130,7 +52,6 @@ $this->db->table('content_model')->create(array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID，如：news') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('名称') ),
 		'description'=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('说明') ),
-		'tablename'	=> array ( 'type'=>'char', 'length'=>64, 'default'=>null, 'comment' => t('数据表名称（不含前缀），一般为：conten_model_[id]，为空则为虚拟模型，如链接模型') ),
 		'app'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('隶属应用ID') ),
 		'model'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('对应app中的模型') ),
 		'template'	=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('详细页面模版') ),
@@ -145,77 +66,6 @@ $this->db->table('content_model')->create(array(
 	),
 	'primary'=>array ( 'id' ),
 	'comment' => t('内容模型') 
-));
-
-// [content_model] 插入数据
-$this->db->insert('content_model',array (
-  'id' => 'page',
-  'name' => '页面',
-  'description' => '单页面或普通页面',
-  'tablename' => 'content_model_page',
-  'app' => 'content',
-  'model' => 'page',
-  'template' => 'content/detail_page.php',
-  'settings' => NULL,
-  'posts' => '0',
-  'listorder' => '1',
-  'disabled' => '0',
-));
-
-$this->db->insert('content_model',array (
-  'id' => 'article',
-  'name' => '文章',
-  'description' => '新闻或文章',
-  'tablename' => 'content_model_article',
-  'app' => 'content',
-  'model' => 'article',
-  'template' => 'content/detail_article.php',
-  'settings' => NULL,
-  'posts' => '0',
-  'listorder' => '2',
-  'disabled' => '0',
-));
-
-$this->db->insert('content_model',array (
-  'id' => 'gallery',
-  'name' => '组图',
-  'description' => '图集或画廊',
-  'tablename' => 'content_model_gallery',
-  'app' => 'content',
-  'model' => 'gallery',
-  'template' => 'content/detail_gallery.php',
-  'settings' => NULL,
-  'posts' => '0',
-  'listorder' => '3',
-  'disabled' => '0',
-));
-
-$this->db->insert('content_model',array (
-  'id' => 'download',
-  'name' => '下载',
-  'description' => '文件下载',
-  'tablename' => 'content_model_download',
-  'app' => 'content',
-  'model' => 'download',
-  'template' => 'content/detail_download.php',
-  'settings' => NULL,
-  'posts' => '0',
-  'listorder' => '4',
-  'disabled' => '0',
-));
-
-$this->db->insert('content_model',array (
-  'id' => 'link',
-  'name' => '链接',
-  'description' => '指向其它页面的链接',
-  'tablename' => NULL,
-  'app' => 'content',
-  'model' => 'link',
-  'template' => NULL,
-  'settings' => NULL,
-  'posts' => '0',
-  'listorder' => '99',
-  'disabled' => '0',
 ));
 
 

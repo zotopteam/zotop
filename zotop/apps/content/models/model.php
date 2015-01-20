@@ -97,6 +97,62 @@ class content_model_model extends model
 	}
 
 	/**
+	 * 导入模型
+	 * 
+	 * @param  array $data 模型数据
+	 * @return mixed
+	 */
+	public function import($data)
+	{
+		if ( !is_array($data) or empty($data['id']) or empty($data['name']) or empty($data['fields']) or !is_array($data['fields']) )
+		{
+			return $this->error(t('错误的模型文件'));
+		}
+
+		if ( $this->where('id',$data['id'])->exists() )
+		{
+			return $this->error(t('标识为{1}的模型已经存在',$data['id']));
+		}
+
+		if ( $this->insert($data) )
+		{
+			$extendfield = array();
+			$extendfield['id'] = array('type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容编号'));
+
+			$this->field = m('content.field');
+
+			foreach ($data['fields'] as $i=>$field)
+			{
+				if ( !$field['system'] )
+				{
+					$extendfield[] = $this->field->fielddata($field);
+				}
+
+				$field['modelid'] 	= $data['id'];
+				$field['listorder'] = $i;
+
+				$this->field->insert($field);
+			}
+
+			if ( count($extendfield)>1 ) 
+			{
+				$schema = array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
+
+				if ( $this->db->table("content_model_{$data['id']}")->create($schema) == false )
+				{
+					$this->db()->where('id',$data['id'])->delete();
+					$this->field->db()->where('modelid',$data['id'])->delete();
+				}			
+			}
+
+			$this->cache(true);
+			return true;
+		}
+
+		return $this->error(t('导入失败'));		
+	}
+
+	/**
 	 * 获取排序过的全部数据
 	 * 
 	 * @return array

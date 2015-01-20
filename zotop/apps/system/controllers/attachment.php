@@ -263,8 +263,8 @@ class system_controller_attachment extends admin_controller
 			}
 
 			exit(json_encode(array(
-				'state'=>0,
-				'content'=>$this->attachment->error()
+				'state'		=> false,
+				'content'	=> $this->attachment->error()
 			)));
 		}
 

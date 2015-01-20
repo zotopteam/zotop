@@ -117,6 +117,9 @@ class application
             throw new zotop_exception(t('The app [ %s ] has no access or not exists', $app), 404);
         }
 
+        // 应用初始化
+        zotop::run('app.init',$app,$controller,$action,$arguments);
+
         // 检查controller
         $controller			= preg_match("/^[0-9a-z_]+\$/i", $controller) ? $controller : 'index';
         $controller_path	= A("{$app}.path") . DS . 'controllers' . DS . $controller . '.php';
@@ -311,9 +314,9 @@ class application
 				ob_clean();
 
 				exit(json_encode(array(
-					'state' => 0,
+					'state' => false,
 					'content' => $error,
-					'time' => 10
+					'time' => 100
 				)));
 			}
 

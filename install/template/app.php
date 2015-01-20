@@ -34,7 +34,7 @@
 	<?php foreach( $apps as $app ) :?>
 	<tr>
 		<td class="w20 center">
-			<input type="checkbox" name="app[]" value="<?php echo $app['dir']?>" checked="checked">
+			<input type="checkbox" name="app[]" value="<?php echo $app['dir']?>">
 		</td>
 		<td class="w40 icon center">
 			<img style="width:48px;height:48px;" src="<?php echo format::url($app['icon'])?>"/>

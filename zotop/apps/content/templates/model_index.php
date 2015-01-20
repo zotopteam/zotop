@@ -7,8 +7,12 @@
 		<div class="title">{$title}</div>
 		<div class="action">
 			<a href="{u('content/model/add')}" class="btn btn-icon-text btn-highlight dialog-open" data-width="750px" data-height="450px">
-				<i class="icon icon-add"></i><b>{t('添加')}</b>
+				<i class="icon icon-add"></i><b>{t('新建模型')}</b>
 			</a>
+
+			<a href="javascript:;" class="btn btn-icon-text" id="importmodel">
+				<i class="icon icon-upload"></i><b>{t('导入模型')}</b>
+			</a>			
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
@@ -66,6 +70,7 @@
 		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
+
 <script type="text/javascript">
 //sortable
 $(function(){
@@ -88,5 +93,21 @@ $(function(){
 		}
 	});
 });
+</script>
+<script type="text/javascript" src="{A('system.url')}/common/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="{A('system.url')}/common/plupload/i18n/zh_cn.js"></script>
+<script type="text/javascript" src="{A('system.url')}/common/plupload/jquery.upload.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#importmodel").upload({
+			url : "{u('content/model/upload')}",
+			multi:false,
+			fileext: 'model',
+			filedescription : '{t('模型文件(.model)')}',
+			uploaded : function(up,file,data){
+				$.msg(data);
+			}
+		});
+	});
 </script>
 {template 'footer.php'}

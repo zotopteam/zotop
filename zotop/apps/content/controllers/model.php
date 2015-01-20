@@ -180,7 +180,7 @@ class content_controller_model extends admin_controller
 		$code .= "\nreturn array(";
 		foreach ($data as $key => $val)
 		{
-			$code .= "\n	'{$key}'=>'{$val}'";
+			$code .= "\n	'{$key}'=>'{$val}',";
 		}
 		$code .= "\n	'fields'=>array(";
 		foreach ($fields as $key => $val)
@@ -197,5 +197,47 @@ class content_controller_model extends admin_controller
 		echo $code;
 		exit;
 	}
+
+
+	/**
+	 * 导入模型上传过程
+	 * 
+	 * @return mixed
+	 */
+	public function action_upload()
+	{
+		// 文件上传
+		$upload = new plupload();
+		$upload->allowexts 	= 'model';
+		$upload->savepath 	= ZOTOP_PATH_RUNTIME.DS.'temp';
+		$upload->maxsize 	= 0;
+
+		if ( $file = $upload->save($filepath) )
+		{
+			//return $this->message(array('state'=>true,'content'=>t('上传成功'),'file'=>$file));
+			
+			try
+			{
+				$model = include($file);				
+			}
+			catch (Exception $e)
+			{
+				return $this->error($e->getMessage());
+			}
+			
+
+			if ( $this->model->import($model) )
+			{
+				return $this->success(t('导入成功'),U('content/model'));
+			}
+
+			return $this->error($this->model->error());
+
+		}
+
+		return $this->error($upload->error);
+	}
+
+
 }
 ?>

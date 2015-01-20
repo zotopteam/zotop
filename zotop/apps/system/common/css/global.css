@@ -153,7 +153,7 @@ h3{font-size:16px;}
 .tooltip.right {margin-left:3px;padding:0 5px;}
 .tooltip.bottom {margin-top:3px;padding:5px 0;}
 .tooltip.left {margin-left:-3px;padding:0 5px;}
-.tooltip-inner {max-width:500px;padding:5px;color:#663300;text-align:left;text-decoration:none;background-color:#ffffcc;border-radius:4px;border:solid 1px #ffcc66;}
+.tooltip-inner {/*max-width:500px;*/padding:5px;color:#663300;text-align:left;text-decoration:none;background-color:#ffffcc;border-radius:4px;border:solid 1px #ffcc66;}
 .tooltip-arrow,.tooltip-arrow:after{position:absolute;width:0;height:0;border-color:transparent;border-style:solid;}
 .tooltip-arrow{border-width:5px}
 .tooltip-arrow:after{border-width:5px;content:""}

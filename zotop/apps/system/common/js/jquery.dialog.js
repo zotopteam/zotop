@@ -117,7 +117,7 @@
 			id: 'message',
 			skin: 'ui-message',
 			title: false,
-			content: '<div class="msg '+ msg.state +'"><b class="icon icon-'+ msg.state +'"></b><div class="content">'+ msg.content +' <a href="javascript:;" class="close" i="close">&#215;</a></div></div>',
+			content: '<div class="msg '+ msg.state +'"><b class="icon icon-'+ msg.state +'"></b><div class="content">'+ msg.content +'</div><a href="javascript:;" class="close" i="close">&#215;</a></div>',
 			padding: 0,
 			fixed: true,
 			resize: false,
@@ -157,7 +157,7 @@
 	 *
 	 */
 	$.error = function(content, onclose){
-		return $.msg({state: 'error', time: 2, content: content, onclose: onclose});
+		return $.msg({state: 'error', time: 3, content: content, onclose: onclose});
 	}
 
 	/**

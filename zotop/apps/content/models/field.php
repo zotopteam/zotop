@@ -213,7 +213,7 @@ class content_model_field extends model
 	 * @param  array $data 原始数据
 	 * @return array
 	 */
-	private function fielddata($data)
+	public function fielddata($data)
 	{
 		$field = array(
 			'name'		=> $data['name'],

@@ -281,15 +281,24 @@ abstract class database_table
 		// 表已经存在则创建失败
 		if ( $this->exists($table) ) return false;
 
-		// 获取表的创建语句
-		$sqls = $this->createTableSql($schema, $table);
-
-		foreach( $sqls as $sql )
+		try
 		{
-			$this->db->execute($sql);
+			// 获取表的创建语句
+			$sqls = $this->createTableSql($schema, $table);
+
+			foreach( $sqls as $sql )
+			{
+				$this->db->execute($sql);
+			}
+
+			return true;			
+		}
+		catch (Exception $e)
+		{
+			$this->drop($table);
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
