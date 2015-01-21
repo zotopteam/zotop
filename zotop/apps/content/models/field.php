@@ -29,29 +29,29 @@ class content_model_field extends model
 			'checkbox'	=> array('name'=>t('多选'),'type'=>'varchar', 'length'=>'255'),
 			'select'	=> array('name'=>t('下拉选择'),'type'=>'varchar', 'length'=>'50'),
 			'editor'	=> array('name'=>t('编辑器'),'type'=>'text'),
-			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
-			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),
 			'image'		=> array('name'=>t('图片'),'type'=>'varchar', 'length'=>'100'),
 			'images'	=> array('name'=>t('图集'),'type'=>'text'),
 			'file'		=> array('name'=>t('文件'),'type'=>'varchar', 'length'=>'100'),
 			'files'		=> array('name'=>t('文件集'),'type'=>'text'),
 			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
-			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),					
+			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),
+			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
+			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),							
         ));
 		
-		// TODO 标签翻译问题
-        $this->system_fields = array(
-			array('control'=>'title','label'=>'标题','name'=>'title','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'1','unique'=>'0','settings'=>array('minlength'=>'0','maxlength'=>'100'),'tips'=>'','base'=>'1','post'=>'1','search'=>'1','system'=>'1','disabled'=>'0'),
-			array('control'=>'image','label'=>'缩略图','name'=>'image','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'keywords','label'=>'关键词','name'=>'keywords','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array('data-source'=>'title,content'),'tips'=>'','base'=>'1','post'=>'1','search'=>'1','system'=>'1','disabled'=>'0'),
-			array('control'=>'summary','label'=>'摘要','name'=>'summary','type'=>'varchar','length'=>'1000','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'1','system'=>'1','disabled'=>'0'),
-			array('control'=>'url','label'=>'链接','name'=>'url','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'blockcommend','label'=>'推荐到区块','name'=>'blockids','type'=>'varchar','length'=>'128','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'bool','label'=>'评论','name'=>'comment','type'=>'tinyint','length'=>'1','default'=>'1','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'alias','label'=>'URL别名','name'=>'alias','type'=>'varchar','length'=>'128','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'template','label'=>'内容页模板','name'=>'template','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'0','post'=>'0','search'=>'0','system'=>'1','disabled'=>'0'),
-			array('control'=>'datetime','label'=>'发布时间','name'=>'createtime','type'=>'varchar','length'=>'100','default'=>'','notnull'=>'0','unique'=>'0','settings'=>array(),'tips'=>'','base'=>'1','post'=>'1','search'=>'0','system'=>'1','disabled'=>'0'),
-		);
+		// 系统字段
+        $this->system_fields = zotop::filter('content.field.system',array(
+			array('control'=>'title','label'=>t('标题'),'name'=>'title','type'=>'varchar','length'=>'100','notnull'=>'1','settings'=>array('minlength'=>'0','maxlength'=>'100'),'base'=>'1','post'=>'1','search'=>'1'),
+			array('control'=>'image','label'=>t('缩略图'),'name'=>'image','type'=>'varchar','length'=>'100','notnull'=>'0','settings'=>array('watermark'=>'0','image_resize'=>'1'),'base'=>'1','post'=>'1','search'=>'0'),
+			array('control'=>'keywords','label'=>t('关键词'),'name'=>'keywords','type'=>'varchar','length'=>'100','notnull'=>'0','settings'=>array('data-source'=>'title,content'),'base'=>'1','post'=>'1','search'=>'1'),
+			array('control'=>'summary','label'=>t('摘要'),'name'=>'summary','type'=>'varchar','length'=>'1000','notnull'=>'0','base'=>'1','post'=>'1','search'=>'1'),
+			array('control'=>'url','label'=>t('链接'),'name'=>'url','type'=>'varchar','length'=>'100','notnull'=>'0','base'=>'1','post'=>'0','search'=>'0'),
+			array('control'=>'blockcommend','label'=>t('推荐到区块'),'name'=>'blockids','type'=>'varchar','length'=>'128','notnull'=>'0','base'=>'1','post'=>'0','search'=>'0'),
+			array('control'=>'bool','label'=>t('评论'),'name'=>'comment','type'=>'tinyint','length'=>'1','default'=>'1','notnull'=>'0','base'=>'0','post'=>'0','search'=>'0'),
+			array('control'=>'alias','label'=>t('URL别名'),'name'=>'alias','type'=>'varchar','length'=>'128','notnull'=>'0','settings'=>array('data-source'=>'title'),'base'=>'1','post'=>'0','search'=>'0'),
+			array('control'=>'template','label'=>t('内容页模板'),'name'=>'template','type'=>'varchar','length'=>'100','notnull'=>'0','base'=>'0','post'=>'0','search'=>'0'),
+			array('control'=>'datetime','label'=>t('发布时间'),'name'=>'createtime','type'=>'varchar','length'=>'100','notnull'=>'0','base'=>'0','post'=>'0','search'=>'0'),
+		));
 	}
 
 	/*
@@ -135,9 +135,9 @@ class content_model_field extends model
 				}				
 
 				// 增加上传数据编号
-				if ( in_array($r['control'], array('editor','image','images','file','files')) and $data['id'] )
+				if ( in_array($r['control'], array('editor','image','images','file','files')) and $data['dataid'] )
 				{
-					$fields[$i]['field']['dataid']	= $data['id'];
+					$fields[$i]['field']['dataid']	= 'content-'.$data['id'];
 				}
 
 			}

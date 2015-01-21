@@ -20,19 +20,34 @@
 				</td>
 			</tr>
 			<tr>
+				<td class="label">{form::label(t('模型描述'),'description',true)}</td>
+				<td class="input">
+					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'required'=>'required'))}
+				</td>
+			</tr>
+			<tr>
 				<td class="label">{form::label(t('内容页模板'),'template',false)}</td>
 				<td class="input">				
 					{form::field(array('type'=>'template','name'=>'template','value'=>$data['template']))}
 					{form::tips(t('内容的详细页面模板，如果没有内容页（如“链接”模型）则无需填写此项'))}
 				</td>
 			</tr>
-
 			<tr>
-				<td class="label">{form::label(t('模型描述'),'description',true)}</td>
+				<td class="label">{form::label(t('子内容模型'),'childs',true)}</td>
 				<td class="input">
-					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'required'=>'required'))}
+					<div class="checkboxes">
+						
+						{if !$data.id}
+						<label><input type="checkbox" name="childs_self" value="1" {if in_array($data.id, $data.childs)}checked{/if}><b>{t('<当前模型>')}</b></label>
+						{/if}
+
+						{loop m('content.model.cache') $m}
+						<label><input type="checkbox" name="childs[]" value="{$m.id}" {if in_array($m.id, $data.childs)}checked{/if}><b>{$m.name}</b></label>
+						{/loop}
+					</div>
+					{form::tips(t('子内容支持发布的内容模型，如果不支持子内容则不用选择'))}
 				</td>
-			</tr>			
+			</tr>						
 			</tbody>
 		</table>
 

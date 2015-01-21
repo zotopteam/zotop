@@ -26,8 +26,16 @@ class content_model_model extends model
 		if ( empty($data['id']) ) return $this->error(t('模型编号不能为空'));
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
 		
+		// 是否支持本身作为子内容模型
+		if ( $data['childs_self'] )
+		{
+			$data['childs']	= is_array($data['childs']) ? $data['childs'] : array(); 
+			$data['childs'][] = $data['id'];
+		}
+		
 		$data['app'] 		= $data['app'] ? $data['app'] : 'content';
 		$data['listorder']	= $this->max('listorder') + 1;
+		$data['childs']		= is_array($data['childs']) ? implode(',', $data['childs']) : '';
 		$data['disabled']	= 0;
 		
 		if ( $id = $this->insert($data) )
@@ -61,6 +69,8 @@ class content_model_model extends model
 	public function edit($data, $id)
 	{
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
+
+		$data['childs']	= is_array($data['childs']) ? implode(',', $data['childs']) : '';
 
 		if ( $this->update($data, $id) )
 		{
@@ -97,6 +107,28 @@ class content_model_model extends model
 	}
 
 	/**
+	 * 导出模型数据
+	 * 
+	 * @param  string $id 模型编号
+	 * @return array
+	 */
+	public function export($id)
+	{
+		$export = $this->get($id);
+
+		$fields = m('content.field')->getall($id);
+
+		foreach ($fields as &$f)
+		{
+			unset($f['id']);unset($f['modelid']);unset($f['listorder']);
+		}
+
+		$export['fields'] = $fields;
+
+		return $export;		
+	}
+
+	/**
 	 * 导入模型
 	 * 
 	 * @param  array $data 模型数据
@@ -129,7 +161,7 @@ class content_model_model extends model
 				}
 
 				$field['modelid'] 	= $data['id'];
-				$field['listorder'] = $i;
+				$field['listorder'] = $i + 1;
 
 				$this->field->insert($field);
 			}
@@ -165,6 +197,8 @@ class content_model_model extends model
 
 		foreach( $data as &$d )
 		{
+			$d['childs'] = $d['childs'] ? explode(',', $d['childs']) : array();
+
 			$result[$d['id']] = $d;
 		}
 

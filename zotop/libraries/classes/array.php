@@ -455,6 +455,32 @@ class arr
     }
 
     /**
+     * 返回经过压缩的数组结构信息，默认为直接返回，类似于var_export
+     * 
+     * @param  mixed $var  
+     * @return sting 数组结构信息
+     */
+    public function export($var)
+    {
+        if (is_array($var))
+        {
+            $implode = array();
+
+            foreach ($var as $key => $value)
+            {
+                $implode[] = var_export($key, true).'=>'.arr::export($value);
+            }
+            
+            $code = 'array('.implode(',', $implode).')';           
+
+            return $code;
+
+        }
+
+        return var_export($var,true);
+    }      
+
+    /**
      * 在数组的开头插入数组
      *
      *     arr::unshift($array, 'key', 'value');

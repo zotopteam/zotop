@@ -33,7 +33,4 @@
 	$('#settings-maxlength').on('change',function(){
 		$('[name=length]').val($(this).val());
 	});
-
-	$('.field-extend').hide();
-
 </script>

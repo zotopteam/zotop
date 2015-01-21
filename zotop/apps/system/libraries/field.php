@@ -18,7 +18,7 @@ class system_field
 	 */
 	public static function alias($attrs)
 	{
-		$attrs['id'] 		= $attrs['name'].'-'.$attrs['data-source'];
+		
 		$attrs['maxlength'] = intval($attrs['maxlength']);
 		$attrs['maxlength'] = ( $attrs['maxlength'] < 1 or $attrs['maxlength'] > 128 ) ? 128 : $attrs['maxlength'];
 		$attrs['pattern'] 	= '^[a-z0-9-_]+$';

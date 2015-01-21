@@ -73,7 +73,7 @@
 			
 			</div>			
 
-			<table class="field field-extend">
+			<table class="field field-extend {if $data.name=='title'}none{/if}">
 
 				<tr class="field-notnull">
 					<td class="label">{form::label(t('不能为空'),'notnull',false)}</td>

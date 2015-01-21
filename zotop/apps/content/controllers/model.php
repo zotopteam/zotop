@@ -70,6 +70,9 @@ class content_controller_model extends admin_controller
 			return $this->error($this->model->error());
 		}
 
+		$data = array();
+		$data['childs'] = array();
+
 		$this->assign('title',t('新建模型'));
 		$this->assign('data',$data);
 		$this->display('content/model_post.php');
@@ -139,62 +142,11 @@ class content_controller_model extends admin_controller
      */
 	public function action_export($id)
 	{
-		$data = $this->model->get($id);
-
-		$fields = m('content.field')->getall($id);
-
-		foreach ($fields as &$f)
-		{
-			unset($f['id']);unset($f['modelid']);unset($f['listorder']);
-		}
-
-		function var_export_min($var, $return = false)
-		{
-		    if (is_array($var))
-		    {
-		        $implode = array();
-
-		        foreach ($var as $key => $value)
-		        {
-		            $implode[] = var_export($key, true).'=>'.var_export_min($value, true);
-		        }
-		        
-		        $code = 'array('.implode(',', $implode).')';
-		        
-		        if ($return)
-		        {
-		        	return $code;
-		        } 
-		        else
-		        {
-		        	echo $code;	
-		        }
-		    }
-		    else
-		    {
-		        return var_export($var, $return);
-		    }
-		}		
-
-		$code  = "<?php ";
-		$code .= "\nreturn array(";
-		foreach ($data as $key => $val)
-		{
-			$code .= "\n	'{$key}'=>'{$val}',";
-		}
-		$code .= "\n	'fields'=>array(";
-		foreach ($fields as $key => $val)
-		{
-			$code .= "\n		".var_export_min($val,true).",";
-		}
-		$code .= "\n	)";
-		$code .= "\n);";
-		$code .= "\n?>";
-
-		$code = str_replace(',)',')',$code);
+		$data = $this->model->export($id);
+		$data = arr::export($data,true);
 
 		header('Content-Disposition: attachment; filename="'.$id.'.model"');
-		echo $code;
+		echo '<?php return '.$data.' ?>';
 		exit;
 	}
 

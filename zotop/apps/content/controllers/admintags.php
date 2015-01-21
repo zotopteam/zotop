@@ -24,7 +24,7 @@ class content_controller_admintags extends admin_controller
 
 	public function action_index()
     {
-		if ( $keywords = $_GET['keywords'] )
+		if ( $keywords = $_REQUEST['keywords'] )
 		{
 			 $this->tag->where('name','like',$keywords);
 		}

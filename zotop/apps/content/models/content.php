@@ -147,45 +147,6 @@ class content_model_content extends model
     }
 
     /**
-     * 检查保存的数据
-     * 
-     * @param  mixed $value 待保存的数据
-     * @param  array $field 模型编号
-     * @return mixed 返回处理后的数据
-     */
-    public function checkdata($value, $field)
-    {
-        if ( $field['notnull'] and is_null($value) ) return $this->error(t('{1}不能为空', $field['label']));
-
-        if ( $field['settings']['maxlength']  and str::len($value) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($value)));
-        if ( $field['settings']['minlength']  and str::len($value) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($value)));
-
-        if ( $field['settings']['max']  and intval($value) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
-        if ( $field['settings']['min']  and intval($value) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
-        
-        switch ($field['control'])
-        {
-            case 'date':
-            case 'datetime':                
-                $value = empty($value) ? ZOTOP_TIME : strtotime($value);
-                break;
-            case 'keywords':
-                $value = str_replace('，', ',', $value);
-                break;
-            case 'editor':
-
-                break;
-            case 'images':
-                
-                break;          
-            default:
-                break;
-        }
-
-        return zotop::filter('content.content.checkdata', $value, $field);
-    }
-
-    /**
      * 保存数据，根据传入编号自动判断是新增还是保存
      *
      * @param mixed $data
@@ -203,48 +164,39 @@ class content_model_content extends model
             if ($alias != "content/detail/{$data['id']}") return $this->error(t('别名已经存在'));
         }        
 
-		// 自动提取摘要
-		if ( intval(C('content.autosummary')) && empty($data['summary']) && isset($data['content']))
-		{
-			$data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($data['content'])));
-			$data['summary'] = str::cut($data['summary'], intval(C('content.autosummary')));
-
-		}
-
-		// 自动提取缩略图
-		if ( intval(C('content.autothumb')) && empty($data['image']) && isset($data['content']) )
-		{
-			$imageid = intval(C('content.autothumb')) - 1 ; //自动提取第几张图片作为缩略图
-
-			if( $imageid >= 0 and preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", stripslashes($data['content']), $matches) )
-			{
-				$data['image'] = $matches[3][$imageid];
-			}
-		}
-
-
         // 预处理数据
         $fields = m('content.field.cache', $data['modelid']);
         
         foreach ($data as $key => &$val)
         {
             if ( false === ( $field = $fields[$key]) ) continue;
-
             if ( $field['notnull'] and empty($val) ) return $this->error(t('{1}不能为空', $field['label']));
             if ( $field['settings']['maxlength'] and str::len($val) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($val)));
             if ( $field['settings']['minlength'] and str::len($val) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($val)));
             if ( $field['settings']['max'] and intval($val) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
-            if ( $field['settings']['min'] and intval($val) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
-            
+            if ( $field['settings']['min'] and intval($val) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));            
             if ( $field['control'] == 'date' or $field['control'] == 'datetime' ) $val = empty($val) ? ZOTOP_TIME : strtotime($val);
             if ( $field['control'] == 'keywords' and $val ) $val = str_replace('，', ',', $val);
-            if ( $field['control'] == 'editor' and intval(C('content.autosummary')) and empty($data['summary']) and $val )
+            if ( $field['control'] == 'editor' and $val )
             {
-                $data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($val)));
-                $data['summary'] = str::cut($data['summary'], intval(C('content.autosummary')));                
+                if ( intval(C('content.auto_summary')) > 0 and empty($data['summary']) )
+                {
+                    $data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($val)));
+                    $data['summary'] = str::cut($data['summary'], intval(C('content.autosummary')));
+                }
+                if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) and preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", stripslashes($val), $matches) )
+                {
+                    $data['image'] = $matches[3][intval(C('content.auto_image')) - 1];
+                }
+
             }
-
-
+            if ( $field['control'] == 'images' and $val )
+            {
+                if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) )
+                {
+                    $data['image'] = $val[intval(C('content.auto_image')) - 1]['image'];
+                }              
+            }
         }
 
         // 保存

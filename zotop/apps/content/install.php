@@ -55,7 +55,7 @@ $this->db->table('content_model')->create(array(
 		'app'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('隶属应用ID') ),
 		'model'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('对应app中的模型') ),
 		'template'	=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('详细页面模版') ),
-		'settings'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('模型设置') ),
+		'childs'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('下级模型编号') ),
 		'posts'		=> array ( 'type'=>'mediumint', 'length'=>8, 'default'=>'0', 'unsigned'=>true, 'comment' => t('数据量') ),
 		'listorder'	=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>null, 'comment' => t('排序') ),
 		'disabled'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'comment' => t('禁用') ),
@@ -67,7 +67,6 @@ $this->db->table('content_model')->create(array(
 	'primary'=>array ( 'id' ),
 	'comment' => t('内容模型') 
 ));
-
 
 $this->db->table('content_field')->drop();
 $this->db->table('content_field')->create(array(

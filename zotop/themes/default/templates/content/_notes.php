@@ -11,5 +11,6 @@ return array (
   'single_page.php' => '独立页面',
   'tag.php' => '标签模板',
   'detail_product.php' => '产品内容模板',
+  'folder.php' => '目录模板',
 );
 ?>

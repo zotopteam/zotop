@@ -50,9 +50,7 @@
 					</div>
 				</td>
 				<td>{$r['id']}</td>
-				<td>
-					{A($r['app'].'.name')}
-					
+				<td>					
 					{if $r.app='content'}
 						{if $r.model=='extend'} {t('扩展模型')} {else} {t('基础模型')} {/if}
 					{/if}
