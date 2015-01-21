@@ -238,7 +238,9 @@ class content_model_content extends model
         // 填充数据
         $data['id']         = null;
         $data['userid']     = zotop::user('id');
-        $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : strtotime($data['createtime']);
+        $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : $data['createtime'];
+        $data['updatetime'] = ZOTOP_TIME;
+        $data['listorder']  = ZOTOP_TIME;
         $data['status']     = empty($data['status']) ? 'pending' : $data['status'];
 
         // 添加数据
@@ -262,7 +264,7 @@ class content_model_content extends model
     public function edit(&$data)
     {
         // 填充数据
-        $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : strtotime($data['createtime']);
+        $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : $data['createtime'];
         $data['updatetime'] = ZOTOP_TIME;
 
         // 更新数据
@@ -315,7 +317,7 @@ class content_model_content extends model
         }
 
         return $this->error(t('编号[%s]数据不存在', $id));
-    }
+    }  
 
 
 	/**
@@ -413,7 +415,7 @@ class content_model_content extends model
 		$ignore and $db->where('id', '!=' , $ignore);
 
 		// 排序
-		$orderby ? $db->orderby($orderby) : $db->orderby('weight desc, createtime desc');
+		$orderby ? $db->orderby($orderby) : $db->orderby('stick desc, listorder desc');
 
 		// 读取数据条数
 		$size = intval($size) ? intval($size) : 10;

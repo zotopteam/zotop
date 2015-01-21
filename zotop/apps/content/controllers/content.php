@@ -47,7 +47,7 @@ class content_controller_content extends admin_controller
 				array('title','like',$keywords),
 				'or',
 				array('keywords','like',$keywords)
-			))->orderby('createtime','desc')->getPage();
+			))->orderby('listorder','desc')->getPage();
 		}
 		else
 		{
@@ -65,7 +65,7 @@ class content_controller_content extends admin_controller
 			if ( $status ) $this->content->where('status','=',$status);
 
 			// 获取数据集
-			$dataset = $this->content->orderby('weight','desc')->orderby('createtime','desc')->getPage();
+			$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getPage();
 
 			// 获取当前状态的数据条数
 			foreach($statuses as $s=>$t)
@@ -157,6 +157,28 @@ class content_controller_content extends admin_controller
 
 		return $this->error(t('禁止访问'));
     }
+
+    /**
+     * 拖动排序,TODO 当两个时间接近时会出现无法排序问题，多次拖动之后listorder就会接近
+     * 
+     * @return mixed 操作结果
+     */
+    public function action_listorder()
+    {
+		if ( $post = $this->post() )
+		{			
+			if ( empty($post['id']) or empty($post['listorder']) ) return $this->error(t('禁止访问'));
+
+			if ( $this->content->where('id', $post['id'])->set($post)->update() )
+			{
+				return $this->success(t('操作成功'),request::referer());
+			}
+
+			return $this->error($this->content->error());
+		}
+
+    	return $this->error(t('禁止访问'));
+    }    
 
 	/**
 	 * 添加
@@ -269,6 +291,22 @@ class content_controller_content extends admin_controller
 
 			return $this->error($this->content->error());
 		}
+	}
+
+		/**
+	 * 根据条目置顶状态设置置顶和取消置顶
+	 * 
+	 * @param  int $id 编号
+	 * @return json
+	 */
+	public function action_stick($id, $stick)
+	{
+		if ( $this->content->where('id',$id)->set('stick',$stick)->update() )
+		{
+			return $this->success(t('操作成功'),request::referer());
+		}
+
+		return $this->error($this->content->error());		
 	}
 
  	/**

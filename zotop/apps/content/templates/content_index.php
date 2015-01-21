@@ -69,43 +69,48 @@
 		{else}
 
 		{form::header()}
-		<table class="table list" id="datalist" cellspacing="0" cellpadding="0">
+		<table class="table list sortable" id="datalist" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
+			<td class="drag"></td>
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
 			{if $keywords}
 			<td class="w40 center">{t('状态')}</td>
 			{/if}
-			<td class="w60 center">{t('权重')}</td>
 			<td>{t('标题')}</td>
-			<td class="w80 center">{t('点击')}</td>
-			<td class="w80">{t('模型')}</td>
-			<td class="w100">{t('栏目')}</td>
-			<td class="w140">{t('发布者/发布时间')}</td>
+			<td class="w60 center">{t('权重')}</td>
+			<td class="w60 center">{t('点击')}</td>
+			<td class="w60">{t('模型')}</td>
+			<td class="w80">{t('栏目')}</td>
+			<td class="w120">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
 		<tbody>
 
 		{loop $data $r}
-			<tr>
+			<tr data-listorder="{$r.listorder}" data-stick="{$r.stick}" data-id="{$r.id}">
+				<td class="drag"></td>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				{if $keywords}
 				<td class="center"><i class="icon icon-{$r['status']} {$r['status']}" title="{$statuses[$r['status']]}"></i></td>
 				{/if}
-				<td class="center">
-					<a class="dialog-prompt" data-value="{$r['weight']}" data-prompt="{t('请输入权重[0-99],权重越大越靠前')}" href="{u('content/content/set/weight/'.$r['id'])}" title="{t('设置权重')}">
-						<span class="{if $r['weight']}red{else}gray{/if}">{$r['weight']}</span>
-					</a>
-				</td>
 				<td>
 					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>
-					{$r['title']}{if $r['image']}<i class="icon icon-image" data-src="{$r['image']}"></i>{/if}
+					{$r['title']}
+					{if $r['image']}<i class="icon icon-image green" data-src="{$r['image']}"></i>{/if}
+					{if $r.stick}<i class="icon icon-up yellow" title="{t('置顶')}"></i>{/if}
 					</div>
 					<div class="manage">
 						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
 						<s></s>
 
 						<a href="{u('content/content/edit/'.$r['id'])}">{t('编辑')}</a>
+						<s></s>
+						{if $r.stick}
+						<a href="{u('content/content/stick/'.$r['id'].'/0')}" class="ajax-post">{t('取消置顶')}</a>
+						{else}
+						<a href="{u('content/content/stick/'.$r['id'].'/1')}" class="ajax-post">{t('置顶')}</a>
+						{/if}
 						<s></s>
 
 						{loop zotop::filter('content.manage',array(),$r) $m}
@@ -116,6 +121,11 @@
 						<a class="dialog-confirm" href="{u('content/content/delete/'.$r['id'])}">{t('删除')}</a>
 					</div>
 				</td>
+				<td class="center">
+					<a class="dialog-prompt" data-value="{$r['weight']}" data-prompt="{t('请输入权重[0-99]')}" href="{u('content/content/set/weight/'.$r['id'])}" title="{t('设置权重')}">
+						<span class="{if $r['weight']}red{else}gray{/if}">{$r['weight']}</span>
+					</a>
+				</td>				
 				<td class="center">{$r['hits']}</td>
 				<td><div class="textflow">{$models[$r['modelid']]['name']}</div></td>
 				<td><div class="textflow">{$categorys[$r['categoryid']]['name']}</div></td>
@@ -236,6 +246,46 @@ $(function(){
 	$('.icon-image').tooltip({placement:'auto bottom',container:'body',html:true,title:function(){
 		return '<p style="margin-bottom:8px;font-size:14px;">{t('缩略图')}</p><img src="'+$(this).attr('data-src')+'" style="max-width:300px;max-height:200px;"/>';
 	}});
+});
+
+// 排序
+$(function(){
+	var dragstop = function(evt,ui,tr){
+		
+		var oldindex = tr.data('originalIndex');
+		var newindex = tr.prop('rowIndex');
+		
+		if(oldindex == newindex){return;}
+
+		var id = tr.data('id');
+		var target = ui.item.siblings('tr').eq(newindex-1);//要排到这一行之前
+
+		var neworder = target.data('listorder') + 1;
+		var newstick = newindex > oldindex ?  tr.data('stick') : target.data('stick');
+
+		$.loading();
+		$.post('{u('content/content/listorder')}',{id:tr.data('id'),listorder:neworder,stick:newstick},function(data){
+			$.msg(data);
+		},'json');		
+	};	
+
+	$("table.sortable").sortable({
+		items: "tbody > tr",
+		axis: "y",
+		placeholder:"ui-sortable-placeholder",
+		helper: function(e,tr){
+			tr.children().each(function(){
+				$(this).width($(this).width());
+			});
+			return tr;
+		},
+		start:function (event,ui) {
+			ui.item.data('originalIndex', ui.item[0].rowIndex);
+		},		
+		stop:function(event,ui){
+			dragstop.apply(this, Array.prototype.slice.call(arguments).concat(ui.item));
+		}
+	});
 });
 </script>
 {template 'footer.php'}
