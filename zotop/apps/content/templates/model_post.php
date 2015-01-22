@@ -33,7 +33,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('子内容模型'),'childs',true)}</td>
+				<td class="label">{form::label(t('子内容模型'),'childs',false)}</td>
 				<td class="input">
 					<div class="checkboxes">
 						

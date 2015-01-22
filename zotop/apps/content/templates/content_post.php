@@ -8,7 +8,7 @@
 		<div class="title">{$title}</div>
 		<div class="position">
 			<a href="{u('content/content')}">{t('内容管理')}</a>
-			{loop $parents $p}
+			{loop m('content.category.getparents',$data.categoryid) $p}
 				<s class="arrow">></s>
 				<a href="{u('content/content/index/'.$p['id'])}">{$p['name']}</a>
 			{/loop}

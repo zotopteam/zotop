@@ -29,59 +29,33 @@ class content_controller_content extends admin_controller
 	 * 列表
 	 *
 	 */
-    public function action_index($categoryid=0, $status='publish')
+    public function action_index($categoryid=0, $status='')
     {
 		// 获取模型
-		$models = $this->model->cache();
+		$models 	= $this->model->cache();
 
 		// 获取栏目数据
-		$categorys = $this->category->getAll();
+		$categorys 	= $this->category->getAll();
+
+		// 栏目
+		if ( $categoryid )
+		{
+			// 获取栏目信息
+			$category = $this->category->get($categoryid);
+
+			// 获取包含子栏目的全部数据
+			$this->content->where('categoryid','in',$category['childids']);
+		}
 
 		// 状态
-		$statuses = $this->content->statuses;
-
-		// 搜索: 标题和关键词
-		if ( $keywords = $_REQUEST['keywords'] )
+		if ( $status )
 		{
-			$dataset = $this->content->where(array(
-				array('title','like',$keywords),
-				'or',
-				array('keywords','like',$keywords)
-			))->orderby('listorder','desc')->getPage();
-		}
-		else
-		{
-			// 栏目
-			if ( $categoryid )
-			{
-				// 获取栏目信息
-				$category = $this->category->get($categoryid);
+			$this->content->where('status','=',$status);
+		} 
 
-				// 获取包含子栏目的全部数据
-				$this->content->where('categoryid','in',$category['childids']);
-			}
+		// 获取数据集
+		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getPage();
 
-			// 状态
-			if ( $status ) $this->content->where('status','=',$status);
-
-			// 获取数据集
-			$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getPage();
-
-			// 获取当前状态的数据条数
-			foreach($statuses as $s=>$t)
-			{
-				if ( $s == 'publish' ) continue;
-
-				if ( $categoryid )
-				{
-					$statuscount[$s] = $this->content->where('categoryid','in',$category['childids'])->where('status','=',$s)->count();
-				}
-				else
-				{
-					$statuscount[$s] = $this->content->where('status','=',$s)->count();
-				}
-			}
-		}
 
 		// 允许发布的模型
 		$postmodels = array();
@@ -97,17 +71,35 @@ class content_controller_content extends admin_controller
 
 
 		$this->assign('title',A('content.name'));
-		$this->assign('statuses',$statuses);
-		$this->assign('statuscount',$statuscount);
 		$this->assign('status',$status);
 		$this->assign('models',$models);
 		$this->assign('postmodels',$postmodels);
 		$this->assign('categorys',$categorys);
 		$this->assign('category',$category);
 		$this->assign('categoryid',$categoryid);
-		$this->assign('keywords',$keywords);
 		$this->assign($dataset);
 		$this->display();
+    }
+
+    /**
+     * 内容搜索
+     * 
+     * @return mixed
+     */
+    public function action_search()
+    {
+		$keywords = $_REQUEST['keywords'];
+
+		if ( empty($keywords) )
+		{
+			return $this->error(t('请输入关键词'));
+		}
+
+		$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->orderby('listorder','desc')->getPage();
+
+		$this->assign('keywords',$keywords);
+		$this->assign($dataset);
+		$this->display('content/content_index.php');		  	
     }
 
 	/**
@@ -167,14 +159,20 @@ class content_controller_content extends admin_controller
     {
 		if ( $post = $this->post() )
 		{			
-			if ( empty($post['id']) or empty($post['listorder']) ) return $this->error(t('禁止访问'));
+			@extract($post);
 
-			if ( $this->content->where('id', $post['id'])->set($post)->update() )
+			if ( empty($id) or empty($listorder) ) return $this->error(t('禁止访问'));
+
+			try
 			{
+				$this->content->where('categoryid',$categoryid)->where('parentid',$parentid)->where('listorder','<=',$listorder)->set('listorder',array('listorder','-',1))->update();
+				$this->content->where('id',$id)->set('listorder',$listorder)->set('stick',$stick)->update();
 				return $this->success(t('操作成功'),request::referer());
 			}
-
-			return $this->error($this->content->error());
+			catch (Exception $e)
+			{
+				return $this->error($e->getMessage());
+			}			
 		}
 
     	return $this->error(t('禁止访问'));
@@ -207,13 +205,11 @@ class content_controller_content extends admin_controller
 		// 模型数据
 		$model = $this->model->get($modelid);
 
-		// 父栏目数据
-		$parents = $this->category->getParents($categoryid);
 
 		// 默认数据
+		$data = array();
 		$data['categoryid'] = $categoryid;
-		$data['app'] = $model['app'];
-		$data['modelid'] = $modelid;
+		$data['modelid'] 	= $modelid;
 		$data['createtime'] = ZOTOP_TIME;
 
 		$this->assign('title',$category['name']);
@@ -221,7 +217,6 @@ class content_controller_content extends admin_controller
 		$this->assign('model',$model);
 		$this->assign('categoryid',$categoryid);
 		$this->assign('modelid',$modelid);
-		$this->assign('parents',$parents);
 		$this->assign('data',$data);
 		$this->assign('statuses',$this->content->statuses);
 		$this->display('content/content_post.php');
@@ -243,27 +238,22 @@ class content_controller_content extends admin_controller
 			return $this->error($this->content->error());
 		}
 
-		//debug::dump(m('content.tag')->where('name','中国电信')->getField('id'));exit;
-
 		$data = $this->content->get($id);
 
-		$data['blockids'] = arr::column(m('block.datalist')->select('blockid')->where('app', 'content')->where('dataid',"content-{$id}")->getall(), 'blockid');
+		// 获取“推荐到区块”的区块编号
+		$data['blockids'] = arr::column(m('block.datalist')->select('blockid')->where('dataid',$data['dataid'])->getall(), 'blockid');
 
 		// 栏目数据
-		$category = $this->category->get($data['categoryid']);
+		$category 	= $this->category->get($data['categoryid']);
 
 		// 模型数据
-		$model = $this->model->get($data['modelid']);
-
-		// 父栏目数据
-		$parents = $this->category->getParents($data['categoryid']);
+		$model 		= $this->model->get($data['modelid']);
 
 		$this->assign('title',$category['name']);
 		$this->assign('category',$category);
 		$this->assign('model',$model);
 		$this->assign('categoryid',$data['categoryid']);
 		$this->assign('modelid',$data['modelid']);
-		$this->assign('parents',$parents);
 		$this->assign('data',$data);
 		$this->assign('statuses',$this->content->statuses);
 		$this->display('content/content_post.php');

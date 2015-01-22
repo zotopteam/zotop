@@ -170,6 +170,11 @@ class content_model_model extends model
 			{
 				$schema = array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
 
+				if ( $this->db->table("content_model_{$data['id']}")->exists() )
+				{
+					$this->db->table("content_model_{$data['id']}")->drop();
+				}
+
 				if ( $this->db->table("content_model_{$data['id']}")->create($schema) == false )
 				{
 					$this->db()->where('id',$data['id'])->delete();
@@ -213,7 +218,12 @@ class content_model_model extends model
      */
 	public function get($id, $field='')
 	{
-		$data = $this->cache();
+		static $data = array();
+
+		if ( empty($data) )
+		{
+			$data = $this->cache();
+		}
 
 		if ( empty($field) )
 		{

@@ -13,24 +13,50 @@ class content_model_content extends model
     protected $pk = 'id';
     protected $table = 'content';
 
-    public $statuses = array();
-
-    public function __construct()
+    /**
+     * 内容状态
+     * 
+     * @param  string $s 传递具体状态值将获得该状态的名称
+     * @return mixed
+     */
+    public function status($s='')
     {
-        parent::__construct();
-
-        $this->statuses = array(
+        $status = zotop::filter('content.status',array(
             'publish'   => t('发布'),
-            'pending'   => t('待审'),
-            'reject'    => t('退稿'),
+            'pending'   => t('待发布'),
+            //'reject'    => t('退稿'),
             'draft'     => t('草稿'),
             //'trash'     => t('回收站'),
-        );
+        ));
+
+        return $s ? $status[$s] : $status;
+    }
+
+    /**
+     * 内容url
+     * 
+     * @param  int  $id    内容编号
+     * @param  string  $alias URL别名
+     * @param  string  $url   url值
+     * @param  boolean $full  是否返回格式化的url
+     * @return string
+     */
+    public function url($id, $alias, $url, $full=true)
+    {
+        if ( $url ) return $url;
+
+        if ( $alias )
+        {
+            return $full? U($alias) : $alias;
+        }
+
+        return $full? U("content/detail/{$id}") : "content/detail/{$id}";
     }
 
     /**
      * 获取数据
      *
+     * @return array
      */
     public function getAll()
     {
@@ -38,10 +64,7 @@ class content_model_content extends model
 
         foreach ($data as &$d)
         {
-            if (empty($d['url']))
-            {
-                $d['url'] = empty($d['alias']) ? U("content/detail/{$d['id']}") : U($d['alias']);
-            }
+            $d['url'] = $this->url($d['id'], $d['alias'], $d['url']);
         }
 
         return $data;
@@ -49,7 +72,7 @@ class content_model_content extends model
 
 
     /**
-     * 获取列表数据，url状态转换
+     * 获取列表数据
      *
      * @param integer $page 页数
      * @param integer $pagesize 每页条数
@@ -62,10 +85,7 @@ class content_model_content extends model
 
         foreach ($dataset['data'] as &$d)
         {
-            if (empty($d['url']))
-            {
-                $d['url'] = empty($d['alias']) ? U("content/detail/{$d['id']}") : U($d['alias']);
-            }
+            $d['url'] = $this->url($d['id'], $d['alias'], $d['url']);
         }
 
         return $dataset;
@@ -75,27 +95,17 @@ class content_model_content extends model
      * 获取未处理数据条数
      *
      */
-    public function getPendingCount()
+    public function statuscount($status, $categoryid=0)
     {
-        static $count = null;
 
-        if ($count === null)
+        $db = $this->where('status', '=', $status);
+
+        if ( $categoryid )
         {
-            $count = $this->db()->where('status', '=', 'pending')->count();
+            $db = $this->where('categoryid', 'in', $categoryid);
         }
 
-        return $count;
-    }
-
-    /**
-     * 计算条数
-     *
-     */
-    public function count()
-    {
-        $result = $this->getField('COUNT(id) AS zotop_count');
-
-        return is_numeric($result) ? $result : 0;
+        return $db->count();
     }
 
     /**
@@ -106,11 +116,14 @@ class content_model_content extends model
      */
     public function extend($modelid)
     {
-        $models = m('content.model.cache');
-
-        if ( $models[$modelid] and $models[$modelid]['app'] and $models[$modelid]['model'] )
+        if ( $modelid )
         {
-            return m("{$models[$modelid]['app']}.{$models[$modelid]['model']}")->init($this, $modelid);
+            $model = m('content.model.get',$modelid);
+        }        
+
+        if ( $model and $model['app'] and $model['model'] )
+        {
+            return m("{$model['app']}.{$model['model']}")->init($this, $modelid);
         }
 
         return null;
@@ -162,7 +175,7 @@ class content_model_content extends model
         if ( $data['alias'] and $alias = alias($data['alias']) )
         {
             if ($alias != "content/detail/{$data['id']}") return $this->error(t('别名已经存在'));
-        }        
+        }       
 
         // 预处理数据
         $fields = m('content.field.cache', $data['modelid']);
@@ -219,7 +232,7 @@ class content_model_content extends model
                 'dataid'        => "content-{$data['id']}",
                 'title'         => $data['title'],
                 'style'         => $data['style'],
-                'url'           => $data['alias'] ? $data['alias'] : "content/detail/{$data['id']}",                
+                'url'           => $this->url($data['id'], $data['alias'], $data['url'], false),              
                 'image'         => $data['image'],
                 'description'   => $data['summary'],
                 'time'          => $data['createtime']
@@ -241,7 +254,7 @@ class content_model_content extends model
         $data['createtime'] = empty($data['createtime']) ? ZOTOP_TIME : $data['createtime'];
         $data['updatetime'] = ZOTOP_TIME;
         $data['listorder']  = ZOTOP_TIME;
-        $data['status']     = empty($data['status']) ? 'pending' : $data['status'];
+        $data['status']     = empty($data['status']) ? 'publish' : $data['status'];
 
         // 添加数据
         if ( $data['id'] = $this->insert($data) )
@@ -350,8 +363,10 @@ class content_model_content extends model
 		// 导入变量
 		extract( $options );
 
-		// 读取栏目数据
-		$cid = isset($cid)? $cid : $categoryid;
+		// 默认支持的标签缩写
+        $mid = isset($mid)? $mid : $modelid;
+		$cid = isset($cid)? intval($cid) : intval($categoryid);
+        $pid = isset($pid)? intval($pid) : intval($parentid);
 
 		if ( $cid )
 		{
@@ -367,8 +382,11 @@ class content_model_content extends model
 			 ( count($cids) == 1 ) ? $db->where('categoryid','=',intval(reset($cids))) : $db->where('categoryid','in',$cids);
 		}
 
-		// 单独模型数据
-		if ( $modelid ) $db->where('modelid','=',$modelid);
+		// 读取模型数据
+		if ( $mid ) $db->where('modelid','=',$mid);
+
+        // 读取子内容
+        if ( $pid ) $db->where('parentid','=',$pid);
 
 		// 查询结果是否必须包含缩略图
 		if ( strtolower($image) == 'true' ) $db->where('image','!=','');
@@ -384,6 +402,8 @@ class content_model_content extends model
 
 
 		// 权重,支持整数以及范围，如:weight="10" 或者weight="0,10", weight="10,"
+
+        /*   
 		if ( !empty($weight) )
 		{
 			if ( strpos( $weight, "," ) === FALSE )
@@ -396,6 +416,7 @@ class content_model_content extends model
 				if ( $m[2] ) $db->where('weight','<=',intval($m[2]));
 			}
 		}
+        */
 
 		// 根据关键词筛选
 		if ( !empty($keywords) )
@@ -426,12 +447,12 @@ class content_model_content extends model
 			$page = ( intval($page)>0 ) ? intval($page) : 0;
 
 			$return = $db->getPage($page, $size, intval($total));
-			$return['data'] = $this->process($return['data'], $modelid, $modeldata);
+			$return['data'] = $this->process($return['data'], $mid);
 		}
 		else
 		{
 			$return = $db->limit($size)->getAll();
-			$return = $this->process($return, $modelid, $modeldata);
+			$return = $this->process($return, $mid);
 		}
 
 		return $return;
@@ -439,47 +460,34 @@ class content_model_content extends model
 
 
 	// 处理数据
-	public function process($data, $model=null, $modeldata=null)
+	public function process($data, $mid=null)
 	{
 		$return = array();
 
 		// 处理数据
         foreach ($data as $d)
         {
-            if (empty($d['url']))
-            {
-                $d['url'] = empty($d['alias']) ? U("content/detail/{$d['id']}") : U($d['alias']);
-            }
-
-			if ( $d['style'] )
-			{
-				$d['style'] = ' style="'.$d['style'].'"';
-			}
+            $d['url']   = $this->url($d['id'], $d['alias'], $d['url']);
+            $d['style'] = $d['style'] ? ' style="'.$d['style'].'"' : '';
+            $d['tags']  = explode(',', $d['keywords']);
 
 			// 插入标签 newflag 及 默认的最新标识：“新”
 			if ( $f = C('content.newflag') )
 			{
 				if ( ( ZOTOP_TIME - $d[$f]) <= C('content.newflag_expires') * 3600 ) $d['new'] = ' <i class="new">'.t('新').'</i>';
-			}
-
-            // 处理tags
-            $d['tags'] = explode(',', $d['keywords']);
+			}            
 
 			$return[$d['id']] = $d;
         }
 
 		// 调用附表数据
-		if ( $model and $modeldata and !empty($return) )
+		if ( $mid and $return )
 		{
-			$models = m('content.model')->cache();
+			if ( $extend = $this->extend($mid) )
+            {
+                $data = $extend->select('*')->where('id','in', array_keys($return))->orderby(null)->getall();
 
-			if ( $model = $models[strtolower($model)] and $model['tablename'] )
-			{
-				$modeldata = ($modeldata == 'true') ? '*' : 'id,'.$modeldata;
-
-				$_data = m("{$model['app']}.{$model['id']}")->select($modeldata)->where('id','in', array_keys($return))->orderby(null)->getall();
-
-				foreach($_data as $r)
+				foreach($data as $r)
 				{
 					if ( isset( $return[$r['id']] ) ) $return[$r['id']] = array_merge($return[$r['id']], $r);
 				}

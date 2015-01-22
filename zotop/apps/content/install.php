@@ -33,13 +33,13 @@ $this->db->table('content')->create(array(
 		'comments'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'0', 'unsigned'=>true, 'comment' => t('评论数') ),
 		'createtime'=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容时间') ),
 		'updatetime'=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('更新时间') ),
-		'weight'	=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>'0', 'unsigned'=>true, 'comment' => t('权重') ),
+		//'weight'	=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>'0', 'unsigned'=>true, 'comment' => t('权重') ),
 		'listorder' => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
 		'stick'     => array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否固顶，0：不固顶，1：固顶') ),		
 		'status'	=> array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('状态') ),
 	),
 	'index'=>array(
-		'categoryid' => array ( 'categoryid',  'modelid',  'createtime',  'weight',  'status' ),
+		'categoryid' => array ( 'categoryid',  'modelid',  'listorder',  'status' ),
 	),
 	'unique'=>array(
 	),

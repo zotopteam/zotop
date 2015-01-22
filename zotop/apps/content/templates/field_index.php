@@ -83,7 +83,7 @@
 		{/if}
 	</div>
 	<div class="main-footer">
-		{t('模型的字段管理，可以拖动字段行进行排序')}
+		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
 	</div>
 </div>
 <script type="text/javascript">
@@ -91,6 +91,7 @@
 $(function(){
 	$("table.sortable").sortable({
 		items: "tbody > tr",
+		handle: "td.drag",
 		axis: "y",
 		placeholder:"ui-sortable-placeholder",
 		helper: function(e,tr){

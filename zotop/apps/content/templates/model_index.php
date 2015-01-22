@@ -24,10 +24,10 @@
 			<td class="drag">&nbsp;</td>
 			<td class="w40 center">{t('状态')}</td>
 			<td class="w300">{t('名称')}</td>
-			<td class="w140">{t('标识')}</td>
-			<td class="w140">{t('类型')}</td>
-			<td class="w80">{t('数据')}</td>
+			<td class="w140">{t('标识')}</td>					
 			<td>{t('描述')}</td>
+			<td class="w140">{t('类型')}</td>	
+			<td class="w80">{t('数据')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -50,13 +50,14 @@
 					</div>
 				</td>
 				<td>{$r['id']}</td>
+				<td>{$r['description']}</td>
 				<td>					
 					{if $r.app='content'}
 						{if $r.model=='extend'} {t('扩展模型')} {else} {t('基础模型')} {/if}
 					{/if}
-				</td>
+				</td>				
+				
 				<td>{$r['datacount']} {t('条')}</td>
-				<td>{$r['description']}</td>
 			</tr>
 		{/loop}
 		</tbody>
@@ -74,6 +75,7 @@
 $(function(){
 	$("table.sortable").sortable({
 		items: "tbody > tr",
+		handle: "td.drag",
 		axis: "y",
 		placeholder:"ui-sortable-placeholder",
 		helper: function(e,tr){

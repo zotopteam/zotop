@@ -38,11 +38,12 @@ class content_api
 		));
 
 		// 设置提示信息
-		if ( $pending = m('content.content')->getPendingcount() )
+		/*
+		if ( $pending = m('content.content.statuscount','pending') )
 		{
 			$start['content']['msg'] = t('%s 条待审',$pending);
 		}
-
+		*/
 		return $start;
 	}
 
@@ -76,7 +77,8 @@ class content_api
 	public static function globalmsg($msg)
 	{
 		// 设置提示信息
-		if ( $pending = m('content.content')->getPendingCount() )
+		/*
+		if ( $pending = m('content.content.statuscount','pending') )
 		{
 			$msg[] = array(
 				'text' => t('您有 %s 等待审核内容', $pending),
@@ -84,6 +86,7 @@ class content_api
 				'type' => 'pending',
 			);
 		}
+		*/
 
 		return $msg;
 	}

@@ -115,9 +115,9 @@ h3{font-size:16px;}
 
 .red{color:red;}
 .blue{color:blue;}
-.green{color:green;}
+.green{color:#6B0;}
 .gray{color:gray;}
-.yellow{color:#ff6600;}
+.yellow{color:#f60;}
 
 .alert,.warning{color:#ff9900;}
 .success,.publish,.true{color:#66bb00;}
@@ -326,10 +326,11 @@ table.list td.select input{margin:-2px 0 0 0;padding:0px;text-indent:0px;vertica
 table.list th.manage,table.list td.manage{width:40px;text-align:center;white-space:nowrap;}
 table.list th.manage a,table.list td.manage a{white-space:nowrap;text-align:center;}
 
-table.sortable tbody tr{cursor:move;position:relative;}
 table.sortable tbody tr.ui-sortable-placeholder{background-color:#ccf3fa;}
 table.sortable tbody tr.ui-sortable-helper{background-color:#fffdd7;z-index:1000;}
 table.sortable td.drag{padding:0px;width:30px;background:url(../image/dragitem.png) no-repeat center center;}
+table.sortable tbody td.drag{cursor:move;}
+
 
 table.border{border-top:solid 1px #e8e8e8;border-right:solid 1px #e8e8e8;}
 table.border td{border-left:solid 1px #e8e8e8;}
@@ -535,7 +536,7 @@ i.icon-loading:before,b.icon-loading:before{content:'';}
 .main-header ul.navbar li.current a{border-bottom:solid 2px #f60;}
 
 .main-header form.searchbar{float:right;margin:7px 0 0 5px;height:28px;line-height:28px;overflow:hidden;border:1px solid #bebebe;border-radius:3px;}
-.main-header form.searchbar input{float:left;width:160px;font-size:12px;overflow:hidden;color:#000;margin:0;padding:6px;border:0px none;border-right:1px solid #BEBEBE;}
+.main-header form.searchbar input{float:left;width:180px;font-size:12px;overflow:hidden;color:#000;margin:0;padding:6px;border:0px none;border-right:1px solid #BEBEBE;}
 .main-header form.searchbar button{cursor:pointer;float:left;height:100%;margin:0;padding:0 6px;border:0 none;color:#666;background-color:#f7f7f7;background:-moz-linear-gradient(top,#fff,#e0e0e0);background:-webkit-linear-gradient(top,#fff,#e0e0e0);}
 
 .main-body{padding:0;clear:both;position:absolute;top:45px;bottom:41px;left:0px;right:0;}
