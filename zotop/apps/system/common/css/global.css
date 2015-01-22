@@ -225,7 +225,7 @@ h3{font-size:16px;}
 .btn-icon-text i{margin-right:5px;}
 .btn-icon-text b{font-weight:normal;}
 
-.btn-menu .dropmenulist {min-width:72px;}
+.btn-menu .dropmenulist {min-width:71px;}
 .btn-menu .dropmenulist a{font-size:14px;padding:6px 5px;}
 .btn-menu:hover .btn-highlight{background:#0072C6;border-bottom-right-radius:0;border-bottom-left-radius:0;}
 
@@ -451,7 +451,7 @@ input[type=checkbox].disabled:before,input[type=radio].disabled:before{color:#99
 
 /* radio or checkbox container */
 .controls label{font-size:14px;cursor:pointer;vertical-align:middle;white-space:nowrap;margin-right:5px;}
-.controls label input{padding:0;margin:-2px 2px 0 0;outline:0;vertical-align:middle;}
+.controls label input{padding:0;margin:-3px 2px 0 0;outline:0;vertical-align:middle;}
 .controls label span{font-size:13px;margin-left:5px;}
 .controls label b{font-weight:normal;color:green;margin-left:3px;}
 

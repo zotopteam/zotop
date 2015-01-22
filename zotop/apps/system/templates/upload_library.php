@@ -1,7 +1,7 @@
 {template 'dialog.header.php'}
 
 <div class="side">
-	{template 'system/attachment_side.php'}
+	{template 'system/upload_side.php'}
 </div>
 <div class="main side-main">
 	<div class="main-header">
@@ -60,7 +60,7 @@
 		var loading = $.loading();
 
 		$.ajax({
-			url: "{u('system/attachment/librarydata')}",
+			url: "{u('system/upload/librarydata')}",
 			data:{page:page+1,pagesize:pagesize, type: '{$type}', folderid:folderid},
 			dataType:'json',
 			success:function(result){

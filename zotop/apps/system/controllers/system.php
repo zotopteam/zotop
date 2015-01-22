@@ -10,6 +10,17 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class system_controller_system extends admin_controller
 {
+	
+	/**
+	 * 覆盖权限检查，当前页面的功能不检查权限
+	 * 
+	 * @return true
+	 */
+	public function __checkPriv()
+	{
+		return true;
+	}
+
 	/**
 	 * 系统管理
 	 *
@@ -34,9 +45,10 @@ class system_controller_system extends admin_controller
 
 	/**
 	 * 一键清理清理缓存数据
-	 *
+	 * 
+	 * @return mixed
 	 */
-	public function action_onekeyclear()
+	public function action_refresh()
     {
 		if ( $post = $this->post() )
 		{
@@ -49,60 +61,11 @@ class system_controller_system extends admin_controller
 
 			zotop::cache(null);
 
-			zotop::run('system.onekeyclear');
+			zotop::run('system.refresh');
 
-			$this->success(t('清理成功'));
+			$this->success(t('刷新成功'));
 		}
 	}
-
-	/**
-	 * 清理缓存，此功能暂时无用，使用一键清理和系统重启代替
-	 *
-	 */
-	public function action_clear()
-    {
-		if ( $post = $this->post() )
-		{
-			if( !is_array($post['id']) )  return $this->error(t('请选择要操作的项'));
-
-			@set_time_limit(0);
-
-			foreach( $post['id'] as $id )
-			{
-				if ( in_array($id, array('caches','temp','templates','tables','sessions')) )
-				{
-					folder::clear(ZOTOP_PATH_RUNTIME.DS.$id);
-				}
-
-				if ( $id == "caches" )
-				{
-					zotop::cache(null);
-				}
-
-				if ( $id == 'core' )
-				{
-					zotop::reboot();
-				}
-
-			}
-
-			zotop::run('system.clear',$post['id']);
-
-			$this->success(t('清理成功'),u('system/system/clear'));
-		}
-
-		$caches = array(
-			array('id'=>'caches','name'=> t('数据缓存'),'description'=>t('数据及内容缓存'),'checked'=>true),
-			array('id'=>'temp','name'=> t('临时文件'),'description'=>t('网站运行中产生的临时文件'),'checked'=>false),
-			array('id'=>'templates','name'=> t('模板缓存'),'description'=>t('网站模版缓存'),'checked'=>false),
-			array('id'=>'tables','name'=> t('数据表缓存'),'description'=>t('数据库数据表信息缓存数据'),'checked'=>false),
-			array('id'=>'core','name'=> t('核心缓存'),'description'=>t('系统核心缓存'),'checked'=>false),
-		);
-
-		$this->assign('title',t('清理缓存'));
-		$this->assign('caches',$caches);
-		$this->display();
-    }
 
 	/**
 	 * 系统重启，重启将清理系统缓存、运行时等数据

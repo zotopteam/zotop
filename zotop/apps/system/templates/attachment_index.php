@@ -7,13 +7,13 @@
 	<div class="side-body scrollable">
 		<ul class="sidenavlist">
 			<li>
-				<a href="{u('system/attachment/index/list')}" {if $folderid==0} class="current"{/if}>
+				<a href="{u('system/attachment/index')}" {if $folderid==0} class="current"{/if}>
 					<i class="icon icon-folder"></i> {t('全部附件')}
 				</a>
 			</li>
 			{loop m('system.attachment_folder.category') $f}
 			<li>
-				<a href="{u('system/attachment/index/list/'.$f['id'])}" {if $folderid==$f['id']} class="current"{/if}>
+				<a href="{u('system/attachment/index/'.$f['id'])}" {if $folderid==$f['id']} class="current"{/if}>
 					<i class="icon icon-folder"></i> {$f['name']}
 				</a>
 			</li>
@@ -34,7 +34,7 @@
 		<div class="title">{$title}</div>
 		<div class="position">
 			{if $folderid}
-			<a href="{u('system/attachment/index/list')}">全部附件</a>
+			<a href="{u('system/attachment/index')}">全部附件</a>
 			<s class="arrow">></s>
 			{m('system.attachment_folder.category', $folderid, 'name')}
 			{/if}
@@ -177,8 +177,12 @@ $(function(){
 			maxsize:'20mb',
 			fileext: '{$allowexts}',
 			filedescription : '{t('选择文件')}',
+			uploaded: function(up,file,msg){
+				$.msg(msg);
+			},
 			complete: function(up,files){
 				location.reload();
+				
 			},
 			error: function(error,detail){
 				$.error(detail);

@@ -24,6 +24,36 @@ class content_controller_content extends admin_controller
 		$this->model	= m('content.model');
 	}
 
+	public function action_test()
+	{
+		$this->content->db()->table('content')->clear();
+
+		$listorder = ZOTOP_TIME-1000;
+
+		for ($i=0; $i < 1000; $i++)
+		{ 
+			$this->content->insert(array (
+			  'parentid' => '0',
+			  'categoryid' => '1',
+			  'modelid' => 'url',
+			  'title' => '测试标题'.$i,
+			  'url' => 'http://www.163.com/',
+			  'createtime' => '1421161200',
+			  'updatetime' => '1421845252',
+			  'weight' => '0',
+			  'listorder' => $listorder,
+			  'stick' => '0',
+			  'userid' => '1',
+			  'status' => 'publish',
+			));
+
+			$listorder = $listorder + 1;
+		}
+
+		return $this->success('操作成功');
+
+	}
+
 
 	/**
 	 * 列表
@@ -31,12 +61,6 @@ class content_controller_content extends admin_controller
 	 */
     public function action_index($categoryid=0, $status='')
     {
-		// 获取模型
-		$models 	= $this->model->cache();
-
-		// 获取栏目数据
-		$categorys 	= $this->category->getAll();
-
 		// 栏目
 		if ( $categoryid )
 		{
@@ -60,7 +84,7 @@ class content_controller_content extends admin_controller
 		// 允许发布的模型
 		$postmodels = array();
 
-		foreach( $models as $i=>$m )
+		foreach( m('content.model.cache') as $i=>$m )
 		{
 			if ( $m['disabled'] ) continue;
 
@@ -70,13 +94,11 @@ class content_controller_content extends admin_controller
 		}
 
 
-		$this->assign('title',A('content.name'));
-		$this->assign('status',$status);
-		$this->assign('models',$models);
-		$this->assign('postmodels',$postmodels);
-		$this->assign('categorys',$categorys);
-		$this->assign('category',$category);
+		$this->assign('title',$category['name']);		
 		$this->assign('categoryid',$categoryid);
+		$this->assign('status',$status);	
+		$this->assign('category',$category);
+		$this->assign('postmodels',$postmodels);			
 		$this->assign($dataset);
 		$this->display();
     }
@@ -158,14 +180,14 @@ class content_controller_content extends admin_controller
     public function action_listorder()
     {
 		if ( $post = $this->post() )
-		{			
+		{
 			@extract($post);
 
-			if ( empty($id) or empty($listorder) ) return $this->error(t('禁止访问'));
+			if ( empty($id) or empty($listorder) or empty($categoryid) ) return $this->error(t('禁止访问'));
 
 			try
 			{
-				$this->content->where('categoryid',$categoryid)->where('parentid',$parentid)->where('listorder','<=',$listorder)->set('listorder',array('listorder','-',1))->update();
+				$this->content->where('parentid',$parentid)->where('listorder','>=',$listorder)->set('listorder',array('listorder','+',1))->update();
 				$this->content->where('id',$id)->set('listorder',$listorder)->set('stick',$stick)->update();
 				return $this->success(t('操作成功'),request::referer());
 			}

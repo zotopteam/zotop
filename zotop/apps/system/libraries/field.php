@@ -93,8 +93,8 @@ class system_field
 
 		$html['js']			= html::import(A('system.url').'/common/js/field.image.js');
 		$html['field']		= form::field_text($attrs);
-		$html['uploader']	= '<a href="'.u('system/attachment/upload/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-image"></i><b>'.t('上传').'</b></a>';
-		$html['selector']	= '<a href="'.u('system/attachment/library/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
+		$html['uploader']	= '<a href="'.u('system/upload/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-image"></i><b>'.t('上传').'</b></a>';
+		$html['selector']	= '<a href="'.u('system/upload/library/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
 		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		// hook
@@ -127,8 +127,8 @@ class system_field
 
 		$html['js']			= html::import(A('system.url').'/common/js/field.file.js');
 		$html['field']		= form::field_text($attrs);
-		$html['uploader']	= '<a href="'.u('system/attachment/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
-		$html['selector']	= '<a href="'.u('system/attachment/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-file"></i><b>'.t('文件库').'</b></a>';
+		$html['uploader']	= '<a href="'.u('system/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
+		$html['selector']	= '<a href="'.u('system/upload/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-file"></i><b>'.t('文件库').'</b></a>';
 		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		// hook

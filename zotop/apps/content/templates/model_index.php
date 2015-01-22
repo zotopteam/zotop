@@ -104,8 +104,8 @@ $(function(){
 			multi:false,
 			fileext: 'model',
 			filedescription : '{t('模型文件(.model)')}',
-			uploaded : function(up,file,data){
-				$.msg(data);
+			uploaded : function(up,file,msg){
+				$.msg(msg);
 			}
 		});
 	});

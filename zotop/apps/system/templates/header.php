@@ -62,7 +62,7 @@
 			</div>
 		</li>
 		{/if}
-		<li><a class="ajax-post" href="{u('system/system/onekeyclear')}" title="{t('一键清理缓存')}"><i class="icon icon-clear"></i> {t('一键清理')}</a></li>
+		<li><a class="ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="icon icon-clear"></i> {t('一键刷新')}</a></li>
 		<li class="username menu">
 			<a><i class="icon icon-user"></i> {zotop::user('username')}<b class="arrow"></b></a>
 			<div class="dropmenu dropmenu-right">

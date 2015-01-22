@@ -261,7 +261,14 @@ class content_model_content extends model
         {
             if ( $extend = $this->extend($data['modelid']) )
             {
-                $extend->insert($data);
+                if ( $extend->insert($data) )
+                {
+                    return $data['id'];
+                }
+
+                $this->delete($data['id']);
+
+                return $this->error($extend->error());
             }
 
             return $data['id'];
@@ -285,7 +292,12 @@ class content_model_content extends model
         {
             if ( $extend = $this->extend($data['modelid']) )
             {
-                $extend->insert($data, true);
+                if ( $extend->insert($data, true) )
+                {
+                    return $data['id'];
+                }
+
+                return $this->error($extend->error());
             }
 
             return $data['id'];
@@ -307,10 +319,12 @@ class content_model_content extends model
 
         if ( $data = $this->getbyid($id) )
         {
-            // TODO 顺序
             if ( $extend = $this->extend($data['modelid']) )
             {
-                $extend->delete($id);
+                if ( !$extend->delete($id) )
+                {
+                    return $this->error($extend->error());
+                }
             }
 
 			if ( parent::delete($id) )
@@ -326,6 +340,8 @@ class content_model_content extends model
 
 				return true;
 			}
+
+            return false;
 
         }
 

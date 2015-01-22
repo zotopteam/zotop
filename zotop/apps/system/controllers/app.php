@@ -169,9 +169,6 @@ class system_controller_app extends admin_controller
 	 */
 	public function action_uploadprocess()
 	{
-		// 强制声明为AJAX状态
-		$_REQUEST['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
-
 		// 将文件上传到应用目录下
 		$filepath = ZOTOP_PATH_APPS.DS.$_POST['filename'];
 
@@ -201,7 +198,7 @@ class system_controller_app extends admin_controller
 			return $this->error(t('解压缩安装包文件失败'));
 		}
 
-		$this->error($upload->error);
+		return $this->error($upload->error);
 	}
 
 	/**

@@ -80,7 +80,9 @@
 		<table class="table list sortable" id="datalist" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
+			{if $categoryid}
 			<td class="drag"></td>
+			{/if}
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
 			{if empty($status)}
 			<td class="w40 center">{t('状态')}</td>
@@ -88,15 +90,17 @@
 			<td>{t('标题')}</td>
 			<td class="w80 center">{t('点击')}</td>
 			<td class="w80">{t('模型')}</td>
-			<td class="w80">{t('栏目')}</td>
+			<td class="w100">{t('栏目')}</td>
 			<td class="w120">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
 		<tbody>
 
 		{loop $data $r}
-			<tr data-id="{$r.id}" data-category="{$r.categoryid}" data-parentid="{$r.parentid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
+			<tr data-id="{$r.id}" data-categoryid="{$r.categoryid}" data-parentid="{$r.parentid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
+				{if $categoryid}
 				<td class="drag"></td>
+				{/if}
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				{if empty($status)}
 				<td class="center"><i class="icon icon-{$r['status']} {$r['status']}" title="{$statuses[$r['status']]}"></i></td>
@@ -130,8 +134,8 @@
 				</td>
 			
 				<td class="center">{$r['hits']}</td>
-				<td><div class="textflow">{$models[$r['modelid']]['name']}</div></td>
-				<td><div class="textflow">{$categorys[$r['categoryid']]['name']}</div></td>
+				<td><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
+				<td><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
 				<td>
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>
@@ -237,6 +241,8 @@ $(function(){
 
 // 排序
 $(function(){
+
+	// 拖动停止更新当前的排序及当前数据之前的数据
 	var dragstop = function(evt,ui,tr){
 		
 		var oldindex = tr.data('originalIndex');
@@ -245,10 +251,13 @@ $(function(){
 		if(oldindex == newindex){return;}
 
 		var id = tr.data('id');
-		var target = ui.item.siblings('tr').eq(newindex-1);//要排到这一行之前
+		var prev = ui.item.siblings('tr').eq(newindex-2); // 排到这一行之后
+		var next = ui.item.siblings('tr').eq(newindex-1); // 排到这一行之前
 
-		var neworder = target.data('listorder');
-		var newstick = newindex > oldindex ?  tr.data('stick') : target.data('stick');
+		var neworder = ( newindex==1 || prev.data('listorder') < next.data('listorder') ) ? next.data('listorder') + 1 : prev.data('listorder');
+		var newstick = ( newindex < oldindex ) ? next.data('stick') : prev.data('stick');
+
+		//zotop.debug(oldindex+'---'+newindex+'--'+ neworder +'--'+ newstick);
 
 		$.loading();
 		$.post('{u('content/content/listorder')}',{id:tr.data('id'),categoryid:tr.data('categoryid'),parentid:tr.data('parentid'),listorder:neworder,stick:newstick},function(data){

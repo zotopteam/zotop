@@ -153,33 +153,42 @@ class content_model_model extends model
 
 			$this->field = m('content.field');
 
-			foreach ($data['fields'] as $i=>$field)
+			$listorder = 1;
+
+			foreach ($data['fields'] as $name=>$field)
 			{
 				if ( !$field['system'] )
 				{
-					$extendfield[] = $this->field->fielddata($field);
+					$extendfield[$name] = $this->field->fielddata($field);
 				}
 
 				$field['modelid'] 	= $data['id'];
-				$field['listorder'] = $i + 1;
+				$field['listorder'] = $listorder;
 
 				$this->field->insert($field);
+
+				$listorder++;
 			}
 
 			if ( count($extendfield)>1 ) 
 			{
-				$schema = array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
+				$tablename 	= "content_model_{$data['id']}";
+				$table 		= $this->db->table($tablename);
+				$schema 	= array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
 
-				if ( $this->db->table("content_model_{$data['id']}")->exists() )
+				if ( $table->exists() )
 				{
-					$this->db->table("content_model_{$data['id']}")->drop();
+					$table->drop();
 				}
 
-				if ( $this->db->table("content_model_{$data['id']}")->create($schema) == false )
+				if ( $table->create($schema) == false )
 				{
 					$this->db()->where('id',$data['id'])->delete();
 					$this->field->db()->where('modelid',$data['id'])->delete();
-				}			
+				}
+
+				// 更新数据表字段缓存
+				zotop::cache("{$tablename}.fields", null);			
 			}
 
 			$this->cache(true);

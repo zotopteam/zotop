@@ -36,7 +36,7 @@
 		<div class="content-body gallery">
 			<ul	id="galleryview" class="none">
 			{loop $content.gallery $r}
-				<li><img src="{$r.url}" data-description="{$r.description}" alt=""/></li>
+				<li><img src="{$r.image}" data-description="{$r.description}" alt=""/></li>
 			{/loop}
 			</ul>
 		</div>

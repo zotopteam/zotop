@@ -1,7 +1,7 @@
 {template 'dialog.header.php'}
 
 <div class="side">
-	{template 'system/attachment_side.php'}
+	{template 'system/upload_side.php'}
 </div>
 
 <div class="main side-main no-footer">
