@@ -22,6 +22,11 @@
 			</a>
 		</div>
 	</div><!-- main-header -->
+
+	{if empty($data)}
+		<div class="nodata">{t('暂时没有任何数据')}</div>
+	{else}
+
 	<div class="main-body scrollable">
 		{form::header()}
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
@@ -35,9 +40,7 @@
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
+
 		{loop $data $r}
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
@@ -61,7 +64,7 @@
 				</td>
 			</tr>
 		{/loop}
-		{/if}
+		
 		</tbody>
 		</table>
 		{form::footer()}
@@ -75,6 +78,8 @@
 		<a class="btn operate" href="{u('guestbook/admin/operate/'.$s)}">{$t}</a>
 		{/loop}
 	</div><!-- main-footer -->
+	
+	{/if}
 </div><!-- main -->
 <script type="text/javascript">
 $(function(){

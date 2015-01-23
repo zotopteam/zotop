@@ -1,12 +1,12 @@
 <!DOCTYPE html> 
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8 echo CHARSET?>" />
-	<meta http-equiv="X-UA-Compatible" content="IE=7" />
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	<meta name="renderer" content="webkit" />
 	<title>zotop <?php echo t('安装向导')?> <?php echo $this->steps[$this->action];?> </title>
 	<link href="./theme/global.css" rel="stylesheet" type="text/css" />
-	<script language="JavaScript" src="./theme/jquery.js"></script>
-	<script language="JavaScript" src="./theme/jquery.plugins.js"></script>
+	<script type="text/javascript" src="./theme/jquery.js"></script>
+	<script type="text/javascript" src="./theme/jquery.plugins.js"></script>
 	<link rel="shortcut icon" type="image/x-icon" href="./theme/favicon.ico" /> 
 	<link rel="icon" type="image/x-icon" href="./theme/favicon.ico" /> 
 	<link rel="bookmark" type="image/x-icon" href="./theme/favicon.ico" />

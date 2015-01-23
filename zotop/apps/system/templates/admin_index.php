@@ -1,5 +1,5 @@
 {template 'header.php'}
-<div class="side main-side scrollable">
+<div class="side main-side scrollable none">
 
 		<dl class="list">
 			<dt>{t('我的')}</dt>
@@ -34,7 +34,7 @@
 		</dl>
 
 </div>
-<div class="main main-side">
+<div class="main no-header">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 	</div>

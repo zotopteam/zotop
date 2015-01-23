@@ -45,10 +45,10 @@
 			</a>
 		</div>
 	</div><!-- main-header -->
+	{if empty($data)}
+	<div class="nodata">{t('暂时没有任何数据')}</div>
+	{else}
 	<div class="main-body scrollable">
-		{if empty($data)}
-			<div class="nodata">{t('暂时没有任何数据')}</div>
-		{else}
 
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
 		<thead>
@@ -104,7 +104,7 @@
 			{/loop}
 		</tbody>
 		</table>
-		{/if}
+		
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
@@ -113,6 +113,7 @@
 
 		<a class="btn operate" href="{u('system/attachment/operate/delete')}">{t('删除')}</a>
 	</div><!-- main-footer -->
+	{/if}
 </div><!-- main -->
 
 <div id="upload-progress" class="total-progressbar progressbar"><span class="progress"></span><span class="percent">0%</span></div>

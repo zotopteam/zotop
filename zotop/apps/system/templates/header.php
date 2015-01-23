@@ -26,7 +26,7 @@
 
 <div class="global-header">
 	<ul class="global-navbar">
-		<li class="menu">
+		<li class="logo menu">
 			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a>
 			<div class="dropmenu">
 				<div class="dropmenulist">
@@ -37,10 +37,8 @@
 				</div>
 			</div>
 		</li>
-		<li class="highlight">
-			<a class="site" href="{u()}" title="{t('访问 %s',c('site.name'))}" target="_blank">
-				<i class="icon icon-home"></i> {c('site.name')}
-			</a>
+		<li class="site">
+			<a href="{u()}" title="{t('访问 %s',c('site.name'))}" target="_blank">{c('site.name')}</a>
 		</li>
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} current{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
 		{loop $_GLOBALNAVBAR $id $nav}
@@ -48,12 +46,12 @@
 		{/loop}
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER!='index'} current{/if}" style="display:none;"><a href="{u('system/system')}">{t('系统')}</a></li>
 	</ul>
-	<ul class="global-navbar global-userbar">
+	<ul class="global-navbar global-userbar">	
 		{if $_GLOBALMSG}
 		<li class="menu menu-noarrow">
 			<a><i class="icon icon-msg a-flash"></i><b class="msg">{count($_GLOBALMSG)}</b></a>
 			<div class="dropmenu dropmenu-right">
-				<h2>{t('您有 %s 条待处理信息',count($_GLOBALMSG))}</h2>
+				<h2>{t('您有 {1} 条待处理信息',count($_GLOBALMSG))}</h2>
 				<div class="dropmenulist dropmenumsg">
 					{loop $_GLOBALMSG $msg}
 					<a href="{$msg['href']}"><i class="icon icon-info icon-{$msg['type']} {$msg['type']}"></i>{$msg['text']}</a>
@@ -75,6 +73,7 @@
 				</div>
 			</div>
 		</li>
+
 	</ul>
 </div>
 <div class="global-body">

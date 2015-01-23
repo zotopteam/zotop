@@ -43,7 +43,7 @@
 		{else}
 
 		{form::header()}
-		<table class="table zebra list sortable" cellspacing="0" cellpadding="0">
+		<table class="table list sortable" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
 			<td class="drag"></td>
