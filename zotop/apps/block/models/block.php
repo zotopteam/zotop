@@ -36,25 +36,45 @@ class block_model_block extends model
 	/**
 	 *	列表中可以使用的字段 
 	 *
-	 * @param  array $fields 数据库中存储的字段集合
+	 * @param  array $fields 数据库中存储的字段集合,或者要显示的字段（用逗号隔开）
 	 * @return array 返回当前字段结合
 	 */
-	public function fieldlist($fields=array())
+	public function fieldlist($fields='')
 	{
 		$fieldlist = array(
 			'title'			=> array('show'=>1,'label'=>t('标题'),'type'=>'title','name'=>'title','minlength'=>1,'maxlength'=>50, 'required'=>'required'),
-			'url'			=> array('show'=>1,'label'=>t('链接'),'type'=>'text','name'=>'url', 'required'=>'required'),
-			'image'			=> array('show'=>1,'label'=>t('图片'),'type'=>'image','name'=>'image', 'required'=>'required','image_resize'=>1,'image_width'=>'','image_height'=>'', 'watermark'=>0),
-			'description'	=> array('show'=>1,'label'=>t('摘要'),'type'=>'textarea','name'=>'description', 'required'=>'required','minlength'=>0,'maxlength'=>255),
-			'time'			=> array('show'=>1,'label'=>t('日期'),'type'=>'datetime','name'=>'time', 'required'=>'required'),
+			'url'			=> array('show'=>0,'label'=>t('链接'),'type'=>'text','name'=>'url','required'=>'required'),
+			'image'			=> array('show'=>0,'label'=>t('图片'),'type'=>'image','name'=>'image','required'=>'required','image_resize'=>1,'image_width'=>'','image_height'=>'','watermark'=>0),
+			'description'	=> array('show'=>0,'label'=>t('摘要'),'type'=>'textarea','name'=>'description','required'=>'required','minlength'=>0,'maxlength'=>255),
+			'time'			=> array('show'=>0,'label'=>t('日期'),'type'=>'datetime','name'=>'time','required'=>'required'),
 			'c1'			=> array('show'=>0,'label'=>t('自定义1'),'type'=>'text','name'=>'c1'),
 			'c2'			=> array('show'=>0,'label'=>t('自定义2'),'type'=>'text','name'=>'c2'),
 			'c3'			=> array('show'=>0,'label'=>t('自定义3'),'type'=>'text','name'=>'c3'),
 			'c4'			=> array('show'=>0,'label'=>t('自定义4'),'type'=>'text','name'=>'c4'),
 			'c5'			=> array('show'=>0,'label'=>t('自定义5'),'type'=>'text','name'=>'c5'),
 		);
+		
+		// 直接返回全部
+		if ( empty($fields) ) return $fieldlist;
 
-		return is_array($fields) ? array_merge($fieldlist, $fields) : $fieldlist;	
+		// 返回合并的数据
+		if ( is_array($fields) ) return array_merge($fieldlist, $fields);
+
+		// 显示的必填字段
+		if ( $fields = explode(',', $fields) )
+		{
+			foreach ($fieldlist as $k=>$f)
+			{
+				$fieldlist[$k]['show'] = 1; 
+
+				if ( !in_array($k, $fields) )
+				{
+					unset($fieldlist[$k]);
+				}
+			}			
+		}
+
+		return $fieldlist;
 	}
 
 	/**
@@ -92,7 +112,6 @@ class block_model_block extends model
 		{
 			$data['data'] 	= unserialize($data['data']);
 			$data['data'] 	= is_array($data['data']) ? $data['data'] : array();
-
 			$data['fields'] = unserialize($data['fields']);
 		}
 
@@ -105,12 +124,15 @@ class block_model_block extends model
      */
 	public function add($data)
 	{
-		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
+		foreach ($data['fields'] as $k => $f)
+		{
+			if ( !$f['show'] ) unset($data['fields'][$k]);
+		}		
 
 		$data['createtime'] = ZOTOP_TIME;
 		$data['updatetime'] = ZOTOP_TIME;
 		$data['userid'] 	= zotop::user('id');
-		$data['listorder'] 	= $this->max('listorder') + 1; // 默认排在后面
+		$data['listorder'] 	= $data['listorder'] ? $data['listorder'] : $this->max('listorder') + 1; // 默认排在后面
 
 		if ( $id = $this->insert($data) )
 		{
@@ -127,6 +149,11 @@ class block_model_block extends model
 	public function edit($data, $id)
 	{
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
+
+		foreach ($data['fields'] as $k => $f)
+		{
+			if ( !$f['show'] ) unset($data['fields'][$k]);
+		}
 
 		$data['updatetime'] = ZOTOP_TIME ;
 
@@ -194,11 +221,17 @@ class block_model_block extends model
 		// 自动创建区块
 		if ( empty($block) and is_array($attrs) )
 		{
-			$block             = array_merge(array('type'=>'list','name'=>t('自动创建'),'userid'=>0), $attrs);
-			$block['data']     = in_array($block['type'],array('list','hand')) ? array() : '';
-			$block['template'] = empty($block['template']) ? "block/{$block['type']}.php" : $block['template']; 
+			$block 				= $attrs;
+			$block['type']		= empty($block['type']) ?  'list' : $block['type'];
+			$block['template']	= empty($block['template']) ? "block/{$block['type']}.php" : $block['template'];
+			$block['fields']	= empty($block['fields']) ? $this->fieldlist('title,url') : $this->fieldlist($block['fields']);
+			$block['listorder']	= empty($block['listorder']) ?  $block['id'] : $block['listorder'];
+			$block['data']		= in_array($block['type'],array('list','hand')) ? array() : '';
 
-			$this->add($block);
+			if ( !$this->add($block) )
+			{
+				return $this->error();
+			}
 		}
 
 		if ( is_array($block['data']) )
@@ -254,7 +287,7 @@ class block_model_block extends model
 			//删除区块的时候同时删除全部数据
 			if ( in_array($block['type'], array('list','hand')) )
 			{
-				m('block.datalist')->where('blockid',$id)->delete();
+				m('block.datalist')->db()->where('blockid',$id)->delete();
 			}
 
 			if ( parent::delete($id) )
@@ -263,7 +296,7 @@ class block_model_block extends model
 			}
 		}
 
-		return $this->error(t('区块 %s 不存在', $id));
+		return $this->error(t('编号为 %s 的数据不存在', $id));
 	}
 }
 ?>

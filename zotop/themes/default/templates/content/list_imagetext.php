@@ -28,7 +28,7 @@
 	{if $n>0 and $n%5==0}<hr/>{/if}
 
 	<li>
-		{if $r.thumb}<div class="image"><a href="{$r.url}"><img src="{thumb($r.thumb,180,120)}" alt="{$r.title}"/></a></div>{/if}
+		{if $r.image}<div class="image"><a href="{$r.url}"><img src="{thumb($r.image,180,120)}" alt="{$r.title}"/></a></div>{/if}
 		<div class="text">
 			<b><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>{$r.new}</b>
 			<p>{str::cut($r.summary,200)}</p>

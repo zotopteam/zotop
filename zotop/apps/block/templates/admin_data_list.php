@@ -37,13 +37,15 @@
 						<td class="w40 center"></td>
 						<td>
 							<div class="title overflow">
-							{if $r.url}
-								<a href="{U($r.url)}" target="_blank">{$r.title}</a>
-							{else}
-								{$r.title}
-							{/if}
+								{if $r.url}	<a href="{U($r.url)}" target="_blank">{$r.title}</a> {else}	{$r.title} {/if}
 
-							{if $r.stick} <span class="f12 red">{t('已置顶')}</span> {/if}
+								{if $r.image} 
+									<i class="icon icon-image green tooltip-block" data-placement="bottom">
+										<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
+									</i> 
+								{/if}								
+								{if $r.dataid} <i class="icon icon-share green" title="{t('关联数据')}"></i> {/if}
+								{if $r.stick} <i class="icon icon-up yellow" title="{t('已置顶')}"></i> {/if}
 							</div> 
 						</td>
 						<td>
@@ -51,7 +53,7 @@
 								{if $r.stick}
 								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="icon icon-down"></i> {t('取消置顶')}</a>
 								{else}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="icon icon-up"></i> {t('设为置顶')}</a>
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="icon icon-up"></i> {t('置顶')}</a>
 								{/if}
 								<s>|</s>
 								<a href="{U('block/datalist/edit/'.$r.id)}" data-width="800px" data-height="400px" class="dialog-open"><i class="icon icon-edit"></i> {t('编辑')}</a>

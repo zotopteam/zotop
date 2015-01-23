@@ -5,12 +5,15 @@ define('BLOCK_PATH_CACHE', ZOTOP_PATH_RUNTIME . DS . 'block');
 // 注册类库到系统中
 zotop::register('block_api', A('block.path') . DS . 'libraries' . DS . 'api.php');
 
-//system_start
+// 开始菜单
 zotop::add('system.start', 'block_api::start');
 
-
-//system_globalnavbar
+// 快捷导航
 zotop::add('system.globalnavbar', 'block_api::globalnavbar');
+
+// 一键刷新
+zotop::add('system.refresh', 'block_api::refresh');
+
 
 /**
  * 模板hook，解析模板中的区块标签 {block '……'} 
@@ -38,7 +41,7 @@ function block_show($attrs, $tpl)
     }
 
     // 缓存不存在，自动生成缓存并换回数据
-    return m('block.block.publish',  $attrs, $tpl);    
+    return m('block.block.publish', $attrs, $tpl);    
 }
 
 // 注册控件：推荐位

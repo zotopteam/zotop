@@ -112,7 +112,7 @@ $this->db->table('content_category')->create(array(
 		'childid'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('子栏目编号') ),
 		'parentids'	=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('全部父编号') ),
 		'childids'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('全部子编号') ),
-		'type'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('类型，0=栏目，1=单页面，2=链接') ),
+		//'type'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('类型，0=栏目，1=单页面，2=链接') ),
 		'name'		=> array ( 'type'=>'varchar', 'length'=>50, 'notnull'=>true, 'comment' => t('名称') ),
 		'alias'		=> array ( 'type'=>'varchar', 'length'=>50, 'default'=>null, 'comment' => t('别名/英文名') ),
 		'title'		=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('标题') ),

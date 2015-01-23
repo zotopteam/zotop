@@ -138,12 +138,11 @@
 			maxsize:'{intval($maxsize)}mb',
 			fileext: '{$allowexts}',
 			filedescription : '{t('选择%s',$typename)}',
-			uploaded : function(up,file,msg){
-				
+			uploaded : function(up,file,msg){				
 				if ( msg.state ){
 					view.add(msg.file);
+					return true;
 				}
-
 				$.msg(msg);
 			},
 			error : function(error,detail){

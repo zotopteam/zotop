@@ -67,8 +67,9 @@
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				<td class="center">
 					{if in_array($r['ext'], array('jpg','jpeg','png','gif','bmp'))}
-						<div class="image-preview" data-src="{$r['url']}">
+						<div class="image-preview tooltip-block">
 							<div class="thumb"><img src="{$r['url']}"></div>
+							<div class="tooltip-block-content"><img src="{$r['url']}" class="preview"></div>
 						</div>
 					{else}
 						<b class="icon icon-ext icon-{$r['type']} icon-{$r['ext']} f48"></b>
@@ -158,11 +159,6 @@ $(function(){
 	});
 });
 
-$(function(){
-	$( '.image-preview' ).tooltip({placement:'auto bottom',container:'body',html:true,title:function(){
-		return '<img src="'+$(this).attr('data-src')+'" style="max-width:400px;"/>';
-	}});
-});
 </script>
 
 <script type="text/javascript" src="{A('system.url')}/common/plupload/plupload.full.js"></script>

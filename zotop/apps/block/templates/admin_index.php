@@ -26,52 +26,56 @@
 	</div><!-- main-header -->
 
 	<div class="main-body scrollable">
-		{form::header()}
-		<table class="table zebra list sortable" id="datalist" cellspacing="0" cellpadding="0">
-		<thead>
-			<tr>
-			<td class="drag">&nbsp;</td>
-			<td class="w50 center">{t('编号')}</td>
-			<td>{t('名称')}</td>
-			<td class="w80">{t('类型')}</td>
-			<td class="w200">{t('调用代码')}</td>			
-			<td class="w160">{t('更新时间')}</td>
-			</tr>
-		</thead>
-		<tbody>
+
 		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
+			<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
-		{loop $data $r}
-			<tr>
-				<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-				<td class="center">{$r.id}</td>
-				<td>
-					<div class="title textflow" title="{$r['title']}"{if $r['style']}style="{$r['style']}"{/if}>
-					{$r['name']}<span>{$r['description']}</span>
-					</div>
-					<div class="manage">
-						<a href="{u('block/admin/data/'.$r['id'])}">{t('内容维护')}</a>
-						<s></s>
-						<a class="ajax-post" href="{u('block/admin/publish/'.$r['id'])}">{t('发布')}</a>
-						<s></s>
-						<a href="{u('block/admin/edit/'.$r['id'])}">{t('设置')}</a>
-						<s></s>
-						<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}">{t('删除')}</a>
-					</div>
-				</td>
-				<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
-				<td>{$r.tag}</td>
-				<td>
-					<div>{m('system.user.get', $r['userid'], 'username')}</div>
-					<div class="f12 time">{format::date($r['updatetime'])}</div>
-				</td>
-			</tr>
-		{/loop}
+			{form::header()}
+			<table class="table zebra list sortable" id="datalist" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+				<td class="drag">&nbsp;</td>
+				<td class="w50 center">{t('编号')}</td>
+				<td>{t('名称')}</td>
+				<td class="w80">{t('类型')}</td>
+				<td class="w200">{t('调用代码')}</td>			
+				<td class="w160">{t('更新时间')}</td>
+				</tr>
+			</thead>
+			<tbody>
+
+			{loop $data $r}
+				<tr>
+					<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+					<td class="center">{$r.id}</td>
+					<td>
+						<div class="title textflow" title="{$r['title']}"{if $r['style']}style="{$r['style']}"{/if}>
+						{if $r.name} {$r['name']} {else} <i class="gray">{t('自动创建')}</i> {/if}
+
+						<span>{$r['description']}</span>
+						</div>
+						<div class="manage">
+							<a href="{u('block/admin/data/'.$r['id'])}">{t('内容维护')}</a>
+							<s></s>
+							<a class="ajax-post" href="{u('block/admin/publish/'.$r['id'])}">{t('发布')}</a>
+							<s></s>
+							<a href="{u('block/admin/edit/'.$r['id'])}">{t('设置')}</a>
+							<s></s>
+							<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}">{t('删除')}</a>
+						</div>
+					</td>
+					<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
+					<td>{$r.tag}</td>
+					<td>
+						<div>{m('system.user.get', $r['userid'], 'username')}</div>
+						<div class="f12 time">{format::date($r['updatetime'])}</div>
+					</td>
+				</tr>
+			{/loop}			
+			</tbody>
+			</table>
+			{form::footer()}
 		{/if}
-		</tbody>
-		</table>
-		{form::footer()}
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="tips">{t('拖动列表项可以调整顺序')}</div>

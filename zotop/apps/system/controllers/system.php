@@ -54,7 +54,7 @@ class system_controller_system extends admin_controller
 		{
 			@set_time_limit(0);
 
-			foreach( array('block', 'caches', 'temp','templates') as $folder )
+			foreach( array('caches', 'temp','templates') as $folder )
 			{
 				folder::clear(ZOTOP_PATH_RUNTIME.DS.$folder);
 			}

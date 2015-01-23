@@ -104,7 +104,7 @@ class block_controller_admin extends admin_controller
 		$data = array(
 			'type'			=> 'list',
 			'categoryid' 	=> $categoryid,
-			'fields'		=> $this->block->fieldlist(),
+			'fields'		=> $this->block->fieldlist('title,url'),
 			'template'		=> 'block/list.php',
 		);
 

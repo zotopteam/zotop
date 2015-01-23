@@ -170,8 +170,9 @@ h3{font-size:16px;}
 .tooltip-error{padding-left:22px;position: relative;color: red;}
 .tooltip-error i.icon{position: absolute;top:5px;left:2px;color: red;margin: 0;}
 
-.tooltip-block{color:#66bb00;cursor:pointer;}
+.tooltip-block{color:#66bb00;cursor:help;}
 .tooltip-block-content{display:none;line-height:1.8;}
+.tooltip-block-content img.preview{max-width:400px;max-height:300px;display: block;}
 
 .popover{position:absolute;top:0;left:0;z-index:1000;display:none;max-width:800px;padding:1px;text-align:left;white-space:normal;background-color:#fff;border:1px solid #ccc;border:1px solid rgba(0,0,0,0.2);border-radius:6px;-webkit-box-shadow:0 5px 10px rgba(0,0,0,0.2);box-shadow:0 5px 10px rgba(0,0,0,0.2);background-clip:padding-box;word-wrap: break-word;}
 .popover.top{margin-top:-10px}

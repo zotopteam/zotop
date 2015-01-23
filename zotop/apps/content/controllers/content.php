@@ -173,7 +173,7 @@ class content_controller_content extends admin_controller
     }
 
     /**
-     * 拖动排序,TODO 当两个时间接近时会出现无法排序问题，多次拖动之后listorder就会接近
+     * 拖动排序
      * 
      * @return mixed 操作结果
      */
@@ -187,8 +187,15 @@ class content_controller_content extends admin_controller
 
 			try
 			{
-				$this->content->where('parentid',$parentid)->where('listorder','>=',$listorder)->set('listorder',array('listorder','+',1))->update();
+				// $categoryid 为排序所在的栏目，不是排序数据的栏目编号，获取下级全部子栏目编号，用于父栏目也可以对所有子栏目的数据进行排序
+				$categoryids = m('content.category.get',$categoryid,'childids');
+
+				// 将当前列表 $listorder 之前的数据的 listorder 全部加 1， 为拖动的数据保留出位置
+				$this->content->where('categoryid','in',$categoryids)->where('parentid',$parentid)->where('listorder','>=',$listorder)->set('listorder',array('listorder','+',1))->update();
+				
+				// 更新拖动的数据为当前 $listorder
 				$this->content->where('id',$id)->set('listorder',$listorder)->set('stick',$stick)->update();
+				
 				return $this->success(t('操作成功'),request::referer());
 			}
 			catch (Exception $e)

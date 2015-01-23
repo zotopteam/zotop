@@ -16,9 +16,9 @@
 	</div>
 	<div class="box-body">
 		<ul class="image-text">
-			{content cid="$c.id" size="1" thumb="true"}
+			{content cid="$c.id" size="1" image="true"}
 			<li>
-				<div class="image"><a href="{$r.url}"><img src="{$r.thumb}" alt="{$r.title}"/></a></div>
+				<div class="image"><a href="{$r.url}"><img src="{$r.image}" alt="{$r.title}"/></a></div>
 				<div class="text">
 					<b><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a></b>
 					<p>{str::cut($r.summary,200)}</p>

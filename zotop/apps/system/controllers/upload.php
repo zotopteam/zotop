@@ -10,7 +10,6 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class system_controller_upload extends admin_controller
 {
-	protected $folder;
 	protected $attachment;
 
 	/*
@@ -20,9 +19,18 @@ class system_controller_upload extends admin_controller
 	{
 		parent::__init();
 
-		$this->folder 		= m('system.attachment_folder');
 		$this->attachment 	= m('system.attachment');
 	}
+
+	/**
+	 * 覆盖权限检查，当前页面的功能不检查权限
+	 * 
+	 * @return true
+	 */
+	public function __checkPriv()
+	{
+		return true;
+	}	
 
 	/**
 	 * 附件上传对话框
@@ -61,7 +69,6 @@ class system_controller_upload extends admin_controller
 		$this->assign('typename', $typename);
 		$this->assign('allowexts', $allowexts);
 		$this->assign('maxsize', intval($maxsize));
-		$this->assign('folders', $folders);
 		$this->assign('files', $files);
 
 		$this->display();
@@ -140,7 +147,7 @@ class system_controller_upload extends admin_controller
 		// 如果传入类别参数
 		if( $folderid )
 		{
-			if( !empty($where) )$where[] = 'and';
+			if( !empty($where) ) $where[] = 'and';
 			$where[] = array('folderid','=',$folderid);
 		}
 

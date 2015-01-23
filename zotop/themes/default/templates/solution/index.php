@@ -35,9 +35,9 @@
 	</div>
 	<div class="box-body">
 		<ul class="image-text">
-			{content cid="$c.id" size="2" thumb="true"}
+			{content cid="$c.id" size="2" image="true"}
 			<li>
-				<div class="image"><a href="{$r.url}"><img src="{$r.thumb}" alt="{$r.title}"/></a></div>
+				<div class="image"><a href="{$r.url}"><img src="{$r.image}" alt="{$r.title}"/></a></div>
 				<div class="text">
 					<b class="textflow"><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a></b>
 					<p>{str::cut($r.summary,90)}</p>

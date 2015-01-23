@@ -185,11 +185,8 @@ class template
 		// 去除注释
         $str = preg_replace("/\<\!\-\-#.+?#\-\-\>/s", "", $str);
 
-         //Hook，接入自定义解析规则
-        $str = zotop::filter('template.parse', $str, $this);
-
 		// 解析点符号数组 {……$r.id……} => {……$r['id']……}  {……$r.id.n……} => {……$r['id']['n']……}，最多支持三维数组
-		$str = preg_replace("/\{(.+?)\}/es", "\$this->_tag('\\1')", $str);
+		$str = preg_replace("/\{(.+?)\}/es", "\$this->parse_tag('\\1')", $str);
 
 		// 解析单行php {php $i=1}
 		$str = preg_replace("/\{php\s+(.+)\}/i", "<?php \\1?>", $str);
@@ -239,6 +236,9 @@ class template
 		// 解析运算
 		$str = preg_replace("/\{(\(.*?\))\}/", "<?php echo \\1;?>", $str);
 
+        //Hook，接入自定义解析规则
+        $str = zotop::filter('template.parse', $str, $this);
+
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}
         if ($tag = template::tag())
         {
@@ -256,7 +256,7 @@ class template
      *
      * @return string 解析的结果
      */
-	public function _tag($str)
+	public function parse_tag($str)
 	{
 		$var = '[a-zA-Z0-9_]+'; //数组允许使用的变量类型
 
@@ -275,7 +275,7 @@ class template
      * @param  string $str 标签字符串，所有参数都必须以半角（英文）双引号括起来，如： id="1" size="10"
      * @return array
      */
-    public function _attrs($str)
+    public function parse_attrs($str)
     {
         $attrs = array();
 
@@ -290,11 +290,48 @@ class template
     }
 
     /**
+     * 将标签数组转化为数组字符串，支持 $变量 、function()函数 和 A::method() 静态方法 
+     *
+     * @param array $attrs 数组
+     * @return code
+     */
+    public function str_attrs($attrs)
+    {
+        if (is_array($attrs))
+        {
+            $str = 'array(';
+
+            foreach ($attrs as $key => $val)
+            {
+                if (is_array($val))
+                {
+                    $str .= "'$key'=>" . $this->str_attrs($val) . ",";
+                }
+                else
+                {
+                    if ( strpos($val, '$') === 0 or preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\)/', $val) )
+                    {
+                        $str .= "'$key'=>$val,";
+                    }
+                    else
+                    {
+                        $str .= "'$key'=>'" . addslashes($val) . "',";
+                    }
+                }
+            }
+
+            return trim($str, ',') . ')';
+        }
+
+        return false;
+    }    
+
+    /**
      * 模板标签解析
      *
      * @param string $html 匹配到的HTML代码
      * @param string $tag 标签名称
-     * @param string $attrs_str 标签属性
+     * @param string $str_attrs 标签属性
      * @param string $end 标签是否自动结束
      *
      * @return string 解析的结果
@@ -328,14 +365,14 @@ class template
             if ( $cache )
             {
                 $code .= $newline.'if ( null === $' . $callback . ' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ):';
-				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . $this->array_attrs($attrs) . ') ) :';
+				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . $this->str_attrs($attrs) . ') ) :';
                 $code .= $newline.'		zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $' . $callback . ', ' . $cache . ');';
 				$code .= $newline.'	endif;';
                 $code .= $newline.'endif;';
             }
 			else
 			{
-				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . $this->array_attrs($attrs) . ');';
+				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . $this->str_attrs($attrs) . ');';
 			}
 
 			if ( $end )
@@ -358,7 +395,7 @@ class template
      * 模板标签解析：解析闭合标签
      *
      * @param string $tag 标签名称
-     * @param string $attrs_str 标签属性
+     * @param string $str_attrs 标签属性
      * @param string $end 标签是否自动结束
      * @return string 解析的结果
      */
@@ -369,43 +406,6 @@ class template
 		$code .= $newline.'	endforeach;';
 		$code .= $newline.'endif;';
         return '<?php' . $code . $newline .'?>';
-    }
-
-    /**
-     * 将标签数组转化为代码
-     *
-     * @param array $data 数组
-     * @return code
-     */
-    public function array_attrs($attrs)
-    {
-        if (is_array($attrs))
-        {
-            $str = 'array(';
-
-            foreach ($attrs as $key => $val)
-            {
-                if (is_array($val))
-                {
-                    $str .= "'$key'=>" . $this->array_attrs($val) . ",";
-                }
-                else
-                {
-                    if (strpos($val, '$') === 0)
-                    {
-                        $str .= "'$key'=>$val,";
-                    }
-                    else
-                    {
-                        $str .= "'$key'=>'" . addslashes($val) . "',";
-                    }
-                }
-            }
-
-            return trim($str, ',') . ')';
-        }
-
-        return false;
     }
 
     /**

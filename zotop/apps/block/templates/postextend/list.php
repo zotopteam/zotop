@@ -31,7 +31,7 @@
 				{loop m('block.block.fieldlist',$data['fields']) $k $v}
 				<tr>
 					<td class="center">
-						{if $v['name']=='title'}
+						{if in_array($v['name'], array('title'))}
 						<input type="checkbox" class="checkbox disabled" checked disabled>
 						<input type="hidden" name="fields[{$k}][show]" class="checkbox" value="1" checked>
 						{else}
@@ -46,7 +46,7 @@
 						<input type="text" name="showname" class="text tiny" value="{$v['name']}" disabled>
 					</td>
 					<td class="center">
-						{if $v['name']=='title'}
+						{if in_array($v['name'], array('title'))}
 						<input type="checkbox" class="checkbox disabled" checked disabled>
 						<input type="hidden" name="fields[{$k}][required]" class="checkbox" value="required" checked>
 						{else}

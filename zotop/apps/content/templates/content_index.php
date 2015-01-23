@@ -77,7 +77,7 @@
 		{else}
 
 		{form::header()}
-		<table class="table list sortable" id="datalist" cellspacing="0" cellpadding="0">
+		<table class="table list sortable" id="datalist" data-categoryid="{$category.id}">
 		<thead>
 			<tr>
 			{if $categoryid}
@@ -106,9 +106,15 @@
 				<td class="center"><i class="icon icon-{$r['status']} {$r['status']}" title="{$statuses[$r['status']]}"></i></td>
 				{/if}
 				<td>
-					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>
+					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>					
 					{$r['title']}
-					{if $r['image']}<i class="icon icon-image green" data-src="{$r['image']}"></i>{/if}
+
+					{if $r.image} 
+						<i class="icon icon-image green tooltip-block" data-placement="bottom">
+							<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
+						</i> 
+					{/if}
+					
 					{if $r.stick}<i class="icon icon-up yellow" title="{t('置顶')}"></i>{/if}
 					</div>
 					<div class="manage">
@@ -233,12 +239,6 @@ $(function(){
 	});
 });
 
-$(function(){
-	$('.icon-image').tooltip({placement:'auto bottom',container:'body',html:true,title:function(){
-		return '<p style="margin-bottom:8px;font-size:14px;">{t('缩略图')}</p><img src="'+$(this).attr('data-src')+'" style="max-width:300px;max-height:200px;"/>';
-	}});
-});
-
 // 排序
 $(function(){
 
@@ -260,7 +260,7 @@ $(function(){
 		//zotop.debug(oldindex+'---'+newindex+'--'+ neworder +'--'+ newstick);
 
 		$.loading();
-		$.post('{u('content/content/listorder')}',{id:tr.data('id'),categoryid:tr.data('categoryid'),parentid:tr.data('parentid'),listorder:neworder,stick:newstick},function(data){
+		$.post('{u('content/content/listorder')}',{categoryid:tr.closest('table').data('categoryid'),id:tr.data('id'),parentid:tr.data('parentid'),listorder:neworder,stick:newstick},function(data){
 			$.msg(data);
 		},'json');		
 	};	
