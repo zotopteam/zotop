@@ -39,7 +39,7 @@
 			<ul class="image-list goods-list">
 				{shop cid="$c.id" size="8"}
 				<li class="item-{$n} {if $n%4==3}last{/if}">
-					<div class="image"><a href="{$r.url}" title="{$r.description}"><img src="{thumb($r.thumb,260,220)}" alt="{$r.name}"/></a></div>
+					<div class="image"><a href="{$r.url}" title="{$r.description}"><img src="{thumb($r.image,260,220)}" alt="{$r.name}"/></a></div>
 					<div class="title"><a href="{$r.url}" title="{$r.name}">{$r.name}</a></div>
 				</li>
 				{/shop}
@@ -59,7 +59,7 @@
 			<ul class="image-list goods-list">
 				{shop cid="$category.id" size="8"}
 				<li class="item-{$n} {if $n%4==3}last{/if}">
-					<div class="image"><a href="{$r.url}" title="{$r.description}"><img src="{thumb($r.thumb,260,220)}" alt="{$r.name}"/></a></div>
+					<div class="image"><a href="{$r.url}" title="{$r.description}"><img src="{thumb($r.image,260,220)}" alt="{$r.name}"/></a></div>
 					<div class="title"><a href="{$r.url}" title="{$r.name}">{$r.name}</a></div>
 				</li>
 				{/shop}

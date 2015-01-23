@@ -38,11 +38,12 @@ class content_api
 		));
 
 		// 设置提示信息
-		if ( $pending = m('content.content')->getPendingcount() )
+		/*
+		if ( $pending = m('content.content.statuscount','pending') )
 		{
 			$start['content']['msg'] = t('%s 条待审',$pending);
 		}
-
+		*/
 		return $start;
 	}
 
@@ -76,7 +77,8 @@ class content_api
 	public static function globalmsg($msg)
 	{
 		// 设置提示信息
-		if ( $pending = m('content.content')->getPendingCount() )
+		/*
+		if ( $pending = m('content.content.statuscount','pending') )
 		{
 			$msg[] = array(
 				'text' => t('您有 %s 等待审核内容', $pending),
@@ -84,6 +86,7 @@ class content_api
 				'type' => 'pending',
 			);
 		}
+		*/
 
 		return $msg;
 	}
@@ -136,12 +139,23 @@ class content_api
 	}
 
 	/**
+	 * 摘要控件
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function field_summary($attrs)
+	{
+		return form::field_textarea($attrs);
+	}	
+
+	/**
 	 * 多图控件
 	 *
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
-	public static function field_gallery($attrs)
+	public static function field_images($attrs)
 	{
 		$attrs['id'] = $attrs['id'] ? $attrs['id'] : $attrs['name'];
 
@@ -165,8 +179,8 @@ class content_api
 
 		$html[] = '	<div class="gallery-area" id="'.$attrs['id'].'">';
 		$html[] = '	<div class="gallery-toolbar">';
-		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/attachment/uploadprocess', $upload).'"><i class="icon icon-upload icon-upload-image"></i><b>'.t('上传').'</b></a>';
-		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/attachment/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('图库').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload icon-upload-image"></i><b>'.t('上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('图库').'</b></a>';
 		$html[] = '	</div>';
 		$html[] = '<div id="'.$attrs['id'].'-upload-progress" class="gallery-progressbar progressbar"><span class="progress"></span><span class="percent"></span></div>';
 		$html[] = '<div class="controls gallery-data" id="'.$attrs['id'].'-upload-dragdrop">';

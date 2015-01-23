@@ -10,6 +10,7 @@ $.fn.galleryeditor = function(name,value,params){
 function galleryeditor(gallery, name, value, params){
 	var self = this;
 	var list = gallery.find('table.gallery-list tbody');
+	var area = gallery.find('div.gallery-data');
 	var select = gallery.find('a.select');
 	var upload = gallery.find('a.upload');
 	var progressbar = gallery.find('div.progressbar');
@@ -64,11 +65,13 @@ function galleryeditor(gallery, name, value, params){
 		params	: params,
 		fileext	:'jpg,jpeg,png,gif,bmp',
 		filedescription: '选择图片',
-		uploaded : function(up,file,data){
-			self.add(data.url, data.description);
-		},
-		error : function(error, detail){
-			$.msg('error',detail);
+		uploaded : function(up,file,msg){
+			if ( msg.state ){
+				self.add(msg.file.url, msg.file.description);
+				area.scrollTop(area[0].scrollHeight);
+				return true;
+			}			
+			$.msg(msg);
 		}
 	});
 

@@ -34,9 +34,9 @@
 </div>
 <div class="box-body">
 	<ul class="image-text">
-	{content cid="$category.rootid" thumb="true" size="5" orderby="hits desc" cache="true"}
+	{content cid="$category.rootid" image="true" size="5" orderby="hits desc" cache="true"}
 	<li>
-		<div class="image"><a href="{$r.url}"><img src="{$r.thumb}" alt="{$r.title}"/></a></div>
+		<div class="image"><a href="{$r.url}"><img src="{$r.image}" alt="{$r.title}"/></a></div>
 		<div class="text">
 			<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a>
 		</div>

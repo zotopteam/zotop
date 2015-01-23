@@ -48,10 +48,10 @@ class ueditor_field
 			if ( $options['tools'] )
 			{
 				$tools = zotop::filter('editor.tools',array(
-					'image'	=> array('type'=>'image','text'=>t('图片'),'icon'=>'icon-image','url'=>'system/attachment/upload/image'),
-					'file'	=> array('type'=>'file','text'=>t('文件'),'icon'=>'icon-file','url'=>'system/attachment/upload/file'),
-					'video'	=> array('type'=>'video','text'=>t('视频'),'icon'=>'icon-video','url'=>'system/attachment/upload/video'),
-					'audio'	=> array('type'=>'audio','text'=>t('音频'),'icon'=>'icon-audio','url'=>'system/attachment/upload/audio'),
+					'image'	=> array('type'=>'image','text'=>t('图片'),'icon'=>'icon-image','url'=>'system/upload/image'),
+					'file'	=> array('type'=>'file','text'=>t('文件'),'icon'=>'icon-file','url'=>'system/upload/file'),
+					'video'	=> array('type'=>'video','text'=>t('视频'),'icon'=>'icon-video','url'=>'system/upload/video'),
+					'audio'	=> array('type'=>'audio','text'=>t('音频'),'icon'=>'icon-audio','url'=>'system/upload/audio'),
 				));
 
 				// 如果传入的是数组，则只显示传入部分

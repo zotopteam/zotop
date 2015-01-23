@@ -1,62 +1,81 @@
 {template 'header.php'}
 <div class="side">
-{template 'content/side.php'}
+{template 'content/admin_side.php'}
 </div>
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
+		<div class="action">
+			<a href="{u('content/model/add')}" class="btn btn-icon-text btn-highlight dialog-open" data-width="750px" data-height="450px">
+				<i class="icon icon-add"></i><b>{t('新建模型')}</b>
+			</a>
+
+			<a href="javascript:;" class="btn btn-icon-text" id="importmodel">
+				<i class="icon icon-upload"></i><b>{t('导入模型')}</b>
+			</a>			
+		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
+
 		{form::header()}
 		<table class="table list sortable" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
 			<td class="drag">&nbsp;</td>
 			<td class="w40 center">{t('状态')}</td>
-			<td class="w240">{t('名称')}</td>
-			<td class="w140">{t('标识')}</td>
-
-			<td class="w120">{t('应用')}</td>
-			<td class="w80">{t('数据')}</td>
+			<td class="w300">{t('名称')}</td>
+			<td class="w140">{t('标识')}</td>					
 			<td>{t('描述')}</td>
+			<td class="w140">{t('类型')}</td>	
+			<td class="w80">{t('数据')}</td>
 			</tr>
 		</thead>
 		<tbody>
-		{if empty($models)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
-		{else}
-		{loop $models $data}
+		{loop $data $r}
 			<tr>
-				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$data['id']}"></td>
-				<td class="center">{if $data['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
+				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+				<td class="center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
 				<td>
-					<div class="title">{$data['name']} </div>
+					<div class="title">{$r['name']} </div>
 					<div class="manage">
-						<a class="dialog-confirm" href="{u('content/model/status/'.$data['id'])}">{if $data['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
+						<a class="dialog-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
 						<s></s>
-						<a href="{u('content/model/edit/'.$data['id'])}">{t('设置')}</a>
+						<a href="{u('content/model/edit/'.$r['id'])}" class="dialog-open" data-width="750px" data-height="450px">{t('设置')}</a>						
+						<s></s>
+						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>
+						<s></s>
+						<a href="{u('content/model/export/'.$r['id'])}">{t('导出')}</a>												
+						<s></s>
+						<a href="{u('content/model/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
 					</div>
 				</td>
-				<td>{$data['id']}</td>
-				<td>{A($data['app'].'.name')}</td>
-				<td>{$data['datacount']}</td>
-				<td>{$data['description']}</td>
+				<td>{$r['id']}</td>
+				<td>{$r['description']}</td>
+				<td>					
+					{if $r.app='content'}
+						{if $r.model=='extend'} {t('扩展模型')} {else} {t('基础模型')} {/if}
+					{/if}
+				</td>				
+				
+				<td>{$r['datacount']} {t('条')}</td>
 			</tr>
 		{/loop}
-		{/if}
 		</tbody>
 		</table>
 		{form::footer()}
+
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
+
 <script type="text/javascript">
 //sortable
 $(function(){
 	$("table.sortable").sortable({
 		items: "tbody > tr",
+		handle: "td.drag",
 		axis: "y",
 		placeholder:"ui-sortable-placeholder",
 		helper: function(e,tr){
@@ -74,5 +93,21 @@ $(function(){
 		}
 	});
 });
+</script>
+<script type="text/javascript" src="{A('system.url')}/common/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="{A('system.url')}/common/plupload/i18n/zh_cn.js"></script>
+<script type="text/javascript" src="{A('system.url')}/common/plupload/jquery.upload.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#importmodel").upload({
+			url : "{u('content/model/upload')}",
+			multi:false,
+			fileext: 'model',
+			filedescription : '{t('模型文件(.model)')}',
+			uploaded : function(up,file,msg){
+				$.msg(msg);
+			}
+		});
+	});
 </script>
 {template 'footer.php'}

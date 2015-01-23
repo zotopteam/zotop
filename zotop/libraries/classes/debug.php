@@ -26,7 +26,7 @@ class debug
 
         foreach (func_get_args() as $var)
         {
-            $output[] = debug::dump($var, false);
+            $output[] = debug::dump($var, true);
         }
 
         return '<pre class="debug">' . implode("\n", $output) . '</pre>';
@@ -39,7 +39,7 @@ class debug
      * @param   echo  返回
      * @return  string
      */
-    public static function dump($var, $echo = null)
+    public static function dump($var, $return = false)
     {
         $str = '';
 
@@ -60,11 +60,10 @@ class debug
             $str = '<small>' . gettype($var) . '</small> ' . htmlspecialchars(print_r($var, true), ENT_NOQUOTES, ZOTOP_CHARSET);
         }
 
-		if ( $echo === null or $echo === true )
+		if ( !$return )
 		{
 			echo '<pre class="debug">' . $str . '</pre>';
-
-			if ( $echo ) exit();
+			exit();
 		}
 
 		return $str;

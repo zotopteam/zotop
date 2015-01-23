@@ -212,7 +212,7 @@ class str
 	 * @param string $s2 第二分隔符
 	 * @return array 返回数组
 	 */
-	public static function explode($str,$s1 = "=", $s2 = '&')
+	public static function explode($str, $s1 = "=", $s2 = '&')
 	{
 		$os = array();
 
@@ -250,7 +250,7 @@ class str
 	 */
 	public static function implode($arr, $s1='=', $s2='&')
 	{
-
+		
 	}
 }
 ?>

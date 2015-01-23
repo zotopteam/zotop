@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-{template 'content/side.php'}
+{template 'content/admin_side.php'}
 </div>
 {form::header()}
 <div class="main side-main">
@@ -8,7 +8,7 @@
 		<div class="title">{$title}</div>
 		<div class="position">
 			<a href="{u('content/content')}">{t('内容管理')}</a>
-			{loop $parents $p}
+			{loop m('content.category.getparents',$data.categoryid) $p}
 				<s class="arrow">></s>
 				<a href="{u('content/content/index/'.$p['id'])}">{$p['name']}</a>
 			{/loop}
@@ -21,12 +21,24 @@
 	<div class="main-body scrollable">
 
 		<input type="hidden" name="id" value="{$data['id']}">
-		<input type="hidden" name="app" value="{$data['app']}">
+		<input type="hidden" name="parentid" value="{$data['parentid']}">
 		<input type="hidden" name="modelid" value="{$data['modelid']}">
 		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
 		<input type="hidden" name="status" value="{$data['status']}">
 
-		{template $data['app'].'/content_post_'.$data['modelid'].'.php'}
+		<table class="field">
+			<tbody>
+			{loop m('content.field.getfields',$data.modelid,$data) $f}
+			<tr>
+				<td class="label">{form::label($f['label'],$f['for'],$f['required'])}</td>
+				<td class="input">
+					{form::field($f['field'])}
+					{form::tips($f['tips'])}
+				</td>
+			</tr>
+			{/loop}
+			</tbody>
+		</table>		
 
 	</div><!-- main-body -->
 	<div class="main-footer">

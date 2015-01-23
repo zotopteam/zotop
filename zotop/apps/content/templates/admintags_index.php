@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-	{template 'content/side.php'}
+	{template 'content/admin_side.php'}
 </div>
 
 <div class="main side-main">
@@ -14,32 +14,32 @@
 		</form>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
-		{form::header()}
-		<table class="table zebra list datalist" cellspacing="0" cellpadding="0">
-		<thead>
-			<tr>
-				<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-				<td>{t('Tag名称')}</td>
-				<td class="w120">{t('引用')}</td>
-				<td class="w120">{t('访问')}</td>
-			</tr>
-		</thead>
-		<tbody>
 		{if empty($data)}
-			<tr class="nodata"><td colspan="4"><div class="nodata">{t('暂时没有任何数据')}</div></td></tr>
+			<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
-		{loop $data $r}
-			<tr>
-				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-				<td>{$r['name']}</td>
-				<td>{$r['quotes']}</td>
-				<td>{$r['hits']}</td>
-			</tr>
-		{/loop}
+			{form::header()}
+			<table class="table zebra list datalist" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td class="select"><input type="checkbox" class="checkbox select-all"></td>
+					<td>{t('Tag名称')}</td>
+					<td class="w120">{t('引用')}</td>
+					<td class="w120">{t('访问')}</td>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $data $r}
+				<tr>
+					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
+					<td>{$r['name']}</td>
+					<td>{$r['quotes']}</td>
+					<td>{$r['hits']}</td>
+				</tr>
+			{/loop}	
+			</tbody>
+			</table>
+			{form::footer()}
 		{/if}
-		</tbody>
-		</table>
-		{form::footer()}
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>

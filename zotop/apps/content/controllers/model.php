@@ -21,12 +21,12 @@ class content_controller_model extends admin_controller
 		parent::__init();
 
 		$this->model = m('content.model');
-		$this->content = m('content.content');
 	}
 
  	/**
 	 * 模型管理
-	 *
+	 * 
+     * @return mixed
 	 */
 	public function action_index()
 	{
@@ -40,36 +40,38 @@ class content_controller_model extends admin_controller
 			return $this->error($this->model->error());
 		}
 
-		$models = $this->model->orderby('listorder','asc')->getAll();
+		$data = $this->model->orderby('listorder','asc')->getAll();
 
-		foreach( $models as &$m )
+		foreach( $data as &$d )
 		{
-			$m['datacount'] = $this->model->datacount($m['id']);
+			$d['datacount'] = $this->model->datacount($d['id']);
 		}
 
 		$this->assign('title',t('模型管理'));
-		$this->assign('models',$models);
+		$this->assign('data',$data);
 		$this->display();
 	}
 
 	/**
 	 * 添加模型
 	 *
-	 * @return mixed
+	 * @param string $id 模型标识(ID)
+     * @return mixed
 	 */
     public function action_add()
     {
 		if ( $post = $this->post() )
 		{
-			$data = array('name' =>	$post['newvalue']);
-
-			if ( $this->model->add($data) )
+			if ( $this->model->add($post) )
 			{
-				return $this->success(t('操作成功'),request::referer());
+				return $this->success(t('操作成功'),u('content/model'));
 			}
 
-			return $this->error(t('操作失败'));
+			return $this->error($this->model->error());
 		}
+
+		$data = array();
+		$data['childs'] = array();
 
 		$this->assign('title',t('新建模型'));
 		$this->assign('data',$data);
@@ -79,7 +81,8 @@ class content_controller_model extends admin_controller
 	/**
 	 * 编辑模型
 	 *
-	 * @return mixed
+	 * @param string $id 模型标识(ID)
+     * @return mixed
 	 */
     public function action_edit($id)
     {
@@ -90,17 +93,10 @@ class content_controller_model extends admin_controller
 				return $this->success(t('操作成功'),u('content/model'));
 			}
 
-			return $this->error(t('操作失败'));
+			return $this->error($this->model->error());
 		}
 
 		$data = $this->model->get($id);
-
-		$settingspath = a("{$data['app']}.path").DS."templates".DS."model_post_{$data['id']}.php";
-
-		if ( file::exists($settingspath) )
-		{
-			$data['settingspath'] = $settingspath;
-		}
 
 		$this->assign('title',t('模型设置'));
 		$this->assign('data',$data);
@@ -110,8 +106,8 @@ class content_controller_model extends admin_controller
     /**
      * 设置状态，禁用或者启用
      *
-	 * @param string $id 应用标识(ID)
-     * @return void
+	 * @param string $id 模型标识(ID)
+     * @return mixed
      */
 	public function action_status($id)
 	{
@@ -122,19 +118,78 @@ class content_controller_model extends admin_controller
 		return $this->error($this->model->error());
 	}
 
- 	/**
-	 * 禁止删除模型
-	 *
+
+	/**
+	 * 删除模型
+	 * 
+	 * @param string $id 模型标识(ID)
+     * @return mixed
 	 */
-	/*
 	public function action_delete($id)
 	{
 		if ( $this->model->delete($id) )
 		{
 			return $this->success(t('删除成功'),request::referer());
 		}
-		return $this->error($this->content->error());
+		return $this->error($this->model->error());
 	}
-	*/
+
+    /**
+     * 导出模型
+     *
+	 * @param string $id 模型标识(ID)
+     * @return void
+     */
+	public function action_export($id)
+	{
+		$data = $this->model->export($id);
+		$data = arr::export($data,true);
+
+		header('Content-Disposition: attachment; filename="'.$id.'.model"');
+		echo '<?php return '.$data.' ?>';
+		exit;
+	}
+
+
+	/**
+	 * 导入模型上传过程
+	 * 
+	 * @return mixed
+	 */
+	public function action_upload()
+	{
+		// 文件上传
+		$upload = new plupload();
+		$upload->allowexts 	= 'model';
+		$upload->savepath 	= ZOTOP_PATH_RUNTIME.DS.'temp';
+		$upload->maxsize 	= 0;
+
+		if ( $file = $upload->save($filepath) )
+		{
+			//return $this->message(array('state'=>true,'content'=>t('上传成功'),'file'=>$file));
+			
+			try
+			{
+				$model = include($file);				
+			}
+			catch (Exception $e)
+			{
+				return $this->error($e->getMessage());
+			}
+			
+
+			if ( $this->model->import($model) )
+			{
+				return $this->success(t('导入成功'),U('content/model'));
+			}
+
+			return $this->error($this->model->error());
+
+		}
+
+		return $this->error($upload->error);
+	}
+
+
 }
 ?>

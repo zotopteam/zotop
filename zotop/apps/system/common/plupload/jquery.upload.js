@@ -134,7 +134,7 @@ jquery upload api
 		try {
 			obj = $.parseJSON(data);
 		} catch (e) {
-			obj = {code:1,content:data};
+			obj = {state:false,content:data};
 		}
 		return obj;
 	}
@@ -167,7 +167,7 @@ jquery upload api
             autostart : true,
 			maxcount : 100,
 			error : function(error,detail){
-				alert(error + detail);
+				$.error(error +' '+ detail);
 			}
 		}
 
@@ -229,6 +229,8 @@ jquery upload api
 					}
 				}
 
+				uploader.params('HTTP_X_REQUESTED_WITH','xmlhttprequest');
+
 			// 存储对象
 			plupload.uploaders[id] = uploader;
 
@@ -251,9 +253,7 @@ jquery upload api
 							allowedexts = allowedexts + ', ' +  m[0].extensions;
 						}
 					 });
-					 return '' +
-						plupload.t('Max file size:') + up.settings.maxsize + '<br/>' +
-						plupload.t('Allowed exts:') + allowedexts.substring(2);
+					 return '<div class="uploadtip nowrap">' +	plupload.t('Max file size:') + up.settings.maxsize + '<br/>' + plupload.t('Allowed exts:') + allowedexts.substring(2) + '</div>';
 				});
 
 				//zotop.debug(up);

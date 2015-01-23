@@ -60,10 +60,7 @@ class application
         }
 
         // 获取pathinfo
-        foreach (array(
-            'PATH_INFO',
-            'ORIG_PATH_INFO',
-            'PHP_SELF') as $v)
+        foreach (array('PATH_INFO','ORIG_PATH_INFO','PHP_SELF') as $v)
         {
             if (isset($_SERVER[$v]) and $_SERVER[$v])
             {
@@ -119,6 +116,9 @@ class application
         {
             throw new zotop_exception(t('The app [ %s ] has no access or not exists', $app), 404);
         }
+
+        // 应用初始化
+        zotop::run('app.init',$app,$controller,$action,$arguments);
 
         // 检查controller
         $controller			= preg_match("/^[0-9a-z_]+\$/i", $controller) ? $controller : 'index';
@@ -209,7 +209,8 @@ class application
         //输出头部信息
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('ETag: "' . $strlen . '-' . time() . '"');
-        header('X-Powered-By: zotop');
+        header('X-Powered-By: zotop v'.c('zotop.version'));
+        header('Author: zotop team && zotop.com');
         header('Accept-Ranges: bytes');
 
         return $data;
@@ -268,12 +269,12 @@ class application
 	{
 		try
 		{
-			$type = get_class($e);
-			$code = $e->getCode();
+			$type    = get_class($e);
+			$code    = $e->getCode();
 			$message = $e->getMessage();
-			$file = $e->getFile();
-			$line = $e->getLine();
-			$trace = $e->getTrace();
+			$file    = $e->getFile();
+			$line    = $e->getLine();
+			$trace   = $e->getTrace();
 
 			if ( $e instanceof ErrorException )
 			{
@@ -313,9 +314,9 @@ class application
 				ob_clean();
 
 				exit(json_encode(array(
-					'state' => 0,
+					'state' => false,
 					'content' => $error,
-					'time' => 10
+					'time' => 100
 				)));
 			}
 

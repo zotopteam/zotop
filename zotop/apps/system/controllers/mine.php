@@ -26,6 +26,16 @@ class system_controller_mine extends admin_controller
 		$this->userid 	= zotop::user('id');
 	}
 
+	/**
+	 * 覆盖权限检查，当前页面的功能不检查权限
+	 * 
+	 * @return true
+	 */
+	public function __checkPriv()
+	{
+		return true;
+	}	
+
  	/**
 	 * 编辑我的资料
 	 *

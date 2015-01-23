@@ -18,7 +18,7 @@ class system_field
 	 */
 	public static function alias($attrs)
 	{
-		$attrs['id'] 		= $attrs['name'].'-'.$attrs['data-source'];
+		
 		$attrs['maxlength'] = intval($attrs['maxlength']);
 		$attrs['maxlength'] = ( $attrs['maxlength'] < 1 or $attrs['maxlength'] > 128 ) ? 128 : $attrs['maxlength'];
 		$attrs['pattern'] 	= '^[a-z0-9-_]+$';
@@ -50,18 +50,18 @@ class system_field
 	 */
 	public static function keywords($attrs)
 	{
-		$attrs['id'] = $attrs['name'].'-'.$attrs['data-source'];
-
 		$html['field']	= form::field_text($attrs);
 
 		if( $attrs['data-source'] )
 		{
+			list($source_title, $source_content) = explode(',', $attrs['data-source']);
+
 			$html['js']		= html::import(A('system.url').'/common/js/field.keywords.js');
-			$html['get'] = '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
+			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
 		}
 
-		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
-		$html['tips']	= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
+		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['tips']		= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
 
 		// hook
 		$html = zotop::filter('system.field.keywords', $html, $attrs, $options);
@@ -93,8 +93,8 @@ class system_field
 
 		$html['js']			= html::import(A('system.url').'/common/js/field.image.js');
 		$html['field']		= form::field_text($attrs);
-		$html['uploader']	= '<a href="'.u('system/attachment/upload/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-image"></i><b>'.t('上传').'</b></a>';
-		$html['selector']	= '<a href="'.u('system/attachment/library/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
+		$html['uploader']	= '<a href="'.u('system/upload/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-image"></i><b>'.t('上传').'</b></a>';
+		$html['selector']	= '<a href="'.u('system/upload/library/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
 		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		// hook
@@ -127,8 +127,8 @@ class system_field
 
 		$html['js']			= html::import(A('system.url').'/common/js/field.file.js');
 		$html['field']		= form::field_text($attrs);
-		$html['uploader']	= '<a href="'.u('system/attachment/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
-		$html['selector']	= '<a href="'.u('system/attachment/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-file"></i><b>'.t('文件库').'</b></a>';
+		$html['uploader']	= '<a href="'.u('system/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
+		$html['selector']	= '<a href="'.u('system/upload/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-file"></i><b>'.t('文件库').'</b></a>';
 		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		// hook
@@ -193,9 +193,7 @@ class system_field
 	public static function datetime($attrs)
 	{
 		$attrs['format'] 		= 'Y-m-d H:i';
-
 		$attrs['timepicker'] 	= true;
-
 		return self::date($attrs);
 	}
 

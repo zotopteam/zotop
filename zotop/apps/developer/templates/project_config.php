@@ -86,6 +86,7 @@ $(function(){
 $(function(){
 	$("table.sortable").sortable({
 		items: "tbody > tr",
+		handle: "td.drag",
 		axis: "y",
 		placeholder:"ui-sortable-placeholder",
 		helper: function(e,tr){

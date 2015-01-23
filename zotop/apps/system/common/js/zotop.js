@@ -9,46 +9,6 @@
 var zotop = window.zotop || {};
 
 /*
- * zotop namespace
- * defaine namespace from YUI
- */
-zotop.namespace = function() {
-	var a=arguments, o=null, i, j, d;
-	for (i=0; i<a.length; i=i+1) {
-		d=(""+a[i]).split(".");
-		o=zotop;
-
-		for (j=(d[0] == "zotop") ? 1 : 0; j<d.length; j=j+1) {
-			o[d[j]]=o[d[j]] || {};
-			o=o[d[j]];
-		}
-	}
-	return o;
-}
-
-/*
- * zotop page beforeunload
- */
-zotop.beforeunload = function(callback){
-	window.onbeforeunload = function(){
-		var tips = '';
-		if(typeof callback == 'function'){
-			tips = callback();//传入值是一个函数，且有返回值，提示返回值，无则不提示
-		}else{
-			tips = callback; //传入是字符串，直接提示字符串
-		}
-		if(tips){
-			if(zotop.browser.ie){
-				event.returnValue = tips;
-			}else{
-				return tips;
-			}
-		}
-	};
-	return true;
-}
-
-/*
  * 格式化字符串,支持argsay和object，string三种种数据源
  *
  * zotop.format('test string {1} or {2}',['value1','value2'])

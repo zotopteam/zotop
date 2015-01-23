@@ -21,10 +21,10 @@
 
 <ul class="image-text">
 
-	{content cid="$category.id" page="true" thumb="true" size="20"}
+	{content cid="$category.id" page="true" image="true" size="20"}
 	{if $n>0 and $n%5==0}<hr/>{/if}
 	<li>
-		<div class="image"><a href="{$r.url}"><img src="{$r.thumb}" alt="{$r.title}"/></a></div>
+		<div class="image"><a href="{$r.url}"><img src="{$r.image}" alt="{$r.title}"/></a></div>
 		<div class="text">
 			<b><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a></b>
 			<p>{str::cut($r.summary,200)}</p>

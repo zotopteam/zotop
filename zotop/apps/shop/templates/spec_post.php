@@ -106,7 +106,7 @@
 var data = {type:'{$data.type}',values:{json_encode($data['value'])}};
 
 var upload = {
-		url : "{u('system/attachment/uploadprocess')}",
+		url : "{u('system/upload/uploadprocess')}",
 		multi:false,
 		dragdrop:false,
 		resize:{width:{c('shop.spec_width')}, height:{c('shop.spec_height')}, quality:100, crop:true},
@@ -116,8 +116,11 @@ var upload = {
 		progress : function(up,file){
 			up.self.html('{t('上传中……')}' +up.total.percent + '%');
 		},
-		uploaded : function(up,file,data){
-			up.self.prev('input').val(data.url).trigger('change');
+		uploaded : function(up,file,msg){
+			if ( msg.state ){
+				up.self.prev('input').val(msg.file.url).trigger('change');
+			}
+			$.msg(msg);			
 		},
 		complete : function(up,files){
 			up.self.html(up.content);
@@ -146,6 +149,7 @@ $(function(){
 $(function(){
 	$("table.sortable").sortable({
 		items: "tbody > tr",
+		handle: "td.drag",
 		axis: "y",
 		placeholder:"ui-sortable-placeholder",
 		start:function (event,ui) {

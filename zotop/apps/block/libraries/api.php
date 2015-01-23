@@ -50,6 +50,16 @@ class block_api
 	    return $nav;
 	}
 
+	/**
+	 * 清理区块缓存文件
+	 * 
+	 * @return [type] [description]
+	 */
+	public static function refresh()
+	{
+		folder::clear(BLOCK_PATH_CACHE);
+	} 
+
 	
 	/**
 	 * 解析模板标签
@@ -72,11 +82,11 @@ class block_api
 	 */
 	public static function template_parse_tag($str, $tpl)
 	{
-	    $attrs = $tpl->_attrs($str);
+	    $attrs = $tpl->parse_attrs($str);
 
 	    if ( $id = intval($attrs['id']) )
 	    {
-	        return '<?php echo block_show(' . $tpl->array_attrs($attrs) .', $this)?>';
+	        return '<?php echo block_show(' . $tpl->str_attrs($attrs) .', $this)?>';
 	    }
 
 	    return '<div class="error block-error">'.t('区别编号错误').'</div>';

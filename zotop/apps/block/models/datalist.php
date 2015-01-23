@@ -136,15 +136,18 @@ class block_model_datalist extends model
      */
 	public function delete($id)
 	{
-		$data = $this->get($id);
-
-		if ( parent::delete($id) )
+		if ( $data = $this->get($id) )
 		{
-			$this->updatedata($data['blockid']);
-			return true;			
+			if ( parent::delete($id) )
+			{
+				$this->updatedata($data['blockid']);
+				return true;			
+			}
+
+			return false;
 		}
 
-		return false;
+		return $this->error(t('编号为 %s 的数据不存在', $id));
 	}
 
     /**

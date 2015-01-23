@@ -14,9 +14,9 @@ class content_controller_config extends admin_controller
 	 * 系统设置
 	 *
 	 */
-	public function action_index($action='base')
+	public function action_index()
     {
-		$this->display("content/config_{$action}.php");
+		$this->display();
     }
 
 	/*
@@ -38,7 +38,6 @@ class content_controller_config extends admin_controller
 				return $this->error(m('system.app')->error());
 			}
 
-			// 如果没有传入任何值
 			return $this->error(t('参数错误'));
 		}
 	}

@@ -298,9 +298,6 @@ class system_controller_config extends admin_controller
 	 */
 	public function action_uploadwatermark()
 	{
-		// 强制声明为AJAX状态
-		$_REQUEST['HTTP_X_REQUESTED_WITH'] = 'xmlhttprequest';
-
 		// 将文件上传到水印目录下
 		$filepath = ZOTOP_PATH_CMS.DS.'watermark'.DS.'watermark.png';
 

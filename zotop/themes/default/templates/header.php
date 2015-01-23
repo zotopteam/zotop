@@ -35,9 +35,7 @@
 			<li><s></s> <a href="javascript:;" class="addtofav"><i class="icon icon-star2"></i> {t('加入收藏')}</a></li>
 			<li class="none"><s></s> <a href=""><i class="icon icon-mobile"></i> {t('手机版')}</a></li>
 		</ul>
-
 		{if a('member')}<div class="loginbar ajax-load" data-src="{U('member/login/bar')}"></div>{/if}
-
 	</div>
 	<div class="logo" title="{c('site.name')}"><a href="{u()}">{c('site.name')}</a></div>
 	<div class="search">
@@ -46,18 +44,11 @@
             <button type="submit" class="icon icon-search"></button>
         </form>
         <div class="hot-keywords">
-        	{block id="3"}
+        	{block id="3" }
         </div>       
-	</div>
-	<div class="button">
-		<a  href="http://wpa.qq.com/msgrd?v=3&uin=1436958436&site={c('site.name')}&menu=yes" target="_blank" class="btn btn-icon-text btn-large btn-highlight">
-			<i class="icon icon-good"></i> <b>{t('免费方案设计')}</b>
-		</a>
 	</div>
 </div>
 
-<div class="navbar">
-{block id="1"}
-</div>
+<div class="navbar">{block id="1" name="t('网站主导航')" template="block/navbar.php" commend="1"}</div>
 
 <div class="body">

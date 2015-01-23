@@ -1,6 +1,6 @@
 {template 'header.php'}
 <div class="side">
-{template 'content/side.php'}
+{template 'content/admin_side.php'}
 </div>
 {form::header()}
 <div class="main side-main">
@@ -26,17 +26,32 @@
 			<caption>{t('基本设置')}</caption>
 			<tbody>
 			<tr>
-				<td class="label">{form::label(t('名称'),'name',true)}</td>
+				<td class="label">{form::label(t('栏目名称'),'name',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('别名'),'alias',false)}</td>
+				<td class="label">{form::label(t('栏目别名'),'alias',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'alias','name'=>'alias','value'=>$data['alias'],'data-source'=>'name'))}
 				</td>
 			</tr>
+			<tr>
+				<td class="label">{form::label(t('栏目图片'),'image',false)}</td>
+				<td class="input">
+					<?php echo form::field(array(
+						'type'			=> 'image',
+						'name'			=> 'image',
+						'value'			=> $data['image'],
+						'dataid'		=> $data['dataid'],
+						'image_resize'	=> c('content.category_image_resize'),
+						'image_width'	=> c('content.category_image_width'),
+						'image_height'	=> c('content.category_image_height'),
+						'image_quality'	=> c('content.category_image_quality'),
+					))?>
+				</td>
+			</tr>			
 			<tr>
 				<td class="label">{form::label(t('首页模版'),'settings[template_index]',true)}</td>
 				<td class="input">
@@ -55,8 +70,8 @@
 					<table class="controls">
 						<thead>
 							<tr>
-								<td class="w100">{t('使用模型')}</td>
-								<td>{t('模型内容页模版')}</td>
+								<td class="w100">{t('模型')}</td>
+								<td>{t('内容页模版')}</td>
 							</tr>
 						</thead>
 						<tbody>
@@ -69,8 +84,8 @@
 									</label>
 								</td>
 								<td>
-									{if $m['tablename']}
-										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'style'=>'width:340px;'))}
+									{if $m['template']}
+										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'required'=>'required','style'=>'width:360px;'))}
 									{/if}
 								<td>
 							</tr>
@@ -85,40 +100,19 @@
 			<caption>{t('高级设置')}</caption>
 			<tbody>
 			<tr>
-				<td class="label">{form::label(t('标题'),'title',false)}</td>
+				<td class="label">{form::label(t('栏目标题'),'title',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'title','value'=>$data['title']))}
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('图片'),'image',false)}</td>
+				<td class="label">{form::label(t('栏目关键词'),'keywords',false)}</td>
 				<td class="input">
-					<?php echo form::field(array(
-						'type'			=> 'image',
-						'name'			=> 'image',
-						'value'			=> $data['image'],
-						'dataid'		=> $data['dataid'],
-						'image_resize'	=> c('content.category_image_resize'),
-						'image_width'	=> c('content.category_image_width'),
-						'image_height'	=> c('content.category_image_height'),
-						'image_quality'	=> c('content.category_image_quality'),
-					))?>
+					{form::field(array('type'=>'text','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'title,description'))}
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('简介'),'content',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'editor','name'=>'content','value'=>$data['content'],'tools'=>true,'theme'=>'full','dataid'=>$data['dataid']))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('关键词'),'keywords',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'keywords','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'content'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('描述'),'description',false)}</td>
+				<td class="label">{form::label(t('栏目描述'),'description',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'placeholder'=>t('合理填写有助于搜索引擎排名优化')))}
 				</td>
@@ -199,12 +193,12 @@
 	});
 
 	$(function(){
-		$('[name=name]').change(function(){
+		$('[name="name"]').change(function(){
 			var name = $(this).val();
 
-			$('[name=title]').val(name);
-			$('[name=keywords]').val(name);
-			$('[name=description]').val(name);
+			$('[name="title"]').val(name);
+			$('[name="keywords"]').val(name);
+			$('[name="description"]').val(name);
 		});
 	})
 </script>

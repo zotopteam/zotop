@@ -27,11 +27,7 @@ class model
      */
 	public function __construct()
 	{
-		//实例化数据库db
 		if ( !is_object($this->db) ) $this->db  = zotop::db($this->dbconfig);
-
-		//获取表名称
-		//if ( empty($this->table) ) $this->table =  end(explode('_model_', get_class($this)));
 	}
 
     /**
@@ -168,9 +164,7 @@ class model
      * 返回错误
 	 *
 	 * <code>
-	 *
 	 * return $this->error(content);
-	 *
 	 * </code>
      *
      */
@@ -178,13 +172,10 @@ class model
 	{
 		if ( empty($error) )
 		{
-			if ( empty($this->error) ) return false;
-
 			return $this->error;
 		}
 
 		$this->error = $error;
-
 		return false;
 	}
 

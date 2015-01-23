@@ -37,7 +37,7 @@
 				var value = $input.val();
 				
 				if(value){
-					return $input.hasClass('error') ? false : '<img src="'+ value +'" style="max-width:'+ $input.width() +'px;"/>';
+					return $input.hasClass('error') ? false : '<img src="'+ value +'" style="max-width:400px;max-height:200px"/>';
 				}
 
 				return false;

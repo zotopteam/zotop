@@ -1,13 +1,15 @@
 {template 'dialog.header.php'}
 
 <div class="side">
-	{template 'system/attachment_side.php'}
+	{template 'system/upload_side.php'}
 </div>
 
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title" style="line-height:40px;">
-			<a class="btn btn-highlight btn-upload" id="upload" href="javascript:void(0)"><i class="icon icon-upload"></i>{t('上传%s', $typename)}</a>
+			<a class="btn btn-icon-text btn-highlight btn-upload" id="upload" href="javascript:void(0)">
+				<i class="icon icon-upload"></i><b>{t('上传%s', $typename)}</b>
+			</a>
 		</div>
 		<div class="action">
 			{if $type=='image'}
@@ -74,6 +76,8 @@
 			} else {
 				$('.fileitem:last').addClass("selected");
 			}
+
+			$('#filelist').scrollTop($('#filelist')[0].scrollHeight);
 		};
 
 		view.del = function(e){e.stopPropagation();
@@ -128,14 +132,18 @@
 
 		// 上传
 		var uploader = $("#upload").upload({
-			url : "{u('system/attachment/uploadprocess')}",
+			url : "{u('system/upload/uploadprocess')}",
 			multi:true,
 			params : params,
 			maxsize:'{intval($maxsize)}mb',
 			fileext: '{$allowexts}',
 			filedescription : '{t('选择%s',$typename)}',
-			uploaded : function(up,file,data){
-				view.add(data);
+			uploaded : function(up,file,msg){				
+				if ( msg.state ){
+					view.add(msg.file);
+					return true;
+				}
+				$.msg(msg);
 			},
 			error : function(error,detail){
 				$.error(detail);

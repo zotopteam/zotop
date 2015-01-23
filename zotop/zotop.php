@@ -1117,13 +1117,22 @@ class zotop
         $cache = cache::instance();
 
         // 清理全部缓存
-        if ($id === null) return $cache->clear();
+        if ( $id === null ) 
+        {
+            return $cache->clear();
+        }
 
         // 删除指定缓存
-        if ($data === null) return $cache->delete($id);
+        if ( $data === null )
+        {
+            return $cache->delete($id);
+        } 
 
         // 获取缓存
-        if ($data === '') return $cache->get($id);
+        if ( $data === '' )
+        {
+           return $cache->get($id); 
+        } 
 
         // 存储缓存
         return $cache->set($id, $data, $expire);

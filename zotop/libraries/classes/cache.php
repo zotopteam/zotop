@@ -92,7 +92,7 @@ class cache
     {
         $id = empty($id) ? '' : str_replace(array('/','\\',' '), '_', $id);
 
-        return $this->driver->prefix . $id;
+        return strtolower($this->driver->prefix . $id);
     }
 
     /**
@@ -104,18 +104,18 @@ class cache
      */
     public function get($id)
     {
-        N('cache.get',1);
+        static $cache = array();
 
         $id = $this->escape($id);
 
-        $data = $this->driver->get($id);
-
-        if ($data === null or $data === false)
+        if ( !isset( $cache[$id] ) )
         {
-            return null;
+            $cache[$id] = $this->driver->get($id);
         }
 
-        return $data;
+         N('cache.get',1);
+
+        return $cache[$id];
     }
 
     /**
@@ -128,8 +128,7 @@ class cache
      */
     public function set($id, $data, $expire = null)
     {
-		N('cache.set',1);
-
+		
         $id = $this->escape($id);
 
         //如果未设置缓存时间，则获取默认的缓存时间
@@ -137,6 +136,8 @@ class cache
         {
             $expire = $this->config['expire'];
         }
+
+        N('cache.set',1);
 
         return $this->driver->set($id, $data, intval($expire));
     }

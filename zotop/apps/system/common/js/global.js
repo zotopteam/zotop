@@ -23,6 +23,7 @@ $(function(){
 	},container:'body',html:true});
 
 	$('input[maxlength],textarea[maxlength]').maxlength({alwaysShow:true,appendToParent:true,threshold:10,separator:'/',warningClass:'true',limitReachedClass:'true',placement:'top-right-inside'});
+
 });
 
 
