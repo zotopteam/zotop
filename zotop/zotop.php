@@ -916,11 +916,9 @@ class zotop
      */
     public static function cookie($name, $value = '', $expire = null, $path = null, $domain = null)
     {
-        $prefix = C('cookie.prefix');
-        $expire = empty($expire) ? C('cookie.expire') : $expire;
-        $expire = empty($expire) ? 0 : intval($expire) + time();
-        $path   = empty($path) ? C('cookie.path') : $path;
-        $domain = empty($domain) ? C('cookie.domain') : $domain;   
+        $expire = is_null($expire) ? C('cookie.expire') : $expire;
+        $path   = is_null($path) ? C('cookie.path') : $path;
+        $domain = is_null($domain) ? C('cookie.domain') : $domain;   
 
         // 清除全部cookie
         if ( is_null($name) )
@@ -929,7 +927,7 @@ class zotop
             return true;
         }
 
-        $name = str_replace('.', '_', $prefix . $name);
+        $name = md5(C('cookie.prefix').$name);
 
         // 清理单个cookie
         if ( $value === null )
@@ -956,7 +954,9 @@ class zotop
         }
 
         // 设置cookie
-        $value = base64_encode(serialize($value));        
+        $value  = base64_encode(serialize($value));
+        $expire = empty($expire) ? 0 : intval($expire) + time();
+        
                
         if ( setcookie($name, $value, $expire, $path, $domain) )
         {

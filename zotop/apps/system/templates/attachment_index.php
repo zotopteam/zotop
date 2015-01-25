@@ -125,7 +125,7 @@
 	div.image-preview .thumb {display:table-cell;vertical-align:middle;text-align:center;width:62px;height:62px;background:#eee;*display:block;*font-size:62px; }
 	div.image-preview .thumb img {vertical-align:middle;max-width:62px;max-height:62px;}
 
-	div.total-progressbar{position:absolute;width:50%;top:5px;right: 25%;left:25%;background: #fff;display: none;}
+	div.total-progressbar{position:absolute;width:400px;top:6px;right:150px;background: #fff;display: none;}
 
 </style>
 

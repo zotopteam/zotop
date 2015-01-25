@@ -195,7 +195,7 @@ class content_model_content extends model
                 if ( intval(C('content.auto_summary')) > 0 and empty($data['summary']) )
                 {
                     $data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($val)));
-                    $data['summary'] = str::cut($data['summary'], intval(C('content.autosummary')));
+                    $data['summary'] = str::cut($data['summary'], intval(C('content.auto_summary')));
                 }
                 if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) and preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", stripslashes($val), $matches) )
                 {
