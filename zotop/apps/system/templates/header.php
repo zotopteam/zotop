@@ -30,6 +30,8 @@
 			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a>
 			<div class="dropmenu">
 				<div class="dropmenulist">
+					<a href="{u()}" target="_blank"><i class="icon icon-home"></i>{t('访问网站首页')}</a>
+
 					<a href="{u('system/system/reboot')}" class="dialog-confirm"><i class="icon icon-refresh"></i>{t('重启系统')}</a>
 					<a href="{u('system/info/server')}"><i class="icon icon-server"></i>{t('服务器信息')}</a>
 					<a href="http://www.zotop.com" target="_blank"><i class="icon icon-home"></i>{t('官方网站')}</a>
@@ -37,16 +39,14 @@
 				</div>
 			</div>
 		</li>
-		<li class="site">
-			<a href="{u()}" title="{t('访问 %s',c('site.name'))}" target="_blank">{c('site.name')}</a>
-		</li>
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} current{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
 		{loop $_GLOBALNAVBAR $id $nav}
 			<li class="normal{if $nav['current']} current{/if}"><a href="{$nav['href']}">{$nav['text']}</a></li>
 		{/loop}
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER!='index'} current{/if}" style="display:none;"><a href="{u('system/system')}">{t('系统')}</a></li>
 	</ul>
-	<ul class="global-navbar global-userbar">	
+	<ul class="global-navbar global-userbar">
+		
 		{if $_GLOBALMSG}
 		<li class="menu menu-noarrow">
 			<a><i class="icon icon-msg a-flash"></i><b class="msg">{count($_GLOBALMSG)}</b></a>
@@ -60,6 +60,9 @@
 			</div>
 		</li>
 		{/if}
+		<li class="site">
+			<a href="{u()}" title="{t('访问 {1} 首页',C('site.name'))}" target="_blank"><i class="icon icon-home"></i> {t('网站首页')}</a>
+		</li>		
 		<li><a class="ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="icon icon-clear"></i> {t('一键刷新')}</a></li>
 		<li class="username menu">
 			<a><i class="icon icon-user"></i> {zotop::user('username')}<b class="arrow"></b></a>

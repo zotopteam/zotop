@@ -1,5 +1,17 @@
 <?php
 return array(
+	'mine_info' => array(
+		'text'=>t('我的资料'),
+		'href'=>u('system/mine'),
+		'icon'=>A('system.url').'/icons/mine.png',
+		'description'=>t('编辑我的姓名等个人信息')
+	),
+	'mine_password' => array(
+		'text'=>t('我的密码'),
+		'href'=>u('system/mine'),
+		'icon'=>A('system.url').'/icons/password.png',
+		'description'=>t('修改我的密码')
+	),			
 	'system_app' => array(
 		'text'=>t('应用管理'),
 		'href'=>u('system/app'),
@@ -31,7 +43,7 @@ return array(
 	'system_admin' => array(
 		'text'=>t('管理员管理'),
 		'href'=>u('system/administrator'),
-		'icon'=>A('system.url').'/icons/admin.png',
+		'icon'=>A('system.url').'/icons/administrator.png',
 		'description'=>t('系统的管理员管理'),
 		'allow' => priv::allow('system','administrator')
 	),

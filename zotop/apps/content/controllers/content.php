@@ -120,6 +120,7 @@ class content_controller_content extends admin_controller
 		$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->orderby('listorder','desc')->getPage();
 
 		$this->assign('keywords',$keywords);
+		$this->assign('category',$category);
 		$this->assign($dataset);
 		$this->display('content/content_index.php');		  	
     }

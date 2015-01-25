@@ -35,6 +35,14 @@ class content_api
 				'description'=>t('栏目设置、添加、删除、排序'),
 				'allow' => priv::allow('content','category')
 			),
+
+			'content_model'=>array(
+				'text'=>t('模型管理'),
+				'href'=>u('content/model'),
+				'icon'=>zotop::app('content.url').'/icons/model.png',
+				'description'=>t('内容模型设置、导入导出及字段管理'),
+				'allow' => priv::allow('content','model')
+			),			
 		));
 
 		// 设置提示信息
