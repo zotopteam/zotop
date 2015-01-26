@@ -124,15 +124,18 @@ class block_model_block extends model
      */
 	public function add($data)
 	{
-		foreach ($data['fields'] as $k => $f)
-		{
-			if ( !$f['show'] ) unset($data['fields'][$k]);
-		}		
-
 		$data['createtime'] = ZOTOP_TIME;
 		$data['updatetime'] = ZOTOP_TIME;
 		$data['userid'] 	= zotop::user('id');
 		$data['listorder'] 	= $data['listorder'] ? $data['listorder'] : $this->max('listorder') + 1; // 默认排在后面
+
+		if ( $data['fields'] )
+		{
+			foreach ($data['fields'] as $k => $f)
+			{
+				if ( !$f['show'] ) unset($data['fields'][$k]);
+			}
+		}		
 
 		if ( $id = $this->insert($data) )
 		{
@@ -150,12 +153,15 @@ class block_model_block extends model
 	{
 		if ( empty($data['name']) ) return $this->error(t('区块名称不能为空'));
 
-		foreach ($data['fields'] as $k => $f)
-		{
-			if ( !$f['show'] ) unset($data['fields'][$k]);
-		}
-
 		$data['updatetime'] = ZOTOP_TIME ;
+
+		if ( $data['fields'] )
+		{
+			foreach ($data['fields'] as $k => $f)
+			{
+				if ( !$f['show'] ) unset($data['fields'][$k]);
+			}
+		}			
 
 		if ( $this->update($data, $id) )
 		{
