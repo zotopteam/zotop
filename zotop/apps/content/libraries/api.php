@@ -21,25 +21,25 @@ class content_api
 		$start = array_merge($start,array(
 
 			'content'=>array(
-				'text' => A('content.name'),
-				'href' => u('content/content'),
-				'icon' => A('content.url').'/app.png',
+				'text' 	=> A('content.name'),
+				'href' 	=> u('content/content'),
+				'icon' 	=> A('content.url').'/app.png',
 				'description' => A('content.description'),
 				'allow' => priv::allow('content')
 			),
 
 			'content_category'=>array(
-				'text'=>t('栏目管理'),
-				'href'=>u('content/category'),
-				'icon'=>zotop::app('content.url').'/icons/category.png',
-				'description'=>t('栏目设置、添加、删除、排序'),
+				'text'	=> t('栏目管理'),
+				'href'	=> u('content/category'),
+				'icon'	=>zotop::app('content.url').'/icons/category.png',
+				'description'=> t('栏目设置、添加、删除、排序'),
 				'allow' => priv::allow('content','category')
 			),
 
 			'content_model'=>array(
-				'text'=>t('模型管理'),
-				'href'=>u('content/model'),
-				'icon'=>zotop::app('content.url').'/icons/model.png',
+				'text'	=> t('模型管理'),
+				'href'	=> u('content/model'),
+				'icon'	=> zotop::app('content.url').'/icons/model.png',
 				'description'=>t('内容模型设置、导入导出及字段管理'),
 				'allow' => priv::allow('content','model')
 			),			
@@ -187,8 +187,9 @@ class content_api
 
 		$html[] = '	<div class="gallery-area" id="'.$attrs['id'].'">';
 		$html[] = '	<div class="gallery-toolbar">';
-		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload icon-upload-image"></i><b>'.t('上传').'</b></a>';
-		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('图库').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('已上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/library/image', $upload).'"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
 		$html[] = '	</div>';
 		$html[] = '<div id="'.$attrs['id'].'-upload-progress" class="gallery-progressbar progressbar"><span class="progress"></span><span class="percent"></span></div>';
 		$html[] = '<div class="controls gallery-data" id="'.$attrs['id'].'-upload-dragdrop">';
