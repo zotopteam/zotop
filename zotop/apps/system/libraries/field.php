@@ -19,11 +19,11 @@ class system_field
 	public static function alias($attrs)
 	{
 		
-		$attrs['maxlength'] = intval($attrs['maxlength']);
-		$attrs['maxlength'] = ( $attrs['maxlength'] < 1 or $attrs['maxlength'] > 128 ) ? 128 : $attrs['maxlength'];
-		$attrs['pattern'] 	= '^[a-z0-9-_]+$';
+		$attrs['maxlength']        = intval($attrs['maxlength']);
+		$attrs['maxlength']        = ( $attrs['maxlength'] < 1 or $attrs['maxlength'] > 128 ) ? 128 : $attrs['maxlength'];
+		$attrs['pattern']          = '^[a-z0-9-_]+$';
 		$attrs['data-msg-pattern'] = t('只能包含小写字母、数字、下划线和中划线');
-		$attrs['remote'] 	= u('system/alias/check','ignore='.$attrs['value']);
+		$attrs['remote']           = u('system/alias/check','ignore='.$attrs['value']);
 
 
 		$html['field']	= form::field_text($attrs);
@@ -60,8 +60,8 @@ class system_field
 			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
 		}
 
-		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
-		$html['tips']		= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
+		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['tips']	= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
 
 		// hook
 		$html = zotop::filter('system.field.keywords', $html, $attrs, $options);
@@ -78,7 +78,7 @@ class system_field
 	public static function image($attrs)
 	{
 		$attrs['placeholder'] = empty($options['placeholder']) ? t('请输入图片地址或者上传图片') : $options['placeholder'];
-		$attrs['extension'] = 'jpg|jpeg|gif|png|bmp';
+		$attrs['extension']   = 'jpg|jpeg|gif|png|bmp';
 
 		//上传参数
 		$upload = array('app'=>ZOTOP_APP,'field'=>$attrs['name'],'select'=>1);
@@ -147,7 +147,6 @@ class system_field
 	{
 		// 属性设置
 		$attrs['format'] 		= empty($attrs['format']) ? 'Y-m-d' : $attrs['format'];
-
 		$attrs['value'] 		= empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
 		$attrs['value'] 		= format::date($attrs['value'], $attrs['format']);
 
@@ -164,9 +163,6 @@ class system_field
 		}
 
 		unset($attrs['options']);
-
-		$options['lang'] = 'ch'; //TODO 暂时只支持中文
-
 
 		if ( !empty($options['min']) and strtotime($options['min']) )  $settings['minDate'] = $options['min'];
 		if ( !empty($options['max']) and strtotime($options['max']) )  $settings['maxDate'] = $options['max'];
@@ -205,9 +201,8 @@ class system_field
 	 */
 	public static function captcha($attrs)
 	{
-		$attrs['id'] = $attrs['id'] ? $attrs['id'] : $attrs['name'].'-field';
 		$attrs['remote'] = $attrs['remote'] ? $attrs['remote'] : u('system/captcha/check',array('name'=>$attrs['name']));
-		$attrs['alt'] = isset($attrs['alt']) ? $attrs['alt'] : t('看不清？换一个');
+		$attrs['alt']    = isset($attrs['alt']) ? $attrs['alt'] : t('看不清？换一个');
 
 		// 验证码参数
 		$options = array('length'=>4,'rand'=>ZOTOP_TIME);
@@ -225,7 +220,7 @@ class system_field
 		$html[] = '<span class="captcha-controls">';
 		$html[] = form::field_text($attrs);
 		$html[] = '<a href="javascript:void(0);" tabindex="-1" class="captcha" onclick="this.children[0].src=\''.u('system/captcha',$options).'&time=\'+Math.random()">';
-		$html[] = '	<img src="'.u('system/captcha',$options).'" class="vm"/>';
+		$html[] = '	<img src="'.u('system/captcha',$options).'"/>';
 		$html[] = '	'.$attrs['alt'];
 		$html[] = '</a>';
 		$html[] = '</span>';
@@ -246,12 +241,12 @@ class system_field
 		$id = str_replace(array(']',' ','/','\\'), '', $id);
 		$id = str_replace(array('.','['), '-', $id);
 
-		$attrs['id'] = $id;
+		$attrs['id']          = $id;
 		$attrs['placeholder'] = empty($options['placeholder']) ? t('请输入模版地址或者选择模版') : $options['placeholder'];
-		$attrs['extension'] = 'php|tpl|htm|html';
-
+		$attrs['extension']   = 'php|tpl|htm|html';
+		
 		//参数设置
-		$options = is_array($attrs['options']) ? $attrs['options'] : array();
+		$options          = is_array($attrs['options']) ? $attrs['options'] : array();
 		$options['field'] = $attrs['name'];
 
 		unset($attrs['options']);

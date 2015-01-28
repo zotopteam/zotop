@@ -18,13 +18,20 @@ class site_controller extends controller
     {
 		parent::__init();
 
+		// 网站关闭后，后台和管理员可以继续访问网站
 		if ( c('site.closed') and zotop::user('modelid') != 'admin' ) exit(c('site.closedreason'));
 
-		define('ZOTOP_SITE',	true);
-		define('ZOTOP_THEME',	c('site.theme')); // 开启主题模式
+		// 开启主题模式
+		define('ZOTOP_SITE',true);
+		define('ZOTOP_THEME',C('site.theme'));
 
+		// 加载主题的配置文件
+		if ( file_exists(ZOTOP_PATH_THEMES.DS.ZOTOP_THEME.DS.'theme.php') )
+		{
+			C('theme', @include(ZOTOP_PATH_THEMES.DS.ZOTOP_THEME.DS.'theme.php'));
+		}		
 
-		// 调用主题的全局文件
+		// 加载主题的全局文件
 		if ( file_exists(ZOTOP_PATH_THEMES.DS.ZOTOP_THEME.DS.'global.php') )
 		{
 			zotop::load(ZOTOP_PATH_THEMES.DS.ZOTOP_THEME.DS.'global.php');

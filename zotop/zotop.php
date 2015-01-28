@@ -772,7 +772,6 @@ class zotop
             
         }
 
-
         return $value;
     }
 
@@ -1165,11 +1164,12 @@ class zotop
     /**
      * 在页面底部显示powered by zotop信息
      *
+     * @param bool $runtime  是否显示运行时信息
      * @return string
      */
-    public static function powered()
+    public static function powered($runtime=false)
     {
-        $powered = 'Powered by {zotop} <span style="display:none;">runtime:{runtime} S, memory:{memory} M, include: {include}, DB: {db}</span>';
+        $powered = $runtime ? 'Powered by {zotop} <span>runtime:{runtime} S, memory:{memory} M, include: {include}, DB: {db}</span>' : 'Powered by {zotop}';
 
         return t($powered, array(
             'zotop'     => '<a href="http://www.zotop.com/" target="_blank" rel="external">zotop v' . c('zotop.version') . '</a>',
@@ -1177,8 +1177,7 @@ class zotop
             'memory'    => number_format((memory_get_usage() - ZOTOP_START_MEMORY) / 1024 / 1024, 6),
             'include'   => count(get_included_files()),
 			'db'        => n('db'),
-            ));
-
+        ));
     }
 }
 ?>

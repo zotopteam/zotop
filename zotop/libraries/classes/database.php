@@ -718,7 +718,9 @@ abstract class database
 
 							$where[2] = implode(",", $escaped);
 						}
+
 						return $this->escapeColumn($where[0]).' '.$where[1].' ('.$where[2].')';
+
 						break;
 					case 'LIKE':
 					case '%LIKE%':

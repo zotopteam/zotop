@@ -91,21 +91,41 @@ class content_model_content extends model
         return $dataset;
     }
 
+
+    public function getparents($parentid, &$parents=array())
+    {
+        if ( $parentid and $data = $this->getbyid($parentid) )
+        {
+            $parents[] = $data;
+
+            $this->getparents($data['parentid'], $parents);
+        }
+
+        return array_reverse($parents,true);
+    }
+
     /**
      * 获取未处理数据条数
      *
      */
-    public function statuscount($status, $categoryid=0)
+    public function statuscount($categoryid=null, $parentid=null, $status='publish')
     {
-
-        $db = $this->where('status', '=', $status);
-
         if ( $categoryid )
         {
-            $db = $this->where('categoryid', 'in', $categoryid);
+            $this->where('categoryid', 'in', $categoryid);
         }
 
-        return $db->count();
+        if ( $parentid !== null )
+        {
+            $this->where('parentid', '=', $parentid);   
+        }
+
+        if ( $status )
+        {
+            $this->where('status', '=', $status);
+        }        
+
+        return $this->count();
     }
 
     /**
@@ -391,6 +411,14 @@ class content_model_content extends model
 
 		// 初始化读取数据，只读取已经发布的数据
 		$db = $this->db()->select('*')->where('status','=','publish');
+
+        // 如果有id标签，直接返回 TODO 这段暂时未测试
+        if ( $id )
+        {
+            $data = $db->where('id','in',$id)->getall();
+
+            return $this->process($data);
+        }
 
 		// 读取分类数据
 		if ( is_array($cids) and $cids )

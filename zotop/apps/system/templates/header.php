@@ -30,9 +30,8 @@
 			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a>
 			<div class="dropmenu">
 				<div class="dropmenulist">
-					<a href="{u()}" target="_blank"><i class="icon icon-home"></i>{t('访问网站首页')}</a>
-
 					<a href="{u('system/system/reboot')}" class="dialog-confirm"><i class="icon icon-refresh"></i>{t('重启系统')}</a>
+					<a href="{u()}" target="_blank"><i class="icon icon-home"></i>{t('访问网站首页')}</a>
 					<a href="{u('system/info/server')}"><i class="icon icon-server"></i>{t('服务器信息')}</a>
 					<a href="http://www.zotop.com" target="_blank"><i class="icon icon-home"></i>{t('官方网站')}</a>
 					<a href="{u('system/info/about')}"><i class="icon icon-info"></i>{t('关于zotop')}</a>

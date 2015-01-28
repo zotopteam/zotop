@@ -26,6 +26,7 @@ div.input-group i.icon{width:16px;font-size: 16px;text-align: center;margin-top:
 
 input.text,input.password,input.captcha{width:360px;padding:8px 0;}
 input.captcha{width:160px;}
+a.captcha{vertical-align:middle;}
 a.captcha img{width:90px;vertical-align:middle;margin-right: 5px;}
 
 div.notsupport{position:absolute;top:0;z-index:99999;background:#fff url(../image/wallpaper.jpg) repeat-x top center;width:100%;height:100%;text-align:center;clear:both;}

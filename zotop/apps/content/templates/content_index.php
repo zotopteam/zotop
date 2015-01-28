@@ -3,25 +3,41 @@
 {template 'content/admin_side.php'}
 </div>
 
+
 <div class="main side-main">
 	<div class="main-header">
 
 		<div class="title">
 		{if $keywords}
 			 {t('搜索 "%s"',$keywords)}
-		{elseif $categoryid}
-			 {$category['name']}
 		{else}
-			{t('内容管理')}
+			{t('内容列表')}
 		{/if}
 		</div>
 
 		{if $categoryid}
+		<div class="position">
+			<a href="{u('content/content')}">{t('内容管理')}</a>
+			{loop m('content.category.getparents',$categoryid) $p}
+				<s class="arrow">></s>
+				<a href="{u('content/content/index/'.$p['id'].'/0/publish')}" title="{$p['name']}">{$p['name']}</a>
+			{/loop}
+			
+			{if $parentid}
+
+			{loop m('content.content.getparents',$parentid) $p}
+				<s class="arrow">></s>
+				<a href="{u('content/content/index/'.$p['categoryid'].'/'.$p['id'].'/publish')}" title="{$p['title']}">{$p['title']}</a>
+			{/loop}
+
+			{/if}
+		</div>
+
 		<ul class="navbar">
 			{loop m('content.content.status') $s $t}
 			<li{if $status == $s} class="current"{/if}>
-				<a href="{u('content/content/index/'.$categoryid.'/'.$s)}">{$t}</a>
-				{if $statuscount=m('content.content.statuscount',$s,$category['childids'])}
+				<a href="{u('content/content/index/'.$categoryid.'/'.$parentid.'/'.$s)}">{$t}</a>
+				{if $statuscount=m('content.content.statuscount', $category['childids'], $parentid, $s)}
 				<span class="f12 red">({$statuscount})</span>
 				{/if}
 			</li>
@@ -43,7 +59,7 @@
 			{if $postmodels}
 				{if count($postmodels) < 2}
 					{loop $postmodels $i $m}
-						<a class="btn btn-highlight btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
+						<a class="btn btn-highlight btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$parentid.'/'.$m['id'])}" title="{$m['description']}">
 							<i class="icon icon-add"></i><b>{$m['name']}</b>
 						</a>
 					{/loop}
@@ -53,7 +69,7 @@
 					<div class="dropmenu">
 						<div class="dropmenulist">
 							{loop $postmodels $i $m}
-								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}"><i class="icon icon-item icon-{$m['id']}"></i>{$m['name']}</a>
+								<a href="{u('content/content/add/'.$categoryid.'/'.$parentid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}"><i class="icon icon-item icon-{$m['id']}"></i>{$m['name']}</a>
 							{/loop}
 						</div>
 					</div>
@@ -120,9 +136,14 @@
 					<div class="manage">
 						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
 						<s></s>
-
 						<a href="{u('content/content/edit/'.$r['id'])}">{t('编辑')}</a>
 						<s></s>
+
+						{if m('content.model.get',$r.modelid,'childs')}
+						<a href="{u('content/content/index/'.$r['categoryid'].'/'.$r['id'].'/publish')}">{t('子内容管理')}</a>
+						<s></s>
+						{/if}
+
 						{if $r.stick}
 						<a href="{u('content/content/stick/'.$r['id'].'/0')}" class="ajax-post">{t('取消置顶')}</a>
 						{else}

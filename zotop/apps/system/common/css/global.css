@@ -530,7 +530,8 @@ i.icon-loading:before,b.icon-loading:before{content:'';}
 .main-header div.title{float:left;font-size:22px;font-weight:normal;line-height:44px;padding:0;}
 .main-header div.description{float:left;font-size:15px;color:#666;}
 .main-header div.position{float:left;font-size:14px;color:#666;margin:15px 0 0 15px;}
-.main-header div.position s.arrow{display:inline-block;vertical-align:middle;margin:-3px 6px 0 6px;width:0px;height:0px;font-size:0;line-height:0;border-width:5px 0 5px 5px;border-style:solid;border-color:transparent transparent transparent #999;}
+.main-header div.position a{float:left;max-width: 100px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}
+.main-header div.position s{float:left;margin:0 5px 0 5px;color:#666;text-decoration:none;}
 .main-header div.action{float:right;line-height:20px;padding:7px 0;}
 .main-header ul.navbar{float:left;margin:12px 0 0 15px;}
 .main-header ul.navbar li{float:left;margin:0 6px;}

@@ -47,7 +47,7 @@
 	<div class="footer-navbar">{block 'navbar'}</div>
 
 	<div class="footer-info">{block 'footer'}</div>
-	{block 'counter'}
+	{c('theme.name')} {block 'counter'}
 </div> <!-- footer -->
 
 {hook 'site.footer'}
@@ -58,6 +58,6 @@
 </div>
 
 </div><!-- wrapper -->
-<div class="powered none">{zotop::powered()}</div>
+<div class="powered">{zotop::powered()}</div>
 </body>
 </html>

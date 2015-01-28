@@ -5,15 +5,28 @@
 {form::header()}
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{$title}</div>
+		<div class="title">
+			{if $data['id']}{t('编辑%s',$model['name'])}{else}{t('添加%s',$model['name'])}{/if}
+		</div>
 		<div class="position">
 			<a href="{u('content/content')}">{t('内容管理')}</a>
 			{loop m('content.category.getparents',$data.categoryid) $p}
 				<s class="arrow">></s>
-				<a href="{u('content/content/index/'.$p['id'])}">{$p['name']}</a>
+				<a href="{u('content/content/index/'.$p['id'].'/0/publish')}">{$p['name']}</a>
 			{/loop}
-			<s class="arrow">></s>
-			{if $data['id']}{t('编辑%s',$model['name'])}{else}{t('添加%s',$model['name'])}{/if}
+
+			{if $data.parentid}
+
+			{loop m('content.content.getparents',$data.parentid) $p}
+				<s class="arrow">></s>
+				<a href="{u('content/content/index/'.$p['categoryid'].'/'.$p['id'].'/publish')}" title="{$p['title']}">{$p['title']}</a>
+			{/loop}
+
+			{/if}			
+
+			{if $data['title']}
+			<s class="arrow">></s> {$data['title']}
+			{/if}
 		</div>
 		<div class="action">
 		</div>

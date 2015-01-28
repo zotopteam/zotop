@@ -70,7 +70,7 @@
 					<table class="controls">
 						<thead>
 							<tr>
-								<td class="w100">{t('模型')}</td>
+								<td class="w100">{t('选择模型')}</td>
 								<td>{t('内容页模版')}</td>
 							</tr>
 						</thead>
@@ -80,7 +80,7 @@
 								<td>
 									<label>
 										<input type="checkbox" name="settings[models][{$i}][enabled]" value="1" class="vm" {if $m['enabled']}checked="checked"{/if}/>
-										{$m['name']}
+										<span title="{$m['description']}" data-placement="right">{$m['name']}</span>
 									</label>
 								</td>
 								<td>

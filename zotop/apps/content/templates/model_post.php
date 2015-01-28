@@ -6,21 +6,21 @@
 		<table class="field">
 			<tbody>
 			<tr>
-				<td class="label">{form::label(t('模型名称'),'name',true)}</td>
+				<td class="label">{form::label(t('名称'),'name',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
 					{form::tips(t('可读名称，如： 页面、文章、产品、下载'))}
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('模型标识'),'id',true)}</td>
+				<td class="label">{form::label(t('标识'),'id',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'id','value'=>$data['id'],'maxlength'=>32,'pattern'=>'^[a-z]{1}[a-z0-9]{0,31}$','required'=>'required','readonly'=>$data['id']))}
 					{form::tips(t('模型唯一标识，如： page、article，只允许因为字符和数字，最大长度32位'))}
 				</td>
 			</tr>
 			<tr>
-				<td class="label">{form::label(t('模型描述'),'description',true)}</td>
+				<td class="label">{form::label(t('描述'),'description',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'required'=>'required'))}
 				</td>

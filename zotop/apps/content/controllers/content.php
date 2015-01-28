@@ -24,6 +24,7 @@ class content_controller_content extends admin_controller
 		$this->model	= m('content.model');
 	}
 
+	/*
 	public function action_test()
 	{
 		$this->content->db()->table('content')->clear();
@@ -53,13 +54,14 @@ class content_controller_content extends admin_controller
 		return $this->success('操作成功');
 
 	}
+	*/
 
 
 	/**
 	 * 列表
 	 *
 	 */
-    public function action_index($categoryid=0, $status='')
+    public function action_index($categoryid=0, $parentid=0, $status='publish')
     {
 		// 栏目
 		if ( $categoryid )
@@ -71,6 +73,9 @@ class content_controller_content extends admin_controller
 			$this->content->where('categoryid','in',$category['childids']);
 		}
 
+		// 子内容
+		$this->content->where('parentid','=',intval($parentid));
+		
 		// 状态
 		if ( $status )
 		{
@@ -79,7 +84,6 @@ class content_controller_content extends admin_controller
 
 		// 获取数据集
 		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getPage();
-
 
 		// 允许发布的模型
 		$postmodels = array();
@@ -93,9 +97,9 @@ class content_controller_content extends admin_controller
 			$postmodels[$i] = $m;
 		}
 
-
 		$this->assign('title',$category['name']);		
 		$this->assign('categoryid',$categoryid);
+		$this->assign('parentid',$parentid);
 		$this->assign('status',$status);	
 		$this->assign('category',$category);
 		$this->assign('postmodels',$postmodels);			
@@ -212,7 +216,7 @@ class content_controller_content extends admin_controller
 	 * 添加
 	 *
 	 */
-	public function action_add($categoryid, $modelid)
+	public function action_add($categoryid, $parentid, $modelid)
 	{
 		if ( $post = $this->post() )
 		{
@@ -223,7 +227,7 @@ class content_controller_content extends admin_controller
 					return $this->success(t('保存成功'),$id);
 				}
 
-				return $this->success(t('保存成功'),u('content/content/index/'.$categoryid));
+				return $this->success(t('保存成功'),u('content/content/index/'.$categoryid.'/'.$parentid.'/publish'));
 			}
 
 			return $this->error($this->content->error());
@@ -239,6 +243,7 @@ class content_controller_content extends admin_controller
 		// 默认数据
 		$data = array();
 		$data['categoryid'] = $categoryid;
+		$data['parentid'] 	= $parentid;
 		$data['modelid'] 	= $modelid;
 		$data['createtime'] = ZOTOP_TIME;
 
@@ -262,7 +267,7 @@ class content_controller_content extends admin_controller
 		{
 			if ( $this->content->save($post) )
 			{
-				return $this->success(t('保存成功'), u('content/content/index/'.$post['categoryid']));
+				return $this->success(t('保存成功'), u('content/content/index/'.$post['categoryid'].'/'.$post['parentid'].'/publish'));
 			}
 
 			return $this->error($this->content->error());

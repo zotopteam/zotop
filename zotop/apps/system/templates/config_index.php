@@ -93,7 +93,7 @@
 					<td class="label">{form::label(t('关闭网站'),'closed',false)}</td>
 					<td class="input">
 						{form::field(array('type'=>'bool','name'=>'closed','value'=>c('site.closed')))}
-						{form::tips(t('网站关闭时管理员在登陆系统之后仍然可以访问网站'))}
+						{form::tips(t('网站关闭时不影响网站后台访问并且管理员登陆系统之后可以访问网站'))}
 					</td>
 				</tr>
 				<tr>

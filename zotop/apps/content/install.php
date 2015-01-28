@@ -17,6 +17,9 @@ $this->db->table('content')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'parentid'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('父编号') ),
+		//'parentids'	=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('父编号串') ),
+		//'child'		=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('子内容个数') ),
+		//'rootid'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('根编号') ),
 		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('分类') ),
 		'modelid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID') ),
 		'title'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('标题') ),
@@ -34,18 +37,20 @@ $this->db->table('content')->create(array(
 		'createtime'=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容时间') ),
 		'updatetime'=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('更新时间') ),
 		//'weight'	=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>'0', 'unsigned'=>true, 'comment' => t('权重') ),
-		'listorder' => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
-		'stick'     => array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否固顶，0：不固顶，1：固顶') ),		
+		'listorder'	=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
+		'stick'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否固顶，0：不固顶，1：固顶') ),
 		'status'	=> array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('状态') ),
 	),
 	'index'=>array(
-		'categoryid' => array ( 'categoryid',  'modelid',  'listorder',  'status' ),
+		'categoryid' => array ( 'categoryid',  'modelid',  'createtime',  'weight',  'status' ),
 	),
 	'unique'=>array(
 	),
 	'primary'=>array ( 'id' ),
 	'comment' => t('内容主表') 
 ));
+
+
 
 // [content_model] 创建	
 $this->db->table('content_model')->drop();

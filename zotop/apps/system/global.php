@@ -36,6 +36,7 @@ form::field('code',array('system_field','template_editor'));
  */
 
 zotop::add('system.globalmsg','system_globalmsg');
+
 function system_globalmsg($msg)
 {
 	if ( ZOTOP_DEBUG )
@@ -110,10 +111,5 @@ function system_alias()
 	if ( $b ) return $alias->where('source',$b)->delete();
 
 	return false;
- }
-
- function site($key)
- {
- 	return 'ttt';
  }
 ?>
