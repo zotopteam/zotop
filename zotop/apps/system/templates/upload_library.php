@@ -116,11 +116,7 @@
 			$.confirm("{t('您确定要删除该文件嘛?')}",function(){
 				//删除操作
 				$.get("{u('system/attachment/delete')}",{id : $item.attr('id')}, function(msg){
-					if( msg.state ){
-						$item.removeClass('selected').hide().remove();
-					}else{
-						alert(msg.content);
-					}
+					msg.state ? $item.removeClass('selected').hide().remove() : $.error(msg.content);
 				},'json');
 			},function(){});
 
@@ -141,7 +137,7 @@
 			} else {
 				var num = $('.selected').length;
 				if( select>1 && num > select ) {
-					alert("{t('最多允许选择 %s 个文件',$select)}");
+					$.error("{t('最多允许选择 %s 个文件',$select)}");
 					return false;
 				}else{
 					$(this).addClass("selected");

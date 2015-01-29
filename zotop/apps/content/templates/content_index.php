@@ -38,7 +38,7 @@
 			<li{if $status == $s} class="current"{/if}>
 				<a href="{u('content/content/index/'.$categoryid.'/'.$parentid.'/'.$s)}">{$t}</a>
 				{if $statuscount=m('content.content.statuscount', $category['childids'], $parentid, $s)}
-				<span class="f12 red">({$statuscount})</span>
+				<i class="msg">[{$statuscount}]</i>
 				{/if}
 			</li>
 			{/loop}
@@ -78,8 +78,8 @@
 			{/if}
 
 			{if $categoryid}
-			<a class="btn btn-icon-text" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}">
-				<i class="icon icon-open"></i><b>{t('访问')}</b>
+			<a class="btn btn-icon" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}">
+				<i class="icon icon-open"></i>
 			</a>
 			{/if}
 		</div>

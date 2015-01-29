@@ -529,20 +529,21 @@ i.icon-loading:before,b.icon-loading:before{content:'';}
 .main-header.noborder{border:0 none;}
 .main-header div.title{float:left;font-size:22px;font-weight:normal;line-height:44px;padding:0;}
 .main-header div.description{float:left;font-size:15px;color:#666;}
-.main-header div.position{float:left;font-size:14px;color:#666;margin:15px 0 0 15px;}
-.main-header div.position a{float:left;max-width: 100px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}
-.main-header div.position s{float:left;margin:0 5px 0 5px;color:#666;text-decoration:none;}
+.main-header div.position{float:left;font-size:15px;color:#666;margin:13px 15px 0 15px;}
+.main-header div.position a{float:left;font-size:15px;max-width:88px;overflow:hidden;text-overflow:ellipsis;white-space: nowrap;}
+.main-header div.position s{float:left;margin:0 5px;color:#666;text-decoration:none;color:#999;}
+.main-header div.position i.icon{margin:-3px 0 0 0;}
 .main-header div.action{float:right;line-height:20px;padding:7px 0;}
 .main-header ul.navbar{float:left;margin:12px 0 0 15px;}
 .main-header ul.navbar li{float:left;margin:0 6px;}
+.main-header ul.navbar li:hover{border-bottom:solid 2px #f60;}
+.main-header ul.navbar li.current{border-bottom:solid 2px #f60;}
 .main-header ul.navbar li a{padding:0 0 3px 0;font-size:15px;cursor:pointer;text-decoration:none;}
-.main-header ul.navbar li a:hover{border-bottom:solid 2px #f60;}
 .main-header ul.navbar li i.icon{margin:-4px 0 0 0;}
-
-.main-header ul.navbar li.current a{border-bottom:solid 2px #f60;}
+.main-header ul.navbar li i.msg{font-size:12px;font-style:normal;color:red;}
 
 .main-header form.searchbar{float:right;margin:7px 0 0 5px;height:28px;line-height:28px;overflow:hidden;border:1px solid #bebebe;border-radius:3px;}
-.main-header form.searchbar input{float:left;width:180px;font-size:12px;overflow:hidden;color:#000;margin:0;padding:6px;border:0px none;border-right:1px solid #BEBEBE;}
+.main-header form.searchbar input{float:left;width:160px;font-size:12px;overflow:hidden;color:#000;margin:0;padding:6px;border:0px none;border-right:1px solid #BEBEBE;}
 .main-header form.searchbar button{cursor:pointer;float:left;height:100%;margin:0;padding:0 6px;border:0 none;color:#666;background-color:#f7f7f7;background:-moz-linear-gradient(top,#fff,#e0e0e0);background:-webkit-linear-gradient(top,#fff,#e0e0e0);}
 
 .main-body{padding:0;clear:both;position:absolute;top:45px;bottom:41px;left:0px;right:0;}

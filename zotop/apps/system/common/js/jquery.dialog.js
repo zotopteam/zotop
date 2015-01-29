@@ -108,6 +108,8 @@
 	 * @param   {Bool}     (可选) 缓存内容
 	 */
 	$.msg = function(msg){
+
+		zotop.debug(msg);
 		
 		if( $.dialog('message') ) $.dialog('message').close().remove();
 		

@@ -20,7 +20,7 @@
 		return false;
 	};
 
-	$dialog.title('{t('编辑：%s',$file)}');
+	$dialog.title('{t('编辑模板 %s',$file)}');
 
 
 	// 提交

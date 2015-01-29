@@ -8,11 +8,11 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="position">
-			<a href="{u('system/theme/index')}">{t('主题管理')}</a>
+			<a href="{u('system/theme/index')}"><i class="icon icon-skin"></i> {t('主题管理')}</a>
 			<s class="arrow">></s>
-			<a href="{u('system/theme/template?theme='.$theme)}">{t('模版管理')}</a>
+			<a href="{u('system/theme/template?theme='.$theme)}"><i class="icon icon-template"></i> {t('模版管理')}</a>
 			{loop $position $p}
-			<s class="arrow">></s> <a href="{u('system/theme/template?theme='.$theme.'&dir='.$p[1])}">{$p[0]}</a>
+			<s class="arrow">></s> <a href="{u('system/theme/template?theme='.$theme.'&dir='.$p[1])}"><i class="icon icon-folder"></i> {$p[0]}</a>
 			{/loop}
 		</div>
 		<div class="action">

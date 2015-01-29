@@ -3,9 +3,9 @@
 <div class="main no-footer">
 	<div class="main-header">
 		<div class="position">
-			<a href="{u('system/theme/template/select')}">{t('模版目录')}</a>
+			<a href="{u('system/theme/template/select')}"><i class="icon icon-home"></i> {t('模版目录')}</a>
 			{loop $position $p}
-			<s class="arrow">></s> <a href="{u('system/theme/template/select?dir='.$p[1])}">{$p[0]}</a>
+			<s class="arrow">></s> <a href="{u('system/theme/template/select?dir='.$p[1])}"><i class="icon icon-folder"></i> {$p[0]}</a>
 			{/loop}
 		</div>
 		<div class="action">
@@ -45,7 +45,7 @@
 							<i class="icon icon-config"></i>
 						</a>
 						<s></s>
-						<a class="dialog-confirm" href="{u('system/theme/template_deletefolder?dir='.$f['path'])}" title="{t('删除')}">
+						<a class="delete" href="{u('system/theme/template_deletefolder?dir='.$f['path'])}" title="{t('删除')}">
 							<i class="icon icon-delete"></i>
 						</a>
 					</div>
@@ -75,7 +75,7 @@
 					</a>
 
 					<s></s>
-					<a class="dialog-confirm" href="{u('system/theme/template_deletefile?file='.$f['path'])}" title="{t('删除')}">
+					<a class="delete" href="{u('system/theme/template_deletefile?file='.$f['path'])}" title="{t('删除')}">
 						<i class="icon icon-delete"></i>
 					</a>
 					</div>
@@ -87,9 +87,6 @@
 		</table>
 
 	</div><!-- main-body -->
-	<div class="main-footer">
-	{t('网站主题和模版决定了网站的外观，你可以修改网站当前主题或者安装一个新的主题')}
-	</div><!-- main-footer -->
 </div><!-- main -->
 
 <script type="text/javascript">
@@ -111,7 +108,6 @@
 
 	$dialog.title('{t('选择模版')}');
 
-
 	// 选择模版
 	$(function(){
 		$(document).on('click','tr.template',function(e){
@@ -127,6 +123,26 @@
 			}
 		});
 	});
+
+	// 文件夹和模板删除
+	$(function(){
+		$(document).on('click','a.delete',function(e){
+			e.preventDefault();
+
+			var $item  = $(this).parents('tr');
+			var action = $(this).attr('href');
+
+			$.confirm("{t('您确定要删除该文件嘛?')}",function(){
+				//删除操作
+				$.get(action,function(msg){
+					msg.state ? $item.removeClass('selected').hide().remove() : $.error(msg.content);
+				},'json');
+			},$.noop);
+
+			return false;				
+		});
+	});
+
 </script>
 
 {template 'dialog.footer.php'}

@@ -67,6 +67,8 @@
 
 		view.data = {json_encode($files)};
 
+		zotop.debug(view.data);
+
 		view.add  = function(row){
 
 			$.observable(view.data).insert(view.data.length, row);
@@ -116,7 +118,7 @@
 
 			$('#filelist').find('.selected').each(function(){
 				index = $.view(this).index;
-				selected.push(view.data[index])
+				selected.push(view.data[index]);
 			});
 
 			return selected;

@@ -349,7 +349,7 @@ class system_controller_theme extends admin_controller
 		$data = array();
 		$data['name'] = file::name($this->file,true);
 		$data['note'] = $notes[basename($this->file)];
-		$data['ext'] = file::ext($this->file);
+		$data['ext']  = file::ext($this->file);
 
 		$this->assign('title',t('重命名文件'));
 		$this->assign('data',$data);

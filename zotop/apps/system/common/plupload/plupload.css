@@ -37,7 +37,7 @@ ul.filelist-foot li.status .progress-bar{display:block;border:0 none;width:0px;h
 ul.filelist-foot li.action{width:40px;text-align:right;}
 
 
-div.fileitem{border:2px solid #d4d4d4;background:#f7f7f7;margin:8px 8px 0 0;padding:0px;float:left;display:inline;width:190px;overflow:hidden;position:relative;border-radius:5px;cursor:pointer;}
+div.fileitem{border:2px solid #e8e8e8;background:#f7f7f7;margin:8px 8px 0 0;padding:0px;float:left;display:inline;width:190px;overflow:hidden;position:relative;border-radius:5px;cursor:pointer;}
 div.fileitem div.data{display:none;}
 div.fileitem div.preview {width:180px;padding:0px;margin:5px;text-align: center;}
 div.fileitem div.progressbar{width:100%;height:3px;overflow:hidden;background:transparent;border:0 none;}

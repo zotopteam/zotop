@@ -194,6 +194,7 @@ class system_model_attachment extends model
      */
 	public function add($data)
 	{
+		$data['description']= $data['description'] ? $data['description'] : file::name($data['name'],true);
 		$data['userid']		= zotop::user('id');
 		$data['uploadip']	= request::ip();
 		$data['uploadtime'] = ZOTOP_TIME;

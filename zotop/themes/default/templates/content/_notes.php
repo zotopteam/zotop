@@ -12,5 +12,6 @@ return array (
   'tag.php' => '标签模板',
   'detail_product.php' => '产品内容模板',
   'folder.php' => '目录模板',
+  'detail_download.php' => '下载详细页模板',
 );
 ?>

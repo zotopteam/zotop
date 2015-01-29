@@ -23,7 +23,7 @@ class content_model_content extends model
     {
         $status = zotop::filter('content.status',array(
             'publish'   => t('发布'),
-            'pending'   => t('待发布'),
+            'pending'   => t('待发'),
             //'reject'    => t('退稿'),
             'draft'     => t('草稿'),
             //'trash'     => t('回收站'),
@@ -199,38 +199,42 @@ class content_model_content extends model
 
         // 预处理数据
         $fields = m('content.field.cache', $data['modelid']);
-        
-        foreach ($data as $key => &$val)
+
+        foreach ($fields as $name => $field)
         {
-            if ( false === ( $field = $fields[$key]) ) continue;
-            if ( $field['notnull'] and empty($val) ) return $this->error(t('{1}不能为空', $field['label']));
-            if ( $field['settings']['maxlength'] and str::len($val) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($val)));
-            if ( $field['settings']['minlength'] and str::len($val) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($val)));
-            if ( $field['settings']['max'] and intval($val) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
-            if ( $field['settings']['min'] and intval($val) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));            
-            if ( $field['control'] == 'date' or $field['control'] == 'datetime' ) $val = empty($val) ? ZOTOP_TIME : strtotime($val);
-            if ( $field['control'] == 'keywords' and $val ) $val = str_replace('，', ',', $val);
-            if ( $field['control'] == 'editor' and $val )
+            if ( $field['notnull'] and empty($data[$name]) ) return $this->error(t('{1}不能为空', $field['label']));
+            if ( $field['settings']['maxlength'] and str::len($data[$name]) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength']));
+            if ( $field['settings']['minlength'] and str::len($data[$name]) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength']));
+            if ( $field['settings']['max'] and intval($data[$name]) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
+            if ( $field['settings']['min'] and intval($data[$name]) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
+            if ( $field['control'] == 'date' or $field['control'] == 'datetime' ) $data[$name] = empty($data[$name]) ? ZOTOP_TIME : strtotime($data[$name]);
+            if ( $field['control'] == 'keywords' and $data[$name] ) $data[$name] = str_replace('，', ',', $data[$name]);
+            if ( $field['control'] == 'editor' and $data[$name] )
             {
                 if ( intval(C('content.auto_summary')) > 0 and empty($data['summary']) )
                 {
-                    $data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($val)));
+                    $data['summary'] = str_replace(array("\r","\n","\r\n","\t",'[page]','[/page]','&ldquo;','&rdquo;','&nbsp;'), '', strip_tags(trim($data[$name])));
                     $data['summary'] = str::cut($data['summary'], intval(C('content.auto_summary')));
                 }
-                if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) and preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", stripslashes($val), $matches) )
+                if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) and preg_match_all("/(src)=([\"|']?)([^ \"'>]+\.(gif|jpg|jpeg|bmp|png))\\2/i", stripslashes($data[$name]), $matches) )
                 {
                     $data['image'] = $matches[3][intval(C('content.auto_image')) - 1];
                 }
-
             }
-            if ( $field['control'] == 'images' and $val )
+            if ( $field['control'] == 'images' and $data[$name] )
             {
                 if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) )
                 {
-                    $data['image'] = $val[intval(C('content.auto_image')) - 1]['image'];
-                }              
+                    $data['image'] = $data[$name][intval(C('content.auto_image')) - 1]['image'];
+                }
+
+                $data[$name] = array_values($data[$name]); // 清除键值，修复图集的排序问题 
             }
-        }
+            if ( $field['control'] == 'files' and $data[$name] )
+            {
+                $data[$name] = array_values($data[$name]);
+            }
+        }        
 
         // 保存
         $result = empty($data['id']) ? $this->add($data) : $this->edit($data);

@@ -84,6 +84,7 @@ function galleryeditor(gallery, name, value, params){
 			width: $(this).attr('data-width') || 1000,
 			height: $(this).attr('data-height') || 460,
 			ok: function(files){
+				zotop.debug(files);
 				$.each(files,function(i,data){
 					self.add(data.url, data.description);
 				})

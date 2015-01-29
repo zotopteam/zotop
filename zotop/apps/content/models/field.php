@@ -123,7 +123,7 @@ class content_model_field extends model
 
 				if ( $r['unique'] )
 				{
-					$fields[$i]['field']['remote']	= U('content/content/check/'.$modelid.'/'.$fields[$i]['field']['name'].'/'.$fields[$i]['field']['value']);
+					//$fields[$i]['field']['remote']	= U('content/content/check/'.$modelid.'/'.$fields[$i]['field']['name'].'/'.$fields[$i]['field']['value']);
 				}
 
 				// 将settings中的属性合并到字段
@@ -137,7 +137,13 @@ class content_model_field extends model
 				// 增加上传数据编号
 				if ( in_array($r['control'], array('editor','image','images','file','files')) and $data['dataid'] )
 				{
-					$fields[$i]['field']['dataid']	= 'content-'.$data['id'];
+					$fields[$i]['field']['dataid']	= $data['dataid'];
+				}
+
+				// 处理标题色彩
+				if ( $r['control'] == 'title' and $data['style'] )
+				{
+					$fields[$i]['field']['style']	= $data['style'];
 				}
 
 			}

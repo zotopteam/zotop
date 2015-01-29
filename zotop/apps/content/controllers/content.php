@@ -213,8 +213,12 @@ class content_controller_content extends admin_controller
     }    
 
 	/**
-	 * 添加
-	 *
+	 * 添加内容
+	 * 
+	 * @param  int $categoryid 栏目编号
+	 * @param  int $parentid   内容父编号
+	 * @param  string $modelid 模型编号
+	 * @return mixed
 	 */
 	public function action_add($categoryid, $parentid, $modelid)
 	{
@@ -233,33 +237,24 @@ class content_controller_content extends admin_controller
 			return $this->error($this->content->error());
 		}
 
-		// 栏目数据
-		$category = $this->category->get($categoryid);
-
-		// 模型数据
-		$model = $this->model->get($modelid);
-
-
 		// 默认数据
 		$data = array();
-		$data['categoryid'] = $categoryid;
-		$data['parentid'] 	= $parentid;
 		$data['modelid'] 	= $modelid;
+		$data['parentid'] 	= $parentid;
+		$data['categoryid'] = $categoryid;		
 		$data['createtime'] = ZOTOP_TIME;
 
-		$this->assign('title',$category['name']);
-		$this->assign('category',$category);
-		$this->assign('model',$model);
-		$this->assign('categoryid',$categoryid);
-		$this->assign('modelid',$modelid);
+		$this->assign('title',t('添加'));
 		$this->assign('data',$data);
-		$this->assign('statuses',$this->content->statuses);
 		$this->display('content/content_post.php');
 	}
 
- 	/**
-	 * 编辑
-	 *
+
+	/**
+	 * 编辑内容
+	 * 
+	 * @param  int $id 内容编号
+	 * @return mixed
 	 */
 	public function action_edit($id)
 	{
@@ -273,24 +268,12 @@ class content_controller_content extends admin_controller
 			return $this->error($this->content->error());
 		}
 
-		$data = $this->content->get($id);
+		// 获取当前数据，并获取“推荐到区块”的区块编号
+		$data             = $this->content->get($id);		
+		$data['blockids'] = arr::column(m('block.datalist')->select('blockid')->where('dataid',$data['dataid'])->getall(), 'blockid');		
 
-		// 获取“推荐到区块”的区块编号
-		$data['blockids'] = arr::column(m('block.datalist')->select('blockid')->where('dataid',$data['dataid'])->getall(), 'blockid');
-
-		// 栏目数据
-		$category 	= $this->category->get($data['categoryid']);
-
-		// 模型数据
-		$model 		= $this->model->get($data['modelid']);
-
-		$this->assign('title',$category['name']);
-		$this->assign('category',$category);
-		$this->assign('model',$model);
-		$this->assign('categoryid',$data['categoryid']);
-		$this->assign('modelid',$data['modelid']);
+		$this->assign('title',t('编辑'));
 		$this->assign('data',$data);
-		$this->assign('statuses',$this->content->statuses);
 		$this->display('content/content_post.php');
 	}
 

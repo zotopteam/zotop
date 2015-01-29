@@ -6,7 +6,11 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">
-			{if $data['id']}{t('编辑%s',$model['name'])}{else}{t('添加%s',$model['name'])}{/if}
+			{if $data['id']}
+				{t('编辑%s',m('content.model.get',$data.modelid,'name'))}
+			{else}
+				{t('添加%s',m('content.model.get',$data.modelid,'name'))}
+			{/if}
 		</div>
 		<div class="position">
 			<a href="{u('content/content')}">{t('内容管理')}</a>
@@ -16,19 +20,15 @@
 			{/loop}
 
 			{if $data.parentid}
-
-			{loop m('content.content.getparents',$data.parentid) $p}
-				<s class="arrow">></s>
-				<a href="{u('content/content/index/'.$p['categoryid'].'/'.$p['id'].'/publish')}" title="{$p['title']}">{$p['title']}</a>
-			{/loop}
-
+				{loop m('content.content.getparents',$data.parentid) $p}
+					<s class="arrow">></s>
+					<a href="{u('content/content/index/'.$p['categoryid'].'/'.$p['id'].'/publish')}" title="{$p['title']}">{$p['title']}</a>
+				{/loop}
 			{/if}			
 
 			{if $data['title']}
-			<s class="arrow">></s> {$data['title']}
+				<s class="arrow">></s> {$data['title']}
 			{/if}
-		</div>
-		<div class="action">
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
