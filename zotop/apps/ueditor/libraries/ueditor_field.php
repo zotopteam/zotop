@@ -30,9 +30,9 @@ class ueditor_field
 			}
 
 			// 编辑器参数
-			$options = array('root'=>A('ueditor.url').'/editor/', 'theme'=>'standard', 'resize'=>0, 'tools'=>false, 'server'=>U('ueditor/server'));
+			$options = array('root'=>A('ueditor.url').'/editor/', 'theme'=>'standard', 'resize'=>0, 'tools'=>false, 'server'=>U('ueditor/server'), 'css'=> ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css');
 
-			foreach( array('theme','resize','tools') as $attr )
+			foreach( array('theme','resize','tools','css') as $attr )
 			{
 				if ( isset($attrs[$attr]) and !empty($attrs[$attr]) )
 				{

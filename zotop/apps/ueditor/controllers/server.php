@@ -13,7 +13,12 @@ class ueditor_controller_server extends admin_controller
 
 	public function action_index()
     {
-		//TODO 暂时不支持编辑器直接上传文件
+
+        $result = array(
+        	'state'=> t('暂时不支持编辑器直接上传文件')
+        );
+
+        exit(json_encode($result));
 	}
 }
 ?>
