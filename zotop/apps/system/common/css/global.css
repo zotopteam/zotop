@@ -261,7 +261,7 @@ ul.list2 li{float:left;	width:50%;}
 
 /* navlist */
 ul.navlist{margin:20px 15px;}
-ul.navlist li{margin:5px 5px 5px 5px;width:24%;min-width:310px;float:left;position:relative;line-height:22px;}
+ul.navlist li{margin:5px 5px 5px 5px;width:24%;min-width:285px;float:left;position:relative;line-height:22px;}
 ul.navlist li a.nav{padding:5px;display:block;clear:both;border:solid 1px #fff;color:#666;border-radius:3px;cursor:pointer;vertical-align:middle;}
 ul.navlist li a.nav:hover{border:solid 1px #70c0e7;background:#e5f3fb;}
 ul.navlist li a.nav img{float:left;width:48px;height:48px;margin-right:10px;}
