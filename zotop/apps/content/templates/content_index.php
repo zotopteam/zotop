@@ -87,7 +87,7 @@
 	</div><!-- main-header -->
 
 	<div class="main-body scrollable">
-		
+
 		{if empty($data)}		
 			<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
