@@ -7,7 +7,6 @@
 <div class="main side-main no-footer">
 	<div class="main-header">
 		<div class="position">
-			{t('当前位置')} :
 			{loop $position $n $p}
 				{if $n}<s class="arrow">></s>{/if} <a href="{$p['url']}">{$p['text']}</a>
 			{/loop}

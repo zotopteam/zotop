@@ -37,7 +37,6 @@ $this->db->table('content')->create(array(
 		'status'	=> array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('状态') ),
 	),
 	'index'=>array(
-		'parentid'	 => array ( 'parentid' ),
 		'categoryid' => array ( 'categoryid' ),
 		'listorder'	 => array ( 'listorder' ),
 		'stick'		 => array ( 'stick' ),
