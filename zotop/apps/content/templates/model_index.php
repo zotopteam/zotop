@@ -6,7 +6,7 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a href="{u('content/model/add')}" class="btn btn-icon-text btn-highlight dialog-open" data-width="750px" data-height="450px">
+			<a href="{u('content/model/add')}" class="btn btn-icon-text btn-highlight dialog-open" data-width="750px" data-height="400px">
 				<i class="icon icon-add"></i><b>{t('新建模型')}</b>
 			</a>
 
@@ -40,7 +40,7 @@
 					<div class="manage">
 						<a class="dialog-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
 						<s></s>
-						<a href="{u('content/model/edit/'.$r['id'])}" class="dialog-open" data-width="750px" data-height="450px">{t('设置')}</a>						
+						<a href="{u('content/model/edit/'.$r['id'])}" class="dialog-open" data-width="750px" data-height="400px">{t('设置')}</a>						
 						<s></s>
 						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>
 						<s></s>

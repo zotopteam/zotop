@@ -34,7 +34,6 @@ class content_controller_content extends admin_controller
 		for ($i=0; $i < 1000; $i++)
 		{ 
 			$this->content->insert(array (
-			  'parentid' => '0',
 			  'categoryid' => '1',
 			  'modelid' => 'url',
 			  'title' => '测试标题'.$i,
@@ -61,7 +60,7 @@ class content_controller_content extends admin_controller
 	 * 列表
 	 *
 	 */
-    public function action_index($categoryid=0, $parentid=0, $status='publish')
+    public function action_index($categoryid=0, $status='publish')
     {
 		// 栏目
 		if ( $categoryid )
@@ -72,9 +71,6 @@ class content_controller_content extends admin_controller
 			// 获取包含子栏目的全部数据
 			$this->content->where('categoryid','in',$category['childids']);
 		}
-
-		// 子内容
-		$this->content->where('parentid','=',intval($parentid));
 		
 		// 状态
 		if ( $status )
@@ -99,7 +95,6 @@ class content_controller_content extends admin_controller
 
 		$this->assign('title',$category['name']);		
 		$this->assign('categoryid',$categoryid);
-		$this->assign('parentid',$parentid);
 		$this->assign('status',$status);	
 		$this->assign('category',$category);
 		$this->assign('postmodels',$postmodels);			
@@ -123,6 +118,7 @@ class content_controller_content extends admin_controller
 
 		$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->orderby('listorder','desc')->getPage();
 
+		$this->assign('title', t('搜索“{1}”',$keywords));
 		$this->assign('keywords',$keywords);
 		$this->assign('category',$category);
 		$this->assign($dataset);
@@ -196,7 +192,7 @@ class content_controller_content extends admin_controller
 				$categoryids = m('content.category.get',$categoryid,'childids');
 
 				// 将当前列表 $listorder 之前的数据的 listorder 全部加 1， 为拖动的数据保留出位置
-				$this->content->where('categoryid','in',$categoryids)->where('parentid',$parentid)->where('listorder','>=',$listorder)->set('listorder',array('listorder','+',1))->update();
+				$this->content->where('categoryid','in',$categoryids)->where('listorder','>=',$listorder)->set('listorder',array('listorder','+',1))->update();
 				
 				// 更新拖动的数据为当前 $listorder
 				$this->content->where('id',$id)->set('listorder',$listorder)->set('stick',$stick)->update();
@@ -216,11 +212,10 @@ class content_controller_content extends admin_controller
 	 * 添加内容
 	 * 
 	 * @param  int $categoryid 栏目编号
-	 * @param  int $parentid   内容父编号
 	 * @param  string $modelid 模型编号
 	 * @return mixed
 	 */
-	public function action_add($categoryid, $parentid, $modelid)
+	public function action_add($categoryid, $modelid)
 	{
 		if ( $post = $this->post() )
 		{
@@ -231,7 +226,7 @@ class content_controller_content extends admin_controller
 					return $this->success(t('保存成功'),$id);
 				}
 
-				return $this->success(t('保存成功'),u('content/content/index/'.$categoryid.'/'.$parentid.'/publish'));
+				return $this->success(t('保存成功'),u('content/content/index/'.$categoryid.'/publish'));
 			}
 
 			return $this->error($this->content->error());
@@ -240,7 +235,6 @@ class content_controller_content extends admin_controller
 		// 默认数据
 		$data = array();
 		$data['modelid'] 	= $modelid;
-		$data['parentid'] 	= $parentid;
 		$data['categoryid'] = $categoryid;		
 		$data['createtime'] = ZOTOP_TIME;
 
@@ -262,7 +256,7 @@ class content_controller_content extends admin_controller
 		{
 			if ( $this->content->save($post) )
 			{
-				return $this->success(t('保存成功'), u('content/content/index/'.$post['categoryid'].'/'.$post['parentid'].'/publish'));
+				return $this->success(t('保存成功'), u('content/content/index/'.$post['categoryid'].'/publish'));
 			}
 
 			return $this->error($this->content->error());

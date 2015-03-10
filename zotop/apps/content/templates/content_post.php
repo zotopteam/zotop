@@ -16,15 +16,8 @@
 			<a href="{u('content/content')}">{t('内容管理')}</a>
 			{loop m('content.category.getparents',$data.categoryid) $p}
 				<s class="arrow">></s>
-				<a href="{u('content/content/index/'.$p['id'].'/0/publish')}">{$p['name']}</a>
-			{/loop}
-
-			{if $data.parentid}
-				{loop m('content.content.getparents',$data.parentid) $p}
-					<s class="arrow">></s>
-					<a href="{u('content/content/index/'.$p['categoryid'].'/'.$p['id'].'/publish')}" title="{$p['title']}">{$p['title']}</a>
-				{/loop}
-			{/if}			
+				<a href="{u('content/content/index/'.$p['id'].'/publish')}">{$p['name']}</a>
+			{/loop}			
 
 			{if $data['title']}
 				<s class="arrow">></s> {$data['title']}
@@ -34,7 +27,6 @@
 	<div class="main-body scrollable">
 
 		<input type="hidden" name="id" value="{$data['id']}">
-		<input type="hidden" name="parentid" value="{$data['parentid']}">
 		<input type="hidden" name="modelid" value="{$data['modelid']}">
 		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
 		<input type="hidden" name="status" value="{$data['status']}">

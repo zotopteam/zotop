@@ -91,63 +91,16 @@ class content_model_content extends model
         return $dataset;
     }
 
-    /**
-     * 获取全部父节点
-     * 
-     * @param  int $id 父节点编号
-     * @param  array  &$parents 父节点数组
-     * @return array
-     */
-    public function getparents($id, &$parents=array())
-    {
-        if ( $id and $data = $this->getbyid($id) )
-        {
-            $parents[$data['id']] = $data;
-
-            $this->getparents($data['parentid'], $parents);
-        }
-
-        return array_reverse($parents,true);
-    }
-
-    /**
-     * 获取全部子节点
-     * 
-     * @param  [type] $id      节点编号
-     * @param  array  &$childs 子节点数组
-     * @return array
-     */
-    public function getchilds($id, &$childs=array())
-    {
-        if ( $id and $data = $this->where('parentid',$id)->getall() )
-        {
-            foreach ($data as $d)
-            {
-                $childs[$d['id']] = $d;
-
-                $this->getchilds($d['id'], $childs);
-            }
-        }
-
-        return $childs;
-    }
-
-
 
     /**
      * 获取未处理数据条数
      *
      */
-    public function statuscount($categoryid=null, $parentid=null, $status='publish')
+    public function statuscount($categoryid=null, $status='publish')
     {
         if ( $categoryid )
         {
             $this->where('categoryid', 'in', $categoryid);
-        }
-
-        if ( $parentid !== null )
-        {
-            $this->where('parentid', '=', $parentid);   
         }
 
         if ( $status )
@@ -436,7 +389,6 @@ class content_model_content extends model
 		// 默认支持的标签缩写
         $mid = isset($mid)? $mid : $modelid;
 		$cid = isset($cid)? intval($cid) : intval($categoryid);
-        $pid = isset($pid)? intval($pid) : intval($parentid);
 
 		if ( $cid )
 		{
@@ -462,9 +414,6 @@ class content_model_content extends model
 
 		// 读取模型数据
 		if ( $mid ) $db->where('modelid','=',$mid);
-
-        // 读取子内容
-        if ( $pid ) $db->where('parentid','=',$pid);
 
 		// 查询结果是否必须包含缩略图
 		if ( strtolower($image) == 'true' ) $db->where('image','!=','');

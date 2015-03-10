@@ -12,7 +12,7 @@
 				{loop m('content.category.active') $c}
 				<tr data-tt-id="a{$c['id']}" {if $c['parentid'] !=0 }data-tt-parent-id="a{$c['parentid']}"{/if} {if $categoryid==$c['id']}class="current"{/if}>
 					<td class="name">
-						<a data-href="{u('content/content/index/'.$c['id'].'/0/publish')}"><i class="icon {if $c['childid']}icon-folder{else}icon-item{/if}"></i>{$c['name']}</a>
+						<a data-href="{u('content/content/index/'.$c['id'].'/publish')}"><i class="icon {if $c['childid']}icon-folder{else}icon-item{/if}"></i>{$c['name']}</a>
 					</td>
 				</tr>
 				{/loop}

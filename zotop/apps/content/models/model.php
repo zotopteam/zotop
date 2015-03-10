@@ -26,16 +26,9 @@ class content_model_model extends model
 		if ( empty($data['id']) ) return $this->error(t('模型编号不能为空'));
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
 		
-		// 是否支持本身作为子内容模型
-		if ( $data['childs_self'] )
-		{
-			$data['childs']	= is_array($data['childs']) ? $data['childs'] : array(); 
-			$data['childs'][] = $data['id'];
-		}
 		
 		$data['app'] 		= $data['app'] ? $data['app'] : 'content';
 		$data['listorder']	= $this->max('listorder') + 1;
-		$data['childs']		= is_array($data['childs']) ? implode(',', $data['childs']) : '';
 		$data['disabled']	= 0;
 		
 		if ( $id = $this->insert($data) )
@@ -69,8 +62,6 @@ class content_model_model extends model
 	public function edit($data, $id)
 	{
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
-
-		$data['childs']	= is_array($data['childs']) ? implode(',', $data['childs']) : '';
 
 		if ( $this->update($data, $id) )
 		{
@@ -211,8 +202,6 @@ class content_model_model extends model
 
 		foreach( $data as &$d )
 		{
-			$d['childs'] = $d['childs'] ? explode(',', $d['childs']) : array();
-
 			$result[$d['id']] = $d;
 		}
 

@@ -11,33 +11,16 @@
 		{if $keywords}
 			 {t('搜索 "%s"',$keywords)}
 		{else}
-			{t('内容列表')}
+			{$title}
 		{/if}
 		</div>
 
 		{if $categoryid}
-		<div class="position">
-			<a href="{u('content/content')}">{t('内容管理')}</a>
-			{loop m('content.category.getparents',$categoryid) $p}
-				<s class="arrow">></s>
-				<a href="{u('content/content/index/'.$p['id'].'/0/publish')}" title="{$p['name']}">{$p['name']}</a>
-			{/loop}
-			
-			{if $parentid}
-
-			{loop m('content.content.getparents',$parentid) $p}
-				<s class="arrow">></s>
-				<a href="{u('content/content/index/'.$p['categoryid'].'/'.$p['id'].'/publish')}" title="{$p['title']}">{$p['title']}</a>
-			{/loop}
-
-			{/if}
-		</div>
-
 		<ul class="navbar">
 			{loop m('content.content.status') $s $t}
 			<li{if $status == $s} class="current"{/if}>
-				<a href="{u('content/content/index/'.$categoryid.'/'.$parentid.'/'.$s)}">{$t}</a>
-				{if $statuscount=m('content.content.statuscount', $category['childids'], $parentid, $s)}
+				<a href="{u('content/content/index/'.$categoryid.'/'.$s)}">{$t}</a>
+				{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}
 				<i class="msg">[{$statuscount}]</i>
 				{/if}
 			</li>
@@ -59,7 +42,7 @@
 			{if $postmodels}
 				{if count($postmodels) < 2}
 					{loop $postmodels $i $m}
-						<a class="btn btn-highlight btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$parentid.'/'.$m['id'])}" title="{$m['description']}">
+						<a class="btn btn-highlight btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
 							<i class="icon icon-add"></i><b>{$m['name']}</b>
 						</a>
 					{/loop}
@@ -69,7 +52,7 @@
 					<div class="dropmenu">
 						<div class="dropmenulist">
 							{loop $postmodels $i $m}
-								<a href="{u('content/content/add/'.$categoryid.'/'.$parentid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}"><i class="icon icon-item icon-{$m['id']}"></i>{$m['name']}</a>
+								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}"><i class="icon icon-item icon-{$m['id']}"></i>{$m['name']}</a>
 							{/loop}
 						</div>
 					</div>
@@ -100,9 +83,7 @@
 			<td class="drag"></td>
 			{/if}
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-			{if empty($status)}
 			<td class="w40 center">{t('状态')}</td>
-			{/if}
 			<td>{t('标题')}</td>
 			<td class="w80 center">{t('点击')}</td>
 			<td class="w80">{t('模型')}</td>
@@ -113,14 +94,12 @@
 		<tbody>
 
 		{loop $data $r}
-			<tr data-id="{$r.id}" data-categoryid="{$r.categoryid}" data-parentid="{$r.parentid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
+			<tr data-id="{$r.id}" data-categoryid="{$r.categoryid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
 				{if $categoryid}
 				<td class="drag"></td>
 				{/if}
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-				{if empty($status)}
 				<td class="center"><i class="icon icon-{$r['status']} {$r['status']}" title="{$statuses[$r['status']]}"></i></td>
-				{/if}
 				<td>
 					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>					
 					{$r['title']}
@@ -138,11 +117,6 @@
 						<s></s>
 						<a href="{u('content/content/edit/'.$r['id'])}">{t('编辑')}</a>
 						<s></s>
-
-						{if m('content.model.get',$r.modelid,'childs')}
-						<a href="{u('content/content/index/'.$r['categoryid'].'/'.$r['id'].'/publish')}">{t('子内容管理')}</a>
-						<s></s>
-						{/if}
 
 						{if $r.stick}
 						<a href="{u('content/content/stick/'.$r['id'].'/0')}" class="ajax-post">{t('取消置顶')}</a>
@@ -281,7 +255,7 @@ $(function(){
 		//zotop.debug(oldindex+'---'+newindex+'--'+ neworder +'--'+ newstick);
 
 		$.loading();
-		$.post('{u('content/content/listorder')}',{categoryid:tr.closest('table').data('categoryid'),id:tr.data('id'),parentid:tr.data('parentid'),listorder:neworder,stick:newstick},function(data){
+		$.post('{u('content/content/listorder')}',{categoryid:tr.closest('table').data('categoryid'),id:tr.data('id'),listorder:neworder,stick:newstick},function(data){
 			$.msg(data);
 		},'json');		
 	};	

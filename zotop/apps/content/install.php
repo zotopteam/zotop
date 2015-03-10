@@ -16,7 +16,6 @@ $this->db->table('content')->drop();
 $this->db->table('content')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
-		'parentid'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('父编号') ),
 		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('分类') ),
 		'modelid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID') ),
 		'title'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('标题') ),
@@ -31,7 +30,6 @@ $this->db->table('content')->create(array(
 		'hits'		=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('点击数') ),
 		'comment'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'comment' => t('评论，1=允许，0=禁止') ),
 		'comments'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'0', 'unsigned'=>true, 'comment' => t('评论数') ),
-		'childs'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('子内容个数') ),
 		'createtime'=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('内容时间') ),
 		'updatetime'=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('更新时间') ),
 		'listorder'	=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
@@ -63,7 +61,6 @@ $this->db->table('content_model')->create(array(
 		'app'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('隶属应用ID') ),
 		'model'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('对应app中的模型') ),
 		'template'	=> array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('详细页面模版') ),
-		'childs'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('下级模型编号') ),
 		'posts'		=> array ( 'type'=>'mediumint', 'length'=>8, 'default'=>'0', 'unsigned'=>true, 'comment' => t('数据量') ),
 		'listorder'	=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>null, 'comment' => t('排序') ),
 		'disabled'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'comment' => t('禁用') ),
