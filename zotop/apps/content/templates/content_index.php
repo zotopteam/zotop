@@ -8,25 +8,24 @@
 	<div class="main-header">
 
 		<div class="title">
-		{if $keywords}
-			 {t('搜索 "%s"',$keywords)}
-		{else}
+		{if $title}
 			{$title}
+		{else}
+			{t('内容管理')}
 		{/if}
 		</div>
 
-		{if $categoryid}
+		
 		<ul class="navbar">
 			{loop m('content.content.status') $s $t}
 			<li{if $status == $s} class="current"{/if}>
-				<a href="{u('content/content/index/'.$categoryid.'/'.$s)}">{$t}</a>
-				{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}
-				<i class="msg">[{$statuscount}]</i>
-				{/if}
+				<a href="{u('content/content/index/'.$categoryid.'/'.$s)}">{$t}
+				{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}<i class="msg">[{$statuscount}]</i>{/if}
+				</a>
 			</li>
 			{/loop}
 		</ul>
-		{/if}
+		
 
 		<form action="{u('content/content/search')}" method="post" class="searchbar">
 			{if $keywords}
