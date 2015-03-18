@@ -194,8 +194,14 @@ class template
 		// 解析 {template 'header.php'} 标签，模板嵌套
         $str = preg_replace("/\{template\s+(.+)\}/i", '<?php $this->display(\\1); ?>', $str);
 
-		// 解析 {include 'header.php'} 标签，加载类
-        $str = preg_replace("/\{include\s+(.+)\}/i", '<?php zotop::load(\\1); ?>', $str);
+		// 解析 {include 'header.php'} 标签，模板嵌套，直接合并进当前模板,z最多支持三级嵌套
+        for($i = 1; $i <= 3; $i++)
+        {
+        	if ( stripos($str, '{include') !== false )
+        	{
+        		$str = preg_replace("/\{include\s+(.+)\}/ie", "\$this->loadsubtemplate('\\1')", $str);
+        	}
+		}
 
 		// 解析 {hook 'site.header'} 标签，hook接口
         $str = preg_replace("/\{hook\s+(.+)\}/i", '<?php zotop::run(\\1, $this); ?>', $str);
@@ -207,9 +213,9 @@ class template
         $str = preg_replace("/\{\/if\}/i", "<?php endif; ?>", $str);
 
 		// 解析 {loop $data $r} {loop $data $k $v} {/loop}标签
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=1; foreach(\\1 as \\2): ?>", $str);
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=1; foreach(\\1 as \\2 => \\3): ?>", $str);
-        $str = preg_replace("/\{\/loop\}/i", "<?php \$n++;endforeach;unset(\$n); ?>", $str);
+        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=1; if(is_array(\\1)) foreach(\\1 as \\2){ ?>", $str);
+        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=1; if(is_array(\\1)) foreach(\\1 as \\2 => \\3){ ?>", $str);
+        $str = preg_replace("/\{\/loop\}/i", "<?php \$n++;};unset(\$n); ?>", $str);
 
 		// 解析函数标签 format::date($time);
 		$str = preg_replace("/\{([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\))\}/", "<?php echo \\1;?>", $str);
@@ -406,6 +412,20 @@ class template
 		$code .= $newline.'	endforeach;';
 		$code .= $newline.'endif;';
         return '<?php' . $code . $newline .'?>';
+    }
+
+    /**
+     * 将子模板写入当前模板， TODO 子模板自动更新
+     * 
+     * @param  string $file 子模板路径
+     * @return string
+     */
+    private function loadsubtemplate($file)
+    {
+    	$file = trim(trim($file,'"'),"'");
+
+
+    	return $this->render($file);
     }
 
     /**

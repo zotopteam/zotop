@@ -14,10 +14,15 @@ return array (
   'myfocus_expo.php' => '新闻中心图片轮播',
   'myfocus_mainslider.php' => '横幅大图轮播',
   'image_mainslider.php' => '横幅大图轮播',
-  'image_slider.php' => '图片轮播',
   'list_top.php' => '头条',
   'list_atag.php' => '链接列表',
-  'hand_block.php' => '手动区块',
-  'list.php' => '列表区块默认模板',
+  'text.php' => '文本区块默认模板',
+  'floatads.php' => '漂浮广告',
+  'mainslider.php' => '大图轮播',
+  'navbar.php' => '导航条',
+  'list_images.php' => '图片列表，不含头尾',
+  'list_images_y.php' => '图片列表，竖版',
+  'list_images_x.php' => '图片列表，横版',
+  'html_box.php' => '内容区块模板-带头尾',
 );
 ?>

@@ -42,13 +42,10 @@
         <form class="search-form clearfix" action="{u('content/search')}" method="get">
             <input class="search-text" type="search" name="keywords" value="{$_GET.keywords}" placeholder="{t('请输入关键词')}" />
             <button type="submit" class="icon icon-search"></button>
-        </form>
-        <div class="hot-keywords">
-        	{block id="3" }
-        </div>       
+        </form>      
 	</div>
 </div>
 
-<div class="navbar">{block id="1" name="t('网站主导航')" template="block/navbar.php" commend="1"}</div>
+<div class="navbar">{block id="1" name="t('网站主导航')" type="list" template="block/navbar.php" commend="1"}</div>
 
 <div class="body">

@@ -2,9 +2,8 @@
 
 
 <div class="mainslider">
-	{block id="2" name="t('测试')" template="block/navbar.php"}
+	{block id="4" name="t('大图轮播')" template="block/mainslider.php" fields="title,url,image"}
 </div>
-
 
 
 {template 'footer.php'}
