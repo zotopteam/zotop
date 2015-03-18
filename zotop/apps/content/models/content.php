@@ -206,12 +206,12 @@ class content_model_content extends model
             }
             if ( $field['control'] == 'images' and $data[$name] )
             {
+                $data[$name] = array_values($data[$name]); // 清除键值，修复图集的排序问题 
+
                 if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) )
                 {
                     $data['image'] = $data[$name][intval(C('content.auto_image')) - 1]['image'];
                 }
-
-                $data[$name] = array_values($data[$name]); // 清除键值，修复图集的排序问题 
             }
             if ( $field['control'] == 'files' and $data[$name] )
             {
