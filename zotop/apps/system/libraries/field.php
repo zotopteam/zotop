@@ -146,14 +146,15 @@ class system_field
 	public static function date($attrs)
 	{
 		// 属性设置
-		$attrs['format'] 		= empty($attrs['format']) ? 'Y-m-d' : $attrs['format'];
-		$attrs['value'] 		= empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
-		$attrs['value'] 		= format::date($attrs['value'], $attrs['format']);
+		$attrs['format'] = empty($attrs['format']) ? 'Y-m-d' : $attrs['format'];
+		$attrs['lang']   = empty($attrs['lang']) ? 'ch' : $attrs['lang'];
+		$attrs['value']  = empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
+		$attrs['value']  = format::date($attrs['value'], $attrs['format']);
 
 		// 参数设置
-		$options = is_array($attrs['options']) ? $attrs['options'] : array();
+		$options = array();
 
-		foreach( array('min','max','start','format','double','inline','datepicker','timepicker') as $attr )
+		foreach( array('min','max','start','format','double','inline','datepicker','timepicker','lang') as $attr )
 		{
 			if ( isset($attrs[$attr]) )
 			{
@@ -162,7 +163,6 @@ class system_field
 			}
 		}
 
-		unset($attrs['options']);
 
 		if ( !empty($options['min']) and strtotime($options['min']) )  $settings['minDate'] = $options['min'];
 		if ( !empty($options['max']) and strtotime($options['max']) )  $settings['maxDate'] = $options['max'];
@@ -188,8 +188,8 @@ class system_field
 	 */
 	public static function datetime($attrs)
 	{
-		$attrs['format'] 		= 'Y-m-d H:i';
-		$attrs['timepicker'] 	= true;
+		$attrs['format']     = 'Y-m-d H:i';
+		$attrs['timepicker'] = true;
 		return self::date($attrs);
 	}
 

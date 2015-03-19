@@ -40,7 +40,6 @@ class content_controller_model extends admin_controller
 			}
 		}
 
-
 		$this->redirect(request::referer());
 	}
 
