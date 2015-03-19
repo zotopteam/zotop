@@ -23,6 +23,27 @@ class content_controller_model extends admin_controller
 		$this->model = m('content.model');
 	}
 
+	/**
+	 * 初始化模型，当没有任何模型的时候自动导入系统自带的模型，并自动返回前页
+	 * 
+	 * @return null
+	 */
+	public function action_init()
+	{
+		if ( !$this->model->cache() )
+		{
+			$files = folder::files(A('content.path').DS.'libraries'.DS.'model',false,true,'model');
+
+			foreach ($files as $file)
+			{
+				$this->model->import(include($file));
+			}
+		}
+
+
+		$this->redirect(request::referer());
+	}
+
  	/**
 	 * 模型管理
 	 * 

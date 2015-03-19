@@ -21,8 +21,15 @@ class content_controller_category extends admin_controller
 	{
 		parent::__init();
 
-		$this->model = m('content.model');
+		$this->model    = m('content.model');
 		$this->category = m('content.category');
+
+
+		// 模型自动导入
+		if ( !$this->model->cache() )
+		{
+			$this->redirect(u('content/model/init'));
+		}
 	}
 
  	/**

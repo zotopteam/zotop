@@ -319,9 +319,11 @@ class folder
 	            }
 	            else
 	            {   
-	                if( !empty($ext) )
+	                if( $ext )
 	                {
-	                    if( is_array($ext) && in_array(file::ext($file),$ext) )
+	                    if ( is_string($ext) ) $ext = explode(',', $ext);
+
+	                    if ( is_array($ext) && in_array(file::ext($file),$ext) )
 	                    {
 	                        $files[] = $fullpath ? $f :  $file;
 	                    }
