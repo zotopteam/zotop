@@ -36,6 +36,8 @@ class system_controller_config extends admin_controller
     {
     	if( $post = $this->post() )
     	{
+			$post['url'] = trim($post['url'],'/');
+
 			if ( m('system.app')->config($post, 'site') )
 			{
 				return $this->success(t('保存成功'));
@@ -55,7 +57,7 @@ class system_controller_config extends admin_controller
 			{
 				$theme = @include($theme);
 
-				if ( is_array($theme) )
+				if ( is_array($theme) and $theme['type'] != 'mobile' )
 				{
 					$themes[$folder] = $theme;
 					$themes[$folder]['id'] = $folder;

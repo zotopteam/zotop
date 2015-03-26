@@ -34,14 +34,12 @@ class template
      */
     public function __construct( $theme=null )
     {
-		if ( defined('ZOTOP_THEME') ) $this->theme = ZOTOP_THEME;
-		if ( $theme ) $this->theme = $theme;
+        // 定义主题
+        $this->theme = $theme ? $theme : $this->theme;
+        $this->theme = defined('ZOTOP_THEME') ? ZOTOP_THEME : $this->theme;
 
-        if ( $this->theme )
-        {
-            define('__THEME__', ZOTOP_URL_THEMES.'/'.$this->theme);           
-        }
-
+        // 定义__THRME__常量
+        define('__THEME__', ZOTOP_URL_THEMES.'/'.$this->theme);
     }
 
     /**
@@ -52,7 +50,7 @@ class template
      * template::tag('content');
      * template::tag('content','content_list');
      *
-     * 当callback为空的时候，如 template::tag('content') 时 回调函数为：tag_content ($callback = 'tag_content')
+     * 当callback为空的时候，如 template::tag('content') 时 回调函数为：tag_content
      *
      * @param string $tag 标签名称
      * @param string $callback 回调函数
@@ -60,14 +58,12 @@ class template
      */
     public static function tag($tag = null, $callback = '')
     {
-        if ($tag == null) return template::$tags;
-
-        if (is_string($tag))
+        if ( $tag and is_string($tag) )
         {
             template::$tags[$tag] = empty($callback) ? "tag_{$tag}" : $callback;
         }
 
-        if (is_array($tag))
+        if ( $tag and is_array($tag) )
         {
             foreach ($tag as $t => $c)
             {

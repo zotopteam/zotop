@@ -1,20 +1,3 @@
-/*
-UE.registerUI('headline',function(editor,uiName){
-
-    var btn = new UE.ui.Button({
-        name:uiName,
-        title:'测试',
-        cssRules :'background-position: -500px 0;',
-        onclick:function () {
-           editor.execCommand("inserthtml",'ddddddddddddddddddddddddd');
-        }
-    });
-
-
-    return btn;
-},0);
-*/
-
 //编辑器函数
 $.fn.editor = function(options){
 	var name     = $(this).attr('name');

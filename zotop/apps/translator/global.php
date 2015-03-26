@@ -3,7 +3,7 @@
 //zotop::register(array());
 
 //system_start
-/*
+
 zotop::add('system.start','translator_system_start');
 
 function translator_system_start($start)
@@ -18,7 +18,6 @@ function translator_system_start($start)
 
 	return $start;
 }
-*/
 
 /**
  * 别名解析

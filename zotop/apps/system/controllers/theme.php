@@ -23,18 +23,18 @@ class system_controller_theme extends admin_controller
 
 		// 获取当前主题
 		$this->theme = $_GET['theme'] ? $_GET['theme'] : c('site.theme');
-
+		
 		// 获取模版根目录
-		$this->root = ZOTOP_PATH_THEMES.DS.$this->theme.DS.'templates';
-
-		// 获取当前文件名称
-		$this->file = trim(rawurldecode($_GET['file']),'/');
-
-		// 获取当前目录
-		$this->dir = empty($this->file) ? trim(rawurldecode($_GET['dir']),'/') : trim(dirname($this->file),'./');
-
-		// 获取当前路径
-		$this->path = $this->root.DS.$this->dir;
+		$this->root  = ZOTOP_PATH_THEMES.DS.$this->theme.DS.'templates';
+		
+		// 获取当前模板文件名称
+		$this->file  = trim(rawurldecode($_GET['file']),'/');
+		
+		// 获取当前模板目录
+		$this->dir   = empty($this->file) ? trim(rawurldecode($_GET['dir']),'/') : trim(dirname($this->file),'./');
+		
+		// 获取当前模板路径
+		$this->path  = $this->root.DS.$this->dir;
 
 	}
 
@@ -73,7 +73,7 @@ class system_controller_theme extends admin_controller
 		}
 
 		// 获取已经在使用的主题包
-		$current = array(c('site.theme'));
+		$current = array(c('site.theme'), c('mobile.theme'));
 
 		$this->assign('title',t('主题管理'));
 		$this->assign('themes',$themes);
@@ -82,12 +82,9 @@ class system_controller_theme extends admin_controller
     }
 
 	/**
-	 * 上传新主题
-	 *
-	 */
-	/**
-	 * upload process
-	 *
+	 * 上传新主题并自动解压缩，主题格式为zip包
+	 * 
+	 * @return [type] [description]
 	 */
 	public function action_uploadprocess()
 	{

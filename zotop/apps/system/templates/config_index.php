@@ -30,7 +30,7 @@
 				<tr>
 					<td class="label">{form::label(t('网站网址'),'url',true)}</td>
 					<td class="input">
-						{form::field(array('type'=>'text','name'=>'url','value'=>c('site.url'),'required'=>'required'))}
+						{form::field(array('type'=>'url','name'=>'url','value'=>c('site.url'),'required'=>'required'))}
 						{form::tips(t('格式为：<b>http://www.zotop.com</b>'))}
 					</td>
 				</tr>

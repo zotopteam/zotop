@@ -27,10 +27,15 @@
 		<table class="field">
 			<caption>{t('参数设置')}</caption>
 			<tr>
-				<td class="label">{form::label(t('API KEY'),'baidu_clientid',true)}</td>
+				<td class="label">{form::label(t('API Key'),'baidu_clientid',true)}</td>
 				<td class="input">
 					{form::field(array('type'=>'text','name'=>'baidu_clientid','value'=>c('translator.baidu_clientid'),'required'=>'required'))}
-					{form::tips(t('在百度开发者中心注册得到的授权API KEY'))}
+					<div class="field-tips">						
+						{t('在百度开发者中心注册得到的授权API key')}
+						<a target="_blank" href="http://developer.baidu.com/console#app/project">
+							http://developer.baidu.com/console#app/project
+						</a>
+					</div>					
 				</td>
 			</tr>
 			<tr>
@@ -59,7 +64,7 @@
 			<td>			
 				<ul class="list">
 					<li>{t('百度翻译API是百度面向开发者推出的免费翻译服务开放接口')}</li>
-					<li>{t('默认API KEY使用限制为1000次/小时限制，您最好申请一个自己的API KEY来使用')}</li>
+					<li>{t('默认API KEY使用限制为1000次/小时限制，请申请一个自己的API KEY来使用')} 	<a target="_blank" href="http://developer.baidu.com/console#app/project">http://developer.baidu.com/console#app/project</a></li>
 				</ul>
 			</td>
 		<tr>
