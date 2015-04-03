@@ -24,14 +24,14 @@
 					<td class="label">{form::label(t('网站名称'),'name',true)}</td>
 					<td class="input">
 						{form::field(array('type'=>'text','name'=>'name','value'=>c('site.name'),'maxlength'=>20,'required'=>'required'))}
-						{form::tips(t('网站名称为该网站的标识'))}
+						{form::tips(t('当前网站的名称，如<b>逐涛网</b>'))}
 					</td>
 				</tr>
 				<tr>
 					<td class="label">{form::label(t('网站网址'),'url',true)}</td>
 					<td class="input">
 						{form::field(array('type'=>'url','name'=>'url','value'=>c('site.url'),'required'=>'required'))}
-						{form::tips(t('格式为：<b>http://www.zotop.com</b>'))}
+						{form::tips(t('当前网站的网址，格式为：<b>http://www.zotop.com</b>'))}
 					</td>
 				</tr>
 				<tr>
@@ -66,7 +66,7 @@
 					<td class="label">{form::label(t('网站标题'),'title',true)}</td>
 					<td class="input">
 						{form::field(array('type'=>'text','name'=>'title','value'=>c('site.title'),'required'=>'required'))}
-						{form::tips(t('网站标题，用于搜索优化，不易过长'))}
+						{form::tips(t('网站标题一般显示在标题栏上，适当填写可以优化搜索'))}
 					</td>
 				</tr>
 				<tr>
@@ -113,7 +113,7 @@
 
 <style type="text/css">
 .themelist{margin:0 0 -40px -20px;zoom:1;}
-.themelist li{position:relative;float:left;width:280px;overflow:hidden;margin: 0 0 20px 20px;background-color: #fff;padding:3px 3px 0 3px;box-shadow: 0 1px 1px #eee;border:3px solid #ebebeb;}
+.themelist li{position:relative;float:left;width:280px;overflow:hidden;margin: 10px 0 10px 20px;background-color: #fff;padding:3px 3px 0 3px;box-shadow: 0 1px 1px #eee;border:3px solid #ebebeb;}
 .themelist li:hover{border:3px solid #d5d5d5;}
 .themelist li .image{width:100%;height:200px;line-height:200px;overflow:hidden;cursor:pointer;}
 .themelist li .image img{width:100%;}

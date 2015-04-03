@@ -13,7 +13,9 @@
 					<tr>
 						<td class="label">{form::label(t('移动网址'),'url',false)}</td>
 						<td class="input">
-							{form::field(array('type'=>'text','name'=>'url','value'=>c('mobile.url')))}
+							{form::field(array('type'=>'url','name'=>'url','value'=>c('mobile.url')))}
+							
+							{form::tips(t('绑定域名后可通过域名访问移动版，如：http://m.zotop.com'))}	
 						</td>
 					</tr>				
 					<tr>
@@ -35,7 +37,7 @@
 							{/loop}
 							</ul>
 
-							{form::tips(t('选择主题后，网站将以该主题和模板显示'))}							
+							{form::tips(t('移动版使用的主题，选择主题后网站将以该主题显示'))}							
 						</td>
 					</tr>			
 
@@ -52,7 +54,7 @@
 
 <style type="text/css">
 .themelist{margin:0 0 -40px -20px;zoom:1;}
-.themelist li{position:relative;float:left;width:280px;overflow:hidden;margin: 0 0 20px 20px;background-color: #fff;padding:3px 3px 0 3px;box-shadow: 0 1px 1px #eee;border:3px solid #ebebeb;}
+.themelist li{position:relative;float:left;width:280px;overflow:hidden;margin: 10px 0 10px 20px;background-color: #fff;padding:3px 3px 0 3px;box-shadow: 0 1px 1px #eee;border:3px solid #ebebeb;}
 .themelist li:hover{border:3px solid #d5d5d5;}
 .themelist li .image{width:100%;height:200px;line-height:200px;overflow:hidden;cursor:pointer;}
 .themelist li .image img{width:100%;}
