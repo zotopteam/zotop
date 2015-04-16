@@ -47,8 +47,9 @@ define('ZOTOP_URL_APPS',        ZOTOP_URL_CMS . '/apps');
 define('ZOTOP_URL_THEMES',      ZOTOP_URL_CMS . '/themes');
 define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
 
-// 调试模式，调试模式下将显示系统的运行相关，默认关闭调试
+// 调试模式和跟踪模式，默认关闭调试和跟踪模式
 defined('ZOTOP_DEBUG') or define('ZOTOP_DEBUG', false);
+defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);
 
 // 系统启动
 zotop::init();
