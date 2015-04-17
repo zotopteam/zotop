@@ -18,10 +18,15 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 header('Content-type: text/html; charset=utf-8');
 
 // 启动数据
-define('ZOTOP',           true);
-define('DS',              DIRECTORY_SEPARATOR);
-define('ZOTOP_TIME',      time());
-define('ZOTOP_CHARSET',   'utf-8'); // 网站字符集，默认为utf8
+define('ZOTOP',                 true);
+define('DS',                    DIRECTORY_SEPARATOR);
+define('ZOTOP_TIME',            time());
+define('ZOTOP_CHARSET',         'utf-8'); // 网站字符集，默认为utf8
+define('ZOTOP_ISGET',           $_SERVER['REQUEST_METHOD'] == 'GET' ? true : false);
+define('ZOTOP_ISPOST',          $_SERVER['REQUEST_METHOD'] == 'POST' ? true : false);
+define('ZOTOP_ISPUT',           $_SERVER['REQUEST_METHOD'] == 'PUT' ? true : false);
+define('ZOTOP_ISDELETE',        $_SERVER['REQUEST_METHOD'] == 'DELETE' ? true : false);
+define('ZOTOP_ISAJAX',          ((isset($_SERVER['HTTP_X_REQUESTED_WITH']) and strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') or !empty($_POST['HTTP_X_REQUESTED_WITH']) or !empty($_GET['HTTP_X_REQUESTED_WITH']) ) ? true : false);
 
 define('ZOTOP_BEGIN_TIME',      microtime(true)); // 开始时间
 define('ZOTOP_START_MEMORY',    memory_get_usage()); // 定义启动时占用的内存
@@ -39,7 +44,6 @@ define('ZOTOP_PATH_RUNTIME',    ZOTOP_PATH_CMS . DS . 'runtime');
 define('ZOTOP_PATH_CACHE',      ZOTOP_PATH_RUNTIME . DS . 'caches');
 define('ZOTOP_PATH_UPLOADS',    ZOTOP_PATH . DS . 'uploads');
 
-
 // 定义URL
 define('ZOTOP_URL',             trim(dirname($_SERVER['SCRIPT_NAME']), DS)); //如果为根目录则为空
 define('ZOTOP_URL_CMS',         ZOTOP_URL . '/'.basename(dirname(__FILE__)));
@@ -49,7 +53,7 @@ define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
 
 // 调试模式和跟踪模式，默认关闭调试和跟踪模式
 defined('ZOTOP_DEBUG') or define('ZOTOP_DEBUG', false);
-defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);
+defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);        
 
 // 系统启动
 zotop::init();

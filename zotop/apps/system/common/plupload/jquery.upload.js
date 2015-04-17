@@ -229,7 +229,9 @@ jquery upload api
 					}
 				}
 
+				//默认为AJAX模式
 				uploader.params('HTTP_X_REQUESTED_WITH','xmlhttprequest');
+				
 
 			// 存储对象
 			plupload.uploaders[id] = uploader;

@@ -239,12 +239,11 @@ class controller
         ob_clean();
 
         //如果请求为ajax，则输出json数据
-        if (strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' or strtolower($_REQUEST['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
+        if ( ZOTOP_ISAJAX )
         {
             exit(json_encode($msg));
         }
 
-        //模版显示
         $this->assign($msg);
         $this->display("system/message.php");
 
