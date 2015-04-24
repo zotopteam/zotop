@@ -76,6 +76,7 @@
 						</thead>
 						<tbody>
 							{loop $models $i $m}
+							{if !$m.disabled}
 							<tr>
 								<td>
 									<label>
@@ -89,6 +90,7 @@
 									{/if}
 								<td>
 							</tr>
+							{/if}
 							{/loop}
 						</tbody>
 					</table>
