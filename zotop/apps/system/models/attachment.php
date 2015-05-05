@@ -256,20 +256,30 @@ class system_model_attachment extends model
 
 
 	/**
-	* 根据参数获取相关附件数据
-	*
-	*/
-	public function getRelated($dataid=null, $type=null)
+	 * 根据数据编号和类型获取相关附件数据
+	 * 
+	 * @param  [type]  $dataid [description]
+	 * @param  [type]  $type   [description]
+	 * @param  integer $limit  [description]
+	 * @return [type]          [description]
+	 */
+	public function getRelated($dataid=null, $type=null, $limit=100)
 	{
 
 		// 如果没有传入dataid，则dataid为用户sessionid
 		$dataid = empty($dataid) ? zotop::session('[id]') : $dataid;
 
-		if ( $type ) $this->where('type', '=', $type);
-		if ( $app ) $this->where('app', '=', $app);
-		if ( $dataid ) $this->where('dataid', '=', $dataid);
+		if ( $dataid ) 
+		{
+			$this->where('dataid', '=', $dataid);
+		}
 
-		return $this->select('*')->orderby('uploadtime')->getAll();
+		if ( $type )
+		{
+			$this->where('type', '=', $type);
+		} 	
+
+		return $this->select('*')->orderby('uploadtime')->limit($limit)->getAll();
 	}
 
 	/**
