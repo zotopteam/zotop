@@ -27,6 +27,10 @@
 				<i class="icon icon-view"></i><b>{t('前台列表')}</b>
 			</a>
 			{/if}
+
+			<a class="btn btn-icon-text" href="{U('form/data/export/'.$formid)}">
+				<i class="icon icon-index"></i><b>{t('导出')}</b>
+			</a>
 		</div>
 
 	</div>
@@ -45,7 +49,7 @@
 				<thead>
 					<tr>
 						<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-						<td class="w50">{t('编号')}</td>
+						<td class="w50 none">{t('编号')}</td>
 						{loop $list $name $field}
 						<td>{$field['label']}</td>
 						{/loop}
@@ -56,7 +60,7 @@
 				{loop $data $r}
 					<tr>
 						<td class="select"><input type="checkbox" name="id[]" value="{$r['id']}" class="checkbox select"/></td>
-						<td>{$r.id}</td>					
+						<td class="none">{$r.id}</td>					
 						{loop $list $name $field}
 												
 						<td>{m('form.field.show',$r[$name], $field)}</td>
@@ -66,8 +70,10 @@
 							<div class="manage">
 								{if $form['settings']['detail']}
 								<a href="{u('form/index/detail/'.$formid.'/'.$r['id'])}" target="_blank"><i class="icon icon-view"></i> {t('访问')}</a>
-								<s></s>
+								{else}
+								<a href="{u('form/data/detail/'.$formid.'/'.$r['id'])}" class="dialog-open" data-width="1000px" data-height="450px"><i class="icon icon-view"></i> {t('详细')}</a>
 								{/if}
+								<s></s>				
 
 								<a href="{u('form/data/edit/'.$formid.'/'.$r['id'])}"><i class="icon icon-edit"></i> {t('编辑')}</a>
 								<s></s>

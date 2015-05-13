@@ -89,15 +89,15 @@
 			</tr>
 
 			<tr>
-				<td class="label">{form::label(t('前台发布'),'base',false)}</td>
+				<td class="label">{form::label(t('发布页显示'),'base',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'bool','name'=>'post','value'=>$data['post']))}
-					{form::tips('当表单允许前台发布时是否显示该字段并允许录入数据')}
+					{form::tips('当表单允许发布时是否显示该字段并允许录入数据')}
 				</td>
 			</tr>
 
 			<tr class="extend list">
-				<td class="label">{form::label(t('列表显示'),'list',false)}</td>
+				<td class="label">{form::label(t('列表页显示'),'list',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'bool','name'=>'list','value'=>(int)$data['list']))}
 
@@ -106,7 +106,7 @@
 			</tr>			
 
 			<tr class="extend show">
-				<td class="label">{form::label(t('前台显示'),'show',false)}</td>
+				<td class="label">{form::label(t('详细页显示'),'show',false)}</td>
 				<td class="input">
 					{form::field(array('type'=>'bool','name'=>'show','value'=>$data['show']))}
 

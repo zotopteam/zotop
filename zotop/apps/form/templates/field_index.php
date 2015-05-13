@@ -30,9 +30,9 @@
 					<td>{t('标签名')}</td>
 					<td class="w100">{t('字段名')}</td>
 					<td class="w100">{t('控件')}</td>
-					<td class="w80 center">{t('前台发布')}</td>
-					<td class="w80 center">{t('列表显示')}</td>
-					<td class="w80 center">{t('前台显示')}</td>
+					<td class="w80 center">{t('发布页显示')}</td>
+					<td class="w80 center">{t('列表页显示')}</td>
+					<td class="w80 center">{t('详细页显示')}</td>
 					<td class="w80 center">{t('不能为空')}</td>
 					<td class="w80 center">{t('值唯一')}</td>
 					<td class="w80 center">{t('允许搜索')}</td>

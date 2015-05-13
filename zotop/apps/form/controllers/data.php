@@ -220,5 +220,119 @@ class form_controller_data extends admin_controller
 		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
 	}
 
+	/**
+	 * 详细信息
+	 * 
+	 * @param  [type] $formid [description]
+	 * @param  [type] $id     [description]
+	 * @return [type]         [description]
+	 */
+	public function action_detail($formid, $id)
+	{
+		// 获取表单数据
+		$form = m('form.form.get',$formid);
+
+		if ( empty($form) )
+		{
+			return $this->_404(t('表单不存在', $formid));
+		}
+
+		// 获取当前条目详细数据
+		$data 	= m('form.data.init',$formid)->get($id);
+
+		if ( empty($data) )
+		{
+			return $this->_404(t('数据不存在', $id));
+		}
+
+		// 获取当前表单字段
+		$fields = m('form.field.cache',$formid);
+
+		// 格式化的信息
+		foreach ($fields as $k => $f)
+		{
+			if ( $f['show'] ) $show[$k] = m('form.field.show',$data[$k], $f);
+		}
+
+		$this->assign('title',$form['name']);
+		$this->assign('id',$id);
+		$this->assign('formid',$formid);
+		$this->assign('form',$form);
+		$this->assign('fields',$fields);
+		$this->assign('data',$data);
+		$this->assign('show',$show);
+		$this->display();		
+	}
+
+	public function action_export($formid)
+	{
+    	// 获取表单设置
+    	$form 	= m('form.form.get', $formid);
+
+		// 获取显示字段
+		$fields = m('form.field.cache', $formid);
+		
+		foreach($fields as $i=>$r)
+		{
+			if ( $r['show'] ) $list[$r['name']] = $r;
+
+			if ( $r['order'] ) $orderby[$r['name']] = $r['order'];
+		}
+
+		$this->data = m('form.data.init',$formid);
+
+		if ( $orderby and is_array($orderby) )
+		{
+			$this->data->orderby($orderby)->orderby('id','desc');
+		}
+		else
+		{
+			$this->data->orderby('id','desc');
+		}
+
+		$data = $this->data->getall();
+
+		header('Content-Type: text/xls');
+		header('Content-type:application/vnd.ms-excel;charset=utf-8');
+		header('Content-Disposition: attachment;filename="' .$form['name']. '.xls"');
+		header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
+		header('Expires:0');
+		header('Pragma:public');
+	
+		$table = '<table border="1">';
+
+		$table .= '<tr>';
+
+		foreach ($fields as $k => $f)
+		{
+			if ( $f['show'] )
+			{
+				$table .= '<th>' . $f['label'] . '</th>';
+			}	
+		}
+
+		$table .= '</tr>';		
+
+		foreach ($data as $line)
+		{
+			$table .= '<tr>';
+
+			foreach ($fields as $k => $f)
+			{
+				if ( $f['show'] )
+				{
+					$table .= '<td>' . m('form.field.show', $line[$k], $f) . '</td>';
+				}	
+			}			
+
+			$table .= '</tr>';
+		}
+
+		$table .='</table>';
+		echo $table;
+		die();
+	}
+
+
 }
 ?>

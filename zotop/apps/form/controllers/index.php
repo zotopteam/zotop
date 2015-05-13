@@ -79,5 +79,39 @@ class form_controller_index extends site_controller
 		$this->assign('show',$show);
 		$this->display($form['settings']['detailtemplate']);		
 	}
+
+	public function action_post($formid)
+	{
+		if ( $post = $this->post() )
+		{
+			
+			$data = m('form.data.init',$formid);
+
+			if ( $data->add($post) )
+			{
+				return $this->success(t('保存成功'));
+			}
+
+			return $this->error($data->error());
+		}
+
+		$form = m('form.form.get',$formid);
+
+		if ( empty($form) or $form['settings']['post'] == 0 )
+		{
+			return $this->_404(t('表单不存在', $formid));
+		}
+
+		$data = array_merge(array('formid'=>$formid),$_GET);
+
+		$fields = m('form.field.getfields',$formid, $data);
+
+		$this->assign('title',$form['name']);
+		$this->assign('form',$form);
+		$this->assign('data',$data);
+		$this->assign('formid',$formid);
+		$this->assign('fields',$fields);
+		$this->display($form['settings']['posttemplate']);	
+	}
 }
 ?>

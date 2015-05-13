@@ -34,7 +34,7 @@ class form_model_field extends model
 			'image'		=> array('name'=>t('图片'),'type'=>'varchar', 'length'=>'100'),
 			'file'		=> array('name'=>t('文件'),'type'=>'varchar', 'length'=>'100'),	
 			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
-			'datetime'	=> array('name'=>t('日期 + 时间'),'type'=>'int', 'length'=>'10'),					
+			'datetime'	=> array('name'=>t('日期 + 时间'),'type'=>'int', 'length'=>'10'),
         ));
 	}
 
@@ -98,6 +98,7 @@ class form_model_field extends model
 				$fields[$i]['for']		= $r['name'];
 				$fields[$i]['required']	= $r['notnull'];
 				$fields[$i]['tips']		= $r['tips'];
+				$fields[$i]['post']		= $r['post'];
 
 				$fields[$i]['field']['id']			= $r['name'];
 				$fields[$i]['field']['name']		= $r['name'];
@@ -157,7 +158,7 @@ class form_model_field extends model
 				break;			
 			case 'checkbox':
 
-				$vals = $val ? unserialize($val) : array();
+				$vals = ( $val and str::is_serialized($val) ) ? unserialize($val) : array();
 
 				$field['settings']['options'] = form::options($field['settings']['options']);
 
@@ -209,7 +210,7 @@ class form_model_field extends model
 
 				$val = '<div class="html">'.$val.'</div>';
 				
-				break;			
+				break;						
 		}
 
 		return zotop::filter('form.field.show', $val, $field);
