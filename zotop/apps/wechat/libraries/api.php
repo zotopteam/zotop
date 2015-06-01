@@ -23,24 +23,33 @@ class wechat_api
 			'text' => A('wechat.name'),
 			'href' => U('wechat/admin'),
 			'icon' => A('wechat.url') . '/app.png',
-			'description' => A('wechat.description'));
+			'description' => A('wechat.description'),
+			'allow' => priv::allow('wechat'),			
+		);
 
 		return $start;
 	}
 
 
 	/**
-	 * 测试控件，请修改或者删除此处代码，详细修改方式请参见文档
+	 * 全局导航
 	 *
-	 * @param $attrs array 控件参数
-	 * @return string 控件代码
+	 * @param $nav array 已有数据
+	 * @return array
 	 */
-	public static function test($attrs)
+	public static function globalnavbar($nav)
 	{
-		// 控件属性
-		$html['field'] = form::field_text($attrs);
 
-		return implode("\n",$html);
+		$nav['wechat'] = array(
+			'text' => A('wechat.name'),
+			'href' => u('wechat/admin'),
+			'icon' => A('wechat.url').'/app.png',
+			'description' => A('wechat.description'),
+			'allow' => priv::allow('wechat'),
+			'current' => (ZOTOP_APP == 'wechat')
+		);
+
+		return $nav;
 	}
 }
 ?>

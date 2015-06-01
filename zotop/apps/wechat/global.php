@@ -19,6 +19,8 @@ zotop::register(array(
 zotop::add('system.start', 'wechat_api::start');
 
 
-// 注册一个控件
-form::field('wechat_test', 'wechat_api::test');
+/**
+ * 全局导航
+ */
+zotop::add('system.globalnavbar','wechat_api::globalnavbar');
 ?>
