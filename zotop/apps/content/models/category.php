@@ -277,13 +277,15 @@ class content_model_category extends model
         return $parents;
     }
 
+
     /**
      * 获取子节点，只获取下一级的节点，不递归
-     *
-     * @param int $id
-     * @return array
+     * 
+     * @param  int $id     栏目编号
+     * @param  bool $enable 是否只获取启用的栏目
+     * @return array 栏目数组
      */
-    public function getChild($id)
+    public function getChild($id, $enable=null)
     {
         $child = array();
 
@@ -291,6 +293,11 @@ class content_model_category extends model
         {
             if ( $id == $c['parentid'] )
             {
+                if ( $enable and $c['disabled'])
+                {
+                    continue;
+                }
+
                 $child[$i] = $c;
             }
         }
@@ -528,7 +535,7 @@ class content_model_category extends model
 
         if ( $cid = intval($cid) )
         {
-            $category = $this->getChild($cid);
+            $category = $this->getChild($cid, true);
         }
 
         return $this->preprocess($category);
