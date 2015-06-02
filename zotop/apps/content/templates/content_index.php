@@ -47,7 +47,7 @@
 					{/loop}
 				{else}
 				<div class="menu btn-menu">
-					<a class="btn btn-highlight btn-icon-text" href="javascript:void(0);"><i class="icon icon-add"></i><b>{t('添加')}</b><b class="arrow"></b></a>
+					<a class="btn btn-highlight btn-icon-text" href="javascript:void(0);"><i class="icon icon-add"></i> <b>{t('添加')}</b> <i class="icon icon-angle-down"></i></a>
 					<div class="dropmenu">
 						<div class="dropmenulist">
 							{loop $postmodels $i $m}

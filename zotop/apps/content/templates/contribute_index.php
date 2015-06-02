@@ -27,7 +27,7 @@
 
 			{else}
 			<div class="menu btn-menu">
-				<a class="btn btn-highlight" href="javascript:void(0);">{t('添加')}<b class="arrow"></b></a>
+				<a class="btn btn-highlight" href="javascript:void(0);">{t('添加')} <i class="icon icon-angle-down"></i></a>
 				<div class="dropmenu">
 					<div class="dropmenulist">
 						{loop $postmodels $i $m}

@@ -13,22 +13,19 @@ class wechat_controller_api extends site_controller
 {
 	public $wechat;
 
-	public function __init()
-	{
+	/**
+	 * 微信服务器接口
+	 * 
+	 * @return mixed
+	 */
+	public function action_index($id)
+    {
+    	$account = m('wechat.account.get',$id);
+
     	$this->wechat = new wechat(C('wechat'));
 
     	$this->wechat->valid();
 
-    	parent::__init();	
-	}
-
-	/**
-	 * 被动回复接口
-	 * 
-	 * @return mixed
-	 */
-	public function action_index()
-    {
 		$type = $this->wechat->getRev()->getRevType();
 
 		switch($type)

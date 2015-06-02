@@ -194,7 +194,6 @@ h3{font-size:16px;}
 .popover.left .arrow:after{right:1px;bottom:-10px;border-left-color:#fff;border-right-width:0;content:" "}
 
 .menu{display:inline-block;position:relative;text-indent:0;padding:0;}
-.menu .arrow{margin-left:5px;position:relative;top:-3px;width:0px;height:0px;font-size:0;line-height:0;border:4px solid;border-color:#fff transparent transparent;}
 .menu .dropmenu{display:none;position:absolute;top:99%;left:0px;z-index:9999;width:auto;border:solid 2px #0072C6;background:#fff;margin-top:-2px;border-radius:0 3px 3px 3px;}
 .menu .dropmenu-right{left:auto;right:0;}
 .menu .dropmenulist{min-width:120px;margin:2px;}
@@ -226,7 +225,7 @@ h3{font-size:16px;}
 .btn-icon-text i{margin-right:5px;}
 .btn-icon-text b{font-weight:normal;}
 
-.btn-menu .dropmenulist {min-width:71px;}
+.btn-menu .dropmenulist {min-width:81px;}
 .btn-menu .dropmenulist a{font-size:14px;padding:6px 5px;}
 .btn-menu:hover .btn-highlight{background:#0072C6;border-bottom-right-radius:0;border-bottom-left-radius:0;}
 
@@ -519,12 +518,12 @@ i.icon-loading:before,b.icon-loading:before{content:'';}
 .global-userbar li a{font-size:14px;padding:0px 8px;}
 
 /* 侧边区域 side*/
-.side{color:#666;width:200px;position:absolute;height:100%;left:0;background:#f0f0f0;}
+.side{color:#666;width:220px;position:absolute;height:100%;left:0;background:#f6fafd;}
 .side:after{content:'';display:block;position:absolute;top:0;bottom:0;right:0;width:3px;box-shadow:-5px 5px 5px -5px rgba(0, 0, 0, 0.1) inset;z-index:1;}
 .side-header{height:45px;line-height:45px;overflow:hidden;vertical-align:middle;text-align:left;text-indent:12px;font-size:22px;font-weight:normal;}
 .side-header span{font-size:18px;}
-.side-header div.action{float:right;margin:10px 5px 0 5px;line-height:20px;}
-.side-header div.action a{font-size:15px;}
+.side-header div.action{float:right;margin:10px 15px 0 5px;line-height:20px;}
+.side-header div.action a{font-size:16px;}
 .side-body{overflow:auto;padding:0px;position:absolute;top:45px;right:0px;bottom:0px;left:0px;}
 
 /*主区域 无侧边 */
@@ -571,7 +570,7 @@ i.icon-loading:before,b.icon-loading:before{content:'';}
 .main.no-footer .main-body{bottom:0;}
 .main.no-footer .main-footer{display:none;}
 /*主区域 左侧边 */
-.main.side-main{left:210px;right:10px;padding:0;margin:0;}
+.main.side-main{left:230px;right:10px;padding:0;margin:0;}
 /*主区域 右侧边 */
 .main.main-side{right:255px;left:10px;margin-right:0;}
 .side.main-side{width:245px;left:auto;right:0px;float:right;border:0 none;}

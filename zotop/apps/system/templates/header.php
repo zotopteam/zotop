@@ -27,7 +27,7 @@
 <div class="global-header">
 	<ul class="global-navbar">
 		<li class="logo menu">
-			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a>
+			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a> 
 			<div class="dropmenu">
 				<div class="dropmenulist">
 					<a href="{u('system/system/reboot')}" class="dialog-confirm"><i class="icon icon-refresh"></i>{t('重启系统')}</a>
@@ -64,7 +64,7 @@
 		</li>		
 		<li><a class="ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="icon icon-clear"></i> {t('一键刷新')}</a></li>
 		<li class="username menu">
-			<a><i class="icon icon-user"></i> {zotop::user('username')}<b class="arrow"></b></a>
+			<a><i class="icon icon-user"></i> {zotop::user('username')} <i class="icon icon-angle-down"></i></a>
 			<div class="dropmenu dropmenu-right">
 				<div class="dropmenulist">
 					<a href="{u('system/mine')}"><i class="icon icon-user"></i>{t('编辑我的资料')}</a>
