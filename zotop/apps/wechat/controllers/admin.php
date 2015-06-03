@@ -15,10 +15,22 @@ class wechat_controller_admin extends admin_controller
 
 	public function __init()
 	{
+		parent::__init();
+
+    	if ( $accountid = $_GET['accountid'] )
+    	{
+    		zotop::session('wechat_current_accountid', $accountid);
+    	}
+    	else
+    	{
+    		$accountid = zotop::session('wechat_current_accountid');
+    	}
+
+    	$account = m('wechat.account.get',$accountid);
+
     	$this->wechat = new wechat(C('wechat'));
 
-    	parent::__init();	
-
+    	$this->assign('account',$account);
 	}
 
 	/**

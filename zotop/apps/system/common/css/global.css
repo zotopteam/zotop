@@ -126,12 +126,19 @@ h3{font-size:16px;}
 .placeholder{color:gray;}
 .highlight{color:#00bcf2;}
 
-.blank{zoom:1;clear:both;display:block;height:5px;overflow:hidden;}
+.blank{zoom:1;clear:both;display:block;height:15px;overflow:hidden;}
 .tips{color:#663300;}
 .nowrap{white-space:nowrap;}
 .pointer{cursor:pointer;}
 .nodata{text-align:center;font-size:20px;color:#999;position:absolute;top:50%;bottom:0px;right: 0;left: 0;margin-top: -100px;}
 .noborder{border:0 none;}
+
+/*内容显示*/
+.content-header{padding:20px;background: #E5F3FB;position: relative;}
+.content-title{font-size: 20px;padding:10px 0;}
+.content-body{margin:20px;line-height: 30px;font-size: 16px;}
+.content-body p{margin:5px 0;}
+.content-body img{max-width: 100%;}
 
 .image-preview{background:#fff;border:solid 1px #D0D0D0;display:inline-block;line-height:0;vertical-align:middle;}
 .image-preview .thumb {display:table-cell;vertical-align:middle;text-align:center;width:120px;height:120px;background:#eee;}

@@ -40,7 +40,20 @@
 		</li>
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} current{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
 		{loop $_GLOBALNAVBAR $id $nav}
+			{if $nav.menu and is_array($nav.menu)}
+			<li class="normal menu{if $nav['current']} current{/if}">
+				<a href="{$nav['href']}">{$nav['text']} <i class="icon icon-angle-down"></i></a>
+				<div class="dropmenu">
+					<div class="dropmenulist">
+						{loop $nav.menu $m}
+						<a href="{$m.href}">{$m.icon}{$m.text}</a>
+						{/loop}
+					</div>
+				</div>				
+			</li>
+			{else}
 			<li class="normal{if $nav['current']} current{/if}"><a href="{$nav['href']}">{$nav['text']}</a></li>
+			{/if}
 		{/loop}
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER!='index'} current{/if}" style="display:none;"><a href="{u('system/system')}">{t('系统')}</a></li>
 	</ul>

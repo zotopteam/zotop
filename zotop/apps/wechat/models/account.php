@@ -109,12 +109,13 @@ class wechat_model_account extends model
 	}
 
     /**
-     * 从缓存中获取数据
-	 *
-	 * @param string $id
-	 * @return array
+     * 获取信息
+     * 
+     * @param  int $id    编号
+     * @param  string $field 字段名
+     * @return mixed
      */
-	public function get($id, $field='')
+	public function get($id, $field=null)
 	{
 		static $data = array();
 
@@ -130,9 +131,8 @@ class wechat_model_account extends model
 
 		if ( isset($data[$id]) )
 		{
-			list($field, $key) = explode('.', $field);
-
-			return ( $key and is_array($data[$id][$field]) ) ? $data[$id][$field][$key] : $data[$id][$field];
+			
+			return $data[$id][$field];
 		}
 
 		return '';
@@ -179,6 +179,18 @@ class wechat_model_account extends model
 		return false;
 	}
 
+	public function connect($id, $connect=1)
+	{
+
+		if (  $this->where('id',$id)->set('connect',$connect)->update() )
+		{
+			$this->cache(true);			
+			return true;
+		}
+		
+		return false;
+	}
+
 	/*
 	 * 缓存数据和设置缓存
 	 *
@@ -197,6 +209,6 @@ class wechat_model_account extends model
 		}
 
 		return $cache;
-	}
+	}	
 }
 ?>

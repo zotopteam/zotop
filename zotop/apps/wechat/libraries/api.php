@@ -49,6 +49,31 @@ class wechat_api
 			'current' => (ZOTOP_APP == 'wechat')
 		);
 
+		$accounts = m('wechat.account.cache');
+
+		if ( $accounts )
+		{
+
+			foreach ($accounts as $k => $v)
+			{
+				$nav['wechat']['menu'][$k] = array(
+					'text' => $v['name'] .' ('. $v['account'].')',
+					'icon' => '<i class="icon icon-wechat"></i>',
+					'href' => U('wechat/admin',array('accountid'=>$k)) 
+				); 
+			}
+
+			$nav['wechat']['menu']['account'] = array(
+					'text' => t('公众号管理'),
+					'icon' => '<i class="icon icon-setting"></i>',
+					'href' => U('wechat/account')
+			);		
+		}
+		else
+		{
+ 			$nav['wechat']['url'] = U('wechat/account');
+		}
+
 		return $nav;
 	}
 }

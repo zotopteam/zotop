@@ -13,14 +13,11 @@ class arr
     public static $tree = array();
 
     /**
-     * Retrieve a single key from an array. If the key does not exist in the
-     * array, the default value will be returned instead.
-     *
-     *     // Get the value "username" from $_POST, if it exists
+     * 从数组里面获取特定值
+     * 
      *     $username = arr::get($_POST, 'username');
      *
-     *     // Get the value "sorting" from $_GET, if it exists
-     *     $sorting = arr::get($_GET, 'sorting');
+     *     $newaray = arr::get($_GET, 'name,page,title');
      *
      * @param   array   array to extract from
      * @param   string  key name
@@ -29,7 +26,29 @@ class arr
      */
     public static function get($array, $key, $default = null)
     {
-        return isset($array[$key]) ? $array[$key] : $default;
+        if ( is_string($key) )
+        {
+            if ( strpos($key, ',') === false )
+            {
+                return isset($array[$key]) ? $array[$key] : $default;
+            }
+
+            $key = explode(',', $key);
+        }
+
+        if ( is_array($key) )
+        {
+            $return = array();
+
+            foreach($key as $k)
+            {
+                $return[$k] = isset($array[$k]) ?  $array[$k] :  $default[$k];
+            }
+
+            return $return;
+        }
+
+        return null;
     }
 
     /**

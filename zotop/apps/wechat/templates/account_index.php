@@ -38,14 +38,34 @@
 				<td>{m('wechat.account.type',$r['type'])}</td>
 				<td>
 					{if $r.connect}
-						<i class="icon icon-true true"></i> {t('成功接入')}
+						<i class="icon icon-true true"></i> {t('成功接入')} <a href="javascript:;" class="dialog-from" data-target="#guide-{$r.id}" title="{t('公众号 [ {1} ] 服务器接入指南 ',$r['name'])}">{t('接入指南')}</a>
 					{else}
-						<div><i class="icon icon-false red"></i> <b class="red">{t('尚未接入，请在微信公众平台-开发者中心 启用并设置服务器配置')}</b></div>
-						<br/>
-						<div>{t('URL(服务器地址)')}：<span class="green">{U('wechat/api/'.$r.id)}</span></div>
-						<div>{t('Token(令牌)')}：<span class="green">{$r.token}</span></div>
-						<div>{t('EncodingAESKey(消息加解密密钥)')}：<span class="green">{$r.encodingaeskey}</span></div>
+						<i class="icon icon-false red"></i> <b class="red">{t('尚未接入')}</b>
 					{/if}
+					
+					<div id="guide-{$r.id}" class="clearfix content-body none">
+						<h2 class="headbg">{t('登录微信公众平台官网后，在公众平台后台管理页面 - 开发者中心页，点击“修改配置”按钮，填写服务器地址（URL）、Token和EncodingAESKey')}</h2>
+						<div class="blank"></div>
+						<table class="table border">
+							<tr>
+								<td>{t('URL(服务器地址)')}</td>
+								<td class="green">{U('wechat/api/'.$r.id)}</td>
+							</tr>
+							<tr>
+								<td>{t('Token(令牌)')}</td>
+								<td class="green">{$r.token}</td>
+							</tr>
+							<tr>
+								<td>{t('EncodingAESKey(消息加解密密钥)')}</td>
+								<td class="green">{$r.encodingaeskey}</td>
+							</tr>														
+						</table>
+						<div class="blank"></div>
+						<div class="image">						
+							<img src="http://mp.weixin.qq.com/wiki/static/assets/ce21f9e7d08b0f553032261b23c43b77.png" alt="{t('服务器配置')}"/>	
+						</div>
+					</div>
+
 				</td>				
 			</tr>
 		{/loop}
@@ -82,6 +102,35 @@ $(function(){
 		}
 	});
 });
+</script>
+
+<script>
+	
+	$(function(){
+
+		$(document).on('click', 'a.dialog-from',function(event){
+			event.preventDefault();
+
+			var title  = $(this).attr('title') || $(this).data('original-title') || $(this).text();
+			var target = $(this).data('target');
+			var width  = $(this).data('width') || '1000px';
+			var height = $(this).data('height') || '450px';
+
+			var $dialog = $.dialog({
+				title:title,
+				content: $(target)[0],
+				width:width,
+				height:height,
+				ok:$.noop,
+				cancel:$.noop,
+				padding:0
+			},true);
+
+			event.stopPropagation();
+		});
+
+	})
+
 </script>
 
 {template 'footer.php'}

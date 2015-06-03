@@ -17,7 +17,9 @@ $this->db->table('wechat_account')->create(array(
 		'encodingaeskey'=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('消息加解密密钥') ),
 		'headface'	=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('头像') ),
 		'qrcode'	=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('二维码地址') ),
+		'connect'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否接入，0：未接入，1：接入') ),
 		'listorder'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('账号排序') ),
+		'disabled'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否禁用，1：禁用') ),
 	),
 	'index'=>array(
 	),

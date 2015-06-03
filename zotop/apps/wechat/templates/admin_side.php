@@ -1,5 +1,7 @@
 <div class="side-header">
-	{$wechat.name}公众号名称<a href="" title="切换公众号"><i class="icon icon-angle-down"></i></a> 
+	
+	{$account.name}
+
 	<div class="action">		
 		
 		<a href="{u('wechat/account')}" title="公众号管理"><i class="icon icon-config"></i></a>

@@ -50,7 +50,7 @@ class wechat extends oWechat
     public function __construct($options)
     {
 		$this->cachedir = ZOTOP_PATH_RUNTIME.DS.'wechat';
-		$this->logfile  = 'wechatrun.log';
+		$this->logfile  = $options['appid'].'_run.log';
 
         if ( $this->cachedir )
         {
@@ -64,24 +64,34 @@ class wechat extends oWechat
      * log overwrite
      * @param string|array $log
      */
-    protected function log($log)
+    public function log($log)
     {
-        if (is_array($log)) $log = print_r($log,true);
-
-        if ($this->debug)
+        if ( $this->debug )
         {
+   	        if (is_array($log)) $log = print_r($log,true);
+
             if (function_exists($this->logcallback))
             {
                 return call_user_func($this->logcallback,$log);
             }
             elseif($this->logfile)
             {
-                return file_put_contents($this->logfile, $log."\n", FILE_APPEND) > 0 ? true : false;
+                return file_put_contents($this->cachedir.DS.$this->logfile, date('Y-m-d H:i:s')."\r\n".$log."\r\n", FILE_APPEND) > 0 ? true : false;
             }
         }
 
         return false;
-    }    
+    }
+
+    public function error($return_array=false)
+    {
+    	if ( $return_array )
+    	{
+    		return array('code'=>$this->errCode, 'content'=>$this->errMsg);
+    	}    	
+
+    	return $this->errCode.':'.$this->errMsg;
+    }  
 
 	/**
 	 * 重载设置缓存
@@ -114,6 +124,7 @@ class wechat extends oWechat
 	{
 		return zotop::cache($cachename,null);
 	}
+
 }
 
 

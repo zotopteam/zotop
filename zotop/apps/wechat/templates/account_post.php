@@ -17,21 +17,21 @@
 					<td class="label">{form::label(t('公众号名称'),'name',true)}</td>
 					<td class="input">
 						{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
-						{form::tips(t('公众号的帐号名称'))}
+						{form::tips(t('公众号的帐号名称，请与公众平值一致'))}
 					</td>
 				</tr>
 				<tr>
 					<td class="label">{form::label(t('微信号'),'account',true)}</td>
 					<td class="input">
-						{form::field(array('type'=>'text','name'=>'account','value'=>$data['account'],'maxlength'=>32,'pattern'=>'^[a-z]{1}[a-z0-9]{0,31}$','required'=>'required'))}
-						{form::tips(t('公众号的微信号，一般为英文'))}
+						{form::field(array('type'=>'text','name'=>'account','value'=>$data['account'],'maxlength'=>32,'required'=>'required'))}
+						{form::tips(t('公众号的微信号，请与公众平值一致'))}
 					</td>
 				</tr>
 				<tr>
 					<td class="label">{form::label(t('原始ID'),'original',true)}</td>
 					<td class="input">
 						{form::field(array('type'=>'text','name'=>'original','value'=>$data['original'],'required'=>'required'))}
-						{form::tips(t('建议填写，否则无法给粉丝发送客服消息'))}
+						{form::tips(t('建议填写，否则无法给粉丝发送客服消息，请与公众平值一致'))}
 					</td>
 				</tr>
 				<tr>
@@ -74,7 +74,7 @@
 					<td class="label">{form::label(t('EncodingAESKey'),'encodingaeskey',true)}</td>
 					<td class="input">
 
-						{form::field(array('type'=>'text','name'=>'encodingaeskey','value'=>$data['token'],'pattern'=>'^[A-Za-z0-9]{43}$','required'=>'required'))}
+						{form::field(array('type'=>'text','name'=>'encodingaeskey','value'=>$data['encodingaeskey'],'pattern'=>'^[A-Za-z0-9]{43}$','required'=>'required'))}
 						
 						<a href="javascript:;" class="btn btn-encodingaeskey">{t('随机生成')}</a>
 

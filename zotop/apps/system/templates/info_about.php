@@ -15,24 +15,29 @@
 		</ul>
 	</div>
 	<div class="main-body scrollable">
-		<div id="about">
-			<img src="{A('system.url')}/icons/zotop.png">
-			<div id="about-content">
-				<h2>逐涛网站管理系统</h2>
-				<div>{t('Fast & Simple content manage system')}</div>
+
+		<div class="content">
+			<div class="content-header">
+				<img src="{A('system.url')}/icons/zotop.png">
+				<div class="text">
+					<h2>逐涛网站管理系统</h2>
+					<div>{t('Fast & Simple content manage system')}</div>
+				</div>
 			</div>
-		</div>
 
-		<div id="license">
-			<div id="license-title">{t('版权声明')}</div>
-			<div id="license-content" class="scrollable">{file_get_contents(A('system.path').DS.'license.txt')}</div>
-		</div>
+			<div class="content-body">
 
-		<div id="product">
-			<div><b>{t('版权所有 © 2008-2014 zotop team 保留所有权利')}</b></div>
-			<div>{t('程序版本')} &nbsp; v{c('zotop.version')}</div>
-			<div>{t('开发团队')} &nbsp; zotop team</div>
-			<div>{t('官方网站')} &nbsp; <a href="http://www.zotop.com" target="_balnk">zotop.com</a></div>
+				<div class="content-title">{t('版权声明')}</div>
+				<div class="license scrollable">{file_get_contents(A('system.path').DS.'license.txt')}</div>
+
+				<div class="product">
+					<div><b>{t('版权所有 © 2008-2014 zotop team 保留所有权利')}</b></div>
+					<div>{t('程序版本')} &nbsp; v{c('zotop.version')}</div>
+					<div>{t('开发团队')} &nbsp; zotop team</div>
+					<div>{t('官方网站')} &nbsp; <a href="http://www.zotop.com" target="_balnk">zotop.com</a></div>
+				</div>
+
+			</div>
 		</div>
 
 	</div>
@@ -43,20 +48,16 @@
 </div>
 
 <style type="text/css">
-	#about{position:relative;padding:15px;background:#e5f3fb;}
-	#about img{width:42px;height:42px;}
-	#about-content{position:absolute;left:72px;top:11px;}
-	#about-content h2{font-size:20px;margin-bottom:2px;}
-	#about-content div{font-size:80%;}
+	div.content-header img{width:42px;height:42px;}
+	div.content-header .text{position:absolute;left:72px;top:15px;}
+	div.content-header h2{font-size:20px;margin-bottom:2px;}
+	div.content-header div{font-size:80%;}
 
-	#license {margin:20px;}
-	#license-title{font-size:20px;margin-bottom:8px;}
-	#license-content{height:240px;line-height:22px;font-size: 14px;border: solid 1px #ebebeb;padding: 8px;background: #f7f7f7;}
-	
-	#license-content h2{font-size: 20px;padding:10px 0px;}
-	#license-content h3{font-size:20px;padding:10px 0px;}
-	#license-content p{line-height:24px;font-size: 14px;text-indent: 2em;margin:5px 0;}
+	div.license{height:200px;line-height:22px;font-size: 14px;border: solid 1px #ebebeb;padding: 8px;background: #f7f7f7;}	
+	div.license h2{font-size: 20px;padding:10px 0px;}
+	div.license h3{font-size:20px;padding:10px 0px;}
+	div.license p{line-height:24px;font-size: 14px;text-indent: 2em;margin:5px 0;}
 
-	#product {line-height:26px;margin:20px;}
+	div.product {line-height:26px;margin:20px 0;}
 </style>
 {template 'footer.php'}
