@@ -29,6 +29,7 @@ body{height:100%;border:0;font:14px/1.5 "Hiragino Sans GB","Microsoft YaHei","�
 
 /* 滚动条样式 */
 .scrollable{overflow:auto;outline:none;}
+
 ::-webkit-scrollbar{width:9px;height:9px;}
 ::-webkit-scrollbar-button{display:none;}
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece{background:-webkit-gradient(linear,left);width:9px;height:9px;}

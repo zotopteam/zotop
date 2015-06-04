@@ -11,16 +11,14 @@
 
 // 注册类库到系统中
 zotop::register(array(
-	'wechat'     => A('wechat.path') . DS . 'libraries' . DS . 'wechat.php',
-	'wechat_api' => A('wechat.path') . DS . 'libraries' . DS . 'api.php',
+	'wechat'                  => A('wechat.path') . DS . 'libraries' . DS . 'wechat.php',
+	'wechat_api'              => A('wechat.path') . DS . 'libraries' . DS . 'api.php',
+	'wechat_admin_controller' => A('wechat.path') . DS . 'libraries' . DS . 'admin_controller.php',
 ));
 
-// 在开始页面注册一个快捷方式
+// 开始页面快捷方式
 zotop::add('system.start', 'wechat_api::start');
 
-
-/**
- * 全局导航
- */
+// 全局导航
 zotop::add('system.globalnavbar','wechat_api::globalnavbar');
 ?>

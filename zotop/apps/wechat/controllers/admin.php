@@ -9,30 +9,8 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	zotop
 * @license		http://www.zotop.com
 */
-class wechat_controller_admin extends admin_controller
+class wechat_controller_admin extends wechat_admin_controller
 {
-	public $wechat;
-
-	public function __init()
-	{
-		parent::__init();
-
-    	if ( $accountid = $_GET['accountid'] )
-    	{
-    		zotop::session('wechat_current_accountid', $accountid);
-    	}
-    	else
-    	{
-    		$accountid = zotop::session('wechat_current_accountid');
-    	}
-
-    	$account = m('wechat.account.get',$accountid);
-
-    	$this->wechat = new wechat(C('wechat'));
-
-    	$this->assign('account',$account);
-	}
-
 	/**
 	 * 默认动作
 	 * 
@@ -47,7 +25,7 @@ class wechat_controller_admin extends admin_controller
 
 		//debug::dump($result);
 
-		$this->assign('title',t('微信'));
+		$this->assign('title',t('统计信息'));
 		$this->assign('data',$data);
 		$this->display();
 	}
