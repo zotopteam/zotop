@@ -127,7 +127,7 @@ h3{font-size:16px;}
 .placeholder{color:gray;}
 .highlight{color:#00bcf2;}
 
-.blank{zoom:1;clear:both;display:block;height:15px;overflow:hidden;}
+.blank{zoom:1;clear:both;display:block;height:5px;overflow:hidden;}
 .tips{color:#663300;}
 .nowrap{white-space:nowrap;}
 .pointer{cursor:pointer;}

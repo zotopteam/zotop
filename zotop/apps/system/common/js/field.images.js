@@ -1,15 +1,14 @@
 
 // 图集编辑器
-$.fn.galleryeditor = function(name,value,params){
+$.fn.imagesfield = function(name,value,params){
 	return this.each(function(){
-		new galleryeditor($(this), name, value, params);
+		new imagesfield($(this), name, value, params);
 	});
 }
 
-function galleryeditor(gallery, name, value, params){
+function imagesfield(gallery, name, value, params){
 	var self = this;
-	var list = gallery.find('table.gallery-list tbody');
-	var area = gallery.find('div.gallery-data');
+	var list = gallery.find('ul.images-list');
 	var select = gallery.find('a.select');
 	var upload = gallery.find('a.upload');
 	var progressbar = gallery.find('div.progressbar');
@@ -25,29 +24,22 @@ function galleryeditor(gallery, name, value, params){
 
 			// 拖动
 			list.sortable({
-				items: "tr",
-				axis: "y",
-				placeholder:"ui-sortable-placeholder",
-				helper: function(e,tr){
-					tr.children().each(function(){
-						$(this).width($(this).width());
-					});
-					return tr;
-				}
+				items: "li",
+				//axis: "y",
+				placeholder:"ui-sortable-placeholder"
 			});
 
 		},
 		// update selectall state
 		add : function(image,description){
 
-			var c = "<tr>";
-				c += '<td class="drag"></td>';
-				c += '<td class="w50"><div class="image"><img src="'+ image +'"/></div><input type="hidden" name="'+ name +'['+ n +'][image]" value="'+ image +'"></td>';
-				c += '<td><textarea class="textarea" name="'+ name +'['+ n +'][description]" placeholder="图片描述……">' + (description || '') + "</textarea></td>";
-				c += '<td class="w50 center">';
-				c += '<a class="delete"><i class="icon icon-remove"></i></a>';
-				c += "</td>";
-				c += "</tr>";
+			var c = '<li class="images-list-item">';
+				c += '<div class="image-preview"><img src="'+ image +'"/><input type="hidden" name="'+ name +'['+ n +'][image]" value="'+ image +'"></div>';
+				c += '<div class="image-description"><textarea class="textarea" name="'+ name +'['+ n +'][description]" placeholder="图片描述……">' + (description || '') + "</textarea></div>";
+				c += '<div class="image-manage">';
+				c += '	<a class="delete"><i class="icon icon-remove"></i></a>';
+				c += '</div>';
+				c += '</li>';
 
 			list.append(c);
 
@@ -67,7 +59,7 @@ function galleryeditor(gallery, name, value, params){
 		uploaded : function(up,file,msg){
 			if ( msg.state ){
 				self.add(msg.file.url, msg.file.description);
-				area.scrollTop(area[0].scrollHeight);
+				list.scrollTop(list[0].scrollHeight);
 				return true;
 			}			
 			$.msg(msg);

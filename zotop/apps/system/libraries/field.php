@@ -103,6 +103,57 @@ class system_field
 		return implode("\n",$html);
 	}
 
+	/**
+	 * 多图控件
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function field_images($attrs)
+	{
+		$attrs['id'] = $attrs['id'] ? $attrs['id'] : $attrs['name'];
+
+		//上传参数
+		$upload = array('app'=>ZOTOP_APP,'field'=>$attrs['name'],'select'=>0);
+
+		foreach( array('dataid','field','app','maxfile','image_resize','image_width', 'image_height','image_quality','watermark','watermark_width','watermark_height','watermark_image','watermark_position','watermark_opacity') as $attr )
+		{
+			if ( isset($attrs[$attr]) )
+			{
+				$upload[$attr] = $attrs[$attr];unset($attrs[$attr]);
+			}
+		}
+
+		$html[]	= html::import(A('system.url').'/common/plupload/plupload.full.js');
+		$html[]	= html::import(A('system.url').'/common/plupload/i18n/zh_cn.js');
+		$html[]	= html::import(A('system.url').'/common/plupload/jquery.upload.js');
+
+		$html[]	= html::import(A('system.url').'/common/js/field.images.js');
+		$html[]	= html::import(A('system.url').'/common/css/field.images.css');
+
+		$html[] = '	<div class="images-area" id="'.$attrs['id'].'">';
+		$html[] = '	<div class="images-toolbar">';
+		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('已上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/library/image', $upload).'"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
+		$html[] = '	</div>';
+		$html[] = '<div id="'.$attrs['id'].'-upload-progress" class="images-progressbar progressbar"><span class="progress"></span><span class="percent"></span></div>';
+		$html[] = '<div class="images-controls" id="'.$attrs['id'].'-upload-dragdrop">';
+		$html[] = '<ul class="images-list">';
+		//$html[] = '<li class="image-thumb-empty">'.t('暂无图片').'</li>';
+		$html[] = '</ul>';
+		$html[] = '</div>';
+		$html[] = '</div>';
+		$html[] = '<script type="text/javascript">';
+		$html[] = '	$(function(){';
+		$html[] = '		$(\'#'.$attrs['id'].'\').imagesfield("'.$attrs['name'].'",'.json_encode($attrs['value']).','.json_encode($upload).');';
+		$html[] = '	});';
+		$html[] = '</script>';
+		$html[] = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+
+		return implode("\n",$html);
+	}	
+
 
 	/**
 	 * 单个文件上传控件输入框

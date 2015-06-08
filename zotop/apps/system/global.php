@@ -20,6 +20,7 @@ zotop::register(array(
 form::field('date',array('system_field','date'));
 form::field('datetime',array('system_field','datetime'));
 form::field('image',array('system_field','image'));
+form::field('images', 'system_field::field_images');
 form::field('file',array('system_field','file'));
 form::field('keywords',array('system_field','keywords'));
 form::field('alias',array('system_field','alias'));

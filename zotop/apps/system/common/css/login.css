@@ -15,7 +15,7 @@ div.box{z-index:666;background:#fff;background:rgba(255, 255, 255, 0.4);padding:
 div.box-body{background:#eff7ff;background:rgba(239, 247, 255, 0.6);}
 
 
-div.form-header{height:200px;padding:0px;background:#0072C6 url(../image/system.png) no-repeat center center;}
+div.form-header{height:200px;padding:0px;background:#00bcf2 url(../image/system.png) no-repeat center center;}
 div.form-status{text-indent:5px;padding:3px;color:#666;height:25px;line-height:25px;}
 div.form-body{margin-bottom:10px;}
 div.form-footer{text-align:right;*line-height:24px;position:relative;vertical-align:middle;display:block;zoom:1;padding:8px 12px;border:0px none;}
