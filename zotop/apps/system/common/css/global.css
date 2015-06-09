@@ -359,7 +359,7 @@ table.field tbody tr{border-bottom:solid 1px #f7f7f7;}
 table.field tbody tr:nth-child(2n){background:#fafafa;}
 */
 
-table.field tbody td.label{width:15%;font-size:14px;line-height:18px;padding:14px 5px 10px 8px;vertical-align:top;white-space:nowrap;}
+table.field tbody td.label{width:12%;font-size:14px;line-height:18px;padding:14px 5px 10px 8px;vertical-align:top;white-space:nowrap;}
 table.field tbody td.label label{font-size:15px;font-weight:normal;cursor:pointer;}
 table.field tbody td.label b.required{color:#ff0000;font-size:12px;font-weight:normal;padding:0 3px;}
 table.field tbody td.label i.icon{margin:-2px 0 0 3px;}

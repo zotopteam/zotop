@@ -138,9 +138,9 @@ class system_field
 		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/library/image', $upload).'"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
 		$html[] = '	</div>';
 		$html[] = '<div id="'.$attrs['id'].'-upload-progress" class="images-progressbar progressbar"><span class="progress"></span><span class="percent"></span></div>';
-		$html[] = '<div class="images-controls" id="'.$attrs['id'].'-upload-dragdrop">';
+		$html[] = '<div class="images-controls clearfix" id="'.$attrs['id'].'-upload-dragdrop">';
 		$html[] = '<ul class="images-list">';
-		//$html[] = '<li class="image-thumb-empty">'.t('暂无图片').'</li>';
+		$html[] = '<li class="image-list-empty">'.t('暂无图片').'</li>';
 		$html[] = '</ul>';
 		$html[] = '</div>';
 		$html[] = '</div>';

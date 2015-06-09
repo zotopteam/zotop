@@ -24,9 +24,11 @@ function imagesfield(gallery, name, value, params){
 
 			// 拖动
 			list.sortable({
-				items: "li",
-				//axis: "y",
-				placeholder:"ui-sortable-placeholder"
+				items: ".images-list-item",
+				placeholder:"ui-sortable-placeholder",
+				update:function(){
+					self.updatenumber();
+				}				
 			});
 
 		},
@@ -36,15 +38,50 @@ function imagesfield(gallery, name, value, params){
 			var c = '<li class="images-list-item">';
 				c += '<div class="image-preview"><img src="'+ image +'"/><input type="hidden" name="'+ name +'['+ n +'][image]" value="'+ image +'"></div>';
 				c += '<div class="image-description"><textarea class="textarea" name="'+ name +'['+ n +'][description]" placeholder="图片描述……">' + (description || '') + "</textarea></div>";
-				c += '<div class="image-manage">';
-				c += '	<a class="delete"><i class="icon icon-remove"></i></a>';
+				c += '<div class="image-manage clearfix">';
+				c += '	<b class="number">#'+ (n+1) +'</b>';
+				c += '	<a class="upload" href="javascript:;" title="重新上传"><i class="icon icon-upload"></i></a>';
+				c += '	<a class="delete" href="javascript:;" title="删除"><i class="icon icon-remove"></i></a>';
 				c += '</div>';
 				c += '</li>';
 
-			list.append(c);
+			var item = $(c).appendTo(list);
+
+				item.find('a.upload').upload({
+						url		: upload.attr('href'),
+						params	: params,
+						multi	: false,
+						fileext	:'jpg,jpeg,png,gif,bmp',
+						filedescription: '选择图片',
+						uploaded : function(up,file,msg){
+							if ( msg.state ){						
+								item.find('.image-preview').find('img').attr('src',msg.file.url);
+								item.find('.image-preview').find('input').val(msg.file.url);
+								return true;
+							}
+							$.msg(msg);
+						}
+				});
+
+			list.find('.image-list-empty').hide();
 
 			n++;
-		}
+		},
+
+		// 重排行号
+		updatenumber: function(){
+		    
+		    list.find(".images-list-item").each(function(d, a) {
+		        $(a).find("b.number").text('#' + (d + 1));
+		    });
+
+		    if ( list.find('.images-list-item').length > 0 )
+		    {
+		    	list.find('.image-list-empty').hide();
+		    }else{
+		    	list.find('.image-list-empty').show();
+		    }	
+		}		
 	});
 
 	// 初始化
@@ -59,13 +96,11 @@ function imagesfield(gallery, name, value, params){
 		uploaded : function(up,file,msg){
 			if ( msg.state ){
 				self.add(msg.file.url, msg.file.description);
-				list.scrollTop(list[0].scrollHeight);
 				return true;
 			}			
 			$.msg(msg);
 		}
 	});
-
 
 	// 图库
 	select.on('click',function(e){e.preventDefault();
@@ -84,10 +119,13 @@ function imagesfield(gallery, name, value, params){
 		},true);
 	});
 
-
 	// 删除
 	list.on('click','a.delete',function(){
+		  $(this).tooltip('destroy');
 		  $(this).parent().parent().remove();
+		  self.updatenumber();		  
 	})
+
+
 }
 
