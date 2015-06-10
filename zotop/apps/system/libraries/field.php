@@ -131,11 +131,12 @@ class system_field
 		$html[]	= html::import(A('system.url').'/common/js/field.images.js');
 		$html[]	= html::import(A('system.url').'/common/css/field.images.css');
 
-		$html[] = '	<div class="images-area" id="'.$attrs['id'].'">';
+		$html[] = '	<div class="images-area" id="field-'.$attrs['id'].'">';
 		$html[] = '	<div class="images-toolbar">';
-		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload"></i><b>'.t('批量上传').'</b></a>';
 		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('已上传').'</b></a>';
 		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/library/image', $upload).'"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text description" href="javasacript:;"><i class="icon icon-info"></i><b>'.t('批量描述').'</b></a>';
 		$html[] = '	</div>';
 		$html[] = '<div id="'.$attrs['id'].'-upload-progress" class="images-progressbar progressbar"><span class="progress"></span><span class="percent"></span></div>';
 		$html[] = '<div class="images-controls clearfix" id="'.$attrs['id'].'-upload-dragdrop">';
@@ -146,7 +147,7 @@ class system_field
 		$html[] = '</div>';
 		$html[] = '<script type="text/javascript">';
 		$html[] = '	$(function(){';
-		$html[] = '		$(\'#'.$attrs['id'].'\').imagesfield("'.$attrs['name'].'",'.json_encode($attrs['value']).','.json_encode($upload).');';
+		$html[] = '		$(\'#field-'.$attrs['id'].'\').imagesfield("'.$attrs['name'].'",'.json_encode($attrs['value']).','.json_encode($upload).');';
 		$html[] = '	});';
 		$html[] = '</script>';
 		$html[] = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';

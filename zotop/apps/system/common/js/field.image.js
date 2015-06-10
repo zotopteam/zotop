@@ -15,22 +15,6 @@
 
 			var $input = $(this);
 
-			/*
-			$input.on('mouseover',function(){
-
-				var value = $input.val();
-				var width = $input.width();
-
-				if( value && !$input.hasClass('error') ){
-
-					$(this).dialog({id:'image-preview',	autofocus: false, content:function(){
-							return '<img src="'+ value +'" style="max-width:'+ width +'px;"/>';
-					}});
-				}
-
-			});
-			*/		
-
 
 			$input.popover({placement:'bottom',html:true,trigger:'hover',title:false,content:function(){
 				
@@ -44,7 +28,7 @@
 			}});
 
 			
-			$input.parent().find('a').each(function(){
+			$input.parent().find('a').each(function(){				
 
 				$(this).on('click',function(e){
 					e.preventDefault();

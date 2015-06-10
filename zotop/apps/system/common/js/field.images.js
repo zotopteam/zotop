@@ -6,12 +6,13 @@ $.fn.imagesfield = function(name,value,params){
 	});
 }
 
-function imagesfield(gallery, name, value, params){
-	var self = this;
-	var list = gallery.find('ul.images-list');
-	var select = gallery.find('a.select');
-	var upload = gallery.find('a.upload');
-	var progressbar = gallery.find('div.progressbar');
+function imagesfield($this, name, value, params){
+	var self        = this;
+	var list        = $this.find('ul.images-list');
+	var select      = $this.find('a.select');
+	var upload      = $this.find('a.upload');
+	var description = $this.find('a.description');
+	var progressbar = $this.find('div.progressbar');
 	var n = 0;
 
 	// API methods
@@ -103,14 +104,14 @@ function imagesfield(gallery, name, value, params){
 	});
 
 	// 图库
-	select.on('click',function(e){e.preventDefault();
+	select.on('click',function(e){
+		e.preventDefault();		
 		var dialog = $.dialog({
 			url: $(this).attr('href'),
-			title: $(this).attr('title'),
+			title: $(this).attr('title') || $(this).text(),
 			width: $(this).attr('data-width') || 1000,
 			height: $(this).attr('data-height') || 460,
 			ok: function(files){
-				zotop.debug(files);
 				$.each(files,function(i,data){
 					self.add(data.url, data.description);
 				})
@@ -118,6 +119,22 @@ function imagesfield(gallery, name, value, params){
 			cancel:function(){}
 		},true);
 	});
+
+	description.on('click',function(e){
+		e.preventDefault();
+
+		var prompt = '设置全部图片的描述信息';
+		var title  = $(this).text();
+		var value  = description.data('defaultvalue');
+
+		$.prompt(prompt,function(val){
+
+			description.data('defaultvalue',val);
+
+			list.find('.image-description').find('textarea').val(val);
+
+		},value,'textarea').title(title);
+	})
 
 	// 删除
 	list.on('click','a.delete',function(){

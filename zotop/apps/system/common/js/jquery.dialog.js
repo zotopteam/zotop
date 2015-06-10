@@ -168,27 +168,28 @@
 	 * @param   {Function}              确定按钮回调函数。函数第一个参数接收用户录入的数据
 	 * @param   {String}                输入框默认文本
 	 */
-	$.prompt = function (prompt, ok, value) {
-
-		value = value || '';
-
+	$.prompt = function (prompt, ok, value, type) {
+		
 		var input;
 
 		return $.dialog({
 			id: 'Prompt',
 			fixed: true,
-			padding:'30px 60px',
+			padding:'30px',
 			title:'',
-			content: [
-				'<div class="prompt">',
-					prompt,
-				'</div>',
-				'<input type="text" class="text prompt-text" value="',
-					value,
-				'" />',
-			].join(''),
+			content: function(){
+
+				var field = '<input type="text" class="text prompt-text" value="'+ ( value || '') +'"/>';
+
+				if ( type == 'textarea')
+				{
+					field = '<textarea class="textarea prompt-text prompt-textarea">'+ ( value || '') +'</textarea>';
+				}
+
+				return '<div class="prompt">'+ prompt +'</div><div class="field">'+field+'</div>';
+			},
 			onshow: function () {
-				input = this._$('content').find('input')[0];
+				input = this._$('content').find('.prompt-text')[0];
 				input.select();
 				input.focus();
 			},

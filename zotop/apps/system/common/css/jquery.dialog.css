@@ -35,6 +35,10 @@
 .ui-popup-modal .ui-dialog {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.1), 0 0 256px rgba(255, 255, 255, .3);
 }
+.ui-popup-follow .ui-dialog{
+    border: 1px solid #D0D0D0;
+ }
+
 .ui-dialog-grid {
     width: auto;
     margin: 0;
@@ -360,8 +364,10 @@
 .ui-dialog .msg.error .icon,.ui-dialog .msg.error .content{color:#ff0000;}
 .ui-dialog .msg.alert .icon, .ui-dialog .msg.alert .content{color:#ff9900;}
 
-.ui-dialog .prompt{margin-bottom:10px;}
-.ui-dialog .prompt-text{width: 400px;}
+.ui-dialog .prompt{margin-bottom:5px;}
+.ui-dialog .prompt-text{width: 500px;}
+.ui-dialog .prompt-textarea{height: 80px;}
+
 .ui-dialog .confirm{margin:0 20px;}
 .ui-dialog .alert{margin:0 20px;}
 
