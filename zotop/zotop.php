@@ -1165,6 +1165,110 @@ class zotop
         return database::instance($config);
     }
 
+    /**
+     * 运行速度和占用内存分析
+     *
+     * 使用方法:
+     * <code>
+     * zotop::profile('begin'); // 记录开始标记位
+     * // ...
+     * zotop::profile('end'); // 记录结束标签位
+     *
+     * echo zotop::profile('begin','end'); // 统计区间运行时间及内存占用
+     *
+     * </code>
+     * @param string $start 开始标签
+     * @param string $end 结束标签，如果没有定义，则会自动以当前作为标记位
+     * @return mixed
+     */
+    public static function profile($start, $end = '')
+    {
+        if ( !ZOTOP_TRACE ) return false;
+
+        static $states = array();
+        
+        if ( $end )
+        {
+            if ( !isset($states['t'][$end])) $states['t'][$end] = microtime(true);
+            if ( !isset($states['m'][$end])) $states['m'][$end] = memory_get_usage();
+
+            return number_format($states['t'][$end] - $states['t'][$start], 6) . 'S ' . number_format(($states['m'][$end] - $states['m'][$start]) / 1024) . 'KB';
+        }
+        else
+        {
+            $states['t'][$start] = microtime(true);
+            $states['m'][$start] = memory_get_usage();
+        }
+
+        return true;
+    }
+
+    /**
+     * 记录或者获取程序运行信息
+     * 
+     * @param  mixed  $type   类型，debug|sql|error……
+     * @param  mixed  $info   详细信息
+     * @param  boolean $record 是否写入日志文件
+     * @return mixed
+     */
+    public static function trace($type='', $info='', $record=false)
+    {
+        if ( !ZOTOP_TRACE ) return false;
+
+        static $_trace =  array();
+
+        if ( empty($type) )
+        {
+           return $_trace; 
+        } 
+        
+        $type = strtoupper($type);
+
+        if ( empty($info) )
+        {
+            return isset($_trace[$type]) ? $_trace[$type] : array();
+        }
+
+        if ( ZOTOP_ISAJAX or $record )
+        {
+            return zotop::log($info);
+        }
+
+        if ( !isset($_trace[$type]) )
+        {
+            $_trace[$type] = array();
+        } 
+
+        $_trace[$type][]   = print_r($info,true);
+
+        return true;
+    }
+
+    /**
+     * 记录日志
+     * 
+     * @param  mixed $info 日志内容
+     * @param  string $file 写入的文件，允许为空
+     * @return mixed
+     */
+    public static function log($info, $file='')
+    {
+        if ( $info )
+        {
+            $file = $file ? $file : ZOTOP_PATH_RUNTIME.DS.'log'.DS.date('ymd').DS.ZOTOP_APP.'_'.ZOTOP_CONTROLLER.'_'.ZOTOP_ACTION.'.php';
+            $info = date('Y-m-d H:i:s')."\n".print_r($info,true)."\n";
+
+            if ( !file::exists($file) )
+            {
+                file::put($file, "<?php defined('ZOTOP') OR die('No direct access allowed.');?>\n");
+            }
+
+            return file::put($file, $info, FILE_APPEND);           
+        }
+
+        return null;
+    }
+
 
     /**
      * 在页面底部显示powered by zotop信息

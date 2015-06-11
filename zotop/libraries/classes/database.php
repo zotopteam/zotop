@@ -1120,5 +1120,26 @@ abstract class database
 
 		throw new zotop_exception(t('Cannot find database driver "%s"',$driver));
 	}
+
+	/**
+	 * 监测并记录程序
+	 * 
+	 * @param  boolean $start 开始或者结束
+	 * @return null
+	 */
+	public function profile($start='')
+	{
+		if ( $start )
+		{
+			zotop::profile('db_query_start');
+			return true;                                       
+		}
+
+		zotop::profile('db_query_end');
+
+		$info = end($this->sql).' ( '.zotop::profile('db_query_start','db_query_end').' )';
+		zotop::trace('SQL', $info);
+		return $info;
+	}
 }
 ?>

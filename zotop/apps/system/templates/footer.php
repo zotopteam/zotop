@@ -1,9 +1,8 @@
 </div> <!-- body -->
 <div class="global-footer">
-	{if ZOTOP_DEBUG}
-		{debug::vars(get_included_files())}
-		{debug::vars(zotop::db()->sql())}
-	{/if}
+	{loop zotop::trace('sql') $t}
+	{$t}<br>
+	{/loop}
 </div> <!-- footer -->
 
 {hook 'admin.footer'}

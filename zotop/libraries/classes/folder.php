@@ -93,7 +93,12 @@ class folder
 		// 创建父目录
 		if ( !folder::create(dirname($dir),$mode) ) return false;
 
-		return @mkdir($dir,$mode);
+		if ( @mkdir($dir,$mode) )
+		{
+			return $dir;
+		}
+
+		return false;
 	}
 	
 	/**

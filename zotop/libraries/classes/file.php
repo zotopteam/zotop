@@ -193,11 +193,11 @@ class file
 	 * 写入文件, file_put_contents 增强版，自动创建文件夹及覆盖
 	 *
 	 * @param string $file 文件地址
-	 * @param string $content 文件内容
-	 * @param boolean $overwrite 是否复写
+	 * @param mixed $content 文件内容
+	 * @param int $flags 写入标识，FILE_USE_INCLUDE_PATH | FILE_APPEND | LOCK_EX
 	 * @return boolean
 	 */
-	public static function put($file, $content='', $overwrite=true)
+	public static function put($file, $content='', $flags=null)
 	{
 		$file = format::path($file);
 
@@ -207,12 +207,7 @@ class file
 			folder::create(dirname($file));
 		}
 
-		if ( !file::exists($file) || $overwrite )
-		{
-			return file_put_contents($file, $content);
-		}
-
-		return false;
+		return file_put_contents($file, $content, $flags);
 	}
 
 

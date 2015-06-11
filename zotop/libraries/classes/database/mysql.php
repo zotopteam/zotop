@@ -52,7 +52,6 @@ class database_mysql extends database
 	{
 		if ( !is_resource($this->connect) )
 	    {
-
 			//是否持久连接
 			$connect = ( $this->config['pconnect'] == TRUE ) ? 'mysql_pconnect' : 'mysql_connect';
 
@@ -113,17 +112,20 @@ class database_mysql extends database
     {
 		if ( $sql = $this->parseSql($sql) )
 		{
+			$this->connect();			
+
 			//释放前次的查询结果
-			if ( $this->query ) $this->free();
+			$this->free();
+
+			$this->profile(true);
 
 			//查询数据
-			if ( $this->query = @mysql_query($sql, $this->connect()) )
+			if ( $this->query = @mysql_query($sql, $this->connect) )
 			{
-				//记录查询次数
-				n('db',1);
-
 				//查询影响记录数
 				$this->numRows = @mysql_num_rows($this->query);
+
+				$this->profile(false);
 
 				return $this->query;
 			}
@@ -141,7 +143,6 @@ class database_mysql extends database
 	 * 当使用 UPDATE 查询，MySQL 不会将原值与新值一样的列更新。这样使得 mysql_affected_rows() 函数返回值不一定就是查询条件所符合的记录数，只有真正被修改的记录数才会被返回
 	 *
 	 * @param $sql
-	 * @param $silent
 	 * @return bool||number
 	 */
 	public function execute($sql, $silent=false)

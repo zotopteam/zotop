@@ -116,18 +116,20 @@ class database_sqlite extends database
 	public function query($sql, $silent=false)
     {
 		if ( $sql = $this->parseSql($sql) )
-		{
-			//释放前次的查询结果
-			if ( $this->query ) $this->free();
+		{		
+			$this->connect();
+
+			$this->free();
+
+			$this->profile(true);
 
 			try
 			{
-				//记录查询次数
-				n('db',1);
-				
 				// 执行查询
-				$this->query = $this->connect()->prepare($sql);
+				$this->query = $this->connect->prepare($sql);
 				$this->query->execute();
+				
+				$this->profile(false);
 
 				return $this->query;
 			}
@@ -139,7 +141,7 @@ class database_sqlite extends database
 				}
 
 				return false;
-			}
+			}			
 		}
 
 		return false;

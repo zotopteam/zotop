@@ -39,7 +39,7 @@
 			</div>
 		</li>
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} current{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
-		{loop $_GLOBALNAVBAR $id $nav}
+		{loop zotop::filter('system.globalnavbar',array()) $id $nav}
 			{if $nav.menu and is_array($nav.menu)}
 			<li class="normal menu{if $nav['current']} current{/if}">
 				<a href="{$nav['href']}">{$nav['text']} <i class="icon icon-angle-down"></i></a>
@@ -59,7 +59,7 @@
 	</ul>
 	<ul class="global-navbar global-userbar">
 		
-		{if $_GLOBALMSG}
+		{if $_GLOBALMSG = zotop::filter('system.globalmsg',array()) }
 		<li class="menu menu-noarrow">
 			<a><i class="icon icon-msg a-flash"></i><b class="msg">{count($_GLOBALMSG)}</b></a>
 			<div class="dropmenu dropmenu-right">
@@ -72,6 +72,7 @@
 			</div>
 		</li>
 		{/if}
+		
 		<li class="site">
 			<a href="{u()}" title="{t('访问 {1} 首页',C('site.name'))}" target="_blank"><i class="icon icon-home"></i> {t('网站首页')}</a>
 		</li>		

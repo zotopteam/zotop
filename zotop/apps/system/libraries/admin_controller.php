@@ -28,12 +28,6 @@ class admin_controller extends controller
 		//初始化用户
 		$this->assign('_USER',zotop::user());
 
-		//初始化导航及导航接口
-		$this->assign('_GLOBALNAVBAR',zotop::filter('system.globalnavbar',array()));
-
-		//初始化全局消息及消息接口
-		$this->assign('_GLOBALMSG',zotop::filter('system.globalmsg',array()));
-
 		// hook
 		zotop::run('admin.init', $this);
     }

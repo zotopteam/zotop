@@ -288,39 +288,5 @@ class debug
 
         return $output;
     }
-
-    /**
-     * 运行速度和占用内存分析
-     *
-     * 使用方法:
-     * <code>
-     * debug::profiler('begin'); // 记录开始标记位
-     * // ...
-     * debug::profiler('end'); // 记录结束标签位
-     *
-     * echo debug::profiler('begin','end'); // 统计区间运行时间及内存占用
-     *
-     * </code>
-     * @param string $start 开始标签
-     * @param string $end 结束标签，如果没有定义，则会自动以当前作为标记位
-     * @return mixed
-     */
-    function profiler($start, $end = '')
-    {
-        static $states = array();
-
-        if (empty($end))
-        {
-            $states['t'][$start] = microtime(true);
-            $states['m'][$start] = memory_get_usage();
-        }
-        else
-        {
-            if (! isset($states['t'][$end])) $states['t'][$end] = microtime(true);
-            if (! isset($states['m'][$end])) $states['m'][$end] = memory_get_usage();
-
-            return number_format($states['t'][$end] - $states['t'][$start], 6) . 'S ' . number_format(($states['m'][$end] - $states['m'][$start]) / 1024) . 'KB';
-        }
-    }
 }
 ?>
