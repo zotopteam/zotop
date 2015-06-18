@@ -123,12 +123,13 @@ class zotop
         $_COOKIE = zotop::sanitize($_COOKIE);
 
         // 设置系统事件
-        zotop::add('zotop.boot',    array('application', 'boot'));
-        zotop::add('zotop.boot',    array('application', 'finduri'));
-        zotop::add('zotop.route',   array('router', 'init'));
-        zotop::add('zotop.route',   array('router', 'route'));
-        zotop::add('zotop.execute', array('application', 'execute'));
-        zotop::add('zotop.render',  array('application', 'render'));
+        zotop::add('zotop.boot',        array('application', 'boot'));
+        zotop::add('zotop.boot',        array('application', 'finduri'));
+        zotop::add('zotop.route',       array('router', 'init'));
+        zotop::add('zotop.route',       array('router', 'route'));
+        zotop::add('zotop.execute',     array('application', 'execute'));
+        zotop::add('zotop.render',      array('application', 'render'));
+        zotop::add('zotop.shutdown',    array('application', 'shutdown'));
 
         //加载核心文件
         if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG )
@@ -173,6 +174,7 @@ class zotop
         zotop::run('zotop.ready');
         zotop::run('zotop.execute');
         zotop::run('zotop.render');
+        zotop::run('zotop.shutdown');
     }
 
     /**
@@ -481,20 +483,32 @@ class zotop
      * @param array $args 相关参数
      * @return bool 如果运行了事件就返回真，否则返回假
      */
-    public static function run($name, &$data = '')
+    public static function run($name, &$data = null)
     {
         if ($callbacks = self::event($name))
         {
-            $str = '';
+
+            zotop::profile('event_run_start');
+            zotop::trace('run','[ '.$name.' ] START ('.count($callbacks).' events)');
 
             $args = func_get_args();
 
             foreach ($callbacks as $callback)
             {
+                zotop::profile('event_call_start');
+                
                 call_user_func_array($callback, array_slice($args, 1));
+                
+                zotop::profile('event_call_end');
+                zotop::trace('run','[ '.$name.' ] ---> '.print_r($callback,true).' ('.zotop::profile('event_call_start','event_call_end').')');
             }
+
+            zotop::profile('event_run_end');
+            zotop::trace('run','[ '.$name.' ]  END ('.zotop::profile('event_run_start','event_run_end').')');
+
             return true;
         }
+
         return false;
     }
 

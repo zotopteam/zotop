@@ -186,7 +186,12 @@ class application
         echo zotop::filter('zotop.output', $output);
         unset($output);
 
-        exit(1);
+        //exit(1);
+    }
+
+    public static function shutdown()
+    {
+
     }
 
     /**
@@ -223,6 +228,15 @@ class application
      */
     public static function shutdown_handler()
     {
+        if (  ZOTOP_TRACE )
+        {
+            ob_start();
+            include ZOTOP_PATH_LIBRARIES . DS . 'views' . DS . 'trace.php';
+            echo ob_get_clean();
+            exit(1);            
+        }
+
+
         if ($error = error_get_last())
         {
             // 清理输出
