@@ -123,13 +123,13 @@ class zotop
         $_COOKIE = zotop::sanitize($_COOKIE);
 
         // 设置系统事件
-        zotop::add('zotop.boot',        array('application', 'boot'));
-        zotop::add('zotop.boot',        array('application', 'finduri'));
-        zotop::add('zotop.route',       array('router', 'init'));
-        zotop::add('zotop.route',       array('router', 'route'));
-        zotop::add('zotop.execute',     array('application', 'execute'));
-        zotop::add('zotop.render',      array('application', 'render'));
-        zotop::add('zotop.shutdown',    array('application', 'shutdown'));
+        zotop::add('zotop.boot',        'application::boot');
+        zotop::add('zotop.boot',        'application::finduri');
+        zotop::add('zotop.route',       'router::init');
+        zotop::add('zotop.route',       'router::route');
+        zotop::add('zotop.execute',     'application::execute');
+        zotop::add('zotop.render',      'application::render');
+        zotop::add('zotop.shutdown',    'application::shutdown');
 
         //加载核心文件
         if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG )
@@ -489,7 +489,7 @@ class zotop
         {
 
             zotop::profile('event_run_start');
-            zotop::trace('run','[ '.$name.' ] START ('.count($callbacks).' events)');
+            zotop::trace('run','[ '.$name.' ] START ('.count($callbacks).' events)',false);
 
             $args = func_get_args();
 
@@ -500,11 +500,11 @@ class zotop
                 call_user_func_array($callback, array_slice($args, 1));
                 
                 zotop::profile('event_call_end');
-                zotop::trace('run','[ '.$name.' ] ---> '.print_r($callback,true).' ('.zotop::profile('event_call_start','event_call_end').')');
+                zotop::trace('run','[ '.$name.' ] ---> '.print_r($callback,true).' ('.zotop::profile('event_call_start','event_call_end').')',false);
             }
 
             zotop::profile('event_run_end');
-            zotop::trace('run','[ '.$name.' ]  END ('.zotop::profile('event_run_start','event_run_end').')');
+            zotop::trace('run','[ '.$name.' ]  END ('.zotop::profile('event_run_start','event_run_end').')',false);
 
             return true;
         }
@@ -767,6 +767,7 @@ class zotop
                 if ( is_file($path) )
                 {
                     zotop::$config[$name] = include($path);
+                    zotop::counter('config.file',1);
                 }
             }
 
@@ -1180,6 +1181,36 @@ class zotop
     }
 
     /**
+     * 设置和获取统计数据
+     *
+     * 使用方法:
+     * <code>
+     * zotop::counter('db',1); // 记录数据库操作次数
+     * echo zotop::counter('db'); // 获取当前页面数据库的所有操作次数
+     * </code>
+     *
+     * @param string $key 标识位置
+     * @param int $step 步进值
+     * @return mixed
+     */
+    public static function counter($key, $step = 0)
+    {
+        static $n = array();
+
+        if (!isset($n[$key]))
+        {
+            $n[$key] = 0;
+        }
+
+        if (empty($step))
+        {
+            return $n[$key];
+        }
+
+        $n[$key] = $n[$key] + intval($step);
+    }    
+
+    /**
      * 运行速度和占用内存分析
      *
      * 使用方法:
@@ -1206,7 +1237,7 @@ class zotop
             if ( !isset($states['t'][$end])) $states['t'][$end] = microtime(true);
             if ( !isset($states['m'][$end])) $states['m'][$end] = memory_get_usage();
 
-            return number_format($states['t'][$end] - $states['t'][$start], 6) . 'S ' . number_format(($states['m'][$end] - $states['m'][$start]) / 1024) . 'KB';
+            return 'Runtime: '.number_format($states['t'][$end] - $states['t'][$start], 6) . 'S  /  Memory: ' . number_format(($states['m'][$end] - $states['m'][$start]) / 1024) . 'KB';
         }
         else
         {
@@ -1222,10 +1253,9 @@ class zotop
      * 
      * @param  mixed  $type   类型，debug|sql|error……
      * @param  mixed  $info   详细信息
-     * @param  boolean $record 是否写入日志文件
      * @return mixed
      */
-    public static function trace($type='', $info='', $record=false)
+    public static function trace($type='', $info='', $record=null)
     {
         if ( !ZOTOP_TRACE ) return false;
 
@@ -1243,7 +1273,7 @@ class zotop
             return isset($_trace[$type]) ? $_trace[$type] : array();
         }
 
-        if ( ZOTOP_ISAJAX or $record )
+        if ( ( ZOTOP_ISAJAX or $record === true) and $record !== false )
         {
             return zotop::log($info);
         }
@@ -1287,20 +1317,11 @@ class zotop
     /**
      * 在页面底部显示powered by zotop信息
      *
-     * @param bool $runtime  是否显示运行时信息
      * @return string
      */
-    public static function powered($runtime=false)
+    public static function powered()
     {
-        $powered = $runtime ? 'Powered by {zotop} <span>runtime:{runtime} S, memory:{memory} M, include: {include}, DB: {db}</span>' : 'Powered by {zotop}';
-
-        return t($powered, array(
-            'zotop'     => '<a href="http://www.zotop.com/" target="_blank" rel="external">zotop v' . c('zotop.version') . '</a>',
-            'runtime'   => number_format(microtime(true) - ZOTOP_BEGIN_TIME, 6),
-            'memory'    => number_format((memory_get_usage() - ZOTOP_START_MEMORY) / 1024 / 1024, 6),
-            'include'   => count(get_included_files()),
-			'db'        => n('db'),
-        ));
+        return t('Powered by {1}', '<a href="http://www.zotop.com/" target="_blank" rel="external">zotop v' . c('zotop.version') . '</a>');
     }
 }
 ?>

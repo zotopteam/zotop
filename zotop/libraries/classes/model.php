@@ -194,7 +194,6 @@ class model
     /**
      * 获取当前的db对象,并默认设置链式查询的from($table)属性
      *
-     * @param string $alias 数据表别名
      * @return mixed
      */
     public function db()
@@ -243,7 +242,6 @@ class model
 	/**
 	 * 获取全部数据
 	 *
-     * @param string|array $sql
      * @return mixed
 	 */
     public function getAll()
@@ -254,7 +252,6 @@ class model
 	/**
 	 * 获取单条数据
 	 *
-     * @param string|array $sql
      * @return mixed
 	 */
     public function getRow()
@@ -265,7 +262,7 @@ class model
 	/**
 	 * 获取某个字段的数据
 	 *
-     * @param string|array $sql
+     * @param string $field 字段名称
      * @return mixed
 	 */
     public function getField($field)

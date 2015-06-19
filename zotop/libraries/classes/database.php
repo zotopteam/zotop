@@ -13,7 +13,7 @@ abstract class database
 	public $database; // 数据库
 
     protected $connect = null; //当期数据库链接
-    protected $sql = array(); //查询语句容器
+    protected $sql = null; //查询语句容器
     protected $sqlBuilder = array(); //查询语句构建容器
     protected $query = null; //查询对象
     protected $numRows = 0; //影响的数据条数
@@ -75,7 +75,7 @@ abstract class database
 
 		if( is_string($sql) and !empty($sql) )
         {
-            $this->sql[] = $sql;
+            $this->sql = $sql;
         }
 
 		$this->reset();
@@ -126,7 +126,7 @@ abstract class database
      */
     public function sql()
     {
-        return is_array($this->sql) ? $this->sql : array();
+        return $this->sql;
     }
 
     /**
@@ -1136,8 +1136,9 @@ abstract class database
 		}
 
 		zotop::profile('db_query_end');
+		zotop::counter('db',1);
 
-		$info = end($this->sql).' ( '.zotop::profile('db_query_start','db_query_end').' )';
+		$info = $this->sql.' ( '.zotop::profile('db_query_start','db_query_end').' )';
 		zotop::trace('SQL', $info);
 		return $info;
 	}

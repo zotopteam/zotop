@@ -113,7 +113,7 @@ class cache
             $cache[$id] = $this->driver->get($id);
         }
 
-         N('cache.get',1);
+        zotop::counter('cache.get',1);
 
         return $cache[$id];
     }
@@ -137,7 +137,7 @@ class cache
             $expire = $this->config['expire'];
         }
 
-        N('cache.set',1);
+        zotop::counter('cache.set',1);
 
         return $this->driver->set($id, $data, intval($expire));
     }

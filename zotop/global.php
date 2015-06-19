@@ -189,36 +189,6 @@ function u($uri = '', $params = array(), $host = true)
 
 
 /**
- * 设置和获取统计数据
- *
- * 使用方法:
- * <code>
- * n('db',1); // 记录数据库操作次数
- * echo n('db'); // 获取当前页面数据库的所有操作次数
- * </code>
- *
- * @param string $key 标识位置
- * @param int $step 步进值
- * @return mixed
- */
-function n($key, $step = 0)
-{
-    static $n = array();
-
-    if (!isset($n[$key]))
-    {
-        $n[$key] = 0;
-    }
-
-    if (empty($step))
-    {
-        return $n[$key];
-    }
-
-    $n[$key] = $n[$key] + intval($step);
-}
-
-/**
  * 输出缩略图
  * 
  * @param sting $img 图片地址

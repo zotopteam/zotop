@@ -228,7 +228,9 @@ class application
      */
     public static function shutdown_handler()
     {
-        if (  ZOTOP_TRACE )
+        if ( ZOTOP_ISAJAX ) exit();
+
+        if ( ZOTOP_TRACE )
         {
             ob_start();
             include ZOTOP_PATH_LIBRARIES . DS . 'views' . DS . 'trace.php';
@@ -237,7 +239,7 @@ class application
         }
 
 
-        if ($error = error_get_last())
+        if ( $error = error_get_last() )
         {
             // 清理输出
             ob_get_level() and ob_clean();

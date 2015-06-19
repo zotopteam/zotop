@@ -125,6 +125,7 @@
 				$(form).find('.form-status').html('{t('正在登录中, 请稍后……')}');
 				
 				$.post($(form).attr('action'), $(form).serialize(), function(msg){
+					zotop.debug(msg);
 					if( msg ) $(form).find('.form-status').html('<span class="'+msg.state+'">'+ msg.content +'</span>');
 					if( msg.url ){
 						location.href = msg.url;

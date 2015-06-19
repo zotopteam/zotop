@@ -43,11 +43,20 @@ function system_globalmsg($msg)
 	if ( ZOTOP_DEBUG )
 	{
 		$msg[] = array(
-			'text' => t('调试模式开启中，请关闭'),
-			'href' => u('system/config/safety'),
+			'text' => t('系统调试[ ZOTOP_DEBUG ]开启中'),
+			'href' => 'javascript:;',
 			'type' => 'warning',
 		);
 	}
+
+	if ( ZOTOP_TRACE )
+	{
+		$msg[] = array(
+			'text' => t('系统跟踪[ ZOTOP_TRACE ]开启中'),
+			'href' => 'javascript:;',
+			'type' => 'warning',
+		);
+	}	
 
 	if ( folder::exists(ZOTOP_PATH.DS.'install') )
 	{
