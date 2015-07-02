@@ -51,8 +51,10 @@ define('ZOTOP_URL_APPS',        ZOTOP_URL_CMS . '/apps');
 define('ZOTOP_URL_THEMES',      ZOTOP_URL_CMS . '/themes');
 define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
 
-// 调试模式和跟踪模式，默认关闭调试和跟踪模式
+// 调试模式，开始后将关闭运行时、模板缓存等，默认关闭
 defined('ZOTOP_DEBUG') or define('ZOTOP_DEBUG', false);
+
+// 跟踪模式，开启后网站页面底部将显示程序跟踪信息，默认关闭
 defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);        
 
 // 系统启动
@@ -1160,21 +1162,14 @@ class zotop
     /**
      * 连接数据库
      *
-     * @param $config string|array 数据库参数
+     * @param $config array 数据库参数
      * @return object 数据库连接
      */
-    public static function db($config = 'default')
+    public static function db($config = array())
     {
-        if (is_string($config))
+        if ( empty($config) )
         {
-			$database = zotop::config('database');
-
-            if (empty($database) or !is_array($database[$config]))
-            {
-                throw new zotop_exception(t('没有找到数据库配置“%s”', $config));
-            }
-
-            $config = $database[$config];
+			$config = zotop::config('database');
         }
 
         return database::instance($config);

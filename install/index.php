@@ -291,7 +291,7 @@ class install
 			$router = array();	
 
 			//写入默认数据库配置文件
-			file::put(ZOTOP_PATH_CONFIG.DS.'database.php', "<?php\nreturn ".var_export(array('default'=>$config),true).";\n?>");
+			file::put(ZOTOP_PATH_CONFIG.DS.'database.php', "<?php\nreturn ".var_export($config,true).";\n?>");
 			
 			// 写入站点配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'site.php', "<?php\nreturn ".var_export($site,true).";\n?>");

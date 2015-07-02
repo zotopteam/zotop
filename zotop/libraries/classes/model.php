@@ -9,14 +9,14 @@
  */
 class model
 {
-    protected $db = null; // 当前数据库操作对象
-	protected $dbconfig = 'default'; //默认的数据库配置，string|array
-    protected $table = ''; //数据表名称
-	protected $alias = ''; //数据表别名
-    protected $pk = 'id'; //主键名称
-	protected $fields = array(); //表的结构
-    protected $data = array(); //属性设置
-	protected $error = null; //错误
+	protected $db       = null; // 当前数据库操作对象
+	protected $dbconfig = array(); //默认的数据库配置，array
+	protected $table    = ''; //数据表名称
+	protected $alias    = ''; //数据表别名
+	protected $pk       = 'id'; //主键名称
+	protected $fields   = array(); //表的结构
+	protected $data     = array(); //属性设置
+	protected $error    = null; //错误
 
     /**
      * 架构函数，取得DB类的实例对象

@@ -41,7 +41,7 @@ abstract class database
         {
             if ( empty($config['driver']) )
             {
-               throw new zotop_exception(t('Error database config',$config));
+               throw new zotop_exception(t('Error database config', $config));
             }
 
             //数据库驱动程序
