@@ -163,7 +163,7 @@ class block_model_block extends model
 			}
 		}			
 
-		if ( $this->update($data, $id) )
+		if ( $this->where('id',$id)->data($data)->update() )
 		{
 			$this->clearcache($id);
 
@@ -179,7 +179,7 @@ class block_model_block extends model
      */
 	public function savedata($data, $id)
 	{
-		if ( $this->update(array('data'=>$data,'updatetime'=>ZOTOP_TIME), $id) )
+		if ( $this->where('id',$id)->data('data',$data)->data('updatetime',ZOTOP_TIME)->update() )
 		{
 			$this->clearcache($id);
 			return $id;

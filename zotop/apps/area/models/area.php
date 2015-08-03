@@ -84,7 +84,7 @@ class area_model_area extends model
 
 		$data['letter'] = substr(pinyin::get($data['name']),0,1);
 
-		return $this->update($data,$id);
+		return $this->where('id',$id)->data($data)->update();
 	}
 
 	/*
@@ -109,7 +109,7 @@ class area_model_area extends model
 	{
 		foreach( (array)$ids as $i=>$id )
 		{
-			$this->update(array('listorder'=>$i+1), $id);
+			$this->where('id',$id)->data('listorder',$i+1)->update();
 		}
 
 		return true;

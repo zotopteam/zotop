@@ -151,17 +151,17 @@ class content_controller_content extends admin_controller
 				case 'reject' :
 				case 'draft' :
 				case 'trash' :
-					$result = $this->content->where('id', 'in', $post['id'])->set('status', $operation)->update();
+					$result = $this->content->where('id', 'in', $post['id'])->data('status', $operation)->update();
 					break;
 				case 'move':
 					if ( empty($post['categoryid']) )
 					{
 						return $this->error(t('禁止移动到根目录'));
 					}
-					$result = $this->content->where('id', 'in', $post['id'])->set('categoryid', $post['categoryid'])->update();
+					$result = $this->content->where('id', 'in', $post['id'])->data('categoryid', $post['categoryid'])->update();
 					break;
 				case 'weight':
-					$result = $this->content->where('id', 'in', $post['id'])->set('weight', $post['weight'])->update();
+					$result = $this->content->where('id', 'in', $post['id'])->data('weight', $post['weight'])->update();
 					break;
 				default :
 					break;
@@ -192,10 +192,10 @@ class content_controller_content extends admin_controller
 				$categoryids = m('content.category.get',$categoryid,'childids');
 
 				// 将当前列表 $listorder 之前的数据的 listorder 全部加 1， 为拖动的数据保留出位置
-				$this->content->where('categoryid','in',$categoryids)->where('listorder','>=',$listorder)->set('listorder',array('listorder','+',1))->update();
+				$this->content->where('categoryid','in',$categoryids)->where('listorder','>=',$listorder)->data('listorder',array('listorder','+',1))->update();
 				
 				// 更新拖动的数据为当前 $listorder
-				$this->content->where('id',$id)->set('listorder',$listorder)->set('stick',$stick)->update();
+				$this->content->where('id',$id)->data('listorder',$listorder)->data('stick',$stick)->update();
 				
 				return $this->success(t('操作成功'),request::referer());
 			}
@@ -286,7 +286,7 @@ class content_controller_content extends admin_controller
 				return $this->error(t('权重必须是0-99之间的数字'));
 			}
 
-			if ( $this->content->where('id',$id)->set($key, $newvalue)->update() )
+			if ( $this->content->where('id',$id)->data($key, $newvalue)->update() )
 			{
 				return $this->success(t('操作成功'),request::referer());
 			}
@@ -303,7 +303,7 @@ class content_controller_content extends admin_controller
 	 */
 	public function action_stick($id, $stick)
 	{
-		if ( $this->content->where('id',$id)->set('stick',$stick)->update() )
+		if ( $this->content->where('id',$id)->data('stick',$stick)->update() )
 		{
 			return $this->success(t('操作成功'),request::referer());
 		}

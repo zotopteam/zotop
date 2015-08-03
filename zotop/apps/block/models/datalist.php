@@ -116,10 +116,9 @@ class block_model_datalist extends model
 		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
 		
 		$data['time']       = strtotime($data['time']) ;
-
 		$data['updatetime'] = ZOTOP_TIME ;
 		
-		if ( $this->update($data, $id) )
+		if ( $this->where('id',$id)->data($data)->update() )
 		{
 			$this->updatedata($data['blockid']);
 			return $id;
@@ -162,7 +161,7 @@ class block_model_datalist extends model
         {
             $stick = $data['stick'] ? 0 : 1;
 
-			if ( $this->update(array('stick'=>$stick),$id) )
+			if ( $this->where('id',$id)->data('stick',$stick)->update() )
 			{
 				$this->updatedata($data['blockid']);
 
@@ -187,7 +186,7 @@ class block_model_datalist extends model
 			$data['status']     = 'publish';
 			$data['listorder']  = $this->where('blockid',$data['blockid'])->max('listorder') + 1;
 
-			if ( $this->update($data, $id) )
+			if ( $this->where('id',$id)->data($data)->update() )
 			{
 				$this->updatedata($data['blockid']);
 
@@ -213,8 +212,7 @@ class block_model_datalist extends model
 
 			foreach( $ids as $i=>$id )
 			{
-				$this->update(array('listorder' => $i+1), $id);
-
+				$this->where('id',$id)->data('listorder',$i+1)->update();
 			}
 
 			$this->updatedata($blockid);
@@ -241,7 +239,7 @@ class block_model_datalist extends model
 		// 将超出限制条目的已发布数据设置为历史状态
 		if ( $list = $this->getlist($blockid) )
 		{
-			$this->where('status','publish')->where('blockid',$blockid)->where('id','not in', array_keys($list))->set('status','history')->update();
+			$this->where('status','publish')->where('blockid',$blockid)->where('id','not in', array_keys($list))->data('status','history')->update();
 		}
 		
 		return m('block.block')->savedata($this->getdata($blockid), $blockid);
@@ -283,7 +281,7 @@ class block_model_datalist extends model
 		{
 			foreach ($edit as $blockid)
 			{
-				$this->where('dataid',$data['dataid'])->where('blockid',$blockid)->update($data);						
+				$this->where('dataid',$data['dataid'])->where('blockid',$blockid)->data($data)->update();						
 			}
 
 			$this->updatedata($edit);	

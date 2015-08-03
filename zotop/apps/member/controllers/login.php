@@ -131,7 +131,7 @@ class member_controller_login extends site_controller
 
 				$post['password'] = m('system.user.password', $post['password']);
 
-				if ( !m('system.user')->set('password', $post['password'])->where('id', $post['id'])->update() )
+				if ( !m('system.user')->data('password', $post['password'])->where('id', $post['id'])->update() )
 				{
 					return $this->error(m('system.user')->error());
 				}

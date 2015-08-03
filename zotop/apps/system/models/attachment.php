@@ -291,7 +291,7 @@ class system_model_attachment extends model
 		if ( !$dataid ) return false;
 		if ( !$tempid ) $tempid = zotop::session('[id]');
 
-		return $this->set('app',ZOTOP_APP)->set('dataid',$dataid)->set('status',1)->where('dataid','=',$tempid)->update();
+		return $this->data('app',ZOTOP_APP)->data('dataid',$dataid)->data('status',1)->where('dataid','=',$tempid)->update();
 	}
 
 

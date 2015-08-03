@@ -95,13 +95,13 @@ class shop_controller_goods extends admin_controller
 				case 'disabled' :
 				case 'draft' :
 				case 'trash' :
-					$result = $this->goods->where('id', 'in', $post['id'])->set('status', $operation)->update();
+					$result = $this->goods->where('id', 'in', $post['id'])->data('status', $operation)->update();
 					break;
 				case 'move':
-					$result = $this->goods->where('id', 'in', $post['id'])->set('categoryid', intval($post['categoryid']))->update();
+					$result = $this->goods->where('id', 'in', $post['id'])->data('categoryid', intval($post['categoryid']))->update();
 					break;
 				case 'weight':
-					$result = $this->goods->where('id', 'in', $post['id'])->set('weight', $post['weight'])->update();
+					$result = $this->goods->where('id', 'in', $post['id'])->data('weight', $post['weight'])->update();
 					break;
 				default :
 					break;
@@ -128,7 +128,7 @@ class shop_controller_goods extends admin_controller
 				return $this->error(t('权重必须是0-100之间的数字'));
 			}	
 
-			if ( $this->goods->where('id',$id)->set($key, $value)->update() )
+			if ( $this->goods->where('id',$id)->data($key, $value)->update() )
 			{
 				return $this->success(t('操作成功'), request::referer());
 			}

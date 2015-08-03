@@ -113,7 +113,7 @@ class shop_model_category extends model
 			if ( $data['apply-setting-childs'] )
 			{
 				$childids = $this->get($id,'childids');
-				$applay = $this->where('id','in', explode(',', $childids))->set('settings', $data['settings'])->update();
+				$applay = $this->where('id','in', explode(',', $childids))->data('settings', $data['settings'])->update();
 			}
 
 			// 数据关系

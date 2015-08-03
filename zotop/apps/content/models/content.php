@@ -366,7 +366,7 @@ class content_model_content extends model
 
 		if( $id )
 		{
-			return $this->where('id',$id)->set('hits',array('hits','+',1))->update();
+			return $this->where('id',$id)->data('hits',array('hits','+',1))->update();
 		}
 
 		return false;

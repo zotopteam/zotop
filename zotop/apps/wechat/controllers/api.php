@@ -30,7 +30,7 @@ class wechat_controller_api extends site_controller
 
 		if ( !$account['connect'] )
 		{
-			m('wechat.account')->where('id',$id)->set('connect',1)->update();
+			m('wechat.account')->where('id',$id)->data('connect',1)->update();
 		}
 
 		$type = $wechat->getRev()->getRevType();

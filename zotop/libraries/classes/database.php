@@ -335,9 +335,9 @@ abstract class database
 	 * 链式查询，设置数据，用于‘insert’ 或者 ‘update’ "SET... VALUES ..."
 	 *
 	 * <code>
-	 * set('status',1) //设置‘status’为‘1’
-	 * set(array('status'=>1,'updatetime'=>'2010-09-23 21:45:30')) //设置多个数据
-	 * set('num',array('num','-',1)) 或者 set(array('num' => array('num','+',1))) //支持运算
+	 * data('status',1) //设置‘status’为‘1’
+	 * data(array('status'=>1,'updatetime'=>'2010-09-23 21:45:30')) //设置多个数据
+	 * data('num',array('num','-',1)) 或者 set(array('num' => array('num','+',1))) //支持运算
 	 * </code>
 	 *
 	 * @param   mixed  name 字段名称或者数组数据
@@ -345,14 +345,14 @@ abstract class database
 	 * @return  $this
 	 *
 	 */
-	public function set($name='', $value='')
+	public function data($name='', $value='')
 	{
-		if ( $name === '' ) return $this->sqlBuilder['set'];
+		if ( $name === '' ) return $this->sqlBuilder['data'];
 
 		//清空全部的where条件
 		if ( $name === null )
 		{
-			$this->sqlBuilder['set'] = array();
+			$this->sqlBuilder['data'] = array();
 		}
 		elseif ( is_string($name) )
 		{
@@ -365,7 +365,7 @@ abstract class database
 
 		if ( is_array($data) )
 		{
-			$this->sqlBuilder['set'] = array_merge((array)$this->sqlBuilder['set'], $data);
+			$this->sqlBuilder['data'] = array_merge((array)$this->sqlBuilder['data'], $data);
 		}
 	    return $this;
 	}
@@ -839,20 +839,19 @@ abstract class database
     }
 
     /**
-     * 查询语句构建器 SET 解析
+     * 查询语句构建器 DATA 解析
 	 *
 	 * @param $offset int 起始位置
 	 * @param  $limit  int 条数限制
 	 * @return string
 	 *
      */
-    public function parseSet($data)
+    public function parseData($data)
     {
         $str = '';
 
         foreach((array)$data as $key=>$val)
         {
-
             //解析值中的如：num = array('num','+',1) 或者array('num','-',1)
 			if ( is_array($val) && count($val)==3 && in_array($val[1],array('+','-','*','%')) && is_numeric($val[2]) )
 			{
@@ -880,7 +879,7 @@ abstract class database
 	 * $db->insert('user',array(),false)
 	 *
 	 * // 使用链式查询
-	 * $db->from('content')->set(array())->insert(true)
+	 * $db->from('content')->data(array())->insert(true)
 	 * @endcode
      *
 	 * @param string $table 数据表
@@ -893,10 +892,10 @@ abstract class database
 		if ( $table === true or $table === false ) $replace = $table;
 
         //设置查询
-        $this->from($table)->set($data);
+        $this->from($table)->data($data);
 
 		$table = $this->sqlBuilder['from'];
-		$data = $this->sqlBuilder['set'];
+		$data = $this->sqlBuilder['data'];
 
         // 没有插入的数据或者插入表
 		if ( !is_array($data) or empty($table) ) return false;
@@ -933,7 +932,7 @@ abstract class database
      *
 	 * <code>
 	 * $db->update('user',array())
-	 * $db->from('user')->set(array())->where('id','=',1)->update()
+	 * $db->from('user')->data(array())->where('id','=',1)->update()
 	 * </code>
 	 *
 	 * @param string $table 数据表
@@ -944,13 +943,13 @@ abstract class database
     public function update($table='', $data=array(), $where=array())
     {
 		//设置查询
-        $this->from($table)->set($data)->where($where);
+        $this->from($table)->data($data)->where($where);
 
         //必须设置更新条件
         if( empty($this->sqlBuilder['where']) OR empty($this->sqlBuilder['from']) ) return false;
 
 		//未更新任何数据
-		if ( !is_array($this->sqlBuilder['set']) ) return true;
+		if ( !is_array($this->sqlBuilder['data']) ) return true;
 
         //sql
         $sql = 'UPDATE %TABLE%%SET%%WHERE%';
@@ -958,7 +957,7 @@ abstract class database
             array('%TABLE%','%SET%','%WHERE%'),
             array(
 				$this->parseFrom($this->sqlBuilder['from']),
-				$this->parseSet($this->sqlBuilder['set']),
+				$this->parseData($this->sqlBuilder['data']),
 				$this->parseWhere($this->sqlBuilder['where']),
             ),
             $sql

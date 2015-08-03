@@ -182,7 +182,7 @@ class wechat_model_account extends model
 	public function connect($id, $connect=1)
 	{
 
-		if (  $this->where('id',$id)->set('connect',$connect)->update() )
+		if (  $this->where('id',$id)->data('connect',$connect)->update() )
 		{
 			$this->cache(true);			
 			return true;

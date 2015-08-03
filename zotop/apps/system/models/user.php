@@ -243,11 +243,11 @@ class system_model_user extends model
 	{
 	    if( empty($id) ) return false;
 
-	    return $this->update(array(
+	    return $this->where('id',intval($id))->data(array(
 	        'logintime' => ZOTOP_TIME,
 	    	'logintimes' => array('logintimes','+',1),
 	        'loginip'=> request::ip()
-	    ),intval($id));
+	    ))->update();
 	}
 
 	/**
@@ -260,7 +260,7 @@ class system_model_user extends model
 	{
 	    if( empty($id) or intval($point) == 0 ) return false;
 
-	    return $this->db()->where('id', intval($id))->set('point',array('point','+',intval($point)))->update();
+	    return $this->db()->where('id', intval($id))->data('point',array('point','+',intval($point)))->update();
 	}
 
 	/**

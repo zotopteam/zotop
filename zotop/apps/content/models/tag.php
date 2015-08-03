@@ -60,7 +60,7 @@ class content_model_tag extends model
 			// 重新计算引用次数
 			$quotes = $this->tagdata->where('tagid',$tagid)->count();
 
-			$this->where('id', $tagid)->set('quotes', $quotes)->update();
+			$this->where('id', $tagid)->data('quotes', $quotes)->update();
         }
 
         return true;

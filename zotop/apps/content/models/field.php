@@ -284,7 +284,7 @@ class content_model_field extends model
 				//更新模型类型
 				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() > 0 )
 				{
-					m('content.model')->where('id',$data['modelid'])->set('model','extend')->update();
+					m('content.model')->where('id',$data['modelid'])->data('model','extend')->update();
 					m('content.model')->cache(true);
 				}
 
@@ -367,7 +367,7 @@ class content_model_field extends model
 				//更新模型类型
 				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $table->drop() )
 				{				
-					m('content.model')->where('id',$data['modelid'])->set('model','')->update();
+					m('content.model')->where('id',$data['modelid'])->data('model','')->update();
 					m('content.model')->cache(true);
 				}
 

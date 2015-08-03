@@ -1188,7 +1188,8 @@ abstract class db
 	 * $db->insert('user',array(),false)
 	 *
 	 * // 使用链式查询
-	 * $db->from('content')->set(array())->insert(true)
+	 * $db->from('content')->data(
+array())->insert(true)
 	 * @endcode
      *
 	 * @param string $table 数据表
@@ -1201,7 +1202,7 @@ abstract class db
 		if ( $table === true or $table === false ) $replace = $table;
 
         //设置查询
-        $this->from($table)->set($data);
+        $this->from($table)->data($data);
 
 		$table = $this->sqlBuilder['from'];
 		$data = $this->sqlBuilder['set'];
@@ -1241,7 +1242,7 @@ abstract class db
      *
 	 * <code>
 	 * $db->update('user',array())
-	 * $db->from('user')->set(array())->where('id','=',1)->update()
+	 * $db->from('user')->data(array())->where('id','=',1)->update()
 	 * </code>
 	 *
 	 * @param string $table 数据表
@@ -1252,7 +1253,7 @@ abstract class db
     public function update($table='', $data=array(), $where=array())
     {
 		//设置查询
-        $this->from($table)->set($data)->where($where);
+        $this->from($table)->data($data)->where($where);
 
         //必须设置更新条件
         if( empty($this->sqlBuilder['where']) OR empty($this->sqlBuilder['from']) ) return false;

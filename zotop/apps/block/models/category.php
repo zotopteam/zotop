@@ -40,7 +40,7 @@ class block_model_category extends model
 	{
 		if ( empty($data['name']) ) return $this->error(t('分类名称不能为空'));
 
-		if ( $this->update($data, $id) )
+		if ( $this->where('id',$id)->data($data)->update() )
 		{
 			return true;
 		}
@@ -95,7 +95,7 @@ class block_model_category extends model
 	{
 		foreach( (array)$ids as $i=>$id )
 		{
-			$this->update(array('listorder'=>$i+1), $id);
+			$this->where('id',$id)->data('listorder',$i+1)->update();
 		}
 
 		return true;
@@ -118,7 +118,7 @@ class block_model_category extends model
 			return $this->error(t('该分类不能被禁用'));
 		}
 
-		if ( $this->update(array('disabled'=>$disabled),$id) )
+		if ( $this->where('id',$id)->data('disabled',$disabled)->update() )
 		{
 			return true;
 		}

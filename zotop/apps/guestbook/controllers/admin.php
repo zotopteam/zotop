@@ -79,7 +79,8 @@ class guestbook_controller_admin extends admin_controller
 				case 'publish' :
 				case 'pending' :
 				case 'trash' :
-					$result = $this->guestbook->where('id','in',$post['id'])->set(array('status'=>$operation))->update();
+					$result = $this->guestbook->where('id','in',$post['id'])->data(
+array('status'=>$operation))->update();
 					break;
 				default :
 					break;

@@ -144,7 +144,7 @@ class area_controller_admin extends admin_controller
 		{
 			$parentids = array_keys($tree->getParents($d['id']));
 
-			$this->area->set('level',count($parentids))->set('parentids',implode(',',$parentids))->where('id',$d['id'])->update();
+			$this->area->data('level',count($parentids))->data('parentids',implode(',',$parentids))->where('id',$d['id'])->update();
 		}
 
 		return $this->success(t('操作成功'));

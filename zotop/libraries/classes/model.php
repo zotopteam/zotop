@@ -76,44 +76,6 @@ class model
 	}
 
     /**
-     * 获取或者绑定数据
-     *
-     * @param mixed $name 名称/数据数组
-	 * @param mixed $value 值
-     * @return mixed
-     */
-
-	public function data($name='', $value=null)
-	{
-		//清除数据
-		if ( $name === null ) return ( $this->data = array() );
-
-		//获取数据
-		if ( empty($name) ) return $this->data;
-
-		//合并数据
-		if ( is_array($name) )
-		{
-			$this->data = array_merge($this->data, $name);
-		}
-
-		//获取或者设置属性值
-		if ( is_string($name) )
-		{
-			// 取值
-			if ( $value === null )
-			{
-				return $this->data[$name];
-			}
-
-			// 赋值
-			$this->data[$name]  =   $value;
-		}
-
-		return $this->data;
-	}
-
-    /**
      * 得到当前的数据表的主键名称
      *
      * @access public
@@ -366,7 +328,7 @@ class model
 
 		if ( empty($data) )
 		{
-			$data = empty($this->data) ? $this->db->set() : $this->data;
+			$data = empty($this->data) ? $this->db->data() : $this->data;
 		}
 
 		// 前置保存
@@ -379,7 +341,7 @@ class model
 		if ( $insertdata = $this->_filter_data($data) )
 		{
 			// 插入成功
-			if ( false !== $insertid = $this->db()->set(null)->set($insertdata)->insert($replace) )
+			if ( false !== $insertid = $this->db()->data(null)->data($insertdata)->insert($replace) )
 			{
 				// 自增的返回的id
 				if ( $insertid !== true ) $data[$this->pk()]  = $insertid;
@@ -407,7 +369,7 @@ class model
      *
 	 * <code>
 	 *
-	 * 更新主键为1的数据
+	 * 更新主键为 1 的数据
 	 *
   	 * 方法一：
 	 *
@@ -418,21 +380,15 @@ class model
 	 *
 	 * 方法二：
 	 *
-	 * $model->id = 1;
-	 * $model->update(array('name'=>'test','title'=>'test title'));
+	 * $model->data(array('id'=>1,'name'=>'test','title'=>'test title'))->update();
 	 *
 	 * 方法三：
 	 *
-	 * $model->update(array('name'=>'test','title'=>'test title'), 1)
-	 *
-	 * 更新任意字段的数据
-	 *
-	 * $model->update(array('name','=','test'), array('categoryid','=',1));
+	 * $model->where('id',1)->data('name','test')->data('title','test')->update()
 	 *
 	 * 自增，自减
 	 *
-	 * $model->id = 1;
-	 * $model->update(array('logintime' => TIME,'loginnum' => array('loginnum','+',1)));
+	 * $model->where('id',1)->data('logintime',ZOTOP_TIME)->data('loginnum',array('loginnum','+',1))->update();
 	 *
 	 * </code>
 	 *
@@ -445,7 +401,7 @@ class model
     {
 		if ( !is_array($data) or empty($data) )
 		{
-			$data = empty($this->data) ? $this->db->set() : $this->data;
+			$data = empty($this->data) ? $this->db->data() : $this->data;
 		}
 
 		if ( empty($where) )
@@ -458,6 +414,8 @@ class model
 			$where = array($this->pk(),'=',$where);
 		}
 
+
+
 		// 前置保存
 		if ( false === $this->_before_update($data, $where) )
 		{
@@ -468,7 +426,7 @@ class model
 		if ( $updatedata = $this->_filter_data($data) )
 		{
 			// 更新
-			if ( $this->db()->set(null)->set($updatedata)->where(null)->where($where)->update() )
+			if ( $this->db()->data(null)->data($updatedata)->where(null)->where($where)->update() )
 			{
 				// 后置方法
 				$this->_after_update($data, $where);
@@ -566,7 +524,7 @@ class model
 	{
 		$method = strtolower($method);
 
-		if ( in_array($method, array('distinct','select','set','join','where','orderby','having','groupby','limit','offset'),true) )
+		if ( in_array($method, array('distinct','select','data','join','where','orderby','having','groupby','limit','offset'),true) )
 		{
 			call_user_func_array(array($this->db, $method), $args);
 			return $this;

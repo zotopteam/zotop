@@ -133,7 +133,7 @@ class member_controller_register extends site_controller
 		// 验证用户编号
 		if ( $id and $user = $this->member->user->getbyid($id) )
 		{
-			$this->member->user->where('id',$id)->set('emailstatus',1)->update();
+			$this->member->user->where('id',$id)->data('emailstatus',1)->update();
 			$this->member->login($user);
 
 			return $this->success(t('邮箱地址验证成功'),U('member/index'));

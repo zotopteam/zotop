@@ -102,7 +102,7 @@ class system_controller_role extends admin_controller
 	{
 		if ( $post = $this->post() )
 		{
-			if ( $this->rolepriv->set($id, $post['id']) )
+			if ( $this->rolepriv->data($id, $post['id']) )
 			{
 				return $this->success(t('保存成功'));
 			}

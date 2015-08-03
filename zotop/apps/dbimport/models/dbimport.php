@@ -194,7 +194,7 @@ class dbimport_model_dbimport extends model
 					}					
 				}
 
-				$this->db->from($config['table'])->set($data)->insert(true);
+				$this->db->from($config['table'])->data($data)->insert(true);
 			}
 
 			return count($source_data);

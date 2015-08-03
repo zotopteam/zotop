@@ -259,7 +259,8 @@ class system_model_app extends model
 				if ( C("{$app}.{$key}") == $value and C("{$app}.{$key}") == null ) continue;
 
 				// 保存不相同的设置
-				$this->db->from('config')->set(array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
+				$this->db->from('config')->data(
+array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
 			}
 
 			// 获取全部配置并写入配置文件
