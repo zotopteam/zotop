@@ -137,7 +137,7 @@ class member_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['tablename']);
+			$table = $this->db->schema($data['tablename']);
 
 			// 检查字段名称是否已经存在
 			if ( $table->existsField($data['name']) )
@@ -167,7 +167,7 @@ class member_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['tablename']);
+			$table = $this->db->schema($data['tablename']);
 
 			$name = $data['_name'] ? $data['_name'] : $data['name']; //改变字段名称
 
@@ -204,7 +204,7 @@ class member_model_field extends model
 				$data['tablename'] = m('member.model')->where('id',$data['modelid'])->getField('tablename');
 			}
 
-			if ( $this->db->table($data['tablename'])->dropField($data['name']) and parent::delete($id) )
+			if ( $this->db->schema($data['tablename'])->dropField($data['name']) and parent::delete($id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['tablename']}.fields",null);

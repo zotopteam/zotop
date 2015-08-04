@@ -15,5 +15,5 @@ defined('ZOTOP_UNINSTALL') OR die('No direct access allowed.');
 /*
  * 删除数据表
  */
-$this->db->table('area')->drop();
+$this->db->schema('area')->drop();
 ?>

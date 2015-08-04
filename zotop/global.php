@@ -24,9 +24,9 @@ zotop::register(array(
     'mail'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'mail.php',
     'captcha'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'captcha.php',
     
-    'database_table'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'table.php',
-    'database_table_mysql'  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'table_mysql.php',
-    'database_table_sqlite' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'table_sqlite.php',
+    'database_schema'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema.php',
+    'database_schema_mysql'  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema_mysql.php',
+    'database_schema_sqlite' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema_sqlite.php',
     
     'session'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session.php',
     'session_native'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'native.php',

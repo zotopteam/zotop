@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @license    http://zotop.com/license.html
 */
 
-class database_table_sqlite extends database_table
+class database_schema_sqlite extends database_schema
 {
 	/**
 	 * Thanks to Drupal's amazing works.

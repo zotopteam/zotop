@@ -248,7 +248,7 @@ class content_model_field extends model
 			$tablename 	= "content_model_{$data['modelid']}";
 
 			// 数据表对象
-			$table 		= $this->db->table($tablename);
+			$table 		= $this->db->schema($tablename);
 
 			if ( !$table->exists() )
 			{
@@ -323,7 +323,7 @@ class content_model_field extends model
 		{
 			$tablename 	= "content_model_{$data['modelid']}";
 
-			$table 		= $this->db->table($tablename);
+			$table 		= $this->db->schema($tablename);
 
 			// 更名的时候检查字段名称是否已经存在
 			if ( $data['_name'] != $data['name'] and $table->existsField($data['name']) )
@@ -360,7 +360,7 @@ class content_model_field extends model
 			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除'));
 
 			$tablename 	= "content_model_{$data['modelid']}";
-			$table 		= $this->db->table($tablename);
+			$table 		= $this->db->schema($tablename);
 
 			if ( $table->dropField($data['name']) and parent::delete($id) )
 			{

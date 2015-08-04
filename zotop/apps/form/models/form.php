@@ -63,7 +63,7 @@ class form_model_form extends model
 		if ( empty($data['table']) ) return $this->error(t('数据表名不能为空'));
 
 		// 检查数据表是否存在
-		if ( $this->db->table($data['table'])->exists() )
+		if ( $this->db->schema($data['table'])->exists() )
 		{
 			return $this->error(t('数据表名已经存在'));
 		}
@@ -84,7 +84,7 @@ class form_model_form extends model
 			);
 
 			// 创建并缓存
-			if ( $this->db->table($data['table'])->create($table) )
+			if ( $this->db->schema($data['table'])->create($table) )
 			{
 				$this->cache(true);
 				return $id;
@@ -107,15 +107,15 @@ class form_model_form extends model
 		if ( empty($data['table']) ) return $this->error(t('数据表名不能为空'));
 
 		// 尝试修改表注释
-		$this->db->table($data['table'])->comment($data['name']);
+		$this->db->schema($data['table'])->comment($data['name']);
 
 		// 更改数据表名称
 		if ( $this->get($id,'table') != $data['table'] )
 		{
 			// 检查数据表是否存在
-			if ( $this->db->table($data['table'])->exists() ) return $this->error(t('数据表名已经存在'));
+			if ( $this->db->schema($data['table'])->exists() ) return $this->error(t('数据表名已经存在'));
 
-			if ( $this->db->table($this->get($id,'table'))->rename($data['table']) == false )
+			if ( $this->db->schema($this->get($id,'table'))->rename($data['table']) == false )
 			{				
 				unset($data['table']);
 			}
@@ -150,7 +150,7 @@ class form_model_form extends model
 			m('form.field')->deletebyformid($id);
 
 			// 删除数据表
-			$this->db->table($table)->drop();
+			$this->db->schema($table)->drop();
 
 			// 重建缓存
 			$this->cache(true);

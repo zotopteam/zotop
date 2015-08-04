@@ -12,8 +12,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
  */
 
 // [area] 创建
-$this->db->table('area')->drop();
-$this->db->table('area')->create(array(
+$this->db->schema('area')->drop();
+$this->db->schema('area')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('区域编号') ),
 		'parentid'	=> array ( 'type'=>'mediumint', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('父编号') ),

@@ -20,5 +20,5 @@ if ( $this->db->from('guestbook')->count() )
 /*
  * 删除guestbook数据表
  */
-$this->db->table('guestbook')->drop();
+$this->db->schema('guestbook')->drop();
 ?>

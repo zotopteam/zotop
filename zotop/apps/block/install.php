@@ -13,8 +13,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 
 
 // 创建 [block_category] 数据表
-$this->db->table('block_category')->drop();
-$this->db->table('block_category')->create(array(
+$this->db->schema('block_category')->drop();
+$this->db->schema('block_category')->create(array(
 	'fields'=>array(
 		'id'          => array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('编号') ),
 		'name'        => array ( 'type'=>'char', 'length'=>50, 'notnull'=>true, 'comment' => t('名称') ),
@@ -43,8 +43,8 @@ foreach( $default_category as $category )
 
 
 // [block] 创建
-$this->db->table('block')->drop();
-$this->db->table('block')->create(array(
+$this->db->schema('block')->drop();
+$this->db->schema('block')->create(array(
 	'fields'=>array(
 		'id'          => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'categoryid'  => array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('分类编号') ),
@@ -70,8 +70,8 @@ $this->db->table('block')->create(array(
 	'comment' => t('区块表') 
 ));
 // [block_datalist] 创建
-$this->db->table('block_datalist')->drop();
-$this->db->table('block_datalist')->create(array(
+$this->db->schema('block_datalist')->drop();
+$this->db->schema('block_datalist')->create(array(
 	'fields'=>array(
 		'id'          => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'blockid'     => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'comment' => t('区块编号') ),

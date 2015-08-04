@@ -217,12 +217,12 @@ class developer_controller_project extends admin_controller
 				'comment' => $post['comment'],
 			);
 
-			if (  $this->db->table($post['name'])->exists() )
+			if (  $this->db->schema($post['name'])->exists() )
 			{
 				return $this->error(t('%s 已经存在', $post['name']));
 			}
 
-			if ( $this->db->table($post['name'])->create($schema) )
+			if ( $this->db->schema($post['name'])->create($schema) )
 			{
 				$app = $this->app;
 
@@ -270,9 +270,9 @@ class developer_controller_project extends admin_controller
 			// 数据表更名
 			if (  $post['name'] != $table )
 			{
-				if ( $this->db->table($post['name'])->exists() ) return $this->error(t('%s 已经存在', $post['name']));
+				if ( $this->db->schema($post['name'])->exists() ) return $this->error(t('%s 已经存在', $post['name']));
 
-				if ( $this->db->table($table)->rename($post['name']) == false )
+				if ( $this->db->schema($table)->rename($post['name']) == false )
 				{
 					return $this->error(t('更新表名称失败'));
 				}
@@ -282,7 +282,7 @@ class developer_controller_project extends admin_controller
 			}
 
 			// 更新表注释
-			if ( $this->db->table($post['name'])->comment($post['comment']) == false )
+			if ( $this->db->schema($post['name'])->comment($post['comment']) == false )
 			{
 				return $this->error(t('更是表注释失败'));
 			}
@@ -320,7 +320,7 @@ class developer_controller_project extends admin_controller
 	{
 		$name = $_GET['name'];
 
-		if ( $name != $ignore and $this->db->table($name)->exists() )
+		if ( $name != $ignore and $this->db->schema($name)->exists() )
 		{
 			exit('"'.t('已经存在，请重新输入').'"');
 		}

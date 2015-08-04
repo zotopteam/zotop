@@ -51,7 +51,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @endcode
 */
 
-abstract class database_table
+abstract class database_schema
 {
 	protected $db = null; //表隶属于的db
 	protected $table = ''; //表的名称

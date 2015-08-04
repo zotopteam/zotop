@@ -14,8 +14,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 /*
  * 创建guestbook数据表
  */
-$this->db->table('guestbook')->drop();
-$this->db->table('guestbook')->create(array(
+$this->db->schema('guestbook')->drop();
+$this->db->schema('guestbook')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'categoryid'=> array ( 'type'=>'tinyint', 'length'=>3, 'default'=>'0', 'comment' => t('分类') ),

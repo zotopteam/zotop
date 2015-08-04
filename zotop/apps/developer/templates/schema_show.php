@@ -2,8 +2,8 @@
 
 	<textarea style="width:1600px;border:0 none;;margin:10px;padding:0;line-height:20px;">
 	// [{$table}] 创建	
-	$this->db->table('{$table}')->drop();
-	$this->db->table('{$table}')->create({$schemastr});
+	$this->db->schema('{$table}')->drop();
+	$this->db->schema('{$table}')->create({$schemastr});
 
 	{if !empty($data)}
 	// [{$table}] 插入数据

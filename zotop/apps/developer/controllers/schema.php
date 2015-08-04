@@ -55,7 +55,7 @@ class developer_controller_schema extends admin_controller
 		$app = @include(ZOTOP_PATH_APPS . DS . zotop::cookie('project_dir') . DS .'app.php');
 
 		// 获取数据表结构信息
-		$schema = $this->db->table($table)->schema();
+		$schema = $this->db->schema($table)->schema();
 
 		$this->assign('title',t('数据表结构'));
 		$this->assign('app',$app);
@@ -75,7 +75,7 @@ class developer_controller_schema extends admin_controller
     {
 		if ( $post = $this->post() )
 		{
-			$table = $this->db->table($tablename);
+			$table = $this->db->schema($tablename);
 
 			switch($operation)
 			{
@@ -119,7 +119,7 @@ class developer_controller_schema extends admin_controller
 		$data = $this->db->from($table)->getAll();
 
 		// 获取数据表结构信息
-		$schemastr = $this->db->table($table)->toString();
+		$schemastr = $this->db->schema($table)->toString();
 
 		$this->assign('title',t('数据表结构数组'));
 		$this->assign('table',$table);
@@ -137,14 +137,14 @@ class developer_controller_schema extends admin_controller
 	 */
     public function action_checkfield($tablename, $oname='')
 	{
-		$table = $this->db->table($tablename);
+		$table = $this->db->schema($tablename);
 
 		if( empty($oname) and $table->existsField($_GET['name']) )
 		{
 			exit('"'.t('已经存在，请重新输入',$_GET['name']).'"');
 		}
 
-		if( $oname != $_GET['name'] and $this->db->table($tablename)->existsField($_GET['name']) )
+		if( $oname != $_GET['name'] and $this->db->schema($tablename)->existsField($_GET['name']) )
 		{
 			exit('"'.t('已经存在，请重新输入',$_GET['name']).'"');
 		}
@@ -160,7 +160,7 @@ class developer_controller_schema extends admin_controller
 	 */
     public function action_addfield($tablename)
     {
-		$table = $this->db->table($tablename);
+		$table = $this->db->schema($tablename);
 
 		if ( $post = $this->post() )
 		{
@@ -211,7 +211,7 @@ class developer_controller_schema extends admin_controller
 	 */
     public function action_editfield($tablename, $field)
     {
-		$table = $this->db->table($tablename);
+		$table = $this->db->schema($tablename);
 
 		if ( $post = $this->post() )
 		{
@@ -265,7 +265,7 @@ class developer_controller_schema extends admin_controller
     {
 		if ( $post = $this->post() )
 		{
-			if ( $this->db->table($table)->dropField($field) )
+			if ( $this->db->schema($table)->dropField($field) )
 			{
 				return $this->success(t('%s成功',t('删除')) ,u("developer/schema/{$table}"));
 			}
@@ -284,7 +284,7 @@ class developer_controller_schema extends admin_controller
     {
 		if ( $post = $this->post() )
 		{
-			if ( $this->db->table($table)->dropPrimary() )
+			if ( $this->db->schema($table)->dropPrimary() )
 			{
 				return $this->success(t('%s成功',t('删除')) ,u("developer/schema/{$table}"));
 			}
@@ -303,7 +303,7 @@ class developer_controller_schema extends admin_controller
     {
 		if ( $post = $this->post() )
 		{
-			if ( $this->db->table($table)->dropIndex($field) )
+			if ( $this->db->schema($table)->dropIndex($field) )
 			{
 				return $this->success(t('%s成功',t('删除')) ,u("developer/schema/{$table}"));
 			}

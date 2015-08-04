@@ -20,7 +20,7 @@ if ( $this->db->from('content')->count() )
 /*
  * 删除guestbook数据表
  */
-$this->db->table('content')->drop();
-$this->db->table('content_model')->drop();
-$this->db->table('content_category')->drop();
+$this->db->schema('content')->drop();
+$this->db->schema('content_model')->drop();
+$this->db->schema('content_category')->drop();
 ?>

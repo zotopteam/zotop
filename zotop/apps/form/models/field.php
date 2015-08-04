@@ -313,7 +313,7 @@ class form_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['table']);
+			$table = $this->db->schema($data['table']);
 
 			// 检查字段名称是否已经存在
 			if ( $table->existsField($data['name']) )
@@ -349,7 +349,7 @@ class form_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->table($data['table']);
+			$table = $this->db->schema($data['table']);
 
 			$name = $data['_name'] ? $data['_name'] : $data['name']; //改变字段名称
 
@@ -390,7 +390,7 @@ class form_model_field extends model
 				$data['table'] = m('form.form.get', $data['formid'], 'table');
 			}
 
-			if ( $this->db->table($data['table'])->dropField($data['name']) and parent::delete($id) )
+			if ( $this->db->schema($data['table'])->dropField($data['name']) and parent::delete($id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields",null);

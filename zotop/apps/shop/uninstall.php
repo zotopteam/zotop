@@ -21,8 +21,8 @@ if ( $this->db->from('goods')->count() )
 /*
  * 删除数据表
  */
-$this->db->table('goods')->drop();
-$this->db->table('shop_goods_attr')->drop();
+$this->db->schema('goods')->drop();
+$this->db->schema('shop_goods_attr')->drop();
 
-$this->db->table('goods_type')->drop();
+$this->db->schema('goods_type')->drop();
 ?>

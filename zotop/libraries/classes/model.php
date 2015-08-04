@@ -85,7 +85,7 @@ class model
     {
         if( empty($this->pk) )
         {
-            $this->pk = $this->db->table($this->table)->pk();
+            $this->pk = $this->db->schema($this->table)->pk();
         }
         return $this->pk;
     }
@@ -111,7 +111,7 @@ class model
 		}
 
 		//强制刷新
-		if ( $fields = $this->db->table($this->table)->fields() )
+		if ( $fields = $this->db->schema($this->table)->fields() )
 		{
 			$this->fields = array_keys($fields);
 			zotop::cache("{$this->table}.fields", $this->fields); //只存储字段名称数组

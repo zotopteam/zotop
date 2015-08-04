@@ -1420,7 +1420,7 @@ array())->insert(true)
 	 */
 	public function table($table)
 	{
-		$driver = "database_table_{$this->config['driver']}";
+		$driver = "database_schema_{$this->config['driver']}";
 
 		if ( zotop::autoload($driver) )
 		{

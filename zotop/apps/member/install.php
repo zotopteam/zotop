@@ -48,8 +48,8 @@ $this->db->insert('user_model',array (
 
 
 // [member] 创建
-$this->db->table('member')->drop();
-$this->db->table('member')->create(array(
+$this->db->schema('member')->drop();
+$this->db->schema('member')->create(array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户编号') ),
 	),

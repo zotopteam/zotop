@@ -1108,16 +1108,16 @@ abstract class database
 	 * @param string $table 不含前缀的数据表名称
 	 * @return object
 	 */
-	public function table($table)
+	public function schema($table)
 	{
-		$driver = "database_table_{$this->config['driver']}";
+		$driver = "database_schema_{$this->config['driver']}";
 
 		if ( zotop::autoload($driver) )
 		{
 			return new $driver($this, $table);
 		}
 
-		throw new zotop_exception(t('Cannot find database driver "%s"',$driver));
+		throw new zotop_exception(t('Cannot find database schema driver "%s"',$driver));
 	}
 
 	/**
