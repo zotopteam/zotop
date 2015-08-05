@@ -1,0 +1,17 @@
+/*!
+ * zotop global v2.3.5 (http://zotop.com)
+ * Copyright 2008-2015 zotop team.
+ */
+body {
+	font-family: "Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;
+	font-size: 14px;
+	line-height: 150%;
+}
+
+footer{
+	color: #777;
+	padding: 30px 0;
+	border-top: 1px solid #e5e5e5;
+	margin-top: 70px;
+}
+
