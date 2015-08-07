@@ -62,7 +62,6 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <li><a href=""><i class="fa fa-user"></i></a></li>
-          <li><a href=""><i class="fa fa-msg"></i></a></li>
         </ul>        
       </div>
     </div>

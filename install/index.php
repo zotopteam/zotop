@@ -415,7 +415,7 @@ class install
 						// 写入全部配置数据
 						foreach ( $config as $key=>$value )
 						{
-							$this->db->from('config')->set(array('app'=>$app['id'],'key'=>$key,'value'=>$value))->insert(true);
+							$this->db->from('config')->data(array('app'=>$app['id'],'key'=>$key,'value'=>$value))->insert(true);
 						}
 
 						// 写入配置文件
