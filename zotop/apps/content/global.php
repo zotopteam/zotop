@@ -74,10 +74,12 @@ function content_tags()
 		switch(strtolower($attrs['action']))
 		{
 			case 'category':
-				$result = m('content.category')->tag_category($attrs);
+				// 获取分类数据 {content action="category" cid="1"}{/content}
+				$result = m('content.category')->getChild($attrs['cid'], true);
 				break;
 			case 'position':
-				$result = m('content.category')->tag_position($attrs);
+				// 获取导航分类数据 {content action="position" cid="1"}{/content}
+				$result = m('content.category')->getParents($attrs['cid']);
 				break;
 			default:
 				$result = m('content.content')->tag_content($attrs);

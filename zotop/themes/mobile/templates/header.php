@@ -25,13 +25,13 @@
   <script src="{__THEME__}/js/bootstrap.min.js"></script>
   <script src="{__THEME__}/js/global.js"></script>
   <!--[if lt IE 9]>
-  <script src="//cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+  <script src="{__THEME__}/js/html5shiv.min.js"></script>
+  <script src="{__THEME__}/js/respond.min.js"></script>
   <![endif]-->
 </head>
 <body>
 <header>
-  <nav class="navbar navbar-default navbar-static-top">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -40,27 +40,30 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{U()}" style="width:300px;">{C('site.name')}</a>
+        <a class="navbar-brand navbar-logo" href="{U()}">{C('site.name')}</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="{U()}">首页</a></li>
-          <li><a href="{U('about')}">关于我们</a></li>
-          <li><a href="{U('contact')}">联系我们</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">下拉菜单 <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li role="separator" class="divider"></li>
-              <li class="dropdown-header">Nav header</li>
-              <li><a href="#">Separated link</a></li>
-              <li><a href="#">One more separated link</a></li>
-            </ul>
+        <ul class="nav navbar-nav">
+          <li class="home"><a href="{U()}">首页</a></li>          
+          {content action="category"}   
+          <li class="item{if $r.id == $category.rootid} active{/if}{if $r.childid} dropdown{/if}">            
+            {if $r.childid}
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.name} <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                {content action="category" cid="$r.id" return="r2"}
+                <li><a href="{$r2.url}">{$r2.name}</a></li>
+                {/content}
+              </ul>              
+            {else}
+              <a href="{$r.url}">{$r.name}</a>
+            {/if}          
           </li>
-          <li><a href=""><i class="fa fa-user"></i></a></li>
+          {/content}
         </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href=""><i class="fa fa-user"></i></a></li>
+          <li><a href=""><i class="fa fa-msg"></i></a></li>
+        </ul>        
       </div>
     </div>
   </nav>

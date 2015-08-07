@@ -41,7 +41,7 @@ class mobile_controller_config extends admin_controller
 			{
 				$theme = @include($theme);
 
-				if ( is_array($theme) and $theme['type'] == 'mobile' )
+				if ( is_array($theme) and $theme['mobile'] )
 				{
 					$themes[$folder] = $theme;
 					$themes[$folder]['id'] = $folder;

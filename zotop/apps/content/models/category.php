@@ -260,6 +260,7 @@ class content_model_category extends model
     public function getParents($id)
     {
         $parents = array();
+        $id      = intval($id);
 
         if ( $id and isset($this->category[$id]) )
         {
@@ -274,6 +275,7 @@ class content_model_category extends model
                 }
             }
         }
+        
         return $parents;
     }
 
@@ -291,7 +293,7 @@ class content_model_category extends model
 
         foreach ($this->category as $i => $c)
         {
-            if ( $id == $c['parentid'] )
+            if ( intval($id) == $c['parentid'] )
             {
                 if ( $enable and $c['disabled'])
                 {
@@ -345,8 +347,7 @@ class content_model_category extends model
      */
     private function getParentIDs($id, &$parentids = array())
     {
-
-        if ($id and isset($this->category[$id]))
+        if ( $id and isset($this->category[$id]))
         {
             // 将自身加入输入
             $parentids[] = $id;
@@ -358,7 +359,6 @@ class content_model_category extends model
                 $this->getParentIDs($this->category[$parentid]['parentid'], $parentids);
             }
         }
-
 
         return implode(',', array_reverse($parentids, true));
     }
@@ -520,54 +520,6 @@ class content_model_category extends model
         }
 
         return $cache;
-    }
-
-    /*
-    * 模版解析函数 {content action="category" cid="1"}{/content}
-    *
-    * @return array
-    */
-    public function tag_category($attrs)
-    {
-        $category = array();
-
-        @extract($attrs);
-
-        if ( $cid = intval($cid) )
-        {
-            $category = $this->getChild($cid, true);
-        }
-
-        return $this->preprocess($category);
-    }
-
-    /*
-    * 模版解析函数 {content action="position" cid="1"}{/content}
-    *
-    * @return array
-    */
-    public function tag_position($attrs)
-    {
-        $category = array();
-
-        @extract($attrs);
-
-        if ( $cid = intval($cid) )
-        {
-            $category = $this->getParents($cid);
-        }
-
-        return $this->preprocess($category);
-    }
-
-    /*
-    * 模板数据预处理
-    *
-    * @return array
-    */
-    private function preprocess($data)
-    {
-        return $data;
     }
 }
 ?>
