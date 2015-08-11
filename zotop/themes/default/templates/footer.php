@@ -1,20 +1,34 @@
-</div> <!-- body -->
-<div class="footer">
-	<div class="footer-info">{block id="2" name="t('网站底部')" type="html" template="block/html.php"}</div>
-	
-	{block id="3" name="t('统计代码')" type="text" template="block/text.php"}
-</div> <!-- footer -->
+<footer class="footer">
+    <div class="container">
+        <nav class="text-center">
+            <ul class="nav navbar-nav">
+                <li><a href="">测试导航</a></li>
+                <li><a href="">测试导航</a></li>
+                <li><a href="">测试导航</a></li>
+                <li><a href="">测试导航</a></li>
+                <li><a href="">测试导航</a></li>
+            </ul>
+        </nav>
 
-<div class="powered">{zotop::powered()} {c('theme.name')}</div>
+        <div class="clearfix"></div>
 
+        <div class="row">
+            <div class="col-sm-5">
+                <h4>{C('site.name')}</h4>
+                <p>{C('site.description')}</p>
+            </div>
 
-{hook 'site.footer'}
-
-<div class="floatbar">
-	<a class="item none" id="gotop" href="javascript:;" title="{t('回到顶部')}"><div class="icon icon-up"></div></a>
-	<a class="item" href="{u('guestbook#guestbook-add')}" title="{t('留言')}"><div class="icon icon-msg"></div></a>	
-</div>
-
-</div><!-- wrapper -->
+            <div class="col-sm-2 col-xs-4 col-sm-offset-1">
+                ddddddd
+            </div>
+            <div class="col-sm-2 col-xs-4">
+                ddddddd
+            </div>
+            <div class="col-sm-2 col-xs-4">
+                ddddddd
+            </div>                        
+        </div>
+    </div>
+</footer>
 </body>
 </html>

@@ -1,4 +1,5 @@
 {template 'header.php'}
+
 <div class="channel clearfix">
 	<h1>{m('content.category.get',$category.rootid, 'name')}</h1>
 	<ul>
@@ -10,7 +11,7 @@
 
 <div class="position">
     <ul>
-        <li><i class="icon icon-home"></i> <a href="{u()}">{t('首页')}</a></li>
+        <li><a href="{u()}">{t('首页')}</a></li>
 		{content action="position" cid="$category.id"}
 		<li><a href="{$r.url}">{$r.name}</a></li>
 		{/content}
@@ -19,35 +20,29 @@
 </div>
 
 <div class="row">
-
+<div class="main">
+<div class="main-inner">
 	<div class="content">
 		<h1 class="content-title">{$content.title}</h1>
 
 		<div class="content-info">
 
-			<b>{t('作者')}:</b> {if $content.author} {$content.author} {else} {c('site.name')} {/if}
-			<b>{t('来源')}:</b> {if $content.source} {$content.source} {else} {c('site.name')} {/if}
-			<b>{t('发布')}:</b> {format::date($content.createtime)}
-			<b>{t('点击')}:</b> {$content.hits}
+			<a class="btn btn-highlight fl" href="{$content.downloadurl}">{t('立即下载')}</a>
 
 			<div class="fr share">{block 'share'}</div>
+
+			<b>{t('大小')}:</b> {$content.filesize}
+			<b>{t('点击')}:</b> {$content.hits}
+			<b>{t('已下载')}:</b> {$content.download} {t('次')}
+			<b>{t('发布')}:</b> {format::date($content.createtime)} 
+
+			
 		</div>
 
-		<div class="content-body gallery">
-			<ul	id="galleryview" class="none">
-			{loop $content.gallery $r}
-				<li><img src="{$r.image}" data-description="{$r.description}" alt=""/></li>
-			{/loop}
-			</ul>
+
+		<div class="content-body">
+			{$content.content}
 		</div>
-
-		<div class="blank"></div>
-		<div class="blank"></div>
-
-		<div class="content-body">{$content.summary}</div>
-
-		<div class="blank"></div>
-		<div class="blank"></div>
 
 		{if $content.tags}
 		<div class="content-tags">
@@ -71,7 +66,7 @@
 			{if empty($tag_content)} {t('暂无内容')} {/if}
 		</div>
 
-		{content cid="$content.categoryid" keywords="$content.keywords" ignore="$content.id" size="4"/}
+		{content keywords="$content.keywords" ignore="$content.id" size="5"/}
 		{if $tag_content}
 		<div class="content-related">
 			<h5>{t('相关内容')}</h5>
@@ -85,24 +80,13 @@
 
 	</div><!-- content -->
 
+</div>
+</div><!-- main -->
+
+<div class="side">
+	{template 'content/side.php'}
+</div><!-- side -->
 </div><!-- row -->
-
-{html::import(__THEME__.'/js/galleryview/jquery.galleryview.js')}
-{html::import(__THEME__.'/js/galleryview/jquery.timers-1.2.js')}
-{html::import(__THEME__.'/js/galleryview/jquery.galleryview.css')}
-<script type="text/javascript">
-$(function(){
-	$('#galleryview').galleryView({
-		panel_width: 1150,
-		panel_height : 600,
-		panel_scale : 'fit',
-		frame_width : 120,
-		frame_height : 60,
-		infobar_opacity: 0.8,
-		enable_overlays: true,
-		autoplay: true
-	}).show();
-})
-</script>
-
 {template 'footer.php'}
+
+

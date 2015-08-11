@@ -13,8 +13,5 @@ return array (
   'detail_product.php' => '产品内容模板',
   'folder.php' => '目录模板',
   'detail_download.php' => '下载详细页模板',
-  'list_case.php' => '案例列表',
-  'list_imagetext2.php' => '图文列表2',
-  'tp1.php' => '跳转到栏目第一个页面',
 );
 ?>

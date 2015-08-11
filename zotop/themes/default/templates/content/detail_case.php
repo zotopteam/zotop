@@ -1,15 +1,11 @@
 {template 'header.php'}
 
-<style>
-.content-feature img{width: 56px;}
-.fa-plus{font-size: 14px;color:#999;margin-top: 5px;margin-right: 5px;}
-</style>
-
 <ul class="breadcrumb">
     <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
 	{content action="position" cid="$category.id"}
 	<li><a href="{$r.url}">{$r.name}</a></li>
 	{/content}
+    <li class="active">正文</li>
 </ul>
 
 <div class="container-fluid">
@@ -18,22 +14,44 @@
 		<div class="col-sm-10 main">
 
 		<div class="content content-box content-page">
+			<h1 class="content-title">
+				{$content.title}
+			</h1>
+			<div class="content-info clearfix">
+				<div>
+					<span>施工状态：{if $content.state}已竣工{else}施工中{/if}</span>&nbsp;&nbsp;&nbsp;
+					<span>安装方案：{$content.program}</span>
+				</div>
+			</div>
+
+			<div class="content-body">
+				<div class="custerinfo clearfix">
+					<h4 class="title">{$content.customer} {$content.house}</h4>				
+					<div class="image"><img src="{$content.image}" alt="{$content.title}"></div>
+					<div class="description">{$content.demand}</div>
+				</div>
+			</div>
+			
+			<div class="content-body-title">方案设计</div>
+			<div class="content-body text-justify">
+				{$content.content}
+			</div>
+
+		<div class="content-body-title">施工图集·工艺</div>
+		<div class="content-body gallery">
+			{if $content.gallery}
 
 
 			<div id="galleryslider" class="carousel slide" data-ride="carousel">
 			  <ol class="carousel-indicators">
-			  	<li data-target="#galleryslider" data-slide-to="0" class="active"></li>
 				{loop $content.gallery $i $r}
-				<li data-target="#galleryslider" data-slide-to="{$i}"></li>
+				<li data-target="#galleryslider" data-slide-to="{$i}" {if $i==0}class="active"{/if}></li>
 				{/loop}
 			  </ol>
 			  <div class="carousel-inner" role="listbox">
-			  	<div class="item active">
-			  		<img src="{thumb($r.image,400,300)}" alt="{$content.title}" style="width:100%">
-			  	</div>
 			  	{loop $content.gallery $i $r}
-			    <div class="item">
-			      <img src="{thumb($r.image,400,300)}" alt="{$r.title}" style="width:100%">    
+			    <div class="item {if $i==0}active{/if}">
+			      <img src="{thumb($r.image,400,300)}" alt="{$r.title}">    
 			    </div>
 			    {/loop}
 			  </div>
@@ -46,46 +64,17 @@
 			    <span class="sr-only">Next</span>
 			  </a>
 			</div>
+			{/if}
 
-			<h1 class="content-title" style="font-size:16px;border:0 none;text-align:left;">{$content.title}</h1>
-			<div class="content-subtitle">{$content.subtitle}</div>
 			<div class="blank"></div>
-			
-			<div class="content-body-title">产品特色</div>
-			<div class="content-feature clearfix" id="feature">
-				<table class="table">
-				{loop $content.feature $r}
-				<tr>
-					<td class="image"><img src="{$r.image}" alt="{$r.title}"/></td>
-					<td class="text">
-						<h4 class="title">{$r.title}</h4>
-						<div class="description">{$r.description}</div>
-					</td>
-				</tr>
-				{/loop}
-				</table>
-			</div>
+			{format::textarea($content.technology)}
+		</div>
 
-			<div class="content-body-title" role="button">
-				服务热线：{block id="8"}
-			</div>
-			<div class="content-body-title" role="button" data-toggle="collapse" data-target="#content" aria-expanded="false" aria-controls="content">
-				产品详情
-				<i class="fa fa-plus pull-right"></i>
-			</div>
-			<div class="content-body text-justify collapse" id="content">
-				{$content.content}
-			</div>
-
-			<div class="content-body-title" role="button" data-toggle="collapse" data-target="#cases" aria-expanded="false" aria-controls="cases">
-				施工案例
-				<i class="fa fa-plus pull-right"></i>
-			</div>
-			<div class="content-body text-justify collapse" id="cases">
-				{$content.content}
-			</div>
 		
-			<div class="blank"></div>
+		
+		<div class="content-body-title">业主反馈</div>
+		<div class="content-body">{$content.feedback}</div>
+
 
 			<div class="content-tool">
 				<div class="share">

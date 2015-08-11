@@ -45,7 +45,8 @@ class mobile_api
 		{
 			$detect = new Mobile_Detect();
 
-			if ( $detect->isMobile() or $detect->isTablet() )
+			// 只侦测手机，侦测IPAD等平板
+			if ( $detect->isMobile() and !$detect->isTablet() )
 			{
 				define('ZOTOP_MOBILE',true);
 

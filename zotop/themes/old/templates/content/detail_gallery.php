@@ -10,7 +10,7 @@
 
 <div class="position">
     <ul>
-        <li><i class="icon icon-home"></i> <a href="{u()}">{t('首页')}</a></li>
+        <li><a href="{u()}">{t('首页')}</a></li>
 		{content action="position" cid="$category.id"}
 		<li><a href="{$r.url}">{$r.name}</a></li>
 		{/content}
@@ -71,7 +71,7 @@
 			{if empty($tag_content)} {t('暂无内容')} {/if}
 		</div>
 
-		{content cid="$content.categoryid" keywords="$content.keywords" ignore="$content.id" size="4"/}
+		{content keywords="$content.keywords" ignore="$content.id" size="5"/}
 		{if $tag_content}
 		<div class="content-related">
 			<h5>{t('相关内容')}</h5>

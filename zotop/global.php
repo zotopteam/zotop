@@ -190,6 +190,8 @@ function u($uri = '', $params = array(), $host = true)
 
 /**
  * 输出缩略图
+ *
+ * TODO 缩略图生成单独的文件夹存放
  * 
  * @param sting $img 图片地址
  * @param int $width 缩略图宽度
@@ -199,7 +201,7 @@ function u($uri = '', $params = array(), $host = true)
  */
 function thumb($image, $width, $height, $default = null)
 {
-    $default = $default ? $default : ZOTOP_URL_UPLOADS . '/noimage.png';
+    $default = $default ? $default : ZOTOP_URL_PUBLIC . '/common/noimage.png';
 
     if (empty($image)) return $default;
 
