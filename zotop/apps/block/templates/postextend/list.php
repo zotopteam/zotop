@@ -21,7 +21,7 @@
 				<td class="w50 center">{t('显示')}</td>
 				<td class="w100">{t('字段名称')}</td>
 				<td class="w100">
-					{t('字段标识')} &nbsp;	<i class="icon icon-help" title="{t('可在模板中调用')}"></i>
+					{t('字段标识')} &nbsp;	<i class="icon icon-help" title="{t('可在模板的loop循环中使用')}"></i>
 				</td>
 				<td class="w50 center">{t('必填')}</td>
 				<td>{t('设置')}</td>
@@ -78,7 +78,7 @@
 							{form::field(array('type'=>'radio','options'=>array(1=>t('水印'),0=>t('无')),'name'=>'fields['.$k.'][watermark]','value'=>$v['watermark']))}
 
 						{/if}
-
+						
 						{if in_array($v['name'], array('c1','c2','c3','c4','c5'))}
 							{form::field(array('type'=>'select','options'=>m('block.block.fieldtypes'),'name'=>'fields['.$k.'][type]','value'=>$v['type']))}
 						{else}

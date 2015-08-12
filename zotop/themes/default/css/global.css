@@ -13,6 +13,7 @@
 }
 .navbar-inverse .navbar-nav>li>a {
     color: #fff;
+    font-size: 16px;
     transition: all 0.2s ease-out 0s;
 }
 .navbar-inverse .navbar-nav>li>a:hover{
@@ -60,7 +61,7 @@
 	.carousel-indicators{bottom:0;}
 }
 .carousel-control .icon-prev, .carousel-control .icon-next{
-	font-size: 50px;color: #fff;margin-top: -30px;
+	font-size: 80px;color: #fff;margin-top: -60px;
 }
 
 .list-group{
@@ -192,10 +193,10 @@
 
 /*导航搜索样式*/
 .navbar-form .form-control,.navbar-form .form-control:focus{
-	border-right:0;box-shadow: none;border:0;
+	border-right:0;box-shadow: none;border-color:#fff;
 }
 .navbar-form .input-group-addon{
-	border:0;
+	border-color:#fff;
 	background: #fff;
 	color:#00BCF2;
 	cursor: pointer;
@@ -205,7 +206,7 @@
 	background:#00BCF2;color:#fff;
 }
 
-.text-overflow{display:block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;box-sizing: border-box;}
+.text-overflow{display:block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;box-sizing:border-box;}
 
 /*自定义的样式*/
 body {

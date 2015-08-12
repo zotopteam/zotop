@@ -16,17 +16,25 @@ class template
      */
     public $vars = array();
 
+
     /**
      *
-     * @var array 模板主题
+     * @var string 模板主题标识
      */
     public $theme = null;
 
     /**
      *
-     * @var array 模板标签
+     * @var array 受保护的内容
      */
     protected static $tags = array();
+
+
+    /**
+     * 
+     * @var array
+     */
+    private $literal = array();
 
 
     /**
@@ -43,7 +51,7 @@ class template
     }
 
     /**
-     * 添加标签
+     * 自定义标签，可以覆盖已经存在的添加标签
      *
      * 使用方法：
      *
@@ -81,16 +89,22 @@ class template
      * @param string $template 视图名称，如：$app/$controller_$action.php 或者 $app/test.php 必须包含.php后缀
      * @return string
      */
-    public function find_template($template = '')
+    public function find($template = '')
     {
-        $template = rtrim(str_replace('/', DS, $template), DS);
+        
+        //空值返回 [ZOTOP_APP]/[ZOTOP_CONTROLLER]_[ZOTOP_ACTION].php
+        if ( empty($template) )
+        {
+            $template = ZOTOP_APP . DS . ZOTOP_CONTROLLER . '_' . ZOTOP_ACTION . '.php';
+        }
+
+        //去除右端多余的斜线
+        $template = str_replace('/', DS, rtrim($template,'/'));
 
         // 如果模版不是已经存在的绝对路径模版
         if ( strpos($template, ZOTOP_PATH) === false )
-        {
-            $template = empty($template) ? ZOTOP_APP . DS . ZOTOP_CONTROLLER . '_' . ZOTOP_ACTION . '.php' : $template;
-        
-            // 主题模式,搜索主题目录
+        { 
+            // 如果定义了主题，优先返回主题下面的模板
             if ( $this->theme and file_exists(ZOTOP_PATH_THEMES . DS . $this->theme . DS . 'templates' . DS . $template))
             {
                 $template = ZOTOP_PATH_THEMES . DS . $this->theme . DS . 'templates' . DS . $template;
@@ -120,36 +134,36 @@ class template
      * @param string $template 模板文件
      * @return string
      */
-    public function compile_template($template = '')
+    public function compile($template = '')
     {
-        //原模版路径
-        $template = format::path($this->find_template($template));
+        //获取原始模版的真实路径
+        $template = $this->find($template);
+        
+        //预定义解析过后的模版路径
+        $compile  = ZOTOP_PATH_RUNTIME . DS . 'templates' . DS . substr(str_replace(DS, '.', $template), strlen(ZOTOP_PATH) + 1);
 
-        //解析过后的模版路径
-        $compile_template = ZOTOP_PATH_RUNTIME . DS . 'templates' . DS . substr(str_replace(DS, '.', $template), strlen(ZOTOP_PATH) + 1);
-
-        if (ZOTOP_DEBUG or !file_exists($compile_template) or @filemtime($template) > @filemtime($compile_template))
+        if (ZOTOP_DEBUG or !file_exists($compile) or @filemtime($template) > @filemtime($compile))
         {
-            if ($data = @file_get_contents($template))
+            if ($content = @file_get_contents($template))
             {
-                //解析模版
-                $data = $this->parse($data);
+                // 解析模版
+                $content = $this->parse($content);
 
                 //写入解析后的模版
-                if (false === @file_put_contents($compile_template, $data))
+                if ( false === @file_put_contents($compile, $content) )
                 {
-                    throw new zotop_exception(t("The dir [%s] is not exist or not writable", debug::path(dirname($compile_template))));
+                    throw new zotop_exception(t("The dir [%s] is not exist or not writable", debug::path(dirname($compile))));
                 }
 
-                @chmod($compile_template, 0774);
+                @chmod($compile, 0774);
 
-                return $compile_template;
+                return $compile;
             }
 
             throw new zotop_exception(t('The file [ %s ] not exist', debug::path($template)), 404);
         }
 
-        return $compile_template;
+        return $compile;
     }
 
     /**
@@ -181,6 +195,9 @@ class template
 		// 去除注释
         $str = preg_replace("/\<\!\-\-#.+?#\-\-\>/s", "", $str);
 
+        // 解析 {literal}……………{/literal} 标签，literal中的内容不会参与之后的解析，直接显示
+        $str = preg_replace("/\{literal\}(.*?){\/literal}/es", "\$this->parse_literal('\\1')", $str);
+
 		// 解析点符号数组 {……$r.id……} => {……$r['id']……}  {……$r.id.n……} => {……$r['id']['n']……}，最多支持三维数组
 		$str = preg_replace("/\{(.+?)\}/es", "\$this->parse_tag('\\1')", $str);
 
@@ -209,8 +226,8 @@ class template
         $str = preg_replace("/\{\/if\}/i", "<?php endif; ?>", $str);
 
 		// 解析 {loop $data $r} {loop $data $k $v} {/loop}标签
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=1; if(is_array(\\1)) foreach(\\1 as \\2){ ?>", $str);
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=1; if(is_array(\\1)) foreach(\\1 as \\2 => \\3){ ?>", $str);
+        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0; if(is_array(\\1)) foreach(\\1 as \\2){ ?>", $str);
+        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0; if(is_array(\\1)) foreach(\\1 as \\2 => \\3){ ?>", $str);
         $str = preg_replace("/\{\/loop\}/i", "<?php \$n++;};unset(\$n); ?>", $str);
 
 		// 解析函数标签 format::date($time);
@@ -244,12 +261,38 @@ class template
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}
         if ($tag = template::tag())
         {
-            $str = preg_replace('/\{(' . implode('|', array_keys($tag)) . ')(\s+[^}]+?)(\/?)\}/ie', "\$this->_beginTag('\\0','\\1', '\\2', '\\3')", $str);
-            $str = preg_replace('/\{\/(' . implode('|', array_keys($tag)) . ')\}/ie', "\$this->_endTag('\\1')", $str);
+            $str = preg_replace('/\{('.implode('|', array_keys($tag)).')(\s+[^}]+?)(\/?)\}/ie', "\$this->_beginTag('\\0','\\1', '\\2', '\\3')", $str);
+            $str = preg_replace('/\{\/('.implode('|', array_keys($tag)).')\}/ie', "\$this->_endTag('\\1')", $str);
         }
+
+        // 解析并还原 literal 标签
+        foreach ($this->literal as $key => $val)
+        {
+             $str = str_replace('<!--template::literal_data_'.$key.'-->', $val, $str);
+        }        
 
         return "<?php defined('ZOTOP') or exit('No permission resources.'); ?>\r\n" . $str;
     }
+
+    /**
+     * 解析并存储literal标签中的内容
+     * 
+     * @param string $str literal标签中的代码
+     * @return string
+     */
+    private function parse_literal($str)
+    {
+        if ( trim($str) )
+        {
+            $i = count($this->literal);
+            $this->literal[$i] = $str;
+
+            return '<!--template::literal_data_'.$i.'-->';
+        }
+
+        return '';
+    }
+
 
     /**
      * 解析标签中的点符号数组,最多支持四维数组
@@ -361,8 +404,8 @@ class template
             }
 
 			// true 使用系统设置缓存时间 0 永久缓存，大于1的数字：缓存有效期
-			$cache = isset($cache) && intval($cache) ? intval($cache) : $cache;
-			$return = isset($return) && trim($return) ? trim($return) : 'r';
+            $cache  = isset($cache) && intval($cache) ? intval($cache) : $cache;
+            $return = isset($return) && trim($return) ? trim($return) : 'r';
 
             if ( $cache )
             {
@@ -384,9 +427,9 @@ class template
 			else
 			{
 				$code .= $newline.'if ( is_array($' . $callback . ') ):';
-				$code .= $newline.'	if ( isset($' . $callback . '[\'total\']) ){extract($' . $callback . ');$' . $callback . ' = $data; $pagination = pagination::instance($total,$pagesize,$page);}'; // 分页
+				$code .= $newline.'	if ( isset($' . $callback . '[\'total\']) ){ extract($' . $callback . '); $' . $callback . ' = $data; $pagination = pagination::instance($total,$pagesize,$page); }'; // 分页
 				$code .= $newline.'	$n=0;'; //编号
-				$code .= $newline.'	foreach( $' . $callback . ' as $key=>$'.$return.' ):'; //循环
+				$code .= $newline.'	foreach( $' . $callback . ' as $key => $'.$return.' ):'; //循环
 			}
         }
 
@@ -479,7 +522,7 @@ class template
      */
     public function render($_template='')
     {
-        if ( $_template = $this->compile_template($_template) )
+        if ( $_template = $this->compile($_template) )
         {
             // 缓存视图页面
             ob_start();

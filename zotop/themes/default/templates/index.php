@@ -39,19 +39,20 @@
   <div class="carousel-inner" role="listbox">
   	{loop $b.data $i $r}
     <div class="item {if $i==0}active{/if}">
-      <img src="{thumb($r.image,640,300)}" alt="{$r.title}">    
+      <a href="{$r.url}"></a><img src="{thumb($r.image,1920,500)}" alt="{$r.title}"></a>
     </div>
     {/loop}
   </div>
   <a class="left carousel-control" href="#mainslider" role="button" data-slide="prev">
     <span class="icon-prev fa fa-angle-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
+    <span class="sr-only">{t('上一个')}</span>
   </a>
   <a class="right carousel-control" href="#mainslider" role="button" data-slide="next">
     <span class="icon-next fa fa-angle-right" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
+    <span class="sr-only">{t('下一个')}</span>
   </a>
 </div>
+<div class="blank"></div>
 {/if}
 
 <div class="container">
