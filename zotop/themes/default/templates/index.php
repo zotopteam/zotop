@@ -39,7 +39,7 @@
   <div class="carousel-inner" role="listbox">
   	{loop $b.data $i $r}
     <div class="item {if $i==0}active{/if}">
-      <a href="{$r.url}"></a><img src="{thumb($r.image,1920,500)}" alt="{$r.title}"></a>
+      <a href="{$r.url}"></a><img src="{thumb($r.image,1920,700)}" alt="{$r.title}"></a>
     </div>
     {/loop}
   </div>

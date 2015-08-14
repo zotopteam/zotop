@@ -215,6 +215,7 @@ abstract class db
 		return false;    	
     }
 
+
     public function execute($sql)
     {
     	$sql = $this->parseSql($sql);
@@ -410,7 +411,7 @@ abstract class db
  			$sql = str_replace(
 				array('%TABLE%','%DISTINCT%','%FIELDS%','%JOIN%','%WHERE%','%GROUP%','%HAVING%','%ORDER%','%LIMIT%'),
 				array(
-					$this->parseFrom($sqlBuilder['from']),
+					$this->parseTable($sqlBuilder['table']),
 					$this->parseDistinct($sqlBuilder['distinct']),
 					$this->parseSelect($sqlBuilder['select']),
 					$this->parseJoin($sqlBuilder['join']),
@@ -578,63 +579,62 @@ abstract class db
     }
 
 	/**
-	 * 链式查询，设置读取的字段 “SELECT ...”
+	 * 链式查询，标识要读取或者写入的字段
 	 *
 	 *
 	 * <code>
-	 * $this->select('id','username','password');
-	 * $this->select('id,username,password');
-	 * $this->select('*');
+	 * $this->field('id,username,password');
+	 * $this->field('*');
+	 * $this->field('content',false);
 	 * </code>
 	 *
 	 * @param  mixed  $fields 要选取的字段，默认为选取全部字段
-	 * @param   ...
 	 * @return  $this
 	 */
-	public function select($fields = '*')
+	public function field($fields = '*', $select=true)
 	{
 	    if ( func_num_args() > 1 )
 		{
-		    $fields = func_get_args(); //select('id','username','password')
+		    $fields = func_get_args(); //field('id','username','password')
 		}
 		elseif ( is_string($fields) )
 		{
-		    $fields = explode(',', $fields); //select('id,username,password')
+		    $fields = explode(',', $fields); //field('id,username,password')
 		}
 
-		$this->sqlBuilder['select'] = (array) $fields;
+		$this->sqlBuilder['field'] = (array) $fields;
 
 		return $this;
 	}
 
 	/**
-	 * 链式查询，设置查询数据表 "FROM ..."
+	 * 链式查询，设置查询或者要操作的数据表
 	 * <code>
-	 * $this->from('user');
-	 * $this->from('user','config');
-	 * $this->from('user,config');
-	 * $this->from('user as u, config as c');
+	 * $this->table('user');
+	 * $this->table('user','u'); 
+	 * $this->table('user,config');
+	 * $this->table('user as u, config as c');
+	 * $this->table(array('user'=>'u','config'=>'c'));
 	 * </code>
 	 *
 	 * @param   mixed  table name
-	 * @param   ...
+	 * @param   string table alias  TODO实现第二个参数作为别名
 	 * @return  $this
 	 */
-	public function from($tables='')
+	public function table($tables='')
 	{
 	    if ( !empty($tables) and $tables !== false and $tables !== true )
 	    {
     	    if (  func_num_args()>1 )
     		{
-    		    $tables = func_get_args(); //from('user','config')
+    		    $tables = func_get_args(); //table('user','config')
     		}
     		elseif ( is_string($tables) )
     		{
-
-    		    $tables = explode(',', $tables); //from('user as u,config as c')
+    		    $tables = explode(',', $tables); //table('user as u,config as c')
     		}
 
-    		$this->sqlBuilder['from'] = (array)$tables;
+    		$this->sqlBuilder['table'] = (array)$tables;
 	    }
 		return $this;
 	}
@@ -643,9 +643,9 @@ abstract class db
 	 * 链式查询，设置数据，用于‘insert’ 或者 ‘update’ "SET... VALUES ..."
 	 *
 	 * <code>
-	 * set('status',1) //设置‘status’为‘1’
-	 * set(array('status'=>1,'updatetime'=>'2010-09-23 21:45:30')) //设置多个数据
-	 * set('num',array('num','-',1)) 或者 set(array('num' => array('num','+',1))) //支持运算
+	 * ->data('status',1) //设置‘status’为‘1’
+	 * ->data(array('status'=>1,'updatetime'=>'2010-09-23 21:45:30')) //设置多个数据
+	 * ->data('num',array('num','-',1)) 或者 set(array('num' => array('num','+',1))) //支持运算
 	 * </code>
 	 *
 	 * @param   mixed  name 字段名称或者数组数据
@@ -653,14 +653,14 @@ abstract class db
 	 * @return  $this
 	 *
 	 */
-	public function set($name='', $value='')
+	public function data($name='', $value='')
 	{
-		if ( $name === '' ) return $this->sqlBuilder['set'];
+		if ( $name === '' ) return $this->sqlBuilder['data'];
 
 		//清空全部的where条件
 		if ( $name === null )
 		{
-			$this->sqlBuilder['set'] = array();
+			$this->sqlBuilder['data'] = array();
 		}
 		elseif ( is_string($name) )
 		{
@@ -673,7 +673,7 @@ abstract class db
 
 		if ( is_array($data) )
 		{
-			$this->sqlBuilder['set'] = array_merge((array)$this->sqlBuilder['set'], $data);
+			$this->sqlBuilder['data'] = array_merge((array)$this->sqlBuilder['data'], $data);
 		}
 	    return $this;
 	}
@@ -801,7 +801,7 @@ abstract class db
 	 * 链式查询，设置连接查询数据表 "JOIN ..."
 	 *
 	 * <code>
-	 * from('content as c')->join('user as u', 'c.userid', 'u.id','LEFT')
+	 * table('content as c')->join('user as u', 'c.userid', 'u.id','LEFT')
 	 * </code>
 	 *
 	 * @param   string  table 连接的表名称
@@ -870,13 +870,26 @@ abstract class db
 		return $this;
 	}
 
+	/**
+	 * 链式查询 分页
+	 * 
+	 * @param  [type]  $page     页码
+	 * @param  integer $pagesize 每页显示数据
+	 * @param  [type]  $total    
+	 * @return $this
+	 */
+	public function page($page, $pagesize=10, $total=null)
+	{
+		//TODO 将page数据转换为limit
+	}
+
     /**
-    * 查询构建器  FROM 解析
+    * 查询构建器  table 解析
 	*
     * @param mixed $tables 来源于sqlbuilder的数据表
     * @return string
     */
-    public function parseFrom($tables)
+    public function parseTable($tables)
     {
         $array = array();
 
@@ -905,12 +918,12 @@ abstract class db
     }
 
     /**
-     * 查询语句构建器 SELECT字段 解析
+     * 查询语句构建器 field字段 解析
      *
      * @param mixed $fields
      * @return string
      */
-    public function parseSelect($fields)
+    public function parseField($fields)
     {
           if ( !empty($fields) )
           {
@@ -928,6 +941,7 @@ abstract class db
 
 			  return implode(',',$array);
           }
+
           return '*';
     }
 
@@ -1106,10 +1120,12 @@ abstract class db
 			foreach ( $orderby as $key=>$direction )
 			{
 				$direction = strtoupper(trim($direction));
+
 				if ( !in_array($direction, array('ASC', 'DESC', 'RAND()', 'RANDOM()', 'NULL')) )
 				{
 					$direction = 'ASC';
 				}
+
 				$str .= ','.$this->escapeColumn($key).' '.$direction;
 			}
 		}
@@ -1147,14 +1163,13 @@ abstract class db
     }
 
     /**
-     * 查询语句构建器 SET 解析
+     * 查询语句构建器,解析设置当前要操作的数据对象的值
 	 *
-	 * @param $offset int 起始位置
-	 * @param  $limit  int 条数限制
+	 * @param $data array
 	 * @return string
 	 *
      */
-    public function parseSet($data)
+    public function parseData($data)
     {
         $str = '';
 
@@ -1188,8 +1203,7 @@ abstract class db
 	 * $db->insert('user',array(),false)
 	 *
 	 * // 使用链式查询
-	 * $db->from('content')->data(
-array())->insert(true)
+	 * $db->table('content')->data(……)->insert(true)
 	 * @endcode
      *
 	 * @param string $table 数据表
@@ -1202,10 +1216,10 @@ array())->insert(true)
 		if ( $table === true or $table === false ) $replace = $table;
 
         //设置查询
-        $this->from($table)->data($data);
+        $this->table($table)->data($data);
 
-		$table = $this->sqlBuilder['from'];
-		$data = $this->sqlBuilder['set'];
+		$table = $this->sqlBuilder['table'];
+		$data  = $this->sqlBuilder['data'];
 
         // 没有插入的数据或者插入表
 		if ( !is_array($data) or empty($table) ) return false;
@@ -1222,7 +1236,7 @@ array())->insert(true)
         $sql = str_replace(
             array('%TABLE%','%FIELDS%','%VALUES%'),
             array(
-				$this->parseFrom($table),
+				$this->parseTable($table),
 				implode(',', $fields),
 				implode(',', $values)
             ),
@@ -1241,8 +1255,7 @@ array())->insert(true)
      * 数据更新，UPDATE
      *
 	 * <code>
-	 * $db->update('user',array())
-	 * $db->from('user')->data(array())->where('id','=',1)->update()
+	 * $db->table('user')->data('status',1)->where('id','=',1)->update()
 	 * </code>
 	 *
 	 * @param string $table 数据表
@@ -1253,21 +1266,21 @@ array())->insert(true)
     public function update($table='', $data=array(), $where=array())
     {
 		//设置查询
-        $this->from($table)->data($data)->where($where);
+        $this->table($table)->data($data)->where($where);
 
         //必须设置更新条件
-        if( empty($this->sqlBuilder['where']) OR empty($this->sqlBuilder['from']) ) return false;
+        if( empty($this->sqlBuilder['where']) OR empty($this->sqlBuilder['table']) ) return false;
 
 		//未更新任何数据
-		if ( !is_array($this->sqlBuilder['set']) ) return true;
+		if ( !is_array($this->sqlBuilder['data']) ) return true;
 
         //sql
         $sql = 'UPDATE %TABLE%%SET%%WHERE%';
         $sql = str_replace(
             array('%TABLE%','%SET%','%WHERE%'),
             array(
-				$this->parseFrom($this->sqlBuilder['from']),
-				$this->parseSet($this->sqlBuilder['set']),
+				$this->parseTable($this->sqlBuilder['table']),
+				$this->parseData($this->sqlBuilder['data']),
 				$this->parseWhere($this->sqlBuilder['where']),
             ),
             $sql
@@ -1280,8 +1293,7 @@ array())->insert(true)
      * 数据删除，DELETE
      *
 	 * <code>
-	 * delete('user',array())
-	 * from('user')->where('id','=',1)->delete()
+	 * table('user')->where('id','=',1)->delete()
 	 * </code>
 	 *
 	 * @param string $table 数据表
@@ -1292,7 +1304,7 @@ array())->insert(true)
     public function delete($table='', $where=array())
     {
         //设置查询
-        $this->from($table)->where($where);
+        $this->table($table)->where($where);
 
         //必须设置删除条件
         if( empty($this->sqlBuilder['where']) )
@@ -1304,7 +1316,7 @@ array())->insert(true)
         $sql = str_replace(
             array('%TABLE%','%WHERE%'),
             array(
-				$this->parseFrom($this->sqlBuilder['from']),
+				$this->parseTable($this->sqlBuilder['table']),
 				$this->parseWhere($this->sqlBuilder['where']),
             ),
             $sql
@@ -1315,7 +1327,7 @@ array())->insert(true)
     }
 
 	/**
-	 * 返回limit限制的数据,用于带分页的查询数据
+	 * 返回limit限制的数据,用于带分页的查询数据，TODO 修改page为连贯操作的方式
 	 *
 	 * @param $page int 页码
 	 * @param $pagesize int 每页显示条数
@@ -1339,7 +1351,7 @@ array())->insert(true)
 			if ( $page == 1 or !is_numeric(zotop::cookie($hash)))
 			{
 				//获取符合条件数据条数
-				$total = $this->reset()->from($sqlBuilder['from'])->where($sqlBuilder['where'])->count();
+				$total = $this->reset()->table($sqlBuilder['table'])->where($sqlBuilder['where'])->count();
 
 				zotop::cookie($hash,$total);
 			}
@@ -1352,28 +1364,28 @@ array())->insert(true)
 
 		// 上一次执行的时候会清空$sqlBuilder，所以必须重新赋值
 		$this->sqlBuilder($sqlBuilder);
-
+		
 		// 计算$offset
-		$offset = intval($page) > 0 ? (intval($page)-1)*intval($pagesize) : 0;
-
+		$offset    = intval($page) > 0 ? (intval($page)-1)*intval($pagesize) : 0;
+		
 		//获取指定条件的数据
-		$data = $this->limit($pagesize, $offset)->getAll();
-
+		$data      = $this->limit($pagesize, $offset)->getAll();
+		
 		// 获取分页信息
 		$totalpage = @ceil($total / $pagesize);
-		$prevpage =  $page-1 > 0 ? $page-1 : 1;
-		$nextpage =  $page+1 < $totalpage ? $page+1 : $totalpage;
+		$prevpage  =  $page-1 > 0 ? $page-1 : 1;
+		$nextpage  =  $page+1 < $totalpage ? $page+1 : $totalpage;
 
 		return array(
-			'data' => $data, //返回数据
-			'total' => $total, //总条数
-			'page' => $page, //当前页码
-			'pagesize' => $pagesize, //每页显示
+			'data'      => $data, //返回数据
+			'total'     => $total, //总条数
+			'page'      => $page, //当前页码
+			'pagesize'  => $pagesize, //每页显示
 			'firstpage' => 1, //首页页码
-			'lastpage' => $totalpage, //最后一页页码
-			'prevpage' => $prevpage, //下一页页码
-			'nextpage' => $nextpage, //下一页页码
-			'totalpage'=> $totalpage, //总页数
+			'lastpage'  => $totalpage, //最后一页页码
+			'prevpage'  => $prevpage, //下一页页码
+			'nextpage'  => $nextpage, //下一页页码
+			'totalpage' => $totalpage, //总页数
 		);
 	}
 
@@ -1395,14 +1407,16 @@ array())->insert(true)
 		elseif ( in_array(strtolower($method), array('count','sum','min','max','avg'), true) )
 		{
 			// 实现 'count','sum','min','max','avg' 方法
-			// from('user')->where('status','=',1)->count();
-			// from('user')->sum('hits');
-			$field =  isset($args[0]) ? $args[0] : '*';
+			// table('user')->where('status','=',1)->count();
+			// table('user')->sum('hits');
+			
+			$field  = isset($args[0]) ? $args[0] : '*';
 			$result = $this->select(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->getField();
 			return is_numeric($result) ? $result : 0;
 		}
 		elseif ( in_array(strtolower($method), array('exists','create','drop','size','version','connect','close','query','free','execute','begin','commit','rollback'), true) )
 		{
+			//TODO 此次可以删除
 			throw new zotop_exception(t('Database method [ %s ] must be extend', $method));
 		}
 
@@ -1410,25 +1424,6 @@ array())->insert(true)
 		throw new zotop_exception(t('Database method [ %s ] not exists', $method));
 	}
 
-
-	/**
-	 * 实例化数据表结构，用于数据表的结构处理
-	 *
-	 *
-	 * @param string $table 不含前缀的数据表名称
-	 * @return object
-	 */
-	public function table($table)
-	{
-		$driver = "database_schema_{$this->config['driver']}";
-
-		if ( zotop::autoload($driver) )
-		{
-			return new $driver($this, $table);
-		}
-
-		throw new zotop_exception(t('Cannot find database driver "%s"',$driver));
-	}
 
 	/**
 	 * 监测并记录程序
