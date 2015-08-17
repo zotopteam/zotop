@@ -27,6 +27,9 @@ zotop::register(array(
     'database_schema'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema.php',
     'database_schema_mysql'  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema_mysql.php',
     'database_schema_sqlite' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema_sqlite.php',
+
+    'db'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php',    
+    'db_mysql' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db' . DS . 'mysql.php',
     
     'session'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session.php',
     'session_native'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'native.php',

@@ -80,7 +80,7 @@ abstract class db
 				throw new zotop_exception(t('Cannot find database driver "%s"', $driver));
             }
 
-            $instances[$id] = = new $driver($config);
+            $instances[$id] = new $driver($config);
         }
 
         return $instances[$id];
@@ -96,14 +96,15 @@ abstract class db
     {
         if(!empty($config))
         {
-            $this->config = array_merge($this->config,$config);
+            $this->config = array_merge($this->config, $config);
 
             if(is_array($this->config['params']))
             {
-                $this->params  =   $this->config['params'] + $this->params;
+                $this->params  =  $this->config['params'] + $this->params;
             }
         }
     }
+
 
     /**
      * 连接数据库
@@ -114,13 +115,6 @@ abstract class db
     {
     	if( !$this->connect )
     	{
-    		$config = $this->config;
-
-            if( empty($config['dsn']) )
-            {
-                $config['dsn']  =   $this->parseDsn($config);
-            }    		
-
     		try
     		{
                 if( version_compare(PHP_VERSION,'5.3.6','<=') )
@@ -128,7 +122,7 @@ abstract class db
                     $this->params[PDO::ATTR_EMULATE_PREPARES] = false;
                 }
 
-                $this->connect = new PDO($config['dsn'],$config['username'],$config['password'],$this->params);
+                $this->connect = new PDO($this->config['dsn'], $this->config['username'], $this->config['password'], $this->params);
     		}
     		catch (PDOException $e)
     		{
@@ -147,11 +141,13 @@ abstract class db
      */
     protected function executeSql($sql)
     {
-		if ( $this->connect() )
+		if ( $sql and $this->connect() )
 		{
 	    	$this->free();
 
 			$this->profile(true);
+
+			$this->sql = $sql;
 
 	    	$this->PDOStatement = $this->connect->prepare($sql);
 
@@ -176,6 +172,8 @@ abstract class db
 
 	        $result = $this->PDOStatement->execute();
 
+			$this->reset();
+
 			$this->profile(false);
 
 			if ( $result === false )
@@ -198,8 +196,6 @@ abstract class db
      */    
     public function query($sql)
     {
-    	$sql = $this->parseSql($sql);
-
 		if ( $this->executeSql($sql) )
 		{
 			zotop::counter('db.query',1);
@@ -218,17 +214,15 @@ abstract class db
 
     public function execute($sql)
     {
-    	$sql = $this->parseSql($sql);
-
 		if ( $this->executeSql($sql) )
 		{
 			zotop::counter('db.execute',1);
 
-            // 影响行数
-            $this->numRows = $this->PDOStatement->rowCount();            
-
-            // 返回最后插入ID
-            $this->lastInsertID = $this->connect->lastInsertId();
+			// 影响行数
+			$this->numRows      = $this->PDOStatement->rowCount();          
+			
+			// 返回最后插入ID
+			$this->lastInsertID = $this->connect->lastInsertId();
 
             return $this->numRows;
         }
@@ -371,63 +365,6 @@ abstract class db
 	} 
 
 
-
-    /**
-     * 解析并记录sql语句
-	 *
-	 * @param string $sql sql语句
-     * @return string
-     */
-    public function parseSql($sql)
-    {
-        $sql = $this->compileSql($sql);
-
-		if( is_string($sql) and !empty($sql) )
-        {
-            $this->sql = $sql;
-        }
-
-		$this->reset();
-
-        return $sql;
-    }
-
-    /**
-     * 生成查询语句
-     *
-	 * <code>
-	 *
-	 * </code>
-	 *
-	 * @param array $sql sql数组
-     * @return string
-     */
-	public function compileSql($sql)
-    {
-        if ( is_array($sql) OR empty($sql) )
-        {
-            $sqlBuilder = empty($sql) ? $this->sqlBuilder : array_merge($this->sqlBuilder, $sql);
-
- 			$sql = str_replace(
-				array('%TABLE%','%DISTINCT%','%FIELDS%','%JOIN%','%WHERE%','%GROUP%','%HAVING%','%ORDER%','%LIMIT%'),
-				array(
-					$this->parseTable($sqlBuilder['table']),
-					$this->parseDistinct($sqlBuilder['distinct']),
-					$this->parseSelect($sqlBuilder['select']),
-					$this->parseJoin($sqlBuilder['join']),
-					$this->parseWhere($sqlBuilder['where']),
-					$this->parseGroupBy($sqlBuilder['groupby']),
-					$this->parseHaving($sqlBuilder['having']),
-					$this->parseOrderBy($sqlBuilder['orderby']),
-					$this->parseLimit($sqlBuilder['limit'], $sqlBuilder['offset']),
-				),
-				$this->selectSql
-			);
-        }
-
-        return $sql;
-    }
-
     /**
      * 获取全部查询语句
      *
@@ -464,6 +401,7 @@ abstract class db
 			$table = array_map(array($this, __FUNCTION__), explode(' AS ', $table));
 			return implode(' AS ', $table);
 		}
+
 		return '`'.str_replace('.', '`.`', $table).'`';
 	}
 
@@ -1195,29 +1133,69 @@ abstract class db
 
 
     /**
-     * 插入记录
+     * 生成查询语句
+     *
+	 * <code>
+	 *
+	 * </code>
+	 *
+	 * @param array $sql sql数组
+     * @return string
+     */
+	public function selectSql($sql='')
+    {
+        if ( empty($sql) or is_array($sql) )
+        {
+            $sqlBuilder = empty($sql) ? $this->sqlBuilder : array_merge($this->sqlBuilder, $sql);
+
+ 			$sql = str_replace(
+				array('%TABLE%','%DISTINCT%','%FIELDS%','%JOIN%','%WHERE%','%GROUP%','%HAVING%','%ORDER%','%LIMIT%'),
+				array(
+					$this->parseTable($sqlBuilder['table']),
+					$this->parseDistinct($sqlBuilder['distinct']),
+					$this->parseField($sqlBuilder['field']),
+					$this->parseJoin($sqlBuilder['join']),
+					$this->parseWhere($sqlBuilder['where']),
+					$this->parseGroupBy($sqlBuilder['groupby']),
+					$this->parseHaving($sqlBuilder['having']),
+					$this->parseOrderBy($sqlBuilder['orderby']),
+					$this->parseLimit($sqlBuilder['limit'], $sqlBuilder['offset']),
+				),
+				$this->selectSql
+			);
+        }
+
+        return $sql;
+    }
+
+
+    /**
+     * 链式查询之读取数据，兼容分页选择
+     * 
+     * @return [type] [description]
+     */
+    public function select()
+    {
+    	$sql = $this->selectSql();
+
+    	return $this->query($sql);
+    }
+
+
+    /**
+     * 链式查询之插入记录，支持 insert 和 replace 方式
      *
 	 * @code
-	 *
-	 * //不使用链式查询
-	 * $db->insert('user',array(),false)
 	 *
 	 * // 使用链式查询
 	 * $db->table('content')->data(……)->insert(true)
 	 * @endcode
      *
-	 * @param string $table 数据表
-     * @param array $data 数据
-     * @param boolean $replace 是否replace
+     * @param boolean $replace 是否为 replace
      * @return false | integer
      */
-    public function insert($table='', $data=array(), $replace=false)
+    public function insert($replace=false)
 	{
-		if ( $table === true or $table === false ) $replace = $table;
-
-        //设置查询
-        $this->table($table)->data($data);
-
 		$table = $this->sqlBuilder['table'];
 		$data  = $this->sqlBuilder['data'];
 
@@ -1263,15 +1241,12 @@ abstract class db
 	 * @param array $data 更新的条件
      * @return bool
      */
-    public function update($table='', $data=array(), $where=array())
+    public function update()
     {
-		//设置查询
-        $this->table($table)->data($data)->where($where);
+        // 必须设置更新条件
+        if( empty($this->sqlBuilder['table']) ) return false;
 
-        //必须设置更新条件
-        if( empty($this->sqlBuilder['where']) OR empty($this->sqlBuilder['table']) ) return false;
-
-		//未更新任何数据
+		// 未更新任何数据
 		if ( !is_array($this->sqlBuilder['data']) ) return true;
 
         //sql
@@ -1301,11 +1276,8 @@ abstract class db
 	 * @param array $data 更新的条件
      * @return bool
      */
-    public function delete($table='', $where=array())
+    public function delete()
     {
-        //设置查询
-        $this->table($table)->where($where);
-
         //必须设置删除条件
         if( empty($this->sqlBuilder['where']) )
         {
@@ -1326,68 +1298,183 @@ abstract class db
         return $this->execute($sql);
     }
 
-	/**
-	 * 返回limit限制的数据,用于带分页的查询数据，TODO 修改page为连贯操作的方式
-	 *
-	 * @param $page int 页码
-	 * @param $pagesize int 每页显示条数
-	 * @param $num int|bool 总条数|缓存查询条数，$toal = (false||0) 不缓存查询
-	 * @return mixed
-	 */
-	public function getPage($page=0, $pagesize=10, $total = false)
-	{
+    /**
+     * 创建数据库
+     * 
+     * @return bool
+     */
+    public function create()
+    {}
 
-		$page = (int)$page <=0 ? (int)$_GET['page'] : $page;
-		$page = (int)$page <=0 ? 1 : $page;
+    /**
+     * 数据库是否存在
+     * 
+     * @return bool
+     */
+    public function exists()
+    {}
 
-		$pagesize = intval($pagesize) > 0 ? intval($pagesize) : 10;
+    /**
+     * 删除数据库
+     * 
+     * @return bool
+     */
+    public function drop()
+    {}
 
-		$sqlBuilder = $this->sqlBuilder;
+    
+    /**
+     * 字段类型映射，统一不同数据库的字段类型表达形式
+     * date 或者 datetime 请使用INT字段存储时间戳
+     * 
+     * @return array
+     */    
+    abstract public function fieldtypes();
 
-		if ( !is_int($total) or $total <=0 )
+    /**
+     * 获取全部数据表
+     * 
+     * @return array
+     */
+    abstract public function tables();
+
+    /**
+     * 检查数据表是否存在
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function existsTable($tablename)
+    {
+    	return in_array(strtolower($tablename), array_keys($this->tables()));
+    }
+
+    /**
+     * 创建数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  array $schema    数据表的 schema
+     * @return bool
+     */
+    public function createTable($tablename, $schema)
+    {
+		// 表已经存在则创建失败
+		if ( $this->existsTable($tablename) ) return false;
+
+		try
 		{
-			$hash = md5(serialize($sqlBuilder['where']));
+			// 获取表的创建语句
+			$sqls = $this->createTableSql($tablename, $schema);
 
-			if ( $page == 1 or !is_numeric(zotop::cookie($hash)))
+			foreach( $sqls as $sql )
 			{
-				//获取符合条件数据条数
-				$total = $this->reset()->table($sqlBuilder['table'])->where($sqlBuilder['where'])->count();
-
-				zotop::cookie($hash,$total);
-			}
-			else
-			{
-				$total = (int)zotop::cookie($hash);
+				$this->db->execute($sql);
 			}
 
+			return true;			
+		}
+		catch (Exception $e)
+		{
+			$this->dropTable($tablename);
 		}
 
-		// 上一次执行的时候会清空$sqlBuilder，所以必须重新赋值
-		$this->sqlBuilder($sqlBuilder);
-		
-		// 计算$offset
-		$offset    = intval($page) > 0 ? (intval($page)-1)*intval($pagesize) : 0;
-		
-		//获取指定条件的数据
-		$data      = $this->limit($pagesize, $offset)->getAll();
-		
-		// 获取分页信息
-		$totalpage = @ceil($total / $pagesize);
-		$prevpage  =  $page-1 > 0 ? $page-1 : 1;
-		$nextpage  =  $page+1 < $totalpage ? $page+1 : $totalpage;
+		return false;    	
+    }
 
-		return array(
-			'data'      => $data, //返回数据
-			'total'     => $total, //总条数
-			'page'      => $page, //当前页码
-			'pagesize'  => $pagesize, //每页显示
-			'firstpage' => 1, //首页页码
-			'lastpage'  => $totalpage, //最后一页页码
-			'prevpage'  => $prevpage, //下一页页码
-			'nextpage'  => $nextpage, //下一页页码
-			'totalpage' => $totalpage, //总页数
-		);
-	}
+    /**
+     * 生成创建数据表的sql语句
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  array $schema    数据表的 schema
+     * @return bool
+     */    
+    abstract protected function createTableSql($tablename, $schema);
+
+    /**
+     * 重命名数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $newname 数据表新名称，不含前缀
+     * @param  string $comment 数据表新描述
+     * @return bool
+     */
+    public function renameTable($tablename, $newname, $comment='')
+    {}
+
+    /**
+     * 删除数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function dropTable($tablename)
+    {}
+
+
+    /**
+     * 生成字段创建语句
+     * 
+     * @param  string $abstract 字段名称
+     * @param  array $spec 字段描述数组
+     * @return string
+     */
+    abstract protected function createFieldSql($fieldname, $spec);
+    
+
+    /**
+     * 获取表全部字段
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
+    public function fields($tablename)
+    {}
+
+    public function existsField($tablename, $fieldname)
+    {}
+
+    public function addField($tablename, $fieldname, $fields)
+    {}
+
+    public function changeField($tablename, $fieldname, $fields)
+    {}    
+
+    public function dropField($tablename, $fieldname)
+    {}    
+
+    /**
+     * 获取表全部字段
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
+    public function indexes($tablename)
+    {}
+
+    public function existsIndex($tablename, $indexname)
+    {}
+
+    public function addIndex($tablename, $indexname, $fields, $type='index')
+    {}
+
+    public function dropIndex($tablename, $indexname)
+    {}
+
+
+    /**
+     * 操作主键
+     *
+	 * <code>
+	 * ->primary('username'); // 获取表主键
+	 * ->primary('username',null); // 删除表主键
+	 * ->primary('username','id'); // 设置主键
+	 * </code>
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
+    public function primary($tablename, $fields=array())
+    {}
 
     /**
      * 魔术方法
@@ -1398,26 +1485,26 @@ abstract class db
      */
     public function __call($method, $args)
 	{
-        if( in_array(strtolower($method), array('distinct','having','group','lock'), true))
+        $method = strtolower($method);
+
+        // 'distinct','having','group','lock' 连贯操作的实现
+        if( in_array($method, array('distinct','having','group','lock'), true))
 		{
-            // 未定义的连贯操作的实现
-            $this->sqlBuilder[strtolower($method)] =   $args[0];
+            $this->sqlBuilder[$method] = $args[0];
             return $this;
 		}
-		elseif ( in_array(strtolower($method), array('count','sum','min','max','avg'), true) )
-		{
-			// 实现 'count','sum','min','max','avg' 方法
-			// table('user')->where('status','=',1)->count();
-			// table('user')->sum('hits');
-			
+		
+		// 实现 'count','sum','min','max','avg' 方法
+		// table('user')->where('status','=',1)->count();
+		// table('user')->sum('hits');
+		if ( in_array($method, array('count','sum','min','max','avg'), true) )
+		{		
 			$field  = isset($args[0]) ? $args[0] : '*';
-			$result = $this->select(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->getField();
+			
+			$result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->limit(1)->select();
+
+
 			return is_numeric($result) ? $result : 0;
-		}
-		elseif ( in_array(strtolower($method), array('exists','create','drop','size','version','connect','close','query','free','execute','begin','commit','rollback'), true) )
-		{
-			//TODO 此次可以删除
-			throw new zotop_exception(t('Database method [ %s ] must be extend', $method));
 		}
 
 

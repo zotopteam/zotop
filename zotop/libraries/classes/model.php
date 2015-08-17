@@ -168,7 +168,7 @@ class model
 			$this->alias='';
 		}
 
-		return $this->db->from($table);
+		return $this->db->table($table);
     }
 
     /**

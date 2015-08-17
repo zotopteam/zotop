@@ -1174,7 +1174,7 @@ class zotop
 			$config = zotop::config('database');
         }
 
-        return database::instance($config);
+        return db::instance($config);
     }
 
     /**

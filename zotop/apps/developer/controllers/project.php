@@ -186,11 +186,12 @@ class developer_controller_project extends admin_controller
     public function action_table()
     {
 		// 获取全部数据表
-		$tables = $this->db->tables();
+		$tables    = $this->db->tables();
 		
+		// 获取当前应用的数据表
 		$apptables = explode(',',$this->app['tables']);
 
-		// 获取你属于模块的表
+		// 获取属于模块的表属性
 		foreach( $tables as $k=>$table )
 		{
 			if ( !in_array($k, $apptables) ) unset($tables[$k]);
@@ -217,12 +218,12 @@ class developer_controller_project extends admin_controller
 				'comment' => $post['comment'],
 			);
 
-			if (  $this->db->schema($post['name'])->exists() )
+			if (  $this->db->existsTable($post['name']) )
 			{
-				return $this->error(t('%s 已经存在', $post['name']));
+				return $this->error(t('{1}已经存在', $post['name']));
 			}
 
-			if ( $this->db->schema($post['name'])->create($schema) )
+			if ( $this->db->createTable($post['name'], $schema) )
 			{
 				$app = $this->app;
 
@@ -242,10 +243,10 @@ class developer_controller_project extends admin_controller
 				file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($app, true).";\n?>");
 
 
-				return $this->success(t('%s成功',t('新建数据表')),u('developer/project/table'));
+				return $this->success(t('{1}成功',t('新建数据表')),u('developer/project/table'));
 			}
 
-			return $this->error(t('%s失败',t('新建数据表')));
+			return $this->error(t('{1}失败',t('新建数据表')));
 		}
 
 		$data = array();
@@ -265,14 +266,14 @@ class developer_controller_project extends admin_controller
 		if ( $post = $this->post() )
 		{
 			// app 信息
-			$app = $this->app;	
+			$app = $this->app;
 
 			// 数据表更名
 			if (  $post['name'] != $table )
 			{
-				if ( $this->db->schema($post['name'])->exists() ) return $this->error(t('%s 已经存在', $post['name']));
+				if ( $this->db->existsTable($post['name']) ) return $this->error(t('%s 已经存在', $post['name']));
 
-				if ( $this->db->schema($table)->rename($post['name']) == false )
+				if ( $this->db->renameTable($table,$post['name']) == false )
 				{
 					return $this->error(t('更新表名称失败'));
 				}
@@ -282,7 +283,7 @@ class developer_controller_project extends admin_controller
 			}
 
 			// 更新表注释
-			if ( $this->db->schema($post['name'])->comment($post['comment']) == false )
+			if ( $this->db->commentTable($post['name'],$post['comment']) == false )
 			{
 				return $this->error(t('更是表注释失败'));
 			}
@@ -320,7 +321,7 @@ class developer_controller_project extends admin_controller
 	{
 		$name = $_GET['name'];
 
-		if ( $name != $ignore and $this->db->schema($name)->exists() )
+		if ( $name != $ignore and $this->db->existsTable($name) )
 		{
 			exit('"'.t('已经存在，请重新输入').'"');
 		}
