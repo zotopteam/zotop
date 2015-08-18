@@ -17,9 +17,9 @@ class area_model_area extends model
 	/*
 	 *  获取数据
 	 */
-	public function getall()
+	public function select()
 	{
-		return $this->db()->orderby('listorder','asc')->orderby('id','asc')->getall();
+		return $this->db()->orderby('listorder','asc')->orderby('id','asc')->select();
 	}
 
 	/*
@@ -31,7 +31,7 @@ class area_model_area extends model
 
 		if ( $parentids = $this->where('id',$id)->getField('parentids') )
 		{
-			$parents = $this->where('id','in',explode(',',$area['parentids']))->getAll();
+			$parents = $this->where('id','in',explode(',',$area['parentids']))->select();
 		}
 
 		return $parents;
@@ -43,7 +43,7 @@ class area_model_area extends model
 	 */
 	public function getChild($id)
 	{
-		$result = $this->select('*')->where('parentid','=',$id)->getAll();
+		$result = $this->field('*')->where('parentid','=',$id)->select();
 
 		return is_array($result) ? $result : array();
 	}

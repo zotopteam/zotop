@@ -26,7 +26,7 @@ class system_model_attachment_folder extends model
 
 		if ( empty($data) )
 		{
-			$data = $this->orderby('listorder','asc')->getAll();
+			$data = $this->orderby('listorder','asc')->select();
 			$data = arr::hashmap($data,'id');			
 		}
 

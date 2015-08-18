@@ -40,7 +40,7 @@ class shop_controller_type extends admin_controller
 			return $this->error($this->type->error());
 		}
 
-		$data = $this->type->getall();
+		$data = $this->type->select();
 
 		$this->assign('title',t('商品类型'));
 		$this->assign('data',$data);

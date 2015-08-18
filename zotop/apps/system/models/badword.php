@@ -73,7 +73,7 @@ class system_model_badword extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->db()->select('word,replace,level')->orderby('listorder','desc')->getAll();
+			$cache = $this->db()->field('word,replace,level')->orderby('listorder','desc')->select();
 
 			zotop::cache("badword.data", $cache, false);
 		}

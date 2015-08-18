@@ -22,7 +22,7 @@ class content_controller_search extends site_controller
 		if ( $keywords )
 		{
 	   		// 初始化读取数据，只读取已经发布的数据
-			$db = m('content.content')->select('*')->where('status','=','publish');
+			$db = m('content.content')->field('*')->where('status','=','publish');
 
 			// 单独模型数据
 			if ( $modelid ) $db->where('modelid','=',$modelid);

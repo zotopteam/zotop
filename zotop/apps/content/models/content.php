@@ -58,9 +58,9 @@ class content_model_content extends model
      *
      * @return array
      */
-    public function getAll()
+    public function select()
     {
-        $data = $this->db()->getAll();
+        $data = $this->db()->select();
 
         foreach ($data as &$d)
         {
@@ -79,9 +79,9 @@ class content_model_content extends model
      * @param bool $total 总数
      * @return
      */
-    public function getPage($page = 0, $pagesize = 20, $total = false)
+    public function getpage($page = 0, $pagesize = 20, $total = false)
     {
-        $dataset = $this->db()->getPage($page, $pagesize, $total);
+        $dataset = $this->db()->getpage($page, $pagesize, $total);
 
         foreach ($dataset['data'] as &$d)
         {
@@ -396,12 +396,12 @@ class content_model_content extends model
 		}
 
 		// 初始化读取数据，只读取已经发布的数据
-		$db = $this->db()->select('*')->where('status','=','publish');
+		$db = $this->db()->field('*')->where('status','=','publish');
 
         // 如果有id标签，直接返回 TODO 这段暂时未测试
         if ( $id )
         {
-            $data = $db->where('id','in',$id)->getall();
+            $data = $db->where('id','in',$id)->select();
 
             return $this->process($data);
         }
@@ -478,7 +478,7 @@ class content_model_content extends model
 		}
 		else
 		{
-			$return = $db->limit($size)->getAll();
+			$return = $db->limit($size)->select();
 			$return = $this->process($return, $mid);
 		}
 
@@ -512,7 +512,7 @@ class content_model_content extends model
 		{
 			if ( $extend = $this->extend($mid) )
             {
-                $data = $extend->select('*')->where('id','in', array_keys($return))->orderby(null)->getall();
+                $data = $extend->field('*')->where('id','in', array_keys($return))->orderby(null)->select();
 
 				foreach($data as $r)
 				{

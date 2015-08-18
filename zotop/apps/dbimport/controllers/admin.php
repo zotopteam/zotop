@@ -29,7 +29,7 @@ class dbimport_controller_admin extends admin_controller
 	 */
 	public function action_index()
     {
-		$data = $this->dbimport->getall();
+		$data = $this->dbimport->select();
 
 		foreach ($data as &$d)
 		{

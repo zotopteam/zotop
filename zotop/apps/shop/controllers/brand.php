@@ -40,7 +40,7 @@ class shop_controller_brand extends admin_controller
 			return $this->error($this->brand->error());
 		}
 
-		$data = $this->brand->getall();
+		$data = $this->brand->select();
 
 		$this->assign('title',t('商品品牌'));
 		$this->assign('data',$data);

@@ -10,7 +10,7 @@ defined('ZOTOP_UNINSTALL') OR die('No direct access allowed.');
  * @copyright	(c)2009 zotop team
  * @license		http://zotop.com/license.html
  */
-$models = $this->db->from('user_model')->where('app','member')->getall();
+$models = $this->db->from('user_model')->where('app','member')->select();
 
 // 卸载前检查数据表是否有数据，有则不允许删除
 foreach($models as $model)

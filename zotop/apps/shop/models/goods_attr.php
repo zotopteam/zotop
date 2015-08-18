@@ -16,7 +16,7 @@ class shop_model_goods_attr extends model
 
 	public function get($goodsid)
 	{
-		$data = $this->select('attrid','attrvalue')->where('goodsid', $goodsid)->getall();
+		$data = $this->field('attrid','attrvalue')->where('goodsid', $goodsid)->select();
 
 		$data = arr::hashmap($data, 'attrid', 'attrvalue');
 

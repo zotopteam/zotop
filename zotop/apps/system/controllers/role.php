@@ -39,7 +39,7 @@ class system_controller_role extends admin_controller
 	 */
 	public function action_index()
 	{
-		$dataset = $this->role->getall();
+		$dataset = $this->role->select();
 
 		foreach( $dataset as &$data )
 		{
@@ -117,7 +117,7 @@ class system_controller_role extends admin_controller
 		$role = $this->role->getbyid($id);
 
 		// 获取角色的全部权限
-		$privs = $this->rolepriv->where('groupid',$id)->getall();
+		$privs = $this->rolepriv->where('groupid',$id)->select();
 		$privs = arr::column($privs,'privid');
 
 		foreach( $privs as $priv )

@@ -43,10 +43,10 @@ class member_controller_field extends admin_controller
 		}
 
 		// 获取模型字段
-		$data = $this->field->where('modelid',$modelid)->getall();
+		$data = $this->field->where('modelid',$modelid)->select();
 
 		//获取全部模型数据
-		$models = $this->model->getall();
+		$models = $this->model->select();
 
 		$this->assign('title',t('字段管理'));
 		$this->assign('data',$data);
@@ -79,7 +79,7 @@ class member_controller_field extends admin_controller
 			'length'	=> $this->field->controls['text']['length']
 		);
 
-		$models = arr::hashmap($this->model->getall(),'id','name');
+		$models = arr::hashmap($this->model->select(),'id','name');
 
 		$this->assign('title',t('添加字段'));
 		$this->assign('data',$data);
@@ -107,7 +107,7 @@ class member_controller_field extends admin_controller
 
 		$data = $this->field->get($id);
 
-		$models = arr::hashmap($this->model->getall(),'id','name');
+		$models = arr::hashmap($this->model->select(),'id','name');
 
 		$this->assign('title',t('编辑字段'));
 		$this->assign('data',$data);

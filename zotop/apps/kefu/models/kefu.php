@@ -28,9 +28,9 @@ class kefu_model_kefu extends model
 		return empty($type) ? $types : $types[$type];
 	}
 
-	public function getall()
+	public function select()
 	{
-		$data = $this->db()->orderby('listorder','asc')->getall();
+		$data = $this->db()->orderby('listorder','asc')->select();
 
 		foreach ($data as &$r)
 		{
@@ -61,7 +61,7 @@ class kefu_model_kefu extends model
 
 
 
-		return zotop::filter('kefu.getall', $data);
+		return zotop::filter('kefu.select', $data);
 	}
 
 
@@ -144,7 +144,7 @@ class kefu_model_kefu extends model
 
 			$cache = array();
 
-			foreach( $this->getAll() as $r )
+			foreach( $this->select() as $r )
 			{
 				if (!$r['disabled']) $cache[] = $r;
 			}

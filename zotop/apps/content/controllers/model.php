@@ -60,7 +60,7 @@ class content_controller_model extends admin_controller
 			return $this->error($this->model->error());
 		}
 
-		$data = $this->model->orderby('listorder','asc')->getAll();
+		$data = $this->model->orderby('listorder','asc')->select();
 
 		foreach( $data as &$d )
 		{

@@ -245,7 +245,7 @@ class database_sqlite extends database
 	 * @param $sql
 	 * @return array
 	 */
-	public function getAll($sql='')
+	public function select($sql='')
 	{
 		if ( $query = $this->query($sql) )
 		{
@@ -309,7 +309,7 @@ class database_sqlite extends database
 	{
 		$tables = array();
 
-		$results = $this->getAll("SELECT * FROM `sqlite_master` WHERE `type`='table' ORDER BY `name`;");
+		$results = $this->select("SELECT * FROM `sqlite_master` WHERE `type`='table' ORDER BY `name`;");
 
 		foreach((array)$results as $table)
 		{

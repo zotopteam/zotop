@@ -52,7 +52,7 @@ class block_model_category extends model
      * 获取排序过的全部数据
      *
      */
-	public function getAll()
+	public function select()
 	{
 		static $result = array();
 
@@ -60,7 +60,7 @@ class block_model_category extends model
 		{
 			$result[0] = array('id'=>0, 'name'=>t('全局区块'));
 
-			$data =  $this->db()->orderby('listorder','asc')->getAll();
+			$data =  $this->db()->orderby('listorder','asc')->select();
 
 			foreach( $data as &$d )
 			{
@@ -109,7 +109,7 @@ class block_model_category extends model
 	 */
 	public function status($id)
 	{
-		$data = $this->select('disabled')->getbyid($id);
+		$data = $this->field('disabled')->getbyid($id);
 
 		$disabled = $data['disabled'] ? 0 : 1;
 

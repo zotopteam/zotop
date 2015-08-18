@@ -60,11 +60,11 @@ class form_model_field extends model
 	 *
 	 * @return array
 	 */
-	public function getall($formid)
+	public function select($formid)
 	{
 		$data = array();
 
-		$rows = $this->db()->where('formid',$formid)->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->where('formid',$formid)->orderby('listorder','asc')->select();
 
 		foreach( $rows as &$r )
 		{
@@ -459,7 +459,7 @@ class form_model_field extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll($formid);
+			$cache = $this->select($formid);
 
 			zotop::cache("form.form.{$formid}", $cache, false);
 		}

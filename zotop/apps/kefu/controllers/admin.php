@@ -39,7 +39,7 @@ class kefu_controller_admin extends admin_controller
 			return $this->error($this->kefu->error());
 		}
 
-		$data = $this->kefu->getall();
+		$data = $this->kefu->select();
 
 		$this->assign('title',t('客服管理'));
 		$this->assign('data',$data);

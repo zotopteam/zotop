@@ -290,7 +290,7 @@ class form_controller_data extends admin_controller
 			$this->data->orderby('id','desc');
 		}
 
-		$data = $this->data->getall();
+		$data = $this->data->select();
 
 		header('Content-Type: text/xls');
 		header('Content-type:application/vnd.ms-excel;charset=utf-8');

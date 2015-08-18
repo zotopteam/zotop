@@ -130,7 +130,7 @@ class form_api
 			}
 			else
 			{
-				$return = $db->select($select)->limit($size)->getAll();
+				$return = $db->select($select)->limit($size)->select();
 				$return = form_api::process_data($return, $fields);
 			}
 

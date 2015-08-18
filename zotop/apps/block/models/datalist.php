@@ -49,7 +49,7 @@ class block_model_datalist extends model
 			$db->limit($rows);
 		}
 
-		return arr::hashmap($db->getall(), 'id');		
+		return arr::hashmap($db->select(), 'id');		
 	}
 
 	/**
@@ -264,7 +264,7 @@ class block_model_datalist extends model
 		}
 
 		$new 	= is_array($new) ? $new : array();
-		$old 	= arr::column($this->select('blockid')->where('dataid',$data['dataid'])->getall(), 'blockid'); 
+		$old 	= arr::column($this->field('blockid')->where('dataid',$data['dataid'])->select(), 'blockid'); 
 		$del 	= array_diff($old, $new);
 		$add 	= array_diff($new, $old);			
 		$edit 	= array_diff($old, $del);	
@@ -321,7 +321,7 @@ class block_model_datalist extends model
 			return array_map(array($this,'delcommend'), $dataid);
 		}
 
-		$datalist = $this->select('id,blockid')->where('dataid',$dataid)->getall();
+		$datalist = $this->field('id,blockid')->where('dataid',$dataid)->select();
 
 		foreach ($datalist as $data)
 		{

@@ -17,11 +17,11 @@ class member_model_model extends model
 	/*
 	 *  获取数据集
 	 */
-	public function getall()
+	public function select()
 	{
 		$data = array();
 
-		$rows = $this->db()->where('app','member')->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->where('app','member')->orderby('listorder','asc')->select();
 
 		foreach( $rows as &$r )
 		{
@@ -181,7 +181,7 @@ class member_model_model extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll();
+			$cache = $this->select();
 
 			zotop::cache("member.model", $cache, false);
 		}

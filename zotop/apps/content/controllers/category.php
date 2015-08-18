@@ -102,7 +102,7 @@ class content_controller_category extends admin_controller
 		}
 
 		// 获取模型
-		$models = $this->model->orderby('listorder','asc')->getAll();
+		$models = $this->model->orderby('listorder','asc')->select();
 
 		foreach( $models as $i=>&$m )
 		{
@@ -151,7 +151,7 @@ class content_controller_category extends admin_controller
 		$data['dataid'] = "content-category-{$id}";
 
 		// 获取模型
-		$models = $this->model->orderby('listorder','asc')->getAll();
+		$models = $this->model->orderby('listorder','asc')->select();
 
 		foreach( $models as $i=>&$m )
 		{

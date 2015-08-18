@@ -41,7 +41,7 @@ class wechat_controller_account extends admin_controller
 			return $this->error($this->account->error());
 		}
 
-		$data = $this->account->orderby('listorder','asc')->getAll();
+		$data = $this->account->orderby('listorder','asc')->select();
 
 
 		$this->assign('title',t('公众号管理'));

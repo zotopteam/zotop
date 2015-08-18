@@ -53,11 +53,11 @@ class shop_model_goods extends model
 	/*
 	 *  获取数据集
 	 */
-	public function getall()
+	public function select()
 	{
 		$data = array();
 
-		$rows = $this->db()->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->orderby('listorder','asc')->select();
 
 		foreach( $rows as &$r )
 		{
@@ -225,7 +225,7 @@ class shop_model_goods extends model
 		}
 
 		// 初始化读取数据，只读取已经发布的数据
-		$db = $this->db()->select('*')->where('status','=','publish');
+		$db = $this->db()->field('*')->where('status','=','publish');
 
 		// 读取分类数据
 		if ( is_array($cids) and $cids )
@@ -296,7 +296,7 @@ class shop_model_goods extends model
 		}
 		else
 		{
-			$return = $db->limit($size)->getAll();
+			$return = $db->limit($size)->select();
 			$return = $this->process($return, $model, $modeldata);
 		}
 
@@ -344,7 +344,7 @@ class shop_model_goods extends model
 			{
 				$modeldata = ($modeldata == 'true') ? '*' : 'id,'.$modeldata;
 
-				$_data = m("{$model['app']}.{$model['id']}")->select($modeldata)->where('id','in', array_keys($return))->orderby(null)->getall();
+				$_data = m("{$model['app']}.{$model['id']}")->select($modeldata)->where('id','in', array_keys($return))->orderby(null)->select();
 
 				foreach($_data as $r)
 				{

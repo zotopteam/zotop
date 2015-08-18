@@ -237,7 +237,7 @@ class database_mysql extends database
 	 * @param $sql
 	 * @return array
 	 */
-	public function getAll($sql='')
+	public function select($sql='')
 	{
 		$result = array();
 
@@ -302,7 +302,7 @@ class database_mysql extends database
 	public function tables()
 	{
 		$tables 	= array();
-		$results 	= $this->getAll('SHOW TABLE STATUS');
+		$results 	= $this->field('SHOW TABLE STATUS');
 
 		foreach((array)$results as $table)
 		{

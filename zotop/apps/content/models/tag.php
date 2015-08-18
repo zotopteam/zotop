@@ -76,7 +76,7 @@ class content_model_tag extends model
     public function delRelated($contentid)
     {
 		// 获取内容的全部标签
-		$data = $this->tagdata->where('contentid',$contentid)->getAll();
+		$data = $this->tagdata->where('contentid',$contentid)->select();
 
 		if ($data)
 		{

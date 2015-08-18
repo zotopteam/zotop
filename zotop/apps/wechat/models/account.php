@@ -94,11 +94,11 @@ class wechat_model_account extends model
 	 * 
 	 * @return array
 	 */
-	public function getAll()
+	public function select()
 	{
 		$result = array();
 
-		$data =  $this->db()->orderby('listorder','asc')->getAll();
+		$data =  $this->db()->orderby('listorder','asc')->select();
 
 		foreach( $data as &$d )
 		{
@@ -161,7 +161,7 @@ class wechat_model_account extends model
 	 */
 	public function status($id)
 	{
-		$data = $this->select('disabled')->getbyid($id);
+		$data = $this->field('disabled')->getbyid($id);
 
 		$disabled = $data['disabled'] ? 0 : 1;
 
@@ -203,7 +203,7 @@ class wechat_model_account extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll();
+			$cache = $this->select();
 
 			zotop::cache("wechat.account", $cache, false);
 		}

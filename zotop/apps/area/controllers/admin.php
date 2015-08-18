@@ -45,7 +45,7 @@ class area_controller_admin extends admin_controller
 		//获取全部父节点信息
 		if ( $area and $area['parentids'] )
 		{
-			$parents = $this->area->where('id','in',explode(',',$area['parentids']))->getAll();
+			$parents = $this->area->where('id','in',explode(',',$area['parentids']))->select();
 		}
 		else
 		{
@@ -53,7 +53,7 @@ class area_controller_admin extends admin_controller
 		}
 
 		// 获取当前节点的子节点
-		$data = $this->area->where('parentid',$parentid)->getAll();
+		$data = $this->area->where('parentid',$parentid)->select();
 
 		$this->assign('title',t('地区'));
 		$this->assign('parentid',intval($parentid));
@@ -136,7 +136,7 @@ class area_controller_admin extends admin_controller
 	 */
 	public function action_refresh()
 	{
-		$data = $this->area->getAll();
+		$data = $this->area->select();
 
 		$tree = tree::instance($data);
 
@@ -156,7 +156,7 @@ class area_controller_admin extends admin_controller
 	 */
 	private function export()
 	{
-		$data = $this->area->getAll();
+		$data = $this->area->select();
 
 		if ( $data )
 		{

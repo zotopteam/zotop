@@ -43,7 +43,7 @@ class sitemap_api
 			}
 			
 			// 内容数据
-			$data = m('content.content')->where('status','publish')->orderby('createtime desc')->limit(1000)->getall();
+			$data = m('content.content')->where('status','publish')->orderby('createtime desc')->limit(1000)->select();
 
 			foreach ($data as $r)
 			{

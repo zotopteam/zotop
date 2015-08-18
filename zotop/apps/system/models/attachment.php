@@ -279,7 +279,7 @@ class system_model_attachment extends model
 			$this->where('type', '=', $type);
 		} 	
 
-		return $this->select('*')->orderby('uploadtime')->limit($limit)->getAll();
+		return $this->field('*')->orderby('uploadtime')->limit($limit)->select();
 	}
 
 	/**
@@ -305,7 +305,7 @@ class system_model_attachment extends model
 			return array_map( array($this,'delRelated'), $dataid );
 		}
 
-		$data = $this->where('dataid','=', $dataid )->getAll();
+		$data = $this->where('dataid','=', $dataid )->select();
 
 		//删除关联的附件
 		if( is_array($data) )

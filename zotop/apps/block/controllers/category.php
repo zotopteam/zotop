@@ -39,7 +39,7 @@ class block_controller_category extends admin_controller
 			return $this->error($this->category->error());
 		}
 
-		$data = $this->category->getAll();
+		$data = $this->category->select();
 
 		unset($data[0]);
 

@@ -40,7 +40,7 @@ class member_controller_model extends admin_controller
 			return $this->error($this->model->error());
 		}
 
-		$data = $this->model->getall();
+		$data = $this->model->select();
 
 		$this->assign('title',t('会员模型'));
 		$this->assign('data',$data);

@@ -47,7 +47,7 @@ class system_model_priv extends model
      */
 	public function getTree()
 	{
-		$data = $this->getAll();
+		$data = $this->select();
 
 		if ( is_array($data) )
 		{

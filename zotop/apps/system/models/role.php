@@ -17,11 +17,11 @@ class system_model_role extends model
      * 获取数据
      *
      */
-	public function getAll()
+	public function select()
 	{
 		$dataset = array();
 
-		$results = $this->db()->where('modelid','admin')->orderby('listorder','asc')->getall();
+		$results = $this->db()->where('modelid','admin')->orderby('listorder','asc')->select();
 
 		foreach( $results as $r )
 		{
@@ -39,7 +39,7 @@ class system_model_role extends model
 	{
 		$dataset = array();
 
-		$results = $this->getall();
+		$results = $this->select();
 
 		foreach( $results as $r )
 		{

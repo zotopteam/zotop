@@ -42,7 +42,7 @@ class form_controller_admin extends admin_controller
 			return $this->error($this->form->error());
 		}
 
-    	$data = $this->form->getall();
+    	$data = $this->form->select();
 
 		$this->assign('title',t('表单管理'));
 		$this->assign('data',$data);

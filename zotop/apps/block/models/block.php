@@ -259,9 +259,9 @@ class block_model_block extends model
      * 获取排序过的全部数据
      *
      */
-	public function getAll()
+	public function select()
 	{
-		return $this->db()->orderby('listorder','asc')->getAll();
+		return $this->db()->orderby('listorder','asc')->select();
 	}
 
 	/**

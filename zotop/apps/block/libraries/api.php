@@ -100,7 +100,7 @@ class block_api
 	 */
 	public static function field_commend($attrs)
 	{
-		$options = m('block.block')->select('id,name')->where('commend','>',0)->getall();
+		$options = m('block.block')->field('id,name')->where('commend','>',0)->select();
 		$options = arr::hashmap($options,'id','name');
 
 		if ( $options )

@@ -226,7 +226,70 @@ class db_mysql extends db
 
     public function fields($tablename)
     {
+        $fields = array();
+        
+        // 获取字段类型
+        $types  = array_flip($this->fieldtypes());
+        
+        // 获取字段信息
+        $result = $this->query("SHOW FULL FIELDS FROM ".$this->escapeTable($tablename));
 
+        foreach ($result as $row)
+        {
+            $field = $row['field'];
+
+            // 分解原始Type，获取type及length
+            if ( preg_match('/^([^(]+)\((.*)\)/', $row['type'], $matches) )
+            {
+                $type   = $matches[1];
+                $length = $matches[2];
+            }
+            else
+            {
+                $type   = $row['type'];
+                $length = NULL;
+            }
+
+            // 返回 zotop 内置数据类型
+            $fields[$field]['type'] = isset($types[strtoupper($type)]) ? $types[strtoupper($type)] : strtoupper($type);
+
+            // length
+            if ($length)
+            {
+                $fields[$field]['length'] = $length; //2012.03.02 修正 float 和 DECIMAL 的精度问题
+            }
+            
+            // notnull
+            $fields[$field]['notnull'] = (bool) ($row['null'] === 'NO'); // not null is NO, null is YES
+
+            // default
+            if ( '' !== $default = trim($row['default'], "'")  )
+            {
+                $fields[$field]['default'] = $default;
+            }
+            elseif ( !isset($row['default']) ) 
+            {
+                if ($row['null'] == 'YES') $fields[$field]['default'] = NULL;
+            }               
+
+            // unsigned
+            if ( false !== strpos($row['type'], 'unsigned')  )
+            {
+                $fields[$field]['unsigned'] = true;
+            }
+            
+            //primary 2012-12-06，唯一索引也会显示为 PRI，所以改为根据索引判断是否为主键
+            //$fields[$field]['primary'] = (strtolower($row['Key']) == 'pri');
+
+            //autoinc
+            $fields[$field]['autoinc'] = (strtolower($row['extra']) == 'auto_increment');
+
+            // comment
+            $fields[$field]['comment'] = $row['comment'];
+
+        }
+
+        return $fields;             
     }
 }
 ?>

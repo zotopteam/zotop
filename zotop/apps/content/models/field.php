@@ -76,11 +76,11 @@ class content_model_field extends model
 	 *
 	 * @return array
 	 */
-	public function getall($modelid)
+	public function select($modelid)
 	{
 		$data = array();
 
-		$rows = $this->db()->where('modelid',$modelid)->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->where('modelid',$modelid)->orderby('listorder','asc')->select();
 
 		foreach( $rows as &$r )
 		{
@@ -438,7 +438,7 @@ class content_model_field extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getall($modelid);
+			$cache = $this->select($modelid);
 
 			zotop::cache("content.field.{$modelid}", $cache, false);
 		}

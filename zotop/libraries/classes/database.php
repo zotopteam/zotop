@@ -274,9 +274,9 @@ abstract class database
 	 *
 	 *
 	 * <code>
-	 * $this->select('id','username','password');
-	 * $this->select('id,username,password');
-	 * $this->select('*');
+	 * $this->field('id','username','password');
+	 * $this->field('id,username,password');
+	 * $this->field('*');
 	 * </code>
 	 *
 	 * @param  mixed  $fields 要选取的字段，默认为选取全部字段
@@ -1047,7 +1047,7 @@ abstract class database
 		$offset = intval($page) > 0 ? (intval($page)-1)*intval($pagesize) : 0;
 
 		//获取指定条件的数据
-		$data = $this->limit($pagesize, $offset)->getAll();
+		$data = $this->limit($pagesize, $offset)->select();
 
 		// 获取分页信息
 		$totalpage = @ceil($total / $pagesize);

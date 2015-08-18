@@ -40,7 +40,7 @@ class shop_controller_spec extends admin_controller
 			return $this->error($this->spec->error());
 		}
 
-		$data = $this->spec->getall();
+		$data = $this->spec->select();
 
 		$this->assign('title',t('商品规格'));
 		$this->assign('data',$data);

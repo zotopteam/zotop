@@ -57,7 +57,7 @@ class system_model_rolepriv extends model
 		{
 			$cache = array();
 
-			$data = $this->alias('rp')->join('admin_priv as p','rp.privid','p.id','left')->where('rp.groupid',$groupid)->getAll();
+			$data = $this->alias('rp')->join('admin_priv as p','rp.privid','p.id','left')->where('rp.groupid',$groupid)->select();
 
 			foreach ( $data as $r )
 			{

@@ -79,7 +79,7 @@ class content_controller_content extends admin_controller
 		} 
 
 		// 获取数据集
-		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getPage();
+		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getpage();
 
 		// 允许发布的模型
 		$postmodels = array();
@@ -264,7 +264,7 @@ class content_controller_content extends admin_controller
 
 		// 获取当前数据，并获取“推荐到区块”的区块编号
 		$data             = $this->content->get($id);		
-		$data['blockids'] = arr::column(m('block.datalist')->select('blockid')->where('dataid',$data['dataid'])->getall(), 'blockid');		
+		$data['blockids'] = arr::column(m('block.datalist')->field('blockid')->where('dataid',$data['dataid'])->select(), 'blockid');		
 
 		$this->assign('title',t('编辑'));
 		$this->assign('data',$data);

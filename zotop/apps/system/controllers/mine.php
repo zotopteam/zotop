@@ -122,7 +122,7 @@ class system_controller_mine extends admin_controller
 		$dataset = m('system.priv')->getTree();
 
 		// 获取角色的全部权限
-		$privs = m('system.rolepriv')->where('groupid',$groupid)->getall();
+		$privs = m('system.rolepriv')->where('groupid',$groupid)->select();
 		$privs = arr::column($privs,'privid');
 
 		foreach( $privs as $priv )

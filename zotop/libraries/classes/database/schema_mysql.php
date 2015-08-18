@@ -107,7 +107,7 @@ class database_schema_mysql extends database_schema
 		$types = array_flip($this->types());
 
 		// 获取字段信息
-		$result = $this->db->getAll("SHOW FULL FIELDS FROM `".$this->table($table)."`");
+		$result = $this->db->select("SHOW FULL FIELDS FROM `".$this->table($table)."`");
 		//debug::dump($result);
 		//exit();		
 		/*
@@ -193,7 +193,7 @@ class database_schema_mysql extends database_schema
 	{
 		$indexes = array();
 
-		$result = $this->db->getAll('SHOW INDEX FROM `'.$this->table($table).'`');
+		$result = $this->db->field('SHOW INDEX FROM `'.$this->table($table).'`');
 		
 		/*
 		[Table] => zotop_test

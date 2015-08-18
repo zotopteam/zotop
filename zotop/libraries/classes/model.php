@@ -85,8 +85,9 @@ class model
     {
         if( empty($this->pk) )
         {
-            $this->pk = $this->db->schema($this->table)->pk();
+            $this->pk = $this->db->primary($this->table);
         }
+
         return $this->pk;
     }
 
@@ -111,7 +112,7 @@ class model
 		}
 
 		//强制刷新
-		if ( $fields = $this->db->schema($this->table)->fields() )
+		if ( $fields = $this->db->fields($this->table) )
 		{
 			$this->fields = array_keys($fields);
 			zotop::cache("{$this->table}.fields", $this->fields); //只存储字段名称数组
@@ -150,6 +151,7 @@ class model
 	public function alias($alias)
 	{
 		$this->alias = $alias;
+		
 		return $this;
 	}
 
@@ -206,10 +208,23 @@ class model
 	 *
      * @return mixed
 	 */
-    public function getAll()
+    public function select()
     {
-        return $this->db()->getAll();
+        return $this->db()->select();
     }
+
+	/**
+	 * 返回limit限制的数据,用于带分页的查询数据
+	 *
+	 * @param $page int 页码
+	 * @param $pagesize int 每页显示条数
+	 * @param $num int|bool 总条数|缓存查询条数，$toal = (false||0) 不缓存查询
+	 * @return mixed
+	 */
+	public function getPage($page=0, $pagesize=20, $total = false)
+	{
+		return $this->db()->page($page,$pagesize,$total);
+	}  
 
 	/**
 	 * 获取单条数据
@@ -227,23 +242,11 @@ class model
      * @param string $field 字段名称
      * @return mixed
 	 */
-    public function getField($field)
+    public function getField()
     {
-        return $this->db()->select($field)->orderby(null)->getField();
+        return $this->db()->getField();
     }
 
-	/**
-	 * 返回limit限制的数据,用于带分页的查询数据
-	 *
-	 * @param $page int 页码
-	 * @param $pagesize int 每页显示条数
-	 * @param $num int|bool 总条数|缓存查询条数，$toal = (false||0) 不缓存查询
-	 * @return mixed
-	 */
-	public function getPage($page=0, $pagesize=20, $total = false)
-	{
-		return $this->db()->getPage($page,$pagesize,$total);
-	}
 
     /**
      * 根据主键获取数据
@@ -277,7 +280,7 @@ class model
      */
 	public function cache($refresh=false)
 	{
-		return $this->getall();
+		return $this->select();
 	}
 
 
@@ -524,8 +527,9 @@ class model
 	{
 		$method = strtolower($method);
 
-		if ( in_array($method, array('distinct','select','data','join','where','orderby','having','groupby','limit','offset'),true) )
+		if ( in_array($method, array('distinct','field','data','join','where','orderby','having','groupby','limit','offset'),true) )
 		{
+			//链式查询
 			call_user_func_array(array($this->db, $method), $args);
 			return $this;
 		}
@@ -538,7 +542,7 @@ class model
 
 			if ( in_array($field, $this->fields()) )
 			{
-				return $this->db()->where($field,'=', $args[0])->getRow();
+				return $this->db()->where($field,'=', $args[0])->getrow();
 			}
 		}
 		elseif( substr($method, 0, 8) == 'deleteby' )
@@ -560,7 +564,7 @@ class model
 			// $user->sum('hits');
 			$field =  isset($args[0]) ? $args[0] : '*';
 
-			$result = $this->getField(strtoupper($method).'('.$field.') AS zotop_'.$method);
+			$result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->getField();
 
 			return is_numeric($result) ? $result : 0;
 		}

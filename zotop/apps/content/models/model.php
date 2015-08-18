@@ -107,7 +107,7 @@ class content_model_model extends model
 	{
 		$export = $this->get($id);
 
-		$fields = m('content.field')->getall($id);
+		$fields = m('content.field')->select($id);
 
 		foreach ($fields as &$f)
 		{
@@ -194,11 +194,11 @@ class content_model_model extends model
 	 * 
 	 * @return array
 	 */
-	public function getAll()
+	public function select()
 	{
 		$result = array();
 
-		$data =  $this->db()->orderby('listorder','asc')->getAll();
+		$data =  $this->db()->orderby('listorder','asc')->select();
 
 		foreach( $data as &$d )
 		{
@@ -273,7 +273,7 @@ class content_model_model extends model
 	 */
 	public function status($id)
 	{
-		$data = $this->select('disabled')->getbyid($id);
+		$data = $this->field('disabled')->getbyid($id);
 
 		$disabled = $data['disabled'] ? 0 : 1;
 
@@ -303,7 +303,7 @@ class content_model_model extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll();
+			$cache = $this->select();
 
 			zotop::cache("content.model", $cache, false);
 		}

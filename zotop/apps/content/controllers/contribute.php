@@ -35,7 +35,7 @@ class content_controller_contribute extends member_controller
 		$models = $this->model->cache();
 
 		// 获取栏目数据
-		$categorys = $this->category->getAll();
+		$categorys = $this->category->select();
 
 		// 状态
 		$statuses = $this->content->statuses;

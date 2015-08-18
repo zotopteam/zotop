@@ -36,7 +36,7 @@ class member_controller_admin extends admin_controller
 	public function action_index()
     {
 
-		$models = $this->model->getall();
+		$models = $this->model->select();
 		$groups = $this->group->cache();
 
 		$dataset = $this->user->where('modelid','in',array_keys($models))->orderby('logintime','desc')->getPage();

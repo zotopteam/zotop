@@ -16,11 +16,11 @@ class dbimport_model_dbimport extends model
 	/*
 	 *  获取数据集
 	 */
-	public function getall()
+	public function select()
 	{
 		$data = array();
 
-		$rows = $this->db()->orderby('id','asc')->getAll();
+		$rows = $this->db()->orderby('id','asc')->select();
 
 		foreach( $rows as &$r )
 		{
@@ -171,7 +171,7 @@ class dbimport_model_dbimport extends model
 
 		if ( $db = $this->source_db($config) )
 		{
-			$source_data = $db->getall();
+			$source_data = $db->select();
 
 			foreach ($source_data as $r)
 			{

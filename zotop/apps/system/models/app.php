@@ -43,7 +43,7 @@ class system_model_app extends model
 	 */
 	public function status($id)
 	{
-		$data = $this->select('status,type')->getbyid($id);
+		$data = $this->field('status,type')->getbyid($id);
 
 		$status = ( $data['status'] > 0 ) ? 0 : 1;
 
@@ -264,7 +264,7 @@ array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
 			}
 
 			// 获取全部配置并写入配置文件
-			$results = $this->db->from('config')->select('key,value')->where('app',$app)->getAll();
+			$results = $this->db->from('config')->field('key,value')->where('app',$app)->select();
 
 			foreach( $results as $r )
 			{
@@ -285,11 +285,11 @@ array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
      * @param string|array $sql
      * @return mixed
 	 */
-    public function getAll()
+    public function select()
     {
 		$data = array();
 
-		$result = $this->db()->orderby('listorder','asc')->getAll();
+		$result = $this->db()->orderby('listorder','asc')->select();
 		
 		foreach($result as $r)
 		{
@@ -310,7 +310,7 @@ array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
 		$apps = array();
 
 		//获取全部已经安装的应用
-		$installed = $this->getAll();
+		$installed = $this->select();
 
 		//获取目录
 		$installed_dirs = arr::column($installed,'dir');
@@ -370,7 +370,7 @@ array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
 		if ( $refresh or !is_array($cache) )
 		{
 			//读取数据
-			$cache = $this->getAll();
+			$cache = $this->select();
 
 			//写入数据
     		zotop::data($file, $cache);

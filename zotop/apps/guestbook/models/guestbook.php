@@ -31,9 +31,9 @@ class guestbook_model_guestbook extends model
      * 获取数据
      *
      */
-	public function getAll()
+	public function select()
 	{
-		return $this->db()->getAll();
+		return $this->db()->select();
 	}
 
     /**

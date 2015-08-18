@@ -106,7 +106,7 @@ class database_table_sqlite extends database_table
 		//debug::dump($createsql);
 
 		// 获取字段信息
-		$result = $this->db->getAll("PRAGMA table_info(". $this->table($table) .")");
+		$result = $this->db->select("PRAGMA table_info(". $this->table($table) .")");
 
 		//debug::dump($result);
 		//exit();
@@ -211,7 +211,7 @@ class database_table_sqlite extends database_table
 		$table = $this->table($table);
 		
 		// 获取索引列表
-		$result = $this->db->getAll("PRAGMA index_list(". $table .")");
+		$result = $this->db->select("PRAGMA index_list(". $table .")");
 
 		//debug::dump($result);
 
@@ -247,7 +247,7 @@ class database_table_sqlite extends database_table
 			foreach ($indexes as $name => $index)
 			{
 				// 获取索引信息
-				$result = $this->db->getAll("PRAGMA index_info(". $name .")");
+				$result = $this->db->select("PRAGMA index_info(". $name .")");
 
 				if ( is_array($result ) )
 				{
@@ -770,7 +770,7 @@ class database_table_sqlite extends database_table
 	 */
 	public function existsIndex($index, $table='')
 	{
-		if ( false !== $this->db->getAll("PRAGMA index_info(". $this->table($table) . '_' . trim($index) .")") )
+		if ( false !== $this->db->select("PRAGMA index_info(". $this->table($table) . '_' . trim($index) .")") )
 		{
 			return true;
 		}
@@ -808,7 +808,7 @@ class database_table_sqlite extends database_table
 	 */
 	public function existsField($column, $table='')
 	{
-		$result = $this->db->getAll("PRAGMA table_info(". $this->table($table) .")");
+		$result = $this->db->select("PRAGMA table_info(". $this->table($table) .")");
 
 		foreach( $result as $row )
 		{

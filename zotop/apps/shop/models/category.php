@@ -175,13 +175,13 @@ class shop_model_category extends model
      * 获取排序过的全部数据
      *
      */
-    public function getAll()
+    public function select()
     {
         static $result = array();
 
         if (empty($result))
         {
-            $data = $this->db()->orderby('listorder', 'asc')->getAll();
+            $data = $this->db()->orderby('listorder', 'asc')->select();
 
             foreach ($data as &$d)
             {
@@ -495,7 +495,7 @@ class shop_model_category extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll();
+			$cache = $this->select();
 
 			zotop::cache('shop.category', $cache, false);
 		}

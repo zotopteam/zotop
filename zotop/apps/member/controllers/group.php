@@ -42,8 +42,8 @@ class member_controller_group extends admin_controller
 			return $this->error($this->group->error());
 		}
 
-		$data = $this->group->where('modelid',$modelid)->getall();
-		$models = $this->model->getall();
+		$data = $this->group->where('modelid',$modelid)->select();
+		$models = $this->model->select();
 
 		$this->assign('title',t('会员组'));
 		$this->assign('data',$data);
@@ -70,7 +70,7 @@ class member_controller_group extends admin_controller
 
 		$data = array('modelid'=>$modelid);
 
-		$models = arr::hashmap($this->model->getall(),'id','name');
+		$models = arr::hashmap($this->model->select(),'id','name');
 
 		$this->assign('title',t('添加会员组'));
 		$this->assign('data',$data);
@@ -96,7 +96,7 @@ class member_controller_group extends admin_controller
 
 		$data = $this->group->get($id);
 
-		$models = arr::hashmap($this->model->getall(),'id','name');
+		$models = arr::hashmap($this->model->select(),'id','name');
 
 		$this->assign('title',t('添加会员组'));
 		$this->assign('data',$data);

@@ -42,16 +42,17 @@ abstract class db
 
 	//默认数据库配置
 	public $config          = array(
-		'driver'   => 'mysql', //类型
-		'hostname' => 'localhost', //地址
-		'hostport' => '3306', //端口
-		'username' => 'root', //用户名
-		'password' => '',	//密码		
-		'database' => '', //数据库名称
-		'charset'  => 'utf8', //编码 
-		'prefix'   => 'zotop_',// 数据库表前缀
-		'pconnect' => false,// 持久连接
-		'params'   => array()
+		'driver'    => 'mysql', //类型
+		'hostname'  => 'localhost', //地址
+		'hostport'  => '3306', //端口
+		'username'  => 'root', //用户名
+		'password'  => '',	//密码		
+		'database'  => '', //数据库名称
+		'charset'   => 'utf8', //编码
+		'collation' => 'utf8_unicode_ci',
+		'prefix'    => 'zotop_',// 数据库表前缀
+		'pconnect'  => false,// 持久连接
+		'params'    => array()
 	);
 
 	// 数据库
@@ -764,12 +765,11 @@ abstract class db
 			}
 		}
 
-		$join = array();
-
+		$join          = array();		
 		$join['table'] = $table;
-		$join['key'] = $key;
+		$join['key']   = $key;
 		$join['value'] = $value;
-		$join['type'] = $type;
+		$join['type']  = $type;
 
 		$this->sqlBuilder['join'][] = $join;
 
@@ -785,12 +785,14 @@ abstract class db
 	 */
 	public function limit($limit, $offset = 0)
 	{
-		$this->sqlBuilder['limit']  = (int) $limit;
-
-		if ( $offset !== NULL || !is_int($this->sqlBuilder['offset']) )
+		if ( $limit === null )
 		{
-			$this->sqlBuilder['offset'] = (int) $offset;
+			unset($this->sqlBuilder['limit']);
+			unset($this->sqlBuilder['offset']);
 		}
+
+		$this->sqlBuilder['limit']  = (int) $limit;
+		$this->sqlBuilder['offset'] = (int) $offset;
 
 		return $this;
 	}
@@ -808,18 +810,6 @@ abstract class db
 		return $this;
 	}
 
-	/**
-	 * 链式查询 分页
-	 * 
-	 * @param  [type]  $page     页码
-	 * @param  integer $pagesize 每页显示数据
-	 * @param  [type]  $total    
-	 * @return $this
-	 */
-	public function page($page, $pagesize=10, $total=null)
-	{
-		//TODO 将page数据转换为limit
-	}
 
     /**
     * 查询构建器  table 解析
@@ -1170,16 +1160,96 @@ abstract class db
 
 
     /**
-     * 链式查询之读取数据，兼容分页选择
+     * 链式查询之读取数据
      * 
-     * @return [type] [description]
+     * @return array
      */
     public function select()
     {
-    	$sql = $this->selectSql();
+    	// 生成sql语句并获取数据
+		$select = $this->selectSql();
+		$data   = $this->query($select);
 
-    	return $this->query($sql);
+    	return $data;
     }
+
+
+ 	/**
+	 * 链式查询 获取分页数据
+	 * 
+	 * @param  [type]  $page     页码，page=0 时自动获取当前页面的 $_GET['page']
+	 * @param  integer $pagesize 每页显示数据
+	 * @param  [type]  $total    总共查询数据条数，0 计算真实的数据量
+	 * @return $this
+	 */
+	public function getpage($page=0, $pagesize=20, $total=0)
+	{
+		$page       = intval($page)>0 ? intval($page) : ( intval($_GET['page'])>0 ? intval($_GET['page']) : 1 );
+		$pagesize   = intval($pagesize)>0 ? intval($pagesize) : 20;
+		$total      = intval($total)>0 ? intval($total) : 0;
+		$sqlBuilder = $this->sqlBuilder;
+
+		
+		// 计算真实数据量
+		if ( $total == 0 )
+		{
+			$hash = md5(serialize($sqlBuilder));
+
+			if ( $page == 1 or !zotop::cache($hash) )
+			{
+				$total = $this->count();
+
+				zotop::cache($hash, $total);
+			}
+			else
+			{
+				$total = zotop::cache($hash);
+			}				
+		}
+
+		
+		// 通过 page 和 pagesize 计算
+		$sqlBuilder['limit']  = $pagesize;
+		$sqlBuilder['offset'] = $pagesize*($page-1);
+
+		// 写入sqlBuilder
+		$this->sqlBuilder($sqlBuilder);
+
+		// 生成查询语句并获取数据
+		$data   = $this->select();
+
+    	return array('data'=>$data,'page'=>$page,'pagesize' => $pagesize,'total'=>$total);
+	}
+
+	/**
+	 * 获取单行数据
+	 * 
+	 * @return array
+	 */
+	public function getrow()
+	{
+		if ( $data = $this->limit(1)->select() )
+		{
+			return reset($data);
+		}
+
+		return array();
+	}
+
+	/**
+	 * 获取单个字段的数据
+	 * 
+	 * @return [type] [description]
+	 */
+	public function getfield()
+	{
+		if ( $data = $this->getrow() )
+		{
+			return reset($data);
+		}
+
+		return null;
+	} 
 
 
     /**
@@ -1209,7 +1279,7 @@ abstract class db
             $values[] = $this->escapeValue($value);
         }
 
-        //sql
+        //SQL
         $sql = ($replace ? 'REPLACE' : 'INSERT').' INTO %TABLE% (%FIELDS%) VALUES (%VALUES%)';
         $sql = str_replace(
             array('%TABLE%','%FIELDS%','%VALUES%'),
@@ -1427,8 +1497,8 @@ abstract class db
      * @param  string $tablename 数据表名称，不含前缀
      * @return array
      */
-    public function fields($tablename)
-    {}
+    abstract public function fields($tablename);
+    
 
     public function existsField($tablename, $fieldname)
     {}
@@ -1501,8 +1571,7 @@ abstract class db
 		{		
 			$field  = isset($args[0]) ? $args[0] : '*';
 			
-			$result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->limit(1)->select();
-
+			$result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->getfield();
 
 			return is_numeric($result) ? $result : 0;
 		}
