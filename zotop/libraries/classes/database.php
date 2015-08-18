@@ -302,10 +302,10 @@ abstract class database
 	/**
 	 * 链式查询，设置查询数据表 "FROM ..."
 	 * <code>
-	 * $this->from('user');
-	 * $this->from('user','config');
-	 * $this->from('user,config');
-	 * $this->from('user as u, config as c');
+	 * $this->table('user');
+	 * $this->table('user','config');
+	 * $this->table('user,config');
+	 * $this->table('user as u, config as c');
 	 * </code>
 	 *
 	 * @param   mixed  table name
@@ -879,7 +879,7 @@ abstract class database
 	 * $db->insert('user',array(),false)
 	 *
 	 * // 使用链式查询
-	 * $db->from('content')->data(array())->insert(true)
+	 * $db->table('content')->data(array())->insert(true)
 	 * @endcode
      *
 	 * @param string $table 数据表
@@ -892,7 +892,7 @@ abstract class database
 		if ( $table === true or $table === false ) $replace = $table;
 
         //设置查询
-        $this->from($table)->data($data);
+        $this->table($table)->data($data);
 
 		$table = $this->sqlBuilder['from'];
 		$data = $this->sqlBuilder['data'];
@@ -932,7 +932,7 @@ abstract class database
      *
 	 * <code>
 	 * $db->update('user',array())
-	 * $db->from('user')->data(array())->where('id','=',1)->update()
+	 * $db->table('user')->data(array())->where('id','=',1)->update()
 	 * </code>
 	 *
 	 * @param string $table 数据表
@@ -943,7 +943,7 @@ abstract class database
     public function update($table='', $data=array(), $where=array())
     {
 		//设置查询
-        $this->from($table)->data($data)->where($where);
+        $this->table($table)->data($data)->where($where);
 
         //必须设置更新条件
         if( empty($this->sqlBuilder['where']) OR empty($this->sqlBuilder['from']) ) return false;
@@ -982,7 +982,7 @@ abstract class database
     public function delete($table='', $where=array())
     {
         //设置查询
-        $this->from($table)->where($where);
+        $this->table($table)->where($where);
 
         //必须设置删除条件
         if( empty($this->sqlBuilder['where']) )
@@ -1029,7 +1029,7 @@ abstract class database
 			if ( $page == 1 or !is_numeric(zotop::cookie($hash)))
 			{
 				//获取符合条件数据条数
-				$total = $this->reset()->from($sqlBuilder['from'])->where($sqlBuilder['where'])->count();
+				$total = $this->reset()->table($sqlBuilder['from'])->where($sqlBuilder['where'])->count();
 
 				zotop::cookie($hash,$total);
 			}

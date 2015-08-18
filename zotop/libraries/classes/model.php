@@ -156,7 +156,7 @@ class model
 	}
 
     /**
-     * 获取当前的db对象,并默认设置链式查询的from($table)属性
+     * 获取当前的db对象,并默认设置链式查询的table($table)属性
      *
      * @return mixed
      */

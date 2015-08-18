@@ -152,10 +152,10 @@ class dbimport_model_dbimport extends model
 
 		if ( $config['source']['condition'] )
 		{
-			return zotop::db($config['source'])->from($config['source']['table'])->where($config['source']['condition']);	
+			return zotop::db($config['source'])->table($config['source']['table'])->where($config['source']['condition']);	
 		}
 
-		return zotop::db($config['source'])->from($config['source']['table']);
+		return zotop::db($config['source'])->table($config['source']['table']);
 	}
 
 	/**
@@ -194,7 +194,7 @@ class dbimport_model_dbimport extends model
 					}					
 				}
 
-				$this->db->from($config['table'])->data($data)->insert(true);
+				$this->db->table($config['table'])->data($data)->insert(true);
 			}
 
 			return count($source_data);

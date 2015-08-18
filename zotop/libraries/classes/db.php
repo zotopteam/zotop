@@ -1576,7 +1576,6 @@ abstract class db
 			return is_numeric($result) ? $result : 0;
 		}
 
-
 		throw new zotop_exception(t('Database method [ %s ] not exists', $method));
 	}
 

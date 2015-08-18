@@ -177,7 +177,7 @@ class system_model_app extends model
 			$this->config(null, $id);
 
 			// 删除权限设置
-			$this->db->from('admin_priv')->where('app',$id)->delete();
+			$this->db->table('admin_priv')->where('app',$id)->delete();
 
 			// 删除app
 			return $this->delete($id);
@@ -242,7 +242,7 @@ class system_model_app extends model
 		if ( $config === null )
 		{
 			// 删除全部设置数据
-			$this->db->from('config')->where('app',$app)->delete();
+			$this->db->table('config')->where('app',$app)->delete();
 
 			// 删除设置文件
 			zotop::data(ZOTOP_PATH_CONFIG.DS."{$app}.php", null);
@@ -259,12 +259,12 @@ class system_model_app extends model
 				if ( C("{$app}.{$key}") == $value and C("{$app}.{$key}") == null ) continue;
 
 				// 保存不相同的设置
-				$this->db->from('config')->data(
+				$this->db->table('config')->data(
 array('app'=>$app,'key'=>$key,'value'=>$value))->insert(true);
 			}
 
 			// 获取全部配置并写入配置文件
-			$results = $this->db->from('config')->field('key,value')->where('app',$app)->select();
+			$results = $this->db->table('config')->field('key,value')->where('app',$app)->select();
 
 			foreach( $results as $r )
 			{

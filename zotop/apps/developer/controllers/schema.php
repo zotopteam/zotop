@@ -116,7 +116,7 @@ class developer_controller_schema extends admin_controller
     public function action_show($table)
     {
 		// 获取全部数据
-		$data = $this->db->from($table)->select();
+		$data = $this->db->table($table)->select();
 
 		// 获取数据表结构信息
 		$schemastr = $this->db->schema($table)->toString();

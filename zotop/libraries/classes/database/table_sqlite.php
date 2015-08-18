@@ -620,8 +620,8 @@ class database_table_sqlite extends database_table
 			
 			$this->db->execute("INSERT INTO ". $this->table($new_table) ." (".implode(", ",$new_fields).") SELECT ".implode(", ", $old_fields)." FROM ". $this->table($table) .";\n");
 
-			$old_count = $this->db->from($table)->count();
-			$new_count = $this->db->from($new_table)->count();
+			$old_count = $this->db->table($table)->count();
+			$new_count = $this->db->table($new_table)->count();
 
 			if ( $old_count == $new_count )
 			{

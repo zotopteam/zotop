@@ -17,11 +17,11 @@ class shop_model_spec extends model
 	/*
 	 *  获取数据集
 	 */
-	public function getall()
+	public function select()
 	{
 		$data = array();
 
-		$rows = $this->db()->orderby('listorder','asc')->getAll();
+		$rows = $this->db()->orderby('listorder','asc')->select();
 
 		foreach( $rows as &$r )
 		{
@@ -127,7 +127,7 @@ class shop_model_spec extends model
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			$cache = $this->getAll();
+			$cache = $this->select();
 
 			zotop::cache("member.group", $cache, false);
 		}

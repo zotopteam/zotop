@@ -415,11 +415,11 @@ class install
 						// 写入全部配置数据
 						foreach ( $config as $key=>$value )
 						{
-							$this->db->from('config')->data(array('app'=>$app['id'],'key'=>$key,'value'=>$value))->insert(true);
+							$this->db->table('config')->data(array('app'=>$app['id'],'key'=>$key,'value'=>$value))->insert(true);
 						}
 
 						// 写入配置文件
-						$results = $this->db->from('config')->select('key,value')->where('app',$app['id'])->getAll();
+						$results = $this->db->table('config')->field('key,value')->where('app',$app['id'])->select();
 
 						if ( is_array($results) )
 						{
@@ -497,7 +497,7 @@ class install
 		file::put(ZOTOP_PATH_DATA.DS.'install.lock', t('如果需要重装系统请删除此文件'));
 
 		//重新写入应用信息
-		$data = $this->db->select('*')->from('app')->orderby('listorder','asc')->getAll();
+		$data = $this->db->field('*')->table('app')->orderby('listorder','asc')->select();
 
 		$app = array();
 

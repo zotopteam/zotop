@@ -12,7 +12,7 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
  */
 
 // [user_group] 插入数据
-$groupid = $this->db->from('user_group')->max('id') + 1;
+$groupid = $this->db->table('user_group')->max('id') + 1;
 
 $this->db->insert('user_group',array(
 	'id' => $groupid,
