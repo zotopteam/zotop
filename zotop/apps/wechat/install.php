@@ -1,10 +1,10 @@
 <?php
 defined('ZOTOP') OR die('No direct access allowed.');
-defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
+//defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 
 // [wechat_account] 创建	
-$this->db->schema('wechat_account')->drop();
-$this->db->schema('wechat_account')->create(array(
+$this->db->dropTable('wechat_account');
+$this->db->createTable('wechat_account', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>50, 'notnull'=>true, 'comment' => t('公众号名称') ),
@@ -25,7 +25,7 @@ $this->db->schema('wechat_account')->create(array(
 	),
 	'unique'=>array(
 	),
-	'primary'=>array ( 'id' ),
+	'primary'=>array ('id'),
 	'comment' => t('微信公众账号及账号信息') 
 ));
 ?>

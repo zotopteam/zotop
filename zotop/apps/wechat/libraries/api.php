@@ -20,11 +20,11 @@ class wechat_api
 	public static function start($start)
 	{
 		$start['wechat'] = array(
-			'text' => A('wechat.name'),
-			'href' => U('wechat/admin'),
-			'icon' => A('wechat.url') . '/app.png',
+			'text'        => A('wechat.name'),
+			'href'        => U('wechat/admin'),
+			'icon'        => A('wechat.url') . '/app.png',
 			'description' => A('wechat.description'),
-			'allow' => priv::allow('wechat'),			
+			'allow'       => priv::allow('wechat'),			
 		);
 
 		return $start;
@@ -41,12 +41,12 @@ class wechat_api
 	{
 
 		$nav['wechat'] = array(
-			'text' => A('wechat.name'),
-			'href' => u('wechat/admin'),
-			'icon' => A('wechat.url').'/app.png',
+			'text'        => A('wechat.name'),
+			'href'        => u('wechat/admin'),
+			'icon'        => A('wechat.url').'/app.png',
 			'description' => A('wechat.description'),
-			'allow' => priv::allow('wechat'),
-			'current' => (ZOTOP_APP == 'wechat')
+			'allow'       => priv::allow('wechat'),
+			'current'     => (ZOTOP_APP == 'wechat')
 		);
 
 		$accounts = m('wechat.account.cache');

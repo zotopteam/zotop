@@ -101,34 +101,31 @@ class db_mysql extends db
      */
     public function tables()
     {
-        static $tables = array();
+        $tables = array();
 
-        if ( empty($tables) )
+        $result = $this->query('SHOW TABLE STATUS');
+
+        foreach ((array)$result as $r)
         {
-            $result = $this->query('SHOW TABLE STATUS');
+            $id = $r['name'];
 
-            foreach ((array)$result as $r)
+            if ( $this->config['prefix'] and substr($r['name'],0,strlen($this->config['prefix'])) == $this->config['prefix'] )
             {
-                $id = $r['name'];
-
-                if ( $this->config['prefix'] and substr($r['name'],0,strlen($this->config['prefix'])) == $this->config['prefix'] )
-                {
-                    $id = substr($r['name'], strlen($this->config['prefix']));
-                }
-
-                $tables[$id] = array(
-                    'name'          => $r['name'],
-                    'size'          => $r['data_length'] + $r['index_length'],
-                    'datalength'    => $r['data_length'],
-                    'indexlength'   => $r['index_length'],
-                    'rows'          => $r['rows'],
-                    'engine'        => $r['engine'],
-                    'collation'     => $r['collation'],
-                    'createtime'    => $r['create_time'],
-                    'updatetime'    => $r['update_time'],
-                    'comment'       => $r['comment'],
-                );          
+                $id = substr($r['name'], strlen($this->config['prefix']));
             }
+
+            $tables[$id] = array(
+                'name'          => $r['name'],
+                'size'          => $r['data_length'] + $r['index_length'],
+                'datalength'    => $r['data_length'],
+                'indexlength'   => $r['index_length'],
+                'rows'          => $r['rows'],
+                'engine'        => $r['engine'],
+                'collation'     => $r['collation'],
+                'createtime'    => $r['create_time'],
+                'updatetime'    => $r['update_time'],
+                'comment'       => $r['comment'],
+            );          
         }
 
         return $tables;
@@ -148,25 +145,13 @@ class db_mysql extends db
 
         // SQL语句拼接
         $sql = '';
-        $sql .= "CREATE TABLE IF NOT EXISTS " . $this->escapeTable($table) . " (\n";
+        $sql .= "CREATE TABLE IF NOT EXISTS " . $this->escapeTable($tablename) . " (\n";
         
-        // 字段创建语句
-        //$sql .= $this->createColumsSql($table, $schema). ", \n";
-        
+        // 字段创建语句   
         foreach ( $schema['fields'] as $fieldname => $field )
         {
-            // 自动增长
-            if ( $field['autoinc'] )
-            {
-                if (isset($schema['primary']) && ($key = array_search($fieldname, $schema['primary'])) !== FALSE)
-                {
-                    unset($schema['primary'][$key]);
-                }
-            }
-
             $sql .= $this->createFieldSql($fieldname, $this->processField($field)).", \n";
-        }        
-        
+        }
 
         // 主键及索引
         if ( $keys = $this->createKeysSql($schema) )
@@ -179,7 +164,6 @@ class db_mysql extends db
         
         // 引擎及字符串
         $sql .= "\n) ENGINE = " . $schema['engine'] . " DEFAULT CHARACTER SET " . $schema['charset'];
-
         
         // 默认采用UTF8
         if ( !empty($schema['collation']) )
@@ -205,8 +189,138 @@ class db_mysql extends db
      */
     protected function createFieldSql($name, $spec)
     {
+        $sql = '`'.$name . '` ' . $spec['mysql_type'];
 
+        // 长度值支持 数字，及 flaot的 4,2 类型
+        if ( !empty($spec['length']) && !preg_match('@^(DATE|DATETIME|TIME|TINYBLOB|TINYTEXT|BLOB|TEXT|MEDIUMBLOB|MEDIUMTEXT|LONGBLOB|LONGTEXT)$@i', $spec['mysql_type']) )
+        {
+            $sql .= '(' . $spec['length'] . ')';
+        }
+
+        // 无符号只支持数字类型
+        if ( !empty($spec['unsigned']) AND in_array($spec['type'],array('tinyint','smallint','mediumint','bigint','int')) )
+        {
+            $sql .= ' unsigned';
+        }
+        
+        // NOT NULL
+        if ( isset($spec['notnull']) )
+        {
+            $sql .= $spec['notnull'] ? ' NOT NULL' : ' NULL';
+        }
+        
+        // 自动增长 只有数字类型才允许被设为自增
+        if ( $spec['autoinc'] and preg_match('@^(TINYINT|SMALLINT|MEDIUMINT|INT|BIGINT)$@i', $spec['mysql_type']) )
+        {
+            $sql .= ' AUTO_INCREMENT';
+        }
+        
+        // 删除空的 default
+        // BLOB|TEXT column  can't have a default value
+        if ( $spec['autoinc'] OR $spec['default'] === '' OR preg_match('@^(TINYBLOB|TINYTEXT|BLOB|TEXT|MEDIUMBLOB|MEDIUMTEXT|LONGBLOB|LONGTEXT)$@i', $spec['mysql_type']) ) 
+        {
+            unset($spec['default']);
+        }
+        
+        //default null 时isset为false，所以判断key是不是存在
+        if ( array_key_exists('default', $spec) )
+        {
+            if ( is_string($spec['default']) )
+            {
+                $spec['default'] = "'" . $spec['default'] . "'";
+            }
+            elseif ( !isset($spec['default']) )
+            {
+                $spec['default'] = 'NULL';
+            }
+
+            $sql .= ' DEFAULT ' . $spec['default'];
+        }
+        elseif ( empty($spec['notnull']) )
+        {
+            $sql .= ' DEFAULT NULL';
+        }
+
+        // Add column comment.
+        if ( !empty($spec['comment']) )
+        {
+          $sql .= " COMMENT '" . $spec['comment'] . "'";
+        }
+
+        if ( strtolower($spec['position']) == 'first' )
+        {
+            $sql .= ' FIRST';
+        }
+        elseif( strtolower(substr($spec['position'],0,5)) == 'after' )
+        {
+            $sql .= ' AFTER `'.substr($spec['position'],6).'`';
+        }
+
+        return $sql;        
     }
+
+    /**
+     * 根据 schema 生成 KEYS SQL 片段
+     * 
+     * @param  [type] $schema [description]
+     * @return [type]         [description]
+     */
+    protected function createKeysSql($schema)
+    {
+        $keys = array();
+
+        if ( !empty($schema['primary']) )
+        {
+            $keys[] = 'PRIMARY KEY (' . $this->createKeySql($schema['primary']) . ')';
+        }
+
+        if ( !empty($schema['unique']) )
+        {
+            foreach ($schema['unique'] as $key => $fields)
+            {
+                $keys[] = 'UNIQUE KEY `' . $key . '` (' . $this->createKeySql($fields) . ')';
+            }
+        }
+
+        if ( !empty($schema['index']) )
+        {
+            foreach ($schema['index'] as $index => $fields)
+            {
+                $keys[] = 'INDEX `' . $index . '` (' . $this->createKeySql($fields) . ')';
+            }
+        }
+
+        return $keys;
+    }
+
+    // keys sqlhelper
+    protected function createKeySql($fields)
+    {
+        $return = array();
+
+        //添加对多个字段使用“,”隔开的支持
+        if ( is_string($fields) )
+        {
+            $fields = explode(',',$fields);
+        }
+
+        // 循环生成相应SQL片段
+        foreach ($fields as $field)
+        {
+            if (is_array($field))
+            {
+                $return[] = '`' . $field[0] . '`(' . $field[1] . ')';
+            }
+            else
+            {
+                $return[] = '`' . $field . '`';
+            }
+        }
+
+        return implode(', ', $return);
+    }    
+
+
 
     /**
      * 将字段信息转化为mysql字段信息
@@ -216,14 +330,19 @@ class db_mysql extends db
      */
     protected function processField($field)
     {
-        $types = $this->types();
+        $types = $this->fieldtypes();
 
         $field['mysql_type'] = isset($field['mysql_type']) ? strtoupper($field['mysql_type']) : $types[strtolower($field['type'])];
 
         return $field;
     }    
 
-
+    /**
+     * 获取表的字段，返回标准化字段结构数组
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
     public function fields($tablename)
     {
         $fields = array();
@@ -291,5 +410,69 @@ class db_mysql extends db
 
         return $fields;             
     }
+
+    /**
+     * 重命名数据表
+     *
+     * @access public
+     * @param string $tablename  新名称，不含前缀
+     * @param string $newname  原名称，不含前缀，空时为默认表
+     * @return bool
+     */ 
+    public function renameTable($tablename, $newname)
+    {
+        if ( !$this->existsTable($tablename) )
+        {
+            return false;
+        } 
+
+        if ( $this->existsTable($newname) )
+        {
+            return false;  
+        }  
+
+        return $this->execute('ALTER TABLE ' . $this->escapeTable($tablename) . ' RENAME TO ' . $this->escapeTable($newname). '');
+    }
+
+    /**
+     * 重命名数据表
+     *
+     * @access public
+     * @param string $tablename 表名称，不含前缀
+     * @param string $comment  表注释
+     * @return bool
+     */ 
+    public function commentTable($tablename, $comment)
+    {
+        if ( !$this->existsTable($tablename) )
+        {
+            return false;
+        } 
+
+        return $this->execute('ALTER TABLE '.$this->escapeTable($tablename).' COMMENT=\''.$comment.'\'');
+    }
+
+
+    /**
+     * 删除数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function dropTable($tablename)
+    {
+        if ( !$this->existsTable($tablename) )
+        {
+            return false;
+        } 
+
+        return $this->execute('DROP TABLE ' . $this->escapeTable($tablename));        
+    }
+
+
+
+
+
+
 }
 ?>

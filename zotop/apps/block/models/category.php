@@ -40,10 +40,12 @@ class block_model_category extends model
 	{
 		if ( empty($data['name']) ) return $this->error(t('分类名称不能为空'));
 
-		if ( $this->where('id',$id)->data($data)->update() )
+		if ( $up = $this->where('id',$id)->data($data)->update() )
 		{
 			return true;
 		}
+
+		return $this->error(debug::vars($up));
 
 		return false;
 	}
@@ -52,7 +54,7 @@ class block_model_category extends model
      * 获取排序过的全部数据
      *
      */
-	public function select()
+	public function getall()
 	{
 		static $result = array();
 

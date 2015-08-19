@@ -90,7 +90,7 @@ class system_model_user extends model
 		// 保存前自动设置更新时间
 		$data['updatetime'] = ZOTOP_TIME;
 
-		if ( $this->update($data, $id) )
+		if ( $this->where('id',$id)->data($data)->update() )
 		{
 			$data['id'] = $id;
 			zotop::run('user.edit', $data);

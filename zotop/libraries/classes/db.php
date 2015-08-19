@@ -177,13 +177,7 @@ abstract class db
 
 			$this->profile(false);
 
-			if ( $result === false )
-			{
-				return false;				
-			}
-
-			return true;
-
+			return $result === false ? false : true;
 		}
 
 		return false;        
@@ -212,7 +206,12 @@ abstract class db
 		return false;    	
     }
 
-
+    /**
+     * SQL执行，返回是否执行成功，并记录影响条数和最后插入ID
+     * 
+     * @param  [type] $sql [description]
+     * @return bool 
+     */
     public function execute($sql)
     {
 		if ( $this->executeSql($sql) )
@@ -225,7 +224,7 @@ abstract class db
 			// 返回最后插入ID
 			$this->lastInsertID = $this->connect->lastInsertId();
 
-            return $this->numRows;
+            return true;
         }
 
  		$this->error();
@@ -1168,9 +1167,8 @@ abstract class db
     {
     	// 生成sql语句并获取数据
 		$select = $this->selectSql();
-		$data   = $this->query($select);
 
-    	return $data;
+    	return $this->query($select);
     }
 
 
@@ -1216,7 +1214,7 @@ abstract class db
 		$this->sqlBuilder($sqlBuilder);
 
 		// 生成查询语句并获取数据
-		$data   = $this->select();
+		$data = $this->select();
 
     	return array('data'=>$data,'page'=>$page,'pagesize' => $pagesize,'total'=>$total);
 	}
@@ -1395,6 +1393,7 @@ abstract class db
     
     /**
      * 字段类型映射，统一不同数据库的字段类型表达形式
+     * 
      * date 或者 datetime 请使用INT字段存储时间戳
      * 
      * @return array
@@ -1438,17 +1437,18 @@ abstract class db
 
 			foreach( $sqls as $sql )
 			{
-				$this->db->execute($sql);
+				$this->execute($sql);
 			}
 
 			return true;			
 		}
 		catch (Exception $e)
 		{
-			$this->dropTable($tablename);
+			throw new zotop_exception($e->getMessage());
+			//$this->dropTable($tablename);
 		}
 
-		return false;    	
+		return false;  	
     }
 
     /**
@@ -1465,11 +1465,18 @@ abstract class db
      * 
      * @param  string $tablename 数据表名称，不含前缀
      * @param  string $newname 数据表新名称，不含前缀
-     * @param  string $comment 数据表新描述
      * @return bool
      */
-    public function renameTable($tablename, $newname, $comment='')
-    {}
+    abstract public function renameTable($tablename, $newname);
+
+    /**
+     * 更改数据表注释
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $comment 表注释
+     * @return bool
+     */
+    abstract public function commentTable($tablename, $comment);
 
     /**
      * 删除数据表
@@ -1477,8 +1484,7 @@ abstract class db
      * @param  string $tablename 数据表名称，不含前缀
      * @return bool
      */
-    public function dropTable($tablename)
-    {}
+    abstract public function dropTable($tablename);
 
 
     /**

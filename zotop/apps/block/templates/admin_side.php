@@ -2,7 +2,6 @@
 	{A('block.name')}
 </div><!-- side-header -->
 <div class="side-body no-footer scrollable">
-
 	<ul class="sidenavlist">
 		{loop m('block.category.getall') $c}
 		<li>
@@ -18,5 +17,4 @@
 			</a>
 		</li>
 	</ul>
-
 </div>

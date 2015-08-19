@@ -172,7 +172,8 @@ class application
     /**
      * 渲染输出内容,并输出缓冲区内容
      * 默认 zotop::run('zotop.render')时运行
-     *
+     * 
+     * @return null
      */
     public static function render()
     {
@@ -184,14 +185,18 @@ class application
 
         //执行zotop.output 并输出页面内容
         echo zotop::filter('zotop.output', $output);
-        unset($output);
-
-        //exit(1);
+        unset($output);        
     }
 
+    
+    /**
+     * 全部执行结束
+     * 
+     * @return null
+     */
     public static function shutdown()
     {
-
+        //exit(1);
     }
 
     /**
@@ -230,6 +235,7 @@ class application
     {
         if ( ZOTOP_ISAJAX ) exit();
 
+        // 输出调试追踪
         if ( ZOTOP_TRACE )
         {
             ob_start();
@@ -343,7 +349,11 @@ class application
 
 			if ( ZOTOP_DEBUG )
 			{
-				ob_start();
+				// 清理输出
+                ob_get_level() and ob_clean();
+
+                // 输出错误
+                ob_start();
 				include ZOTOP_PATH_LIBRARIES . DS . 'views' . DS . 'error.php';
 				echo ob_get_clean();
 				exit(1);

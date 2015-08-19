@@ -223,6 +223,7 @@ class format
 		{
 			return preg_match( "/^([\\d]+,)+\$/", $id."," ) ? explode( ",", $id ) : false;
 		}
+		
 		return false;
 	}
 }

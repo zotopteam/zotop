@@ -27,7 +27,15 @@ class model
      */
 	public function __construct()
 	{
-		if ( !is_object($this->db) ) $this->db  = zotop::db($this->dbconfig);
+		if ( !is_object($this->db) )
+		{
+			$this->db  = zotop::db($this->dbconfig);
+		}
+
+		if ( $this->table )
+		{
+			$this->db->table($this->table);
+		}
 	}
 
     /**
@@ -223,7 +231,7 @@ class model
 	 */
 	public function getPage($page=0, $pagesize=20, $total = false)
 	{
-		return $this->db()->page($page,$pagesize,$total);
+		return $this->db()->getPage($page,$pagesize,$total);
 	}  
 
 	/**
@@ -416,8 +424,6 @@ class model
 			// 生成where
 			$where = array($this->pk(),'=',$where);
 		}
-
-
 
 		// 前置保存
 		if ( false === $this->_before_update($data, $where) )

@@ -4,7 +4,7 @@ return array (
   'dir' => 'wechat',
   'name' => '微信',
   'type' => 'module',
-  'tables' => 'wechat_account',
+  'tables' => 'wechat_account,wechat_test2',
   'dependencies' => '',
   'description' => '管理微信公众号，将公众号链接到网站上',
   'version' => '1.0',

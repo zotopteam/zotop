@@ -23,10 +23,10 @@ class system_controller_administrator extends admin_controller
 	{
 		parent::__init();
 
-		$this->user = m('system.user');
-		$this->admin = m('system.admin');
-		$this->role = m('system.role');
-
+		$this->user   = m('system.user');
+		$this->admin  = m('system.admin');
+		$this->role   = m('system.role');
+		
 		$this->userid = zotop::user('id');
 	}
 
@@ -97,7 +97,7 @@ class system_controller_administrator extends admin_controller
 			{
 				$post['id'] = $insertid;
 
-				if ( $this->admin->insert($post) )
+				if ( $this->admin->data($post)->insert() )
 				{
 					return $this->success(t('保存成功'),u('system/administrator'));
 				}
@@ -127,7 +127,7 @@ class system_controller_administrator extends admin_controller
 		{
 			if ( $this->user->edit($post,$id) )
 			{
-				if ( $this->admin->update($post,$id) )
+				if ( $this->admin->where('id',$id)->data($post)->update() )
 				{
 					return $this->success(t('保存成功'),u('system/administrator'));
 				}
@@ -135,9 +135,10 @@ class system_controller_administrator extends admin_controller
 			}
 			return $this->error($this->user->error());
 		}
-		$datauser = $this->user->getbyid($id);
+		
+		$datauser  = $this->user->getbyid($id);
 		$dataadmin = $this->admin->getbyid($id);
-		$roles = $this->role->getOptions(true);
+		$roles     = $this->role->getOptions(true);
 
 		$this->assign('title',t('编辑管理员'));
 		$this->assign('roles',$roles);

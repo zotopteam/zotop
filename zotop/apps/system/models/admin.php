@@ -10,7 +10,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class system_model_admin extends model
 {
-	protected $pk = 'id';
+	protected $pk    = 'id';
 	protected $table = 'admin';
 
 
@@ -24,7 +24,7 @@ class system_model_admin extends model
 	{
 		// 登录锁定
 		$maxfailed = c('system.login_maxfailed');
-		$locktime = c('system.login_locktime'); //单位分钟
+		$locktime  = c('system.login_locktime'); //单位分钟
 
 		if ( $maxfailed and $locktime )
 		{
@@ -34,7 +34,7 @@ class system_model_admin extends model
 
 			if ( $log->count() >= $maxfailed )
 			{
-				return $this->error(t('登录失败次数过多，已被系统锁定，请%s分钟后再试', $locktime));
+				return $this->error(t('登录失败次数过多，已被系统锁定，请{1}分钟后再试', $locktime));
 			}
 		}
 
@@ -59,8 +59,9 @@ class system_model_admin extends model
 	}
 
 	/**
-	 * 清除登陆信息
-	 *
+	 * 系统用户登出
+	 * 
+	 * @return bool
 	 */
 	public function logout()
 	{
@@ -71,6 +72,18 @@ class system_model_admin extends model
 		}
 
 		return false;
+	}
+
+	/**
+	 * 编辑管理员信息
+	 * 
+	 * @param  array $post 管理员信息
+	 * @param  int $id   管理员编号
+	 * @return bool
+	 */
+	public function edit($post, $id)
+	{
+		
 	}
 }
 ?>
