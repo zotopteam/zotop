@@ -375,6 +375,28 @@ abstract class db
         return $this->sql;
     }
 
+
+    /**
+     * 获取完整的表名
+     * 
+     * @param  string $tablename 表名称，有无前缀均可
+     * @return string
+     */
+    public function tablename($tablename)
+    {
+		if ( $tablename[0] == '#' )
+		{
+			$tablename = $this->config['prefix'] . substr($tablename,1);
+		}
+
+		if ( substr($tablename, 0, strlen($this->config['prefix'])) != $this->config['prefix'] )
+		{
+			$tablename = $this->config['prefix'] . $tablename;
+		}
+
+		return $tablename;
+    }    
+
     /**
      * 对字符串进行安全处理
      *
@@ -393,7 +415,7 @@ abstract class db
 	 */
 	public function escapeTable($table)
 	{
-		$table = substr($table,0,strlen($this->config['prefix'])) == $this->config['prefix'] ?  $table :  $this->config['prefix'].$table;
+		$table = $this->tablename($table);
 
 		if ( stripos($table, ' AS ') !== FALSE )
 		{
@@ -1166,9 +1188,12 @@ abstract class db
     public function select()
     {
     	// 生成sql语句并获取数据
-		$select = $this->selectSql();
+		if ( $selectSql = $this->selectSql() )
+		{
+			return $this->query($selectSql);
+		}
 
-    	return $this->query($select);
+    	return array();
     }
 
 
@@ -1390,16 +1415,6 @@ abstract class db
     public function drop()
     {}
 
-    
-    /**
-     * 字段类型映射，统一不同数据库的字段类型表达形式
-     * 
-     * date 或者 datetime 请使用INT字段存储时间戳
-     * 
-     * @return array
-     */    
-    abstract public function fieldtypes();
-
     /**
      * 获取全部数据表
      * 
@@ -1413,10 +1428,7 @@ abstract class db
      * @param  string $tablename 数据表名称，不含前缀
      * @return bool
      */
-    public function existsTable($tablename)
-    {
-    	return in_array(strtolower($tablename), array_keys($this->tables()));
-    }
+    abstract public function existsTable($tablename);
 
     /**
      * 创建数据表
@@ -1425,40 +1437,7 @@ abstract class db
      * @param  array $schema    数据表的 schema
      * @return bool
      */
-    public function createTable($tablename, $schema)
-    {
-		// 表已经存在则创建失败
-		if ( $this->existsTable($tablename) ) return false;
-
-		try
-		{
-			// 获取表的创建语句
-			$sqls = $this->createTableSql($tablename, $schema);
-
-			foreach( $sqls as $sql )
-			{
-				$this->execute($sql);
-			}
-
-			return true;			
-		}
-		catch (Exception $e)
-		{
-			throw new zotop_exception($e->getMessage());
-			//$this->dropTable($tablename);
-		}
-
-		return false;  	
-    }
-
-    /**
-     * 生成创建数据表的sql语句
-     * 
-     * @param  string $tablename 数据表名称，不含前缀
-     * @param  array $schema    数据表的 schema
-     * @return bool
-     */    
-    abstract protected function createTableSql($tablename, $schema);
+    abstract public function createTable($tablename, $schema);
 
     /**
      * 重命名数据表
@@ -1486,16 +1465,51 @@ abstract class db
      */
     abstract public function dropTable($tablename);
 
+    /**
+     * 返回表的结构数组
+     *
+	 * <code>
+	 * 
+	 *  array(
+	 *		'fields' => array(
+	 *			'id'        => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE),
+	 *			'vid'       => array('type' => 'int', 'unsigned' => TRUE, 'notnull' => TRUE,'default' => 0),
+	 *			'type'      => array('type' => 'char','length' => 32,'notnull' => TRUE, 'default' => ''),
+	 *			'language'  => array('type' => 'char','length' => 12,'notnull' => TRUE,'default' => ''),
+	 *			'title'     => array('type' => 'varchar','length' => 255,'notnull' => TRUE, 'default' => ''),
+	 *			'uid'       => array('type' => 'int', 'notnull' => TRUE, 'default' => 0),
+	 *			'nid'      => array('type' => 'tinyint', 'unsigned' => TRUE, 'notnull' => TRUE, 'default' => 0),
+	 *		),
+	 *		'index' => array(
+	 *			'uid'	=> array('uid'),
+	 *			'nid'	=> array('vid','nid'),
+	 *			'types'	=> array(array('type', 4)),
+	 *			'title_type'  => array('title', array('type', 4)),
+	 *		),
+	 *		'unique' => array(
+	 *			'vid' => array('vid'),
+	 *		),
+	 *		'foreign' => array(
+	 *			'uid' => array('users' => 'uid'),
+	 *		),
+	 *		'primary' => array('id'),
+	 *		'comment' => 'The description for table.',
+	 *   );
+	 *
+	 * </code>
+     * 
+     * @return array
+     */    
+    abstract public function schema($tablename);
 
     /**
-     * 生成字段创建语句
+     * 字段类型映射，统一不同数据库的字段类型表达形式
      * 
-     * @param  string $abstract 字段名称
-     * @param  array $spec 字段描述数组
-     * @return string
-     */
-    abstract protected function createFieldSql($fieldname, $spec);
-    
+     * date 或者 datetime 请使用INT字段存储时间戳
+     * 
+     * @return array
+     */    
+    abstract public function fieldtypes();
 
     /**
      * 获取表全部字段
@@ -1504,31 +1518,60 @@ abstract class db
      * @return array
      */
     abstract public function fields($tablename);
-    
-
-    public function existsField($tablename, $fieldname)
-    {}
-
-    public function addField($tablename, $fieldname, $fields)
-    {}
-
-    public function changeField($tablename, $fieldname, $fields)
-    {}    
-
-    public function dropField($tablename, $fieldname)
-    {}    
 
     /**
-     * 获取表全部字段
+     * 判断表中字段是否存在
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $fieldname 字段名称
+     * @return bool
+     */
+    abstract public function existsField($tablename, $fieldname);
+
+    /**
+     * 添加字段
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  array $field 字段属性数组
+     * @return bool
+     */
+    abstract public function addField($tablename, $field);
+
+    /**
+     * 修改字段属性
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $fieldname 字段名称
+     * @param  array $field 字段属性数组
+     * @return bool
+     */
+    abstract public function changeField($tablename, $fieldname, $field);
+
+    /**
+     * 删除表中的字段
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $fieldname 字段名称
+     * @return bool
+     */
+    abstract public function dropField($tablename, $fieldname);
+
+    /**
+     * 获取表全部索引
      * 
      * @param  string $tablename 数据表名称，不含前缀
      * @return array
      */
-    public function indexes($tablename)
-    {}
+    abstract public function indexes($tablename);
 
-    public function existsIndex($tablename, $indexname)
-    {}
+    /**
+     * 删除表中的字段
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $indexname 索引名称
+     * @return bool
+     */
+    abstract public function existsIndex($tablename, $indexname);
 
     public function addIndex($tablename, $indexname, $fields, $type='index')
     {}

@@ -131,6 +131,110 @@ class db_mysql extends db
         return $tables;
     }
 
+
+    /**
+     * 检查数据表是否存在
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function existsTable($tablename)
+    {
+        return in_array(strtolower($tablename), array_keys($this->tables()));
+    }
+
+
+    /**
+     * 创建数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  array $schema    数据表的 schema
+     * @return bool
+     */
+    public function createTable($tablename, $schema)
+    {
+        // 表已经存在则创建失败
+        if ( $this->existsTable($tablename) ) return false;
+
+        try
+        {
+            // 获取表的创建语句
+            $sqls = $this->createTableSql($tablename, $schema);
+
+            foreach( $sqls as $sql )
+            {
+                $this->execute($sql);
+            }
+
+            return true;            
+        }
+        catch (Exception $e)
+        {
+            throw new zotop_exception($e->getMessage());
+        }
+
+        return false;   
+    }        
+
+
+    /**
+     * 重命名数据表
+     *
+     * @access public
+     * @param string $tablename  新名称，不含前缀
+     * @param string $newname  原名称，不含前缀，空时为默认表
+     * @return bool
+     */ 
+    public function renameTable($tablename, $newname)
+    {
+        if ( !$this->existsTable($tablename) )
+        {
+            return false;
+        } 
+
+        if ( $this->existsTable($newname) )
+        {
+            return false;  
+        }  
+
+        return $this->execute('ALTER TABLE `' . $this->tablename($tablename) . '` RENAME TO `' . $this->tablename($newname). '`');
+    }
+
+    /**
+     * 重命名数据表
+     *
+     * @access public
+     * @param string $tablename 表名称，不含前缀
+     * @param string $comment  表注释
+     * @return bool
+     */ 
+    public function commentTable($tablename, $comment)
+    {
+        if ( !$this->existsTable($tablename) )
+        {
+            return false;
+        } 
+
+        return $this->execute('ALTER TABLE `'.$this->tablename($tablename).'` COMMENT=\''.$comment.'\'');
+    }
+
+
+    /**
+     * 删除数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function dropTable($tablename)
+    {
+        if ( !$this->existsTable($tablename) )
+        {
+            return false;
+        } 
+
+        return $this->execute('DROP TABLE `' . $this->tablename($tablename)).'`';        
+    }    
+
     /**
      * 根据scheam生成创建表的sql语句，含创建字段，创建索引等
      * 
@@ -145,7 +249,7 @@ class db_mysql extends db
 
         // SQL语句拼接
         $sql = '';
-        $sql .= "CREATE TABLE IF NOT EXISTS " . $this->escapeTable($tablename) . " (\n";
+        $sql .= "CREATE TABLE IF NOT EXISTS `" . $this->tablename($tablename) . "` (\n";
         
         // 字段创建语句   
         foreach ( $schema['fields'] as $fieldname => $field )
@@ -351,7 +455,7 @@ class db_mysql extends db
         $types  = array_flip($this->fieldtypes());
         
         // 获取字段信息
-        $result = $this->query("SHOW FULL FIELDS FROM ".$this->escapeTable($tablename));
+        $result = $this->query("SHOW FULL FIELDS FROM `".$this->tablename($tablename)."`");
 
         foreach ($result as $row)
         {
@@ -412,67 +516,178 @@ class db_mysql extends db
     }
 
     /**
-     * 重命名数据表
-     *
-     * @access public
-     * @param string $tablename  新名称，不含前缀
-     * @param string $newname  原名称，不含前缀，空时为默认表
-     * @return bool
-     */ 
-    public function renameTable($tablename, $newname)
-    {
-        if ( !$this->existsTable($tablename) )
-        {
-            return false;
-        } 
-
-        if ( $this->existsTable($newname) )
-        {
-            return false;  
-        }  
-
-        return $this->execute('ALTER TABLE ' . $this->escapeTable($tablename) . ' RENAME TO ' . $this->escapeTable($newname). '');
-    }
-
-    /**
-     * 重命名数据表
-     *
-     * @access public
-     * @param string $tablename 表名称，不含前缀
-     * @param string $comment  表注释
-     * @return bool
-     */ 
-    public function commentTable($tablename, $comment)
-    {
-        if ( !$this->existsTable($tablename) )
-        {
-            return false;
-        } 
-
-        return $this->execute('ALTER TABLE '.$this->escapeTable($tablename).' COMMENT=\''.$comment.'\'');
-    }
-
-
-    /**
-     * 删除数据表
+     * 检查字段是否存在
      * 
      * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $fieldname 字段名称
      * @return bool
      */
-    public function dropTable($tablename)
+    public function existsField($tablename, $fieldname)
     {
-        if ( !$this->existsTable($tablename) )
+        try 
+        {
+            $this->query("SELECT `{$fieldname}` FROM `" . $this->tablename($tablename) . "`");
+            return true;
+        }
+        catch (Exception $e) 
         {
             return false;
-        } 
+        }        
+    }
 
-        return $this->execute('DROP TABLE ' . $this->escapeTable($tablename));        
+    /**
+     * 添加字段
+     *
+     * @param string $tablename  数据表名，不含前缀
+     * @param array $field  字段信息
+     * @param string $keys_new  额外信息       
+     * @return bool
+     */
+    public function addField($tablename, $field, $keys_new = array())
+    {
+        if ( !$this->existsTable($tablename) ) return false;
+
+        if ( $this->existsField($tablename, $field['name']) ) return false;
+                
+        if ( !empty($field['notnull']) && !isset($field['default']) )
+        {
+            $field['notnull'] = false;
+        }
+
+        $sql = 'ALTER TABLE `' . $this->tablename($tablename) . '` ADD ' . $this->createFieldSql($field['name'], $this->processField($field));        
+        
+        if ( $keys_sql = $this->createKeysSql($keys_new) )
+        {
+            $sql .= ', ADD ' . implode(', ADD ', $keys_sql);
+        }
+
+        return $this->execute($sql);
+    }
+
+    /**
+     * 修改字段属性
+     *
+     * @param string $tablename  数据表名，不含前缀
+     * @param string $fieldname  字段名称
+     * @param array $field  字段信息
+     * @param string $keys_new  额外信息        
+     * @return bool
+     */
+    public function changeField($tablename, $fieldname, $field, $keys_new = array())
+    {
+        if ( !$this->existsField($tablename,$fieldname) ) return false;
+
+        $newfieldname = ( isset($field['name']) AND !empty($field['name']) ) ? $field['name'] : $fieldname;
+
+        if ( ($fieldname != $newfieldname) && $this->existsField($tablename, $newfieldname) ) return false;
+
+        $sql = 'ALTER TABLE `' . $this->tablename($tablename) . '` CHANGE `' . $fieldname . '` ' . $this->createFieldSql($newfieldname, $this->processField($field));
+        
+        if ( $keys_sql = $this->createKeysSql($keys_new) )
+        {
+            $sql .= ', ADD ' . implode(', ADD ', $keys_sql);
+        }
+        
+        return $this->execute($sql);
+    }
+
+    /**
+     * 删除字段
+     * 
+     * @param string $tablename  数据表名，不含前缀
+     * @param string $fieldname  字段名称
+     * @return bool
+     */
+    public function dropField($tablename, $fieldname)
+    {       
+        if ( $this->existsField($tablename, $fieldname) )
+        {
+            return $this->execute('ALTER TABLE `' . $this->tablename($tablename) . '` DROP `' . $fieldname . '`');
+        }   
+
+        return false;  
+    } 
+
+
+    public function indexes($tablename)
+    {
+        $indexes   = array();
+        $indexlist = array();       
+        $result    = $this->query('SHOW INDEX FROM `'.$this->tablename($tablename).'`');       
+
+        foreach ($result as $row)
+        {
+            $indexlist[] = array(
+              'type'   => $row['non_unique'] ? 'index' : ($row['key_name'] == 'PRIMARY' ? 'primary': 'unique'),
+              'name'   => $row['key_name'],
+              'column' => ( $row['sub_part'] ) ? array($row['column_name'], (int)$row['sub_part']) : $row['column_name'],
+            );
+        }
+        
+        foreach( $indexlist as $index )
+        {
+            $indexes[$index['name']]['name']     = $index['name'];
+            $indexes[$index['name']]['type']     = $index['type'];
+            $indexes[$index['name']]['column'][] = $index['column'];
+        }
+
+        return $indexes;        
     }
 
 
+    public function existsIndex($tablename, $indexname)
+    {
+        $result = $this->query('SHOW INDEX FROM `' . $this->tablename($tablename) . "` WHERE `key_name` = '". trim($indexname) ."'");
+        
+        return isset($result[0]['key_name']);
+    }
 
+    /**
+     * 获取数据表的结构数组
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
+    public function schema($tablename)
+    {
+        // 初始化schema
+        $schema = array(
+            'fields'  => array(),
+            'index'   => array(),      
+            'unique'  => array(),
+            'primary' => array(),
+            'comment' => ''
+        );
 
+        if ( $this->existsTable($tablename) )
+        {
+            $schema['fields'] = $this->fields($tablename);
 
+            foreach( $schema['fields'] as $name => $field )
+            {
+                if ( $field['primary'] ) $schema['primary'][] = $name;
+            }
+
+            $indexes = $this->indexes($tablename);
+            
+            foreach ($indexes as $index)
+            {   
+                if ( $index['type'] == 'primary' )
+                {
+                    $schema['primary'] = $index['column']; continue;
+                }
+
+                $schema[$index['type']][$index['name']] = $index['column'];
+            }
+            
+            $infos = $this->query("SELECT * FROM information_schema.tables WHERE `table_schema`='".$this->config['database']."' AND `table_name`='".$this->tablename($tablename)."'");
+
+            $schema['comment'] = $infos[0]['table_comment'];
+            $schema['engine']  = $infos[0]['engine'];            
+        }
+
+        return $schema;        
+    }
 
 }
 ?>

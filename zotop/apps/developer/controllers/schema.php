@@ -46,16 +46,18 @@ class developer_controller_schema extends admin_controller
 		$this->db = zotop::db();
 	}
 
+
 	/**
-	 * 当前数据库的数据表列表
-	 *
+	 * 数据表结构
+	 * 
+	 * @param  string $table 数据表名称，不含前缀
+	 * @return null
 	 */
 	public function action_index($table)
     {
-		$app = @include(ZOTOP_PATH_APPS . DS . zotop::cookie('project_dir') . DS .'app.php');
-
-		// 获取数据表结构信息
-		$schema = $this->db->schema($table)->schema();
+		$app    = @include(ZOTOP_PATH_APPS . DS . zotop::cookie('project_dir') . DS .'app.php');
+		
+		$schema = $this->db->schema($table);
 
 		$this->assign('title',t('数据表结构'));
 		$this->assign('app',$app);
@@ -75,36 +77,40 @@ class developer_controller_schema extends admin_controller
     {
 		if ( $post = $this->post() )
 		{
-			$table = $this->db->schema($tablename);
-
 			switch($operation)
 			{
 				case 'index' :
 				case 'unique' :
 				case 'fulltext' :
+
 					$index = implode('_',$post['id']);
-					if ( $table->existsIndex($index)  )
+
+					if ( $this->db->existsIndex($tablename, $index)  )
 					{
-						return $this->error(t('%s [%s] 已存在',$post['operation'],$index));
+						return $this->error(t('{1} [{2}] 已存在',$post['operation'],$index));
 					}
-					$result = $table->addIndex($index,$post['id'],$operation);
+
+					$result = $this->db->addIndex($tablename, $index,$post['id'],$operation);
+
 					break;
 				case 'primary' :
-					//必须先删除可能存在的主键
-					$table->dropPrimary();
+					
+					//必须先删除可能存在的主键才能创建主键
+					$this->db->dropPrimary($tablename);
 
-					$result = $table->addPrimary($post['id']);
+					$result = $this->db->addPrimary($tablename, $post['id']);
+
 					break;
 			}
 
 			if ( $result )
 			{
-				return $this->success(t('%s成功',$post['operation']),u("developer/schema/{$tablename}"));
+				return $this->success(t('{1}成功',$post['operation']),u("developer/schema/{$tablename}"));
 			}
-			$this->error(t('%s失败',$post['operation']));
+			$this->error(t('{1}失败',$post['operation']));
 		}
 
-		$this->error(t('%s失败',t('操作')));
+		$this->error(t('{1}失败',t('操作')));
     }
 
 	/**
@@ -137,14 +143,12 @@ class developer_controller_schema extends admin_controller
 	 */
     public function action_checkfield($tablename, $oname='')
 	{
-		$table = $this->db->schema($tablename);
-
-		if( empty($oname) and $table->existsField($_GET['name']) )
+		if( empty($oname) and $this->db->existsField($tablename,$_GET['name']) )
 		{
 			exit('"'.t('已经存在，请重新输入',$_GET['name']).'"');
 		}
 
-		if( $oname != $_GET['name'] and $this->db->schema($tablename)->existsField($_GET['name']) )
+		if( $oname != $_GET['name'] and $this->db->existsField($tablename,$_GET['name']) )
 		{
 			exit('"'.t('已经存在，请重新输入',$_GET['name']).'"');
 		}
@@ -160,38 +164,38 @@ class developer_controller_schema extends admin_controller
 	 */
     public function action_addfield($tablename)
     {
-		$table = $this->db->schema($tablename);
-
 		if ( $post = $this->post() )
 		{
-			if ( $table->existsField($post['name']) )
+			if ( $this->db->existsField($tablename, $post['name']) )
 			{
-				return $this->error(t('%s 已经存在', $post['name']));
+				return $this->error(t('{1}已经存在', $post['name']));
 			}
 
-			if ( $table->addField($post['name'], $post) )
+			if ( $this->db->addField($tablename, $post) )
 			{
-				return $this->success(t('%s成功',t('新建字段')),u("developer/schema/{$tablename}"));
+				return $this->success(t('{1}成功',t('新建字段')),u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('%s失败',t('新建字段')));
+			return $this->error(t('{1}失败',t('新建字段')));
 		}
 
-		$fields = $table->fields();
+		$fields = $this->db->fields($tablename);
 
 		$data = array(
-			'primary' => false,
-			'autoinc' => false,
-			'notnull' => false,
+			'primary'  => false,
+			'autoinc'  => false,
+			'notnull'  => false,
 			'unsigned' => false,
 			'position' => 'last',
 		);
 
 		$position['first'] = t('数据表开头');
+
 		foreach($fields as $name=>$field)
 		{
-			$position["after {$name}"] = t('%s 之后', $name);
+			$position["after {$name}"] = t('{1} 之后', $name);
 		}
+
 		$position['last'] = t('数据表结尾');
 
 
@@ -209,41 +213,41 @@ class developer_controller_schema extends admin_controller
 	 * @param $table 数据表名称
 	 * @return mixed
 	 */
-    public function action_editfield($tablename, $field)
+    public function action_editfield($tablename, $fieldname)
     {
-		$table = $this->db->schema($tablename);
-
 		if ( $post = $this->post() )
 		{
-			if ( $field != $post['name'] and $table->existsField($post['name']) )
+			if ( $fieldname != $post['name'] and $this->db->existsField($tablename, $post['name']) )
 			{
-				return $this->error(t('%s 已经存在', $post['name']));
+				return $this->error(t('{1}已经存在', $post['name']));
 			}
 
-			if ( $table->changeField($field, $post) )
+			if ( $this->db->changeField($tablename, $fieldname, $post) )
 			{
-				return $this->success(t('%s成功',t('编辑字段')),u("developer/schema/{$tablename}"));
+				return $this->success(t('{1}成功',t('编辑字段')),u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('%s失败',t('编辑字段')));
+			return $this->error(t('{1}失败',t('编辑字段')));
 		}
 
-		$fields = $table->fields();
-
-		$data = $fields[$field] + array(
-			'name' => $field,
-			'primary' => false,
-			'autoinc' => false,
-			'notnull' => false,
+		$fields = $this->db->fields($tablename);
+		
+		$data = $fields[$fieldname] + array(
+			'name'     => $fieldname,
+			'primary'  => false,
+			'autoinc'  => false,
+			'notnull'  => false,
 			'unsigned' => false,
 			'position' => 'last',
 		);
 
 		$position['first'] = t('数据表开头');
+
 		foreach($fields as $name=>$field)
 		{
-			$position["after {$name}"] = t('%s 之后', $name);
+			$position["after {$name}"] = t('{1} 之后', $name);
 		}
+
 		$position['last'] = t('当前位置');
 
 
@@ -261,16 +265,16 @@ class developer_controller_schema extends admin_controller
 	 * @param $table 数据表名称
 	 * @return mixed
 	 */
-    public function action_dropField($table,$field)
+    public function action_dropField($tablename,$fieldname)
     {
 		if ( $post = $this->post() )
 		{
-			if ( $this->db->schema($table)->dropField($field) )
+			if ( $this->db->dropField($tablename, $fieldname) )
 			{
-				return $this->success(t('%s成功',t('删除')) ,u("developer/schema/{$table}"));
+				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('%s失败',t('删除')));
+			return $this->error(t('{1}失败',t('删除')));
 		}
     }
 
@@ -286,10 +290,10 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $this->db->schema($table)->dropPrimary() )
 			{
-				return $this->success(t('%s成功',t('删除')) ,u("developer/schema/{$table}"));
+				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$table}"));
 			}
 
-			return $this->error(t('%s失败',t('删除')));
+			return $this->error(t('{1}失败',t('删除')));
 		}
     }
 
@@ -305,10 +309,10 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $this->db->schema($table)->dropIndex($field) )
 			{
-				return $this->success(t('%s成功',t('删除')) ,u("developer/schema/{$table}"));
+				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$table}"));
 			}
 
-			return $this->error(t('%s失败',t('删除')));
+			return $this->error(t('{1}失败',t('删除')));
 		}
     }
 
