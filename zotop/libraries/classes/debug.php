@@ -35,8 +35,8 @@ class debug
     /**
      * 返回变量的内容
      *
-     * @param   mixed    变量
-     * @param   echo  返回
+     * @param   mixed  变量
+     * @param   echo  是否返回。默认为直接输出并exit
      * @return  string
      */
     public static function dump($var, $return = false)
@@ -70,10 +70,10 @@ class debug
     }
 
     /**
-     * Removes root from a filename, replacing them with the plain text equivalents. Useful for debugging
+     * 格式化输出安全的地址，防止泄露真实地址
      *
      *
-     * @param   string  path to debug
+     * @param   string  文件路径
      * @return  string
      */
     public static function path($file)
@@ -91,54 +91,43 @@ class debug
         return $file;
     }
 
+   
     /**
-     * Returns an HTML string, highlighting a specific line of a file, with some
-     * number of lines padded above and below.
-     *
-     *     // Highlights the current line of the current file
-     *     echo Debug::source(__FILE__, __LINE__);
-     *
-     * @param   string   file to open
-     * @param   integer  line number to highlight
-     * @param   integer  number of padding lines
-     * @return  string   source of file
-     * @return  FALSE    file is unreadable
+     * 显示高亮的源码片段
+     * 
+     * @param  string  $file        文件地址
+     * @param  integer $line_number 高亮的行
+     * @param  integer $padding     前后填充的行数
+     * @return string
      */
     public static function source($file, $line_number, $padding = 5)
     {
         if (! $file or ! is_readable($file))
         {
-            // Continuing will cause errors
             return false;
         }
 
-        // Open the file and set the line position
         $file = fopen($file, 'r');
         $line = 0;
 
-        // Set the reading range
         $range = array('start' => $line_number - $padding, 'end' => $line_number + $padding);
 
-        // Set the zero-padding amount for line numbers
         $format = '% ' . strlen($range['end']) . 'd';
 
         $source = '';
+
         while (($row = fgets($file)) !== false)
         {
-            // Increment the line number
             if (++$line > $range['end']) break;
 
             if ($line >= $range['start'])
             {
-                // Make the row safe for output
                 $row = htmlspecialchars($row, ENT_NOQUOTES, ZOTOP_CHARSET);
 
-                // Trim whitespace and sanitize the row
                 $row = '<span class="number">' . sprintf($format, $line) . '</span> ' . $row;
 
                 if ($line === $line_number)
                 {
-                    // Apply highlighting to this row
                     $row = '<span class="line highlight">' . $row . '</span>';
                 }
                 else
@@ -146,35 +135,28 @@ class debug
                     $row = '<span class="line">' . $row . '</span>';
                 }
 
-                // Add to the captured source
                 $source .= $row;
             }
         }
 
-        // Close the file
         fclose($file);
 
         return '<pre class="source"><code>' . $source . '</code></pre>';
     }
 
     /**
-     * Returns an array of HTML strings that represent each step in the backtrace.
-     *
-     *     // Displays the entire current backtrace
-     *     echo implode('<br/>', Debug::trace());
-     *
-     * @param   string  path to debug
-     * @return  string
+     * 跟踪
+     * 
+     * @param   array  追踪
+     * @return  array
      */
     public static function trace(array $trace = null)
     {
-        // Start a new trace
         if ($trace === null)
         {
             $trace = debug_backtrace();
         }
 
-        // Non-standard function calls
         $statements = array(
             'include',
             'include_once',
@@ -187,13 +169,11 @@ class debug
         {
             if (! isset($step['function']))
             {
-                // Invalid trace step
                 continue;
             }
 
             if (isset($step['file']) and isset($step['line']))
             {
-                // Include the source of this step
                 $source = debug::source($step['file'], $step['line']);
             }
 
@@ -207,19 +187,16 @@ class debug
                 }
             }
 
-            // function()
             $function = $step['function'];
 
             if (in_array($step['function'], $statements))
             {
                 if (empty($step['args']))
                 {
-                    // No arguments
                     $args = array();
                 }
                 else
                 {
-                    // Sanitize the file path
                     $args = array($step['args'][0]);
                 }
             }
@@ -227,7 +204,6 @@ class debug
             {
                 if (! function_exists($step['function']) or strpos($step['function'], '{closure}') !== false)
                 {
-                    // Introspection on closures or language constructs in a stack trace is impossible
                     $params = null;
                 }
                 else
@@ -248,7 +224,6 @@ class debug
                         $reflection = new ReflectionFunction($step['function']);
                     }
 
-                    // Get the function parameters
                     $params = $reflection->getParameters();
                 }
 
@@ -258,12 +233,10 @@ class debug
                 {
                     if (isset($params[$i]))
                     {
-                        // Assign the argument by the parameter name
                         $args[$params[$i]->name] = $arg;
                     }
                     else
                     {
-                        // Assign the argument by number
                         $args[$i] = $arg;
                     }
                 }
@@ -271,17 +244,16 @@ class debug
 
             if (isset($step['class']))
             {
-                // Class->method() or Class::method()
                 $function = $step['class'] . $step['type'] . $step['function'];
             }
 
             $output[] = array(
                 'function' => $function,
-                'args' => isset($args) ? $args : null,
-                'file' => isset($file) ? $file : null,
-                'line' => isset($line) ? $line : null,
-                'source' => isset($source) ? $source : null,
-                );
+                'args'     => isset($args) ? $args : null,
+                'file'     => isset($file) ? $file : null,
+                'line'     => isset($line) ? $line : null,
+                'source'   => isset($source) ? $source : null,
+            );
 
             unset($function, $args, $file, $line, $source);
         }

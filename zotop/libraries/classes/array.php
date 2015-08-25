@@ -124,10 +124,8 @@ class arr
 
         for ($i = 0, $total = func_num_args(); $i < $total; $i++)
         {
-            // Get the next array
             $arr = func_get_arg($i);
 
-            // Is the array associative?
             $assoc = arr::is_assoc($arr);
 
             foreach ($arr as $key => $val)
@@ -138,15 +136,12 @@ class arr
                     {
                         if (arr::is_assoc($val))
                         {
-                            // Associative arrays are merged recursively
                             $result[$key] = arr::merge($result[$key], $val);
                         }
                         else
                         {
-                            // Find the values that are not already present
                             $diff = array_diff($val, $result[$key]);
 
-                            // Indexed arrays are merged to prevent duplicates
                             $result[$key] = array_merge($result[$key], $diff);
                         }
                     }
@@ -154,19 +149,16 @@ class arr
                     {
                         if ($assoc)
                         {
-                            // Associative values are replaced
                             $result[$key] = $val;
                         }
                         elseif (!in_array($val, $result, true))
                         {
-                            // Indexed values are added only if they do not yet exist
                             $result[] = $val;
                         }
                     }
                 }
                 else
                 {
-                    // New values are added
                     $result[$key] = $val;
                 }
             }

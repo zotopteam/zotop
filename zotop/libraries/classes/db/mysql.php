@@ -49,7 +49,7 @@ class db_mysql extends db
                 // PHP 5.3.6及以前版本不支持在DSN中的charset
                 if( version_compare(PHP_VERSION,'5.3.6','<=') )
                 {
-                    $this->params[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET nameS '.$this->config['charset'];
+                    $this->params[PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$this->config['charset'];
                 }
 
                 $dsn .= ';charset='.$this->config['charset'];
@@ -58,6 +58,57 @@ class db_mysql extends db
             $this->config['dsn']  = $dsn;
         } 
     }
+
+    /**
+     * 创建数据库
+     * 
+     * @return bool
+     */
+    public function create()
+    {
+        if ( $config = $this->config )
+        { 
+            unset($config['dsn']);
+            unset($config['database']);
+
+            return self::instance($config)->execute("CREATE DATABASE IF NOT EXISTS `".$this->config['database'] ."` DEFAULT CHARACTER SET ".$this->config['charset']." COLLATE ".$this->config['collation']."");
+        }
+
+        return false;        
+    }
+    
+    /**
+     * 数据库是否存在
+     * 
+     * @return bool
+     */
+    public function exists()
+    {
+        try
+        {
+            $this->connect();
+            return true;
+        }
+        catch (Exception $e)
+        {
+            return false;
+        }        
+    }
+
+    /**
+     * 删除数据库
+     * 
+     * @return bool
+     */
+    public function drop()
+    {
+        if ( $this->exists() )
+        {
+            return $this->execute("DROP DATABASE `".$this->config['database']."`");
+        }
+
+        return true;
+    } 
 
     /**
      * 字段类型映射，统一不同数据库的字段类型表达形式
@@ -201,7 +252,7 @@ class db_mysql extends db
     }
 
     /**
-     * 重命名数据表
+     * 注释数据表
      *
      * @access public
      * @param string $tablename 表名称，不含前缀
@@ -233,7 +284,55 @@ class db_mysql extends db
         } 
 
         return $this->execute('DROP TABLE `' . $this->tablename($tablename)).'`';        
-    }    
+    }
+
+
+    /**
+     * 清空数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function truncateTable($tablename)
+    {
+        return $this->execute('TRUNCATE TABLE `' . $this->tablename($tablename) . '`');
+    }
+
+
+    /**
+     * 优化数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function optimizeTable($tablename)
+    {
+        return $this->execute('OPTIMIZE TABLE `' . $this->tablename($tablename) . '`');
+    }
+
+    /**
+     * 检查数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function checkTable($tablename)
+    {
+        return $this->execute('CHECK TABLE `' . $this->tablename($tablename) . '`');
+    }
+
+
+    /**
+     * 修复数据表
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return bool
+     */
+    public function repairTable($tablename)
+    {
+        return $this->execute('REPAIR TABLE `' . $this->tablename($tablename) . '`');
+    }  
+
 
     /**
      * 根据scheam生成创建表的sql语句，含创建字段，创建索引等
@@ -608,7 +707,12 @@ class db_mysql extends db
         return false;  
     } 
 
-
+    /**
+     * 获取数据表的索引信息，包含主键、唯一索引、索引等
+     * 
+     * @param string $tablename  数据表名，不含前缀
+     * @return array
+     */
     public function indexes($tablename)
     {
         $indexes   = array();
@@ -634,13 +738,134 @@ class db_mysql extends db
         return $indexes;        
     }
 
-
+    /**
+     * 判断索引是否存在
+     * 
+     * @param string $tablename  数据表名，不含前缀
+     * @param string $indexname  索引名称
+     * @return array
+     */    
     public function existsIndex($tablename, $indexname)
     {
         $result = $this->query('SHOW INDEX FROM `' . $this->tablename($tablename) . "` WHERE `key_name` = '". trim($indexname) ."'");
         
         return isset($result[0]['key_name']);
     }
+
+    /**
+     * 添加索引
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $indexname 索引名称
+     * @param  array $fields  索引的字段
+     * @param  string $type  索引类型
+     */
+    public function addIndex($tablename, $indexname, $fields, $type='index')
+    {
+        if ( !$this->existsTable($tablename) ) return false;
+
+        if ( $this->existsIndex($tablename,$indexname) ) return false;
+
+        switch ( strtolower($type) )
+        {
+            case 'unique':
+                $type = 'UNIQUE KEY';
+                break;
+            case 'fulltext':
+                $type = 'FULLTEXT';
+                break;                           
+            default:
+                $type = 'INDEX';
+                break;
+        }
+
+        return $this->execute('ALTER TABLE `' . $this->tablename($tablename) . '` ADD '. $type .' `' . trim($indexname) . '` (' . $this->createKeySql($fields) . ')');        
+    }
+
+    /**
+     * 删除索引
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @param  string $indexname 索引名称
+     * @return bool
+     */
+    public function dropIndex($tablename, $indexname)
+    {
+        if ( $this->existsIndex($tablename,$indexname) ) 
+        {
+            return $this->execute('ALTER TABLE `' . $this->tablename($tablename) . '` DROP INDEX `' . trim($indexname) . '`');
+        }
+        
+        return false;       
+    }
+
+    /**
+     * 获取主键
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
+    public function primary($tablename)
+    {
+        $primary = array();
+
+        $indexes = $this->indexes($tablename);
+
+        foreach( $indexes as $name => $index )
+        {
+            if ( $index['type'] == 'primary' )
+            {
+                $primary = $index['column'];
+            }
+        }
+
+        return $primary;
+    }    
+
+    /**
+     * 添加主键，如果表已经存在主键则返回false
+     * 
+     * @code
+     * 
+     * $this->db->addPrimary('test_table','id');
+     *
+     * $this->db->addPrimary('test_table','id,nid');
+     *
+     * $this->db->addPrimary('test_table',array('id','nid'));
+     *
+     * @endcode
+     *
+     * @param string $table  数据表名，不含前缀
+     * @param string|array $fields  主键字段名称
+     * @return bool
+     */
+    public function addPrimary($tablename, $fields)
+    {
+        if ( !$this->existsTable($tablename) ) return false;
+
+        if ( $this->existsIndex($tablename,'PRIMARY') ) return false;
+
+        return $this->execute('ALTER TABLE `' . $this->tablename($tablename) . '` ADD PRIMARY KEY (' . $this->createKeySql($fields) . ')');        
+    }
+
+
+    /**
+     * 删除主键
+     * 
+     * @param  string $tablename 数据表名称，不含前缀
+     * @return array
+     */
+    public function dropPrimary($tablename)
+    {
+        if ( $this->existsIndex($tablename,'PRIMARY') )
+        {
+            return $this->execute('ALTER TABLE `' . $this->tablename($tablename) . '` DROP PRIMARY KEY');        
+        }
+
+        return false;
+    }
+
+
 
     /**
      * 获取数据表的结构数组

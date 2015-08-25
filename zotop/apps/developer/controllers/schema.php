@@ -83,18 +83,18 @@ class developer_controller_schema extends admin_controller
 				case 'unique' :
 				case 'fulltext' :
 
-					$index = implode('_',$post['id']);
+					$indexname = implode('_',$post['id']);
 
-					if ( $this->db->existsIndex($tablename, $index)  )
+					if ( $this->db->existsIndex($tablename, $indexname)  )
 					{
-						return $this->error(t('{1} [{2}] 已存在',$post['operation'],$index));
+						return $this->error(t('{1} [{2}] 已存在', $post['operation'], $indexname));
 					}
 
-					$result = $this->db->addIndex($tablename, $index,$post['id'],$operation);
+					$result = $this->db->addIndex($tablename, $indexname, $post['id'], $operation);
 
 					break;
 				case 'primary' :
-					
+
 					//必须先删除可能存在的主键才能创建主键
 					$this->db->dropPrimary($tablename);
 
@@ -119,13 +119,17 @@ class developer_controller_schema extends admin_controller
 	 * @param $table 数据表名称
 	 * @return mixed
 	 */
-    public function action_show($table)
+    public function action_show($tablename)
     {
 		// 获取全部数据
-		$data = $this->db->table($table)->select();
-
+		$data   = $this->db->table($tablename)->select();
+		
 		// 获取数据表结构信息
-		$schemastr = $this->db->schema($table)->toString();
+		$schema = $this->db->schema($tablename);
+
+		echo arr::export($schema);
+
+		exit;
 
 		$this->assign('title',t('数据表结构数组'));
 		$this->assign('table',$table);
@@ -284,13 +288,13 @@ class developer_controller_schema extends admin_controller
 	 * @param $table 数据表名称
 	 * @return mixed
 	 */
-    public function action_dropPrimary($table)
+    public function action_dropPrimary($tablename)
     {
 		if ( $post = $this->post() )
 		{
-			if ( $this->db->schema($table)->dropPrimary() )
+			if ( $this->db->dropPrimary($tablename) )
 			{
-				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$table}"));
+				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$tablename}"));
 			}
 
 			return $this->error(t('{1}失败',t('删除')));
@@ -303,13 +307,13 @@ class developer_controller_schema extends admin_controller
 	 * @param $table 数据表名称
 	 * @return mixed
 	 */
-    public function action_dropIndex($table,$field)
+    public function action_dropIndex($tablename,$indexname)
     {
 		if ( $post = $this->post() )
 		{
-			if ( $this->db->schema($table)->dropIndex($field) )
+			if ( $this->db->dropIndex($tablename,$indexname) )
 			{
-				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$table}"));
+				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$tablename}"));
 			}
 
 			return $this->error(t('{1}失败',t('删除')));
