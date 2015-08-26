@@ -122,21 +122,39 @@ class developer_controller_schema extends admin_controller
     public function action_show($tablename)
     {
 		// 获取全部数据
-		$data   = $this->db->table($tablename)->select();
+		$data      = $this->db->table($tablename)->select();
 		
 		// 获取数据表结构信息
-		$schema = $this->db->schema($tablename);
+		$schema    = $this->db->schema($tablename);
 
-		echo arr::export($schema);
+		// schema 格式化
+		$schemastr = $this->schemaStringify($schema);
 
-		exit;
-
-		$this->assign('title',t('数据表结构数组'));
-		$this->assign('table',$table);
-		$this->assign('data',$data);
+		$this->assign('title',t('数据表结构'));
+		$this->assign('tablename',$tablename);
 		$this->assign('schemastr',$schemastr);
+		$this->assign('data',$data);
 		$this->display();
     }
+
+	/**
+	 * 获取表的schema数据的array字符串
+	 *
+     * @access public
+     * @param string $schema  表描述数据数组
+     * @return bool
+	 *
+	 */
+	public function schemaStringify($schema)
+	{
+		// 输出数组
+		$schema = arr::export($schema);
+		
+		// 替换comment为可翻译
+		$schema = preg_replace("/'comment'\s*=>\s*'(.*?)'/","'comment'=>t('$1')",$schema);
+
+		return $schema;
+	}    
 
 	/**
 	 * 新建字段

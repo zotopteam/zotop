@@ -12,8 +12,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
  */
 
 // [content] 创建	
-$this->db->schema('content')->drop();
-$this->db->schema('content')->create(array(
+$this->db->dropTable('content');
+$this->db->createTable('content',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('分类') ),
@@ -51,8 +51,8 @@ $this->db->schema('content')->create(array(
 
 
 // [content_model] 创建	
-$this->db->schema('content_model')->drop();
-$this->db->schema('content_model')->create(array(
+$this->db->dropTable('content_model');
+$this->db->createTable('content_model',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID，如：news') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('名称') ),
@@ -72,8 +72,8 @@ $this->db->schema('content_model')->create(array(
 	'comment' => t('内容模型') 
 ));
 
-$this->db->schema('content_field')->drop();
-$this->db->schema('content_field')->create(array(
+$this->db->dropTable('content_field');
+$this->db->createTable('content_field',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'modelid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型编号') ),
@@ -105,8 +105,8 @@ $this->db->schema('content_field')->create(array(
 /*
  * 创建content_category数据表
  */
-$this->db->schema('content_category')->drop();
-$this->db->schema('content_category')->create(array(
+$this->db->dropTable('content_category');
+$this->db->createTable('content_category',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('编号') ),
 		'rootid'	=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('根编号') ),
@@ -135,8 +135,8 @@ $this->db->schema('content_category')->create(array(
 ));
 
 // [content_tag] 创建
-$this->db->schema('content_tag')->drop();
-$this->db->schema('content_tag')->create(array(
+$this->db->dropTable('content_tag');
+$this->db->createTable('content_tag',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'name'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('标签') ),
@@ -155,8 +155,8 @@ $this->db->schema('content_tag')->create(array(
 ));
 
 // [content_tagdata] 创建
-$this->db->schema('content_tagdata')->drop();
-$this->db->schema('content_tagdata')->create(array(
+$this->db->dropTable('content_tagdata');
+$this->db->createTable('content_tagdata',array(
 	'fields'=>array(
 		'tagid'		=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'comment' => t('标签编号') ),
 		'contentid'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'comment' => t('内容编号') ),

@@ -3,8 +3,8 @@ defined('ZOTOP') OR die('No direct access allowed.');
 defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 
 // [form] 创建
-$this->db->schema('form')->drop();
-$this->db->schema('form')->create(array(
+$this->db->dropTable('form');
+$this->db->createTable('form', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'name'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('表单名称') ),
@@ -24,8 +24,8 @@ $this->db->schema('form')->create(array(
 
 
 // [form_field] 创建
-$this->db->schema('form_field')->drop();
-$this->db->schema('form_field')->create(array(
+$this->db->dropTable('form_field');
+$this->db->createTable('form_field',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'formid'	=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('表单编号') ),

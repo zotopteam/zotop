@@ -3,7 +3,8 @@ defined('ZOTOP') OR die('No direct access allowed.');
 defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 
 // [kefu] 创建
-$this->db->schema('kefu')->create(array(
+$this->db->dropTable('kefu');
+$this->db->createTable('kefu',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'type'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'comment' => t('在线客服类型，如：qq，mobile') ),

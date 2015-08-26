@@ -198,10 +198,11 @@ class system_field
 	public static function date($attrs)
 	{
 		// 属性设置
-		$attrs['format'] = empty($attrs['format']) ? 'Y-m-d' : $attrs['format'];
-		$attrs['lang']   = empty($attrs['lang']) ? 'ch' : $attrs['lang'];
-		$attrs['value']  = empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
-		$attrs['value']  = format::date($attrs['value'], $attrs['format']);
+		$attrs['format']     = empty($attrs['format']) ? 'Y-m-d' : $attrs['format'];
+		$attrs['timepicker'] = isset($attrs['timepicker']) ? $attrs['timepicker'] : false;
+		$attrs['lang']       = empty($attrs['lang']) ? 'ch' : $attrs['lang'];
+		$attrs['value']      = empty($attrs['value']) ? ZOTOP_TIME : $attrs['value'];
+		$attrs['value']      = format::date($attrs['value'], $attrs['format']);
 
 		// 参数设置
 		$options = array();
@@ -220,10 +221,18 @@ class system_field
 		if ( !empty($options['max']) and strtotime($options['max']) )  $settings['maxDate'] = $options['max'];
 		if ( !empty($options['start']) and strtotime($options['start']) )  $settings['startDate'] = $options['start'];
 
-		$html[]	= '<div class="input-group">';
-		$html[]	= form::field_text($attrs);
-		$html[]	= '<span class="input-group-addon"><i class="icon icon-calendar"></i></span>';
-		$html[]	= '</div>';
+		if ( $options['inline'] )
+		{
+			$html[]	= form::field_text($attrs);
+		}
+		else
+		{
+			$html[]	= '<div class="input-group">';
+			$html[]	= form::field_text($attrs);
+			$html[]	= '<span class="input-group-addon"><i class="icon icon-calendar"></i></span>';
+			$html[]	= '</div>';
+		}		
+
 		$html[]	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.js');
 		$html[]	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.css');
 		$html[]	= '<script>$(function(){$("#'.$attrs['id'].'").datetimepicker('.json_encode($options).');})</script>';

@@ -37,8 +37,8 @@ class system_controller_administrator extends admin_controller
 	 */
 	public function action_index()
 	{
-		$data = $this->admin->alias('a')->join('user as u','u.id','a.id')->field('u.*,a.*')->orderby('u.logintime','desc')->select();
-
+		$data  = $this->admin->alias('a')->join('user u','u.id','a.id')->field('u.* , a.*')->orderby('u.logintime','desc')->select();
+		
 		$roles = $this->role->select();
 
 		$this->assign('title',t('管理员设置'));

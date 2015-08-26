@@ -23,7 +23,7 @@ foreach($models as $model)
 {
 	// 删除模型表
 
-	$this->db->schema($model['tablename'])->drop();
+	$this->db->dropTable($model['tablename']);
 
 	// 删除用户及用户组中的相关数据
 	$this->db->table('user')->where('modelid',$model['id'])->delete();

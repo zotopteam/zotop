@@ -31,11 +31,6 @@ class model
 		{
 			$this->db  = zotop::db($this->dbconfig);
 		}
-
-		if ( $this->table )
-		{
-			$this->db->table($this->table);
-		}
 	}
 
     /**
@@ -86,7 +81,6 @@ class model
     /**
      * 得到当前的数据表的主键名称
      *
-     * @access public
      * @return string
      */
     public function pk()
@@ -172,9 +166,9 @@ class model
     {
 		$table = $this->table;
 
-		if ( is_string($this->alias) && !empty($this->alias) )
+		if ( $this->alias )
 		{
-			$table = $table.' AS '.$this->alias;
+			$table = $table.' '.$this->alias;
 			$this->alias='';
 		}
 
@@ -214,11 +208,21 @@ class model
 	/**
 	 * 获取全部数据
 	 *
-     * @return mixed
+     * @return array
 	 */
     public function select()
     {
         return $this->db()->select();
+    }
+
+    /**
+     * 获取全部数据，select的别名
+     * 
+     * @return array
+     */
+    public function getall()
+    {
+    	return $this->select();
     }
 
 	/**
@@ -278,17 +282,6 @@ class model
 		}
 
 		return empty($field) ? $data[$id] : $data[$id][$field];
-	}
-
-
-    /**
-     * 缓存数据, TODO ，这儿需要优化
-	 *
-     * @return array
-     */
-	public function cache($refresh=false)
-	{
-		return $this->select();
 	}
 
 
@@ -455,6 +448,29 @@ class model
     // 保存数据后的回调方法
     protected function _after_update(&$data,$where) {}
 
+    
+    /**
+     * SAVE模式，传入的data中有主键时update，无主键时update
+     * 
+     * @param  array  $data [description]
+     * @return [type]       [description]
+     */
+    public function save()
+    {
+    	$data = empty($this->data) ? $this->db->data() : $this->data;
+
+    	//传入数据中有主键时update
+    	if ( isset($data[$this->pk()]) )
+    	{
+    		$where = $this->db->where();
+    		$where = empty($where) ? array($this->pk(),'=',$data[$this->pk()]) : $where;
+
+    		return $this->where($where)->data($data)->update();
+    	}
+
+    	return $this->data($data)->insert();    	
+    }
+
     /**
      * 删除数据
      *
@@ -484,7 +500,7 @@ class model
 			$where = strpos($options,',') ? array($this->pk(),'IN',$where) : array($this->pk(),'=',$where);
 		}
 
-        if(false === $this->_before_delete($data,$where))
+        if(false === $this->_before_delete($data, $where))
 		{
             return false;
         }
@@ -570,7 +586,7 @@ class model
 			// $user->sum('hits');
 			$field =  isset($args[0]) ? $args[0] : '*';
 
-			$result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->getField();
+			$result = $this->db()->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->getField();
 
 			return is_numeric($result) ? $result : 0;
 		}

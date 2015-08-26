@@ -14,7 +14,7 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 // [user_group] 插入数据
 $groupid = $this->db->table('user_group')->max('id') + 1;
 
-$this->db->insert('user_group',array(
+$this->db->table('user_group')->data(array(
 	'id' => $groupid,
 	'modelid' => 'member',
 	'name' => t('注册用户'),
@@ -25,10 +25,10 @@ $this->db->insert('user_group',array(
 	),
 	'listorder' => '0',
 	'disabled' => '0',
-));
+))->insert();
 
 // 插入会员模型
-$this->db->insert('user_model',array (
+$this->db->table('user_model')->data(array(
 	'id' => 'member',
 	'name' => t('会员'),
 	'description' => '',
@@ -44,12 +44,12 @@ $this->db->insert('user_model',array (
 	'posts' => '0',
 	'listorder' => '1',
 	'disabled' => '0',
-),true);
+))->insert(true);
 
 
 // [member] 创建
-$this->db->schema('member')->drop();
-$this->db->schema('member')->create(array(
+$this->db->dropTable('member');
+$this->db->createTable('member',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户编号') ),
 	),

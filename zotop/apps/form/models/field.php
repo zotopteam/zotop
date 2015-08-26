@@ -11,7 +11,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class form_model_field extends model
 {
 	protected $pk 		= 'id';
-	protected $table 	= 'form_field';
+	protected $this->db 	= 'form_field';
 
 	public $controls;
 	public $system_fields = array('id','dataid','status','formid','table','select','orderby','page','size','cache','return','search','keywords');
@@ -313,19 +313,16 @@ class form_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->schema($data['table']);
-
 			// 检查字段名称是否已经存在
-			if ( $table->existsField($data['name']) )
+			if ( $this->db->existsField($data['table'],$data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
-			if ( $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($data['table'], $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields", null);
-
 				
 				// 更新字段缓存
 				$this->cache($data['formid'], true);
@@ -349,18 +346,16 @@ class form_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->schema($data['table']);
-
 			$name = $data['_name'] ? $data['_name'] : $data['name']; //改变字段名称
 
 			// 更名的时候检查字段名称是否已经存在
-			if ( $name != $data['name'] and $table->existsField($data['name']) )
+			if ( $name != $data['name'] and $this->db->existsField($data['table'],$data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
 			// 更该字段
-			if ( $table->changeField($name, $this->fielddata($data)) and $this->update($data,$id) )
+			if ( $this->db->changeField($data['table'], $name, $this->fielddata($data)) and $this->update($data,$id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields",null);
@@ -390,7 +385,7 @@ class form_model_field extends model
 				$data['table'] = m('form.form.get', $data['formid'], 'table');
 			}
 
-			if ( $this->db->schema($data['table'])->dropField($data['name']) and parent::delete($id) )
+			if ( $this->db->dropField($data['table'], $data['name']) and parent::delete($id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields",null);

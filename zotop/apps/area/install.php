@@ -12,8 +12,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
  */
 
 // [area] 创建
-$this->db->schema('area')->drop();
-$this->db->schema('area')->create(array(
+$this->db->dropTable('area');
+$this->db->createTable('area',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('区域编号') ),
 		'parentid'	=> array ( 'type'=>'mediumint', 'length'=>10, 'default'=>'0', 'unsigned'=>true, 'comment' => t('父编号') ),
@@ -38,6 +38,6 @@ $default_area = include(ZOTOP_PATH_APPS.DS.'area'.DS.'data'.DS.'default.php');
 // 插入数据
 foreach( $default_area as $area )
 {
-	$this->db->insert('area',$area);
+	$this->db->table('area')->data($area)->insert();
 }
 ?>

@@ -86,7 +86,7 @@ class content_model_model extends model
 			m('content.field')->db()->where('modelid',$id)->delete();
 
 			// 删除模型表
-			$this->db->schema("content_model_{$id}")->drop();
+			$this->db->dropTable("content_model_{$id}");
 			
 			// 重建缓存
 			$this->cache(true);
@@ -164,15 +164,14 @@ class content_model_model extends model
 			if ( count($extendfield)>1 ) 
 			{
 				$tablename 	= "content_model_{$data['id']}";
-				$table 		= $this->db->schema($tablename);
 				$schema 	= array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
 
-				if ( $table->exists() )
+				if ( $this->db->existsTable($tablename) )
 				{
-					$table->drop();
+					$this->db->dropTable($tablename);
 				}
 
-				if ( $table->create($schema) == false )
+				if ( $this->db->createTable($tablename, $schema) == false )
 				{
 					$this->db()->where('id',$data['id'])->delete();
 					$this->field->db()->where('modelid',$data['id'])->delete();

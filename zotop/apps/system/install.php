@@ -14,8 +14,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 /*
  * 创建app数据表
  */
-$this->db->schema('app')->drop();
-$this->db->schema('app')->create(array(
+$this->db->dropTable('app');
+$this->db->createTable('app', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('应用ID') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('应用名称') ),
@@ -44,8 +44,8 @@ $this->db->schema('app')->create(array(
 /*
  * 创建config数据表
  */
-$this->db->schema('config')->drop();
-$this->db->schema('config')->create(array(
+$this->db->dropTable('config');
+$this->db->createTable('config', array(
 	'fields'=>array(
 		'app'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('所属应用') ),
 		'key'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('键名') ),
@@ -64,8 +64,8 @@ $this->db->schema('config')->create(array(
 /*
  * 创建alias数据表
  */
-$this->db->schema('alias')->drop();
-$this->db->schema('alias')->create(array(
+$this->db->dropTable('alias');
+$this->db->createTable('alias', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'app'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('隶属的应用') ),
@@ -83,8 +83,8 @@ $this->db->schema('alias')->create(array(
 ));
 
 // [log] 创建
-$this->db->schema('log')->drop();
-$this->db->schema('log')->create(array(
+$this->db->dropTable('log');
+$this->db->createTable('log', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'state'		=> array ( 'type'=>'char', 'length'=>32, 'default'=>null, 'comment' => t('操作状态，success 或者 error') ),
@@ -111,8 +111,8 @@ $this->db->schema('log')->create(array(
 /*
  * 创建user数据表
  */
-$this->db->schema('user')->drop();
-$this->db->schema('user')->create(array(
+$this->db->dropTable('user');
+$this->db->createTable('user', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('用户编号') ),
 		'username'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('用户名') ),
@@ -147,8 +147,8 @@ $this->db->schema('user')->create(array(
 ));
 
 // [user_model] 创建
-$this->db->schema('user_model')->drop();
-$this->db->schema('user_model')->create(array(
+$this->db->dropTable('user_model');
+$this->db->createTable('user_model', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID，如：admin,member') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('名称') ),
@@ -169,7 +169,7 @@ $this->db->schema('user_model')->create(array(
 ));
 
 // [user_model] 插入数据
-$this->db->insert('user_model',array (
+$this->db->table('user_model')->data(array(
   'id' => 'admin',
   'name' => t('系统用户'),
   'description' => t('系统管理及操作用户'),
@@ -179,11 +179,11 @@ $this->db->insert('user_model',array (
   'posts' => '0',
   'listorder' => '0',
   'disabled' => '0',
-));
+))->insert();
 
 // [user_field] 创建
-$this->db->schema('user_field')->drop();
-$this->db->schema('user_field')->create(array(
+$this->db->dropTable('user_field');
+$this->db->createTable('user_field', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'modelid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型名称') ),
@@ -210,8 +210,8 @@ $this->db->schema('user_field')->create(array(
 ));
 
 // [user_group] 创建
-$this->db->schema('user_group')->drop();
-$this->db->schema('user_group')->create(array(
+$this->db->dropTable('user_group');
+$this->db->createTable('user_group', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>6, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户组编号') ),
 		'modelid'	=> array ( 'type'=>'varchar', 'length'=>32, 'notnull'=>true, 'comment' => t('用户组模型，如：admin，member') ),
@@ -230,7 +230,7 @@ $this->db->schema('user_group')->create(array(
 ));
 
 // [user_group] 插入数据
-$this->db->insert('user_group',array (
+$this->db->table('user_group')->data(array(
   'id' => '1',
   'modelid' => 'admin',
   'name' => t('超级管理员'),
@@ -238,10 +238,10 @@ $this->db->insert('user_group',array (
   'settings' => '',
   'listorder' => '1',
   'disabled' => '0',
-));
+))->insert();
 
 // [user_group] 插入数据
-$this->db->insert('user_group',array (
+$this->db->table('user_group')->data(array(
   'id' => '2',
   'modelid' => 'admin',
   'name' => t('管理员'),
@@ -249,10 +249,10 @@ $this->db->insert('user_group',array (
   'settings' => '',
   'listorder' => '2',
   'disabled' => '0',
-));
+))->insert();
 
 // [user_group] 插入数据
-$this->db->insert('user_group',array (
+$this->db->table('user_group')->data(array(
   'id' => '3',
   'modelid' => 'admin',
   'name' => t('编辑'),
@@ -260,14 +260,14 @@ $this->db->insert('user_group',array (
   'settings' => '',
   'listorder' => '3',
   'disabled' => '0',
-));
+))->insert();
 
 
 /*
  * 创建admin数据表
  */
-$this->db->schema('admin')->drop();
-$this->db->schema('admin')->create(array(
+$this->db->dropTable('admin');
+$this->db->createTable('admin', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户编号') ),
 		'realname'	=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'comment' => t('真实姓名') ),
@@ -283,8 +283,8 @@ $this->db->schema('admin')->create(array(
 /*
  * 创建admin_priv数据表
  */
-$this->db->schema('admin_priv')->drop();
-$this->db->schema('admin_priv')->create(array(
+$this->db->dropTable('admin_priv');
+$this->db->createTable('admin_priv', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'varchar', 'length'=>128, 'notnull'=>true, 'comment' => t('编号') ),
 		'parentid'	=> array ( 'type'=>'varchar', 'length'=>128, 'default'=>null, 'comment' => t('父编号') ),
@@ -316,13 +316,13 @@ $privs = array(
 
 foreach( $privs as $p )
 {
-	$this->db->insert('admin_priv', $p);
+	$this->db->table('admin_priv')->data($p)->insert();
 }
 
 
 // [admin_priv_group] 创建
-$this->db->schema('admin_priv_group')->drop();
-$this->db->schema('admin_priv_group')->create(array(
+$this->db->dropTable('admin_priv_group');
+$this->db->createTable('admin_priv_group', array(
 	'fields'=>array(
 		'privid'	=> array ( 'type'=>'varchar', 'length'=>128, 'notnull'=>true, 'comment' => t('权限编号') ),
 		'groupid'	=> array ( 'type'=>'tinyint', 'length'=>3, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('角色编号') ),
@@ -339,8 +339,8 @@ $this->db->schema('admin_priv_group')->create(array(
 /*
  * 创建ipbanned数据表
  */
-$this->db->schema('ipbanned')->drop();
-$this->db->schema('ipbanned')->create(array(
+$this->db->dropTable('ipbanned');
+$this->db->createTable('ipbanned', array(
 	'fields'=>array(
 		'ip'		=> array ( 'type'=>'char', 'length'=>15, 'notnull'=>true, 'comment' => t('ip地址') ),
 		'expires'	=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('有效期') ),
@@ -357,8 +357,8 @@ $this->db->schema('ipbanned')->create(array(
 /*
  * 创建badword数据表
  */
-$this->db->schema('badword')->drop();
-$this->db->schema('badword')->create(array(
+$this->db->dropTable('badword');
+$this->db->createTable('badword', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'word'		=> array ( 'type'=>'char', 'length'=>30, 'notnull'=>true, 'comment' => t('敏感词') ),
@@ -380,8 +380,8 @@ $this->db->schema('badword')->create(array(
 /*
  * 创建attachment数据表
  */
-$this->db->schema('attachment')->drop();
-$this->db->schema('attachment')->create(array(
+$this->db->dropTable('attachment');
+$this->db->createTable('attachment', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('编号') ),
 		'folderid'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'0', 'unsigned'=>true, 'comment' => t('文件夹编号') ),
@@ -417,8 +417,8 @@ $this->db->schema('attachment')->create(array(
 /*
  * 创建attachment_folder数据表
  */
-$this->db->schema('attachment_folder')->drop();
-$this->db->schema('attachment_folder')->create(array(
+$this->db->dropTable('attachment_folder');
+$this->db->createTable('attachment_folder', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('分类编号') ),
 		'parentid'	=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('父分类编号') ),
@@ -433,17 +433,17 @@ $this->db->schema('attachment_folder')->create(array(
 	'comment' => t('附件分类')
 ));
 
-$this->db->insert('attachment_folder',array(
+$this->db->table('attachment_folder')->data(array(
 	'id'		=> 1,
 	'parentid'	=> 0,
 	'name'		=> t('常用图片'),
 	'listorder'	=> 1,
-));
+))->insert();
 
-$this->db->insert('attachment_folder',array(
+$this->db->table('attachment_folder')->data(array(
 	'id'		=> 2,
 	'parentid'	=> 0,
 	'name'		=> t('常用文件'),
 	'listorder'	=> 2,
-));
+))->insert();
 ?>

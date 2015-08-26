@@ -12,8 +12,8 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
  */
 
 // [shop_goods] 创建
-$this->db->schema('shop_goods')->drop();
-$this->db->schema('shop_goods')->create(array(
+$this->db->dropTable('shop_goods');
+$this->db->createTable('shop_goods', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'sn'		=> array ( 'type'=>'char', 'length'=>14, 'notnull'=>true, 'comment' => t('商品货号') ),
@@ -43,8 +43,8 @@ $this->db->schema('shop_goods')->create(array(
 ));
 
 // [shop_goods_attr] 创建
-$this->db->schema('shop_goods_attr')->drop();
-$this->db->schema('shop_goods_attr')->create(array(
+$this->db->dropTable('shop_goods_attr');
+$this->db->createTable('shop_goods_attr', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>15, 'notnull'=>true, 'comment' => t('商品属性编号，商品ID-属性ID') ),
 		'typeid'	=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('类型ID') ),
@@ -62,8 +62,8 @@ $this->db->schema('shop_goods_attr')->create(array(
 ));
 
 // [shop_category] 创建
-$this->db->schema('shop_category')->drop();
-$this->db->schema('shop_category')->create(array(
+$this->db->dropTable('shop_category');
+$this->db->createTable('shop_category', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('编号') ),
 		'rootid'	=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('根编号') ),
@@ -92,8 +92,8 @@ $this->db->schema('shop_category')->create(array(
 ));
 
 // [shop_type] 创建
-$this->db->schema('shop_type')->drop();
-$this->db->schema('shop_type')->create(array(
+$this->db->dropTable('shop_type');
+$this->db->createTable('shop_type', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'name'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('类型名称') ),
@@ -113,8 +113,8 @@ $this->db->schema('shop_type')->create(array(
 
 // [shop_attr] 创建
 /*
-$this->db->schema('shop_attr')->drop();
-$this->db->schema('shop_attr')->create(array(
+$this->db->dropTable('shop_attr');
+$this->db->createTable('shop_attr', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('属性ID') ),
 		'typeid'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('类型编号') ),
@@ -134,8 +134,8 @@ $this->db->schema('shop_attr')->create(array(
 */
 
 // [shop_spec] 创建
-$this->db->schema('shop_spec')->drop();
-$this->db->schema('shop_spec')->create(array(
+$this->db->dropTable('shop_spec');
+$this->db->createTable('shop_spec', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>50, 'notnull'=>true, 'comment' => t('规格名称') ),
@@ -159,8 +159,8 @@ $this->db->schema('shop_spec')->create(array(
 
 
 // [shop_brand] 创建
-$this->db->schema('shop_brand')->drop();
-$this->db->schema('shop_brand')->create(array(
+$this->db->dropTable('shop_brand');
+$this->db->createTable('shop_brand', array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
 		'name'		=> array ( 'type'=>'varchar', 'length'=>50, 'notnull'=>true, 'comment' => t('品牌名称') ),

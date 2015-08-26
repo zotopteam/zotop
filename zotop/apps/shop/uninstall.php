@@ -12,17 +12,16 @@ defined('ZOTOP_UNINSTALL') OR die('No direct access allowed.');
  */
 
 // 卸载前检查数据表是否有数据，有则不允许删除
-if ( $this->db->table('goods')->count() )
+if ( $this->db->table('shop_goods')->count() )
 {
-	return $this->error(t('卸载失败，尚有商品存在，请先清空全部商品', 'goods'));
+	return $this->error(t('卸载失败，尚有商品存在，请先清空全部商品', 'shop_goods'));
 }
 
 
 /*
  * 删除数据表
  */
-$this->db->schema('goods')->drop();
-$this->db->schema('shop_goods_attr')->drop();
-
-$this->db->schema('goods_type')->drop();
+$this->db->dropTable('shop_goods');
+$this->db->dropTable('shop_goods_attr');
+$this->db->dropTable('shop_goods_type');
 ?>

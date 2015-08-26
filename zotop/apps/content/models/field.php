@@ -247,10 +247,7 @@ class content_model_field extends model
 			// 模型扩展表名称 content_model_[modelid]
 			$tablename 	= "content_model_{$data['modelid']}";
 
-			// 数据表对象
-			$table 		= $this->db->schema($tablename);
-
-			if ( !$table->exists() )
+			if ( !$this->db->existsTable($tablename) )
 			{
 				$schema = array(
 					'fields'	=> array(
@@ -262,14 +259,14 @@ class content_model_field extends model
 					'comment' 	=> $data['name']
 				);
 
-				if ( !$table->create($schema) )
+				if ( !$this->db->createTable($tablename, $schema) )
 				{
 					return $this->error(t('创建附加数据表 {1} 失败', $tablename));
 				}
 			}
 
 			// 检查字段名称是否已经存在
-			if ( $table->existsField($data['name']) )
+			if ( $this->db->existsField($tablename,$data['name']) )
 			{
 				return $this->error(t('字段名 {1} 已经存在, 请重新输入', $data['name']));
 			}
@@ -279,7 +276,7 @@ class content_model_field extends model
 				$data['listorder'] = $this->max('id') + 1;
 			}			
 
-			if ( $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($tablename, $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				//更新模型类型
 				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() > 0 )
@@ -323,16 +320,14 @@ class content_model_field extends model
 		{
 			$tablename 	= "content_model_{$data['modelid']}";
 
-			$table 		= $this->db->schema($tablename);
-
 			// 更名的时候检查字段名称是否已经存在
-			if ( $data['_name'] != $data['name'] and $table->existsField($data['name']) )
+			if ( $data['_name'] != $data['name'] and $this->db->existsField($tablename, $data['name']) )
 			{
 				return $this->error(t('字段名 {1} 已经存在, 请重新输入', $data['name']));
 			}
 
 			// 更该字段
-			if ( $table->changeField($data['_name'], $this->fielddata($data)) and $this->update($data,$id) )
+			if ( $this->db->changeField($tablename, $data['_name'], $this->fielddata($data)) and $this->update($data,$id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$tablename}.fields",null);
@@ -360,12 +355,11 @@ class content_model_field extends model
 			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除'));
 
 			$tablename 	= "content_model_{$data['modelid']}";
-			$table 		= $this->db->schema($tablename);
 
-			if ( $table->dropField($data['name']) and parent::delete($id) )
+			if ( $this->db->dropField($tablename, $data['name']) and parent::delete($id) )
 			{
 				//更新模型类型
-				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $table->drop() )
+				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $this->db->drop($tablename) )
 				{				
 					m('content.model')->where('id',$data['modelid'])->data('model','')->update();
 					m('content.model')->cache(true);

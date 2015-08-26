@@ -66,15 +66,22 @@ class db_mysql extends db
      */
     public function create()
     {
-        if ( $config = $this->config )
-        { 
-            unset($config['dsn']);
-            unset($config['database']);
+        try
+        {
+            $config = $this->config;
 
-            return self::instance($config)->execute("CREATE DATABASE IF NOT EXISTS `".$this->config['database'] ."` DEFAULT CHARACTER SET ".$this->config['charset']." COLLATE ".$this->config['collation']."");
+            unset($config['dsn'],$config['database']);
+
+            $db = self::instance($config);
+            $db->execute("CREATE DATABASE IF NOT EXISTS `".$this->config['database'] ."` DEFAULT CHARACTER SET ".$this->config['charset']." COLLATE ".$this->config['collation']."");
+            $db->execute("USE `".$this->config['database'] ."`");
+
+            return true; 
         }
-
-        return false;        
+        catch (Exception $e)
+        {
+            return false; 
+        }               
     }
     
     /**

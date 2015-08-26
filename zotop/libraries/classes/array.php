@@ -471,21 +471,34 @@ class arr
      * @param  mixed $var  
      * @return sting 数组结构信息
      */
-    public function export($var)
-    {
-        if (is_array($var))
+    public function export($var, $level=0)
+    {    
+        if ( is_array($var) )
         {
             $implode = array();
 
             foreach ($var as $key => $value)
-            {
-                $implode[] = var_export($key, true).'=>'.arr::export($value);
+            { 
+                if ( is_array($value) )
+                {
+                    $newline = "\n";
+                    $indent1 = str_repeat('     ', $level+1);
+                    $indent2 = str_repeat('     ', $level);
+                } 
+
+                if ( is_int($key) )
+                {
+                    $implode[] = $indent1.arr::export($value, $level+1);
+                }
+                else
+                {
+                    $implode[] = $indent1.var_export($key, true).'=>'.arr::export($value, $level+1);                    
+                }
             }
             
-            $code = 'array('.implode(',', $implode).')';           
+            $code = 'array('.$newline.implode(','.$newline, $implode).$newline.$indent2.')';           
 
             return $code;
-
         }
 
         return var_export($var,true);

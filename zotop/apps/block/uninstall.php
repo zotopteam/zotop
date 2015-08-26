@@ -20,7 +20,6 @@ if ( $this->db->table('block')->count() )
 /*
  * 删除数据表
  */
-$this->db->schema('block_category')->drop();
-
-$this->db->schema('block')->drop();
+$this->db->dropTable('block_category');
+$this->db->dropTable('block');
 ?>

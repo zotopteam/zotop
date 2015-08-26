@@ -1,15 +1,14 @@
 {template 'dialog.header.php'}
 
-	<textarea style="width:1600px;border:0 none;;margin:10px;padding:0;line-height:20px;">
-	// [{$table}] 创建	
-	$this->db->schema('{$table}')->drop();
-	$this->db->schema('{$table}')->create({$schemastr});
+	<textarea style="width:3000px;border:0 none;;margin:10px;padding:0;line-height:20px;">
+	// [{$tablename}] 创建
+	$this->db->dropTable('{$tablename}');
+	$this->db->createTable('{$tablename}', {$schemastr});
 
 	{if !empty($data)}
-	// [{$table}] 插入数据
-	{loop $data $r}
-	$this->db->insert('{$table}',{var_export($r,true)});
-	{/loop}
+	// [{$tablename}] 插入数据
+	$data = {arr::export($data)};
+	foreach($data as $d){$this->db->table('{$tablename}')->data($d)->insert();}
 	{/if}
 	</textarea>
 	<script type="text/javascript">

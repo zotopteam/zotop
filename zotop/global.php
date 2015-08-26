@@ -23,12 +23,8 @@ zotop::register(array(
     'http'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'http.php',
     'mail'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'mail.php',
     'captcha'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'captcha.php',
-    
-    'database_schema'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema.php',
-    'database_schema_mysql'  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema_mysql.php',
-    'database_schema_sqlite' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'database' . DS . 'schema_sqlite.php',
 
-    'db'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php',    
+    'db'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php', 
     'db_mysql' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db' . DS . 'mysql.php',
     
     'session'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session.php',

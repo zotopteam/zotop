@@ -137,15 +137,13 @@ class member_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->schema($data['tablename']);
-
 			// 检查字段名称是否已经存在
-			if ( $table->existsField($data['name']) )
+			if ( $this->db->existsField($data['tablename'], $data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
-			if ( $table->addField($data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($data['tablename'], $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['tablename']}.fields",null);
@@ -167,18 +165,16 @@ class member_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
-			$table = $this->db->schema($data['tablename']);
-
 			$name = $data['_name'] ? $data['_name'] : $data['name']; //改变字段名称
 
 			// 更名的时候检查字段名称是否已经存在
-			if ( $name != $data['name'] and $table->existsField($data['name']) )
+			if ( $name != $data['name'] and $this->db->existsField($data['tablename'], $data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
 			// 更该字段
-			if ( $table->changeField($name, $this->fielddata($data)) and $this->update($data,$id) )
+			if ( $this->db->changeField($data['tablename'], $name, $this->fielddata($data)) and $this->update($data,$id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['tablename']}.fields",null);
@@ -204,7 +200,7 @@ class member_model_field extends model
 				$data['tablename'] = m('member.model')->where('id',$data['modelid'])->getField('tablename');
 			}
 
-			if ( $this->db->schema($data['tablename'])->dropField($data['name']) and parent::delete($id) )
+			if ( $this->db->dropField($data['tablename'],$data['name']) and parent::delete($id) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['tablename']}.fields",null);

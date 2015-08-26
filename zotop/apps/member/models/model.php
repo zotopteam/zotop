@@ -65,7 +65,7 @@ class member_model_model extends model
 		}
 
 		// 检查数据表是否存在
-		if ( $this->where('tablename',$data['tablename'])->exists() or $this->db->schema($data['tablename'])->exists() )
+		if ( $this->where('tablename',$data['tablename'])->exists() or $this->db->existsTable($data['tablename']) )
 		{
 			return $this->error(t('数据表名已经存在'));
 		}
@@ -82,7 +82,7 @@ class member_model_model extends model
 		if ( $id = $this->insert($data) )
 		{
 			// 创建表
-			$createtable = $this->db->schema($data['tablename'])->create(array(
+			$createtable = $this->db->createTable($data['tablename'],array(
 				'fields'=>array(
 					'id'		=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户编号') ),
 				),
@@ -139,7 +139,7 @@ class member_model_model extends model
 		if ( parent::delete($id) )
 		{
 			// 删除模型表
-			$this->db->schema($data['tablename'])->drop();
+			$this->db->dropTable($data['tablename']);
 
 			// 删除用户及用户组中的相关数据
 			m('member.group')->deletebymodelid($id);

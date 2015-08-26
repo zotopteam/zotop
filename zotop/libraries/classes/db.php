@@ -463,6 +463,8 @@ abstract class db
      */
     public function tablename($tablename)
     {
+        $tablename = preg_replace("/\s+/", ' ', trim($tablename));
+
         if ( $tablename[0] == '#' )
         {
             $tablename = $this->config['prefix'] . substr($tablename,1);
@@ -495,15 +497,15 @@ abstract class db
     public function escapeTable($table)
     {
         $table = $this->tablename($table);
+               
+        // 数据表别名去除as关键词，有些数据库不支持
+        $table = str_ireplace(' as ', ' ', $table);
+        
+        // 格式化并返回
+        $table = str_replace(' ', '` `', $table);
+        $table = str_replace('.', '`.`', $table);
 
-        if ( stripos($table, ' AS ') !== FALSE )
-        {
-            $table = str_ireplace(' as ', ' AS ', $table);
-            $table = array_map(array($this, __FUNCTION__), explode(' AS ', $table));
-            return implode(' AS ', $table);
-        }
-
-        return '`'.str_replace('.', '`.`', $table).'`';
+        return '`'.$table.'`';
     }
 
     /**
@@ -513,6 +515,8 @@ abstract class db
      */
     public function escapeColumn($field)
     {
+        $field = preg_replace("/\s+/", ' ', trim($field));
+
         if ( $field=='*' )
         {
             return $field;
@@ -532,10 +536,7 @@ abstract class db
 
         if ( strpos($field,'.') !==false )
         {
-            $field = $this->config['prefix'].$field;
-
             $field = str_replace('.', '`.`', $field);
-
         }
 
         if ( stripos($field,' as ') !==false )
@@ -545,6 +546,7 @@ abstract class db
 
         $field =  '`'.$field.'`';
         $field = str_replace('`*`', '*', $field);
+
         return $field;
     }
 
@@ -621,16 +623,19 @@ abstract class db
      * 链式查询，标识要读取或者写入的字段
      *
      *
-     * <code>
+     * @code
+     * 
      * $this->field('id,username,password');
+     * $this->field('id,username as uname,password');
+     * $this->field('user.id,user.username,password');
      * $this->field('*');
-     * $this->field('content',false);
-     * </code>
+     * 
+     * @endcode
      *
      * @param  mixed  $fields 要选取的字段，默认为选取全部字段
      * @return  $this
      */
-    public function field($fields = '*', $select=true)
+    public function field($fields)
     {
         if ( func_num_args() > 1 )
         {
@@ -649,12 +654,12 @@ abstract class db
     /**
      * 链式查询，设置查询或者要操作的数据表
      * 
-     * <code>
+     * @code
      * $this->table('user');
      * $this->table('user,config');
-     * $this->table('user as u, config as c');
+     * $this->table('user u, config c');
      * $this->table(array('user'=>'u','config'=>'c'));
-     * </code>
+     * @endcode
      *
      * @param   mixed  table name
      * @param   string table alias  TODO实现第二个参数作为别名
@@ -670,11 +675,11 @@ abstract class db
     /**
      * 链式查询，设置数据，用于‘insert’ 或者 ‘update’ "SET... VALUES ..."
      *
-     * <code>
+     * @code
      * ->data('status',1) //设置‘status’为‘1’
      * ->data(array('status'=>1,'updatetime'=>'2010-09-23 21:45:30')) //设置多个数据
      * ->data('num',array('num','-',1)) 或者 set(array('num' => array('num','+',1))) //支持运算
-     * </code>
+     * @endcode
      *
      * @param   mixed  name 字段名称或者数组数据
      * @param   mixed  value 字段值或者字段运算
@@ -708,14 +713,14 @@ abstract class db
 
     /* 链式查询：设置查询条件 "WHERE ..."
      *
-     * <code>
+     * @code
      * where('id',1) //获取‘id’ 为 ‘1’的 数据
      * where('status','<',1) //获取‘status’ 小于 ‘1’的 数据
      * where(array('id','<',1),'and',array('status','>',1)) //获取‘id’小于‘1’并且‘status’ 大于 ‘1’的 数据
      * where(array('id','like',1),'and',array(array('id','>',1),'or',array('id','>',1))) //复杂查询
      *
      * 标准的where数组为 array('字段名称','条件','值')
-     * </code>
+     * @endcode
      *
      * @param   mixed  key 字段名称
      * @param   mixed  value 字段值
@@ -766,12 +771,12 @@ abstract class db
     /**
      * 链式查询，设置查询排序  "ORDER BY ..."
      *
-     * <code>
+     * @code
      * orderby('creattime','desc')
      * orderby('creattime desc')
      * orderby('creattime desc,updatetime asc')
      * orderby(array('creattime'=>'desc','updatetime'=>'asc'))
-     * </code>
+     * @endcode
      *
      * @param   string  orderby 排序字段
      * @param   string  direction 排序 asc 或者 desc
@@ -828,9 +833,9 @@ abstract class db
     /**
      * 链式查询，设置连接查询数据表 "JOIN ..."
      *
-     * <code>
+     * @code
      * table('content as c')->join('user as u', 'c.userid', 'u.id','LEFT')
-     * </code>
+     * @endcode
      *
      * @param   string  table 连接的表名称
      * @param   string  key 连接的键设置
@@ -925,8 +930,8 @@ abstract class db
             $tables = explode(',',$table);
         }
 
-        // TODO 这里有错误       
-        array_walk($tables, array(&$this, 'escapeTable'));
+        // 格式化表格名称     
+        $tables = array_map(array(&$this, 'escapeTable'),$tables);
 
         return implode(',',$tables);
     }
@@ -1222,9 +1227,9 @@ abstract class db
     /**
      * 生成查询语句
      *
-     * <code>
+     * @code
      *
-     * </code>
+     * @endcode
      *
      * @param array $sql sql数组
      * @return string
@@ -1401,9 +1406,9 @@ abstract class db
     /**
      * 数据更新，UPDATE
      *
-     * <code>
+     * @code
      * $db->table('user')->data('status',1)->where('id','=',1)->update()
-     * </code>
+     * @endcode
      *
      * @param string $table 数据表
      * @param array $data 更新的数据
@@ -1436,9 +1441,9 @@ abstract class db
     /**
      * 数据删除，DELETE
      *
-     * <code>
+     * @code
      * table('user')->where('id','=',1)->delete()
-     * </code>
+     * @endcode
      *
      * @param string $table 数据表
      * @param array $data 更新的数据
@@ -1577,7 +1582,7 @@ abstract class db
     /**
      * 返回表的结构数组
      *
-     * <code>
+     * @code
      * 
      *  array(
      *      'fields' => array(
@@ -1605,7 +1610,7 @@ abstract class db
      *      'comment' => 'The description for table.',
      *   );
      *
-     * </code>
+     * @endcode
      * 
      * @return array
      */    
@@ -1706,9 +1711,9 @@ abstract class db
     /**
      * 获取主键
      *
-     * <code>
+     * @code
      * ->primary('username'); // 获取表主键
-     * </code>
+     * @endcode
      * 
      * @param  string $tablename 数据表名称，不含前缀
      * @return array

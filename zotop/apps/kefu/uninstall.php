@@ -8,5 +8,5 @@ if ( $this->db->table('kefu')->count() )
 	return $this->error(t('无法卸载，[ %s ] 数据表尚有数据', 'kefu'));
 }
 
-$this->db->schema('kefu')->drop();
+$this->db->dropTable('kefu');
 ?>
