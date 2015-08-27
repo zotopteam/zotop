@@ -228,7 +228,7 @@ class form
     public static function field_text($attrs)
 	{
 		$attrs['type'] = empty($attrs['type']) ? 'text' : $attrs['type'];
-		$attrs['class'] = empty($attrs['class']) ? 'text' : 'text '.$attrs['class'];
+		$attrs['class'] = empty($attrs['class']) ? 'form-control' : 'form-control '.$attrs['class'];
 		return '<input'.form::attributes($attrs).'/>';
 	}
 
@@ -357,7 +357,7 @@ class form
 				$checked = ( $val == $value ) ? ' checked="checked"' : '';
 
 				$html[] = '<label>';
-				$html[] = '	<input type="radio" name="'.$name.'" id="'.str_replace(']', '', str_replace('[', '-', $name)).'-'.$val.'" class="radio" value="'.$val.'"'.$checked.'/>';
+				$html[] = '	<input type="radio" name="'.$name.'" id="'.str_replace(']', '', str_replace('[', '-', $name)).'-'.$val.'" value="'.$val.'"'.$checked.'/>';
 				$html[] = '	'.$text;
 				$html[] = '</label>';
 

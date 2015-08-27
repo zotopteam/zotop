@@ -13,14 +13,15 @@
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta name="format-detection" content="telephone=no">
     <link href="./theme/favicon.ico" rel="shortcut icon" type="image/x-icon">
-    <link href="./theme/bootstrap.min.css" rel="stylesheet">
-    <link href="./theme/global.css" rel="stylesheet">
-    <script src="./theme/jquery.min.js"></script>
-    <script src="./theme/bootstrap.min.js"></script>
-    <script src="./theme/global.js"></script>
+    <link href="./theme/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
+    <link href="./theme/css/global.css" rel="stylesheet">
+    <script src="./theme/js/jquery.min.js"></script>
+    <script src="./theme/js/bootstrap.min.js"></script>
+    <script src="./theme/js/global.js"></script>
     <!--[if lt IE 9]>
-    <script src="./theme/html5shiv.min.js"></script>
-    <script src="./theme/respond.min.js"></script>
+    <script src="./theme/js/html5shiv.min.js"></script>
+    <script src="./theme/js/respond.min.js"></script>
     <![endif]-->
     <!--[if lte IE 7]>
     <div class="notsupport">
