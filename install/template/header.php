@@ -1,49 +1,53 @@
-<!DOCTYPE html> 
-<html>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<meta name="renderer" content="webkit" />
-	<title>zotop <?php echo t('安装向导')?> <?php echo $this->steps[$this->action];?> </title>
-	<link href="./theme/global.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript" src="./theme/jquery.js"></script>
-	<script type="text/javascript" src="./theme/jquery.plugins.js"></script>
-	<link rel="shortcut icon" type="image/x-icon" href="./theme/favicon.ico" /> 
-	<link rel="icon" type="image/x-icon" href="./theme/favicon.ico" /> 
-	<link rel="bookmark" type="image/x-icon" href="./theme/favicon.ico" />
-	<script type="text/javascript">
-		//自定义滚动条
-		$(function(){
-			$('.scrollable').jScrollPane({autoReinitialise:true,autoReinitialiseDelay:100,verticalGutter:3});
-		});
-
-		// 居中显示登录窗口
-		$(function(){
-			$('.wrapper').position({of: $( "body" ),my: 'center center',at: 'center center'}).removeClass('hidden').draggable({handle:'.top',containment: "parent"});
-			$(window).bind('resize',function(){
-				$('.wrapper').position({of: $( "body" ),my: 'center center',at: 'center center'});
-			});
-		})		
-	</script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo t('ZOTOP安装向导')?> <?php echo $this->steps[$this->action];?></title>
+    <meta name="keywords" content="{$keywords} {C('site.keywords')}">
+    <meta name="description" content="{$description} {C('site.description')}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta name="format-detection" content="telephone=no">
+    <link href="./theme/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="./theme/bootstrap.min.css" rel="stylesheet">
+    <link href="./theme/global.css" rel="stylesheet">
+    <script src="./theme/jquery.min.js"></script>
+    <script src="./theme/bootstrap.min.js"></script>
+    <script src="./theme/global.js"></script>
+    <!--[if lt IE 9]>
+    <script src="./theme/html5shiv.min.js"></script>
+    <script src="./theme/respond.min.js"></script>
+    <![endif]-->
+    <!--[if lte IE 7]>
+    <div class="notsupport">
+        <h1><?php echo t('非常遗憾，ZOTOP暂不支持您的浏览器，请升级到最新的IE8浏览器')?><a href="http://windows.microsoft.com/zh-CN/windows/upgrade-your-browser"><?php echo t('立即升级')?></a></h1>
+    </div>
+    <![endif]-->  
 </head>
 <body>
-<div class="wrapper">
-	
-<div class="header">
-	<div class="logo"></div>
-	<div class="top"><?php echo t('安装向导')?></div>
-	<div class="steps">
-		<ul>
-		<?php foreach($this->steps as $action=>$title):?>
-			<?php if ( $this->action == $action ) :?>
-			<li class="current"><?php echo $title?></li>
-			<?php elseif( in_array($action, $this->completed)  ):?>
-			<li class="completed"><?php echo $title?></li>
-			<?php else:?>
-			<li><?php echo $title?></li>
-			<?php endif;?>		
-		<?php endforeach;?>
-		</ul>		
-	</div>
+<header class="global-header">
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-header">
+        <a class="navbar-brand navbar-logo" href="javascript:;"><?php echo t('ZOTOP安装向导')?></a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+        
+            <?php foreach($this->steps as $action=>$title):?>
+                <?php if ( $this->action == $action ) :?>
+                <li class="active"><a href="javascript:;"><?php echo $title?></a> </li>
+                <?php elseif( in_array($action, $this->completed)  ):?>
+                <li class="completed"><a href="javascript:;"><?php echo $title?></a></li>
+                <?php else:?>
+                <li><a href="javascript:;"><?php echo $title?></a></li>
+                <?php endif;?>      
+            <?php endforeach;?>
 
-</div>
-<div class="body">
+        </ul>   
+      </div>
+  </nav>
+</header>

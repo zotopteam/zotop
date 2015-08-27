@@ -1,6 +1,18 @@
 <?php include ZOTOP_PATH_INSTALL.DS.'template'.DS.'header.php';?>
 
-<div class="main scrollable">
+<div class="global-body scrollable">
+
+	<div class="jumbotron masthead text-center">
+		<div class="container-fluid">
+	  		<h1>逐涛网站管理系统</h1>
+	  		<h2>欢迎您使用免费、开源、快速、简洁的逐涛网站管理系统</h2>
+
+	  		<p>
+	  			<a href="javascript:;" class="btn btn-default btn-lg">许可协议</a>
+	  		</p>
+		</div>
+	</div>
+
 	<div class="main-inner" id="license">
 		<h1>感谢您使用“逐涛网站管理系统”</h1>
 
@@ -30,12 +42,21 @@
 	</div>		
 </div>
 
-<div class="buttons">
-	<span class="form-field" id="prev">
-		<label><input type="checkbox" class="checkbox" name="agree" id="agree" checked="checked" value="1"> <?php echo t('已经仔细阅读本协议并同意协议内容');?></label>
-	</span>
-	<a id="next" class="button" href="javascript:void(0);" onclick="submit_start();"><?php echo t('下一步')?></a>
-</div>
+<footer class="global-footer">	
+	<nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
+		<div class="navbar-header navbar-form">
+			<div class="checkbox">
+				<label><input type="checkbox" name="agree" id="agree" checked="checked" value="1"> <?php echo t('已经仔细阅读本协议并同意协议内容');?></label>			
+			</div>
+		</div>
+
+		<div class="navbar-right navbar-form">
+			<a id="next" class="btn btn-primary" href="javascript:void(0);" onclick="submit_start();"><?php echo t('下一步')?></a>
+		</div>
+
+	</nav>
+</footer>
+
 
 <script type="text/javascript">
 function submit_start(){
