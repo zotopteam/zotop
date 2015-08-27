@@ -73,14 +73,14 @@ class db_mysql extends db
             unset($config['dsn'],$config['database']);
 
             $db = self::instance($config);
-            $db->execute("CREATE DATABASE IF NOT EXISTS `".$this->config['database'] ."` DEFAULT CHARACTER SET ".$this->config['charset']." COLLATE ".$this->config['collation']."");
+            $db->execute("CREATE DATABASE `".$this->config['database'] ."` DEFAULT CHARACTER SET ".$this->config['charset']." COLLATE ".$this->config['collation']."");
             $db->execute("USE `".$this->config['database'] ."`");
 
             return true; 
         }
-        catch (Exception $e)
+        catch (PDOException $e)
         {
-            return false; 
+            return false;
         }               
     }
     
@@ -96,7 +96,7 @@ class db_mysql extends db
             $this->connect();
             return true;
         }
-        catch (Exception $e)
+        catch (PDOException $e)
         {
             return false;
         }        

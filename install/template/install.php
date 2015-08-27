@@ -35,7 +35,7 @@ function install(){
 
 
 	$.post("index.php?action=installing&rand="+Math.random()*5, data, function(result){
-
+		console.log(result);
 		if( result.code == 1 ){
 			$('#installing').append('<li class="error"><span>'+ result.message +'</span></li>'); //指定的数据库不存在，系统也无法创建，请先通过其他方式建立好数据库！
 			$('#prev').show();

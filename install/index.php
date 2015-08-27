@@ -36,7 +36,7 @@ class install
 		//安装判断
 		if( is_file(ZOTOP_PATH_DATA.DS.'install.lock') )
 		{
-			echo t('程序已经安装，如果要重新安装请删除%s文件','/'.basename(ZOTOP_PATH_CMS).'/data/install.lock');
+			echo t('程序已经安装，如果要重新安装请删除{1}文件','/'.basename(ZOTOP_PATH_CMS).'/data/install.lock');
 			exit;
 		}
 
@@ -214,16 +214,16 @@ class install
 					}
 					elseif ( zotop::db($config)->exists() )
 					{
-						$msg = array('code'=>0, 'message'=>t('数据库 “%s” 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
+						$msg = array('code'=>0, 'message'=>t('数据库 {1} 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
 					}
 					else
 					{
-						$msg = array('code'=>2, 'message'=>t('数据库 “%s” 不存在并且无法自动创建，请先创建数据库！', $mysql_database));
+						$msg = array('code'=>2, 'message'=>t('数据库 {1} 不存在并且无法自动创建，请先创建数据库！', $mysql_database));
 					}
 				}
 				catch(Exception $e)
 				{
-					$msg = array('code'=>2, 'message'=>t('无法连接数据库服务器，请检查配置！%s', $e->getMessage()));
+					$msg = array('code'=>2, 'message'=>t('连接数据库失败，请检查数据库设置！{1}', $e->getMessage()));
 				}
 			}
 		}
@@ -246,17 +246,17 @@ class install
 
 				try
 				{
-					if ( zotop::db($config)->create() )
+					if ( zotop::db($config)->exists() )
+					{
+						$msg = array('code'=>0, 'message'=>t('数据库 {1} 已经存在，是否继续？如果继续系统将会删除原有数据', $sqlite_database));
+					}
+					elseif ( zotop::db($config)->create() )
 					{
 						$msg = array('code'=>1, 'message'=>t('数据库创建成功'));
-					}
-					elseif ( zotop::db($config)->exists() )
-					{
-						$msg = array('code'=>0, 'message'=>t('数据库 “%s” 已经存在，是否继续？如果继续系统将会删除原有数据',$sqlite_database));
-					}
+					}					
 					else
 					{
-						$msg = array('code'=>2, 'message'=>t('数据库 “%s” 不存在并且无法自动创建，请先创建数据库！', $sqlite_database));
+						$msg = array('code'=>2, 'message'=>t('数据库 {1} 不存在并且无法自动创建，请先创建数据库！', $sqlite_database));
 					}
 				}
 				catch(Exception $e)
@@ -365,9 +365,7 @@ class install
 	{
 		$this->db = zotop::db();
 
-		//==========================================
-		//===========安装当前应用===================
-		//==========================================
+		// 安装当前应用
 		try
 		{
 			$this->db->begin();
@@ -382,7 +380,7 @@ class install
 
 			if ( !is_array($app) OR empty($app['id']) OR empty($app['name']) OR empty($app['version']) )
 			{
-				$msg = array('code'=>2, 'message'=>t('错误的应用文件，请检查:%s',ZOTOP_PATH_APPS.DS.$dir.DS.'app.php'));
+				$msg = array('code'=>2, 'message'=>t('错误的应用文件，请检查:{1}',ZOTOP_PATH_APPS.DS.$dir.DS.'app.php'));
 			}
 			else
 			{
@@ -433,12 +431,12 @@ class install
 					}
 
 					// 写入根权限
-					$this->db->insert('admin_priv', array('id'=>$app['id'], 'name'=>$app['name'], 'app'=>$app['id']));
+					$this->db->table('admin_priv')->data(array('id'=>$app['id'], 'name'=>$app['name'], 'app'=>$app['id']))->insert(true);
 
 					//写入应用数据
-					if ( $this->db->insert('app', $app, true) )
+					if ( $this->db->table('app')->data($app)->insert(true) )
 					{
-						$msg = array('code'=>0, 'message'=>t('应用 “ %s ” 安装成功……',$app['name'],$app['id']));
+						$msg = array('code'=>0, 'message'=>t('应用 “ {1} ” 安装成功……',$app['name'],$app['id']));
 					}
 				}
 			}

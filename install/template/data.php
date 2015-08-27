@@ -66,16 +66,16 @@
 						<td class="label"><?php echo form::label(t('类型'),'driver')?></td>
 						<td class="input">
 							<?php echo form::field(array(
-								'type'=>'radio',
-								'options'=>array(
-									'mysql'=>t('Mysql : 速度更快，效率更高，适用于数据较多的网站'),
-									'sqlite'=>t('Sqlite : 简单高效，适用于数据较少的企业网站')
+								'type'     => 'radio',
+								'options'  => array(
+									'mysql'    => t('Mysql : 速度更快，效率更高，适用于数据较多的网站'),
+									//'sqlite' =>t('Sqlite : 简单高效，适用于数据较少的企业网站')
 								),
-								'id'=>'driver',
-								'name'=>'driver',
-								'value'=>$data['driver'],
-								'required'=>'required',
-								'column'=>1
+								'id'       => 'driver',
+								'name'     => 'driver',
+								'value'    => $data['driver'],
+								'required' => 'required',
+								'column'   => 1
 							))?>
 						</td>
 					</tr>
@@ -187,10 +187,7 @@
 					</tr>
 				</tbody>
 			</table>
-
-		
-
-
+			
     	</form>
 </div>
 </div>
