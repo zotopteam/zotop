@@ -124,9 +124,9 @@ class install
     			$is_writable = is_writable($f) && (($r['type'] == 'file') ^ is_dir($f));
     		}
     		
-    		$r['is_writable'] = $is_writable;
-    		
-    		$r['position'] = '/'.str_replace(DS,'/', trim(str_replace(ZOTOP_PATH, '', $f), DS));
+			$r['is_writable'] = $is_writable;
+			
+			$r['position']    = '/'.str_replace(DS,'/', trim(str_replace(ZOTOP_PATH, '', $f), DS));
 
     		if ( !$is_writable AND $r['writable'] ) $success = false;
     	}

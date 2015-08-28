@@ -24,7 +24,7 @@
                 <div class="col-sm-1 control-label">
                     <?php echo form::label(t('网站名称'),'site_name')?>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                     <?php echo form::field(array(
                         'type'=>'text',
                         'name'=>'site_name',
@@ -89,7 +89,7 @@
             <input type="hidden" name="charset" value="<?php echo $charset?>"/>
             <input type="hidden" name="driver" value="<?php echo $driver?>"/>
 
-            <div class="form-group">
+            <div class="form-group hidden">
                     
                         <div class="col-sm-1 control-label"><?php echo form::label(t('类型'),'driver')?></div>
                         <div class="col-sm-10">
@@ -97,7 +97,7 @@
                                 'type'     => 'radio',
                                 'options'  => array(
                                     'mysql'    => t('Mysql : 速度更快，效率更高，适用于数据较多的网站'),
-                                    //'sqlite' =>t('Sqlite : 简单高效，适用于数据较少的企业网站')
+                                    'sqlite' =>t('Sqlite : 简单高效，适用于数据较少的企业网站')
                                 ),
                                 'id'       => 'driver',
                                 'name'     => 'driver',
@@ -231,15 +231,9 @@
 
 </div>
 
-<footer class="global-footer">  
-    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-        <div class="navbar-nav navbar-form">
-            <a id="prev" class="btn btn-default" href="index.php?action=check"><?php echo t('上一步')?></a>
-        </div>
-        <div class="navbar-right navbar-form">
-            <a id="next" class="btn btn-success" href="javascript:void(0);" onclick="submit();"><?php echo t('下一步')?></a>
-        </div>
-    </nav>
+<footer class="global-footer navbar-fixed-bottom clearfix" role="navigation">
+    <a id="prev" class="btn btn-default" href="index.php?action=check"><?php echo t('上一步')?></a>
+    <a id="next" class="btn btn-success pull-right" href="javascript:void(0);" onclick="submit();"><?php echo t('下一步')?></a>
 </footer>
 
 <script type="text/javascript">

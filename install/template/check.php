@@ -154,19 +154,14 @@
 </div>  
 </div>
 
-<footer class="global-footer">  
-    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-        <div class="navbar-nav navbar-form">
-            <a id="prev" class="btn btn-default" href="index.php?action=start"><?php echo t('上一步')?></a>
-        </div>
-        <div class="navbar-right navbar-form">
-            <?php if ( $success ) : ?>
-            <a id="next" class="btn btn-success" href="index.php?action=data"><?php echo t('下一步')?></a>
-            <?php else :?>
-            <a id="next" class="btn btn-success disabled">未通过检测，无法继续安装</a>
-            <?php endif;?>      
-        </div>
-    </nav>
+<footer class="global-footer navbar-fixed-bottom clearfix" role="navigation">
+    <a id="prev" class="btn btn-default" href="index.php?action=start"><?php echo t('上一步')?></a>
+
+    <?php if ( $success ) : ?>
+    <a id="next" class="btn btn-success pull-right" href="index.php?action=data"><?php echo t('下一步')?></a>
+    <?php else :?>
+    <a id="next" class="btn btn-success pull-right disabled">未通过检测，无法继续安装</a>
+    <?php endif;?>      
 </footer>
 
 <?php include ZOTOP_PATH_INSTALL.DS.'template'.DS.'footer.php';?>

@@ -125,7 +125,7 @@ class form
      */
     public static function label($text, $for, $required=false)
     {
-		return '<label class="field-label'.($required ? ' required' : '').'" for="'.$for.'">'.$text.($required ? '<b class="required">*</b>' : '').'</label>';
+		return '<label class="form-label'.($required ? ' required' : '').'" for="'.$for.'">'.$text.($required ? '<b class="required">*</b>' : '').'</label>';
     }
 
     /**
@@ -134,7 +134,7 @@ class form
      */
 	public static function tips($tips)
 	{
-		return empty($tips) ? '' : '<span class="field-tips">'.$tips.'</span>';
+		return empty($tips) ? '' : '<span class="form-tips">'.$tips.'</span>';
 	}
 
     /**
@@ -534,7 +534,7 @@ class form
 	 */
 	public static function field_timezone($attrs)
 	{
-		$attrs['type'] = 'select';
+		$attrs['type']    = 'select';
 		$attrs['options'] = include(ZOTOP_PATH_LIBRARIES.DS.'resources'.DS.'timezone.php');
 
 		return form::field($attrs);
@@ -548,7 +548,7 @@ class form
 	 */
 	public static function field_language($attrs)
 	{
-		$attrs['type'] = 'select';
+		$attrs['type']    = 'select';
 		$attrs['options'] = array('zh-cn'=>t('简体中文'));
 
 		return form::field($attrs);
