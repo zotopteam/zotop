@@ -5,9 +5,9 @@
 
 $(function(){
 	//自定义滚动条
-	$(function(){
-		$('.scrollable').jScrollPane({autoReinitialise:true,autoReinitialiseDelay:100,verticalGutter:3});
-	});
+	// $(function(){
+	// 	$('.scrollable').jScrollPane({autoReinitialise:true,autoReinitialiseDelay:100,verticalGutter:3});
+	// });
 
 	// 居中显示登录窗口
 	// $(function(){

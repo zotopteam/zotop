@@ -17,6 +17,7 @@
     <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
     <link href="./theme/css/global.css" rel="stylesheet">
     <script src="./theme/js/jquery.min.js"></script>
+    <script src="./theme/js/jquery.validate.min.js"></script>
     <script src="./theme/js/bootstrap.min.js"></script>
     <script src="./theme/js/global.js"></script>
     <!--[if lt IE 9]>

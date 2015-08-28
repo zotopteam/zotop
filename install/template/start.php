@@ -17,11 +17,14 @@
 <footer class="global-footer navbar-fixed-bottom clearfix" role="navigation">  
 
         <div class="text pull-left">        	
-        	<label for="agree"><input type="checkbox" name="agree" id="agree" checked="checked" value="1"><?php echo t('阅读并同意');?></label>                       
-        	<a href="http://www.zotop.com/license" target="_blank" class="va-m"><?php echo t('许可协议');?></a>
+        	<label for="agree">
+                <input type="checkbox" name="agree" id="agree" checked="checked" value="1">
+                <?php echo t('阅读并同意');?>
+            </label>                       
+        	<a href="http://www.zotop.com/license.html" target="_blank" class="va-m"><?php echo t('许可协议');?></a>
 		</div>
 
-        <a id="next" class="btn btn-success pull-right" href="javascript:void(0);" onclick="submit_start();"><?php echo t('下一步')?></a>
+        <a id="next" class="btn btn-success pull-right" href="javascript:void(0);" onclick="submit_start();"><?php echo t('下一步')?> <i class="fa fa-angle-right"></i></a>
     </nav>
 </footer>
 

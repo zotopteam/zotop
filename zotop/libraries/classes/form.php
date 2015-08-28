@@ -318,9 +318,11 @@ class form
 		$attrs['type'] = 'radio';
 		
 		$attrs['options'] = array(
-			1	=> t('是'),
-			0	=> t('否')
+			1	=> $attrs['yes'] ? $attrs['yes'] : t('是'),
+			0	=> $attrs['no'] ? $attrs['no'] : t('否')
 		);
+
+		unset($attrs['yes'], $attrs['no']);
 		
 		return form::field($attrs);
 	}
@@ -347,8 +349,9 @@ class form
 	    {
 			$n = count($options);
 
-			$html[] = '<div class="radios'. ( $column > 0 ? ' multi-column' : '' ).'">';
-			$html[] = '<div>';
+			$html[] = '<div class="form-radio'. ( $column > 0 ? ' form-radio-column' : '' ).'">';
+			
+			$html[] = '<div class="form-radio-row">';
 
 			$i = 1;
 
@@ -364,7 +367,7 @@ class form
 				if ( $column > 0 and $i%$column == 0 )
 				{
 					$html[] = '</div>';
-					$html[] = '<div>';
+					$html[] = '<div class="form-radio-row">';
 				}
 
 				$i++;
@@ -397,8 +400,8 @@ class form
 	    {
 			$n = count($options);
 
-			$html[] = '<div class="checkboxes'. ( $column > 0 ? ' multi-column' : '' ).'">';
-			$html[] = '<div>';
+			$html[] = '<div class="form-checkbox'. ( $column > 0 ? ' form-checkbox-column' : '' ).'">';
+			$html[] = '<div class="form-checkbox-row">';
 
 			$i = 1;
 			foreach($options as $val=>$text)
@@ -406,14 +409,14 @@ class form
 				$checked = in_array($val,(array)$value) ? ' checked="checked"' : '';
 
 				$html[] = '<label>';
-				$html[] = '	<input type="checkbox" name="'.$name.'[]" id="'.$name.'-item'.$i.'" class="radio" value="'.$val.'"'.$checked.'/>';
+				$html[] = '	<input type="checkbox" name="'.$name.'[]" id="'.$name.'-item'.$i.'" value="'.$val.'"'.$checked.'/>';
 				$html[] = '	'.$text;
 				$html[] = '</label>';
 
 				if ( $column > 0 AND $i%$column == 0 )
 				{
 					$html[] = '</div>';
-					$html[] = '<div>';
+					$html[] = '<div class="form-checkbox-row">';
 				}
 
 				$i++;
@@ -456,7 +459,7 @@ class form
 		// 删除多余的标签
 		unset($attrs['options'],$attrs['value']);
 
-	    $html[] = $attrs['multiple'] ? '<div class="select multiple-select">' : '<div class="select single-select">';
+	    $html[] = $attrs['multiple'] ? '<div class="form-select form-select-multiple">' : '<div class="form-select form-select-single">';
 	    $html[] = '<select'.form::attributes($attrs).'>';
 
 	    if( is_array($options) )
@@ -497,7 +500,7 @@ class form
 	public static function field_button($attrs)
 	{
 		$attrs['type'] = 'button';
-		$attrs['class'] = empty($attrs['class']) ? 'btn' : 'btn '.$attrs['class'];
+		$attrs['class'] = empty($attrs['class']) ? 'btn btn-default' : 'btn btn-default '.$attrs['class'];
 
 		$value = $attrs['value'];unset($attrs['value']);
 
@@ -514,7 +517,7 @@ class form
 	{
 
 	    $attrs['type'] = 'submit';
-	    $attrs['class'] = empty($attrs['class']) ? 'btn btn-highlight' : 'btn btn-highlight '.$attrs['class'];
+	    $attrs['class'] = empty($attrs['class']) ? 'btn btn-primary' : 'btn btn-primary '.$attrs['class'];
 
 		$attrs += array
 		(

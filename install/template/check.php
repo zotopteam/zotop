@@ -155,10 +155,10 @@
 </div>
 
 <footer class="global-footer navbar-fixed-bottom clearfix" role="navigation">
-    <a id="prev" class="btn btn-default" href="index.php?action=start"><?php echo t('上一步')?></a>
+    <a id="prev" class="btn btn-default" href="index.php?action=start"><i class="fa fa-angle-left"> <?php echo t('上一步')?></i></a>
 
     <?php if ( $success ) : ?>
-    <a id="next" class="btn btn-success pull-right" href="index.php?action=data"><?php echo t('下一步')?></a>
+    <a id="next" class="btn btn-success pull-right" href="index.php?action=data"><?php echo t('下一步')?> <i class="fa fa-angle-right"></i></a>
     <?php else :?>
     <a id="next" class="btn btn-success pull-right disabled">未通过检测，无法继续安装</a>
     <?php endif;?>      
