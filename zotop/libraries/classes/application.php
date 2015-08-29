@@ -364,7 +364,7 @@ class application
 		catch (Exception $e)
 		{
 			ob_get_level() and ob_clean();
-			echo zotop_exception::text($e), "\n";
+			echo zotop_exception::text($e);
 			exit(1);
 		}
 	}

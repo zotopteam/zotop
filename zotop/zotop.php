@@ -9,7 +9,7 @@
  */
 
 // PHP版本检测
-version_compare(PHP_VERSION, '5.0.0', '<') and exit("Sorry, this version of zotop will only run on PHP version 5 or greater!\n");
+version_compare(PHP_VERSION, '5.1.0', '<') and exit("Sorry, this version of zotop will only run on PHP version 5 or greater!\n");
 
 // 设置默认报告的错误类型
 error_reporting(E_ERROR | E_WARNING | E_PARSE);

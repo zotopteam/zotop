@@ -10,6 +10,7 @@
 
 // 设置安装时候需要用到的常量
 define('ZOTOP_DEBUG',			true);
+define('ZOTOP_TRACE',			true);
 define('ZOTOP_INSTALL',			true);
 define('ZOTOP_PATH_INSTALL', 	dirname(__FILE__));
 
@@ -363,28 +364,28 @@ class install
 	 */
 	public function installing()
 	{
-		$this->db = zotop::db();
+		$this->db = zotop::db();			
 
 		// 安装当前应用
 		try
 		{
 			$this->db->begin();
 
-			//获取待安装的应用目录
-			$dir = $_POST['app'];
-
 			$install = true;
 
+			//获取待安装的应用目录
+			$dir = $_REQUEST['app'];
+
 			// 获取应用的数据信息
-			$app = @include(ZOTOP_PATH_APPS.DS.$dir.DS.'app.php');
+			$app = include(ZOTOP_PATH_APPS.DS.$dir.DS.'app.php');
 
 			if ( !is_array($app) OR empty($app['id']) OR empty($app['name']) OR empty($app['version']) )
 			{
-				$msg = array('code'=>2, 'message'=>t('错误的应用文件，请检查:{1}',ZOTOP_PATH_APPS.DS.$dir.DS.'app.php'));
+				$msg = array('code'=>2, 'message'=>t('错误的应用文件'), 'detail'=>debug::path(ZOTOP_PATH_APPS.DS.$dir.DS.'app.php'));
 			}
 			else
 			{
-				// 执行安装文件
+				// 执行安装文件 TODO 如果安装文件有错误，如：Parse error，无法捕获异常
 				if ( file::exists(ZOTOP_PATH_APPS.DS.$dir.DS.'install.php') )
 				{
 					$install = include(ZOTOP_PATH_APPS.DS.$dir.DS.'install.php');
@@ -393,11 +394,11 @@ class install
 				// 安装设置文件
 				if ( file::exists(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php') )
 				{
-					$config = include(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php');
+					$config = @include(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php');
 				}
 
 				//写入数据库
-				if ( $install !== false  )
+				if ( $install )
 				{
 					$app['id'] 			= strtolower($app['id']);
 					$app['dir'] 		= $dir;
@@ -436,7 +437,7 @@ class install
 					//写入应用数据
 					if ( $this->db->table('app')->data($app)->insert(true) )
 					{
-						$msg = array('code'=>0, 'message'=>t('应用 “ {1} ” 安装成功……',$app['name'],$app['id']));
+						$msg = array('code'=>0, 'message'=>t('应用“{1}”安装成功', $app['name'], $app['id']));
 					}
 				}
 			}
@@ -447,13 +448,11 @@ class install
 		{
 			$this->db->rollback();
 
-			$msg = array('code'=>2, 'message'=>$e->getMessage());
+			$msg = array('code'=>2, 'message'=>t('应用“{1}”安装失败',$app['name']), 'detail'=>$e->getMessage().' '.debug::path($e->getFile()).' '.$e->getLine());
 		}
 
 		ob_clean();
-
 		exit(json_encode($msg));
-
 	}
 
 
@@ -488,8 +487,8 @@ class install
 		);
 
 		$this->db = zotop::db();
-		$this->db->insert('user',$user_data,true);
-		$this->db->insert('admin',$admin_data,true);
+		$this->db->table('user')->data($user_data)->insert(true);
+		$this->db->table('admin')->data($admin_data)->insert(true);
 
 		//写入锁定文件
 		file::put(ZOTOP_PATH_DATA.DS.'install.lock', t('如果需要重装系统请删除此文件'));

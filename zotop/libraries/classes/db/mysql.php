@@ -228,7 +228,7 @@ class db_mysql extends db
         }
         catch (Exception $e)
         {
-            throw new zotop_exception($e->getMessage());
+            throw new zotop_exception($e->getMessage().' [SQL:'.$this->sql().']');
         }
 
         return false;   
