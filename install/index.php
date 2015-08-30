@@ -37,7 +37,8 @@ class install
 		//安装判断
 		if( is_file(ZOTOP_PATH_DATA.DS.'install.lock') )
 		{
-			echo t('程序已经安装，如果要重新安装请删除{1}文件','/'.basename(ZOTOP_PATH_CMS).'/data/install.lock');
+			$installed = true;
+			include ZOTOP_PATH_INSTALL.DS.'template'.DS.'start.php';
 			exit;
 		}
 
@@ -86,25 +87,69 @@ class install
 
 	public function check()
 	{
-		if(extension_loaded('gd'))
-		{
-			if(function_exists('imagepng')) $PHP_GD .= 'png';
-			if(function_exists('imagejpeg')) $PHP_GD .= ' jpg';
-			if(function_exists('imagegif')) $PHP_GD .= ' gif';
-		}
+		$success = true;
 
-		if(extension_loaded('json'))
-		{
-			if(function_exists('json_decode') && function_exists('json_encode')) $PHP_JSON = true;
-		}
+		// 检查运行环境
+	    $check_env = array(
+			'php'               => array('item'=>t('PHP版本'),'need'=>'PHP 5.2','checked'=>true,'message'=>PHP_VERSION),
+			'gd'                => array('item'=>t('GD库'),'need'=>'GD 2.0','checked'=>true),
+			'pdo'               => array('item'=>t('pdo'),'need'=>'','checked'=>true),
+			'mysql'             => array('item'=>t('pdo_mysql'),'need'=>'','checked'=>true),
+			'file_get_contents' => array('item'=>t('file_get_contents'),'need'=>'','checked'=>true),
+			'mb_strlen'         => array('item'=>t('mb_strlen'),'need'=>'','checked'=>true)
+	    );
 
-        $PHP_DNS = preg_match("/^[0-9.]{7,15}$/", @gethostbyname('www.zotop.com')) ? true : false;
+	    // 检测PHP版本
+	    if ( version_compare(PHP_VERSION, '5.2.0', '<') )
+	    {
+			$check_env['php']['checked'] = false;
+			$success                     = false;
+	    }
 
-		// 是否满足zotop安装需求
-		$success = (phpversion() >= '5.2.0' && ( extension_loaded('mysql') || extension_loaded('PDO_SQLITE') ) && $PHP_JSON && $PHP_GD) ? true : false;
+	    // 检测GD库
+	    $gd = function_exists('gd_info') ? gd_info() : array();
+
+	    if ( empty($gd['GD Version']) )
+	    {
+			$check_env['gd']['checked'] = false;
+			$check_env['gd']['message'] = t('未安装');
+			$success                    = false;
+	    }
+	    else
+	    {
+	    	$check_env['gd']['message'] = $gd['GD Version'];
+	    }
+
+	    unset($gd);	
+
+	    // 数据库	    
+	    if ( !class_exists('pdo') )
+	    {
+			$check_env['pdo']['checked'] = false;
+			$check_env['pdo']['message'] = t('未安装');
+			$success                     = false;	    	
+	    }
+
+	    if ( !extension_loaded('pdo_mysql')  )
+	    {
+			$check_env['mysql']['checked'] = false;
+			$check_env['mysql']['message'] = t('未安装');
+			$success                       = false;
+	    }
+
+	    // 函数检查
+	    foreach (array('file_get_contents','mb_strlen') as $f)
+	    {
+	    	if ( !function_exists($f) )
+	    	{
+	        	$check_env[$f]['checked'] = false;
+				$check_env[$f]['message'] = t('不支持');
+	        	$success                  = false;	    		
+	    	}
+	    }
 
 		// 目录和文件权限
-    	$list = array(
+    	$check_dir = array(
     		ZOTOP_PATH 			=> array('name'=>t('根目录'), 'type'=>'folder', 'writable'=>true),
     		ZOTOP_PATH_APPS 	=> array('name'=>t('应用目录'), 'type'=>'folder', 'writable'=>true),
     		ZOTOP_PATH_UPLOADS 	=> array('name'=>t('文件上传目录'), 'type'=>'folder', 'writable'=>true),
@@ -114,7 +159,7 @@ class install
     		ZOTOP_PATH_THEMES 	=> array('name'=>t('主题和模板目录'), 'type'=>'folder', 'writable'=>true),
     	);
 
-    	foreach ($list as $f => &$r)
+    	foreach ($check_dir as $f => &$r)
     	{
     		if ( !file_exists($f))
     		{

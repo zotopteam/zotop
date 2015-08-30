@@ -259,6 +259,8 @@
 	margin-bottom: 0;
 }
 
+.jumbotron i.fa{vertical-align: text-bottom;}
+
 .jumbotron p{
 	margin-top:30px;
 	line-height: 30px;
@@ -500,6 +502,9 @@ label.error:empty{display: none;}
 .masthead p{
 	margin-top: 30px;
 }
+
+.masthead i.fa{vertical-align: text-bottom;}
+
 
 /*页面底部样式*/
 .footer{
