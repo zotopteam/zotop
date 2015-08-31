@@ -1,89 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-	<title>{$title} {t('逐涛网站管理系统')}</title>
-	<meta content="none" name="robots" />
-	<meta name="renderer" content="webkit" />
-	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-	<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/global.css"/>
-	<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/icon/style.css"/>
-	<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/jquery.dialog.css"/>
-	<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/login.css"/>
-	<script type="text/javascript" src="{A('system.url')}/common/js/jquery.js"></script>
-	<script type="text/javascript" src="{A('system.url')}/common/js/zotop.js"></script>
-	<script type="text/javascript" src="{A('system.url')}/common/js/jquery.plugins.js"></script>
-	<script type="text/javascript" src="{A('system.url')}/common/js/jquery.dialog.js"></script>
-	<script type="text/javascript" src="{A('system.url')}/common/js/global.js"></script>
-	<link rel="shortcut icon" type="image/x-icon" href="{A('system.url')}/zotop.ico" />
-	<link rel="icon" type="image/x-icon" href="{A('system.url')}/zotop.ico" />
-	<link rel="bookmark" type="image/x-icon" href="{A('system.url')}/zotop.ico" />
-	{hook 'admin.head'}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{$title} {C('site.title')}</title>
+  <meta name="keywords" content="{$keywords} {C('site.keywords')}">
+  <meta name="description" content="{$description} {C('site.description')}">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta name="format-detection" content="telephone=no">
+  <link href="{A('system.url')}/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{A('system.url')}/assets/apple-touch-icon-180.png">
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{A('system.url')}/assets/apple-touch-icon-144.png">
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{A('system.url')}/assets/apple-touch-icon-120.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{A('system.url')}/assets/apple-touch-icon-72.png">  
+  <link href="{A('system.url')}/assets/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{A('system.url')}/assets/css/font-awesome.min.css" rel="stylesheet">
+  <link href="{A('system.url')}/assets/css/animate.min.css" rel="stylesheet">
+  <link href="{A('system.url')}/assets/css/global.css" rel="stylesheet">
+  <script src="{A('system.url')}/assets/js/jquery.min.js"></script>
+  <script src="{A('system.url')}/assets/js/jquery.plugins.js"></script>
+  <script src="{A('system.url')}/assets/js/bootstrap.min.js"></script>
+  <script src="{A('system.url')}/assets/js/global.js"></script>
+  <!--[if lt IE 9]>
+  <script src="{A('system.url')}/assets/js/html5shiv.min.js"></script>
+  <script src="{A('system.url')}/assets/js/respond.min.js"></script>
+  <![endif]-->
+  {hook 'admin.head'}
 </head>
 <body>
-
 {hook 'admin.header'}
 
-<div class="topbar">
-	<a href="{u()}"><i class="icon icon-home"></i> {t('网站首页')}</a>
-	<b>│</b>
-	<a href="javascript:void(0);" class="add-favorite"><i class="icon icon-star2"></i> {t('加入收藏夹')}</a>
-	<b>│</b>
-	<a href="{u('system/login/shortcut')}"><i class="icon icon-heart"></i> {t('设为桌面图标')}</a>
-</div>
-
-<div class="box hidden" id="loginbox">
-	<div class="box-body">
-		{form::header()}
-		<div class="form-header"></div>
-		<div class="form-status"></div>
-		<div class="form-body">
-
-				<div class="input-group">
-					<label for="username" class="input-group-addon"><i class="icon icon-user"></i></label>
-					{form::field(array('type'=>'text','name'=>'username','value'=>($remember_username ? $remember_username : ''),'placeholder'=>t('用户名'),'required'=>'required'))}
-				</div>
-
-				<div class="input-group">
-					<label for="password" class="input-group-addon"><i class="icon icon-lock"></i></label>
-					{form::field(array('type'=>'password','name'=>'password','placeholder'=>t('密码'),'required'=>'required'))}
-				</div>
-				
-				{if c('system.login_captcha')}
-				<div class="input-group">
-					<label for="captcha" class="input-group-addon"><i class="icon icon-safe"></i></label>
-					{form::field(array('type'=>'captcha','name'=>'captcha','placeholder'=>t('验证码'),'required'=>'required'))}
-				</div>
-				{/if}
-
-		</div><!-- form-body -->
-		<div class="form-footer">
-			<span class="field remember">
-				<label>
-					<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" {if $remember_username}checked="checked"{/if}/>
-					{t('记住用户名')}
-				</label>
-			</span>
-			{form::field(array('type'=>'submit','value'=>t('登 录')))}
+<header class="global-header">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="navbar-header">
+			<a class="navbar-brand navbar-logo" href="javascript:;"><?php echo t('ZOTOP')?></a>
 		</div>
-		{form::footer()}
-	</div><!-- box-body -->
-</div><!-- box -->
-<div class="bottombar">
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="{u()}"><i class="fa fa-home"></i> {t('网站首页')}</a></li>
+				<li><a href="javascript:void(0);" class="add-favorite"><i class="fa fa-star"></i> {t('加入收藏夹')}</a></li>
+				<li><a href="{u('system/login/shortcut')}"><i class="fa fa-heart"></i> {t('设为桌面图标')}</a></li>
+			</ul>   
+		</div>
+	</nav>
+</header>
+
+<section class="global-body">
+
+    <div class="jumbotron text-center">
+        <div class="container-fluid">
+            <h1>{C('site.name')}</h1>
+            <h2>{t('网站管理登录')}</h2>
+            <p></p>
+        </div>
+    </div>
+
+    <div class="blank"></div>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+				
+				{form::header()}
+				
+				<div class="panel">
+				<div class="panel-heading form-status">{t('网站管理登录')}</div>
+				<div class="panel-body">				
+
+					<div class="form-group">
+						<div class="input-group">
+							<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
+							{form::field(array('type'=>'text','name'=>'username','value'=>($remember_username ? $remember_username : ''),'placeholder'=>t('用户名'),'required'=>'required'))}
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="input-group">
+							<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw"></i></label>
+							{form::field(array('type'=>'password','name'=>'password','placeholder'=>t('密码'),'required'=>'required'))}
+						</div>
+					</div>
+
+					{if c('system.login_captcha')}
+					<div class="form-group">
+						<div class="input-group">
+							<label for="captcha" class="input-group-addon"><i class="fa fa-safe fa-fw"></i></label>
+							{form::field(array('type'=>'captcha','name'=>'captcha','placeholder'=>t('验证码'),'required'=>'required'))}
+						</div>
+					</div>
+					{/if}
+
+					<div class="form-group">
+						<span class="remember va-m pull-left">
+							<label for="remember">
+								<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" {if $remember_username}checked="checked"{/if}/>
+								{t('记住用户名')}
+							</label>
+						</div>
+						<span class="pull-right">
+							{form::field(array('type'=>'submit','value'=>t('登 录')))}
+						</div>
+					</div>
+				
+				</div>
+				</div>
+				{form::footer()}
+			</div>
+		</div><!-- row -->
+	</div><!-- container-fluid -->
+
+</section>
+
+<footer class="global-footer">
 	{t('感谢您使用逐涛内容管理系统')}
-	<div class="fr">{zotop::powered()}</div>
-</div>
-<script type="text/javascript" src="{A('system.url')}/common/js/jquery.validate.min.js"></script>
+	<div class="pull-right">{zotop::powered()}</div>
+</footer>
+
+
 <script type="text/javascript">
 	// 禁止被包含
 	if(top!= self){top.location = self.location;}
-
-	// 居中显示登录窗口
-	$(function(){
-		$('#loginbox').position({of: $( "body" ),my: 'center center',at: 'center center'}).removeClass('hidden').draggable({handle:'.form-header',containment: "parent"});
-		$(window).bind('resize',function(){
-			$('#loginbox').position({of: $( "body" ),my: 'center center',at: 'center center'});
-		});
-	})
 
 	//加入收藏夹
 	$(function(){
@@ -118,7 +158,7 @@
 				captcha: {required : "{t('请输入验证码')}"}
 			},
 			showErrors:function(errorMap,errorList){
-				if (errorList[0]) $('.form-status').html('<span class="error">'+ errorList[0].message +'</span>');
+				if (errorList[0]) $('.form-status').html('<span class="text-error">'+ errorList[0].message +'</span>');
 			},
 			submitHandler:function(form){
 				$(form).find('.submit').disable(true);
@@ -126,7 +166,8 @@
 				
 				$.post($(form).attr('action'), $(form).serialize(), function(msg){
 					zotop.debug(msg);
-					if( msg ) $(form).find('.form-status').html('<span class="'+msg.state+'">'+ msg.content +'</span>');
+
+					if( msg ) $(form).find('.form-status').html('<span class="text-'+msg.state+'">'+ msg.content +'</span>');
 					if( msg.url ){
 						location.href = msg.url;
 						return true;
@@ -138,13 +179,16 @@
 		});
 	});
 </script>
-<!--[if lte IE 7]>
-<div class="notsupport">
-	<h1>{t('您的浏览器版本过低，ZOTOP暂不支持您的浏览器，请升级到IE8或者更高版本浏览器')} <a href="http://windows.microsoft.com/zh-CN/windows/upgrade-your-browser">{t('立即升级')}</a></h1>
-</div>
-<![endif]-->
+
 
 {hook 'admin.footer'}
 
+<!--[if lt IE 8]>
+<div class="notsupport">
+    <h1><?php echo t(':( 非常遗憾')?></h1>
+    <h2><?php echo t('ZOTOP暂不支持您的浏览器，请升级到最新的IE8浏览器')?></h2>
+    <p><a href="http://windows.microsoft.com/zh-CN/windows/upgrade-your-browser"><?php echo t('立即升级')?></a></p>
+</div>
+<![endif]-->
 </body>
 </html>
