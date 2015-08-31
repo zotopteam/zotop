@@ -32,7 +32,7 @@
 
 .navbar-inverse .navbar-nav>li>a {
     color: #fff;
-    font-size: 16px;
+    font-size: 14px;
     transition: all 0.2s ease-out 0s;
 }
 
@@ -335,7 +335,7 @@ body {
 	font-size: 14px;
 	line-height: 150%;
 	padding-top: 50px;
-	padding-bottom: 75px;
+	padding-bottom: 50px;
 	background-color: #f2f4f5;
 }
 
@@ -435,7 +435,7 @@ label.error:empty{display: none;}
 .global-body{
 	position: absolute;
 	top:51px;
-	bottom:75px;
+	bottom:0px;
 	left:0;
 	right: 0;
 }
@@ -447,7 +447,6 @@ label.error:empty{display: none;}
 	right: 0;
 	z-index: 9999;	
 	padding:15px;
-	background: #fff;
 }
 
 .global-footer .text{
@@ -456,7 +455,6 @@ label.error:empty{display: none;}
 
 
 .masthead{
-	height: 100%;
 	position: relative;
 	color: #fff;
 	background: #0072C6;
@@ -464,7 +462,7 @@ label.error:empty{display: none;}
 }
 
 .masthead .masthead-body{
-	height:300px;
+	height:500px;
 	margin:auto;
 	position:absolute;
 	top: 0;
@@ -474,14 +472,13 @@ label.error:empty{display: none;}
 }
 
 .masthead h1{
-	font-size: 100px;
-	margin-bottom: 30px;
+	font-size: 80px;
+	margin-bottom: 40px;
 }
 
 .masthead h2{
 	font-size: 30px;
-	font-weight: 200;
-	line-height: 1.25;	
+	margin-bottom: 20px;
 }
 
 .masthead h3{
@@ -492,6 +489,13 @@ label.error:empty{display: none;}
 
 .masthead p{
 	margin-top: 30px;
+}
+
+.masthead .panel{
+	color: #333;background: #dbe2f0;background: rgba(255,255,255,0.83);
+	box-shadow: 0 0 10px rgba(0,0,0,0.15);
+	-webkit-backface-visibility: hidden;
+	-webkit-transition: -webkit-transform 0.4s ease;
 }
 
 .masthead i.fa{vertical-align: text-bottom;}
