@@ -17,18 +17,13 @@
     <link href="./theme/css/font-awesome.min.css" rel="stylesheet">
     <link href="./theme/css/global.css" rel="stylesheet">
     <script src="./theme/js/jquery.min.js"></script>
-    <script src="./theme/js/jquery.validate.min.js"></script>
+    <script src="./theme/js/jquery.plugins.js"></script>
     <script src="./theme/js/bootstrap.min.js"></script>
     <script src="./theme/js/global.js"></script>
     <!--[if lt IE 9]>
     <script src="./theme/js/html5shiv.min.js"></script>
     <script src="./theme/js/respond.min.js"></script>
     <![endif]-->
-    <!--[if lte IE 7]>
-    <div class="notsupport">
-        <h1><?php echo t('非常遗憾，ZOTOP暂不支持您的浏览器，请升级到最新的IE8浏览器')?><a href="http://windows.microsoft.com/zh-CN/windows/upgrade-your-browser"><?php echo t('立即升级')?></a></h1>
-    </div>
-    <![endif]-->  
 </head>
 <body>
 <header class="global-header">

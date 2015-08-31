@@ -285,4 +285,5 @@ $(function(){
     });
 })
 </script>
+
 <?php include ZOTOP_PATH_INSTALL.DS.'template'.DS.'footer.php';?>
