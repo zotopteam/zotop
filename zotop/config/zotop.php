@@ -1,6 +1,6 @@
 <?php 
 return array (
 	'name'		=> 'titan',
-	'version'	=> '2.5',
-	'release'	=> '20141125',
+	'version'	=> '3.1',
+	'release'	=> '20150901',
 );

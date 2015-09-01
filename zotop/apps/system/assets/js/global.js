@@ -5,7 +5,17 @@
 
 // placeholder
 $(function(){
-	$('input,textarea').placeholder();
+	$('input[placeholder], textarea[placeholder]').placeholder();
+
+	$(document).tooltip({placement:function(){
+		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
+	},selector:'[title]',container:'body',html:true});
+
+	$('.tooltip-block').tooltip({placement:function(){
+		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
+	},title:function(){
+		return '<div class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</div>';
+	},container:'body',html:true});	
 });
 
 // jQuery Validation

@@ -278,11 +278,11 @@ class system_field
 
 		$attrs['maxlength'] = $options['length'];
 
-		$html[] = '<span class="captcha-controls">';
+		$html[] = '<span class="form-captcha">';
 		$html[] = form::field_text($attrs);
-		$html[] = '<a href="javascript:void(0);" tabindex="-1" class="captcha" onclick="this.children[0].src=\''.u('system/captcha',$options).'&time=\'+Math.random()">';
+		$html[] = '<a href="javascript:void(0);" tabindex="-1" class="captcha" onclick="this.children[0].src=\''.u('system/captcha',$options).'&time=\'+Math.random()" title="'.t('点击更换').'" data-placement="right">';
 		$html[] = '	<img src="'.u('system/captcha',$options).'"/>';
-		$html[] = '	'.$attrs['alt'];
+		$html[] = '	<span class="hidden-sm">'.$attrs['alt'].'</span>';
 		$html[] = '</a>';
 		$html[] = '</span>';
 		$html[] = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';

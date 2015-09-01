@@ -35,10 +35,7 @@
 {hook 'admin.header'}
 
 <header class="global-header">
-	<nav class="navbar navbar-inverse navbar-fixed-top">
-		<div class="navbar-header">
-			<a class="navbar-brand navbar-logo" href="javascript:;">{C('site.name')}</a>
-		</div>
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="{u()}"><i class="fa fa-home"></i> {t('网站首页')}</a></li>
@@ -51,67 +48,65 @@
 
 <section class="global-body">
 
-    <div class="masthead text-center">        
-        <div class="masthead-body">
-        	<div class="container-fluid">
-        		<h1 class="text-center hidden">ZOTOP</h1>
-	            <h1 class="text-center">{C('site.name')}</h1>
-	            {form::header()}
-
-				<div class="row">
-					<div class="col-md-4 col-md-offset-4">						
-						<div class="panel">
-							<div class="panel-heading form-status">{t('网站管理登录')}</div>
-							<div class="panel-body">				
-
-								<div class="form-group">
-									<div class="input-group">
-										<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
-										{form::field(array('type'=>'text','name'=>'username','value'=>($remember_username ? $remember_username : ''),'placeholder'=>t('用户名'),'required'=>'required','class'=>'input-lg'))}
-									</div>
-								</div>
-
-								<div class="form-group">
-									<div class="input-group">
-										<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw"></i></label>
-										{form::field(array('type'=>'password','name'=>'password','placeholder'=>t('密码'),'required'=>'required','class'=>'input-lg'))}
-									</div>
-								</div>
-
-								{if c('system.login_captcha')}
-								<div class="form-group">
-									<div class="input-group">
-										<label for="captcha" class="input-group-addon"><i class="fa fa-safe fa-fw"></i></label>
-										{form::field(array('type'=>'captcha','name'=>'captcha','placeholder'=>t('验证码'),'required'=>'required','class'=>'input-lg'))}
-									</div>
-								</div>
-								{/if}
-
-								<div class="form-group">
-									{form::field(array('type'=>'submit','value'=>t('登 录'),'class'=>'btn-lg btn-block'))}
-								</div>
-							
-							</div>
-						</div>
-						<div class="remember va-m pull-left">
-							<label for="remember">
-								<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" {if $remember_username}checked="checked"{/if}/>
-								{t('记住用户名')}
-							</label>
-						</div>											
-					</div>
-				</div><!-- row -->
+	<div class="container-fluid">
+        {form::header()}
 			
-				{form::footer()}
-            </div> 
-        </div><!-- mathhead-body -->
-    </div>
+			<div class="panel panel-login">
+				<div class="panel-heading text-center text-overflow"><h1>{C('site.name')}</h1></div>
+				<div class="panel-body">			
+					<div class="form-status">{t('请输入用户名密码')}</div>
+
+					<div class="form-group">
+						<div class="input-group input-group-merge">
+							<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
+							{form::field(array('type'=>'text','name'=>'username','value'=>($remember_username ? $remember_username : ''),'placeholder'=>t('用户名'),'required'=>'required'))}
+							
+
+							<label for="remember" class="input-group-addon" title="{t('记住用户名')}" data-placement="right">
+								<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" tabindex="-1" {if $remember_username}checked="checked"{/if}/>
+							</label>										
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="input-group input-group-merge">
+							<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw"></i></label>
+							{form::field(array('type'=>'password','name'=>'password','placeholder'=>t('密码'),'required'=>'required'))}
+						</div>
+					</div>								
+
+					{if c('system.login_captcha')}
+					<div class="form-group">
+						<div class="input-group input-group-merge">
+							<label for="captcha" class="input-group-addon"><i class="fa fa-key fa-fw"></i></label>
+							{form::field(array('type'=>'captcha','name'=>'captcha','placeholder'=>t('验证码'),'required'=>'required'))}
+						</div>
+					</div>
+					{/if}
+
+					<div class="form-group hidden">
+						<label for="remember">
+							<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" {if $remember_username}checked="checked"{/if}/>
+							{t('记住用户名')}
+						</label>
+					</div>									
+
+					<div class="form-group">
+						{form::field(array('type'=>'submit','value'=>t('登 录'),'data-loading-text'=>t('登录中，请稍后……'),'class'=>'btn-block'))}
+					</div>
+				
+				</div>
+			</div>				
+	
+		{form::footer()}
+    </div> 
+
 
 </section>
 
 <footer class="global-footer">
 	{t('感谢您使用逐涛内容管理系统')}
-	<div class="pull-right">{zotop::powered()}</div>
+	<div class="pull-right hidden-xs">{zotop::powered()}</div>
 </footer>
 
 
@@ -149,24 +144,27 @@
 			messages: {
 				username: "{t('请输入您的用户名')}",
 				password: "{t('请输入您的密码')}",
-				captcha: {required : "{t('请输入验证码')}"}
+				captcha: {required:"{t('请输入验证码')}"}
 			},
 			showErrors:function(errorMap,errorList){
 				if (errorList[0]) $('.form-status').html('<span class="text-error">'+ errorList[0].message +'</span>');
 			},
 			submitHandler:function(form){
-				$(form).find('.submit').disable(true);
-				$(form).find('.form-status').html('{t('正在登录中, 请稍后……')}');
+
+				$('.form-status').html('{t('登录中, 请稍后……')}');
+				$('.submit').button('loading');
 				
 				$.post($(form).attr('action'), $(form).serialize(), function(msg){
-					zotop.debug(msg);
+					
+					$('.form-status').html('<span class="'+msg.state+'">'+ msg.content +'</span>');
 
-					if( msg ) $(form).find('.form-status').html('<span class="text-'+msg.state+'">'+ msg.content +'</span>');
 					if( msg.url ){
 						location.href = msg.url;
 						return true;
 					}
-					$(form).find('.submit').disable(false);
+
+					$('.submit').button('reset');
+
 					return false;
 				},'json');
 			}

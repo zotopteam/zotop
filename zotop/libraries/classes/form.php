@@ -499,8 +499,9 @@ class form
      */
 	public static function field_button($attrs)
 	{
-		$attrs['type'] = 'button';
-		$attrs['class'] = empty($attrs['class']) ? 'btn btn-default' : 'btn btn-default '.$attrs['class'];
+		$attrs['type']         = 'button';
+		$attrs['class']        = empty($attrs['class']) ? 'btn btn-default' : 'btn btn-default '.$attrs['class'];
+		$attrs['autocomplete'] = 'off';
 
 		$value = $attrs['value'];unset($attrs['value']);
 
@@ -516,14 +517,17 @@ class form
 	public static function field_submit($attrs)
 	{
 
-	    $attrs['type'] = 'submit';
-	    $attrs['class'] = empty($attrs['class']) ? 'btn btn-primary' : 'btn btn-primary '.$attrs['class'];
+		$attrs['type']              = 'submit';
+		$attrs['class']             = empty($attrs['class']) ? 'btn btn-primary' : 'btn btn-primary '.$attrs['class'];
+		$attrs['autocomplete']      = 'off';
+		$attrs['data-loading-text'] = '提交中……';
 
 		$attrs += array
 		(
-			'id'=>'submitform',
-			'value'=>t('提交')
+			'id'    => 'submitform',
+			'value' => t('提交')
 		);
+
 		$value = $attrs['value'];unset($attrs['value']);
 
 		return '<button'.form::attributes($attrs).'>'.htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8').'</button>';

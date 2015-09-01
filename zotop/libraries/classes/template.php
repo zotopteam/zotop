@@ -258,6 +258,9 @@ class template
         //Hook，接入自定义解析规则
         $str = zotop::filter('template.parse', $str, $this);
 
+        // 解析field标签
+        $str = preg_replace('/\{field(\s+[^}]+?)(\/?)\}/ie', "\$this->parse_field('\\1')", $str);
+
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}
         if ($tag = template::tag())
         {
@@ -293,6 +296,19 @@ class template
         return '';
     }
 
+    /**
+     * 内置的field标签解析 TODO 此方法无法解析镖旗中的变量和函数
+     * 
+     * @param  [type] $str [description]
+     * @return [type]      [description]
+     */
+    public function parse_field($str)
+    {
+        $attrs = $this->parse_attrs($str);
+
+        return form::field($attrs);
+    }    
+
 
     /**
      * 解析标签中的点符号数组,最多支持四维数组
@@ -317,16 +333,16 @@ class template
      * 将标签字符串转化为数组
      * 
      * 
-     * @param  string $str 标签字符串，所有参数都必须以半角（英文）双引号括起来，如： id="1" size="10"
+     * @param  string $str 标签字符串，所有参数都必须以半角（英文）双引号括起来，如： id="1" size="10" name=$name placeholder=t('dddd')
      * @return array
      */
     public function parse_attrs($str)
     {
         $attrs = array();
 
-        preg_match_all('/\s+([a-z_]+)\s*\=\s*\"(.*?)\"/i', stripslashes($str), $matches, PREG_SET_ORDER);
+        preg_match_all("/\s+([a-z0-9_-]+)\s*\=\s*([\"]?[^\"\s]+[\"]?)/i", stripslashes($str), $matches, PREG_SET_ORDER);
 
-        foreach ($matches as $k => $v)
+        foreach ($matches as $v)
         {
             $attrs[$v[1]] = $v[2];
         }
@@ -369,10 +385,10 @@ class template
         }
 
         return false;
-    }    
+    }
 
     /**
-     * 模板标签解析
+     * 自定义模板标签解析
      *
      * @param string $html 匹配到的HTML代码
      * @param string $tag 标签名称
