@@ -52,9 +52,12 @@
         {form::header()}
 			
 			<div class="panel panel-login">
-				<div class="panel-heading text-center text-overflow"><h1>{C('site.name')}</h1></div>
-				<div class="panel-body">			
-					<div class="form-status">{t('请输入用户名密码')}</div>
+				<div class="panel-heading text-center">
+					<h1 class="text-overflow">{t('{1}管理',C('site.name'))}</h1>
+				</div>
+				<div class="panel-body">
+
+					<div class="form-status">{t('请输入您的用户名和密码')}</div>
 
 					<div class="form-group">
 						<div class="input-group input-group-merge">
