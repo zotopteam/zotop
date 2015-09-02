@@ -60,7 +60,7 @@ class system_controller_login extends admin_controller
 					zotop::cookie('remember_username',null);//清除记录
 				}
 
-				return $this->success(t('登陆成功，页面跳转中……'.$post['remember']), u('system/admin'));
+				return $this->success(t('登陆成功，页面跳转中……'), u('system/admin'));
 			}
 
 			return $this->error($this->admin->error());
