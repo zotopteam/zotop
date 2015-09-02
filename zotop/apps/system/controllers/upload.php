@@ -24,13 +24,13 @@ class system_controller_upload extends admin_controller
 
 	/**
 	 * 覆盖权限检查，当前页面的功能不检查权限
-	 * 
+	 *
 	 * @return true
 	 */
 	public function __checkPriv()
 	{
 		return true;
-	}	
+	}
 
 	/**
 	 * 附件上传对话框
@@ -102,7 +102,7 @@ class system_controller_upload extends admin_controller
 			{
 				exit(json_encode(array(
 					'state'		=> true,
-					'content' 	=> t('{1}上传成功',$file['name']),
+					'content' 	=> t('$1上传成功',$file['name']),
 					'time'		=> 2,
 					'file'		=> $file,
 				)));

@@ -24,9 +24,9 @@ zotop::register(array(
     'mail'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'mail.php',
     'captcha'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'captcha.php',
 
-    'db'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php', 
+    'db'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php',
     'db_mysql' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db' . DS . 'mysql.php',
-    
+
     'session'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session.php',
     'session_native'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'native.php',
     'session_file'          => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'file.php',
@@ -97,7 +97,7 @@ function m($ns)
 
         if (class_exists($class) == false)
         {
-            throw new zotop_exception(t('模型实例化失败，模型文件 {1} 或者 模型类 {2} 不存在', $path, $class));
+            throw new zotop_exception(t('模型实例化失败，模型文件 $1 或者 模型类 $2 不存在', $path, $class));
         }
 
         $models[$class] = new $class();
@@ -115,7 +115,7 @@ function m($ns)
         return call_user_func_array(array(&$models[$class], $method), array_slice($args, 1));
     }
 
-    throw new zotop_exception(t('模型 {1} 中找不到方法 {2} 方法', $class, $method));
+    throw new zotop_exception(t('模型 $1 中找不到方法 $2 方法', $class, $method));
 }
 
 
@@ -153,6 +153,12 @@ function l($key = null, $val = null)
  *
  * 翻译并替换字符串中的变量
  *
+ *  echo t('$1:你好','test');
+ *  echo t('%s:你好','test');
+ *  echo t('$1 和 $2','test','test2');
+ *  echo t('$1 和 $2',array('test','test2'));
+ *
+ *
  * @param string $str 待转换字符串
  * @param mix $params 参数
  * @return string
@@ -166,9 +172,9 @@ function t($str, $params = '')
 
     foreach ($params as $key => $val)
     {
-        $str = str_replace('{' . $key . '}', $val, $str);
+        $str = str_replace('$'.$key, $val, $str);
     }
-    
+
     return count($params) < 2 ? $str : vsprintf($str, array_slice($params, 1));
 }
 
@@ -191,7 +197,7 @@ function u($uri = '', $params = array(), $host = true)
  * 输出缩略图
  *
  * TODO 缩略图生成单独的文件夹存放
- * 
+ *
  * @param sting $img 图片地址
  * @param int $width 缩略图宽度
  * @param int $height 缩略图高度

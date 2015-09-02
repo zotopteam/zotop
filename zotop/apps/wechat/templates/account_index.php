@@ -6,7 +6,7 @@
 		<div class="action">
 			<a href="{u('wechat/account/add')}" class="btn btn-icon-text btn-highlight">
 				<i class="icon icon-add"></i><b>{t('添加公众号')}</b>
-			</a>			
+			</a>
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
@@ -29,7 +29,7 @@
 				<td>
 					<div class="title">{$r['name']}</div>
 					<div class="manage">
-						<a href="{u('wechat/account/edit/'.$r['id'])}">{t('编辑')}</a>															
+						<a href="{u('wechat/account/edit/'.$r['id'])}">{t('编辑')}</a>
 						<s></s>
 						<a href="{u('wechat/account/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
 					</div>
@@ -38,13 +38,13 @@
 				<td>{m('wechat.account.type',$r['type'])}</td>
 				<td>
 					{if $r.connect}
-						<i class="icon icon-true true"></i> {t('成功接入')} 
+						<i class="icon icon-true true"></i> {t('成功接入')}
 					{else}
-						<i class="icon icon-false red"></i> <b class="red">{t('尚未接入')}</b> 
+						<i class="icon icon-false red"></i> <b class="red">{t('尚未接入')}</b>
 					{/if}
 
-					<a href="javascript:;" class="dialog-from" data-target="#guide-{$r.id}" data-title="{t('公众号 [ {1} ] 服务器接入指南 ',$r['name'])}"><i class="icon icon-help"></i> {t('接入指南')}</a>
-					
+					<a href="javascript:;" class="dialog-from" data-target="#guide-{$r.id}" data-title="{t('公众号 [ $1 ] 服务器接入指南 ',$r['name'])}"><i class="icon icon-help"></i> {t('接入指南')}</a>
+
 					<div id="guide-{$r.id}" class="clearfix none" style="width:1000px;height:450px;overflow:auto;">
 						<div class="content-header">
 							<h3>{t('登录微信公众平台官网后，在公众平台后台管理页面 - 开发者中心页，点击“修改配置”按钮，填写服务器地址（URL）、Token和EncodingAESKey')}</h3>
@@ -64,16 +64,16 @@
 								<tr>
 									<td>{t('EncodingAESKey(消息加解密密钥)')}</td>
 									<td class="green">{$r.encodingaeskey}</td>
-								</tr>														
+								</tr>
 							</table>
 							<div class="blank"></div>
-							<div class="image">						
-								<img src="http://mp.weixin.qq.com/wiki/static/assets/ce21f9e7d08b0f553032261b23c43b77.png" alt="{t('服务器配置')}"/>	
+							<div class="image">
+								<img src="http://mp.weixin.qq.com/wiki/static/assets/ce21f9e7d08b0f553032261b23c43b77.png" alt="{t('服务器配置')}"/>
 							</div>
 						</div>
 					</div> <!-- guide-x -->
 
-				</td>				
+				</td>
 			</tr>
 		{/loop}
 		</tbody>
@@ -112,7 +112,7 @@ $(function(){
 </script>
 
 <script>
-	
+
 	$(function(){
 
 		$(document).on('click', 'a.dialog-from',function(event){

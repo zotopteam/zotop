@@ -70,7 +70,7 @@ class install
 	public function env($key)
 	{
 		return isset($_SERVER[$key]) ? $_SERVER[$key] : (isset($_ENV[$key]) ? $_ENV[$key] : FALSE);
-	}		
+	}
 
 	public function db()
 	{
@@ -120,14 +120,14 @@ class install
 	    	$check_env['gd']['message'] = $gd['GD Version'];
 	    }
 
-	    unset($gd);	
+	    unset($gd);
 
-	    // 数据库	    
+	    // 数据库
 	    if ( !class_exists('pdo') )
 	    {
 			$check_env['pdo']['checked'] = false;
 			$check_env['pdo']['message'] = t('未安装');
-			$success                     = false;	    	
+			$success                     = false;
 	    }
 
 	    if ( !extension_loaded('pdo_mysql')  )
@@ -144,7 +144,7 @@ class install
 	    	{
 	        	$check_env[$f]['checked'] = false;
 				$check_env[$f]['message'] = t('不支持');
-	        	$success                  = false;	    		
+	        	$success                  = false;
 	    	}
 	    }
 
@@ -169,9 +169,9 @@ class install
     		{
     			$is_writable = is_writable($f) && (($r['type'] == 'file') ^ is_dir($f));
     		}
-    		
+
 			$r['is_writable'] = $is_writable;
-			
+
 			$r['position']    = '/'.str_replace(DS,'/', trim(str_replace(ZOTOP_PATH, '', $f), DS));
 
     		if ( !$is_writable AND $r['writable'] ) $success = false;
@@ -182,14 +182,14 @@ class install
     		folder::create(ZOTOP_PATH_RUNTIME.DS.'caches',0777);
     		folder::create(ZOTOP_PATH_RUNTIME.DS.'session',0777);
     		folder::create(ZOTOP_PATH_RUNTIME.DS.'templates',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'backup',0777);	
+    		folder::create(ZOTOP_PATH_RUNTIME.DS.'backup',0777);
     		folder::create(ZOTOP_PATH_RUNTIME.DS.'temp',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'block',0777);	
+    		folder::create(ZOTOP_PATH_RUNTIME.DS.'block',0777);
 		}
 		catch (Exception $e)
 		{
 			$success = false;
-		}	
+		}
 
 		include ZOTOP_PATH_INSTALL.DS.'template'.DS.'check.php';
 	}
@@ -260,16 +260,16 @@ class install
 					}
 					elseif ( zotop::db($config)->exists() )
 					{
-						$msg = array('code'=>0, 'message'=>t('数据库 {1} 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
+						$msg = array('code'=>0, 'message'=>t('数据库 $1 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
 					}
 					else
 					{
-						$msg = array('code'=>2, 'message'=>t('数据库 {1} 不存在并且无法自动创建，请先创建数据库！', $mysql_database));
+						$msg = array('code'=>2, 'message'=>t('数据库 $1 不存在并且无法自动创建，请先创建数据库！', $mysql_database));
 					}
 				}
 				catch(Exception $e)
 				{
-					$msg = array('code'=>2, 'message'=>t('连接数据库失败，请检查数据库设置！{1}', $e->getMessage()));
+					$msg = array('code'=>2, 'message'=>t('连接数据库失败，请检查数据库设置！$1', $e->getMessage()));
 				}
 			}
 		}
@@ -294,15 +294,15 @@ class install
 				{
 					if ( zotop::db($config)->exists() )
 					{
-						$msg = array('code'=>0, 'message'=>t('数据库 {1} 已经存在，是否继续？如果继续系统将会删除原有数据', $sqlite_database));
+						$msg = array('code'=>0, 'message'=>t('数据库 $1 已经存在，是否继续？如果继续系统将会删除原有数据', $sqlite_database));
 					}
 					elseif ( zotop::db($config)->create() )
 					{
 						$msg = array('code'=>1, 'message'=>t('数据库创建成功'));
-					}					
+					}
 					else
 					{
-						$msg = array('code'=>2, 'message'=>t('数据库 {1} 不存在并且无法自动创建，请先创建数据库！', $sqlite_database));
+						$msg = array('code'=>2, 'message'=>t('数据库 $1 不存在并且无法自动创建，请先创建数据库！', $sqlite_database));
 					}
 				}
 				catch(Exception $e)
@@ -322,9 +322,9 @@ class install
 				'theme' 		=> 'default',
 				'title' 		=> $site_name,
 				'description' 	=> $site_name,
-				'keywords' 		=> $site_name,				
+				'keywords' 		=> $site_name,
 				'closed' 		=> '0',
-				'closedreason' 	=> t('暂时关闭'),								
+				'closedreason' 	=> t('暂时关闭'),
 			);
 
 			$admin = array (
@@ -334,19 +334,19 @@ class install
 			);
 
 
-			$router = array();	
+			$router = array();
 
 			//写入默认数据库配置文件
 			file::put(ZOTOP_PATH_CONFIG.DS.'database.php', "<?php\nreturn ".var_export($config,true).";\n?>");
-			
+
 			// 写入站点配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'site.php', "<?php\nreturn ".var_export($site,true).";\n?>");
 
 			// 写入router配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'router.php', "<?php\nreturn ".var_export($router,true).";\n?>");						
+			file::put(ZOTOP_PATH_CONFIG.DS.'router.php', "<?php\nreturn ".var_export($router,true).";\n?>");
 
 			// 记录创始人信息，用于写入数据库
-			file::put(ZOTOP_PATH_RUNTIME.DS.'admin.php', "<?php\nreturn ".var_export($admin,true).";\n?>");			
+			file::put(ZOTOP_PATH_RUNTIME.DS.'admin.php', "<?php\nreturn ".var_export($admin,true).";\n?>");
 		}
 
 		exit(json_encode($msg));
@@ -409,7 +409,7 @@ class install
 	 */
 	public function installing()
 	{
-		$this->db = zotop::db();			
+		$this->db = zotop::db();
 
 		// 安装当前应用
 		try
@@ -482,7 +482,7 @@ class install
 					//写入应用数据
 					if ( $this->db->table('app')->data($app)->insert(true) )
 					{
-						$msg = array('code'=>0, 'message'=>t('应用“{1}”安装成功', $app['name'], $app['id']));
+						$msg = array('code'=>0, 'message'=>t('应用“$1”安装成功', $app['name'], $app['id']));
 					}
 				}
 			}
@@ -493,7 +493,7 @@ class install
 		{
 			$this->db->rollback();
 
-			$msg = array('code'=>2, 'message'=>t('应用“{1}”安装失败',$app['name']), 'detail'=>$e->getMessage().' '.debug::path($e->getFile()).' '.$e->getLine());
+			$msg = array('code'=>2, 'message'=>t('应用“$1”安装失败',$app['name']), 'detail'=>$e->getMessage().' '.debug::path($e->getFile()).' '.$e->getLine());
 		}
 
 		ob_clean();

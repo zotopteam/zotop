@@ -53,7 +53,7 @@ class developer_controller_project extends admin_controller
 
             if ( empty($this->app) or !is_array($this->app) )
             {
-                return $this->error(t('未能在 {1} 目录下找到 app.php', debug::path(ZOTOP_PATH_APPS . DS . $this->dir)));
+                return $this->error(t('未能在 $1 目录下找到 app.php', debug::path(ZOTOP_PATH_APPS . DS . $this->dir)));
             }
 
             $this->assign('app',$this->app);
@@ -146,14 +146,14 @@ class developer_controller_project extends admin_controller
         // 保存
         if ($post = $this->post())
         {
-            
+
             $config_path = ZOTOP_PATH_APPS . DS . $this->dir . DS .'config.php';
 
             $config = is_array($post['config_key']) ? array_combine($post['config_key'], $post['config_val']) : array();
 
             // 写入应用配置
             file::put($config_path, "<?php\nreturn ".var_export($config, true).";\n?>");
-            
+
             // 如果不存在配置控制器，写入配置控制器
             if ( !file::exists(ZOTOP_PATH_APPS . DS . $this->dir . DS. 'controllers' .DS .'config.php') )
             {
@@ -176,7 +176,7 @@ class developer_controller_project extends admin_controller
 
         $this->assign('title', t('配置项管理'));
         $this->assign('config',$config);
-        $this->display();           
+        $this->display();
     }
 
     /**
@@ -187,7 +187,7 @@ class developer_controller_project extends admin_controller
     {
         // 获取全部数据表
         $tables    = $this->db->tables();
-        
+
         // 获取当前应用的数据表
         $apptables = explode(',',$this->app['tables']);
 
@@ -200,7 +200,7 @@ class developer_controller_project extends admin_controller
         $this->assign('title', t('数据表管理'));
         $this->assign('tables',$tables);
         $this->display();
-    }   
+    }
 
     /**
      * 创建数据表
@@ -221,7 +221,7 @@ class developer_controller_project extends admin_controller
 
             if (  $this->db->existsTable($post['name']) )
             {
-                return $this->error(t('{1}已经存在', $post['name']));
+                return $this->error(t('$1已经存在', $post['name']));
             }
 
             if ( $this->db->createTable($post['name'], $schema) )
@@ -244,10 +244,10 @@ class developer_controller_project extends admin_controller
                 file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($app, true).";\n?>");
 
 
-                return $this->success(t('{1}成功',t('新建数据表')),u('developer/project/table'));
+                return $this->success(t('$1成功',t('新建数据表')),u('developer/project/table'));
             }
 
-            return $this->error(t('{1}失败', t('新建数据表')));
+            return $this->error(t('$1失败', t('新建数据表')));
         }
 
         $data = array();
@@ -280,7 +280,7 @@ class developer_controller_project extends admin_controller
                 }
 
                 $app['tables'] = str_replace(','.$table.',', ','.$post['name'].',', ','.$app['tables'].',');
-                $app['tables'] = trim($app['tables'], ',');             
+                $app['tables'] = trim($app['tables'], ',');
             }
 
             // 更新表注释
@@ -327,7 +327,7 @@ class developer_controller_project extends admin_controller
             exit('"'.t('已经存在，请重新输入').'"');
         }
 
-        exit('true');       
+        exit('true');
     }
 
     /**
@@ -349,7 +349,7 @@ class developer_controller_project extends admin_controller
 
         if ( folder::exists($app_path ) )
         {
-            return $this->error(t('目录 {1} 已经存在', $app['dir']));
+            return $this->error(t('目录 $1 已经存在', $app['dir']));
         }
 
         // 创建应用文件夹

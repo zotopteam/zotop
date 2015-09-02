@@ -32,7 +32,7 @@ class form_model_field extends model
 			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
 			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),
 			'image'		=> array('name'=>t('图片'),'type'=>'varchar', 'length'=>'100'),
-			'file'		=> array('name'=>t('文件'),'type'=>'varchar', 'length'=>'100'),	
+			'file'		=> array('name'=>t('文件'),'type'=>'varchar', 'length'=>'100'),
 			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
 			'datetime'	=> array('name'=>t('日期 + 时间'),'type'=>'int', 'length'=>'10'),
         ));
@@ -53,7 +53,7 @@ class form_model_field extends model
 		return $options;
 	}
 
-	
+
 
 	/**
 	 * 获取数据集，支持链式查询
@@ -78,14 +78,14 @@ class form_model_field extends model
 
 	/**
 	 * 获取添加编辑时的表单字段并格式化
-	 * 
+	 *
 	 * @param  int $formid 表单编号
 	 * @param  array  $data  表单数据
 	 * @return array 格式化的表单
 	 */
 	public function getfields($formid, $data=array())
 	{
-		
+
 		$fields = array();
 
 		if ( $_fields = $this->cache($formid) )
@@ -116,8 +116,8 @@ class form_model_field extends model
 				{
 					if ( $key[0] == '_' or $val == '' ) continue;
 
-					$fields[$i]['field'][$key] = $val;					
-				}				
+					$fields[$i]['field'][$key] = $val;
+				}
 
 				// 增加上传数据编号
 				if ( in_array($r['control'], array('editor','image','file')) and $data['id'] )
@@ -133,7 +133,7 @@ class form_model_field extends model
 
 	/**
 	 * 字段显示
-	 * 
+	 *
 	 * @param  mixed $val  字段值
 	 * @param  array $field 字段配置
 	 * @return string
@@ -155,7 +155,7 @@ class form_model_field extends model
 					$val = $field['settings']['options'][$val];
 				}
 
-				break;			
+				break;
 			case 'checkbox':
 
 				$vals = ( $val and str::is_serialized($val) ) ? unserialize($val) : array();
@@ -164,7 +164,7 @@ class form_model_field extends model
 
 				if ( is_array($vals) and is_array($field['settings']['options']) )
 				{
-					
+
 					$val = array();
 
 					foreach ($vals as $v)
@@ -191,7 +191,7 @@ class form_model_field extends model
 			case 'file' :
 
 				$val = $val ? '<a href="'.$val.'" target="_blank" class="btn btn-icon-text btn-highlight btn-filedownload"/><i class="icon icon-download"></i><b>'.t('下载').'</b></a>' : '';
-				
+
 				break;
 			case 'url' :
 				$val = $val ? '<a href="'.$val.'" target="_blank"><i class="icon icon-url"></i> '.$val.'</a>' : '';
@@ -204,17 +204,17 @@ class form_model_field extends model
 			case 'textarea' :
 
 				$val = format::textarea($val);
-				
+
 				break;
 			case 'editor' :
 
 				$val = '<div class="html">'.$val.'</div>';
-				
-				break;						
+
+				break;
 		}
 
 		return zotop::filter('form.field.show', $val, $field);
-	}	
+	}
 
 	/**
 	 * 获取字段数组
@@ -239,12 +239,12 @@ class form_model_field extends model
 		}
 
 		return array();
-	}	
+	}
 
 
 	/**
 	 * 检查并完善添加编辑时传入的数据
-	 * 
+	 *
 	 * @param  array $data 数据
 	 * @return array
 	 */
@@ -257,7 +257,7 @@ class form_model_field extends model
 
 		if ( in_array($data['name'], $this->system_fields) )
 		{
-			return $this->error(t('不能使用字段名 {1}，请重新输入', $data['name']));
+			return $this->error(t('不能使用字段名 $1，请重新输入', $data['name']));
 		}
 
 		if ( empty($data['length']) and in_array($data['type'], array('char','varchar','tinyint','smallint','mediumint','int')) )
@@ -270,7 +270,7 @@ class form_model_field extends model
 
 		// 大数据字段不能设为值唯一
 		$data['unique'] = in_array($data['type'], array('text','mediumtext')) ? 0 : $data['unique'];
-		
+
 		// 大数据字段不能参与排序
 		$data['order'] 	= in_array($data['type'], array('text','mediumtext')) ? '' : $data['order'];
 
@@ -299,11 +299,11 @@ class form_model_field extends model
 		);
 
 		return $field;
-	}	
+	}
 
 	/**
 	 * 添加
-	 * 
+	 *
 	 * @param  array $data 数据
 	 * @return mixed  操作结果或者字段编号
 	 */
@@ -323,7 +323,7 @@ class form_model_field extends model
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields", null);
-				
+
 				// 更新字段缓存
 				$this->cache($data['formid'], true);
 
@@ -336,7 +336,7 @@ class form_model_field extends model
 
 	/**
 	 * 编辑
-	 * 
+	 *
 	 * @param  array $data 数据
 	 * @param  int $id   字段编号
 	 * @return mixed  操作结果或者字段编号
@@ -361,18 +361,18 @@ class form_model_field extends model
 				zotop::cache("{$data['table']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['formid'], true);				
+				$this->cache($data['formid'], true);
 
 				return $id;
 			}
 		}
 
 		return false;
-	}			
+	}
 
 	/**
 	 * 删除
-	 * 
+	 *
 	 * @param  int $id   字段编号
 	 * @return mixed  操作结果
 	 */
@@ -391,7 +391,7 @@ class form_model_field extends model
 				zotop::cache("{$data['table']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['formid'], true);				
+				$this->cache($data['formid'], true);
 
 				return true;
 			}
@@ -414,7 +414,7 @@ class form_model_field extends model
 		$formid = $this->get($id, 'formid');
 
 		// 更新字段缓存
-		$this->cache($formid, true);		
+		$this->cache($formid, true);
 
 		return true;
 	}
@@ -427,7 +427,7 @@ class form_model_field extends model
 	 */
 	public function status($id)
 	{
-		
+
 		$formid 	= $this->get($id, 'formid');
 		$disabled 	= $this->get($id, 'disabled') ? 0 : 1;
 
@@ -460,6 +460,6 @@ class form_model_field extends model
 		}
 
 		return $cache;
-	}		
+	}
 }
 ?>

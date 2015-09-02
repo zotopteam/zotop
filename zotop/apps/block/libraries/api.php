@@ -86,7 +86,7 @@ class block_api
 
 	    if ( $id = intval($attrs['id']) )
 	    {
-	        return '<?php echo block_show(' . $tpl->str_attrs($attrs) .', $this)?>';
+	        return '<?php echo block_show(' . $tpl->array_attrs($attrs) .', $this)?>';
 	    }
 
 	    return '<div class="error block-error">'.t('区别编号错误').'</div>';

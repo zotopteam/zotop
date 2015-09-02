@@ -49,14 +49,14 @@ class developer_controller_schema extends admin_controller
 
 	/**
 	 * 数据表结构
-	 * 
+	 *
 	 * @param  string $table 数据表名称，不含前缀
 	 * @return null
 	 */
 	public function action_index($table)
     {
 		$app    = @include(ZOTOP_PATH_APPS . DS . zotop::cookie('project_dir') . DS .'app.php');
-		
+
 		$schema = $this->db->schema($table);
 
 		$this->assign('title',t('数据表结构'));
@@ -87,7 +87,7 @@ class developer_controller_schema extends admin_controller
 
 					if ( $this->db->existsIndex($tablename, $indexname)  )
 					{
-						return $this->error(t('{1} [{2}] 已存在', $post['operation'], $indexname));
+						return $this->error(t('$1 [$2] 已存在', $post['operation'], $indexname));
 					}
 
 					$result = $this->db->addIndex($tablename, $indexname, $post['id'], $operation);
@@ -105,12 +105,12 @@ class developer_controller_schema extends admin_controller
 
 			if ( $result )
 			{
-				return $this->success(t('{1}成功',$post['operation']),u("developer/schema/{$tablename}"));
+				return $this->success(t('$1成功',$post['operation']),u("developer/schema/{$tablename}"));
 			}
-			$this->error(t('{1}失败',$post['operation']));
+			$this->error(t('$1失败',$post['operation']));
 		}
 
-		$this->error(t('{1}失败',t('操作')));
+		$this->error(t('$1失败',t('操作')));
     }
 
 	/**
@@ -123,7 +123,7 @@ class developer_controller_schema extends admin_controller
     {
 		// 获取全部数据
 		$data      = $this->db->table($tablename)->select();
-		
+
 		// 获取数据表结构信息
 		$schema    = $this->db->schema($tablename);
 
@@ -149,12 +149,12 @@ class developer_controller_schema extends admin_controller
 	{
 		// 输出数组
 		$schema = arr::export($schema);
-		
+
 		// 替换comment为可翻译
 		$schema = preg_replace("/'comment'\s*=>\s*'(.*?)'/","'comment'=>t('$1')",$schema);
 
 		return $schema;
-	}    
+	}
 
 	/**
 	 * 新建字段
@@ -190,15 +190,15 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $this->db->existsField($tablename, $post['name']) )
 			{
-				return $this->error(t('{1}已经存在', $post['name']));
+				return $this->error(t('$1已经存在', $post['name']));
 			}
 
 			if ( $this->db->addField($tablename, $post) )
 			{
-				return $this->success(t('{1}成功',t('新建字段')),u("developer/schema/{$tablename}"));
+				return $this->success(t('$1成功',t('新建字段')),u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('{1}失败',t('新建字段')));
+			return $this->error(t('$1失败',t('新建字段')));
 		}
 
 		$fields = $this->db->fields($tablename);
@@ -215,7 +215,7 @@ class developer_controller_schema extends admin_controller
 
 		foreach($fields as $name=>$field)
 		{
-			$position["after {$name}"] = t('{1} 之后', $name);
+			$position["after {$name}"] = t('$1 之后', $name);
 		}
 
 		$position['last'] = t('数据表结尾');
@@ -241,19 +241,19 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $fieldname != $post['name'] and $this->db->existsField($tablename, $post['name']) )
 			{
-				return $this->error(t('{1}已经存在', $post['name']));
+				return $this->error(t('$1已经存在', $post['name']));
 			}
 
 			if ( $this->db->changeField($tablename, $fieldname, $post) )
 			{
-				return $this->success(t('{1}成功',t('编辑字段')),u("developer/schema/{$tablename}"));
+				return $this->success(t('$1成功',t('编辑字段')),u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('{1}失败',t('编辑字段')));
+			return $this->error(t('$1失败',t('编辑字段')));
 		}
 
 		$fields = $this->db->fields($tablename);
-		
+
 		$data = $fields[$fieldname] + array(
 			'name'     => $fieldname,
 			'primary'  => false,
@@ -267,7 +267,7 @@ class developer_controller_schema extends admin_controller
 
 		foreach($fields as $name=>$field)
 		{
-			$position["after {$name}"] = t('{1} 之后', $name);
+			$position["after {$name}"] = t('$1 之后', $name);
 		}
 
 		$position['last'] = t('当前位置');
@@ -293,10 +293,10 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $this->db->dropField($tablename, $fieldname) )
 			{
-				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$tablename}"));
+				return $this->success(t('$1成功',t('删除')) ,u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('{1}失败',t('删除')));
+			return $this->error(t('$1失败',t('删除')));
 		}
     }
 
@@ -312,10 +312,10 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $this->db->dropPrimary($tablename) )
 			{
-				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$tablename}"));
+				return $this->success(t('$1成功',t('删除')) ,u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('{1}失败',t('删除')));
+			return $this->error(t('$1失败',t('删除')));
 		}
     }
 
@@ -331,10 +331,10 @@ class developer_controller_schema extends admin_controller
 		{
 			if ( $this->db->dropIndex($tablename,$indexname) )
 			{
-				return $this->success(t('{1}成功',t('删除')) ,u("developer/schema/{$tablename}"));
+				return $this->success(t('$1成功',t('删除')) ,u("developer/schema/{$tablename}"));
 			}
 
-			return $this->error(t('{1}失败',t('删除')));
+			return $this->error(t('$1失败',t('删除')));
 		}
     }
 

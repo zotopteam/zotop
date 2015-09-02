@@ -609,7 +609,7 @@ class Mobile_Detect
         'Presto'        => 'Presto/[VER]',
 
         // OS
-        'iOS'              => ' \bi?OS\b [VER][ ;]{1}',
+        'iOS'              => ' \bi?OS\b [VER][ ;]$1',
         'Android'          => 'Android [VER]',
         'BlackBerry'       => array('BlackBerry[\w]+/[VER]', 'BlackBerry.*Version/[VER]', 'Version/[VER]'),
         'BREW'             => 'BREW [VER]',

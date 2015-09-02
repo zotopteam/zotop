@@ -36,9 +36,9 @@ class content_model_field extends model
 			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
 			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),
 			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
-			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),							
+			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),
         ));
-		
+
 		// 系统字段
         $this->system_fields = zotop::filter('content.field.system',array(
 			array('control'=>'title','label'=>t('标题'),'name'=>'title','type'=>'varchar','length'=>'100','notnull'=>'1','settings'=>array('minlength'=>'0','maxlength'=>'100'),'base'=>'1','post'=>'1','search'=>'1'),
@@ -69,7 +69,7 @@ class content_model_field extends model
 		return $options;
 	}
 
-	
+
 
 	/**
 	 * 获取数据集，支持链式查询
@@ -94,14 +94,14 @@ class content_model_field extends model
 
 	/**
 	 * 获取添加编辑时的表单字段并格式化
-	 * 
+	 *
 	 * @param  int $modelid 表单编号
 	 * @param  array  $data  表单数据
 	 * @return array 格式化的表单
 	 */
 	public function getfields($modelid, $data=array())
 	{
-		
+
 		$fields = array();
 
 		if ( $_fields = $this->cache($modelid) )
@@ -131,8 +131,8 @@ class content_model_field extends model
 				{
 					if ( $key[0] == '_' or $val == '' ) continue;
 
-					$fields[$i]['field'][$key] = $val;					
-				}				
+					$fields[$i]['field'][$key] = $val;
+				}
 
 				// 增加上传数据编号
 				if ( in_array($r['control'], array('editor','image','images','file','files')) and $data['dataid'] )
@@ -175,12 +175,12 @@ class content_model_field extends model
 		}
 
 		return array();
-	}	
+	}
 
 
 	/**
 	 * 检查并完善添加编辑时传入的数据
-	 * 
+	 *
 	 * @param  array $data 数据
 	 * @return array
 	 */
@@ -193,7 +193,7 @@ class content_model_field extends model
 
 		if ( in_array(strtolower($data['name']), m('content.content.fields')) or in_array(strtolower($data['name']), array('dataid')))
 		{
-			return $this->error(t('字段名 {1} 已经存在, 请重新输入', $data['name']));
+			return $this->error(t('字段名 $1 已经存在, 请重新输入', $data['name']));
 		}
 
 		if ( empty($data['length']) and in_array($data['type'], array('char','varchar','tinyint','smallint','mediumint','int')) )
@@ -232,11 +232,11 @@ class content_model_field extends model
 		);
 
 		return $field;
-	}	
+	}
 
 	/**
 	 * 添加自定义字段
-	 * 
+	 *
 	 * @param  array $data 字段设置
 	 * @return mixed  操作结果或者字段编号
 	 */
@@ -261,20 +261,20 @@ class content_model_field extends model
 
 				if ( !$this->db->createTable($tablename, $schema) )
 				{
-					return $this->error(t('创建附加数据表 {1} 失败', $tablename));
+					return $this->error(t('创建附加数据表 $1 失败', $tablename));
 				}
 			}
 
 			// 检查字段名称是否已经存在
 			if ( $this->db->existsField($tablename,$data['name']) )
 			{
-				return $this->error(t('字段名 {1} 已经存在, 请重新输入', $data['name']));
+				return $this->error(t('字段名 $1 已经存在, 请重新输入', $data['name']));
 			}
 
 			if ( empty($data['listorder']) )
 			{
 				$data['listorder'] = $this->max('id') + 1;
-			}			
+			}
 
 			if ( $this->db->addField($tablename, $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
@@ -287,7 +287,7 @@ class content_model_field extends model
 
 				// 更新数据表字段缓存
 				zotop::cache("{$tablename}.fields", null);
-				
+
 				// 更新字段缓存
 				$this->cache($data['modelid'], true);
 
@@ -300,7 +300,7 @@ class content_model_field extends model
 
 	/**
 	 * 编辑
-	 * 
+	 *
 	 * @param  array $data 数据
 	 * @param  int $id   字段编号
 	 * @return mixed  操作结果或者字段编号
@@ -323,7 +323,7 @@ class content_model_field extends model
 			// 更名的时候检查字段名称是否已经存在
 			if ( $data['_name'] != $data['name'] and $this->db->existsField($tablename, $data['name']) )
 			{
-				return $this->error(t('字段名 {1} 已经存在, 请重新输入', $data['name']));
+				return $this->error(t('字段名 $1 已经存在, 请重新输入', $data['name']));
 			}
 
 			// 更该字段
@@ -333,18 +333,18 @@ class content_model_field extends model
 				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['modelid'], true);				
+				$this->cache($data['modelid'], true);
 
 				return $id;
 			}
 		}
 
 		return false;
-	}			
+	}
 
 	/**
 	 * 删除
-	 * 
+	 *
 	 * @param  int $id   字段编号
 	 * @return mixed  操作结果
 	 */
@@ -360,7 +360,7 @@ class content_model_field extends model
 			{
 				//更新模型类型
 				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $this->db->drop($tablename) )
-				{				
+				{
 					m('content.model')->where('id',$data['modelid'])->data('model','')->update();
 					m('content.model')->cache(true);
 				}
@@ -369,7 +369,7 @@ class content_model_field extends model
 				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['modelid'], true);				
+				$this->cache($data['modelid'], true);
 
 				return true;
 			}
@@ -392,7 +392,7 @@ class content_model_field extends model
 		$modelid = $this->get($id, 'modelid');
 
 		// 更新字段缓存
-		$this->cache($modelid, true);		
+		$this->cache($modelid, true);
 
 		return true;
 	}
@@ -405,7 +405,7 @@ class content_model_field extends model
 	 */
 	public function status($id)
 	{
-		
+
 		$modelid 	= $this->get($id, 'modelid');
 		$disabled 	= $this->get($id, 'disabled') ? 0 : 1;
 
@@ -438,6 +438,6 @@ class content_model_field extends model
 		}
 
 		return $cache;
-	}		
+	}
 }
 ?>

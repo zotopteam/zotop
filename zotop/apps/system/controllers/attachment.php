@@ -95,14 +95,14 @@ class system_controller_attachment extends admin_controller
 
 			if ( $file = $this->attachment->upload($post) )
 			{
-				return $this->success(t('{1}上传成功',$file['name']));
+				return $this->success(t('$1上传成功',$file['name']));
 			}
 
 			return $this->error($this->attachment->error());
 		}
 
 		return $this->error(t('参数错误'));
-	}    
+	}
 
 
 	/**

@@ -13,7 +13,7 @@
 	<div class="main-body scrollable">
 		<table id="tree" class="table list hidden">
 		<thead>
-			<tr>			
+			<tr>
 				<td class="w400">{t('权限名称')}</td>
 				<td>{t('权限标识')}</td>
 				<td class="w80 center">{t('状态')}</td>
@@ -31,7 +31,7 @@
 		</table>
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="tips">{t('我的角色: "{1}", {2}', $role['name'], $role['description'])}</div>
+		<div class="tips">{t('我的角色: "$1", $2', $role['name'], $role['description'])}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
 {form::footer()}

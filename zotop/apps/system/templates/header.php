@@ -27,7 +27,7 @@
 <div class="global-header">
 	<ul class="global-navbar">
 		<li class="logo menu">
-			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a> 
+			<a class="logo" href="javascript:void(0);">{t('逐涛内容管理系统')}</a>
 			<div class="dropmenu">
 				<div class="dropmenulist">
 					<a href="{u('system/system/reboot')}" class="dialog-confirm"><i class="icon icon-refresh"></i>{t('重启系统')}</a>
@@ -49,7 +49,7 @@
 						<a href="{$m.href}">{$m.icon}{$m.text}</a>
 						{/loop}
 					</div>
-				</div>				
+				</div>
 			</li>
 			{else}
 			<li class="normal{if $nav['current']} current{/if}"><a href="{$nav['href']}">{$nav['text']}</a></li>
@@ -58,12 +58,12 @@
 		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER!='index'} current{/if}" style="display:none;"><a href="{u('system/system')}">{t('系统')}</a></li>
 	</ul>
 	<ul class="global-navbar global-userbar">
-		
+
 		{if $_GLOBALMSG = zotop::filter('system.globalmsg',array()) }
 		<li class="menu menu-noarrow">
 			<a><i class="icon icon-msg a-flash"></i><b class="msg">{count($_GLOBALMSG)}</b></a>
 			<div class="dropmenu dropmenu-right">
-				<h2>{t('您有 {1} 条待处理信息',count($_GLOBALMSG))}</h2>
+				<h2>{t('您有 $1 条待处理信息',count($_GLOBALMSG))}</h2>
 				<div class="dropmenulist dropmenumsg">
 					{loop $_GLOBALMSG $msg}
 					<a href="{$msg['href']}"><i class="icon icon-info icon-{$msg['type']} {$msg['type']}"></i>{$msg['text']}</a>
@@ -72,10 +72,10 @@
 			</div>
 		</li>
 		{/if}
-		
+
 		<li class="site">
-			<a href="{u()}" title="{t('访问 {1} 首页',C('site.name'))}" target="_blank"><i class="icon icon-home"></i> {t('网站首页')}</a>
-		</li>		
+			<a href="{u()}" title="{t('访问 $1 首页',C('site.name'))}" target="_blank"><i class="icon icon-home"></i> {t('网站首页')}</a>
+		</li>
 		<li><a class="ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="icon icon-clear"></i> {t('一键刷新')}</a></li>
 		<li class="username menu">
 			<a><i class="icon icon-user"></i> {zotop::user('username')} <i class="icon icon-angle-down"></i></a>

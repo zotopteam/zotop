@@ -5,9 +5,9 @@ defined('ZOTOP') OR die('No direct access allowed.');
 *
 * @package		dbimport
 * @version		1.0
-* @author		
-* @copyright	
-* @license		
+* @author
+* @copyright
+* @license
 */
 class dbimport_controller_admin extends admin_controller
 {
@@ -55,7 +55,7 @@ class dbimport_controller_admin extends admin_controller
 				return $this->success(t('保存成功'),u('dbimport/admin'));
 			}
 
-			return $this->error($this->dbimport->error());  		
+			return $this->error($this->dbimport->error());
     	}
 
 		$data = array();
@@ -64,7 +64,7 @@ class dbimport_controller_admin extends admin_controller
 		$data['source']['hostport'] = '3306';
 		$data['source']['username'] = 'root';
 		$data['source']['charset'] 	= 'utf8';
-		
+
 
 		$this->assign('title',t('新建规则'));
 		$this->assign('data',$data);
@@ -79,13 +79,13 @@ class dbimport_controller_admin extends admin_controller
     {
     	if ( $post = $this->post() )
     	{
-		   		
+
   			if ( $this->dbimport->edit($post, $id) )
 			{
 				return $this->success(t('保存成功'),u('dbimport/admin'));
 			}
 
-			return $this->error($this->dbimport->error());  		
+			return $this->error($this->dbimport->error());
     	}
 
 		$data = $this->dbimport->get($id);
@@ -93,11 +93,11 @@ class dbimport_controller_admin extends admin_controller
 		$this->assign('title',t('编辑规则'));
 		$this->assign('data',$data);
 		$this->display('dbimport/admin_post.php');
-	}	
+	}
 
 	/**
 	 * 连接接数据库，获取对应关系
-	 * 
+	 *
 	 * @return json
 	 */
 	public function action_post_maps()
@@ -110,7 +110,7 @@ class dbimport_controller_admin extends admin_controller
 			{
 				zotop::db($post['source'])->connect();
 			}
-			catch (Exception $e) 
+			catch (Exception $e)
 			{
 				exit('<div class="error">'.$e->getMessage().'</div>');
 			}
@@ -125,7 +125,7 @@ class dbimport_controller_admin extends admin_controller
 
 			$fields = $this->fields('default', $post['table']);
 
-			
+
 			// 获取源数据库的数据表及字段
 			$source_tables = $this->tables($post['source']);
 
@@ -138,8 +138,8 @@ class dbimport_controller_admin extends admin_controller
 
 			$this->assign('tables',$tables);
 			$this->assign('fields',$fields);
-			$this->assign('source_tables',$source_tables);			
-			$this->assign('source_fields',$source_fields);			
+			$this->assign('source_tables',$source_tables);
+			$this->assign('source_fields',$source_fields);
 			$this->assign('data',$post);
 			$this->display('dbimport/admin_post_maps.php');
 		}
@@ -184,7 +184,7 @@ class dbimport_controller_admin extends admin_controller
 
 	/**
 	 * 导入指定配置的数据
-	 * 
+	 *
 	 * @param  int $id 配置编号
 	 * @return json
 	 */
@@ -197,17 +197,17 @@ class dbimport_controller_admin extends admin_controller
 
 			if ( $count )
 			{
-				return $this->success(t('操作成功，导入数据 {1} 条', $count));
+				return $this->success(t('操作成功，导入数据 $1 条', $count));
 			}
 		}
 
-		return $this->error($this->dbimport->error());	
+		return $this->error($this->dbimport->error());
 	}
 
 
 	/**
 	 * 获取数据库数据表
-	 * 
+	 *
 	 * @param  array|string  $config 数据库配置
 	 * @return array  数据表数组
 	 */
@@ -222,19 +222,19 @@ class dbimport_controller_admin extends admin_controller
 			$tables[$name] = $table['comment'] ? $name.'['.$table['comment'].']' : $name;
 		}
 
-		return $tables;	
+		return $tables;
 	}
 
 	/**
 	 * 获取数据库数据表字段列表
-	 * 
+	 *
 	 * @param  array|string  $config 数据库配置
 	 * @param  string  $table 表名称
 	 * @return array  字段数组
 	 */
 	private function fields($config, $table)
 	{
-		return $table ? zotop::db($config)->table($table)->fields() : array();		
-	}	
+		return $table ? zotop::db($config)->table($table)->fields() : array();
+	}
 }
 ?>

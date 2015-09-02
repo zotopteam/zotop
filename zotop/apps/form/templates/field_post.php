@@ -20,7 +20,7 @@
 					{form::field(array('type'=>'select','name'=>'control','value'=>$data['control'],'options'=>m('form.field.control_options'),'class'=>'short'))}
 				</td>
 			</tr>
-			
+
 			<tr>
 				<td class="label">{form::label(t('标签名'),'label',true)}</td>
 				<td class="input">
@@ -32,7 +32,7 @@
 			<tr>
 				<td class="label">{form::label(t('字段名'),'name',true)}</td>
 				<td class="input">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]{1}[a-z0-9_]{0,18}[a-z0-9]{1}$','required'=>'required'))}
+					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]$1[a-z0-9_]{0,18}[a-z0-9]$1$','required'=>'required'))}
 					{form::field(array('type'=>'hidden','name'=>'_name','value'=>$data['name']))}
 					{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 				</td>
@@ -80,9 +80,9 @@
 			<tr class="extend unique">
 				<td class="label">{form::label(t('值唯一'),'unique',false)}</td>
 				<td class="input">
-					
+
 					{form::field(array('type'=>'bool','name'=>'unique','value'=>(int)$data['unique']))}
-					
+
 					{form::tips('录入的数据需要全局唯一值')}
 
 				</td>
@@ -103,7 +103,7 @@
 
 					{form::tips('字段是否在列表页面显示')}
 				</td>
-			</tr>			
+			</tr>
 
 			<tr class="extend show">
 				<td class="label">{form::label(t('详细页显示'),'show',false)}</td>
@@ -129,7 +129,7 @@
 					{form::field(array('type'=>'radio','name'=>'order','options'=>array(''=>t('否'),'ASC'=>t('升序'),'DESC'=>t('降序')),'value'=>$data['order']))}
 					{form::tips('列表数据是否根据该字段进行排序')}
 				</td>
-			</tr>										
+			</tr>
 
 		</table>
 	</div><!-- main-body -->
@@ -155,7 +155,7 @@
 			$('#settings').load("{U('form/field/settings')}", data, function(){
 				$(this).find(".checkboxes").checkboxes();
 				$(this).find(".radios").radios();
-				$(this).find(".single-select").singleselect();		
+				$(this).find(".single-select").singleselect();
 			});
 		}
 

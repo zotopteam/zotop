@@ -17,7 +17,7 @@ class content_model_model extends model
 
 	/**
 	 * 添加模型
-	 * 
+	 *
 	 * @param array $data 模型数据
 	 * @return mixed
 	 */
@@ -25,12 +25,12 @@ class content_model_model extends model
 	{
 		if ( empty($data['id']) ) return $this->error(t('模型编号不能为空'));
 		if ( empty($data['name']) ) return $this->error(t('模型名称不能为空'));
-		
-		
+
+
 		$data['app'] 		= $data['app'] ? $data['app'] : 'content';
 		$data['listorder']	= $this->max('listorder') + 1;
 		$data['disabled']	= 0;
-		
+
 		if ( $id = $this->insert($data) )
 		{
 			// 插入系统字段
@@ -43,18 +43,18 @@ class content_model_model extends model
 				$field['listorder'] = $i;
 
 				$this->field->insert($field);
-			}		
+			}
 
 			$this->cache(true);
 			return $id;
 		}
-		
+
 		return false;
 	}
 
 	/**
 	 * 修改模型
-	 * 
+	 *
 	 * @param array $data 模型数据
 	 * @param  string $id  模型编号
 	 * @return mixed
@@ -87,7 +87,7 @@ class content_model_model extends model
 
 			// 删除模型表
 			$this->db->dropTable("content_model_{$id}");
-			
+
 			// 重建缓存
 			$this->cache(true);
 
@@ -99,7 +99,7 @@ class content_model_model extends model
 
 	/**
 	 * 导出模型数据
-	 * 
+	 *
 	 * @param  string $id 模型编号
 	 * @return array
 	 */
@@ -116,12 +116,12 @@ class content_model_model extends model
 
 		$export['fields'] = $fields;
 
-		return $export;		
+		return $export;
 	}
 
 	/**
 	 * 导入模型
-	 * 
+	 *
 	 * @param  array $data 模型数据
 	 * @return mixed
 	 */
@@ -134,7 +134,7 @@ class content_model_model extends model
 
 		if ( $this->where('id',$data['id'])->exists() )
 		{
-			return $this->error(t('标识为{1}的模型已经存在',$data['id']));
+			return $this->error(t('标识为$1的模型已经存在',$data['id']));
 		}
 
 		if ( $this->insert($data) )
@@ -161,7 +161,7 @@ class content_model_model extends model
 				$listorder++;
 			}
 
-			if ( count($extendfield)>1 ) 
+			if ( count($extendfield)>1 )
 			{
 				$tablename 	= "content_model_{$data['id']}";
 				$schema 	= array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
@@ -178,19 +178,19 @@ class content_model_model extends model
 				}
 
 				// 更新数据表字段缓存
-				zotop::cache("{$tablename}.fields", null);			
+				zotop::cache("{$tablename}.fields", null);
 			}
 
 			$this->cache(true);
 			return true;
 		}
 
-		return $this->error(t('导入失败'));		
+		return $this->error(t('导入失败'));
 	}
 
 	/**
 	 * 获取排序过的全部数据
-	 * 
+	 *
 	 * @return array
 	 */
 	public function select()

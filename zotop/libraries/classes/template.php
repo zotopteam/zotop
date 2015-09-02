@@ -305,8 +305,9 @@ class template
     public function parse_field($str)
     {
         $attrs = $this->parse_attrs($str);
+        $array = $this->array_attrs($attrs);
 
-        return form::field($attrs);
+        return '<?php echo form::field('.$array.')?>';
     }    
 
 
@@ -333,14 +334,14 @@ class template
      * 将标签字符串转化为数组
      * 
      * 
-     * @param  string $str 标签字符串，所有参数都必须以半角（英文）双引号括起来，如： id="1" size="10" name=$name placeholder=t('dddd')
+     * @param  string $str 标签字符串，所有参数都必须以半角（英文）双引号括起来，如： id="1" size="10" name="$name" placeholder="t('dddd')"
      * @return array
      */
     public function parse_attrs($str)
     {
         $attrs = array();
 
-        preg_match_all("/\s+([a-z0-9_-]+)\s*\=\s*([\"]?[^\"\s]+[\"]?)/i", stripslashes($str), $matches, PREG_SET_ORDER);
+        preg_match_all("/\s+([a-z0-9_-]+)\s*\=\s*\"(.*?)\"/i", stripslashes($str), $matches, PREG_SET_ORDER);
 
         foreach ($matches as $v)
         {
@@ -356,7 +357,7 @@ class template
      * @param array $attrs 数组
      * @return code
      */
-    public function str_attrs($attrs)
+    public function array_attrs($attrs)
     {
         if (is_array($attrs))
         {
@@ -366,7 +367,7 @@ class template
             {
                 if (is_array($val))
                 {
-                    $str .= "'$key'=>" . $this->str_attrs($val) . ",";
+                    $str .= "'$key'=>" . $this->array_attrs($val) . ",";
                 }
                 else
                 {
@@ -392,7 +393,7 @@ class template
      *
      * @param string $html 匹配到的HTML代码
      * @param string $tag 标签名称
-     * @param string $str_attrs 标签属性
+     * @param string $array_attrs 标签属性
      * @param string $end 标签是否自动结束
      *
      * @return string 解析的结果
@@ -426,14 +427,14 @@ class template
             if ( $cache )
             {
                 $code .= $newline.'if ( null === $' . $callback . ' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ):';
-				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . $this->str_attrs($attrs) . ') ) :';
+				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . $this->array_attrs($attrs) . ') ) :';
                 $code .= $newline.'		zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $' . $callback . ', ' . $cache . ');';
 				$code .= $newline.'	endif;';
                 $code .= $newline.'endif;';
             }
 			else
 			{
-				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . $this->str_attrs($attrs) . ');';
+				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . $this->array_attrs($attrs) . ');';
 			}
 
 			if ( $end )
@@ -456,7 +457,7 @@ class template
      * 模板标签解析：解析闭合标签
      *
      * @param string $tag 标签名称
-     * @param string $str_attrs 标签属性
+     * @param string $array_attrs 标签属性
      * @param string $end 标签是否自动结束
      * @return string 解析的结果
      */

@@ -69,7 +69,7 @@ class dbimport_model_dbimport extends model
 
 		if ( $this->source_count($data) === false )
 		{
-			return $this->error(t('规则异常, {1}', $this->error()));
+			return $this->error(t('规则异常, $1', $this->error()));
 		}
 
 		if ( $id = $this->insert($data) )
@@ -86,11 +86,11 @@ class dbimport_model_dbimport extends model
 	public function edit($data, $id)
 	{
 		if ( empty($data['name']) ) return $this->error(t('名称不能为空'));
-		if ( empty($data['table']) ) return $this->error(t('目标数据表不能为空'));	
-		
+		if ( empty($data['table']) ) return $this->error(t('目标数据表不能为空'));
+
 		if ( $this->source_count($data) === false )
 		{
-			return $this->error(t('规则异常, {1}', $this->error()));
+			return $this->error(t('规则异常, $1', $this->error()));
 		}
 
 		// 更新数据
@@ -107,7 +107,7 @@ class dbimport_model_dbimport extends model
 	 *
 	 * @param int $id ID
 	 * @return bool
-	 */ 
+	 */
 	public function delete($id)
 	{
 		return parent::delete($id);
@@ -115,13 +115,13 @@ class dbimport_model_dbimport extends model
 
 	/**
 	 * 获取复合导入规则的数据总条数
-	 * 
+	 *
 	 * @param  array $config 导入规则
 	 * @return int
 	 */
 	public function source_count($config)
 	{
-		
+
 		try
 		{
 			return $this->source_db($config)->count();
@@ -135,7 +135,7 @@ class dbimport_model_dbimport extends model
 
 	/**
 	 * 获取复合导入规则的数据总条数
-	 * 
+	 *
 	 * @param  array $config 导入规则
 	 * @return int
 	 */
@@ -143,7 +143,7 @@ class dbimport_model_dbimport extends model
 	{
 		try
 		{
-			zotop::db($config['source'])->connect();		
+			zotop::db($config['source'])->connect();
 		}
 		catch (Exception $e)
 		{
@@ -152,7 +152,7 @@ class dbimport_model_dbimport extends model
 
 		if ( $config['source']['condition'] )
 		{
-			return zotop::db($config['source'])->table($config['source']['table'])->where($config['source']['condition']);	
+			return zotop::db($config['source'])->table($config['source']['table'])->where($config['source']['condition']);
 		}
 
 		return zotop::db($config['source'])->table($config['source']['table']);
@@ -160,7 +160,7 @@ class dbimport_model_dbimport extends model
 
 	/**
 	 * 导入数据
-	 * 
+	 *
 	 * @param  array $config 导入规则
 	 * @return int
 	 */
@@ -185,13 +185,13 @@ class dbimport_model_dbimport extends model
 
 						if ( $m['function'] )
 						{
-							$data[$k] = strpos($m['function'], '::') ? call_user_func_array($m['function'], $data[$k]) : call_user_func($m['function'], $data[$k]);	
-						}						
+							$data[$k] = strpos($m['function'], '::') ? call_user_func_array($m['function'], $data[$k]) : call_user_func($m['function'], $data[$k]);
+						}
 					}
 					else
 					{
 						$data[$k] = $m['default'];
-					}					
+					}
 				}
 
 				$this->db->table($config['table'])->data($data)->insert(true);

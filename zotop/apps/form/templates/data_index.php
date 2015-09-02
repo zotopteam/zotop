@@ -9,7 +9,7 @@
 		<ul class="navbar">
 			<li class="current"><a href="{U('form/data/index/'.$formid)}"><i class="icon icon-item"></i> {t('数据管理')}</a></li>
 			<li><a href="{U('form/field/index/'.$formid)}"><i class="icon icon-database"></i> {t('字段管理')}</a></li>
-			<li><a href="{U('form/admin/edit/'.$formid)}"><i class="icon icon-setting"></i> {t('表单设置')}</a></li>			
+			<li><a href="{U('form/admin/edit/'.$formid)}"><i class="icon icon-setting"></i> {t('表单设置')}</a></li>
 		</ul>
 
 		<form action="{u('form/data/index/'.$formid)}" class="searchbar" method="post">
@@ -21,7 +21,7 @@
 			<a class="btn btn-icon-text btn-highlight" href="{U('form/data/add/'.$formid)}">
 				<i class="icon icon-add"></i><b>{t('添加')}</b>
 			</a>
-			
+
 			{if $form.settings.list}
 			<a href="{U('form/index/list/'.$formid)}" target="_blank" class="btn btn-icon-text">
 				<i class="icon icon-view"></i><b>{t('前台列表')}</b>
@@ -35,11 +35,11 @@
 
 	</div>
 	<div class="main-body scrollable">
-		
+
 		{if empty($fields)}
-			<div class="nodata">{t('当前表单还没任何字段，请进入 <a href="{1}">字段管理</a> 添加字段',U('form/field/index/'.$formid))}</div>
+			<div class="nodata">{t('当前表单还没任何字段，请进入 <a href="$1">字段管理</a> 添加字段',U('form/field/index/'.$formid))}</div>
 		{elseif empty($list)}
-			<div class="nodata">{t('需要设置至少一个字段作为后台列表字段，请进入 <a href="{1}">字段管理</a> 设置',U('form/field/index/'.$formid))}</div>
+			<div class="nodata">{t('需要设置至少一个字段作为后台列表字段，请进入 <a href="$1">字段管理</a> 设置',U('form/field/index/'.$formid))}</div>
 		{elseif empty($data)}
 			<div class="nodata">{t('没有找到任何数据')}</div>
 		{else}
@@ -60,11 +60,11 @@
 				{loop $data $r}
 					<tr>
 						<td class="select"><input type="checkbox" name="id[]" value="{$r['id']}" class="checkbox select"/></td>
-						<td class="none">{$r.id}</td>					
+						<td class="none">{$r.id}</td>
 						{loop $list $name $field}
-												
+
 						<td>{m('form.field.show',$r[$name], $field)}</td>
-							
+
 						{/loop}
 						<td>
 							<div class="manage">
@@ -73,13 +73,13 @@
 								{else}
 								<a href="{u('form/data/detail/'.$formid.'/'.$r['id'])}" class="dialog-open" data-width="1000px" data-height="450px"><i class="icon icon-view"></i> {t('详细')}</a>
 								{/if}
-								<s></s>				
+								<s></s>
 
 								<a href="{u('form/data/edit/'.$formid.'/'.$r['id'])}"><i class="icon icon-edit"></i> {t('编辑')}</a>
 								<s></s>
 
 								<a href="{u('form/data/delete/'.$formid.'/'.$r['id'])}" class="dialog-confirm"><i class="icon icon-delete"></i> {t('删除')}</a>
-							</div>					
+							</div>
 						</td>
 					</tr>
 				{/loop}
@@ -95,7 +95,7 @@
 
 		<input type="checkbox" class="checkbox select-all middle">
 
-		<a class="btn operate" href="{u('form/data/operate/'.$formid.'/delete')}">{t('删除')}</a>		
+		<a class="btn operate" href="{u('form/data/operate/'.$formid.'/delete')}">{t('删除')}</a>
 	</div>
 </div>
 

@@ -15,7 +15,7 @@ class content_model_content extends model
 
     /**
      * 内容状态
-     * 
+     *
      * @param  string $s 传递具体状态值将获得该状态的名称
      * @return mixed
      */
@@ -34,7 +34,7 @@ class content_model_content extends model
 
     /**
      * 内容url
-     * 
+     *
      * @param  int  $id    内容编号
      * @param  string  $alias URL别名
      * @param  string  $url   url值
@@ -106,14 +106,14 @@ class content_model_content extends model
         if ( $status )
         {
             $this->where('status', '=', $status);
-        }        
+        }
 
         return $this->count();
     }
 
     /**
      * 获取扩展模型对象
-     * 
+     *
      * @param  string $modelid 模型id
      * @return object 模型对象
      */
@@ -122,7 +122,7 @@ class content_model_content extends model
         if ( $modelid )
         {
             $model = m('content.model.get',$modelid);
-        }        
+        }
 
         if ( $model and $model['app'] and $model['model'] )
         {
@@ -178,18 +178,18 @@ class content_model_content extends model
         if ( $data['alias'] and $alias = alias($data['alias']) )
         {
             if ($alias != "content/detail/{$data['id']}") return $this->error(t('别名已经存在'));
-        }       
+        }
 
         // 预处理数据
         $fields = m('content.field.cache', $data['modelid']);
 
         foreach ($fields as $name => $field)
         {
-            if ( $field['notnull'] and empty($data[$name]) ) return $this->error(t('{1}不能为空', $field['label']));
-            if ( $field['settings']['maxlength'] and str::len($data[$name]) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength']));
-            if ( $field['settings']['minlength'] and str::len($data[$name]) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength']));
-            if ( $field['settings']['max'] and intval($data[$name]) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
-            if ( $field['settings']['min'] and intval($data[$name]) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
+            if ( $field['notnull'] and empty($data[$name]) ) return $this->error(t('$1不能为空', $field['label']));
+            if ( $field['settings']['maxlength'] and str::len($data[$name]) > $field['settings']['maxlength'] ) return $this->error(t('$1最大长度为$2', $field['label'],$field['settings']['maxlength']));
+            if ( $field['settings']['minlength'] and str::len($data[$name]) < $field['settings']['minlength'] ) return $this->error(t('$1最小长度为$2', $field['label'],$field['settings']['minlength']));
+            if ( $field['settings']['max'] and intval($data[$name]) > $field['settings']['max'] ) return $this->error(t('$1最大值为$2', $field['label'],$field['settings']['max']));
+            if ( $field['settings']['min'] and intval($data[$name]) < $field['settings']['min'] ) return $this->error(t('$1最小值为$2', $field['label'],$field['settings']['min']));
             if ( $field['control'] == 'date' or $field['control'] == 'datetime' ) $data[$name] = empty($data[$name]) ? ZOTOP_TIME : strtotime($data[$name]);
             if ( $field['control'] == 'keywords' and $data[$name] ) $data[$name] = str_replace('，', ',', $data[$name]);
             if ( $field['control'] == 'editor' and $data[$name] )
@@ -206,7 +206,7 @@ class content_model_content extends model
             }
             if ( $field['control'] == 'images' and $data[$name] )
             {
-                $data[$name] = array_values($data[$name]); // 清除键值，修复图集的排序问题 
+                $data[$name] = array_values($data[$name]); // 清除键值，修复图集的排序问题
 
                 if ( intval(C('content.auto_image')) >= 1 and empty($data['image']) )
                 {
@@ -217,7 +217,7 @@ class content_model_content extends model
             {
                 $data[$name] = array_values($data[$name]);
             }
-        }        
+        }
 
         // 保存
         $result = empty($data['id']) ? $this->add($data) : $this->edit($data);
@@ -239,7 +239,7 @@ class content_model_content extends model
                 'dataid'        => "content-{$data['id']}",
                 'title'         => $data['title'],
                 'style'         => $data['style'],
-                'url'           => $this->url($data['id'], $data['alias'], $data['url'], false),              
+                'url'           => $this->url($data['id'], $data['alias'], $data['url'], false),
                 'image'         => $data['image'],
                 'description'   => $data['summary'],
                 'time'          => $data['createtime']
@@ -353,7 +353,7 @@ class content_model_content extends model
         }
 
         return $this->error(t('编号[%s]数据不存在', $id));
-    }  
+    }
 
 
 	/**
@@ -430,7 +430,7 @@ class content_model_content extends model
 
 		// 权重,支持整数以及范围，如:weight="10" 或者weight="0,10", weight="10,"
 
-        /*   
+        /*
 		if ( !empty($weight) )
 		{
 			if ( strpos( $weight, "," ) === FALSE )
@@ -502,7 +502,7 @@ class content_model_content extends model
 			if ( $f = C('content.newflag') )
 			{
 				if ( ( ZOTOP_TIME - $d[$f]) <= C('content.newflag_expires') * 3600 ) $d['new'] = ' <i class="new">'.t('新').'</i>';
-			}            
+			}
 
 			$return[$d['id']] = $d;
         }

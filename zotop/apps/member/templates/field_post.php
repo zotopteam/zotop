@@ -33,7 +33,7 @@
 			<tr>
 				<td class="label">{form::label(t('字段名'),'name',true)}</td>
 				<td class="input">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]{1}[a-z0-9_]{0,18}[a-z0-9]{1}$','required'=>'required'))}
+					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]$1[a-z0-9_]{0,18}[a-z0-9]$1$','required'=>'required'))}
 					{form::field(array('type'=>'hidden','name'=>'_name','value'=>$data['name']))}
 					{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 				</td>
@@ -128,7 +128,7 @@
 			$('#settings').load("{U('member/field/settings')}", data, function(){
 				$(this).find(".checkboxes").checkboxes();
 				$(this).find(".radios").radios();
-				$(this).find(".single-select").singleselect();		
+				$(this).find(".single-select").singleselect();
 			});
 		}
 

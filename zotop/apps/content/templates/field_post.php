@@ -13,7 +13,7 @@
 			<a href="{u('content/field/index/'.$data.modelid)}">{t('字段管理')} : {m('content.model.get',$data.modelid,'name')}</a>
 			<s class="arrow">></s>
 			{$title} {if $data.label}: {$data.label}{/if}
-		</div>		
+		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 
@@ -43,7 +43,7 @@
 			<tr>
 				<td class="label">{form::label(t('字段名'),'name',true)}</td>
 				<td class="input">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]{1}[a-z0-9_]{0,18}[a-z0-9]{1}$','required'=>'required','readonly'=>$data['system']))}
+					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]$1[a-z0-9_]{0,18}[a-z0-9]$1$','required'=>'required','readonly'=>$data['system']))}
 					{form::field(array('type'=>'hidden','name'=>'_name','value'=>$data['name']))}
 					{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 				</td>
@@ -70,8 +70,8 @@
 
 			<!-- 字段类型相关参数，从设定的模板加载HTML -->
 			<div id="settings">
-			
-			</div>			
+
+			</div>
 
 			<table class="field field-extend {if $data.name=='title'}none{/if}">
 
@@ -85,13 +85,13 @@
 					<td class="label">{form::label(t('前台投稿'),'post',false)} <i class="icon icon-help" title="{t('当表单允许前台发布时是否显示并允许录入数据')}"></i></td>
 					<td class="input">
 						{form::field(array('type'=>'bool','name'=>'post','value'=>$data['post']))}
-						
+
 					</td>
 				</tr>
 				<tr class="field-base">
 					<td class="label">{form::label(t('基本信息'),'base',false)} <i class="icon icon-help" title="{t('基本信息将显示在添加编辑页面的主要位置')}"></i></td>
 					<td class="input">
-						{form::field(array('type'=>'bool','name'=>'base','value'=>$data['base']))}			
+						{form::field(array('type'=>'bool','name'=>'base','value'=>$data['base']))}
 					</td>
 				</tr>
 			</table>
@@ -120,7 +120,7 @@
 			$('#settings').load("{U('content/field/settings')}", data, function(){
 				$(this).find(".checkboxes").checkboxes();
 				$(this).find(".radios").radios();
-				$(this).find(".single-select").singleselect();		
+				$(this).find(".single-select").singleselect();
 			});
 		}
 

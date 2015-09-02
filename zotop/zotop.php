@@ -57,7 +57,7 @@ define('ZOTOP_URL_PUBLIC',      ZOTOP_URL . '/public');
 defined('ZOTOP_DEBUG') or define('ZOTOP_DEBUG', false);
 
 // 跟踪模式，开启后网站页面底部将显示程序跟踪信息，默认关闭
-defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);        
+defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);
 
 // 系统启动
 zotop::init();
@@ -102,7 +102,7 @@ class zotop
      *
      * @var array 事件数组，用于hook
      */
-    public static $config = array();   
+    public static $config = array();
 
     /**
      * @var boolean 系统是否初始化
@@ -156,9 +156,9 @@ class zotop
         {
             // 如果不存在核心文件或者debug模式，自动生成runtime
             zotop::load(ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . "runtime.php") and runtime::build();
-        }    
+        }
 
-        zotop::$init = true;        
+        zotop::$init = true;
     }
 
     /**
@@ -500,9 +500,9 @@ class zotop
             foreach ($callbacks as $callback)
             {
                 zotop::profile('event_call_start');
-                
+
                 call_user_func_array($callback, array_slice($args, 1));
-                
+
                 zotop::profile('event_call_end');
                 zotop::trace('run','[ '.$name.' ] ---> '.print_r($callback,true).' ('.zotop::profile('event_call_start','event_call_end').')',false);
             }
@@ -628,7 +628,7 @@ class zotop
                     break;
                 case 'pathinfo':
                     $url .= '/' . $uri . c('system.url_suffix');
-                    break;                
+                    break;
                 default:
                     $url = '?' . c('system.url_var') . '=' . $uri;
                     break;
@@ -749,9 +749,9 @@ class zotop
             zotop::$config = array_merge(zotop::$config, array_change_key_case($name));
 
             return zotop::$config;
-        }		
+        }
 
-        // 传入参数 system.language 或者 custom 
+        // 传入参数 system.language 或者 custom
         if ( is_string($name) )
         {
             if ( strpos($name, '.') )
@@ -791,9 +791,9 @@ class zotop
                     return isset(zotop::$config[$name]) ? zotop::$config[$name] : $default;
                 }
 
-                zotop::$config[$name] = $value;  
-            }       
-            
+                zotop::$config[$name] = $value;
+            }
+
         }
 
         return $value;
@@ -941,7 +941,7 @@ class zotop
     {
         $expire = is_null($expire) ? C('cookie.expire') : $expire;
         $path   = is_null($path) ? C('cookie.path') : $path;
-        $domain = is_null($domain) ? C('cookie.domain') : $domain;   
+        $domain = is_null($domain) ? C('cookie.domain') : $domain;
 
         // 清除全部cookie
         if ( is_null($name) )
@@ -979,12 +979,12 @@ class zotop
         // 设置cookie
         $value  = base64_encode(serialize($value));
         $expire = empty($expire) ? 0 : intval($expire) + time();
-        
-               
+
+
         if ( setcookie($name, $value, $expire, $path, $domain) )
         {
             $_COOKIE[$name] = $value;
-            
+
             return true;
         }
 
@@ -1124,7 +1124,7 @@ class zotop
         }
 
         return false;
-    }    
+    }
 
     /**
      * 缓存
@@ -1140,7 +1140,7 @@ class zotop
         $cache = cache::instance();
 
         // 清理全部缓存
-        if ( $id === null ) 
+        if ( $id === null )
         {
             return $cache->clear();
         }
@@ -1149,13 +1149,13 @@ class zotop
         if ( $data === null )
         {
             return $cache->delete($id);
-        } 
+        }
 
         // 获取缓存
         if ( $data === '' )
         {
-           return $cache->get($id); 
-        } 
+           return $cache->get($id);
+        }
 
         // 存储缓存
         return $cache->set($id, $data, $expire);
@@ -1205,7 +1205,7 @@ class zotop
         }
 
         $n[$key] = $n[$key] + intval($step);
-    }    
+    }
 
     /**
      * 运行速度和占用内存分析
@@ -1228,7 +1228,7 @@ class zotop
         if ( !ZOTOP_TRACE ) return false;
 
         static $states = array();
-        
+
         if ( $end )
         {
             if ( !isset($states['t'][$end])) $states['t'][$end] = microtime(true);
@@ -1247,7 +1247,7 @@ class zotop
 
     /**
      * 记录或者获取程序运行信息
-     * 
+     *
      * @param  mixed  $type   类型，debug|sql|error……
      * @param  mixed  $info   详细信息
      * @return mixed
@@ -1260,9 +1260,9 @@ class zotop
 
         if ( empty($type) )
         {
-           return $_trace; 
-        } 
-        
+           return $_trace;
+        }
+
         $type = strtoupper($type);
 
         if ( empty($info) )
@@ -1278,7 +1278,7 @@ class zotop
         if ( !isset($_trace[$type]) )
         {
             $_trace[$type] = array();
-        } 
+        }
 
         $_trace[$type][]   = print_r($info,true);
 
@@ -1287,7 +1287,7 @@ class zotop
 
     /**
      * 记录日志
-     * 
+     *
      * @param  mixed $info 日志内容
      * @param  string $file 写入的文件，允许为空
      * @return mixed
@@ -1304,7 +1304,7 @@ class zotop
                 file::put($file, "<?php defined('ZOTOP') OR die('No direct access allowed.');?>\n");
             }
 
-            return file::put($file, $info, FILE_APPEND);           
+            return file::put($file, $info, FILE_APPEND);
         }
 
         return null;
@@ -1318,7 +1318,7 @@ class zotop
      */
     public static function powered()
     {
-        return t('Powered by {1}', '<a href="http://www.zotop.com/" target="_blank" rel="external">zotop v' . c('zotop.version') . '</a>');
+        return t('Powered by $1', '<a href="http://www.zotop.com/" target="_blank" rel="external">zotop v' . c('zotop.version') . '</a>');
     }
 }
 ?>

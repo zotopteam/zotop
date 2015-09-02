@@ -227,8 +227,9 @@ class form
      */
     public static function field_text($attrs)
 	{
-		$attrs['type'] = empty($attrs['type']) ? 'text' : $attrs['type'];
+		$attrs['type']  = empty($attrs['type']) ? 'text' : $attrs['type'];
 		$attrs['class'] = empty($attrs['class']) ? 'form-control' : 'form-control '.$attrs['class'];
+
 		return '<input'.form::attributes($attrs).'/>';
 	}
 
@@ -242,6 +243,7 @@ class form
 	public static function field_hidden($attrs)
 	{
 		$attrs['type'] = 'hidden';
+
 		return form::field_text($attrs);
 	}
 
@@ -254,6 +256,7 @@ class form
 	public static function field_password($attrs)
 	{
 		$attrs['type'] = 'password';
+
 		return form::field_text($attrs);
 	}
 
@@ -267,6 +270,7 @@ class form
 	public static function field_number($attrs)
 	{
 		//$attrs['type'] = 'number';
+		
 		return form::field_text($attrs);
 	}
 
@@ -291,8 +295,13 @@ class form
      */
 	public static function field_textarea($attrs)
 	{
-		$value = $attrs['value'];unset($attrs['value']);
-		$attrs['class'] = empty($attrs['class']) ? 'textarea' : 'textarea '.$attrs['class'];
+		if ( $value = $attrs['value'] )
+		{
+			unset($attrs['value']);
+		}		
+		
+		$attrs['class'] = empty($attrs['class']) ? 'form-control' : 'form-control '.$attrs['class'];
+
 		return '<textarea'.form::attributes($attrs).'>'.htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8').'</textarea>';
 	}
 

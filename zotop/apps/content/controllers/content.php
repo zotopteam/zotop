@@ -32,7 +32,7 @@ class content_controller_content extends admin_controller
 		$listorder = ZOTOP_TIME-1000;
 
 		for ($i=0; $i < 1000; $i++)
-		{ 
+		{
 			$this->content->insert(array (
 			  'categoryid' => '1',
 			  'modelid' => 'url',
@@ -71,12 +71,12 @@ class content_controller_content extends admin_controller
 			// 获取包含子栏目的全部数据
 			$this->content->where('categoryid','in',$category['childids']);
 		}
-		
+
 		// 状态
 		if ( $status )
 		{
 			$this->content->where('status','=',$status);
-		} 
+		}
 
 		// 获取数据集
 		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getpage();
@@ -93,18 +93,18 @@ class content_controller_content extends admin_controller
 			$postmodels[$i] = $m;
 		}
 
-		$this->assign('title',$category['name']);		
+		$this->assign('title',$category['name']);
 		$this->assign('categoryid',$categoryid);
-		$this->assign('status',$status);	
+		$this->assign('status',$status);
 		$this->assign('category',$category);
-		$this->assign('postmodels',$postmodels);			
+		$this->assign('postmodels',$postmodels);
 		$this->assign($dataset);
 		$this->display();
     }
 
     /**
      * 内容搜索
-     * 
+     *
      * @return mixed
      */
     public function action_search()
@@ -118,11 +118,11 @@ class content_controller_content extends admin_controller
 
 		$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->orderby('listorder','desc')->getPage();
 
-		$this->assign('title', t('搜索“{1}”',$keywords));
+		$this->assign('title', t('搜索“$1”',$keywords));
 		$this->assign('keywords',$keywords);
 		$this->assign('category',$category);
 		$this->assign($dataset);
-		$this->display('content/content_index.php');		  	
+		$this->display('content/content_index.php');
     }
 
 	/**
@@ -175,7 +175,7 @@ class content_controller_content extends admin_controller
 
     /**
      * 拖动排序
-     * 
+     *
      * @return mixed 操作结果
      */
     public function action_listorder()
@@ -193,24 +193,24 @@ class content_controller_content extends admin_controller
 
 				// 将当前列表 $listorder 之前的数据的 listorder 全部加 1， 为拖动的数据保留出位置
 				$this->content->where('categoryid','in',$categoryids)->where('listorder','>=',$listorder)->data('listorder',array('listorder','+',1))->update();
-				
+
 				// 更新拖动的数据为当前 $listorder
 				$this->content->where('id',$id)->data('listorder',$listorder)->data('stick',$stick)->update();
-				
+
 				return $this->success(t('操作成功'),request::referer());
 			}
 			catch (Exception $e)
 			{
 				return $this->error($e->getMessage());
-			}			
+			}
 		}
 
     	return $this->error(t('禁止访问'));
-    }    
+    }
 
 	/**
 	 * 添加内容
-	 * 
+	 *
 	 * @param  int $categoryid 栏目编号
 	 * @param  string $modelid 模型编号
 	 * @return mixed
@@ -235,7 +235,7 @@ class content_controller_content extends admin_controller
 		// 默认数据
 		$data = array();
 		$data['modelid'] 	= $modelid;
-		$data['categoryid'] = $categoryid;		
+		$data['categoryid'] = $categoryid;
 		$data['createtime'] = ZOTOP_TIME;
 
 		$this->assign('title',t('添加'));
@@ -246,7 +246,7 @@ class content_controller_content extends admin_controller
 
 	/**
 	 * 编辑内容
-	 * 
+	 *
 	 * @param  int $id 内容编号
 	 * @return mixed
 	 */
@@ -263,8 +263,8 @@ class content_controller_content extends admin_controller
 		}
 
 		// 获取当前数据，并获取“推荐到区块”的区块编号
-		$data             = $this->content->get($id);		
-		$data['blockids'] = arr::column(m('block.datalist')->field('blockid')->where('dataid',$data['dataid'])->select(), 'blockid');		
+		$data             = $this->content->get($id);
+		$data['blockids'] = arr::column(m('block.datalist')->field('blockid')->where('dataid',$data['dataid'])->select(), 'blockid');
 
 		$this->assign('title',t('编辑'));
 		$this->assign('data',$data);
@@ -297,7 +297,7 @@ class content_controller_content extends admin_controller
 
 		/**
 	 * 根据条目置顶状态设置置顶和取消置顶
-	 * 
+	 *
 	 * @param  int $id 编号
 	 * @return json
 	 */
@@ -308,7 +308,7 @@ class content_controller_content extends admin_controller
 			return $this->success(t('操作成功'),request::referer());
 		}
 
-		return $this->error($this->content->error());		
+		return $this->error($this->content->error());
 	}
 
  	/**

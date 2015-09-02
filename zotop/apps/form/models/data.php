@@ -17,7 +17,7 @@ class form_model_data extends model
 
 	/**
 	 * 初始化对应的data类
-	 * 
+	 *
 	 * @param  string $table 数据表名称，不含前缀
 	 * @return $object 返回类对象
 	 */
@@ -30,7 +30,7 @@ class form_model_data extends model
 
 	/**
 	 * 初始化对应的data类
-	 * 
+	 *
 	 * @param  int $id 表单编号
 	 * @return $object 返回类对象
 	 */
@@ -44,7 +44,7 @@ class form_model_data extends model
 
 	/**
 	 * 获取数据
-	 * 
+	 *
 	 * @param  int $id    数据编号
 	 * @param  string $field 字段名称
 	 * @return mixed
@@ -66,16 +66,16 @@ class form_model_data extends model
 
 				$row['dataid'] = "form-{$this->formid}-{$id}";
 
-				$data[$id] = $row;				
+				$data[$id] = $row;
 			}
 		}
 
-		return empty($field) ? $data[$id] : $data[$id][$field];		
+		return empty($field) ? $data[$id] : $data[$id][$field];
 	}
 
 	/**
 	 * 添加数据
-	 * 
+	 *
 	 * @param array $data 数据数组
 	 * @return mixed 操作结果
 	 */
@@ -99,7 +99,7 @@ class form_model_data extends model
 
 	/**
 	 * 编辑数据
-	 * 
+	 *
 	 * @param array $data 数据数组
  	 * @param  int $id 数据编号
 	 * @return mixed 操作结果
@@ -149,7 +149,7 @@ class form_model_data extends model
 
 	/**
 	 * 添加删除时候预处理数据
-	 * 
+	 *
 	 * @param  array $data 待处理的数据
 	 * @return mixed
 	 */
@@ -170,22 +170,22 @@ class form_model_data extends model
 
 	private function _formatdata($value, $field)
 	{
-		if ( $field['notnull'] and is_null($value) ) return $this->error(t('{1}不能为空', $field['label']));
+		if ( $field['notnull'] and is_null($value) ) return $this->error(t('$1不能为空', $field['label']));
 
-		if ( $field['settings']['maxlength']  and str::len($value) > $field['settings']['maxlength'] ) return $this->error(t('{1}最大长度为{2}', $field['label'],$field['settings']['maxlength'],str::len($value)));
-		if ( $field['settings']['minlength']  and str::len($value) < $field['settings']['minlength'] ) return $this->error(t('{1}最小长度为{2}', $field['label'],$field['settings']['minlength'],str::len($value)));
+		if ( $field['settings']['maxlength']  and str::len($value) > $field['settings']['maxlength'] ) return $this->error(t('$1最大长度为$2', $field['label'],$field['settings']['maxlength'],str::len($value)));
+		if ( $field['settings']['minlength']  and str::len($value) < $field['settings']['minlength'] ) return $this->error(t('$1最小长度为$2', $field['label'],$field['settings']['minlength'],str::len($value)));
 
-		if ( $field['settings']['max']  and intval($value) > $field['settings']['max'] ) return $this->error(t('{1}最大值为{2}', $field['label'],$field['settings']['max']));
-		if ( $field['settings']['min']  and intval($value) < $field['settings']['min'] ) return $this->error(t('{1}最小值为{2}', $field['label'],$field['settings']['min']));
-		
+		if ( $field['settings']['max']  and intval($value) > $field['settings']['max'] ) return $this->error(t('$1最大值为$2', $field['label'],$field['settings']['max']));
+		if ( $field['settings']['min']  and intval($value) < $field['settings']['min'] ) return $this->error(t('$1最小值为$2', $field['label'],$field['settings']['min']));
+
 		switch ($field['control'])
 		{
 			case 'date':
 			case 'datetime':
-				
+
 				$value = empty($value) ? ZOTOP_TIME : strtotime($value);
 				break;
-			
+
 			default:
 				# code...
 				break;
