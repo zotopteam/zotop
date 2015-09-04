@@ -63,7 +63,7 @@ function system_globalmsg($msg)
 		$msg[] = array(
 			'text' => t('安装目录尚未删除，为确保安全请删除安装目录'),
 			'href' => 'javascript:;',
-			'type' => 'warning',
+			'type' => 'danger',
 		);
 	}
 

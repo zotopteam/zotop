@@ -1,56 +1,5 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{$title} {C('site.title')}</title>
-  <meta name="keywords" content="{$keywords} {C('site.keywords')}">
-  <meta name="description" content="{$description} {C('site.description')}">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta content="black" name="apple-mobile-web-app-status-bar-style">
-  <meta name="format-detection" content="telephone=no">
-  <link href="{A('system.url')}/assets/favicon.ico" rel="shortcut icon" type="image/x-icon">
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{A('system.url')}/assets/apple-touch-icon-180.png">
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{A('system.url')}/assets/apple-touch-icon-144.png">
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{A('system.url')}/assets/apple-touch-icon-120.png">
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{A('system.url')}/assets/apple-touch-icon-72.png">
-  <link href="{A('system.url')}/assets/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{A('system.url')}/assets/css/font-awesome.min.css" rel="stylesheet">
-  <link href="{A('system.url')}/assets/css/animate.min.css" rel="stylesheet">
-  <link href="{A('system.url')}/assets/css/jquery.dialog.css" rel="stylesheet">
-  <link href="{A('system.url')}/assets/css/global.css" rel="stylesheet">
-  <script src="{A('system.url')}/assets/js/jquery.min.js"></script>
-  <script src="{A('system.url')}/assets/js/jquery.plugins.js"></script>
-  <script src="{A('system.url')}/assets/js/jquery.dialog.js"></script>
-  <script src="{A('system.url')}/assets/js/bootstrap.min.js"></script>
-  <script src="{A('system.url')}/assets/js/global.js"></script>
-  <!--[if lt IE 9]>
-  <script src="{A('system.url')}/assets/js/html5shiv.min.js"></script>
-  <script src="{A('system.url')}/assets/js/respond.min.js"></script>
-  <![endif]-->
-  {hook 'admin.head'}
-</head>
-<body class="{ZOTOP_APP}-{ZOTOP_CONTROLLER}-{ZOTOP_ACTION}">
-{hook 'admin.header'}
+{template 'head.php'}
 
-<header class="global-header">
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="{u()}"><i class="fa fa-home"></i> {t('网站首页')}</a></li>
-				<li><a href="javascript:void(0);" class="add-favorite"><i class="fa fa-star"></i> {t('加入收藏夹')}</a></li>
-				<li class="hidden"><a href="{u('system/login/shortcut')}"><i class="fa fa-heart"></i> {t('设为桌面图标')}</a></li>
-			</ul>
-		</div>
-	</nav>
-</header>
-
-<section class="global-body scrollable">
-
-	<div class="container-fluid">
         {form::header()}
 
 			<div class="panel panel-login">
@@ -95,7 +44,6 @@
 			</div>
 
 		{form::footer()}
-    </div>
 
 	<script type="text/javascript">
 		// 禁止被包含
@@ -159,21 +107,4 @@
 		});
 	</script>
 
-</section> <!-- global-body -->
-
-<footer class="global-footer">
-	{t('感谢您使用逐涛内容管理系统')}
-	<div class="pull-right hidden-xs">{zotop::powered()}</div>
-</footer>
-
-{hook 'admin.footer'}
-
-<!--[if lt IE 8]>
-<div class="notsupport">
-    <h1><?php echo t(':( 非常遗憾')?></h1>
-    <h2><?php echo t('ZOTOP暂不支持您的浏览器，请升级到最新的IE8浏览器')?></h2>
-    <p><a href="http://windows.microsoft.com/zh-CN/windows/upgrade-your-browser"><?php echo t('立即升级')?></a></p>
-</div>
-<![endif]-->
-</body>
-</html>
+{template 'foot.php'}
