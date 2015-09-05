@@ -34,6 +34,7 @@
   {hook 'admin.head'}
 </head>
 <body class="{ZOTOP_APP}-{ZOTOP_CONTROLLER}-{ZOTOP_ACTION}">
+
 {hook 'admin.header'}
 
 <header class="global-header">
@@ -85,7 +86,7 @@
 				<a class="ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="fa fa-refresh"></i> {t('一键刷新')}</a>
 			</li>
 			<li class="dropdown">
-				<a><i class="fa fa-user"></i> {zotop::user('username')} <i class="fa fa-angle-down"></i></a>
+				<a href="javascript:;"><i class="fa fa-user"></i> {zotop::user('username')} <i class="fa fa-angle-down"></i></a>
 				<ul class="dropdown-menu dropdown-menu-right">
 						<li><a href="{u('system/mine')}"><i class="fa fa-user fa-fw"></i>{t('编辑我的资料')}</a></li>
 						<li><a href="{u('system/mine/password')}"><i class="fa fa-edit fa-fw"></i>{t('修改我的密码')}</a></li>

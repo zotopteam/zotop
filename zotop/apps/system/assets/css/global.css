@@ -580,9 +580,11 @@ label.error:empty{display: none;}
 .side.main-side{width:245px;left:auto;right:0px;float:right;border:0 none;}
 
 /*css3 动画*/
-.a-flash{-webkit-animation:flash 1s .5s infinite ease both;-moz-animation:flash 1s .2s infinite ease both;}
 @-webkit-keyframes flash{0%,50%,100%{opacity: 1;}25%,75%{opacity: 0;}}
 @-moz-keyframes flash{0%,50%,100%{opacity: 1;}25%,75%{opacity: 0;}}
+
+.a-flash{-webkit-animation:flash 1s .5s infinite ease both;-moz-animation:flash 1s .2s infinite ease both;}
+
 
 /* system-login-index */
 .system-login-index{background:#fff url(../image/wallpaper.jpg);}
