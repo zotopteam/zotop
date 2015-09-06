@@ -14,11 +14,11 @@
 					<div class="shortcut-text">
 						<h2>{$s['text']}</h2>
 						<p>{$s['description']}</p>		
-					</div>					
-					{if isset($s['msg'])}
-					<b class="shortcut-badge">{$s['msg']}</b>
-					{/if}
+					</div>
 				</a>
+				{if isset($s['msg'])}
+				<b class="shortcut-badge badge badge-xs badge-danger">{$s['msg']}</b>
+				{/if}			
 			</div>
 			{/loop}
 		</div>
@@ -29,5 +29,11 @@
 		<div class="footer-text pull-right">{zotop::powered()}</div>
 	</div>
 </div>
+
+<script>
+	$.confirm('感谢您使用逐涛网站管理系统');
+	$.alert('感谢您使用逐涛网站管理系统');
+	$.prompt('感谢您使用逐涛网站管理系统');
+</script>
 
 {template 'foot.php'}

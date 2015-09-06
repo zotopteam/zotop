@@ -26,6 +26,7 @@
   <script src="{A('system.url')}/assets/js/jquery.plugins.js"></script>
   <script src="{A('system.url')}/assets/js/jquery.dialog.js"></script>
   <script src="{A('system.url')}/assets/js/bootstrap.min.js"></script>
+  <script src="{A('system.url')}/assets/js/zotop.js"></script>
   <script src="{A('system.url')}/assets/js/global.js"></script>
   <!--[if lt IE 9]>
   <script src="{A('system.url')}/assets/js/html5shiv.min.js"></script>
@@ -39,64 +40,69 @@
 
 <header class="global-header">
 {if $_USER}
-	<nav class="navbar navbar-inverse" role="navigation">
-      <div class="navbar-header">
-        <a class="navbar-brand navbar-logo" href="{U()}">{C('site.name')}</a>      
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-      	<ul class="nav navbar-nav">
-      		<li class="normal{if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} active{/if}"><a href="{u('system/admin')}">{t('开始')}</a></li>
+	<nav role="navigation">
+
+      	<ul class="nav global-navbar">
+      		<li class="brand dropdown">
+      			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
+				<ul class="dropdown-menu">
+					<li><a href="{u('system/system/reboot')}" class="js-confirm"><i class="fa fa-refresh fa-fw"></i> {t('重启系统')}</a></li>
+					<li><a href="{u()}" target="_blank"><i class="fa fa-home fa-fw"></i> {t('访问网站首页')}</a></li>
+					<li><a href="{u('system/info/server')}"><i class="fa fa-server fa-fw"></i> {t('服务器信息')}</a></li>
+					<li><a href="http://www.zotop.com" target="_blank"><i class="fa fa-home fa-fw"></i> {t('官方网站')}</a></li>
+					<li><a href="{u('system/info/about')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
+				</ul>      			
+      		</li>
+      		<li class="sitename hidden-xs"><a href="{U()}" target="_blank">{C('site.name')}</a></li>
+      		<li class="starting {if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} active{/if}"><a href="{u('system/admin')}"><i class="fa fa-dashboard hidden"></i> {t('开始')}</a></li>
 			{loop zotop::filter('system.globalnavbar',array()) $id $nav}
-				{if $nav.menu}
-				<li class="dropdown {if $nav.current} active{/if}">
-					<a href="{$nav.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$nav.text} <span class="fa fa-angle-down"></span></a>
-					<ul class="dropdown-menu">
-					{if is_array($nav.menu)}
-						{loop $nav.menu $m}
-						{if is_array($m)}<li class="dropdown-menu-item {$m.class}"><a href="{$m.href}">{$m.icon} {$m.text}</a></li>{else}{$m}{/if}
-						{/loop}
-					{else}
-						{$nav.menu}
-					{/if}
-					</ul>
-				</li>
+			{if $nav.menu}
+			<li class="dropdown hidden-xs {if $nav.current}active{/if}">
+				<a href="{$nav.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$nav.text} <span class="fa fa-angle-down"></span></a>
+				<ul class="dropdown-menu">
+				{if is_array($nav.menu)}
+					{loop $nav.menu $m}
+					{if is_array($m)}<li class="dropdown-menu-item {$m.class}"><a href="{$m.href}">{$m.icon} {$m.text}</a></li>{else}{$m}{/if}
+					{/loop}
 				{else}
-				<li class="normal{if $nav.current} active{/if}"><a href="{$nav.href}">{$nav.text}</a></li>
+					{$nav.menu}
 				{/if}
+				</ul>
+			</li>
+			{else}
+			<li class="normal hidden-xs {if $nav.current} active{/if}"><a href="{$nav.href}">{$nav.text}</a></li>
+			{/if}
 			{/loop}      		
       	</ul>
-		<ul class="nav navbar-nav navbar-right">
+		<ul class="nav global-navbar pull-right">
 			{if $_GLOBALMSG = zotop::filter('system.globalmsg',array()) }
 			<li class="dropdown">
-				<a href="javascript:;"><i class="fa fa-bell a-flash"></i><span class="badge badge-xs badge-danger">{count($_GLOBALMSG)}</span></a>
+				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<i class="fa fa-bell a-flash"></i> <span class="badge badge-xs badge-danger">{count($_GLOBALMSG)}</span>
+				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
 					<li class="dropdown-header">{t('您有 $1 条待处理信息',count($_GLOBALMSG))}</h2>
 					{loop $_GLOBALMSG $msg}
 					<li class="dropmenu-menu-item"><a href="{$msg.href}"><i class="fa fa-{$msg.type} fa-fw"></i> {$msg.text}</a></li>
 					{/loop}
-					
 				</ul>
 			</li>
 			{/if}
-
-			<li class="site">
-				<a href="{u()}" title="{t('访问 $1 首页',C('site.name'))}" target="_blank"><i class="fa fa-home"></i> {t('网站首页')}</a>
-			</li>
-			<li>
-				<a class="ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="fa fa-refresh"></i> {t('一键刷新')}</a>
-			</li>
+			<li class="gotohome"><a href="{u()}" title="{t('访问 $1 首页',C('site.name'))}" target="_blank"><i class="fa fa-home"></i> <span class="hidden-xs hidden-sm">{t('网站首页')}</span></a></li>
+			<li class="clearcache"><a class="js-ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="fa fa-magic"></i> <span class="hidden-xs hidden-sm">{t('一键刷新')}</span></a></li>
 			<li class="dropdown">
-				<a href="javascript:;"><i class="fa fa-user"></i> {zotop::user('username')} <i class="fa fa-angle-down"></i></a>
+				<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+					<i class="fa fa-user"></i> <span class="hidden-xs hidden-sm">{zotop::user('username')}</span> <i class="fa fa-angle-down"></i>
+				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
-						<li><a href="{u('system/mine')}"><i class="fa fa-user fa-fw"></i>{t('编辑我的资料')}</a></li>
-						<li><a href="{u('system/mine/password')}"><i class="fa fa-edit fa-fw"></i>{t('修改我的密码')}</a></li>
-						<li><a href="{u('system/mine/priv')}"><i class="fa fa-category fa-fw"></i>{t('查看我的权限')}</a></li>
-						<li><a href="{u('system/mine/log')}"><i class="fa fa-flag fa-fw"></i>{t('查看我的日志')}</a></li>
-						<li><a href="{u('system/login/logout')}" class="dialog-confirm" data-confirm="{t('您确定要退出嘛')}"><i class="fa fa-sign-out fa-fw"></i>{t('退出')}</a></li>
+					<li><a href="{u('system/mine')}"><i class="fa fa-user fa-fw"></i>{t('编辑我的资料')}</a></li>
+					<li><a href="{u('system/mine/password')}"><i class="fa fa-edit fa-fw"></i>{t('修改我的密码')}</a></li>
+					<li><a href="{u('system/mine/priv')}"><i class="fa fa-sitemap fa-fw"></i>{t('查看我的权限')}</a></li>
+					<li><a href="{u('system/mine/log')}"><i class="fa fa-flag fa-fw"></i>{t('查看我的日志')}</a></li>
+					<li><a href="{u('system/login/logout')}" class="js-confirm" data-confirm="{t('您确定要退出嘛')}"><i class="fa fa-sign-out fa-fw"></i>{t('退出')}</a></li>
 				</ul>
 			</li>						
 		</ul>
-      </div>      	
 	</nav>
 {else}
 	<nav class="navbar navbar-default" role="navigation">

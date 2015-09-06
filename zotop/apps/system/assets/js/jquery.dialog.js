@@ -34,7 +34,7 @@
 	                    number ++;
 	                }
 
-	                html += '<button type="button" i-id="' + id + '" '+ (val.disabled ? " disabled" :"") + (val.autofocus ? ' autofocus  class="btn btn-highlight"' :'class="btn"') +'>' + val.value + '</button>';
+	                html += '<button type="button" i-id="' + id + '" '+ (val.disabled ? " disabled" :"") + (val.autofocus ? ' autofocus  class="btn btn-primary"' :'class="btn btn-default"') +'>' + val.value + '</button>';
 
 	                that._$('button').on('click', '[i-id=' + id +']', function (event) {                
 	                    var $this = $(this);
@@ -177,22 +177,23 @@
 
 		return $.dialog({
 			id: 'Prompt',
+			skin: 'ui-prompt',
 			fixed: true,
-			padding:'30px',
-			title:'',
+			padding:'30px 50px',
+			title: dialog.defaults.prompt,
 			content: function(){
 
-				var field = '<input type="text" class="text prompt-text" value="'+ ( value || '') +'"/>';
+				var field = '<input type="text" class="form-control" value="'+ ( value || '') +'"/>';
 
 				if ( type == 'textarea')
 				{
-					field = '<textarea class="textarea prompt-text prompt-textarea">'+ ( value || '') +'</textarea>';
+					field = '<textarea class="form-control" rows="5">'+ ( value || '') +'</textarea>';
 				}
 
-				return '<div class="prompt">'+ prompt +'</div><div class="field">'+field+'</div>';
+				return '<div class="prompt-text">'+ prompt +'</div><div class="prompt-field">'+field+'</div>';
 			},
 			onshow: function () {
-				input = this._$('content').find('.prompt-text')[0];
+				input = this._$('content').find('.form-control')[0];
 				input.select();
 				input.focus();
 			},
@@ -212,10 +213,11 @@
 	$.confirm = function(content, ok, cancel) {
 		return $.dialog({
 			id: 'Confirm',
+			skin: 'ui-confirm',
 			fixed: true,
 			padding:'30px 80px',
 			title: dialog.defaults.confirm,
-			content: '<div class="msg confirm"><b class="fa fa-ask"></b><div class="content">'+content+'</div></div>',
+			content: '<b class="icon fa fa-question-circle"></b><div class="content">'+content+'</div>',
 			ok: ok,
 			cancel: cancel || function(){}
 		},true);
@@ -229,10 +231,11 @@
 	$.alert = function(content, callback) {
 		return $.dialog({
 			id: 'Alert',
+			skin: 'ui-alert',
 			fixed: true,
 			padding:'30px 80px',
 			title: dialog.defaults.alert,
-			content: '<div class="msg alert"><b class="fa fa-warning"></b><div class="content">'+content+'</div></div>',
+			content: '<b class="icon fa fa-warning"></b><div class="content">'+content+'</div>',
 			ok: true,
 			onclose: callback
 		});
@@ -246,7 +249,8 @@
 		cancelValue: '取消',
 		loading: '操作正在执行，请稍候……',
 		confirm: '确认',
-		alert: '提示'
+		alert: '警告',
+		prompt: '提示'
 	});
 
 }(jQuery));

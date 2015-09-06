@@ -46,7 +46,9 @@
 				<div class="dropmenu">
 					<div class="dropmenulist">
 						{loop $nav.menu $m}
+						{if is_array($m)}
 						<a href="{$m.href}">{$m.icon}{$m.text}</a>
+						{/if}
 						{/loop}
 					</div>
 				</div>

@@ -41,7 +41,7 @@ zotop.format = function(str, args){
 		}
 	}else{
 		for(i=1;i<=arguments.length;i++){
-			str = str.replace("$s",arguments[i]);
+			str = str.replace("%s",arguments[i]);
 		}
 	}
 	return str;

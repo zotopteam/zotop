@@ -114,7 +114,7 @@
 	height:100%;
 }
 .ui-dialog-footer {
-    padding: 12px;
+    padding: 12px;background:#f3f3f3;
 }
 .ui-dialog-statusbar {
     float: left;
@@ -138,7 +138,7 @@
 }
 
 /*2014-5-30*/
-.ui-dialog-button .btn{margin-left:8px;padding: 3px 15px;}
+.ui-dialog-button .btn{margin-left:8px;padding:6px 20px;}
 
 .ui-popup-top-left .ui-dialog,
 .ui-popup-top .ui-dialog,
@@ -330,6 +330,7 @@
     text-indent: -999em;
     color: #666;
 }
+
 .ui-dialog-loading {
     width: 100%\9;
     text-indent: 0\9;
@@ -354,20 +355,19 @@
 }
 
 
-/*dialog中的消息*/
-.ui-dialog .success {color:#66bb00;}
-.ui-dialog .error {color:#ff0000;}
-.ui-dialog .alert {color:#ff9900;}
+/*ui-alert && ui-confirm*/
+.ui-alert .icon, .ui-confirm .icon{font-size: 72px;display: block;text-align: center;margin-bottom: 20px;}
+.ui-alert .content,.ui-confirm .content{text-align:center;font-size:16px;font-weight:bold;line-height:22px;min-width:400px;max-width:800px;max-height:400px;overflow:auto;word-wrap:break-word;}
+.ui-alert .content b,.ui-confirm .content b{color: #ff0000;margin:0 8px;}
+.ui-alert .ui-dialog-content{color: #0072c6;}
+.ui-confirm .ui-dialog-content{color: #ff6600;}
 
-.ui-dialog .prompt{margin-bottom:5px;}
-.ui-dialog .prompt-text{width: 500px;}
-.ui-dialog .prompt-textarea{height: 80px;}
-
-.ui-dialog .confirm{margin:0 20px;}
-.ui-dialog .alert{margin:0 20px;}
+/*ui-prompt*/
+.ui-prompt .ui-dialog-content{min-width:500px;}
+.ui-prompt .prompt-text{font-size:16px;margin-bottom:10px;}
 
 
-/*d-message 皮肤*/
+/*ui-message*/
 .ui-message{border:solid 3px #0072C6;color:#0072C6;}
 .ui-message .ui-dialog-content{padding:15px 40px 15px 60px;display: block;}
 .ui-message .ui-dialog-content .icon{position:absolute;top:10px;left:15px;font:normal 32px/1 FontAwesome;}
