@@ -30,9 +30,9 @@ class system_controller_info extends admin_controller
 	public function navbar()
 	{
 		$navbar = array(
-			'index'		=> array('text'=>t('服务器信息'),'href'=>u('system/info/index'),'icon'=>'icon-server'),
-			'io'		=> array('text'=>t('文件和目录权限'),'href'=>u('system/info/io'),'icon'=>'icon-folder'),
-			'about'		=> array('text'=>t('关于zotop'),'href'=>u('system/info/about'),'icon'=>'icon-info'),
+			'index'		=> array('text'=>t('服务器信息'),'href'=>u('system/info/index'),'icon'=>'fa-server'),
+			'io'		=> array('text'=>t('文件和目录权限'),'href'=>u('system/info/io'),'icon'=>'fa-folder'),
+			'about'		=> array('text'=>t('关于zotop'),'href'=>u('system/info/about'),'icon'=>'fa-info-circle'),
 		);
 
 		$navbar = zotop::filter('system.info.navbar',$navbar);

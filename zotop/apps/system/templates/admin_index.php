@@ -30,10 +30,4 @@
 	</div>
 </div>
 
-<script>
-	$.confirm('感谢您使用逐涛网站管理系统');
-	$.alert('感谢您使用逐涛网站管理系统');
-	$.prompt('感谢您使用逐涛网站管理系统');
-</script>
-
 {template 'foot.php'}

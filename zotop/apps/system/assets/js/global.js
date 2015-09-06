@@ -40,7 +40,7 @@ $(function(){
 		var text    = $(this).attr('title') || $(this).data('original-title') || $(this).text();
 		var confirm = $(this).data('confirm') || zotop.t('您确定要<b>%s</b>嘛?', text);
 		var $dialog = $.confirm(confirm,function(){
-			$dialog.statusbar('<i class="icon icon-loading"></i>');
+			$dialog.statusbar('<i class="fa fa-spinner fa-spin"></i>');
 			$.post(href,{},function(msg){
 				$dialog.close().remove();
 				$.msg(msg);
