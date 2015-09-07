@@ -8,12 +8,12 @@
 <div class="blank"></div>
 <div class="container-fluid">
 
-	<div class="card">
-		<div class="card-header">
+	<div class="panel">
+		<div class="panel-heading">
 			<h2>{t('服务器环境')}</h2>
 			<small>{t('当前服务器环境信息')}</small>
 		</div>
-		<div class="card-body">		
+		<div class="panel-body">		
 			<div class="row">
 				<div class="col-sm-6">	
 					<table class="table">
@@ -93,17 +93,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="card-footer text-center p0">
+		<div class="panel-footer text-center p0">
 			<a href="{U('system/system/phpinfo')}" class="btn btn-block">{t('查看更多信息')}</a>
 		</div>
 	</div>
 
-	<div class="card">
-		<div class="card-header">
+	<div class="panel">
+		<div class="panel-heading">
 			<h2>{t('文件和目录权限')}</h2>
 			<small>{t('777属性通过：文件属性正常，没有设置777属性，需要管理员使用FTP工具手动设置777属性，否则程序可能无法正常运行')}</small>
 		</div>
-		<div class="card-body">
+		<div class="panel-body">
 		 <table class="table list" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>

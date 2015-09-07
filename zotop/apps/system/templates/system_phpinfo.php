@@ -2,16 +2,19 @@
 
 <div class="main">
 	<div class="main-header">
-		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i>{t('返回')}</a>
+		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('返回')}</span></a>
 		<div class="title">{$title}</div>
 	</div>
 	<div class="main-body scrollable">
-		<div class="card">
-			<div class="card-body">
-				<div class="table-responsive">
-				{$phpinfo}
-				</div>
-			</div>			
+		<div class="blank"></div>
+		<div class="container-fluid">
+			<div class="panel">
+				<div class="panel-body">
+					<div class="table-responsive">
+					{$phpinfo}
+					</div>
+				</div>			
+			</div>
 		</div>
 	</div>
 	<div class="main-footer">

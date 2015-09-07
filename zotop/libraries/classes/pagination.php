@@ -18,7 +18,7 @@ class pagination
 	public $prev	= '<<' ; // 上一页
 	public $next	= '>>' ; // 下一页
 	public $last	= '...$totalpage' ; // 末页
-	public $theme	= '$prev $first $pages $last $next';  // 显示模版
+	public $theme	= '<ul class="pagination">$prev $first $pages $last $next</ul>';  // 显示模版
 
 
 	public $param   = 'page'; // 分页参数名
@@ -172,20 +172,20 @@ class pagination
 
 		for($i = $from; $i <= $to; $i++)
 		{
-			$pages .= $i == $page ? ' <span class="current">'.$i.'</span> ' : ' <a href="'.$this->url($i).'">'.$i.'</a> ';
+			$pages .= $i == $page ? '<li class="active"><a href="javascript:;">'.$i.'</a></li>' : '<li><a href="'.$this->url($i).'">'.$i.'</a></li>';
         }
 		
 		//上下翻页
 		$prev = $page - 1;
 		$next = $page + 1;
 
-		$prevPage = $prev > 0 ? '<a class="prev" href="'.$this->url($prev).'">'.$this->prev.'</a>' : '';
+		$prevPage = $prev > 0 ? '<li><a class="prev" href="'.$this->url($prev).'">'.$this->prev.'</a></li>' : '';
 
-		$nextPage = $next <= $totalpage ? '<a class="next" href="'.$this->url($next).'">'.$this->next.'</a>' : '';
+		$nextPage = $next <= $totalpage ? '<li><a class="next" href="'.$this->url($next).'">'.$this->next.'</a></li>' : '';
 
-		$firstPage = $from == 1 ? '' : '<a class="first" href="'.$this->url(1).'">'.$this->first.'</a>';
+		$firstPage = $from == 1 ? '' : '<li><a class="first" href="'.$this->url(1).'">'.$this->first.'</a></li>';
 
-		$lastPage = $to == $totalpage ? '' : '<a class="last" href="'.$this->url($totalpage).'">'.$this->last.'</a>';
+		$lastPage = $to == $totalpage ? '' : '<li><a class="last" href="'.$this->url($totalpage).'">'.$this->last.'</a></li>';
 
 
 		$str = str_ireplace(

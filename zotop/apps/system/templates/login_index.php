@@ -2,11 +2,11 @@
 
     {form::header()}
 
-		<div class="card card-login">
-			<div class="card-header text-center">
+		<div class="panel panel-login">
+			<div class="panel-heading text-center">
 				<h1 class="text-overflow">{t('$1管理',C('site.name'))}</h1>
 			</div>
-			<div class="card-body">
+			<div class="panel-body">
 
 				<div class="form-status">{t('请输入您的用户名和密码')}</div>
 

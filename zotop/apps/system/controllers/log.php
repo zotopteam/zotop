@@ -28,15 +28,13 @@ class system_controller_log extends admin_controller
      */
     public function action_index()
     {
-        // 自动删除
+        // 自动删除过期日志
 		$expire = ZOTOP_TIME - intval(c('system.log_expire')) * 24 * 60 * 60;
 
 		m('system.log')->where('createtime','<',$expire)->delete();
 
 		// 获取全部数据
-        $dataset = m('system.log')->orderby('createtime','desc')->getPage();
-
-
+        $dataset = m('system.log')->orderby('createtime','desc')->getPage(0,3);
 
         $this->assign('title', t('系统操作日志'));
         $this->assign($dataset);
