@@ -58,7 +58,7 @@ class block_api
 			); 
 		}
 
-		$nav['block']['menu']['divider'] = '<li class="divider"></li>';
+		$nav['block']['menu']['divider'] = 'divider';
 		
 		$nav['block']['menu']['category'] = array(
 				'text' => t('分类管理'),

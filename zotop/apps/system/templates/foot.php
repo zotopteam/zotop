@@ -1,9 +1,6 @@
 </section> <!-- global-body -->
 
-<footer class="global-footer">
-	{t('感谢您使用逐涛内容管理系统')}
-	<div class="pull-right hidden-xs">{zotop::powered()}</div>
-</footer>
+<footer class="global-footer"></footer>
 
 {hook 'admin.footer'}
 
