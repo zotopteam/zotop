@@ -37,7 +37,7 @@
 				{/if}
 
 				<div class="form-group">
-					{form::field(array('type'=>'submit','value'=>t('登 录'),'data-loading-text'=>t('登录中，请稍后……'),'class'=>'btn-block'))}
+					{field type="submit" value="t('登 录')" data-loading-text="t('登录中，请稍后……')" class="btn-block"}
 				</div>
 
 			</div>
