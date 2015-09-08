@@ -1,4 +1,4 @@
-{template 'head.php'}
+{template 'header.php'}
 
     {form::header()}
 
@@ -113,4 +113,4 @@
 		});
 	</script>
 
-{template 'foot.php'}
+{template 'footer.php'}

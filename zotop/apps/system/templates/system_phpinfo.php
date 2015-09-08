@@ -1,4 +1,4 @@
-{template 'head.php'}
+{template 'header.php'}
 
 <div class="main">
 	<div class="main-header">
@@ -22,4 +22,4 @@
 	</div>
 </div>
 
-{template 'foot.php'}
+{template 'footer.php'}

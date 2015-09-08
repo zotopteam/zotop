@@ -28,20 +28,27 @@ class system_controller_admin extends admin_controller
     public function action_index()
     {
 		// 用户信息
-		$user = m('system.user')->getbyid(zotop::user('id'));
+		$start = array();
 
-		// 导航
-		$start = zotop::filter('system.start',array());
-		$start = $start + @include(A('system.path').DS.'data'.DS.'system.php');
-
-		if ( is_array($start) )
+		foreach( a() as $k=>$a)
 		{
-			foreach( $start as $id => $nav )
+			if ( $k == 'system' ) continue;
+
+			$shortcut = zotop::data($a['path'].DS.'shortcut.php');
+
+			if ( is_array($shortcut) )
 			{
-				if ( $nav['allow'] === false ) unset($start[$id]);
-			}
+				$start = array_merge($start, $shortcut);
+			}			
 		}
 
+		$start = zotop::filter('system.start',$start);
+		$start = $start + zotop::data(A('system.path').DS.'shortcut.php');
+
+		foreach( $start as $id => $nav )
+		{
+			if ( $nav['allow'] === false ) unset($start[$id]);
+		}
 
 		$this->assign('title',t('开始'));
 		$this->assign('start', $start);

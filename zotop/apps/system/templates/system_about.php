@@ -1,4 +1,4 @@
-{template 'head.php'}
+{template 'header.php'}
 
 <div class="jumbotron text-center">
 	<img src="{A('system.url')}/icons/zotop.png" class="hidden">
@@ -24,4 +24,4 @@
 	<div class="copyright-powered">{zotop::powered()}</div>
 </div>
 
-{template 'foot.php'}
+{template 'footer.php'}
