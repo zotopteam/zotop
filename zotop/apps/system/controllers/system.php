@@ -130,7 +130,7 @@ class system_controller_system extends admin_controller
 	    $phpinfo = preg_replace('/<a href="http:\/\/www.php.net\/"><img(.*)alt="PHP Logo" \/><\/a><h1 class="p">(.*)<\/h1>/',"<h1>\\2</h1>",$phpinfo);
 		$phpinfo = preg_replace('/<a href="http:\/\/www.zend.com\/"><img(.*)><\/a>/','',$phpinfo);
 
-		$this->assign('title',t('系统信息'));
+		$this->assign('title',t('PHPINFO'));
 	    $this->assign('phpinfo',$phpinfo);
 	    $this->display();
     }
@@ -178,26 +178,11 @@ class system_controller_system extends admin_controller
 			$r['position']    = '/'.str_replace('\\','/',trim(str_replace(ZOTOP_PATH, '', $f),'\\'));
     	}
 
-		$this->assign('title',t('服务器信息'));
+		$this->assign('title',t('系统信息'));
 		$this->assign('description',t('服务器信息及文件和目录权限检测'));
 		$this->assign('check_rewrite',rewrite::check());
 		$this->assign('check_io',$check_io);
 		$this->display();
-    }    
-
-    /**
-     * 关于
-     *
-     * @return void
-     */
-	public function action_about()
-	{
-		$license = file::get(A('system.path').DS.'license.txt');
-		$license = format::textarea($license);
-
-		$this->assign('title',t('关于zotop'));
-		$this->assign('license',$license);
-		$this->display();
-	}
+    }
 }
 ?>

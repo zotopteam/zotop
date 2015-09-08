@@ -55,10 +55,16 @@ return array(
 		'active' => substr_count(ZOTOP_URI,'system/log')
 	),
 	'system_check' => array(
-		'text'   => t('系统信息'),
-		'href'   => u('system/system/check'),
-		'icon'   => 'fa fa-info',
-		'active' => substr_count(ZOTOP_URI,'system/system/check')
-	),										
+		'text'   => t('系统检测'),
+		'href'   => u('system/check'),
+		'icon'   => 'fa fa-check',
+		'active' => substr_count(ZOTOP_URI,'system/check')
+	),
+	'system_zotop' => array(
+		'text'   => t('关于zotop'),
+		'href'   => u('system/zotop'),
+		'icon'   => 'fa fa-info-circle',
+		'active' => substr_count(ZOTOP_URI,'system/zotop')
+	),											
 );
 ?>

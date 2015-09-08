@@ -47,10 +47,10 @@
       			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
 				<ul class="dropdown-menu">
 					<li><a href="{u('system/system/reboot')}" class="js-confirm"><i class="fa fa-refresh fa-fw"></i> {t('重启系统')}</a></li>
-					<li><a href="{u('system/system/check')}"><i class="fa fa-server fa-fw"></i> {t('服务器信息')}</a></li>
+					<li><a href="{u('system/check')}"><i class="fa fa-server fa-fw"></i> {t('系统检测')}</a></li>
 					<li class="divider" role="separator"></li>
-					<li><a href="http://www.zotop.com" target="_blank"><i class="fa fa-home fa-fw"></i> {t('官方网站')}</a></li>					
-					<li><a href="{u('system/system/about')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
+					<li><a href="http://www.zotop.com" target="_blank"><i class="fa fa-globe fa-fw"></i> {t('官方网站')}</a></li>					
+					<li><a href="{u('system/zotop')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
 				</ul>      			
       		</li>
       		<li class="sitename hidden-xs"><a href="{U()}" target="_blank">{C('site.name')}</a></li>

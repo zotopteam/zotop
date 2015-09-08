@@ -1,6 +1,8 @@
 {template 'header.php'}
 
-{template 'system/system_side.php'}
+<div class="side">
+	{template 'system/system_side.php'}
+</div>
 
 <div class="main side-main">
 	<div class="main-header">

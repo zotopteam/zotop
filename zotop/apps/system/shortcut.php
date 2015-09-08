@@ -84,13 +84,13 @@ return array(
 	),
 	'system_server' => array(
 		'text'=>t('服务器信息'),
-		'href'=>u('system/system/check'),
+		'href'=>u('system/check'),
 		'icon'=>A('system.url').'/icons/info.png',
 		'description'=>t('服务器信息及文件和目录权限检测')
 	),
 	'system_about'	=> array(
 		'text'=>t('关于zotop'),
-		'href'=>u('system/system/about'),
+		'href'=>u('system/zotop'),
 		'icon'=>A('system.url').'/icons/zotop.png',
 		'description'=>t('关于逐涛内容管理系统')
 	)
