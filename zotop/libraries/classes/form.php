@@ -510,9 +510,8 @@ class form
 	{
 		$attrs['type']         = 'button';
 		$attrs['class']        = empty($attrs['class']) ? 'btn btn-default' : 'btn btn-default '.$attrs['class'];
-		$attrs['autocomplete'] = 'off';
-
-		$value = $attrs['value'];unset($attrs['value']);
+		$attrs['autocomplete'] = 'off';		
+		$value                 = $attrs['value'] ? $attrs['value'] : t('button');unset($attrs['value']);
 
 		return '<button'.form::attributes($attrs).'>'.htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8').'</button>';
 	}
@@ -529,7 +528,7 @@ class form
 		$attrs['type']              = 'submit';
 		$attrs['class']             = empty($attrs['class']) ? 'btn btn-primary' : 'btn btn-primary '.$attrs['class'];
 		$attrs['autocomplete']      = 'off';
-		$attrs['data-loading-text'] = '提交中……';
+		$attrs['data-loading-text'] = $attrs['data-loading-text'] ? $attrs['data-loading-text'] : t('提交中……');
 
 		$attrs += array
 		(
@@ -540,6 +539,25 @@ class form
 		$value = $attrs['value'];unset($attrs['value']);
 
 		return '<button'.form::attributes($attrs).'>'.htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8').'</button>';
+	}
+
+	/**
+	 * 取消按钮，点击后返回前页
+	 * 
+	 * @param  [type] $attrs [description]
+	 * @return [type]        [description]
+	 */
+	public static function field_cancel($attrs)
+	{
+		$attrs['onclick'] =  $attrs['onclick'] ? $attrs['onclick'] :'javascript:history.go(-1);';
+
+		$attrs += array
+		(
+			'id'    => 'cancelform',
+			'value' => t('取消')
+		);		
+
+		return form::field_button($attrs);
 	}
 
 	/**

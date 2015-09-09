@@ -13,7 +13,7 @@
 	</div><!-- main-header -->
 	{form::header()}
 	<div class="main-body scrollable">
-		<table id="tree" class="table table-hover hidden">
+		<table id="tree" class="table table-hover table-nowrap hidden">
 		<thead>
 			<tr>
 			<th class="w400">{t('权限名称')}</th>

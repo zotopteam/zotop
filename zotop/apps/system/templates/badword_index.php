@@ -1,22 +1,31 @@
 {template 'header.php'}
-<div class="side">
-	{template 'system/system_side.php'}
-</div>
 
-{form::header()}
+{template 'system/system_side.php'}
+
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight btn-add dialog-open" href="{u('system/badword/add')}" data-width="600px" data-height="260px">
-				<i class="icon icon-add"></i><b>{t('添加')}</b>
+			<a class="btn btn-primary js-open" href="{u('system/badword/add')}" data-width="600px" data-height="380px">
+				<i class="fa fa-plus fa-fw"></i><b>{t('添加')}</b>
 			</a>
 		</div>
 	</div><!-- main-header -->
+	{form::header()}
 	<div class="main-body scrollable">
 
 		{if empty($data)}
-			<div class="nodata">{t('暂时没有任何数据')}</div>
+			<div class="nodata">
+				<i class="fa fa-frown-o"></i>
+				<h1>
+					{t('暂时没有任何数据')}
+
+					<a class="btn btn-primary js-open" href="{u('system/badword/add')}" data-width="600px" data-height="380px">
+						<i class="fa fa-plus fa-fw"></i>{t('添加')}
+					</a>
+				</h1>
+			</div>
 		{else}
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
 		<thead>
@@ -35,12 +44,10 @@
 				<td>{$r['word']}</td>
 				<td>{if $r['replace']}{$r['replace']}{elseif $r['level']==0}<span class="gray">{str_repeat('*',str::len($r['word']))}</span>{/if}</td>
 				<td>{if $r['level'] == 0}{t('一般')}{else}{t('危险')}{/if}</td>
-				<td>
-					<div class="manage">
-						<a class="dialog-open" href="{u('system/badword/edit/'.$r['id'])}" data-width="600px" data-height="260px">{t('编辑')}</a>
-						<s></s>
-						<a class="dialog-confirm" href="{u('system/badword/delete/'.$r['id'])}">{t('删除')}</a>
-					</div>
+				<td class="manage">
+						<a class="js-open" href="{u('system/badword/edit/'.$r['id'])}" data-width="600px" data-height="380px"><i class="fa fa-edit"></i> {t('编辑')}</a>
+						<s>|</s>
+						<a class="js-confirm" href="{u('system/badword/delete/'.$r['id'])}"><i class="fa fa-trash"></i> {t('删除')}</a>
 				</td>
 			</tr>
 			{/loop}		
@@ -49,13 +56,13 @@
 		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
-
-		<input type="checkbox" class="checkbox select-all middle">
-		<a class="btn operate" href="{u('system/badword/operate/delete')}">{t('删除')}</a>
+		{pagination::instance($total,$pagesize,$page)}
+		<input type="checkbox" class="checkbox select-all">
+		<a class="btn btn-default operate" href="{u('system/badword/operate/delete')}">{t('删除')}</a>
 	</div><!-- main-footer -->
+	{form::footer()}
 </div><!-- main -->
-{form::footer()}
+
 <script type="text/javascript">
 $(function(){
 	var tablelist = $('table.list').data('tablelist');

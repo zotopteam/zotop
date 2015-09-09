@@ -5,6 +5,7 @@
 
 <div class="main side-main">
 	<div class="main-header">
+		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('返回')}</span></a>	
 		<div class="title">{$title}</div>
 	</div><!-- main-header -->
 	{form::header()}
@@ -89,6 +90,8 @@
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{field type="submit" value="t('保存')"}
+
+		{field type="cancel" value="t('取消')"}
 	</div><!-- main-footer -->
 	{form::footer()}
 
