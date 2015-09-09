@@ -14,13 +14,13 @@ class system_controller_config extends admin_controller
 	public function navbar()
 	{
 		$navbar = array(
-			'index'		=> array('text'=>t('网站设置'),'href'=>u('system/config/index'),'icon'=>'icon-site'),
-			'upload'	=> array('text'=>t('附件上传'),'href'=>u('system/config/upload'),'icon'=>'icon-upload'),
-			'mail'		=> array('text'=>t('邮件发送'),'href'=>u('system/config/mail'),'icon'=>'icon-mail'),
-			'cache'		=> array('text'=>t('缓存设置'),'href'=>u('system/config/cache'),'icon'=>'icon-speed'),
-			'locale'	=> array('text'=>t('区域和语言'),'href'=>u('system/config/locale'),'icon'=>'icon-map'),
-			'url'		=> array('text'=>t('链接和路由'),'href'=>u('system/config/url'),'icon'=>'icon-link'),
-			'safety'	=> array('text'=>t('系统安全'),'href'=>u('system/config/safety'),'icon'=>'icon-safe'),
+			'index'		=> array('text'=>t('网站设置'),'href'=>u('system/config/index'),'icon'=>'fa fa-home'),
+			'upload'	=> array('text'=>t('附件上传'),'href'=>u('system/config/upload'),'icon'=>'fa fa-upload'),
+			'mail'		=> array('text'=>t('邮件发送'),'href'=>u('system/config/mail'),'icon'=>'fa fa-envelope'),
+			'cache'		=> array('text'=>t('缓存设置'),'href'=>u('system/config/cache'),'icon'=>'fa fa-rocket'),
+			'locale'	=> array('text'=>t('区域和语言'),'href'=>u('system/config/locale'),'icon'=>'fa fa-map'),
+			'url'		=> array('text'=>t('链接和路由'),'href'=>u('system/config/url'),'icon'=>'fa fa-link'),
+			'safety'	=> array('text'=>t('系统安全'),'href'=>u('system/config/safety'),'icon'=>'fa fa-shield'),
 
 		);
 

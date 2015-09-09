@@ -101,11 +101,11 @@
 					<i class="fa fa-user"></i> <span class="hidden-xs hidden-sm">{zotop::user('username')}</span> <i class="fa fa-angle-down"></i>
 				</a>
 				<ul class="dropdown-menu dropdown-menu-right">
-					<li><a href="{u('system/mine')}"><i class="fa fa-user fa-fw"></i>{t('编辑我的资料')}</a></li>
-					<li><a href="{u('system/mine/password')}"><i class="fa fa-edit fa-fw"></i>{t('修改我的密码')}</a></li>
-					<li><a href="{u('system/mine/priv')}"><i class="fa fa-sitemap fa-fw"></i>{t('查看我的权限')}</a></li>
-					<li><a href="{u('system/mine/log')}"><i class="fa fa-flag fa-fw"></i>{t('查看我的日志')}</a></li>
-					<li><a href="{u('system/login/logout')}" class="js-confirm" data-confirm="{t('您确定要退出嘛')}"><i class="fa fa-sign-out fa-fw"></i>{t('退出')}</a></li>
+					<li><a href="{u('system/mine')}"><i class="fa fa-user fa-fw"></i> {t('编辑我的资料')}</a></li>
+					<li><a href="{u('system/mine/password')}"><i class="fa fa-edit fa-fw"></i> {t('修改我的密码')}</a></li>
+					<li><a href="{u('system/mine/priv')}"><i class="fa fa-sitemap fa-fw"></i> {t('查看我的权限')}</a></li>
+					<li><a href="{u('system/mine/log')}"><i class="fa fa-flag fa-fw"></i> {t('查看我的日志')}</a></li>
+					<li><a href="{u('system/login/logout')}" class="js-confirm" data-confirm="{t('您确定要退出嘛')}"><i class="fa fa-sign-out fa-fw"></i> {t('退出')}</a></li>
 				</ul>
 			</li>						
 		</ul>

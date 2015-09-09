@@ -1,21 +1,19 @@
 {template 'header.php'}
 
-<div class="side">
-	{template 'system/system_side.php'}
-</div>
+{template 'system/system_side.php'}
 
-{form::header()}
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{t('全局设置')}</div>
-		<ul class="navbar">
+		<ul class="nav nav-tabs">
 			{loop $navbar $k $n}
-			<li{if ZOTOP_ACTION == $k} class="current"{/if}>
-				<a href="{$n['href']}">{if $n['icon']}<i class="icon {$n['icon']}"></i>{/if} {$n['text']}</a>
+			<li{if ZOTOP_ACTION == $k} class="active"{/if}>
+				<a href="{$n['href']}">{if $n['icon']}<i class="{$n['icon']}"></i>{/if}<span class="hidden-xs hidden-sm"> {$n['text']}</span></a>
 			</li>
 			{/loop}
 		</ul>
 	</div><!-- main-header -->
+	{form::header()}
 	<div class="main-body scrollable">
 					<table class="field">
 				<caption>{t('基本设置')}</caption>
@@ -108,8 +106,9 @@
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
 	</div><!-- main-footer -->
+	{form::footer()}
+
 </div><!-- main -->
-{form::footer()}
 
 <style type="text/css">
 .themelist{margin:0 0 -40px -20px;zoom:1;}
@@ -124,7 +123,6 @@
 .themelist li.selected .icon{display:block;}
 </style>
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
