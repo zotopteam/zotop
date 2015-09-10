@@ -18,7 +18,7 @@ jquery upload api
 	<script>
 		$('#uploader-button').upload({
 			url : '../upload.php',
-			multi : true,
+			multiple : true,
 			autostart : true
 			params : {username:'admin'},
 			fileext : 'jpg,gif,png',
@@ -56,7 +56,7 @@ jquery upload api
 	@param {Object} [settings.params] 文件上传时传递的参数
 	@param {Number|String} [settings.maxsize=20MB] 选择文件时的文件大小限制, 默认为byte ,支持 b, kb, mb, gb, tb 等单位. 如： "10mb" 或者 "100kb"`. 错误： `plupload.FILE_SIZE_ERROR`.
 	@param {Number|String} [settings.maxcount=0] 选择文件个数限制，默认为不限制
-	@param {Boolean} [settings.multi=true] 是否允许一次选择多个文件
+	@param {Boolean} [settings.multiple=true] 是否允许一次选择多个文件
 	@param {Object} [settings.resize] 客户端图片缩放. 仅支持 `image/jpeg` 和 `image/png` 的图片类型文件， 如： {width : 200, height : 200, quality : 90, crop: true}`
 		@param {Number} [settings.resize.width] 文件最大宽度，超出自动缩放
 		@param {Number} [settings.resize.height] 文件最大
@@ -156,7 +156,7 @@ jquery upload api
 		var defaults = {
 			runtimes : 'html5,flash,html4',
             params : {}, // 传递的参数
-			multi : true, //允许一次选择多个文件
+			multiple : true, //允许一次选择多个文件
 			duplicate : false,  //是否允许重复选择上传文件
 			fileext	: '',
 			filedescription	: '',
@@ -180,7 +180,7 @@ jquery upload api
 
 		// 自定义属性的转换
 		options.multipart_params = options.params;
-		options.multi_selection = options.multi;
+		options.multi_selection = options.multiple;
 		options.filters = {
 			mime_types : [{ title : options.filedescription, extensions : options.fileext}],
 			max_file_size : options.maxsize,
@@ -255,7 +255,7 @@ jquery upload api
 							allowedexts = allowedexts + ', ' +  m[0].extensions;
 						}
 					 });
-					 return '<div class="uploadtip nowrap">' +	plupload.t('Max file size:') + up.settings.maxsize + '<br/>' + plupload.t('Allowed exts:') + allowedexts.substring(2) + '</div>';
+					 return '<div class="upload-tips">' +	plupload.t('Max file size:') + up.settings.maxsize + '<br/>' + plupload.t('Allowed exts:') + allowedexts.substring(2) + '</div>';
 				});
 
 				//zotop.debug(up);
@@ -267,13 +267,13 @@ jquery upload api
 				// 拖放区域设置
 				if ( up.features.dragdrop && up.settings.drop_element ){
 					$(up.settings.drop_element).on('dragover',function(){
-						$(this).addClass('dragover');
+						$(this).addClass('upload-dragover');
 					}).on('drop',function(){
-						$(this).addClass('drop');
-						$(this).removeClass('dragover');
+						$(this).addClass('upload-drop');
+						$(this).removeClass('upload-dragover');
 					}).on('dragleave',function(){
-						$(this).removeClass('drop dragover');
-					}).addClass('dropbox');
+						$(this).removeClass('upload-drop upload-dragover');
+					}).addClass('upload-dropbox');
 				}
 
 				typeof options.init == 'function' && options.init(up);
@@ -368,7 +368,7 @@ jquery upload api
 					uploader.disableBrowse(true);
 
 					// 如果找到总进度条，则显示
-					$('#'+id+'-progress').show();
+					$('#'+id+'-progress').removeClass('hidden').show();
 
 					typeof options.started == 'function' && options.started(uploader);
 				}else{
@@ -402,8 +402,8 @@ jquery upload api
 				typeof options.progress == 'function' && options.progress(up, file);
 
 				// 更新总进度
-				$('#'+id+'-progress').find('.progress').css('width',up.total.percent + '%');
-				$('#'+id+'-progress').find('.percent').html(up.total.percent + '%');				
+				$('#'+id+'-progress').find('.progress-bar').css('width',up.total.percent + '%');
+				$('#'+id+'-progress').find('.progress-percent').html(up.total.percent + '%');				
 			});
 
 			//文件上传文成

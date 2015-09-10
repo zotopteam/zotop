@@ -123,37 +123,42 @@ class folder
 	 */
 	public static function delete($path, $recurse=false, $deleteself=true)
 	{
-	    $path = format::path($path).DS;
-		
-		// 判断是否是文件夹
-		if ( !is_dir($path) ) return false;
-		
-		// 删除文件夹下的全部文件
-		$items = glob($path.'*');		
-				
-		if ( is_array($items) )
-		{
-			// 文件夹不为空，不允许删除
-			if ( $recurse == false ) return false;
-
-			// 循环删除
-			foreach( $items as $item )
+	   if ( $path )
+	   {
+		    $path = format::path($path).DS;
+			
+			// 判断是否是文件夹
+			if ( !is_dir($path) ) return false;
+			
+			// 删除文件夹下的全部文件
+			$items = glob($path.'*');		
+					
+			if ( is_array($items) )
 			{
-				if ( is_dir($item) )
-				{
-					folder::delete($item,true);
-				}
-				else
-				{
-					if ( !@unlink($item) ) return false;
-				}			
-			}
-		}
-		
-		//删除文件夹
-		if ( $deleteself ) return @rmdir($path);
+				// 文件夹不为空，不允许删除
+				if ( $recurse == false ) return false;
 
-		return true;
+				// 循环删除
+				foreach( $items as $item )
+				{
+					if ( is_dir($item) )
+					{
+						folder::delete($item,true);
+					}
+					else
+					{
+						if ( !@unlink($item) ) return false;
+					}			
+				}
+			}
+			
+			//删除文件夹
+			if ( $deleteself ) return @rmdir($path);
+
+			return true;
+		}
+
+		return false;
 	}
 
 
@@ -167,19 +172,25 @@ class folder
      */	
 	public static function rename($path, $newname)
 	{
-		$path = format::path($path);
+		if ( $path )
+		{
+			$path = format::path($path);
 
-		$newpath = dirname($path).DS.$newname;
+			$newpath = dirname($path).DS.$newname;
 
-		if ( $path == $newpath ) return true;
+			if ( $path == $newpath ) return true;
 
-		// 检查文件是否允许读写
-		if (!is_readable($path) || !is_writable($path)) return false;
-		
-		// 目标文件夹已经存在
-		if ( folder::exists($newpath) ) return false;
+			// 检查文件是否允许读写
+			if (!is_readable($path) || !is_writable($path)) return false;
+			
+			// 目标文件夹已经存在
+			if ( folder::exists($newpath) ) return false;
 
-		return @rename($path,$newpath);
+			return @rename($path,$newpath);
+
+		}
+
+		return false;
 	}
 
      /**

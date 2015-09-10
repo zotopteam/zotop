@@ -134,7 +134,7 @@ class form
      */
 	public static function tips($tips)
 	{
-		return empty($tips) ? '' : '<span class="form-tips">'.$tips.'</span>';
+		return empty($tips) ? '' : '<span class="help-block">'.$tips.'</span>';
 	}
 
     /**

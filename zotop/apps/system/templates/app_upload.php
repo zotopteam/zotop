@@ -13,32 +13,29 @@
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 
-		<div class="container-fluid container-primary">
-			<div class="jumbotron text-center">
-				<h1><i class="fa fa-upload"></i> {t('上传新应用')}</h1>
-				<p>{t('如果您有 .zip 格式的应用文件，可以在下面上传，上传完成后可以在未安装应用里面找到它')}</p>
-			</div>
+		<div class="container-fluid container-info text-center">
+			<h4>{t('如果您有 .zip 格式的应用文件，可以在下面上传，上传完成后可以在未安装应用里面找到它')}</h4>			
 		</div>
 
-		<div class="container-fluid">
+		<div class="container-fluid container-default">
 
-			<div id="upload" class="upload-zone" data-ride="plupload" data-url="{u('system/app/uploadprocess')}" data-exts="zip" data-description="zip file" data-maxsize="20mb" data-multiple="false" data-progress-bar="#upload-progress">
+			<div id="upload" class="upload-zone">
 					
-					<button  class="btn btn-primary upload-button">
-						<i class="fa fa-upload fa-fw"></i>{t('点击上传')}
+					<button  class="btn btn-primary btn-lg upload-button">
+						<i class="fa fa-upload fa-fw"></i> {t('点击上传')}
 					</button>
 
-					<p class="upload-dragdrop-tips none">{t('点击上传或者拖到此区域上传')}</p>
+					<p class="upload-dragdrop-tips">{t('您也可以将文件拖到此区域上传')}</p>
 			</div>
 
 			<div class="blank"></div>
 
-			<div id="upload-progress" class="progress">
+			<div id="upload-progress" class="progress hidden">
 				<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:1%">
-				0%
+					<span class="progress-percent">0%</span>
 				</div>
 			</div>
-
+			
 		</div>
 
 	</div><!-- main-body -->
@@ -56,13 +53,13 @@
 <script type="text/javascript">
 	$(function(){
 		var uploader = $("#upload").upload({
-			url : "{u('system/app/uploadprocess')}",
-			multi:false,
-			maxsize:'20mb',
+			url: "{u('system/app/uploadprocess')}",
+			multiple: false,
+			maxsize: '20mb',
 			fileext: 'zip',
 			filedescription : 'zip file',
 			progress : function(up,file){
-				up.self.html('{t('上传中……')}' +up.total.percent + '%');
+				up.self.html('<h1>{t('上传中……')}' +up.total.percent + '%</h1>');
 			},
 			uploaded : function(up,file,data){
 				$.msg(data);

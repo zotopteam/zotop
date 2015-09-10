@@ -18,6 +18,8 @@ $(function(){
 	},container:'body',html:true});
 
 	$('.tabdropable').tabdrop();
+
+	$('.scrollable').niceScroll();
 });
 
 //dialog
