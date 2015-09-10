@@ -5,10 +5,10 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{t('全局设置')}</div>
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs tabdropable">
 			{loop $navbar $k $n}
 			<li{if ZOTOP_ACTION == $k} class="active"{/if}>
-				<a href="{$n['href']}">{if $n['icon']}<i class="{$n['icon']}"></i>{/if}<span class="hidden-xs hidden-sm"> {$n['text']}</span></a>
+				<a href="{$n['href']}">{if $n['icon']}<i class="{$n['icon']}"></i> {/if}<span>{$n['text']}</span></a>
 			</li>
 			{/loop}
 		</ul>

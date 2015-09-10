@@ -15,7 +15,7 @@
 			<div class="form-horizontal">
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('用户名'),'username',true)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 				{if $data['username']}
 					<p class="form-control-static"><b>{$data['username']}</b></p>
 				{else}
@@ -27,14 +27,14 @@
 			{if empty($data['password'])}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('用户密码'),'password',true)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'password','name'=>'password','minlength'=>6,'maxlength'=>20,'required'=>'required'))}
 					{form::tips(t('请输入您要设置的新密码'))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('密码确认'),'password2',true)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'password','name'=>'password2','equalto'=>'#password','minlength'=>6,'maxlength'=>20,'required'=>'required'))}
 					{form::tips(t('为确保安全，请再次输入新密码'))}
 				</div>
@@ -42,14 +42,14 @@
 			{else}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('新密码'),'password',false)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'password','name'=>'password','minlength'=>6,'maxlength'=>20))}
 					{form::tips(t('请输入您要设置的新密码，不修改密码请留空'))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('密码确认'),'password2',false)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'password','name'=>'password2','equalto'=>'#password','minlength'=>6,'maxlength'=>20))}
 					{form::tips(t('为确保安全，请再次输入新密码，不修改密码请留空'))}
 				</div>
@@ -57,14 +57,14 @@
 			{/if}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('昵称'),'nickname',true)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'text','name'=>'nickname','value'=>$data['nickname'],'minlength'=>2,'maxlength'=>32,'required'=>'required','remote'=>u('system/administrator/check/nickname','ignore='.$data['nickname'])))}
 					{form::tips(t('前台显示的昵称'))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('电子邮件'),'email',true)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'email','name'=>'email','value'=>$data['email'],'required'=>'required','remote'=>u('system/administrator/check/email','ignore='.$data['email'])))}
 				</div>
 			</div>
@@ -72,7 +72,7 @@
 			{if $data['id']!=1}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('角色'),'groupid',false)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 				{form::field(array('type'=>'radio','options'=>$roles,'name'=>'groupid','value'=>$data['groupid'],'column'=>1))}
 				</div>
 			</div>
@@ -80,7 +80,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('真实姓名'),'realname',true)}</div>
-				<div class="col-sm-10">
+				<div class="col-sm-5">
 					{form::field(array('type'=>'text','name'=>'realname','value'=>$data['realname'],'minlength'=>2,'maxlength'=>20,'required'=>'required'))}
 				</div>
 			</div>

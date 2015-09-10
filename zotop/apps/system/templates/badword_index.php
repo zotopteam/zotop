@@ -12,7 +12,7 @@
 			</a>
 		</div>
 	</div><!-- main-header -->
-	{form::header()}
+	
 	<div class="main-body scrollable">
 
 		{if empty($data)}
@@ -27,10 +27,10 @@
 				</h1>
 			</div>
 		{else}
-		<table class="table zebra list" cellspacing="0" cellpadding="0">
+		<table class="table table-hover list" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
-			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
+			<td class="select"><input type="checkbox" class="select-all" title="{t('全选')} / {t('取消')}"></td>
 			<td>{t('敏感词')}</td>
 			<td>{t('替换词')}</td>
 			<td class="w140">{t('敏感级别')}</td>
@@ -56,30 +56,32 @@
 		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
+		<input type="checkbox" class="js-select-all" title="{t('全选')} / {t('取消')}">
+		<button type="button" class="btn btn-default js-operate" data-url="{u('system/badword/operate/delete')}">{t('删除')}</button>
 		{pagination::instance($total,$pagesize,$page)}
-		<input type="checkbox" class="checkbox select-all">
-		<a class="btn btn-default operate" href="{u('system/badword/operate/delete')}">{t('删除')}</a>
 	</div><!-- main-footer -->
-	{form::footer()}
+	
 </div><!-- main -->
 
 <script type="text/javascript">
 $(function(){
+
 	var tablelist = $('table.list').data('tablelist');
 
-	//底部全选
-	$('input.select-all').click(function(e){
-		tablelist.selectAll(this.checked);
-	});
+	if ( tablelist ){
 
-	//操作
-	$("a.operate").each(function(){
-		$(this).on("click", function(event){
+		//底部全选
+		$('.js-select-all').on('click',function(e){
+			tablelist.selectAll(this.checked);
+		});
+
+		//操作
+		$(".js-operate").on("click", function(event){
 			event.preventDefault();
 			if( tablelist.checked() == 0 ){
 				$.error('{t('请选择要操作的项')}');
 			}else{
-				var href = $(this).attr('href');
+				var href = $(this).data('url');
 				var text = $(this).text();
 				var data = $('form').serializeArray();;
 					data.push({name:'operation',value:text});
@@ -89,7 +91,7 @@ $(function(){
 				},'json');
 			}
 		});
-	});
+	}
 });
 </script>
 {template 'footer.php'}

@@ -5,9 +5,9 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs tabdropable">
 			{loop $navbar $k $n}
-			<li{if ZOTOP_ACTION == $k} class="active"{/if}><a href="{$n['href']}">{$n['text']}</a></li>
+			<li{if ZOTOP_ACTION == $k} class="active"{/if}><a href="{$n.href}"><i class="{$n.icon}"></i> <span>{$n.text}</span></a></li>
 			{/loop}
 		</ul>
 	</div><!-- main-header -->
@@ -16,16 +16,24 @@
 			<div class="nodata">{t('没有未安装的应用，你可以 在线安装 或者 上传 一个新的应用')}</div>
 		{else}
 		<table class="table table-hover table-nowrap">
+			<thead>
+				<tr>
+					<th class="text-center" width="5%">{t('图标')}</th>
+					<th>{t('名称')}</th>
+					<th>{t('版本')}</th>
+					<th class="hidden-xs">{t('说明')}</th>
+				</tr>
+			</thead>
 			<tbody>
 			{loop $apps $dir $m}
 			<tr>
-				<td class="w50 va-m center">
+				<td class="w50 va-m text-center">
 					<img src="{ZOTOP_URL_APPS}/{$dir}/app.png" style="width:48px;height:48px;margin-top:4px;">
 				</td>
 				<td class="w260 va-m">
 					<div class="title">{$m['name']} <span class="green f12">{$m['id']}</span></div>
 					<div class="manage">
-						<a class="js-open" data-width="800" data-height="400" title="{t('安装该应用')}" href="{U('system/app/install',array('dir'=>rawurlencode($dir)))}">{t('安装')}</a>
+						<a class="js-open" data-width="800" data-height="420" title="{t('安装该应用')}" href="{U('system/app/install',array('dir'=>rawurlencode($dir)))}">{t('安装')}</a>
 						<s>|</s>
 						<a class="js-confirm"  title="{t('删除该应用')}" href="{U('system/app/delete',array('dir'=>rawurlencode($dir)))}">{t('删除')}</a>
 					</div>
@@ -34,7 +42,7 @@
 				<td class="w60 va-m">
 					v{$m['version']}
 				</td>
-				<td class="va-m ">
+				<td class="hidden-xs va-m">
 					<p>{$m['description']}</p>
 					<div class="manage">
 						{if $m['author']} {t('作者')}: {$m['author']} {/if}
@@ -48,7 +56,7 @@
 		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer textflow">
-		<div class="tips">
+		<div class="footer-text">
 		{t('应用必须位于 %s 目录下才会显示，安装时点击该应用的<span class="red">安装</span>按钮，根据系统提示完成应用安装', str_replace(ZOTOP_PATH.DS,'',ZOTOP_PATH_APPS))}
 		</div>
 	</div><!-- main-footer -->

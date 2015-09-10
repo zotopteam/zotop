@@ -819,12 +819,11 @@ class zotop
         {
             $app = zotop::config('app');
 
-
             foreach ($app as $k => &$a)
             {
-                $a['dir']	= empty($a['dir']) ? $k : $a['dir'];
-                $a['path']	= ZOTOP_PATH_APPS . DS . $a['dir'];
-                $a['url']	= ZOTOP_URL_APPS . '/' . $a['dir'];
+                $a['dir']  = $a['dir'] ? $a['dir'] : $k;
+                $a['url']  = ZOTOP_URL_APPS . '/' . $a['dir'];
+                $a['path'] = ZOTOP_PATH_APPS . DS . $a['dir'];
             }
         }
 
@@ -832,15 +831,15 @@ class zotop
         if (empty($key)) return $app;
 
         // 字符串
-        if (is_string($key))
+        if ( is_string($key) )
         {
             list($id, $key) = explode('.', strtolower($key));
 
             // 应用不存在
-            if (!isset($app[$id])) return false;
+            if ( !isset($app[$id]) ) return false;
 
             // 返回应用数据
-            if (empty($key)) return $app[$id]['status'] ?  $app[$id] : array();
+            if ( empty($key) ) return $app[$id]['status'] ?  $app[$id] : array();
 
             // 返回指定键值
             return $app[$id][$key];

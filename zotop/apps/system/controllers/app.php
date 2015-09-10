@@ -21,9 +21,9 @@ class system_controller_app extends admin_controller
 		$this->app = m('system.app');
 
 		$this->navbar = zotop::filter('system.app.navbar',array(
-			'index' => array('text'=>t('已安装应用'),'href'=>u('system/app')),
-			'uninstalled' => array('text'=>t('未安装应用'),'href'=>u('system/app/uninstalled')),
-			'upload' => array('text'=>t('上传新应用'),'href'=>u('system/app/upload')),
+			'index' => array('text'=>t('已安装应用'),'href'=>u('system/app'),'icon'=>'fa fa-puzzle-piece'),
+			'uninstalled' => array('text'=>t('未安装应用'),'href'=>u('system/app/uninstalled'),'icon'=>'fa fa-clock-o'),
+			'upload' => array('text'=>t('上传新应用'),'href'=>u('system/app/upload'),'icon'=>'fa fa-upload'),
 			//'online' => array('text'=>t('在线安装'),'href'=>u('system/app/online')),
 		));
 	}
@@ -56,6 +56,21 @@ class system_controller_app extends admin_controller
     }
 
     /**
+     * 未安装的应用
+     *
+     * @return void
+     */
+	public function action_uninstalled()
+    {
+		$apps = m('system.app')->getUninstalled();
+
+		$this->assign('title',t('应用管理'));
+		$this->assign('navbar',$this->navbar);
+		$this->assign('apps',$apps);
+        $this->display();
+    }    
+
+    /**
      * 设置应用状态，禁用或者启用
      *
 	 * @param string $id 应用标识(ID)
@@ -70,15 +85,15 @@ class system_controller_app extends admin_controller
 		return $this->error($this->app->error());
 	}
 
+
     /**
      * 应用卸载
      *
+     * @param  string $id 传入应用ID
      * @return void
      */
 	public function action_uninstall($id)
     {
-
-
 		if ( $post = $this->post() )
 		{
 			if ( $this->app->uninstall($id, $post) )
@@ -89,34 +104,19 @@ class system_controller_app extends admin_controller
 			return $this->error($this->app->error());
 		}
 
-		$data = $this->app->getbyid($id);
+		$app = $this->app->get($id);
 
 		// 2012-12-08 增加应用自定义卸载程序
-		if ( file::exists(ZOTOP_PATH_APPS.DS.$data['dir'].DS.'templates'.DS.'app_uninstall.php') )
+		if ( file::exists(ZOTOP_PATH_APPS.DS.$app['dir'].DS.'templates'.DS.'app_uninstall.php') )
 		{
-			$template = ZOTOP_PATH_APPS.DS.$data['dir'].DS.'templates'.DS.'app_uninstall.php';
+			$template = ZOTOP_PATH_APPS.DS.$app['dir'].DS.'templates'.DS.'app_uninstall.php';
 		}
 
 		$this->assign('title',t('卸载'));
 		$this->assign('id',$id);
-		$this->assign('data',$data);
+		$this->assign('app',$app);
         $this->display($template);
 	}
-
-    /**
-     * 未安装的应用
-     *
-     * @return void
-     */
-	public function action_uninstalled()
-    {
-		$apps = m('system.app')->getUninstalled();
-
-		$this->assign('title',t('应用管理'));
-		$this->assign('navbar',$this->navbar);
-		$this->assign('apps',$apps);
-        $this->display();
-    }
 
     /**
      * 应用安装
@@ -148,7 +148,7 @@ class system_controller_app extends admin_controller
 
 		$this->assign('title',t('安装'));
 		$this->assign('dir',$dir);
-		$this->assign('data',$apps[$dir]);
+		$this->assign('app',$apps[$dir]);
         $this->display($template);
     }
 

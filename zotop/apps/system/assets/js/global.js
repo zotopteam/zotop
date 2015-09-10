@@ -15,7 +15,9 @@ $(function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
 	},title:function(){
 		return '<div class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</div>';
-	},container:'body',html:true});	
+	},container:'body',html:true});
+
+	$('.tabdropable').tabdrop();
 });
 
 //dialog

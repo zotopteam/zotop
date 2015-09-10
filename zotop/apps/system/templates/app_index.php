@@ -1,13 +1,13 @@
 {template 'header.php'}
-<div class="side">
-	{template 'system/system_side.php'}
-</div>
+
+{template 'system/system_side.php'}
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{t('应用管理')}</div>
-		<ul class="nav nav-tabs">
+		<ul class="nav nav-tabs tabdropable">
 			{loop $navbar $k $n}
-			<li{if ZOTOP_ACTION == $k} class="active"{/if}><a href="{$n['href']}">{$n['text']}</a></li>
+			<li{if ZOTOP_ACTION == $k} class="active"{/if}><a href="{$n.href}"><i class="{$n.icon}"></i> <span>{$n.text}</span></a></li>
 			{/loop}
 		</ul>
 	</div><!-- main-header -->
@@ -17,11 +17,11 @@
 		<table class="table table-hover table-nowrap sortable">
 			<thead>
 				<tr>
-					<td class="drag"><i></i></td>
-					<td class="w50 text-center">{t('图标')}</td>
-					<td class="w260">{t('名称')}</td>
-					<td class="w60">{t('版本')}</td>
-					<td class="hidden-xs">{t('说明')}</td>
+					<th class="drag"><i></i></th>
+					<th class="text-center" width="5%">{t('图标')}</th>
+					<th>{t('名称')}</th>
+					<th width="10%">{t('版本')}</th>
+					<th class="hidden-xs">{t('说明')}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -50,7 +50,7 @@
 						{/if}
 
 						<s>|</s>
-						<a class="js-open" data-width="800" data-height="400" title="{t('卸载该应用')}" href="{U('system/app/uninstall/'.$id)}">{t('卸载')}</a>
+						<a class="js-open" data-width="800" data-height="420" title="{t('卸载该应用')}" href="{U('system/app/uninstall/'.$id)}">{t('卸载')}</a>
 
 					</div>
 

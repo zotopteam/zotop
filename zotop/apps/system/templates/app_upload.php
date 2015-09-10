@@ -1,40 +1,58 @@
 {template 'header.php'}
-<div class="side">
-	{template 'system/system_side.php'}
-</div>
+
+{template 'system/system_side.php'}
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<ul class="navbar">
+		<ul class="nav nav-tabs tabdropable">
 			{loop $navbar $k $n}
-			<li{if ZOTOP_ACTION == $k} class="current"{/if}><a href="{$n['href']}">{$n['text']}</a></li>
+			<li{if ZOTOP_ACTION == $k} class="active"{/if}><a href="{$n.href}"><i class="{$n.icon}"></i> <span>{$n.text}</span></a></li>
 			{/loop}
 		</ul>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
-		<div class="main-body-title">
-			{t('如果您有 .zip 格式的应用文件，可以在这里上传，上传完成后可以在未安装应用里面找到它')}
+
+		<div class="container-fluid container-primary">
+			<div class="jumbotron text-center">
+				<h1><i class="fa fa-upload"></i> {t('上传新应用')}</h1>
+				<p>{t('如果您有 .zip 格式的应用文件，可以在下面上传，上传完成后可以在未安装应用里面找到它')}</p>
+			</div>
 		</div>
 
-		<div id="upload" style="height:200px;line-height:200px;margin:20px 0;text-align:center;border:solid 2px #ebebeb;cursor:pointer;font-size:18px;">
-				<i class="icon icon-upload"></i>
-				<b class="undragdrop">{t('点击上传')}</b>
-				<b class="dragdrop none">{t('点击上传或者拖到此区域上传')}</b>
-		</div>
+		<div class="container-fluid">
 
-		<div id="upload-progress" class="progressbar none"><span class="progress"><b class="percent">20%</b></span></div>
+			<div id="upload" class="upload-zone" data-ride="plupload" data-url="{u('system/app/uploadprocess')}" data-exts="zip" data-description="zip file" data-maxsize="20mb" data-multiple="false" data-progress-bar="#upload-progress">
+					
+					<button  class="btn btn-primary upload-button">
+						<i class="fa fa-upload fa-fw"></i>{t('点击上传')}
+					</button>
+
+					<p class="upload-dragdrop-tips none">{t('点击上传或者拖到此区域上传')}</p>
+			</div>
+
+			<div class="blank"></div>
+
+			<div id="upload-progress" class="progress">
+				<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:1%">
+				0%
+				</div>
+			</div>
+
+		</div>
 
 	</div><!-- main-body -->
-	<div class="main-footer textflow">
-		<div class="tips">
+	<div class="main-footer text-overflow">
+		<div class="footer-text">
 		{t('只支持 .zip 格式的应用安装包')}
 		</div>
 	</div><!-- main-footer -->
 </div>
 
-<script type="text/javascript" src="{A('system.url')}/common/plupload/plupload.full.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/i18n/zh_cn.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/jquery.upload.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/jquery.upload.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/i18n/zh_cn.js"></script>
+
 <script type="text/javascript">
 	$(function(){
 		var uploader = $("#upload").upload({
