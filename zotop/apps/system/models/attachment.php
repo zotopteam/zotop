@@ -32,9 +32,10 @@ class system_model_attachment extends model
 		}
 
 		$this->allowexts = substr($this->allowexts,1);
-
+		
+		
 		// 上传路径
-		$this->savepath = ZOTOP_PATH_UPLOADS.DS.C('system.upload_dir');
+		$this->savepath  = ZOTOP_PATH_UPLOADS.DS.C('system.upload_dir');
 	}
 
     /**
@@ -47,9 +48,9 @@ class system_model_attachment extends model
 	{
 		$types = zotop::filter('attachment.types',array(
 			'image'	=> t('图像'),
-			'file'	=> t('文件'),
 			'video'	=> t('视频'),
-			'audio'	=> t('音频')
+			'audio'	=> t('音频'),
+			'file'	=> t('文件'),
 		));
 
 		return $type ? $types[$type] : $types;

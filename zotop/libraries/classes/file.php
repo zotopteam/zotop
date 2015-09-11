@@ -92,6 +92,53 @@ class file
 	}
 
 	/**
+	 * 读取文件的信息
+	 *
+	 * @param string $file
+	 * @return string
+	 */
+	public static function meta($file, $headers=array(), $context = '')
+	{
+		$file = format::path($file);
+
+		if ( !file_exists($file) ) return array();
+
+		if ( empty($headers) )
+		{
+			$headers = array(
+				'name'        => 'name',
+				'title'       => 'title',
+				'description' => 'description',
+				'author'      => 'author',
+				'url'         => 'url',
+			);
+		}
+
+		//读取文件的头部8KB
+		$fp   = fopen( $file, 'r' );
+		$data = fread( $fp, 8192 );
+		fclose( $fp );
+
+		foreach ( $headers as $field => $regex )
+		{
+			preg_match( '/' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $data, ${$field});
+
+			if ( !empty( ${$field} ) )
+			{
+				${$field} = trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', ${$field}[1]));
+			}
+			else
+			{
+				${$field} = '';
+			}
+		}
+
+		$info = compact( array_keys( $headers ) );
+
+		return $info;
+	}	
+
+	/**
 	 * 获取文件编码
 	 *
 	 * @param string $file
@@ -108,8 +155,7 @@ class file
 		else
 		{
 			return false;
-		}
-       
+		}       
 	}	
 
 	/**
@@ -122,70 +168,12 @@ class file
 	{
 		$file = format::path($file);
 
-		if ( file_exists($file) )
+		if ( file::exists($file) )
 		{
 			return file_get_contents($file);
 		}
 
 		return false;
-	}
-
-	/**
-	 * Strip close comment and close php tags from file headers used by WP
-	 *
-	 * @param string $str
-	 * @return string
-	 */
-	public static function cleanup_header_comment($str)
-	{
-		return trim(preg_replace("/\s*(?:\*\/|\?>).*/", '', $str));
-	}
-
-	/**
-	 * 读取文件的信息
-	 *
-	 * @param string $file
-	 * @return string
-	 */
-	public static function info($file, $headers=array(), $context = '')
-	{
-		$file = format::path($file);
-
-		if ( !file_exists($file) ) return array();
-
-		if ( empty($headers) )
-		{
-			$headers = array(
-				'name'=>'name',
-				'title'=>'title',
-				'description'=>'description',
-				'author'=>'author',
-				'url'=>'url',
-			);
-		}
-
-		//读取文件的头部8KB
-		$fp = fopen( $file, 'r' );
-		$data = fread( $fp, 8192 );
-		fclose( $fp );
-
-		foreach ( $headers as $field => $regex )
-		{
-			preg_match( '/' . preg_quote( $regex, '/' ) . ':(.*)$/mi', $data, ${$field});
-
-			if ( !empty( ${$field} ) )
-			{
-				${$field} = file::cleanup_header_comment( ${$field}[1] );
-			}
-			else
-			{
-				${$field} = '';
-			}
-		}
-
-		$info = compact( array_keys( $headers ) );
-
-		return $info;
 	}
 
 
@@ -221,13 +209,18 @@ class file
 	{
 		$file = format::path($file);
 
-		//尝试设置文件为可以读写删除
-		@chmod($file, 0777);
+		if ( file::exists($file) )
+		{
+			//尝试设置文件为可以读写删除
+			@chmod($file, 0777);
 
-		//删除文件
-		@unlink($file);
+			//删除文件
+			@unlink($file);
 
-		return @file_exists($file) ? false : true;
+			return @file_exists($file) ? false : true;
+		}
+
+		return false;
 	}
 
  /**
@@ -299,7 +292,7 @@ class file
   */
 	public static function rename($file, $newname, $overwrite=true)
 	{
-		$file = format::path($file);
+		$file   = format::path($file);
 
 		$target = dirname($file).DS.$newname;
 
@@ -323,7 +316,7 @@ class file
 	 *
      * @access public
      * @param string $url 远程文件名
-     * @param string $local 本地保存文件名
+     * @param string $local 本地保存文件路径
      * @return mixed
      */
 	public static function remote($url, $local)
@@ -437,11 +430,11 @@ class file
 	  * 解压zip文件
 	  *
 	  * @param string $source zip文件地址
-	  * @param array $target 解压路径
-	  * @param array $overwrite 0: 不允许覆盖，1，允许覆盖，2：删除原目录下文件并解压
-	  * @return array
+	  * @param string $target 解压路径
+	  * @param bool $overwrite false: 不允许覆盖，true，允许覆盖
+	  * @return bool
 	  */
-	public static function unzip($source, $target='', $overwrite=2)
+	public static function unzip($source, $target='', $overwrite=false)
 	{
 		$source = format::path($source);
 
@@ -454,9 +447,7 @@ class file
 
 		if ( folder::exists($target) )
 		{
-			if ( $overwrite == 0 ) throw new zotop_exception(t('解压目录已经存在且不允许覆盖', $target));
-
-			if ( $overwrite == 2 ) folder::clear($target);
+			if ( !$overwrite ) throw new zotop_exception(t('解压目录已经存在', $target));
 		}
 		else
 		{
@@ -480,7 +471,7 @@ class file
 		{
 			$zip = new PclZip($source);
 
-			if ( $zip->extract (PCLZIP_OPT_PATH, $target, PCLZIP_OPT_REPLACE_NEWER) )
+			if ( $zip->extract(PCLZIP_OPT_PATH, $target, PCLZIP_OPT_REPLACE_NEWER) )
 			{
 				unset($zip);
 				return $target;

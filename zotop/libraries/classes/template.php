@@ -258,8 +258,10 @@ class template
         //Hook，接入自定义解析规则
         $str = zotop::filter('template.parse', $str, $this);
 
-        // 解析field标签
+        // 解析 form 和 field 标签
+        $str = preg_replace('/\{form(\s+[^}]+?)(\/?)\}/ie', "\$this->parse_form('\\1')", $str);
         $str = preg_replace('/\{field(\s+[^}]+?)(\/?)\}/ie', "\$this->parse_field('\\1')", $str);
+        $str = preg_replace("/\{\/form\}/i", "<?php echo form::footer(); ?>", $str);
 
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}
         if ($tag = template::tag())
@@ -278,7 +280,9 @@ class template
     }
 
     /**
-     * 解析并存储literal标签中的内容
+     * 解析并存储 literal 标签中的内容
+     *
+     * {literal} 标签中的代码不会被解析…… {/literal}
      * 
      * @param string $str literal标签中的代码
      * @return string
@@ -297,7 +301,30 @@ class template
     }
 
     /**
-     * 内置的field标签解析 TODO 此方法无法解析镖旗中的变量和函数
+     * 内置的form标签解析 ，可以像使用 <form ……> 标签一样使用，但是自动生成代码内置了一些功能
+     * 
+     * {form class="classname" method="post" …… }
+     * 
+     * @param  [type] $str [description]
+     * @return [type]      [description]
+     */
+    public function parse_form($str)
+    {
+        $attrs = $this->parse_attrs($str);
+        $array = $this->array_attrs($attrs);
+
+        return '<?php echo form::header('.$array.')?>';
+    }  
+
+    /**
+     * 内置的field标签解析
+     *
+     * // 系统自带标签
+     * {field type="text|textarea|password|number……" name="name1" value="$data.value" placeholder="……" required="required" ……}
+     * {field type="select|checkbox|radio" name="……" value="123" options="$array" required="required" ……}
+     *
+     * // 扩展标签，常见属性如系统标签，并提供一些特殊的自定义属性
+     * {field type="select|checkbox|radio" name="……" value="123" options="$array" required="required" ……}
      * 
      * @param  [type] $str [description]
      * @return [type]      [description]

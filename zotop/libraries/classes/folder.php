@@ -87,6 +87,11 @@ class folder
 	{
 		$dir = format::path($dir);
 
+		if ( !$dir )
+		{
+			return false;
+		}
+
 		// 检查目标目录是否存在
 		if ( is_dir($dir) || @mkdir($dir,$mode) ) return true;
 

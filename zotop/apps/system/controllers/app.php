@@ -188,18 +188,21 @@ class system_controller_app extends admin_controller
 
 			try
 			{
-				$dir = file::unzip($file, null, false);
-
-				file::delete($file);
-
-				if ( file::exists($dir.DS.'app.php') )
+				if ( $dir = file::unzip($file, null, false) )
 				{
-					return $this->success(t('上传成功'),u('system/app/uninstalled'));
+					file::delete($file);
+
+					if ( file::exists($dir.DS.'app.php') )
+					{
+						return $this->success(t('上传成功'),u('system/app/uninstalled'));
+					}
+
+					//folder::delete($dir,true);			
+					return $this->error(t('错误的安装包文件'.$dir));
 				}
 
-				folder::delete($dir,true);			
-				return $this->error(t('错误的安装包文件'));				
-
+				file::delete($file);
+				return $this->error(t('解压失败'));
 			} 
 			catch (Exception $e)
 			{

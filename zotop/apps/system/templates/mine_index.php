@@ -21,21 +21,21 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('真实姓名'),'realname',true)}</div>
-					<div class="col-sm-10">
+					<div class="col-sm-5">
 						{form::field(array('type'=>'text','name'=>'realname','value'=>$data['realname'],'minlength'=>2,'maxlength'=>20,'required'=>'required'))}
 						{form::tips(t('真实姓名用于管理员之间查看，仅在后台可见'))}
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('我的昵称'),'nickname',true)}</div>
-					<div class="col-sm-10">
+					<div class="col-sm-5">
 						{form::field(array('type'=>'text','name'=>'nickname','value'=>$data['nickname'],'minlength'=>2,'maxlength'=>32,'required'=>'required','remote'=>u('system/mine/check/nickname','ignore='.$data['nickname'])))}
 						{form::tips(t('前台显示的昵称'))}
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('电子邮件'),'email',true)}</div>
-					<div class="col-sm-10">
+					<div class="col-sm-8">
 						{form::field(array('type'=>'email','name'=>'email','value'=>$data['email'],'required'=>'required','remote'=>u('system/mine/check/email','ignore='.$data['email'])))}
 						{form::tips(t('用于接收系统发送的邮件'))}
 					</div>
