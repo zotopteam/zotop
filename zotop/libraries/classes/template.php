@@ -261,6 +261,7 @@ class template
         // 解析 form 和 field 标签
         $str = preg_replace('/\{form(\s+[^}]+?)(\/?)\}/ie', "\$this->parse_form('\\1')", $str);
         $str = preg_replace('/\{field(\s+[^}]+?)(\/?)\}/ie', "\$this->parse_field('\\1')", $str);
+        $str = preg_replace("/\{form\}/i", "<?php echo form::header(); ?>", $str);
         $str = preg_replace("/\{\/form\}/i", "<?php echo form::footer(); ?>", $str);
 
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}

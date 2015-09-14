@@ -1,23 +1,32 @@
 {template 'header.php'}
 
-<div class="side">
-	{template 'system/system_side.php'}
-</div>
+{template 'system/system_side.php'}
 
-{form::header()}
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight btn-add dialog-open" href="{u('system/ipbanned/add')}" data-width="600px" data-height="350px">
-				<i class="icon icon-add"></i><b>{t('添加')}</b>
+			<a class="btn btn-primary js-open" href="{u('system/ipbanned/add')}" data-width="600px" data-height="400px">
+				<i class="fa fa-plus fa-fw"></i><b>{t('添加')}</b>
 			</a>
 		</div>
 	</div><!-- main-header -->
+
+	{form::header()}
+
 	<div class="main-body scrollable">
 
 		{if empty($data)}
-		<div class="nodata">{t('暂时没有任何数据')}</div>
+			<div class="nodata">
+				<i class="fa fa-frown-o"></i>
+				<h1>
+					{t('暂时没有任何数据')}
+
+					<a class="btn btn-primary js-open" href="{u('system/ipbanned/add')}" data-width="600px" data-height="400px">
+						<i class="fa fa-plus fa-fw"></i>{t('添加')}
+					</a>
+				</h1>
+			</div>
 		{else}	
 		<table class="table zebra list" cellspacing="0" cellpadding="0">
 		<thead>
@@ -35,9 +44,9 @@
 				<td>
 					<div class="title">{$r['ip']}</div>
 					<div class="manage">
-						<a class="dialog-open" href="{u('system/ipbanned/edit/'.$r['ip'])}" data-width="600px" data-height="350px">{t('编辑')}</a>
-						<s></s>
-						<a class="dialog-confirm" href="{u('system/ipbanned/delete/'.$r['ip'])}">{t('删除')}</a>
+						<a class="js-open" href="{u('system/ipbanned/edit/'.$r['ip'])}" data-width="600px" data-height="400px"><i class="fa fa-edit fa-fw"></i> {t('编辑')}</a>
+						<s>|</s>
+						<a class="js-confirm" href="{u('system/ipbanned/delete/'.$r['ip'])}"><i class="fa fa-trash fa-fw"></i>{t('删除')}</a>
 					</div>
 				</td>
 				<td>{format::date($r['expires'])}</td>
@@ -49,13 +58,15 @@
 		{/if}
 
 	</div><!-- main-body -->
-	<div class="main-footer">
-		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
+	<div class="main-footer">		
 		<input type="checkbox" class="checkbox select-all middle">
-		<a class="btn operate" href="{u('system/ipbanned/operate/delete')}">{t('删除')}</a>
+		<a class="btn btn-default operate" href="{u('system/ipbanned/operate/delete')}">{t('删除')}</a>
+		{pagination::instance($total,$pagesize,$page)}
 	</div><!-- main-footer -->
+
+	{form::footer()}
+
 </div><!-- main -->
-{form::footer()}
 <script type="text/javascript">
 $(function(){
 	var tablelist = $('table.list').data('tablelist');

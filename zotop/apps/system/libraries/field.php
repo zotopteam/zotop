@@ -27,7 +27,7 @@ class system_field
 
 
 		$html['field']	= form::field_text($attrs);
-		$html['js']		= html::import(A('system.url').'/common/js/field.alias.js');
+		$html['js']		= html::import(A('system.url').'/assets/js/field.alias.js');
 		if( $attrs['data-source'] )
 		{
 			$html['getalias'] 	= '<a href="'.u('system/alias/get').'" tabindex="-1" class="btn btn-icon-text getalias" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'" title="'.t('获取别名').'"><i class="icon icon-refresh"></i><b>'.t('获取').'</b></a>';
@@ -56,7 +56,7 @@ class system_field
 		{
 			list($source_title, $source_content) = explode(',', $attrs['data-source']);
 
-			$html['js']		= html::import(A('system.url').'/common/js/field.keywords.js');
+			$html['js']		= html::import(A('system.url').'/assets/js/field.keywords.js');
 			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
 		}
 
@@ -91,7 +91,7 @@ class system_field
 			}
 		}
 
-		$html['js']			= html::import(A('system.url').'/common/js/field.image.js');
+		$html['js']			= html::import(A('system.url').'/assets/js/field.image.js');
 		$html['field']		= form::field_text($attrs);
 		$html['uploader']	= '<a href="'.u('system/upload/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-image"></i><b>'.t('上传').'</b></a>';
 		$html['selector']	= '<a href="'.u('system/upload/library/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
@@ -124,12 +124,12 @@ class system_field
 			}
 		}
 
-		$html[]	= html::import(A('system.url').'/common/plupload/plupload.full.js');
-		$html[]	= html::import(A('system.url').'/common/plupload/i18n/zh_cn.js');
-		$html[]	= html::import(A('system.url').'/common/plupload/jquery.upload.js');
+		$html[]	= html::import(A('system.url').'/assets/plupload/plupload.full.js');
+		$html[]	= html::import(A('system.url').'/assets/plupload/i18n/zh_cn.js');
+		$html[]	= html::import(A('system.url').'/assets/plupload/jquery.upload.js');
 
-		$html[]	= html::import(A('system.url').'/common/js/field.images.js');
-		$html[]	= html::import(A('system.url').'/common/css/field.images.css');
+		$html[]	= html::import(A('system.url').'/assets/js/field.images.js');
+		$html[]	= html::import(A('system.url').'/assets/css/field.images.css');
 
 		$html[] = '	<div class="images-area" id="field-'.$attrs['id'].'">';
 		$html[] = '	<div class="images-toolbar">';
@@ -177,7 +177,7 @@ class system_field
 			}
 		}
 
-		$html['js']			= html::import(A('system.url').'/common/js/field.file.js');
+		$html['js']			= html::import(A('system.url').'/assets/js/field.file.js');
 		$html['field']		= form::field_text($attrs);
 		$html['uploader']	= '<a href="'.u('system/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
 		$html['selector']	= '<a href="'.u('system/upload/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-file"></i><b>'.t('文件库').'</b></a>';
@@ -223,18 +223,20 @@ class system_field
 
 		if ( $options['inline'] )
 		{
+			$html[] = '<div class="form-control-static">';
 			$html[]	= form::field_text($attrs);
+			$html[] = '</div>';
 		}
 		else
 		{
 			$html[]	= '<div class="input-group">';
 			$html[]	= form::field_text($attrs);
-			$html[]	= '<span class="input-group-addon"><i class="icon icon-calendar"></i></span>';
+			$html[]	= '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>';
 			$html[]	= '</div>';
 		}		
 
-		$html[]	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.js');
-		$html[]	= html::import(A('system.url').'/common/datepicker/jquery.datetimepicker.css');
+		$html[]	= html::import(A('system.url').'/assets/datepicker/jquery.datetimepicker.js');
+		$html[]	= html::import(A('system.url').'/assets/datepicker/jquery.datetimepicker.css');
 		$html[]	= '<script>$(function(){$("#'.$attrs['id'].'").datetimepicker('.json_encode($options).');})</script>';
 		$html[]	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
@@ -313,7 +315,7 @@ class system_field
 		unset($attrs['options']);
 
 		$html['field']		= form::field($attrs);
-		$html['js']			= html::import(A('system.url').'/common/js/field.template.js');
+		$html['js']			= html::import(A('system.url').'/assets/js/field.template.js');
 		$html['selector']	= '<a href="'.u('system/theme/template/select').'" id="'.$id.'-selector" tabindex="-1"  class="btn btn-icon-text btn-select" title="'.t('选择模版').'"><i class="icon icon-template"></i><b>'.t('选择').'</b></a>';
 		$html['editor']		= '<a href="'.u('system/theme/template_edit').'" id="'.$id.'-editor" tabindex="-1" class="btn btn-icon btn-edit" title="'.t('编辑模版').'"><i class="icon icon-edit"></i></a>';
 		$html['error']		= '<label for="'.$id.'" generated="true" class="error"></label>';
@@ -342,17 +344,10 @@ class system_field
 		{
 			define('FIELD_TEMPLATE_EDITOR_INIT', true);
 
-			$html['codemirror-a'] = '<link rel="stylesheet" href="'.A('system.url').'/common/codemirror/codemirror.css">';
-			$html['codemirror-b'] = '<link rel="stylesheet" href="'.A('system.url').'/common/codemirror/zotop.css">';
-			$html['codemirror-c'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/codemirror.js"></script>';
-			$html['codemirror-d'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/xml.js"></script>';
-			$html['codemirror-e'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/javascript.js"></script>';
-			$html['codemirror-f'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/css.js"></script>';
-			$html['codemirror-j'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/htmlmixed.js"></script>';
-			$html['codemirror-k'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/smarty.js"></script>';
-			$html['codemirror-m'] = '<script type="text/javascript" src="'.A('system.url').'/common/codemirror/smartymixed.js"></script>';
-
-			$html['template-editor'] = '<script type="text/javascript" src="'.A('system.url').'/common/js/field.template_editor.js"></script>';
+			$html['codemirror-css'] = '<link rel="stylesheet" href="'.A('system.url').'/assets/codemirror/codemirror.css">';
+			$html['codemirror-zotop'] = '<link rel="stylesheet" href="'.A('system.url').'/assets/codemirror/zotop.css">';
+			$html['codemirror-js'] = '<script type="text/javascript" src="'.A('system.url').'/assets/codemirror/codemirror-compressed.js"></script>';
+			$html['codemirror-editor'] = '<script type="text/javascript" src="'.A('system.url').'/assets/codemirror/field.template_editor.js"></script>';
 		}
 
 		$html['start']		= '<div class="template-editor">';

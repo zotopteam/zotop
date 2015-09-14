@@ -1,11 +1,8 @@
 {template 'header.php'}
-
 <style>
-
   .panel-app .image-list a{position:relative;display:block;float:left;font-size:12px;text-align:center;}
   .panel-app .image-list a .image{margin:10px auto 6px auto;height: 45px;overflow: hidden;}
   .panel-app .image-list a .title{padding:0}
-
   .panel-category a{
     display: block;
     padding: 8px 0;
@@ -147,7 +144,5 @@
   </div>
 </div>
 {/if}
-
 </div>
-
 {template 'footer.php'}

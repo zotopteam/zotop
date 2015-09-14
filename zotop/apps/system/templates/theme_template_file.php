@@ -1,28 +1,22 @@
 {template 'dialog.header.php'}
 
 	{form::header()}
-		<table class="field">
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('名称'),'name',true)}</td>
-				<td class="input">
-					<div class="input-group">
+
+			<div class="form-group">
+				{form::label(t('名称'),'name',true)}				
+				<div class="input-group">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'class'=>'short','required'=>'required'))}
 					<input type="hidden" name="ext" value="{$data['ext']}">
 					<span class="input-group-addon">.{$data['ext']}</span>
-					</div>
-					<label for="name" class="error" generated="generated"></label>
-					{form::tips(t('只能输入由数字、26个英文字母或者下划线组成的字符串'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('注释'),'note',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'textarea','name'=>'note','value'=>$data['note'],'required'=>'required'))}
-				</td>
-			</tr>
-			</tbody>
-		</table>
+				</div>
+				<label for="name" class="error" generated="generated"></label>
+				{form::tips(t('只能输入由数字、26个英文字母或者下划线组成的字符串'))}				
+			</div>
+			<div class="form-group">
+				{form::label(t('注释'),'note',true)}				
+				{form::field(array('type'=>'textarea','name'=>'note','value'=>$data['note'],'required'=>'required'))}				
+			</div>
+
 	{form::footer()}
 
 <script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>

@@ -444,8 +444,6 @@ class system_controller_theme extends admin_controller
 
 		if ( $post = $this->post() )
 		{
-			if ( file::exists($file) ) return $this->error(t('文件已经存在'));
-
 			if ( file::put($file, $post['content']) )
 			{
 				return $this->success(t('保存成功'));

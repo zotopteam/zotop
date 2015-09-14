@@ -32,9 +32,9 @@
 			<tr>
 			<td class="select"><input type="checkbox" class="select-all" title="{t('全选')} / {t('取消')}"></td>
 			<td>{t('敏感词')}</td>
-			<td>{t('替换词')}</td>
-			<td class="w140">{t('敏感级别')}</td>
-			<td class="w140">{t('管理')}</td>
+			<td class="hidden-xs">{t('替换词')}</td>
+			<td class="hidden-xs">{t('敏感级别')}</td>
+			<td class="manage">{t('管理')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,8 +42,8 @@
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				<td>{$r['word']}</td>
-				<td>{if $r['replace']}{$r['replace']}{elseif $r['level']==0}<span class="gray">{str_repeat('*',str::len($r['word']))}</span>{/if}</td>
-				<td>{if $r['level'] == 0}{t('一般')}{else}{t('危险')}{/if}</td>
+				<td class="hidden-xs">{if $r['replace']}{$r['replace']}{elseif $r['level']==0}<span class="gray">{str_repeat('*',str::len($r['word']))}</span>{/if}</td>
+				<td class="hidden-xs">{if $r['level'] == 0}{t('一般')}{else}{t('危险')}{/if}</td>
 				<td class="manage">
 						<a class="js-open" href="{u('system/badword/edit/'.$r['id'])}" data-width="600px" data-height="380px"><i class="fa fa-edit"></i> {t('编辑')}</a>
 						<s>|</s>

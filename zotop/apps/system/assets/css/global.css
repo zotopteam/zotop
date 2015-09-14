@@ -91,7 +91,8 @@ a.disabled,a[disabled]{cursor: not-allowed;color: #999;}
 .table > tbody > tr.disabled{background-color:#fafafa;cursor: not-allowed;color: #999;}
 .table > tbody > tr.disabled img{opacity: 0.2;}
 
-.table > tbody > tr > td >.title{font-size: 16px;white-space:normal;}
+.table > tbody > tr > td >.title{font-size: 16px;}
+.table > tbody > tr > td >.description{font-size: 12px;color: #999;margin-top:5px;}
 .table > tbody > tr > td >.manage{font-size:13px;margin-top: 5px;}
 .table > tbody > tr > td >.manage > s,.table td.manage>s{color: #ddd;margin:0 3px;}
 .table th.select,.table td.select{width:38px;text-align: center;}
@@ -105,8 +106,8 @@ a.disabled,a[disabled]{cursor: not-allowed;color: #999;}
 
 .btn{transition: all 0.2s ease-out 0s;}
 .btn b{font-weight:normal;}
-.btn-primary{background-color: #007ec6;border-color: #1E82CC;}
-.btn-primary:hover,.btn-primary.hover,.btn-primary:focus,.btn-primary.focus{background-color:#1E82CC;border-color:#007ec6;}
+.btn-primary{background-color:#0072c6;border-color: #0064ae;}
+.btn-primary:hover,.btn-primary.hover,.btn-primary:focus,.btn-primary.focus{background-color:#0091cd;border-color:#0072c6;}
 
 /*checkbox radio*/
 input[type=checkbox],input[type=radio]{border:1px solid #bbb;border:0 none\0;border-radius:3px;background:#fff;color:#555;clear:none;cursor:pointer;display:inline-block;line-height:0;height:16px;width:16px;min-width:16px;margin:-3px 3px 0 0;outline:0;padding:0!important;text-align:center;vertical-align:middle;-webkit-appearance:none;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-box-shadow:inset 0 1px 2px rgba(0,0,0,.1);box-shadow:inset 0 1px 2px rgba(0,0,0,.1);-webkit-transition:.05s border-color ease-in-out;transition:.05s border-color ease-in-out}
@@ -132,8 +133,6 @@ label[for]{cursor: pointer;}
 .form-captcha img{height: 28px;vertical-align: middle;}
 .form-captcha a{position: absolute;top:8px;right:8px;z-index: 3;width: auto;white-space: nowrap;vertical-align: middle;}
 
-.form-control-static{margin-bottom: 20px;}
-
 /*input-group-merge*/
 .input-group-merge {border: 1px solid #ccc;background:#fff;border-radius: 4px;overflow:hidden;}
 .input-group-merge .form-control,.input-group-merge .input-group-addon{border:0 none;background:transparent;-webkit-box-shadow:none;box-shadow:none;}
@@ -141,6 +140,7 @@ label[for]{cursor: pointer;}
 .input-group-merge .fa{color:#0072C6;}
 
 @media (min-width: 768px){
+    .form-control-static{margin-bottom:14px;}
     .form-horizontal .form-group{border-bottom:1px solid #efefef;}
     .form-horizontal .control-label {text-align: left;}
     .form-horizontal label[for]{font-weight: normal;}
@@ -167,7 +167,7 @@ label[for]{cursor: pointer;}
 .shortcut-badge a{color:#fff;}
 
 .nav-side {margin-bottom: 30px;}
-.nav-side > li > a {padding:6px 12px;border-radius:0; }
+.nav-side > li > a {padding:6px 15px;border-radius:0; }
 
 .nav-side > li > a:hover,
 .nav-side > li > a:active,
@@ -389,7 +389,13 @@ label.error:empty{display: none;}
 .main-header > .title{float:left;font-size:21px;font-weight:normal;padding:15px;line-height: 20px;}
 .main-header > .description{float:left;font-size:15px;color:#666;}
 .main-header > .action{float:right;}
+
+.main-header > .position{float:left;font-size:15px;font-weight:normal;padding:15px;line-height: 20px;}
+.main-header > .position > s{text-decoration: none;} 
+
 .main-header .btn{margin:8px 4px;}
+.main-header .btn-group{margin-right:8px;}
+.main-header .btn-group .btn{margin-right: 0;}
 
 .main-header .nav-tabs{border:0 none;margin:12px;position: relative;}
 .main-header .nav-tabs>li{margin-bottom: 0;margin-left:10px;}
@@ -460,7 +466,7 @@ label.error:empty{display: none;}
 	.system-login-index{background:#fff;padding:0;}
 	.system-login-index .global-footer{text-align:center;}
 	.panel-login{width:100%;margin:0;padding:0;top:0;left:0;border-radius: 0;box-shadow: none;background:transparent;}
-	.panel-login .panel-heading{border-radius: 0;padding-top:180px;background:#0072c6 url(../image/logo-big.png) no-repeat center 60px;}
+	.panel-login .panel-heading{border-radius: 0;padding-top:150px;background:#0072c6 url(../image/logo-big.png) no-repeat center 40px;}
 }
 
 /* nodata */
