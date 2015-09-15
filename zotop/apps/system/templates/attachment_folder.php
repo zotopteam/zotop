@@ -5,23 +5,23 @@
 		{t('附件')}
 	</div><!-- side-header -->
 	<div class="side-body scrollable">
-		<ul class="sidenavlist">
+		<ul class="nav nav-pills nav-stacked nav-side">
 			<li>
 				<a href="{u('system/attachment/index/list')}">
-					<i class="icon icon-folder"></i> {t('全部附件')}
+					<i class="fa fa-folder"></i> <span>{t('全部附件')}</span>
 				</a>
 			</li>
 			{loop m('system.attachment_folder.category') $f}
-			<li>
-				<a href="{u('system/attachment/index/list/'.$f['id'])}" {if $folderid==$f['id']} class="current"{/if}>
-					<i class="icon icon-folder"></i> {$f['name']}
+			<li {if $folderid==$f['id']} class="active"{/if}>
+				<a href="{u('system/attachment/index/list/'.$f['id'])}">
+					<i class="fa fa-folder"></i> <span>{$f['name']}</span>
 				</a>
 			</li>
 			{/loop}
 			<li class="blank"></li>
-			<li>
-				<a href="{u('system/attachment/folder')}" class="current">
-					<i class="icon icon-category"></i>  {t('分类管理')}
+			<li class="active">
+				<a href="{u('system/attachment/folder')}">
+					<i class="fa fa-sitemap"></i>  <span>{t('分类管理')}</span>
 				</a>
 			</li>
 		</ul>
@@ -32,8 +32,8 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight dialog-prompt" data-value="" data-prompt="{t('请输入分类名称')}" href="{u('system/attachment/folderadd')}">
-				<i class="icon icon-add"></i> <b>{t('添加分类')}</b>
+			<a class="btn btn-primary js-prompt" data-value="" data-prompt="{t('请输入分类名称')}" href="{u('system/attachment/folderadd')}">
+				<i class="fa fa-plus"></i> <b>{t('添加分类')}</b>
 			</a>
 		</div>
 	</div><!-- main-header -->
@@ -43,7 +43,7 @@
 		{else}
 
 		{form::header()}
-		<table class="table list sortable" cellspacing="0" cellpadding="0">
+		<table class="table table-hover sortable" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
 			<td class="drag"></td>
@@ -56,15 +56,15 @@
 			{loop $folders $data}
 			<tr>
 				<td class="drag"><input type="hidden" name="id[]" value="{$data['id']}"></td>
-				<td><i class="icon icon-folder"></i> {$data['name']}</td>
+				<td>{$data['name']}</td>
 				<td class="w120">
 					<div class="manage">
-						<a class="dialog-prompt" data-value="{$data['name']}" data-prompt="{t('请输入分类名称')}" href="{u('system/attachment/folderedit/'.$data['id'])}">
-							<i class="icon icon-edit"></i> {t('编辑')}
+						<a class="js-prompt" data-value="{$data['name']}" data-prompt="{t('请输入分类名称')}" href="{u('system/attachment/folderedit/'.$data['id'])}">
+							<i class="fa fa-edit fa-fw"></i> {t('编辑')}
 						</a>
 						<s></s>
-						<a class="dialog-confirm" href="{u('system/attachment/folderdelete/'.$data['id'])}">
-							<i class="icon icon-delete"></i> {t('删除')}
+						<a class="js-confirm" href="{u('system/attachment/folderdelete/'.$data['id'])}">
+							<i class="fa fa-trash fa-fw"></i> {t('删除')}
 						</a>
 					</div>
 				</td>
@@ -78,7 +78,7 @@
 		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="tips">{t('拖动分类可以直接调整顺序')}</div>
+		<div class="footer-text">{t('拖动分类可以直接调整顺序')}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
 

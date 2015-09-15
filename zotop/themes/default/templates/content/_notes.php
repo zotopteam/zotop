@@ -16,5 +16,9 @@ return array (
   'list_case.php' => '案例列表',
   'list_imagetext2.php' => '图文列表2',
   'tp1.php' => '跳转到栏目第一个页面',
+  'detail_case.php' => '案例详细模板',
+  'index_page.php' => '页面首页',
+  'list_product.php' => '产品列表',
+  'search.php' => '搜索页面',
 );
 ?>

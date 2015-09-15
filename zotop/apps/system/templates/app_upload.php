@@ -46,6 +46,15 @@
 	</div><!-- main-footer -->
 </div>
 
+<style>
+	.upload-zone{border:1px solid #999;border-radius:2px;background: #ebebeb;padding:100px 20px;text-align: center;cursor: pointer;font-size: 20px;}
+	.upload-dragdrop-tips{margin-top:20px;visibility: hidden;}
+	.upload-dropbox{border:4px dashed #999;}
+	.upload-dropbox .upload-dragdrop-tips{visibility:visible;}
+	.upload-dragover{background:#ffffcc;}
+	.upload-drop{} 	
+</style>
+
 <script type="text/javascript" src="{A('system.url')}/assets/plupload/plupload.full.js"></script>
 <script type="text/javascript" src="{A('system.url')}/assets/plupload/jquery.upload.js"></script>
 <script type="text/javascript" src="{A('system.url')}/assets/plupload/i18n/zh_cn.js"></script>
