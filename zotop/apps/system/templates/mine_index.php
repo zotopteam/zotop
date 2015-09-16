@@ -78,12 +78,11 @@
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');
-			var data = $(form).serialize();
-			$(form).find('.submit').disable(true);
-			$.loading();
+			var data   = $(form).serialize();
+			$(form).find('.submit').button('loading');
 			$.post(action, data, function(msg){
 				$.msg(msg);
-				$(form).find('.submit').disable(false);
+				$(form).find('.submit').button('reset');
 			},'json');
 			return false;
 		}});

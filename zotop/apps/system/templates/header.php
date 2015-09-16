@@ -43,7 +43,7 @@
 
 	<nav class="row" role="navigation">
 				
-		<div class="col-xs-6 col-sm-6">
+		<div class="col-xs-6 col-md-7 col-lg-8">
 	      	<ul class="nav global-navbar tabdropable">
 	      		<li class="brand dropdown">
 	      			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
@@ -83,7 +83,7 @@
 				{/loop}      		
 	      	</ul>
 		</div>
-		<div class="col-xs-6 col-sm-6">
+		<div class="col-xs-6 col-md-5 col-lg-4">
 			<ul class="nav global-navbar pull-right">
 				{if $_GLOBALMSG = zotop::filter('system.globalmsg',array()) }
 				<li class="dropdown">
@@ -116,7 +116,10 @@
 		</div>      	
 	</nav>
 {else}
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar" role="navigation">
+		<div class="navbar-header">
+
+		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="{u()}"><i class="fa fa-home"></i> {t('网站首页')}</a></li>

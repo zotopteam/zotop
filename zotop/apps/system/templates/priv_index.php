@@ -24,7 +24,7 @@
 		<tbody>
 		{loop $dataset $data}
 			<tr data-tt-id="{$data['id']}"{if $data['parentid']} data-tt-parent-id="{$data['parentid']}"{/if}>
-				<td class="name"><i class="fa {if $data['_child']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i>{$data['name']}</td>
+				<td class="name"><i class="fa {if $data['_child']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$data['name']}</td>
 				<td class="hidden-sm">{$data['app']}{if !empty($data['controller'])}/{$data['controller']}{/if}{if !empty($data['action'])}/{$data['action']}{/if}</td>
 				<td>
 					<div class="manage">

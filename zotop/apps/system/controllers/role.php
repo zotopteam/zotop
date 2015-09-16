@@ -25,12 +25,12 @@ class system_controller_role extends admin_controller
 	{
 		parent::__init();
 
-		$this->user = m('system.user');
-		$this->admin = m('system.admin');
-		$this->role = m('system.role');
-		$this->priv = m('system.priv');
+		$this->user     = m('system.user');
+		$this->admin    = m('system.admin');
+		$this->role     = m('system.role');
+		$this->priv     = m('system.priv');
 		$this->rolepriv = m('system.rolepriv');
-		$this->userid = zotop::user('id');
+		$this->userid   = zotop::user('id');
 	}
 
  	/**
@@ -102,7 +102,7 @@ class system_controller_role extends admin_controller
 	{
 		if ( $post = $this->post() )
 		{
-			if ( $this->rolepriv->data($id, $post['id']) )
+			if ( $this->rolepriv->setpriv($id, $post['id']) )
 			{
 				return $this->success(t('保存成功'));
 			}
@@ -112,13 +112,13 @@ class system_controller_role extends admin_controller
 
 		// 获取全部权限数据
 		$dataset = $this->priv->getTree();
-
+		
 		// 获取角色数据
-		$role = $this->role->getbyid($id);
-
+		$role    = $this->role->getbyid($id);
+		
 		// 获取角色的全部权限
-		$privs = $this->rolepriv->where('groupid',$id)->select();
-		$privs = arr::column($privs,'privid');
+		$privs   = $this->rolepriv->where('groupid',$id)->select();
+		$privs   = arr::column($privs,'privid');
 
 		foreach( $privs as $priv )
 		{

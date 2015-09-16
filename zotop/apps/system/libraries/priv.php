@@ -28,7 +28,7 @@ class priv
 
 		if ( empty($privs) )
 		{
-			$privs = m('system.rolepriv')->cache($groupid);
+			$privs = m('system.rolepriv')->getpriv($groupid);
 		}
 
 		foreach ( $privs as $r )

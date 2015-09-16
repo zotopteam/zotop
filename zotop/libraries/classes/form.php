@@ -269,7 +269,8 @@ class form
      */
 	public static function field_number($attrs)
 	{
-		//$attrs['type'] = 'number';
+		$attrs['type'] = 'number';
+		$attrs['step'] = intval($attrs['step']) ? intval($attrs['step']) : 1;
 		
 		return form::field_text($attrs);
 	}
@@ -371,7 +372,7 @@ class form
 
 				$html[] = '<label>';
 				$html[] = '	<input type="radio" name="'.$name.'" id="'.str_replace(']', '', str_replace('[', '-', $name)).'-'.$val.'" value="'.$val.'"'.$checked.'/>';
-				$html[] = '	'.$text;
+				$html[] = '	<span>'.$text.'</span>';
 				$html[] = '</label>';
 
 				if ( $column > 0 and $i%$column == 0 )
@@ -420,7 +421,7 @@ class form
 
 				$html[] = '<label>';
 				$html[] = '	<input type="checkbox" name="'.$name.'[]" id="'.$name.'-item'.$i.'" value="'.$val.'"'.$checked.'/>';
-				$html[] = '	'.$text;
+				$html[] = '	<span>'.$text.'</span>';
 				$html[] = '</label>';
 
 				if ( $column > 0 AND $i%$column == 0 )

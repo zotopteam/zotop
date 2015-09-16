@@ -1,6 +1,6 @@
 <div class="side scrollable">
 	<div class="side-header">
-		{t('系统')}
+		<div class="title">{t('系统')}</div>
 	</div><!-- side-header -->
 	<div class="side-body">
 		<ul class="nav nav-pills nav-stacked nav-side">

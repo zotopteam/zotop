@@ -18,7 +18,7 @@
 			<table class="table table-hover table-nowrap" cellspacing="0" cellpadding="0">
 				<thead>
 					<tr>
-						<th class="text-center">{t('状态')}</th>
+						<th class="text-center" width="1%">{t('状态')}</th>
 						<th class="w300">{t('名称')}</th>				
 						<th class="hidden-xs">{t('说明')}</td>
 						<th class="w120">{t('管理员数')}</th>
@@ -27,7 +27,7 @@
 				<tbody>
 				{loop $dataset $data}
 					<tr>
-						<td class="text-center va-m">{if $data['disabled']}<i class="fa fa-time-circle fa-2x text-error"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}</td>
+						<td class="text-center">{if $data['disabled']}<i class="fa fa-times-circle fa-2x text-error"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}</td>
 						<td>
 							<div class="title">
 								{$data['name']}					
@@ -43,7 +43,7 @@
 								<s>|</s>
 								<a class="js-open" href="{u('system/role/priv/'.$data['id'])}" data-width="800px" data-height="480px">{t('权限设置')}</a>
 								<s>|</s>
-								<a class="dialog-confirm" href="{u('system/role/delete/'.$data['id'])}">{t('删除')}</a>
+								<a class="js-confirm" href="{u('system/role/delete/'.$data['id'])}">{t('删除')}</a>
 								{/if}
 							</div>					
 						</td>				

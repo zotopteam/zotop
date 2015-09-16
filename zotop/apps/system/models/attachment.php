@@ -48,9 +48,9 @@ class system_model_attachment extends model
 	{
 		$types = zotop::filter('attachment.types',array(
 			'image'	=> t('图像'),
-			'video'	=> t('视频'),
-			'audio'	=> t('音频'),
 			'file'	=> t('文件'),
+			'video'	=> t('视频'),
+			'audio'	=> t('音频'),			
 		));
 
 		return $type ? $types[$type] : $types;

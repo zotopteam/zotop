@@ -55,8 +55,8 @@
 				<th class="text-center" width="40"></th>
 				<th>{t('名称')}</th>
 				<th class="hidden-xs">{t('大小')}</th>
-				<th class="hidden-xs">{t('类型')}</th>
 				<th class="hidden-xs">{t('分类')}</th>
+				<th class="hidden-xs">{t('类型')}</th>				
 				<th class="hidden-xs">{t('上传时间')}</th>
 			</tr>
 		</thead>

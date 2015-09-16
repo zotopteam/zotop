@@ -20,7 +20,7 @@ class system_model_rolepriv extends model
 	 * @param string $groupid 角色编号
 	 * @return boo
 	 */
-	public function set($groupid, $privids)
+	public function setpriv($groupid, $privids)
 	{
 		if ( $groupid == 1 ) return true;
 
@@ -32,12 +32,12 @@ class system_model_rolepriv extends model
 		{
 			foreach( $privids as $privid )
 			{
-				$this->insert(array('groupid'=>$groupid,'privid'=>$privid),true);
+				$this->data(array('groupid'=>$groupid,'privid'=>$privid))->insert(true);
 			}
 		}
 
 		// 刷新缓存
-		return $this->cache($groupid,true);
+		return $this->getpriv($groupid,true);
 	}
 
 	/**
@@ -47,7 +47,7 @@ class system_model_rolepriv extends model
 	 * @param string $groupid 角色编号
 	 * @return boo
 	 */
-	public function cache($groupid, $refresh=false)
+	public function getpriv($groupid, $refresh=false)
 	{
 		$cacheid = "priv.{$groupid}";
 

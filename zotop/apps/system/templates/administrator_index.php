@@ -17,7 +17,7 @@
 		<table class="table table-hover table-nowrap">
 			<thead>
 				<tr>
-					<td class="text-center">{t('状态')}</td>
+					<td class="text-center" width="1%">{t('状态')}</td>
 					<td>{t('用户名')} ({t('真实姓名')})</td>
 
 					<td class="w160">{t('角色')}</td>
@@ -28,7 +28,7 @@
 			<tbody>
 			{loop $data $r}
 				<tr>
-					<td class="text-center va-m">{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-success"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}</td>
+					<td class="text-center va-m">{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-error"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}</td>
 					<td>
 						<div class="title"><b>{$r['username']}</b> <span class="text-mute">({$r['realname']})</span></div>
 						<div class="manage">
