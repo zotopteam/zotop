@@ -55,6 +55,11 @@
 		// 禁止被包含
 		if(top!= self){top.location = self.location;}
 
+		//登录框拖动
+		$(function(){
+			$('.panel-login').draggable();
+		})
+
 		//加入收藏夹
 		$(function(){
 			$("a.add-favorite").on('click',function(){

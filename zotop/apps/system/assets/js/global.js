@@ -156,7 +156,7 @@ $(function(){
 					template: '<div class="tooltip tooltip-error" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 				});
 
-				tooltip.data("bs.tooltip").options.content = value.message;
+				tooltip.data("bs.tooltip").options.title = value.message;
 
 				return $(value.element).tooltip("show");
 			});

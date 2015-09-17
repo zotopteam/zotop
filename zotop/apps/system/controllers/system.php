@@ -93,17 +93,6 @@ class system_controller_system extends admin_controller
     }
 
     /**
-     * 针对rewrite验证的请求返回
-     *
-     * @access public
-     * @return void
-     */
-	public function action_rewriteCallback()
-	{
-		exit('ok');
-	}
-
-    /**
      * phpinfo
      *
      * @return void

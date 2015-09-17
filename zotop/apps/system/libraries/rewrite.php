@@ -18,9 +18,10 @@ class rewrite
      */
     public static function check()
     {
-        $um = c('system.url_model');
+        $check = false;        
+        $model    = c('system.url_model');
 
-        if ( $um != 'rewrite' && rewrite::htaccess() )
+        if ( $model != 'rewrite' && rewrite::htaccess() )
         {
             c('system.url_model','rewrite');
 
@@ -30,17 +31,16 @@ class rewrite
             $http->setCookie($_COOKIE);
 
             // 访问回调页面
-            if ( $http->get(U('system/system/rewritecallback')) )
+            if ( $http->get(U('system/check/rewritecallback')) )
             {        
-                if ($http->data = 'ok') return true;
+                $check = ( $http->data == 'ok') ? true : false;
             }
 
-            c('system.url_model',$um);
+            c('system.url_model',$model);
 
-            return false;
         }
 
-        return true;
+        return $check;
     }
 
     /**

@@ -25,14 +25,15 @@
 					<div class="col-sm-2 control-label">{form::label(t('类型及大小'),'upload_types',true)}</div>
 					<div class="col-sm-8">
 
-						<table class="table table-nowrap">
+						<table class="table table-hover table-nowrap table-bordered">
 							<thead>
 								<tr>
 									<td width="5%">{t('类型')}</div>
 									<td width="60%">{t('文件格式')}</div>
 									<td width="35%">{t('最大值')}</div>
 								</tr>
-							<thead>
+							</thead>
+							<tbody>
 							
 							{loop m('system.attachment')->types() $type $typename}
 							<tr>
@@ -48,10 +49,10 @@
 								</div>
 							</tr>
 							{/loop}
-							
+							</tbody>
 						</table>
 
-						{form::tips(t('多个文件格式之间请用 英文逗号 隔开，如：jpg,jpeg,png,gif').',&nbsp; '.t('系统允许上传单个文件的最大值: %s',ini_get("upload_max_filesize")))}
+						{form::tips(t('多个文件格式之间请用 英文逗号 隔开，如：jpg,jpeg,png,gif').',&nbsp; '.t('系统允许上传单个文件的最大值: <b>$1</b>',ini_get("upload_max_filesize")))}
 					</div>
 				</div>
 				<div class="form-group">
@@ -94,7 +95,7 @@
 								{form::field(array('type'=>'number','name'=>'image_width','value'=>c('system.image_width'),'required'=>'required'))}
 								<span class="input-group-addon">px</span>
 							</div>
-							<b class="va-m">&nbsp;×&nbsp;</b>
+							<span class="va-m text-muted text-center">&nbsp;&times;&nbsp;</span>
 							<div class="input-group">
 								<span class="input-group-addon">{t('高')}</span>
 								{form::field(array('type'=>'number','name'=>'image_height','value'=>c('system.image_height'),'required'=>'required'))}
@@ -108,7 +109,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('品质'),'image_quality',true)}</div>
-					<div class="col-sm-8">
+					<div class="col-sm-4">
 						{form::field(array('type'=>'number','name'=>'image_quality','value'=>c('system.image_quality'),'max'=>100,'min'=>0,'required'=>'required'))}
 						{form::tips(t('请设置为0-100之间的数字，数字越大图片越清晰'))}
 					</div>
@@ -134,7 +135,7 @@
 								{form::field(array('type'=>'number','name'=>'watermark_width','value'=>c('system.watermark_width'),'title'=>t('宽'),'required'=>'required'))}
 								<span class="input-group-addon">px</span>
 							</div>
-							<b class="va-m">&nbsp;×&nbsp;</b>
+							<span class="va-m text-muted text-center">&nbsp;&times;&nbsp;</span>
 							<div class="input-group">
 								<span class="input-group-addon">{t('高')}</span>
 								{form::field(array('type'=>'number','name'=>'watermark_height','value'=>c('system.watermark_height'),'title'=>t('高'),'required'=>'required'))}
@@ -196,21 +197,21 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('水印透明度'),'watermark_opacity',true)}</div>
-					<div class="col-sm-8">
+					<div class="col-sm-4">
 						{form::field(array('type'=>'number','name'=>'watermark_opacity','value'=>c('system.watermark_opacity'),'max'=>100,'min'=>0,'required'=>'required'))}
 						{form::tips(t('请设置为0-100之间的数字，数字越大图片越清晰'))}
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('品质'),'watermark_quality',true)}</div>
-					<div class="col-sm-8">
+					<div class="col-sm-4">
 						{form::field(array('type'=>'number','name'=>'watermark_quality','value'=>c('system.watermark_quality'),'max'=>100,'min'=>0,'required'=>'required'))}
 						{form::tips(t('请设置为0-100之间的数字，数字越大图片越清晰'))}
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('测试水印'),'',false)}</div>
-					<div class="col-sm-8">
+					<div class="col-sm-4">
 						<a class="btn btn-default" href="javascript:void(0)" id="testwatermark">{t('测试水印')}</a>
 					</div>
 				</div>				

@@ -109,10 +109,7 @@ class system_controller_administrator extends admin_controller
 
 		$data = array('groupid'=>1);
 
-		$roles = $this->role->getOptions(true);
-
 		$this->assign('title',t('添加管理员'));
-		$this->assign('roles',$roles);
 		$this->assign('data',$data);
 		$this->display('system/administrator_post.php');
 	}
@@ -138,10 +135,8 @@ class system_controller_administrator extends admin_controller
 		
 		$datauser  = $this->user->getbyid($id);
 		$dataadmin = $this->admin->getbyid($id);
-		$roles     = $this->role->getOptions(true);
 
 		$this->assign('title',t('编辑管理员'));
-		$this->assign('roles',$roles);
 		$this->assign('data',array_merge($datauser, $dataadmin));
 		$this->display('system/administrator_post.php');
 	}

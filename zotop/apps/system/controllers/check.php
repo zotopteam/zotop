@@ -101,5 +101,16 @@ class system_controller_check extends admin_controller
 	    $this->assign('phpinfo',$phpinfo);
 	    $this->display();
     }
+
+    /**
+     * 针对rewrite验证的请求返回
+     *
+     * @access public
+     * @return void
+     */
+	public function action_rewriteCallback()
+	{
+		exit('ok');
+	}    
 }
 ?>

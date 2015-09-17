@@ -43,7 +43,7 @@ class system_model_role extends model
 
 		foreach( $results as $r )
 		{
-			$dataset[$r['id']] = $r['name'].($description ? '<span class="description">'.$r['description'].'</span>' : '');
+			$dataset[$r['id']] = $r['name'].( $description ? ' <span class="description">'.$r['description'].'</span>' : '');
 		}
 
 		return $dataset;

@@ -59,11 +59,11 @@
 									</tr>
 									<tr>				
 										<td width="30%">{t('安全模式')}</td>
-										<td>{if @ini_get('safe_mode')}<font class="true">{t('开启')}</font>{else}<font class="false">{t('关闭')}</font>{/if}</td>
+										<td>{if @ini_get('safe_mode')}<span class="text-success">{t('开启')}</span>{else}<span class="text-error">{t('关闭')}</span>{/if}</td>
 									</tr>
 									<tr>				
 										<td width="30%">{t('socket')}</td>
-										<td>{if function_exists('fsockopen')}<font class="true">{t('支持')}</font>{else}<font class="false">{t('不支持')}</font>{/if}</td>
+										<td>{if function_exists('fsockopen')}<span class="text-success">{t('支持')}</span>{else}<span class="text-error">{t('不支持')}</span>{/if}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -81,7 +81,7 @@
 									</tr>
 									<tr>
 										<td width="30%">{t('URL重写')}</td>
-										<td>{if $rewrite}<font class="true">{t('支持')}</font>{else}<font class="false">{t('不支持')}</font>{/if}</td>
+										<td>{if $check_rewrite}<span class="text-success">{t('支持')}</span>{else}<span class="text-error">{t('不支持')}</span>{/if}</td>
 									</tr>
 									<tr>				
 										<td width="30%">{t('上传限制')}</td><td>{ini_get('upload_max_filesize')}</td>
@@ -109,7 +109,7 @@
 					</div>
 				</div>
 				<div class="panel-footer text-center p0">
-					<a href="{U('system/system/phpinfo')}" class="btn btn-block">{t('查看更多信息')}</a>
+					<a href="{U('system/check/phpinfo')}" class="btn btn-block">{t('查看更多信息')}</a>
 				</div>
 			</div>
 			
@@ -136,7 +136,7 @@
 							<td>{$l['name']}</td>
 							<td class="hidden-xs">{$l['position']}</td>
 							<td class="hidden-xs">{if $l['writable']} {t('必须可写(0777)')} {else} {t('建议只读')} {/if}</td>
-							<td>{if $l['is_writable']}<font class="true">{t('可写')}</font>{else}<font color="false">{t('不可写')}</font>{/if}</td>
+							<td>{if $l['is_writable']}<span class="text-success">{t('可写')}</span>{else}<font color="false">{t('不可写')}</span>{/if}</td>
 						</tr>
 						{/loop}
 					</tbody>

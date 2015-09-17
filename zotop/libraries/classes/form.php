@@ -269,7 +269,7 @@ class form
      */
 	public static function field_number($attrs)
 	{
-		$attrs['type'] = 'number';
+		//$attrs['type'] = 'number';
 		$attrs['step'] = intval($attrs['step']) ? intval($attrs['step']) : 1;
 		
 		return form::field_text($attrs);
@@ -450,17 +450,20 @@ class form
 	 */
 	public static function field_select($attrs)
 	{
-		// options必须是数组，将字符串options转化为数组
-		$options = form::options($attrs['options']);
+		// 附加默认样式
+		$attrs['class'] = $attrs['class'] ? 'form-control '.$attrs['class'] : 'form-control';		
 
-	    // 提取value
-		$value = $attrs['value'];
+		// options必须是数组，将字符串options转化为数组
+		$options        = form::options($attrs['options']);
+		
+		// 提取value
+		$value          = $attrs['value'];
 
 		//当value为数组时，则为多选
 		if ( is_array($value) )
 		{
 			$attrs['multiple'] = 'multiple';
-			$attrs['class'] = $attrs['class'].' multiple';
+			$attrs['class']    = $attrs['class'].' multiple';
 		}
 		else
 		{

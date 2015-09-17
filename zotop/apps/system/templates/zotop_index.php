@@ -27,7 +27,7 @@
 					<h2>{t('版权声明')}</h2>
 				</div>	
 				<div class="panel-body">
-					<div class="well">{file_get_contents(A('system.path').DS.'license.txt')}</div>
+					{file_get_contents(A('system.path').DS.'license.txt')}
 				</div>
 			</div>
 
