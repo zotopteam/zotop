@@ -109,7 +109,7 @@
 </div><!-- main -->
 
 <style type="text/css">
-.themelist{float:left;margin:0 0 -30px 0;zoom:1;padding:0}
+.themelist{margin:0 0 -30px 0;zoom:1;padding:0}
 .themelist li{position:relative;float:left;width:280px;overflow:hidden;margin:10px 20px 10px 0;background-color:#fff;padding:4px 4px 0 4px;border:3px solid #ebebeb;border-radius:4px;overflow:hidden;}
 .themelist li:hover{border:3px solid #d5d5d5;}
 .themelist li .image{width:100%;height:180px;line-height:0;overflow:hidden;cursor:pointer;}

@@ -25,7 +25,9 @@
 					<td title="{t('操作')}: {$r['app']}/{$r['controller']}/{$r['action']} <br/> {t('链接')}: {$r['url']}<br/> {t('结果')}: {$r['data']}" data-placement="bottom">
 						<div class="text-overflow">{$r['url']}</div>
 					</td>
-					<td><div class="text-overflow text-{$r['state']}"><i class="fa fa-{($r['state']?'check-circle':'times-circle')} fa-fw"></i> {$r['data']}</div></td>
+					<td>
+						<div class="text-overflow text-{$r['state']}"><i class="fa fa-{($r['state']=='success'?'check-circle':'times-circle')} fa-fw"></i> {$r['data']}</div>
+					</td>
 					<td>{$r['createip']}</td>
 					<td>{format::date($r['createtime'])}</td>
 				</tr>

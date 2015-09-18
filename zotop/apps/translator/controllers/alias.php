@@ -16,12 +16,12 @@ class translator_controller_alias extends controller
 	public function action_get()
 	{
 		$alias = '';
-
-		$s = '-'; //分隔符
+		
+		$s     = '-'; //分隔符
 
 		if ( $source = $_GET['source'] )
 		{
-			$alias = $this->language($source);
+			$alias = $this->translate($source);
 			$alias = str_replace(' ', $s, $alias);
 			$alias = preg_replace("/[[:punct:]]/",$s,$alias);
 			$alias = preg_replace('#['.$s.$s.']+#', $s, $alias);
@@ -40,28 +40,33 @@ class translator_controller_alias extends controller
 	 * 别名翻译 ,将中文翻译成英文
 	 *
 	 */
-	private function language($str, $from = 'zh', $to = 'en')
+	private function translate($str, $from = 'zh', $to = 'en')
 	{
 		// 首先对要翻译的文字进行 urlencode 处理
-		$str 		= urlencode($str);
+		$str = urlencode($str);
+		
+		$api = c('translator.api');
 
-		// 百度翻译的appid
-		$clientid 	= c('translator.baidu_clientid');
+		switch ($api) {
+			case 'baidu':
+				$url    = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=" . c('translator.baidu_clientid') ."&q=" .$str. "&from=".$from."&to=".$to;			
+				$result = json_decode($this->getresult($url), true);				
+				$result = is_array($result) ? $result['trans_result'][0]['dst'] : '';
+				break;			
+			case 'youdao':
+				$url    = 'http://fanyi.youdao.com/openapi.do?keyfrom='.c('translator.youdao_keyfrom').'&key='.c('translator.youdao_key').'&type=data&doctype=json&version=1.1&q='.$str;			
+				$result = json_decode($this->getresult($url), true);
+				$result = is_array($result) ? $result['translation'][0] : '';
+				break;
+		}
 
-		// 生成翻译地址
-		$url 		= "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=" . $clientid ."&q=" .$str. "&from=".$from."&to=".$to;
-
-		// 获取翻译结果
-		$text 		= json_decode($this->language_text($url), true);
-
-		// 返回结果
-		return $text['trans_result'][0]['dst'];
+		return $result;
 	}
 
 	/*
 	 * 获取翻译结果
 	 */
-	private function language_text($url)
+	private function getresult($url)
 	{
 		if( function_exists('file_get_contents') )
 		{

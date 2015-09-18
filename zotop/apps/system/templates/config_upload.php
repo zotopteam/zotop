@@ -25,7 +25,7 @@
 					<div class="col-sm-2 control-label">{form::label(t('类型及大小'),'upload_types',true)}</div>
 					<div class="col-sm-8">
 
-						<table class="table table-hover table-nowrap table-bordered">
+						<table class="table table-hover table-nowrap table-border">
 							<thead>
 								<tr>
 									<td width="5%">{t('类型')}</div>

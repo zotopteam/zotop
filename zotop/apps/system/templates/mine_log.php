@@ -24,7 +24,7 @@
 					</td>
 					<td>
 						<div class="text-overflow">
-							{if $r.state}<i class="fa fa-check-circle fa-fw text-success"></i>{else}<i class="fa fa-times-circle fa-fw text-error"></i>{/if}
+							{if $r.state=='success'}<i class="fa fa-check-circle fa-fw text-success"></i>{else}<i class="fa fa-times-circle fa-fw text-error"></i>{/if}
 							{$r['data']}
 						</div>
 					</td>

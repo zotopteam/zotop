@@ -94,7 +94,7 @@
 						</i>						
 					</div>
 					<div class="col-sm-10">
-						<table class="table table-hover table-bordered sortable" id="datalist">
+						<table class="table table-hover table-border sortable" id="datalist">
 							<thead>
 								<tr>
 									<td	class="drag">&nbsp;</td>

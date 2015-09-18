@@ -1,94 +1,106 @@
 {template 'header.php'}
 
-<style type="text/css">
-	#about{position:relative;padding:15px;background:#e5f3fb;display: none}
-	#about img{width:42px;height:42px;}
-	#about-content{position:absolute;left:72px;top:11px;}
-	#about-content h2{font-size:20px;margin-bottom:2px;}
-	#about-content div{font-size:80%;}
-</style>
+<div class="container-fluid container-primary">
+	<div class="jumbotron text-center">
+		<h1>{A('translator.name')}</h1>
+		<p>{A('translator.description')}</p>
+	</div>
+</div>
+
+<div class="container-fluid container-default">
+
+	<div class="panel">
+		<div class="panel-heading">
+			<h2>{t('参数设置')}</h2>
+		</div>			
+		<div class="panel-body">
+			
+			{form action="u('translator/config/save')"}
+				
+				<div class="form-group">
+					<label for="api">{t('接口选择')}</label>
+
+					{field type="radio" options="array('youdao'=>t('有道翻译'),'baidu'=>t('百度翻译'))" name="api" value="c('translator.api')"}
+
+					<div class="help-block">{t('选择并使用相关接口翻译别名')}</div>
+				</div>
 
 
-<div class="main">
-	<div class="main-header">
-		<div class="title">{$title}</div>
-	</div><!-- main-header -->
-	<div class="main-body scrollable">
+				<div class="form-group api-option api-option-youdao">
+					{form::label(t('API Key'),'youdao_key',true)}
 
-		<div id="about">
-			<img src="{A('translator.url')}/app.png">
-			<div id="about-content">
-				<h2>{A('translator.name')}</h2>
-				<div>{A('translator.description')}</div>
-			</div>
-		</div>
+					{form::field(array('type'=>'text','name'=>'youdao_key','value'=>c('translator.youdao_key'),'required'=>'required'))}
 
-		{form::header(u('translator/config/save'))}
-		<table class="field">
-			<caption>{t('参数设置')}</caption>
-			<tr>
-				<td class="label">{form::label(t('API Key'),'baidu_clientid',true)}</td>
-				<td class="input">
+					<div class="blank"></div>
+
+					{form::label(t('keyfrom'),'youdao_keyfrom',true)}
+
+					{form::field(array('type'=>'text','name'=>'youdao_keyfrom','value'=>c('translator.youdao_keyfrom'),'required'=>'required'))}					
+
+					<div class="help-block">{t('在有道翻译申请到的API key和keyfrom')}</div>
+
+					<div class="blank"></div>
+
+					<div class="alert alert-warning" role="alert">					
+						<p>{t('使用API key 时，默认请求频率限制为每小时1000次，超过限制会被封禁，请申请一个自己的API KEY来使用')}</p>
+						<p>{t('申请地址')} : <a target="_blank" href="http://fanyi.youdao.com/openapi?path=data-mode">http://fanyi.youdao.com/openapi?path=data-mode</a></p>
+					</div>
+				</div>				
+
+				<div class="form-group api-option api-option-baidu hidden">
+					{form::label(t('API Key'),'baidu_clientid',true)}
+
 					{form::field(array('type'=>'text','name'=>'baidu_clientid','value'=>c('translator.baidu_clientid'),'required'=>'required'))}
-					<div class="field-tips">						
-						{t('在百度开发者中心注册得到的授权API key')}
-						<a target="_blank" href="http://developer.baidu.com/console#app/project">
-							http://developer.baidu.com/console#app/project
-						</a>
-					</div>					
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('别名长度'),'alias_length',true)}</div>
-				<td class="input">
+
+					<div class="help-block">{t('在百度开发者中心注册得到的授权API key')}</div>
+
+					<div class="alert alert-warning" role="alert">
+						<p>{t('百度翻译API是百度面向开发者推出的免费翻译服务开放接口 ,默认API KEY使用限制为1000次/小时限制，请申请一个自己的API KEY来使用')}</p>
+						<p>{t('申请地址')} : <a target="_blank" href="http://developer.baidu.com/console#app/project">http://developer.baidu.com/console#app/project</a></p>
+					</div>
+				</div>
+
+				<div class="form-group">
+					{form::label(t('别名长度'),'alias_length',true)}
 					{form::field(array('type'=>'num','name'=>'alias_length','value'=>c('translator.alias_length'),'required'=>'required','max'=>128))}
-					{form::tips(t('翻译后提取的别名长度，最长为128个字符'))}
-				</td>
-			</tr>
+					{form::tips(t('翻译后提取的别名长度，最长为128个字符'))}						
+				</div>
 
-			<tr>
-				<td class="label"></td>
-				<td class="input">
-				{form::field(array('type'=>'submit','value'=>t('保存')))}
-				</td>
-			</tr>
-		</table>
-		{form::footer()}
+				<div class="form-group">
+					{form::field(array('type'=>'submit','value'=>t('保存')))}
+				</div>
 
-		<div class="blank"></div>
-		<div class="blank"></div>
+			{/form}
 
-		<table class="field">
-		<caption>{t('使用说明')}</caption>
-		<tr>
-			<td>			
-				<ul class="list">
-					<li>{t('百度翻译API是百度面向开发者推出的免费翻译服务开放接口')}</li>
-					<li>{t('默认API KEY使用限制为1000次/小时限制，请申请一个自己的API KEY来使用')} 	<a target="_blank" href="http://developer.baidu.com/console#app/project">http://developer.baidu.com/console#app/project</a></li>
-				</ul>
-			</td>
-		<tr>
-		</table>
+		</div>
+	</div>
 
-	</div><!-- main-body -->
-	<div class="main-footer">
-	{A('translator.description')}
-	</div><!-- main-footer -->
-</div><!-- main -->
+</div>
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
+
+
 <script type="text/javascript">
+	
+	// api选项切换
+	$(function(){
+		$('[name=api]').on('change',function(){
+			$('.api-option').addClass('hidden');
+			$('.api-option-'+$(this).val()).removeClass('hidden');
+		})
+	});
+
+	// 表单提交
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
-			$(form).find('.submit').disable(true);
-			$.loading();
+			$(form).find('.submit').button('loading');
 			$.post(action, data, function(msg){
 				$.msg(msg);
-				$(form).find('.submit').disable(false);
+				$(form).find('.submit').button('reset');
 			},'json');
 		}});
 	});
 </script>
+
 {template 'footer.php'}
