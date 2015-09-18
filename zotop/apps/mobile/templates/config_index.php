@@ -12,35 +12,37 @@
 		<div class="container-fluid">
 			
 			<fieldset class="form-horizontal">
-				<legend>{t('基本设置')}</legend>
-					<div class="form-group">
-						<div class="col-sm-2 control-label">{form::label(t('移动网址'),'url',false)}</div>
-						<div class="col-sm-6">
-							{form::field(array('type'=>'url','name'=>'url','value'=>c('mobile.url')))}
-							{form::tips(t('绑定域名后可通过域名访问移动版，如：http://m.zotop.com'))}
-						</div>						
-					</div>
 
-					<div class="form-group">
-						<div class="col-sm-2 control-label">{form::label(t('移动主题'),'theme',true)}</div>					
-						<div class="col-sm-6">
-							<ul class="themelist clearfix">
-							{loop $themes $id $theme}
-								<li {if c('site.theme')== $id}class="selected"{/if} title="{$theme['description']}">
-									<label>
-									<i class="fa fa-check"></i>
-									<div class="image"><img src="{$theme['image']}"/></div>
-									<div class="title text-overflow">
-										<input type="radio" name="theme" value="{$id}" {if c('site.theme')== $id}checked="checked"{/if}/>
-										&nbsp;{$theme['name']}
-									</div>
-									</label>
-								</li>
-							{/loop}
-							</ul>					
-							{form::tips(t('移动版使用的主题，选择主题后网站将以该主题显示'))}							
-						</div>
+				<div class="form-title">{t('基本设置')}</div>
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('移动网址'),'url',false)}</div>
+					<div class="col-sm-6">
+						{form::field(array('type'=>'url','name'=>'url','value'=>c('mobile.url')))}
+						{form::tips(t('绑定域名后可通过域名访问移动版，如：http://m.zotop.com'))}
+					</div>						
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('移动主题'),'theme',true)}</div>					
+					<div class="col-sm-6">
+						<ul class="themelist clearfix">
+						{loop $themes $id $theme}
+							<li {if c('site.theme')== $id}class="selected"{/if} title="{$theme['description']}">
+								<label>
+								<i class="fa fa-check"></i>
+								<div class="image"><img src="{$theme['image']}"/></div>
+								<div class="title text-overflow">
+									<input type="radio" name="theme" value="{$id}" {if c('site.theme')== $id}checked="checked"{/if}/>
+									&nbsp;{$theme['name']}
+								</div>
+								</label>
+							</li>
+						{/loop}
+						</ul>					
+						{form::tips(t('移动版使用的主题，选择主题后网站将以该主题显示'))}							
 					</div>
+				</div>
+				
 			</fieldset>
 		</div>	
 	</div><!-- main-body -->

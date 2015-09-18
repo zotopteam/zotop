@@ -23,7 +23,7 @@
 			{form::field(array('type'=>'hidden','name'=>'mail','value'=>c('system.mail')))}
 
 			<fieldset class="form-horizontal">
-				<legend>{t('基本设置')}</legend>
+				<div class="form-title">{t('基本设置')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('发送方式'),'mail_mailer',true)}</div>
@@ -75,7 +75,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('SMTP设置')}</legend>
+				<div class="form-title">{t('SMTP设置')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('服务器'),'mail_smtp_host',false)}</div>
@@ -111,7 +111,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('设置验证')}</legend>
+				<div class="form-title">{t('设置验证')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('验证邮箱'),'',true)}</div>

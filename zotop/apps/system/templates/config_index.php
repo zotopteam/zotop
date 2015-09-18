@@ -18,8 +18,10 @@
 		
 		<div class="container-fluid">
 
-			<fieldset class="form-horizontal">
-				<legend>{t('基本设置')}</legend>			
+			<div class="form-horizontal">
+
+				<div class="form-title">{t('基本设置')}</div>
+
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('网站名称'),'name',true)}</div>
 					<div class="col-sm-8">
@@ -54,11 +56,12 @@
 						{form::tips(t('选择主题后，网站将以该主题和模板显示'))}
 					</div>
 				</div>
-			</fieldset>
+			</div>
 
 
-			<fieldset class="form-horizontal">
-				<legend>{t('搜索优化')}</legend>
+			<div class="form-horizontal">
+			
+				<div class="form-title">{t('搜索优化')}</div>
 
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('网站标题'),'title',true)}</div>
@@ -81,10 +84,10 @@
 						{form::tips(t('请填写网站描述信息(Meta Description)'))}
 					</div>
 				</div>
-			</fieldset>
+			</div>
 
-			<fieldset class="form-horizontal">
-				<legend>{t('网站状态')}</legend>
+			<div class="form-horizontal">
+				<div class="form-title">{t('网站状态')}</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('关闭网站'),'closed',false)}</div>
 					<div class="col-sm-10">
@@ -98,7 +101,7 @@
 						{form::field(array('type'=>'textarea','name'=>'closedreason','value'=>c('site.closedreason')))}
 					</div>
 				</div>
-			</fieldset>
+			</div>
 		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">

@@ -20,7 +20,8 @@
 		<div class="container-fluid">	
 
 			<fieldset class="form-horizontal">
-				<legend>{t('系统安全')}</legend>
+			
+				<div class="form-title">{t('系统安全')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('加密安全码'),'safekey',true)}</div>
@@ -39,7 +40,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('系统操作日志')}</legend>
+				<div class="form-title">{t('系统操作日志')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('开启日志'),'log',false)}</div>
@@ -61,7 +62,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('系统登录设置')}</legend>
+				<div class="form-title">{t('系统登录设置')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('开启验证码'),'login_captcha',false)}</div>

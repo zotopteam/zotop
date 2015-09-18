@@ -14,7 +14,7 @@
 		<div class="container-fluid">
 
 			<fieldset class="form-horizontal">
-				<legend>{t('账户密码')}</legend>
+				<div class="form-title">{t('账户密码')}</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('用户名'),'username',true)}</div>
 					<div class="col-sm-5">
@@ -60,7 +60,7 @@
 
 			</fieldset>
 			<fieldset class="form-horizontal">
-				<legend>{t('用户资料')}</legend>
+				<div class="form-title">{t('用户资料')}</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('昵称'),'nickname',true)}</div>
 					<div class="col-sm-5">

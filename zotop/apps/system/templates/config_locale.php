@@ -22,7 +22,7 @@
 
 			<fieldset class="form-horizontal">
 
-				<legend>{t('区域和语言')}</legend>
+				<div class="form-title">{t('区域和语言')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('语言'),'locale_language',false)}</div>
@@ -47,7 +47,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('日期和时间')}</legend>
+				<div class="form-title">{t('日期和时间')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('日期格式'),'locale_date',false)}</div>

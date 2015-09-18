@@ -19,7 +19,8 @@
 		<div class="container-fluid">
 
 			<fieldset class="form-horizontal">
-				<legend>{t('基本设置')}</legend>
+				
+				<div class="form-title">{t('基本设置')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('类型及大小'),'upload_types',true)}</div>
@@ -77,7 +78,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('图片缩放')}</legend>
+				<div class="form-title">{t('图片缩放')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('启用'),'image_resize',false)}</div>
@@ -118,7 +119,7 @@
 			</fieldset>
 
 			<fieldset class="form-horizontal">
-				<legend>{t('图片水印')}</legend>
+				<div class="form-title">{t('图片水印')}</div>
 				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('启用'),'watermark',false)}</div>
