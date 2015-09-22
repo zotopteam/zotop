@@ -19,13 +19,13 @@
             </div>
 
             <div class="col-sm-2 col-xs-4 col-sm-offset-1">
-                ddddddd
+                ddddddd111
             </div>
             <div class="col-sm-2 col-xs-4">
-                ddddddd
+                ddddddd222
             </div>
             <div class="col-sm-2 col-xs-4">
-                ddddddd
+                ddddddd333
             </div>                        
         </div>
     </div>

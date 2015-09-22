@@ -47,7 +47,7 @@
 				<td class="manage">
 						<a class="js-open" href="{u('system/badword/edit/'.$r['id'])}" data-width="600px" data-height="380px"><i class="fa fa-edit"></i> {t('编辑')}</a>
 						<s>|</s>
-						<a class="js-confirm" href="{u('system/badword/delete/'.$r['id'])}"><i class="fa fa-trash"></i> {t('删除')}</a>
+						<a class="js-confirm" href="{u('system/badword/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
 				</td>
 			</tr>
 			{/loop}		

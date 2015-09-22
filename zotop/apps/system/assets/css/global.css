@@ -15,16 +15,17 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
 .container-primary .jumbotron,.container-success .jumbotron{color:#fff;background:transparent;}
 
-.text-primary{color:#0072c6;}
-.text-success{color:#00bc3e;}
-.text-error{color:#f00;}
+.text-primary,.text-pending{color:#0072c6;}
+.text-success,.text-publish{color:#00bc3e;}
+.text-error,.text-trash{color:#f00;}
 .text-overflow{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box;}
 
 .alert{margin-bottom:0;}
 
+.badge{padding:3px 5px;font-weight:normal;}
 .badge-danger{background-color:#f00;}
 .badge-xs, .badge-sm{-webkit-transform:translate(0, -2px);-ms-transform:translate(0, -2px);-o-transform:translate(0, -2px);transform:translate(0, -2px);}
-.badge-xs{font-size:9px;}
+.badge-xs{font-size:9px;-webkit-transform:scale(0.75);letter-spacing:1px;}
 
 .dropdown-menu{border-radius:3px; padding:5px; box-shadow:3px 3px 0 rgba(12,12,12,0.03);}
 .dropdown-menu > li > a{color:#0072c6;padding:7px 10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; -moz-transition:all 0.2s ease-out 0s; -webkit-transition:all 0.2s ease-out 0s; transition:all 0.2s ease-out 0s;}
@@ -37,9 +38,6 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 	    display:block;
 	}
 }
-
-.nav > li > a{position:relative;}
-.nav > li > a .badge{position:absolute;right:2px;top:10px;}
 
 .breadcrumb{margin:0;}
 
@@ -102,6 +100,8 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 .table > tbody > tr.disabled img{opacity:0.2;}
 
 .table > tbody > tr > td >.title{font-size:16px;}
+.table > tbody > tr > td >.title>span{font-size: 14px;color: #666;font-weight: normal;}
+.table > tbody > tr > td >.content{font-size:14px;margin-top:8px;margin-bottom: 8px;}
 .table > tbody > tr > td >.description{font-size:12px;color:#999;margin-top:5px;}
 .table > tbody > tr > td >.manage{font-size:13px;margin-top:5px;}
 .table > tbody > tr > td >.manage s,.table td.manage s{color:#ddd;margin:0 3px;}
@@ -217,6 +217,8 @@ label[for]{cursor:pointer;}
 .nav-side .children ul{margin-left:12px; border:0;}
 
 /*icon override*/
+.fa-all:before{content:'\f10c';}
+.fa-publish:before{content:'\f058';}
 .fa-pending:before{content:'\f252';}
 
 .fa-audio:before{content:'\f1c7';}
@@ -264,9 +266,11 @@ label.error:empty{display:none;}
 .global-navbar > li{float:left;}
 .global-navbar > li > a{position:relative;display:block;max-width:150px;padding:15px;line-height:20px;color:#fff;font-size:15px;transition:all 0.2s ease-out 0s;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .global-navbar > li > a:hover,.global-navbar > li > a:focus{background-color:#0064ae;outline:0 none;}
-.global-navbar > .active >a, .global-navbar > .active > a:hover, .global-navbar > .active >a:focus {background-color:#00BCF2;}
-.global-navbar > .open >a, .global-navbar > .open > a:hover, .global-navbar > .open > a:focus {background-color:#0064ae;}
+.global-navbar > .active > a, .global-navbar > .active > a:hover, .global-navbar > .active >a:focus {background-color:#00BCF2;}
+.global-navbar > .open > a, .global-navbar > .open > a:hover, .global-navbar > .open > a:focus {background-color:#0064ae;}
 .global-navbar > .brand > a{background-image:url(../image/logo.png);background-repeat:no-repeat;background-position:center left;width:50px;height:50px;padding:0;text-indent:-500px;}
+
+.global-navbar > li > a > .badge{position:absolute;right:2px;top:10px;}
 
 .global-navbar .dropdown-menu{border:solid 2px #0064ae;border-top:0 none;margin-top:0;border-top-left-radius:0;border-top-right-radius:0;}
 .global-navbar .dropdown-menu > li > a:hover{background-color:#0064ae;color:#fff;}
@@ -301,24 +305,28 @@ label.error:empty{display:none;}
 /*主区域 无侧边 */
 .main{margin:0;height:100%;position:relative;}
 .main-header{vertical-align:middle;text-align:left;position:relative;clear:both;border-bottom:1px solid #efefef;background-color:#fff;height:60px;padding:5px 0;}
-.main-header > .goback{float:left;display:block;text-decoration:none;font-size:21px;padding:0 10px; margin:15px 0; line-height:20px;border-right:solid 1px #ebebeb;}
-.main-header > .title{float:left;font-size:21px;font-weight:normal;padding:15px;line-height:20px;}
-.main-header > .description{float:left;font-size:15px;color:#666;}
-.main-header > .action{float:right;padding: 0 10px;}
+.main-header .goback{float:left;display:block;text-decoration:none;font-size:21px;padding:0 10px; margin:15px 0; line-height:20px;border-right:solid 1px #ebebeb;}
+.main-header .title{float:left;font-size:21px;font-weight:normal;padding:15px;line-height:20px;}
+.main-header .description{float:left;font-size:15px;color:#666;}
+.main-header .action{float:right;padding: 0 10px;}
 
-.main-header > .breadcrumb{float:left;font-size:15px;font-weight:normal;padding:15px;line-height:20px;background:transparent;}
-.main-header > .breadcrumb>li+li:before{font-family:FontAwesome;content:"\f105";padding-right:7px;}
+.main-header .breadcrumb{float:left;font-size:15px;font-weight:normal;padding:15px;line-height:20px;background:transparent;}
+.main-header .breadcrumb>li+li:before{font-family:FontAwesome;content:"\f105";padding-right:7px;}
 
 .main-header .btn{margin:8px 4px;}
 .main-header .btn-group{margin-right:8px;}
 .main-header .btn-group .btn{margin-right:0;}
 
-.main-header .nav-tabs{border:0 none;margin:12px;position:relative;}
+.main-header .nav-tabs{border:0 none;margin:12px;position:relative;float:left;}
 .main-header .nav-tabs>li{margin-bottom:0;margin-left:10px;}
 .main-header .nav-tabs>li>a{padding:3px 0;font-size:15px;border:0 none;border-bottom:solid 2px transparent;}
 .main-header .nav-tabs>li>a:hover,.main-header .nav-tabs>li>a:focus{border-bottom:solid 2px #ff6600;background:transparent;}
 .main-header .nav-tabs>li.active>a, .main-header .nav-tabs>li.active>a:hover, .main-header .nav-tabs>li.active>a:focus{border:0 none;background:transparent;color:#ff6600;border-bottom:solid 2px #ff6600;}
-.main-header .nav-tabs>li>.bradge{font-size:12px;font-style:normal;color:red;}
+.main-header .nav-tabs>li>a>.badge{margin-top:-2px;}
+
+.main-header .searchbar{float:right;margin:8px 8px 8px 0;width:220px;}
+.main-header .searchbar .btn{margin:0;}
+
 
 .main-body{}
 

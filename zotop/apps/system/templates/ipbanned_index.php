@@ -46,7 +46,7 @@
 					<div class="manage">
 						<a class="js-open" href="{u('system/ipbanned/edit/'.$r['ip'])}" data-width="600px" data-height="400px"><i class="fa fa-edit fa-fw"></i> {t('编辑')}</a>
 						<s>|</s>
-						<a class="js-confirm" href="{u('system/ipbanned/delete/'.$r['ip'])}"><i class="fa fa-trash fa-fw"></i>{t('删除')}</a>
+						<a class="js-confirm" href="{u('system/ipbanned/delete/'.$r['ip'])}"><i class="fa fa-times fa-fw"></i>{t('删除')}</a>
 					</div>
 				</td>
 				<td>{format::date($r['expires'])}</td>

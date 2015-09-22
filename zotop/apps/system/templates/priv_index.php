@@ -32,7 +32,7 @@
 						<s>|</s>
 						<a class="js-open" href="{u('system/priv/edit/'.$data['id'])}" data-width="600px" data-height="280px"><i class="fa fa-edit fa-fw"></i>{t('编辑')}</a>
 						<s>|</s>
-						<a class="js-confirm" href="{u('system/priv/delete/'.$data['id'])}"><i class="fa fa-trash fa-fw"></i>{t('删除')}</a>
+						<a class="js-confirm" href="{u('system/priv/delete/'.$data['id'])}"><i class="fa fa-times fa-fw"></i>{t('删除')}</a>
 					</div>
 				</td>
 			</tr>

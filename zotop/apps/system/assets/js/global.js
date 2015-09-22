@@ -17,7 +17,7 @@ $(function(){
 		return '<div class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</div>';
 	},container:'body',html:true});
 
-	$('.tabdropable').tabdrop();
+	//$('.tabdropable').tabdrop();
 
 	$('.scrollable').niceScroll();
 });
