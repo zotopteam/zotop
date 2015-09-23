@@ -1,8 +1,7 @@
 {template 'dialog.header.php'}
 
-<div class="side">
-	{template 'system/upload_side.php'}
-</div>
+{template 'system/upload_side.php'}
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="single-select" style="padding-top:8px;">

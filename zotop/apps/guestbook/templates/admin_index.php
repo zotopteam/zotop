@@ -7,11 +7,11 @@
 		<div class="title">{$title}</div>
 		<ul class="nav nav-tabs tabdropable">
 			<li{if $status == ''} class="active"{/if}><a href="{u('guestbook/admin/index')}"><i class="fa fa-all fa-fw"></i><span>{t('全部')}</span></a></li>
-			{loop $statuses $s $t}
+			{loop m('guestbook.guestbook.status') $s $t}
 			<li{if $status == $s} class="active"{/if}>
 				<a href="{u('guestbook/admin/index/'.$s)}">
 					<i class="fa fa-{$s} fa-fw"></i><span>{$t}</span>
-					{if $statuscount[$s]}<em class="badge badge-xs badge-danger">{$statuscount[$s]}</em>{/if}
+					{if m('guestbook.guestbook.statuscount',$s)}<em class="badge badge-xs badge-danger">{m('guestbook.guestbook.statuscount',$s)}</em>{/if}
 				</a>
 			</li>
 			{/loop}
@@ -85,18 +85,21 @@
 		{form::footer()}
 	</div><!-- main-body -->
 	<div class="main-footer">
-		{pagination::instance($total,$pagesize,$page)}
+		
 
 		<input type="checkbox" class="checkbox select-all middle">
 		<a class="btn btn-default js-operate" href="{u('guestbook/admin/operate/delete')}"><i class="fa fa-times fa-fw"></i><span>{t('删除')}</span></a>
 
 		<div class="btn-group">
-			{loop $statuses $s $t}
+			{loop m('guestbook.guestbook.status') $s $t}
 			{if $status!=$s}
 			<a class="btn btn-default js-operate" href="{u('guestbook/admin/operate/'.$s)}"><i class="fa fa-{$s} fa-fw"></i><span>{$t}</span></a>
 			{/if}
 			{/loop}
 		</div>
+
+		{pagination::instance($total,$pagesize,$page)}
+
 	</div><!-- main-footer -->
 	
 	{/if}

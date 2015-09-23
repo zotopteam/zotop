@@ -45,13 +45,6 @@ class guestbook_controller_admin extends admin_controller
 
 		$dataset = $this->guestbook->orderby('createtime','desc')->getPage();
 
-		$statuses = $this->guestbook->statuses;
-
-		foreach($statuses as $s=>$t)
-		{
-			$statuscount[$s] = $this->guestbook->where('status','=',$s)->count();
-		}
-
 		$this->assign('title',t('留言管理'));
 		$this->assign('statuses',$statuses);
 		$this->assign('statuscount',$statuscount);

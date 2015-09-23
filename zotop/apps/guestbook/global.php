@@ -15,7 +15,7 @@ if ( ZOTOP_ISGET )
 		);
 
 		// 设置提示信息
-		if ( $pending = m('guestbook.guestbook')->getPendingCount() )
+		if ( $pending = m('guestbook.guestbook')->statuscount('pending') )
 		{
 			$start['guestbook']['msg'] = '<a href="'.u('guestbook/admin/index/pending').'">'.t('%s 条新留言',$pending).'</a>';
 		}
@@ -44,7 +44,7 @@ if ( ZOTOP_ISGET )
 	function guestbook_globalmsg($msg)
 	{
 			// 设置提示信息
-		if ( $pending = m('guestbook.guestbook')->getPendingCount() )
+		if ( $pending = m('guestbook.guestbook')->statuscount('pending') )
 		{
 			$msg[] = array(
 				'text' => t('您有 %s 条等待审核的新留言，请尽快处理……', $pending),

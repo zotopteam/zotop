@@ -91,11 +91,16 @@ class system_field
 			}
 		}
 
-		$html['js']			= html::import(A('system.url').'/assets/js/field.image.js');
-		$html['field']		= form::field_text($attrs);
-		$html['uploader']	= '<a href="'.u('system/upload/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-image"></i><b>'.t('上传').'</b></a>';
-		$html['selector']	= '<a href="'.u('system/upload/library/image', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
-		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['js']       = html::import(A('system.url').'/assets/js/field.image.js');
+		$html[]           = '<div class="input-group">';
+		$html[]           = form::field_text($attrs);
+		$html[]           = '<span class="input-group-btn">';
+		$html['uploader'] = '<a href="'.u('system/upload/image', $upload).'" tabindex="-1" class="btn btn-default"><i class="fa fa-image fa-fw"></i><b>'.t('上传').'</b></a>';
+		$html['selector'] = '<a href="'.u('system/upload/library/image', $upload).'" tabindex="-1" class="btn btn-default"><i class="fa fa-server fa-fw"></i><b>'.t('图像库').'</b></a>';
+		$html['dirview']  = '<a href="'.u('system/upload/dirview/image', $upload).'" tabindex="-1" class="btn btn-default"><i class="fa fa-folder fa-fw"></i><b>'.t('目录浏览').'</b></a>';
+		$html[]           = '</span>';
+		$html[]           = '</div>';
+		$html['error']    = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		// hook
 		$html = zotop::filter('system.field.image', $html, $attrs, $upload);
@@ -109,7 +114,7 @@ class system_field
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
-	public static function field_images($attrs)
+	public static function images($attrs)
 	{
 		$attrs['id'] = $attrs['id'] ? $attrs['id'] : $attrs['name'];
 

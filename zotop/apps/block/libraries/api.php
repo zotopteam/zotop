@@ -48,23 +48,22 @@ class block_api
 	        'current'       => (ZOTOP_APP == 'block')
 	    );
 
+		// foreach (m('block.category.getall') as $k => $v)
+		// {
+		// 	$nav['block']['menu'][$k] = array(
+		// 		'text' => $v['name'],
+		// 		'icon' => '<i class="fa fa-list fa-fw"></i>',
+		// 		'href' => U('block/admin',array('accountid'=>$k)) 
+		// 	); 
+		// }
 
-		foreach (m('block.category.getall') as $k => $v)
-		{
-			$nav['block']['menu'][$k] = array(
-				'text' => $v['name'],
-				'icon' => '<i class="fa fa-list fa-fw"></i>',
-				'href' => U('block/admin',array('accountid'=>$k)) 
-			); 
-		}
-
-		$nav['block']['menu']['divider'] = 'divider';
+		// $nav['block']['menu']['divider'] = 'divider';
 		
-		$nav['block']['menu']['category'] = array(
-				'text' => t('分类管理'),
-				'icon' => '<i class="fa fa-cog fa-fw"></i>',
-				'href' => U('block/category')
-		);	    
+		// $nav['block']['menu']['category'] = array(
+		// 		'text' => t('分类管理'),
+		// 		'icon' => '<i class="fa fa-cog fa-fw"></i>',
+		// 		'href' => U('block/category')
+		// );	    
 
 	    return $nav;
 	}

@@ -48,10 +48,10 @@ class ueditor_field
 			if ( $options['tools'] )
 			{
 				$tools = zotop::filter('editor.tools',array(
-					'image'	=> array('type'=>'image','text'=>t('图片'),'icon'=>'icon-image','url'=>'system/upload/image'),
-					'file'	=> array('type'=>'file','text'=>t('文件'),'icon'=>'icon-file','url'=>'system/upload/file'),
-					'video'	=> array('type'=>'video','text'=>t('视频'),'icon'=>'icon-video','url'=>'system/upload/video'),
-					'audio'	=> array('type'=>'audio','text'=>t('音频'),'icon'=>'icon-audio','url'=>'system/upload/audio'),
+					'image'	=> array('type'=>'image','text'=>t('图片'),'icon'=>'fa fa-image','url'=>'system/upload/image'),
+					'file'	=> array('type'=>'file','text'=>t('文件'),'icon'=>'fa fa-file','url'=>'system/upload/file'),
+					'video'	=> array('type'=>'video','text'=>t('视频'),'icon'=>'fa fa-video','url'=>'system/upload/video'),
+					'audio'	=> array('type'=>'audio','text'=>t('音频'),'icon'=>'fa fa-audio','url'=>'system/upload/audio'),
 				));
 
 				// 如果传入的是数组，则只显示传入部分
@@ -66,13 +66,12 @@ class ueditor_field
 				// 生成工具条
 				if ( is_array($tools) && !empty($tools) )
 				{
-					$html[] = '<div class="editor-tools">';
+					$html[] = '<div class="btn-toolbar btn-toolbar-top btn-toolbar-editor">';
 					foreach( $tools as $k=>$t)
 					{
-						$html[] = '<a href="'.u($t['url'],$upload).'" tabindex="-1" class="btn btn-icon-text editor-insert" data-field="'.$attrs['name'].'" data-type="'.$t['type'].'" title="'.t('插入%s',$t['text']).'"><i class="icon '.$t['icon'].'"></i><b>'.$t['text'].'</b></a>';
+						$html[] = '<a href="'.u($t['url'],$upload).'" tabindex="-1" class="btn btn-default editor-insert" data-field="'.$attrs['name'].'" data-type="'.$t['type'].'" title="'.t('插入%s',$t['text']).'"><i class="'.$t['icon'].' fa-fw"></i><b>'.$t['text'].'</b></a>';
 					}
 					$html[] = '</div>';
-					$html[] = '<div class="blank"></div>';
 				}
 			}
 

@@ -13,19 +13,22 @@ class guestbook_model_guestbook extends model
 	protected $pk = 'id';
 	protected $table = 'guestbook';
 
-	public $statuses = array();
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->statuses = array
-		(
+    /**
+     * 状态
+     *
+     * @param  string $s 传递具体状态值将获得该状态的名称
+     * @return mixed
+     */
+    public function status($s='')
+    {
+        $status = zotop::filter('guestbook.status',array(
 			'publish'	=> t('通过审核'),
 			'pending'	=> t('等待审核'),
 			'trash'		=> t('垃圾信息'),
-		);
-	}
+        ));
+
+        return $s ? $status[$s] : $status;
+    }
 
     /**
      * 获取数据
@@ -45,21 +48,22 @@ class guestbook_model_guestbook extends model
 		return $this->db()->getPage($page,$pagesize,$total);
 	}
 
+
     /**
-     * 获取未读留言
+     * 获取特定状态 数据条数
      *
      */
-	public function getPendingCount()
-	{
-		static $count = null;
+    public function statuscount($status)
+    {
+        static $statuscount = array();
 
-		if ( $count === null )
-		{
-			$count = $this->db()->where('status','=','pending')->count();
-		}
+        if ( !isset($statuscount[$status]) )
+        {
+            $statuscount[$status] = $this->where('status', '=', $status)->count();
+        }
 
-		return $count;
-	}
+        return $statuscount[$status];
+    }	
 
     /**
      * 插入

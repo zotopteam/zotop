@@ -285,6 +285,7 @@ class form
 	{
 		$attrs['type'] = 'file';
 		$attrs['name'] = empty($attrs['name']) ? 'filedata' : $attrs['name'];
+
 		return form::field_text($attrs);
 	}
 
@@ -301,7 +302,7 @@ class form
 			unset($attrs['value']);
 		}		
 		
-		$attrs['rows']  = is_int($attrs['rows']) ? $attrs['rows'] : 3;
+		$attrs['rows']  = intval($attrs['rows']) ? intval($attrs['rows']) : 3;
 		$attrs['class'] = empty($attrs['class']) ? 'form-control' : 'form-control '.$attrs['class'];
 
 		return '<textarea'.form::attributes($attrs).'>'.htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8').'</textarea>';

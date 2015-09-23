@@ -1,27 +1,30 @@
 {template 'dialog.header.php'}
 
-<div class="side">
-	{template 'system/upload_side.php'}
-</div>
+{template 'system/upload_side.php'}
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title" style="line-height:40px;">
-			<a class="btn btn-icon-text btn-highlight btn-upload" id="upload" href="javascript:void(0)">
-				<i class="icon icon-upload"></i><b>{t('上传%s', $typename)}</b>
-			</a>
+		<div class="title">
+			{t('本地上传')}
 		</div>
-		<div class="action">
+
+		<div class="action">			
 			{if $type=='image'}
 			<span class="radios">
 				<label><input type="radio" name="watermark" value="1" {if $params['watermark']==1}checked="checked"{/if}>{t('水印')}</label>
 				<label><input type="radio" name="watermark" value="0" {if $params['watermark']==0}checked="checked"{/if}>{t('无')}</label>
 			</span>
 			{/if}
+
+			<a class="btn btn-primary btn-upload" id="upload" href="javascript:void(0)">
+				<i class="icon icon-upload"></i><b>{t('上传%s', $typename)}</b>
+			</a>			
 		</div>
 	</div>
 	<div class="main-body" id="upload-dragdrop">
-		<div class="filelist" id="filelist"></div>
+		<div class="filelist" id="filelist">
+			
+		</div>
 	</div><!-- main-body -->
 	<div class="main-footer noborder">
 		<div id="upload-progress" class="total-progressbar progressbar none"><span class="progress"></span><span class="percent">10%</span></div>
@@ -35,7 +38,7 @@
 			<[if type=='image']>
 			<div class="image"><img data-link="src[:url:]"/></div>
 			<[else]>
-			<div class="icon"><b class="icon icon-ext icon-<[:type]> icon-<[:ext]>" ></b><b class="ext"><[:ext]></b></div>
+			<div class="icon"><b class="fa fa-<[:type]> fa-<[:ext]>" ></b><b class="ext"><[:ext]></b></div>
 			<[/if]>
 		</div>
 		<div class="title">
@@ -52,12 +55,12 @@
 </script>
 
 <!-- 模板绑定 -->
-<script type="text/javascript" src="{a('system.url')}/common/js/jquery.views.min.js"></script>
+<script type="text/javascript" src="{a('system.url')}/assets/js/jquery.views.min.js"></script>
 <!-- 上传 -->
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/plupload/plupload.css" />
-<script type="text/javascript" src="{A('system.url')}/common/plupload/plupload.full.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/i18n/zh_cn.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/jquery.upload.js"></script>
+<link rel="stylesheet" type="text/css" href="{A('system.url')}/assets/plupload/plupload.css" />
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/i18n/zh_cn.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/jquery.upload.js"></script>
 <script type="text/javascript">
 	// 参数
 	var params = {json_encode($params)};

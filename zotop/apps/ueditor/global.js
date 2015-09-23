@@ -17,7 +17,7 @@ $.fn.editor = function(options){
 		elementPathEnabled : false,
 		scaleEnabled:false, //拉高
 		autoHeightEnabled : false,
-		autoFloatEnabled : false, // 工具条浮动
+		autoFloatEnabled : true, // 工具条浮动
 		//topOffset : 95,
 		initialContent : '',
 		charset:"utf-8",

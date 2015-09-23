@@ -20,7 +20,7 @@ zotop::register(array(
 form::field('date',array('system_field','date'));
 form::field('datetime',array('system_field','datetime'));
 form::field('image',array('system_field','image'));
-form::field('images', 'system_field::field_images');
+form::field('images', 'system_field::images');
 form::field('file',array('system_field','file'));
 form::field('keywords',array('system_field','keywords'));
 form::field('alias',array('system_field','alias'));
@@ -71,6 +71,47 @@ function system_globalmsg($msg)
 }
 
 /**
+ * 上传对话框侧边导航
+ * 
+ * @param  string $type 上传类型
+ * @return array
+ */
+function system_upload_navbar($type='image')
+{
+	$nav = array();
+
+	$nav['upload'] = array(
+		'text'   => t('本地上传'),
+		'href'   => u('system/upload/'.$type, $_GET),
+		'icon'   => 'fa fa-upload',
+		'active' => substr_count(ZOTOP_URI,'system/upload/'.$type)
+	);
+
+	$nav['library'] = array(
+		'text'   => t('从库中选择'),
+		'href'   => u('system/upload/library/'.$type, $_GET),
+		'icon'   => 'fa fa-server',
+		'active' => substr_count(ZOTOP_URI,'system/upload/library')
+	);
+
+	$nav['dirview'] = array(
+		'text'   => t('从目录中选择'),
+		'href'   => u('system/upload/dirview/'.$type, $_GET),
+		'icon'   => 'fa fa-folder',
+		'active' => substr_count(ZOTOP_URI,'system/upload/dirview')
+	);
+
+	// $nav['remote'] = array(
+	// 	'text'   => t('远程文件'),
+	// 	'href'   => u('system/upload/remote'.$type, $_GET),
+	// 	'icon'   => 'fa fa-link',
+	// 	'active' => substr_count(ZOTOP_URI,'system/upload/remote')
+	// );
+
+	return zotop::filter('system.upload.navbar', $nav, $type);		
+}
+
+/**
  * 别名解析, 将别名路由到设定的uri
  *
  * @param $attrs array 控件参数
@@ -98,8 +139,8 @@ function system_alias()
  * @param string $b 原始地址
  * @return mixed
  */
- function alias($a, $b='')
- {
+function alias($a, $b='')
+{
 	$alias = m('system.alias');
 
 	$a = trim(strtolower($a));
@@ -121,5 +162,5 @@ function system_alias()
 	if ( $b ) return $alias->where('source',$b)->delete();
 
 	return false;
- }
+}
 ?>
