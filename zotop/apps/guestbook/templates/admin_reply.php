@@ -16,7 +16,7 @@
 			</div>
 			<div class="form-group">
 				{form::label(t('状态'),'status',false)}				
-				{form::field(array('type'=>'radio','name'=>'status','value'=>'publish','options'=>$statuses))}				
+				{form::field(array('type'=>'radio','name'=>'status','value'=>'publish','options'=>m('guestbook.guestbook.status')))}				
 			</div>
 
 	{form::footer()}

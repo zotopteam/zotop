@@ -2,32 +2,38 @@
 
 {template 'system/upload_side.php'}
 
-<div class="main side-main">
+<div class="main side-main no-footer">
 	<div class="main-header">
-		<div class="title">
-			{t('本地上传')}
-		</div>
+		<a class="btn btn-primary btn-upload" id="upload" href="javascript:void(0)">
+			<i class="fa fa-upload fa-fw"></i><b>{t('上传%s', $typename)}</b>
+		</a>			
 
-		<div class="action">			
+		<div class="action">
+
 			{if $type=='image'}
-			<span class="radios">
-				<label><input type="radio" name="watermark" value="1" {if $params['watermark']==1}checked="checked"{/if}>{t('水印')}</label>
-				<label><input type="radio" name="watermark" value="0" {if $params['watermark']==0}checked="checked"{/if}>{t('无')}</label>
-			</span>
+			<label class="btn btn-default">
+				<input type="checkbox" name="watermark" value="1" {if $params['watermark']==1}checked="checked"{/if}> {t('水印')}
+			</label>
 			{/if}
 
-			<a class="btn btn-primary btn-upload" id="upload" href="javascript:void(0)">
-				<i class="icon icon-upload"></i><b>{t('上传%s', $typename)}</b>
-			</a>			
+		
 		</div>
 	</div>
-	<div class="main-body" id="upload-dragdrop">
-		<div class="filelist" id="filelist">
-			
+	<div class="main-body scrollable">
+		<div id="upload-progress" class="progress global-progress hidden">
+			<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:1%">
+				<span class="progress-percent">0%</span>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div id="upload-dragdrop">
+				<div class="filelist" id="filelist"></div>				
+			</div>
+
 		</div>
 	</div><!-- main-body -->
-	<div class="main-footer noborder">
-		<div id="upload-progress" class="total-progressbar progressbar none"><span class="progress"></span><span class="percent">10%</span></div>
+	<div class="main-footer">
 	</div>
 </div><!-- main -->
 
@@ -42,12 +48,11 @@
 			<[/if]>
 		</div>
 		<div class="title">
-			<div class="name textflow"><[:name]></div>
-			<div class="info"><[size size/]> <[if width>0]> <[:width]>px × <[:height]>px <[/if]> </div>
+			<div class="name text-overflow"><[:name]></div>
+			<div class="info text-overflow"><[size size/]> <[if width>0]> <[:width]>px × <[:height]>px <[/if]> </div>
 
 		</div>
-		<div class="action"><a class="delete" title="{t('删除')}"><i class="icon icon-delete"></i></a></div>
-		<i class="icon icon-selected"></i>
+		<div class="action"><a class="delete" title="{t('删除')}"><i class="fa fa-times"></i></a></div>
 	</div>
 	<[else]>
 		<div class="dragdrop none">{t('拖动文件到此区域上传')}</div>
@@ -157,7 +162,7 @@
 
 		// 改变水印参数
 		$('[name=watermark]').on('click',function(){
-			uploader.params('watermark', $(this).val());
+			uploader.params('watermark', ($(this).is(':checked') ? 1 : 0 ));
 		});
 	});
 </script>
