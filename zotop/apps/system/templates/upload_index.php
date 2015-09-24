@@ -11,7 +11,7 @@
 		<div class="action">
 
 			{if $type=='image'}
-			<label class="btn btn-default">
+			<label class="btn">
 				<input type="checkbox" name="watermark" value="1" {if $params['watermark']==1}checked="checked"{/if}> {t('水印')}
 			</label>
 			{/if}
@@ -50,7 +50,6 @@
 		<div class="title">
 			<div class="name text-overflow"><[:name]></div>
 			<div class="info text-overflow"><[size size/]> <[if width>0]> <[:width]>px × <[:height]>px <[/if]> </div>
-
 		</div>
 		<div class="action"><a class="delete" title="{t('删除')}"><i class="fa fa-times"></i></a></div>
 	</div>
@@ -74,8 +73,6 @@
 	var view = {};
 
 		view.data = {json_encode($files)};
-
-		zotop.debug(view.data);
 
 		view.add  = function(row){
 

@@ -5,7 +5,7 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="single-select" style="padding-top:8px;">
-		<select id="folderid" class="select" style="width:200px;">
+		<select id="folderid" class="form-control select" style="width:200px;">
 			<option value="">{t('全部')}</option>
 			{loop  m('system.attachment_folder.category') $f}
 			<option value="{$f['id']}">{$f['name']}</option>
@@ -13,17 +13,43 @@
 		</select>
 		</div>
 	</div>
-	<div class="main-body">
-			<div class="filelist" id="filelist"></div>
+	<div class="main-body scrollable">
+
+		<div class="container-fluid">
+			{if $data}
+			<div class="filelist" id="filelist">
+				{loop $data $r}
+				<div class="fileitem clearfix" {loop $r $k $v} data-{$k}="{$v}"{/loop}>
+					<div class="preview">
+						{if $r.type=='image'}
+						<div class="image"><img src="{$r.url}"/></div>
+						{else}
+						<div class="icon"><b class="fa fa-{$r.type} fa-{$r.ext}" ></b><b class="ext">{$r.ext}</b></div>
+						{/if}
+					</div>
+					<div class="title">
+						<div class="name text-overflow">{$r.name}</div>
+						<div class="info text-overflow">{$r.size} {if $r.width} {$r.width}px × {$r.height}px {/if}</div>
+					</div>
+					<div class="action"><a class="delete" title="{t('删除')}"><i class="fa fa-times"></i></a></div>
+				</div>
+				{/loop}
+			</div>
+			{else}
+				<div class="nodata">{t('暂时没有文件')}</div>
+			{/if}
+			
+			
+
+		</div>
 	</div><!-- main-body -->
-	<div class="main-footer noborder">
-		<div id="pagination"></div>&nbsp;
+	<div class="main-footer">
+		{pagination::instance($total,$pagesize,$page)}
 	</div>
 </div><!-- main -->
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/plupload/plupload.css" />
 
-<!-- 分页 -->
-<script type="text/javascript" src="{A('system.url')}/common/js/jquery.pagination.js"></script>
+<link rel="stylesheet" type="text/css" href="{A('system.url')}/assets/plupload/plupload.css"/>
+
 <script type="text/javascript">
 
 	//选择文件个数
@@ -52,58 +78,10 @@
 
 	$dialog.title('{t('插入%s', $typename)}');
 
-	function getdatalist(index){
-		var page = index || 0;
-		var pagesize = 8;
-		var folderid = $('#folderid').val();
-		var loading = $.loading();
-
-		$.ajax({
-			url: "{u('system/upload/librarydata')}",
-			data:{page:page+1,pagesize:pagesize, type: '{$type}', folderid:folderid},
-			dataType:'json',
-			success:function(result){
-				loading.close();zotop.debug(result);
-
-				var html = '';
-
-				$.each(result.data,function(i,file){
-					html += '<div class="fileitem file clearfix" id="'+file.id+'" data-name="'+file.name+'" data-url="'+file.url+'" data-size="'+file.size+'" data-ext="'+file.ext+'">';
-					html += '<i class="icon icon-selected"></i>';
-					html += '<div class="preview">';
-					html += ( file.type == 'image' ) ? '	<div class="image"><img src="'+file.url+'"></div>' : '<div class="icon"><b class="icon icon-ext icon-'+file.type+' icon-'+file.ext+'"></b><b class="ext">'+file.ext+'</b></div>';
-					html += '</div>';
-					html += '<div class="title"><div class="name textflow">'+file.name+'</div><div class="info">'+zotop.formatsize(file.size)+' ' + (file.width > 0 ? ' '+file.width+'px × '+file.height+'px' : '') +'</div></div>';
-					html += '<div class="action"><a class="delete" title="{t('删除')}"><i class="icon icon-delete"></i></a></div>';
-					html += '</div>';
-				});
-
-				$('#filelist').html(html);
-
-				if( result.total > 0 && $('#pagination').html().length == 0 ){
-					$('#pagination').pagination(result.total,{
-						items_per_page:pagesize,
-						num_edge_entries: 1,
-						num_display_entries: 7,
-						prev_text : "{t('前页')}",
-						next_text : "{t('下页')}",
-						load_first_page : false,
-						show_if_single_page : true,
-						callback:function(index,jq){
-							getdatalist(index);
-						}
-					});
-				}
-			}
-		});
-	}
-
 	$(function(){
-		getdatalist(0);
 
 		$('#folderid').on('change',function(){
-			$('#pagination').empty();
-			getdatalist(0);
+
 		});
 	})
 
@@ -147,4 +125,5 @@
 		return false;
 	});
 </script>
+
 {template 'dialog.footer.php'}

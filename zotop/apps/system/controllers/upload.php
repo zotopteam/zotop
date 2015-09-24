@@ -119,42 +119,33 @@ class system_controller_upload extends admin_controller
 	 * 附件库对话框
 	 *
 	 */
-	public function action_library($type='')
+	public function action_library($type='', $folderid=0)
 	{
 		// 允许文件类型名称，如：图像
 		$typename = empty($type) ? t('文件') : $this->attachment->types($type);
 
+		if( $type )
+		{
+			$this->attachment->where('type','=',$type);
+		}
+
+		if( $folderid )
+		{
+			$this->attachment->where('folderid','=',$folderid);
+		}
+
+		// 获取数据
+		$dataset = $this->attachment->orderby('uploadtime','desc')->getPage(null,8);
+
+		
 		$this->assign('title',t('从库中选择'));
 		$this->assign('type',$type);
 		$this->assign('typename',$typename);
 		$this->assign($_GET);
+		$this->assign($dataset);
 		$this->display();
 	}
 
-	/**
-	 * 附件库数据源
-	 *
-	 */
-	public function action_libraryData()
-	{
-		@extract($_GET);
-
-		if( $type )
-		{
-			$where[] = array('type','=',$type);
-		}
-
-		// 如果传入类别参数
-		if( $folderid )
-		{
-			if( !empty($where) ) $where[] = 'and';
-			$where[] = array('folderid','=',$folderid);
-		}
-
-		$dataset = $this->attachment->where($where)->orderby('uploadtime','desc')->getPage($page,$pagesize);
-
-		exit(json_encode($dataset));
-	}
 
 	/**
 	 * 目录浏览对话框
