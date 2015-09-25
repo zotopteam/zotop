@@ -4,43 +4,55 @@
 
 <div class="main side-main no-footer">
 	<div class="main-header">
-		<div class="position">
+		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('上级')}</span></a>	
+		<ul class="breadcrumb">
 			{loop $position $n $p}
-				{if $n}<s class="arrow">></s>{/if} <a href="{$p['url']}">{$p['text']}</a>
+				<li><a href="{$p.url}"><i class="{$p.icon}"></i> {$p.text}</a></li>
 			{/loop}
+		</ul>
+		<div class="action">
+			<a href="javascript:location.reload();" class="btn btn-default btn-icon" title="{t('刷新')}"><span class="fa fa-refresh"></span></a>
 		</div>
 	</div>
-	<div class="main-body">
-			<div class="filelist-body filelist" id="filelist">
-				{loop $folders $f}
-				<a href="{$f['url']}">
+	<div class="main-body scrollable">
+		<div class="container-fluid">
+			
+			<div class="filelist">				
+				{loop $folders $f}				
 				<div class="fileitem folder clearfix">
+					<a href="{$f['url']}">
 					<div class="preview">
-						<div class="icon"><b class="icon icon-folder"></b></div>
+						<div class="icon"><b class="fa fa-folder"></b></div>
 					</div>
-					<div class="title textflow">{$f['name']}</div>
-				</div>
-				</a>
+					<div class="title">
+						<div class="name text-overflow"><b>{$f['name']}</b></div>
+						<div class="info text-overflow">{t('文件夹')}</div>
+					</div>
+					</a>
+				</div>				
 				{/loop}
 
 				{loop $files $f}
-				<div class="fileitem file clearfix" id="{$f['id']}" data-name="{$f['name']}" data-url="{$f['url']}" data-size="{$f['size']}" data-ext="{$f['ext']}" title="{t('名称')} : {$f['name']}&#10;{t('大小')} : {format::size($f['size'])}{if $f['width']}&#10;{t('宽高')} : {$f['width']}px × {$f['height']}px{/if}">
-					<i class="icon icon-selected"></i>
+				<div class="fileitem file clearfix" data-name="{$f['name']}" data-url="{$f['url']}" data-size="{$f['size']}" data-ext="{$f['ext']}">
 					<div class="preview">
 						{if $f['type'] == 'image'}
 						<div class="image"><img src="{$f['url']}"></div>
 						{else}
-						<div class="icon"><b class="icon icon-ext icon-{$f['type']} icon-{$f['ext']}"></b><b class="ext">{$f['ext']}</b></div>
+						<div class="icon"><b class="fa fa-{$f['type']} fa-{$f['ext']}"></b></div>
 						{/if}
 					</div>
-					<div class="title textflow">{$f['name']}</div>
+					<div class="title">
+						<div class="name text-overflow">{$f['name']}</div>
+						<div class="info text-overflow">{strtoupper($f['ext'])} {format::size($f['size'])}</div>
+					</div>
 				</div>
 				{/loop}
 			</div>
+
+		</div>
 	</div><!-- main-body -->
 </div><!-- main -->
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/plupload/plupload.css" />
-<script type="text/javascript" src="{A('system.url')}/common/js/jquery.pagination.js"></script>
+<link rel="stylesheet" type="text/css" href="{A('system.url')}/assets/plupload/plupload.css" />
 <script type="text/javascript">
 
 	//选择文件个数
@@ -49,7 +61,7 @@
 	// 对话框设置
 	$dialog.callbacks['ok'] = function(){
 
-			var $selected = $('#filelist').find('.selected');
+			var $selected = $('.filelist').find('.selected');
 
 			if ( $selected.length == 0 ){
 				$.error('{t('请选择要插入的文件')}');
@@ -71,7 +83,7 @@
 
 
 	//选择文件
-	$('#filelist').on('click','.file',function(e){
+	$('.filelist').on('click','.file',function(e){
 		//当点击为按钮时，禁止选择
 		if( $(e.target).parent().attr('tagName') == 'A' ) return false;
 

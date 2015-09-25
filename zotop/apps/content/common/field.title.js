@@ -111,10 +111,10 @@ $(function(){
 			e.preventDefault();
 
 			if( $(this).attr('bold') == 'bold' ){
-				$(this).removeAttr('bold');
+				$(this).removeAttr('bold').removeClass('active');
 
 			}else{
-				$(this).attr('bold','bold');
+				$(this).attr('bold','bold').addClass('active');
 			}
 			setstyle();
 		});

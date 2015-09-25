@@ -114,12 +114,16 @@
 			{/loop}
 		</tbody>
 		</table>
+
+
 		
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<input type="checkbox" class="checkbox select-all">
 		<a class="btn btn-default operate" href="{u('system/attachment/operate/delete')}">{t('删除')}</a>
+
 		{pagination::instance($total,$pagesize,$page)}
+
 	</div><!-- main-footer -->
 	{/form}
 	{/if}
@@ -137,6 +141,7 @@
 	div.image-preview .thumb img {vertical-align:middle;max-width:62px;max-height:62px;}
 	div.progress{position:absolute;width:400px;top:22px;right:150px;background: #fff;}
 </style>
+
 
 <script type="text/javascript">
 $(function(){
@@ -166,6 +171,7 @@ $(function(){
 			}
 		});
 	});
+
 });
 
 </script>

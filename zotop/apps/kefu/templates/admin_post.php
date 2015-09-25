@@ -1,33 +1,26 @@
 {template 'dialog.header.php'}
 
 	{form::header()}
-		<table class="field">
-			<tbody>
 
-			<tr>
-				<td class="label">{form::label(t('类型'),'type',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'radio','options'=>m('kefu.kefu.types'),'name'=>'type','value'=>$data['type']))}
-				</td>
-			</tr>
-			</tbody>
-		</table>
 
-		<div id="options"></div>
+		<div class="form-group">
+			{form::label(t('类型'),'type',true)}				
+			{form::field(array('type'=>'radio','options'=>m('kefu.kefu.types'),'name'=>'type','value'=>$data['type']))}				
+		</div>
 
-		<table class="field">
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('禁用'),'disabled',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'bool','name'=>'disabled','value'=>(int)$data['disabled']))}
-				</td>
-			</tr>
-			</tbody>
-		</table>
+		<div id="form-options">
+			
+		</div>
+
+		<div class="form-group">
+			{form::label(t('禁用'),'disabled',false)}
+			
+				{form::field(array('type'=>'bool','name'=>'disabled','value'=>(int)$data['disabled']))}
+			
+		</div>
+
 	{form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 
 	// 对话框设置
@@ -40,7 +33,7 @@
 		var data = {json_encode($data)};
 			data.type = type || data.type;
 
-		$('#options').html('<i class="icon icon-loading" style="margin-left:120px;"></i>').load("{u('kefu/admin/options')}",data);
+		$('#form-options').html('<i class="fa fa-spinner fa-spin"></i>').load("{u('kefu/admin/options')}",data);
 	}
 
 	$(function(){

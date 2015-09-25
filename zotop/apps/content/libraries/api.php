@@ -129,10 +129,14 @@ class content_api
 		$attrs['class'] = isset($attrs['class']) ? 'title ruler '.$attrs['class'] : 'title ruler';
 		$attrs['stylefield'] = isset($attrs['stylefield']) ? $attrs['stylefield'] : 'style';
 
+		$html[] = '<div class="input-group">';
 		$html[] = form::field_text($attrs);
 		$html[] = form::field_hidden(array('name'=>$attrs['stylefield'],'value'=>$attrs['style'],'tabindex'=>-1));
-		$html[] = '<a href="javascript:void(0);" tabindex="-1" class="btn btn-icon" rel="bold" title="'.t('加粗').'"><i class="icon icon-bold"></i></a>';
-		$html[] = '<a href="javascript:void(0);" tabindex="-1" class="btn btn-icon" rel="color" title="'.t('颜色').'"><i class="icon icon-color"></i></a>';
+		$html[] = '<span class="input-group-btn">';
+		$html[] = '	<a href="javascript:void(0);" tabindex="-1" class="btn btn-default btn-icon" rel="bold" title="'.t('加粗').'"><i class="fa fa-bold"></i></a>';
+		$html[] = '	<a href="javascript:void(0);" tabindex="-1" class="btn btn-default btn-icon" rel="color" title="'.t('颜色').'"><i class="fa fa-font"></i></a>';
+		$html[] = '</span>';
+		$html[] = '</div>';
 		$html[] = '<label for="'.$id.'" generated="true" class="error"></label>';
 		$html[]	= html::import(A('content.url').'/common/field.title.js');
 

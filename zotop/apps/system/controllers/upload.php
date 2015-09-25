@@ -135,12 +135,13 @@ class system_controller_upload extends admin_controller
 		}
 
 		// 获取数据
-		$dataset = $this->attachment->orderby('uploadtime','desc')->getPage(null,8);
+		$dataset = $this->attachment->orderby('uploadtime','desc')->getPage(null,20);
 
 		
 		$this->assign('title',t('从库中选择'));
 		$this->assign('type',$type);
 		$this->assign('typename',$typename);
+		$this->assign('folderid',$folderid);
 		$this->assign($_GET);
 		$this->assign($dataset);
 		$this->display();
@@ -205,11 +206,11 @@ class system_controller_upload extends admin_controller
 		}
 
 		// 解析dir,生成position数组
-		$position[] =  array('text'=>t('上传目录'),'url'=>u("system/upload/dirview/{$type}",array_merge($_GET, array('dir'=>''))));
+		$position[] =  array('text'=>t('上传目录'),'icon'=>'fa fa-home','url'=>u("system/upload/dirview/{$type}",array_merge($_GET, array('dir'=>''))));
 
 		foreach( folder::dirmap($dir) as $d )
 		{
-			$position[] = array('text'=>$d[0],'url'=>u("system/upload/dirview/{$type}",array_merge($_GET, array('dir'=>$d[1]))));
+			$position[] = array('text'=>$d[0],'icon'=>'fa fa-folder','url'=>u("system/upload/dirview/{$type}",array_merge($_GET, array('dir'=>$d[1]))));
 		}
 
 

@@ -1,22 +1,28 @@
 {template 'header.php'}
 
-<div class="side">
 {template 'kefu/admin_side.php'}
-</div>
 
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight dialog-open" href="{U('kefu/admin/add')}" data-width="800px" data-height="400px">
-				<i class="icon icon-add"></i><b>{t('添加')}</b>
+			<a class="btn btn-primary js-open" href="{U('kefu/admin/add')}" data-width="800px" data-height="400px">
+				<i class="fa fa-plus"></i><b>{t('添加')}</b>
 			</a>
 		</div>
 	</div>
 	<div class="main-body scrollable">
 		{if empty($data)}
-			<div class="nodata">{t('没有找到任何数据')}</div>
-		{else}
+			<div class="nodata">
+				<i class="fa fa-frown-o"></i>
+				<h1>
+					{t('暂时没有任何数据')}
+
+					<a class="btn btn-primary js-open" href="{U('kefu/admin/add')}" data-width="800px" data-height="400px">
+						<i class="fa fa-plus fa-fw"></i>{t('添加')}
+					</a>
+				</h1>
+			</div>		{else}
 		{form::header()}
 		<table class="table list sortable">
 			<thead>
@@ -32,9 +38,9 @@
 			{loop $data $r}
 				<tr>
 					<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-					<td class="w40 center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
+					<td class="w40 center">{if $r['disabled']}<i class="fa fa-false false"></i>{else}<i class="fa fa-true true"></i>{/if}</td>
 					<td>
-						<div class="title textflow">
+						<div class="title text-overflow">
 							{if $r['account']}
 								{$r['account']}<span>{$r['text']}</span>
 							{else}
@@ -42,13 +48,13 @@
 							{/if}						
 						</div>
 						<div class="manage">
-							<a href="{u('kefu/admin/edit/'.$r['id'])}" class="dialog-open" data-width="800px" data-height="400px">{t('编辑')}</a>
+							<a href="{u('kefu/admin/edit/'.$r['id'])}" class="js-open" data-width="800px" data-height="400px">{t('编辑')}</a>
 							<s></s>
-							<a href="{u('kefu/admin/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
+							<a href="{u('kefu/admin/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
 						</div>
 					</td>
 					<td>{m('kefu.kefu.types',$r.type)}</td>
-					<td><div class="title textflow">{$r['show']}</div></td>
+					<td><div class="title text-overflow">{$r['show']}</div></td>
 				</tr>
 			{/loop}
 			<tbody>

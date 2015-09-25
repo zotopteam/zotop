@@ -19,7 +19,7 @@
 		
 		</div>
 	</div>
-	<div class="main-body scrollable">
+	<div class="main-body scrollable" id="upload-dragdrop">
 		<div id="upload-progress" class="progress global-progress hidden">
 			<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:1%">
 				<span class="progress-percent">0%</span>
@@ -27,10 +27,7 @@
 		</div>
 
 		<div class="container-fluid">
-			<div id="upload-dragdrop">
-				<div class="filelist" id="filelist"></div>				
-			</div>
-
+			<div class="filelist" id="filelist"></div>				
 		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">
@@ -54,7 +51,11 @@
 		<div class="action"><a class="delete" title="{t('删除')}"><i class="fa fa-times"></i></a></div>
 	</div>
 	<[else]>
-		<div class="dragdrop none">{t('拖动文件到此区域上传')}</div>
+
+		<div class="upload-help">
+			{t('暂时没有文件，请先上传')}
+			<div class="upload-dragdrop-tips">{t('拖动文件到此区域可上传')}</div>
+		</div>
 	<[/for]>
 </script>
 
