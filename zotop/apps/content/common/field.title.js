@@ -1,35 +1,35 @@
-
 /**
  * jQuery's colorpicker Plugin
-*/
-(function($){
+ */
+(function($) {
+	"use strict";
 
-	$.fn.colorpicker = function(options) {
-		//初始化参数
-		options = $.extend({},{
-			empty : 'clear',
-			transparent : 'transparent',
-			selectcolor:function(){},
-			setcolor:function(){}
-		},options);
+	var ColorSelector = function(target, options) {
+		this.options = options;
+		this.$target = $(target);
+		this._init();
+	};
 
-		var colorpicker = $('.colorpicker');
+	ColorSelector.prototype = {
 
-		if ( !colorpicker.length ){
+		constructor : ColorSelector,
 
-			var hc = ["FF","CC","99","66","33","00"];
-			var i=0;
+		_init : function() {
+
+		 	var $dropdownmenu = $("<div>").addClass("colorselector dropdown-menu dropdown-menu-right").insertAfter(this.$target);
+
+			var hc    = ['00','33','66','99','CC','FF'];
+			var i     =0;
 			var r,g,b,c;
 			var color = [];
 
-			color.push('<div class="colorpicker" style="border:solid 1px #d5d5d5;padding:1px;background:#f7f7f7;border-radius:2px;">');
-			color.push('<table cellspacing="0" cellpadding="0" style="margin:4px;width:270px;"><tr>');
-			color.push('<tr>');
-			color.push('<td colspan="8"><div class="colorpicker-preview" style="height:20px;border:solid 1px #666;line-height:20px;padding:0px 3px;"></div></td>');
-			color.push('<td colspan="6" class="color" bgcolor="transparent" align="center" style="padding:1px;"><div class="colorpicker-button transparent" style="font-size:12px;line-height:16px;height:14px;border:1px solid #666;padding:3px 5px;cursor:pointer;">'+options.transparent+'</div></td>');
-			color.push('<td colspan="4" class="color" bgcolor="" align="center"  style="padding:1px;"><div class="colorpicker-button nocolor" style="font-size:12px;line-height:16px;height:14px;border:1px solid #666;padding:3px 5px;cursor:pointer;">'+options.empty+'</div></td>');
-			color.push('</tr>');
-			color.push('<tr><td height="5" colspan="18" class="colorpicker-split" style="padding:0px;height:3px;"></td></tr>');
+			color.push('<style>');
+			color.push('.colorselector-preview{font-size:12px;height:32px;line-height:20px;padding:5px;margin-bottom:5px;border:solid 1px #ccc;text-align:center;border-radius:3px;}');
+			color.push('.colorselector-table{margin:5px 0;width:270px;}');
+			color.push('.colorselector-table td{border:solid 1px #f7f7f7;width:15px;height:15px;line-height:1;padding:0;cursor:pointer;}');
+			color.push('</style>');
+			color.push('<div class="colorselector-preview">&nbsp;</div>');
+			color.push('<table class="colorselector-table"><tr>');
 			for(r=0;r<6;r++) {
 				for(g=0; g<6; g++) {
 					for(b=0;b<6;b++) {
@@ -37,48 +37,74 @@
 						if (i%18==0 && i>0) {
 							color.push("</tr><tr>");
 						}
-						color.push('<td class="color" bgcolor="#'+c+'" style="border:solid 1px #f7f7f7;width:12px;height:12px;" title="#'+c+'"></td>');
+						color.push('<td class="color" bgcolor="#'+c+'" title="#'+c+'">&nbsp;</td>');
 						i++;
 					}
 				}
 			}
 			color.push('</tr></table>');
-			color.push('</div>');
 
-			colorpicker = $(color.join('')).appendTo(document.body).hide();
+			if ( this.options.transparent ){
+				color.push('<button type="button" class="btn btn-default color" bgcolor="transparent">'+this.options.transparent+'</button>');
+			}
 
-			//关闭面板
-			$(document).on('mousedown',function(e){
-				if ( colorpicker.hasClass('active') ) colorpicker.removeClass('active').hide();
+			if ( this.options.empty ){
+				color.push('<button type="button" class="btn btn-default color pull-right" bgcolor="">'+this.options.empty+'</button>');
+			}
+
+			$(color.join('')).appendTo($dropdownmenu);
+		 
+		 	this.$target.attr("data-toggle", "dropdown").addClass("dropdown-toggle");
+
+			var target   = this.$target;
+			var callback = this.options.callback;
+
+			// 选择颜色
+		  	$dropdownmenu.on('click', '.color', function(e){
+		  		var color = $(this).attr('bgcolor');
+
+		  		if (typeof callback == "function") {
+		  			callback(color);
+		  		}
+		  	});
+
+		  	// 预览颜色
+			$dropdownmenu.on('mouseover', '.color', function(){
+				var color = $(this).attr('bgcolor');
+				$dropdownmenu.find('.colorselector-preview').css('background-color',color).text(color);
 			});
 		}
+	};
 
-		return this.each(function(){
-			var btn = $(this);
-			btn.on('mouseover',function(){
-				colorpicker.css({
-					'position' : 'absolute',
-					'z-index' : 99999
-				}).position({
-					of : btn,
-					my : 'left top+3',
-					at : 'left bottom',
-					collision: 'fit none'
-				}).on('mouseover','.color',function(){
-					var color = $(this).attr('bgcolor');
-					colorpicker.find('.colorpicker-preview').css('background-color',color).text(color);
-					options.selectcolor(color);
-				}).on('mousedown','.color',function(e){
-					e.preventDefault();
-					var color = $(this).attr('bgcolor');
-					btn.attr('color',color);
-					options.setcolor(color);
-					colorpicker.removeClass('active').hide();
-				}).addClass('active').show();
-			});
+	$.fn.colorselector = function(option) {
+		var args = Array.apply(null, arguments);
+			args.shift();
+
+		return this.each(function() {
+
+			var $this = $(this), data = $this.data("colorselector"), options = $.extend({}, $.fn.colorselector.defaults, $this.data(), typeof option == "object" && option);
+
+			if (!data) {
+				$this.data("colorselector", (data = new ColorSelector(this, options)));
+			}
+
+			if (typeof option == "string") {
+				data[option].apply(data, args);
+			}
 		});
-	}
-})(jQuery);
+	};
+
+	$.fn.colorselector.defaults = {
+		empty:'清除',
+		transparent:'透明',
+		callback : function(color) {}
+	};
+
+	$.fn.colorselector.Constructor = ColorSelector;
+
+})(jQuery, window, document);
+
+
 
 $(function(){
 	//template控件处理函数
@@ -120,9 +146,14 @@ $(function(){
 		});
 
 		//色彩按钮
-		$color.attr('color',$input.css('color')).colorpicker({
-			setcolor:function(v){setstyle();}
+		$color.attr('color',$input.css('color')).colorselector({
+			callback:function(v){
+				$color.attr('color',v).css('color',v);
+;
+				setstyle();
+			}
 		});
 
 	});
 });
+

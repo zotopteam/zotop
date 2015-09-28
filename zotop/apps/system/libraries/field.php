@@ -96,7 +96,7 @@ class system_field
 		$html[]           = form::field_text($attrs);
 		$html[]           = '<span class="input-group-btn">';
 		$html['uploader'] = '<a href="'.u('system/upload/image', $upload).'" tabindex="-1" class="btn btn-default"><i class="fa fa-image fa-fw"></i>'.t('上传').'</a>';
-		$html[]			  = '<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
+		$html[]			  = '<button type="button" class="btn btn-default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span><span class="sr-only">Toggle Dropdown</span></button>';
 		$html[]			  = '<ul class="dropdown-menu dropdown-menu-right">';
 		$html['selector'] = '	<li><a href="'.u('system/upload/library/image', $upload).'" tabindex="-1"><i class="fa fa-server fa-fw"></i>'.t('从库中选择').'</a></li>';
 		$html['dirview']  = '	<li><a href="'.u('system/upload/dirview/image', $upload).'" tabindex="-1"><i class="fa fa-folder fa-fw"></i>'.t('从目录中选择').'</a></li>';
