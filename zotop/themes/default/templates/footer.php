@@ -30,5 +30,8 @@
         </div>
     </div>
 </footer>
+
+{hook 'site.footer'}
+
 </body>
 </html>

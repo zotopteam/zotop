@@ -4,7 +4,11 @@
 
 <div class="main side-main no-footer">
 	<div class="main-header">
-		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('上级')}</span></a>	
+		{if count($position)>1}
+		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('上级')}</span></a>
+		{else}
+		<a class="goback disabled" href="javascript:;"><i class="fa fa-angle-left"></i> <span>{t('上级')}</span></a>
+		{/if}
 		<ul class="breadcrumb">
 			{loop $position $n $p}
 				<li><a href="{$p.url}"><i class="{$p.icon}"></i> {$p.text}</a></li>

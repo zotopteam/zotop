@@ -41,24 +41,22 @@
 		{if $data}
 		<div class="container-fluid">
 			<div class="filelist clearfix">
-
-			{loop $data $r}
-			<div class="fileitem file clearfix" {loop $r $k $v} data-{$k}="{$v}"{/loop}>
-				<div class="preview">
-					{if $r.type=='image'}
-					<div class="image"><img src="{$r.url}"/></div>
-					{else}
-					<div class="icon"><b class="fa fa-{$r.type} fa-{$r.ext}" ></b><b class="ext">{$r.ext}</b></div>
-					{/if}
+				{loop $data $r}
+				<div class="fileitem file clearfix" {loop $r $k $v} data-{$k}="{$v}"{/loop}>
+					<div class="preview">
+						{if $r.type=='image'}
+						<div class="image"><img src="{$r.url}"/></div>
+						{else}
+						<div class="icon"><b class="fa fa-{$r.type} fa-{$r.ext}" ></b><b class="ext">{$r.ext}</b></div>
+						{/if}
+					</div>
+					<div class="title">
+						<div class="name text-overflow">{$r.name}</div>
+						<div class="info text-overflow">{format::size($r.size)} {if $r.width} {$r.width}px × {$r.height}px {/if}</div>
+					</div>
+					<div class="action"><a class="delete" title="{t('删除')}"><i class="fa fa-times"></i></a></div>
 				</div>
-				<div class="title">
-					<div class="name text-overflow">{$r.name}</div>
-					<div class="info text-overflow">{format::size($r.size)} {if $r.width} {$r.width}px × {$r.height}px {/if}</div>
-				</div>
-				<div class="action"><a class="delete" title="{t('删除')}"><i class="fa fa-times"></i></a></div>
-			</div>
-			{/loop}
-
+				{/loop}
 			</div>
 		</div>
 		{else}

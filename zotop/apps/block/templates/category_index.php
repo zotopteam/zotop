@@ -1,23 +1,23 @@
 {template 'header.php'}
-<div class="side">
 {template 'block/admin_side.php'}
-</div>
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight dialog-open"  data-width="600px" data-height="200px" href="{u('block/category/add')}">
-				<i class="icon icon-add"></i><b>{t('添加分类')}</b>
+			<a class="btn btn-primary js-open"  data-width="600" data-height="300" href="{u('block/category/add')}">
+				<i class="fa fa-plus fa-fw"></i> <b>{t('添加分类')}</b>
 			</a>
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
+
 		{form::header()}
-		<table class="table zebra list sortable" cellspacing="0" cellpadding="0">
+		<table class="table table-hover table-nowrap sortable">
 		<thead>
 			<tr>
 			<td class="drag">&nbsp;</td>
-			<td class="w40 center none">{t('编号')}</td>
+			<td class="w40 center hidden">{t('编号')}</td>
 			<td class="w400">{t('名称')}</td>
 			<td>{t('说明')}</td>
 			<td class="w60 none">{t('数据')}</td>
@@ -30,15 +30,15 @@
 		{loop $data $r}
 			<tr>
 				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-				<td class="center none">{$r['id']}</td>
+				<td class="center hidden">{$r['id']}</td>
 				<td>
 					<div class="title">{$r['name']}</div>
 					<div class="manage">
-						<a href="{u('block/admin/index/'.$r['id'])}">{t('区块管理')}</a>
-						<s></s>
-						<a class="dialog-open"  data-width="600px" data-height="200px" href="{u('block/category/edit/'.$r['id'])}">{t('编辑')}</a>
-						<s></s>
-						<a class="dialog-confirm" href="{u('block/category/delete/'.$r['id'])}">{t('删除')}</a>
+						<a href="{u('block/admin/index/'.$r['id'])}"><i class="fa fa-folder"></i> {t('区块管理')}</a>
+						<s>|</s>
+						<a class="js-open"  data-width="600" data-height="300" href="{u('block/category/edit/'.$r['id'])}"><i class="fa fa-edit"></i> {t('编辑')}</a>
+						<s>|</s>
+						<a class="js-confirm" href="{u('block/category/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
 					</div>
 				</td>
 				<td>{$r['description']}</td>

@@ -1,25 +1,18 @@
 {template 'dialog.header.php'}
 
 	{form::header()}
-		<table class="field">
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('名称'),'name',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('说明'),'description',false)}</td>
-				<td class="input">
-					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}
-				</td>
-			</tr>
-			</tbody>
-		</table>
+
+			<div class="form-group">
+				{form::label(t('名称'),'name',true)}				
+				{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}				
+			</div>
+			<div class="form-group">
+				{form::label(t('说明'),'description',false)}				
+				{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}				
+			</div>
+
 	{form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	// 对话框设置
 	$dialog.callbacks['ok'] = function(){

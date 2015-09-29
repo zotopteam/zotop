@@ -14,10 +14,10 @@ class kefu_controller_config extends admin_controller
 	 * 系统设置
 	 *
 	 */
-	public function action_index($action='base')
+	public function action_index()
     {
 		$this->assign('title',A('kefu.name'));
-		$this->display("kefu/config_{$action}.php");
+		$this->display();
     }
 
 	/*

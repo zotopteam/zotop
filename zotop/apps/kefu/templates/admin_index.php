@@ -24,11 +24,11 @@
 				</h1>
 			</div>		{else}
 		{form::header()}
-		<table class="table list sortable">
+		<table class="table table-hover table-nowrap sortable">
 			<thead>
 				<tr>
 					<td class="drag"></td>
-					<td class="w40 center">{t('状态')}</td>
+					<td class="text-center" width="1%">{t('状态')}</td>
 					<td>{t('名称')}</td>
 					<td class="w100">{t('类型')}</td>					
 					<td class="w300">{t('预览')}</td>
@@ -38,19 +38,19 @@
 			{loop $data $r}
 				<tr>
 					<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-					<td class="w40 center">{if $r['disabled']}<i class="fa fa-false false"></i>{else}<i class="fa fa-true true"></i>{/if}</td>
+					<td class="text-center">{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x  text-success"></i>{/if}</td>
 					<td>
 						<div class="title text-overflow">
 							{if $r['account']}
-								{$r['account']}<span>{$r['text']}</span>
+								{$r['account']} <span>{$r['text']}</span>
 							{else}
 								{$r['text']}
 							{/if}						
 						</div>
 						<div class="manage">
-							<a href="{u('kefu/admin/edit/'.$r['id'])}" class="js-open" data-width="800px" data-height="400px">{t('编辑')}</a>
-							<s></s>
-							<a href="{u('kefu/admin/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
+							<a href="{u('kefu/admin/edit/'.$r['id'])}" class="js-open" data-width="800px" data-height="400px"><i class="fa fa-edit"></i> {t('编辑')}</a>
+							<s>|</s>
+							<a href="{u('kefu/admin/delete/'.$r['id'])}" class="js-confirm"><i class="fa fa-times"></i> {t('删除')}</a>
 						</div>
 					</td>
 					<td>{m('kefu.kefu.types',$r.type)}</td>
@@ -63,7 +63,7 @@
 		{/if}
 	</div>
 	<div class="main-footer">
-
+		<div class="footer-text">{t('拖动列表可以排序')}</div>
 	</div>
 </div>
 

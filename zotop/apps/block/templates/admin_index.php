@@ -1,27 +1,26 @@
 {template 'header.php'}
-<div class="side">
+
 {template 'block/admin_side.php'}
-</div>
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{$category['name']} </div>
 		
 		{if $keywords}
-		<div class="position">
-			<a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a>
-			<s class="arrow">></s>
-			{t('搜索 “%s”',$keywords)}				
-		</div>
+		<a class="goback" href="{u('block/admin/index/'.$categoryid)}"><i class="fa fa-angle-left"></i> {t('返回')}</a>
+		<div class="title title-center">{t('搜索 “%s”',$keywords)}</div>
+		{else}
+		<div class="title title-center">{$category['name']} </div>
 		{/if}
 
-		<form class="searchbar" method="post" action="{u('block/admin')}">
-			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}"  x-webkit-speech/>
-			<button type="submit"><i class="icon icon-search"></i></button>
-		</form>
+		<form action="{u('block/admin')}" class="searchbar input-group" method="post" role="search">				
+			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+			</span>
+		</form>		
 
 		<div class="action">			
-			<a class="btn btn-highlight btn-icon-text" href="{u('block/admin/add/'.$category['id'])}"><i class="icon icon-add"></i><b>{t('新建区块')}</b></a>
+			<a class="btn btn-primary" href="{u('block/admin/add/'.$category['id'])}"><i class="fa fa-plus"></i><b>{t('新建区块')}</b></a>
 		</div>
 	</div><!-- main-header -->
 

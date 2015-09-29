@@ -1,7 +1,3 @@
-<style>
-	.side{top:0;}
-</style>
-
 <div class="side">
 	<ul class="nav nav-pills nav-stacked nav-side">
 		{loop system_upload_navbar($type) $n}
