@@ -30,8 +30,6 @@
 	</div><!-- main-header -->
 
 	{if empty($data)}
-
-
 		<div class="nodata">
 			<i class="fa fa-frown-o"></i>
 			<h1>

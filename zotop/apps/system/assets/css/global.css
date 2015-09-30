@@ -268,6 +268,8 @@ body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,Wen
 .noshadow {-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
 .fixed-top{position:fixed;top:0;left:0;right:0;}
 .fixed-bottom{position:fixed;bottom:0;left:0;right:0;}
+.pull-center{float:none !important;margin-left:auto !important;margin-right:auto !important;display:inline-block;}
+
 
 .va-t{vertical-align:top !important;}
 .va-m{vertical-align:middle !important;}
@@ -326,10 +328,9 @@ label.error:empty{display:none;}
 
 /*主区域 无侧边 */
 .main{margin:0;height:100%;position:relative;}
-.main-header{vertical-align:middle;text-align:left;position:relative;clear:both;border-bottom:1px solid #efefef;background-color:#fff;height:60px;padding:5px 10px;}
+.main-header{vertical-align:middle;text-align:center;position:relative;clear:both;border-bottom:1px solid #efefef;background-color:#fff;height:60px;padding:5px 10px;}
 .main-header .goback{float:left;display:block;text-decoration:none;font-size:16px;padding-right:10px; margin:15px 5px; line-height:20px;border-right:solid 1px #ebebeb;}
 .main-header .title{float:left;font-size:21px;font-weight:normal;padding:15px 5px;line-height:20px;}
-/*.main-header .title-center{float: none;margin:0 auto;display: inline-block;}*/
 .main-header .description{float:left;font-size:15px;color:#666;}
 .main-header .action{float:right;}
 

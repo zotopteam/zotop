@@ -3,13 +3,13 @@
 {template 'block/admin_side.php'}
 
 <div class="main side-main">
-	<div class="main-header">
-		
+
+	<div class="main-header">		
 		{if $keywords}
 		<a class="goback" href="{u('block/admin/index/'.$categoryid)}"><i class="fa fa-angle-left"></i> {t('返回')}</a>
-		<div class="title title-center">{t('搜索 “%s”',$keywords)}</div>
+		<div class="title pull-center">{t('搜索 “%s”',$keywords)}</div>
 		{else}
-		<div class="title title-center">{$category['name']} </div>
+		<div class="title">{$category['name']} </div>
 		{/if}
 
 		<form action="{u('block/admin')}" class="searchbar input-group" method="post" role="search">				
@@ -18,7 +18,7 @@
 				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 			</span>
 		</form>		
-
+		
 		<div class="action">			
 			<a class="btn btn-primary" href="{u('block/admin/add/'.$category['id'])}"><i class="fa fa-plus"></i><b>{t('新建区块')}</b></a>
 		</div>
@@ -27,9 +27,15 @@
 	<div class="main-body scrollable">
 
 		{if empty($data)}
-			<div class="nodata">{t('暂时没有任何数据')}</div>
+		<div class="nodata">
+			<i class="fa fa-frown-o"></i>
+			<h1>
+				{t('暂时没有任何数据')}
+			</h1>
+		</div>
 		{else}
-			{form::header()}
+		
+		{form::header()}
 			<table class="table zebra list sortable" id="datalist" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
@@ -73,11 +79,11 @@
 			{/loop}			
 			</tbody>
 			</table>
-			{form::footer()}
+		{form::footer()}
 		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
+		<div class="footer-text">{t('拖动列表项可以调整顺序')}</div>
 	</div><!-- main-footer -->
 
 </div><!-- main -->
