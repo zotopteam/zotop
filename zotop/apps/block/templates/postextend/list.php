@@ -1,56 +1,55 @@
 
-<table class="field">
-	<tbody>
-	<tr>
-		<td class="label">{form::label(t('行数'),'rows',false)}</td>
-		<td class="input">
+
+	<div class="form-group">
+		<div class="col-sm-2 control-label">{form::label(t('行数'),'rows',false)}</div>
+		<div class="col-sm-8">
 			<div class="input-group">
 				{form::field(array('type'=>'number','name'=>'rows','value'=>intval($data['rows']),'min'=>0))}
 				<span class="input-group-addon">{t('行')}</span>
 			</div>
 			{form::tips(t('0表示无固定行数'))}
-		</td>
-	</tr>
+		</div>
+	</div>
 
-	<tr>
-		<td class="label">{form::label(t('字段'),'fields',false)}</td>
-		<td class="input">
-			<table class="controls table border">
+	<div class="form-group">
+		<div class="col-sm-2 control-label">{form::label(t('字段'),'fields',false)}</div>
+		<div class="col-sm-8">
+			<table class="table table-border table-nowrap">
 			<thead>
 			<tr>
-				<td class="w50 center">{t('显示')}</td>
-				<td class="w100">{t('字段名称')}</td>
-				<td class="w100">
+				<td class="text-center">{t('显示')}</td>
+				<td class="w100" width="20%">{t('字段名称')}</td>
+				<td class="w100" width="20%">
 					{t('字段标识')} &nbsp;	<i class="icon icon-help" title="{t('可在模板的loop循环中使用')}"></i>
 				</td>
-				<td class="w50 center">{t('必填')}</td>
+				<td class="text-center">{t('必填')}</td>
 				<td>{t('设置')}</td>
 			</tr>
 			</thead>
 			<tbody>
 				{loop m('block.block.fieldlist',$data['fields']) $k $v}
 				<tr>
-					<td class="center">
+					<td class="text-center">
 						{if in_array($v['name'], array('title'))}
-						<input type="checkbox" class="checkbox disabled" checked disabled>
-						<input type="hidden" name="fields[{$k}][show]" class="checkbox" value="1" checked>
+						<input type="checkbox" class="disabled" checked disabled>
+						<input type="hidden" name="fields[{$k}][show]" value="1" checked>
 						{else}
-						<input type="checkbox" name="fields[{$k}][show]" class="checkbox" value="1" {if $v['show']}checked="checked"{/if}>
+						<input type="checkbox" name="fields[{$k}][show]" value="1" {if $v['show']}checked="checked"{/if}>
 						{/if}
 					</td>
 					<td>
-						<input type="text" name="fields[{$k}][label]" class="text tiny" value="{$v['label']}">
+						<input type="text" name="fields[{$k}][label]" class="form-control text" value="{$v['label']}">
 					</td>
 					<td>
-						<input type="hidden" name="fields[{$k}][name]" class="text" value="{$v['name']}">
-						<input type="text" name="showname" class="text tiny" value="{$v['name']}" disabled>
+						<input type="hidden" name="fields[{$k}][name]" class="form-control text" value="{$v['name']}">
+						<input type="text" name="showname" class="form-control text" value="{$v['name']}" disabled>
 					</td>
-					<td class="center">
+					<td class="text-center">
 						{if in_array($v['name'], array('title'))}
-						<input type="checkbox" class="checkbox disabled" checked disabled>
-						<input type="hidden" name="fields[{$k}][required]" class="checkbox" value="required" checked>
+						<input type="checkbox" class="disabled" checked disabled>
+						<input type="hidden" name="fields[{$k}][required]"  value="required" checked>
 						{else}
-						<input type="checkbox" name="fields[{$k}][required]" class="checkbox" value="required" {if $v['required']}checked="checked"{/if}>
+						<input type="checkbox" name="fields[{$k}][required]"  value="required" {if $v['required']}checked="checked"{/if}>
 						{/if}						
 					</td>
 					<td>
@@ -84,20 +83,17 @@
 						{else}
 							{form::field(array('type'=>'hidden','name'=>'fields['.$k.'][type]','value'=>$v['type']))}
 						{/if}
-
 					</td>
 				</tr>
 				{/loop}
 			</tbody>
 			</table>
-		</td>
-	</tr>
-	<tr>
-		<td class="label">{form::label(t('推送'),'commend',false)}</td>
-		<td class="input">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">{form::label(t('推送'),'commend',false)}</div>
+		<div class="col-sm-8">
 			{form::field(array('type'=>'radio','options'=>array(0=>t('禁止推送'),1=>t('允许推送')),'name'=>'commend','value'=>$data['commend']))}
-		</td>
-	</tr>
+		</div>
+	</div>
 
-</tbody>
-</table>
