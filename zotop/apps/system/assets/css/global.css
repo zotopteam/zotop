@@ -338,7 +338,7 @@ label.error:empty{display:none;}
 .main-header .breadcrumb>li+li:before{font-family:FontAwesome;content:"\f105";padding-right:7px;}
 .main-header .breadcrumb>li>a:hover{text-decoration:none;}
 
-.main-header .btn{margin:8px;}
+.main-header .btn{margin:8px 4px;}
 .main-header .btn-group{margin-left:8px;margin-right:8px;}
 .main-header .btn-group .btn{margin-right:0;}
 

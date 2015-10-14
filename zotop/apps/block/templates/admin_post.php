@@ -92,11 +92,10 @@
 		form.validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
-			$.loading();
-			$(form).find('.submit').disable(true);
+			$(form).find('.submit').button('loading');
 			$.post(action, data, function(msg){
 				$.msg(msg);
-				$(form).find('.submit').disable(false);
+				!msg.state && $(form).find('.submit').button('reset');
 			},'json');
 		}});
 	});
@@ -110,9 +109,7 @@
 
 		$('[name=template]').val(post.template);
 
-		$('.extend').load("{U('block/admin/postextend')}", post, function(){
-
-		}).html('');
+		$('.extend').load("{U('block/admin/postextend')}", post).html('<i class="fa fa-spinner fa-spin"></i>');
 	}
 
 	// type init change

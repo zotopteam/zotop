@@ -41,8 +41,8 @@ class ueditor_field
 			}
 
 			$attrs['id'] 	= empty($attrs['id']) ? $attrs['name'] : $attrs['id'];
+			$attrs['rows'] 	= empty($attrs['rows']) ? 8 : $attrs['rows'];
 			$attrs['class'] = isset($attrs['class']) ? $attrs['class'].' '.$options['theme'] : $options['theme'];
-
 
 			// 开启额外工具条
 			if ( $options['tools'] )

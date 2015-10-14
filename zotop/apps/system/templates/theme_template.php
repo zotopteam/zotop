@@ -15,10 +15,10 @@
 		</ul>
 		<div class="action">
 			<div class="btn-group" role="group">
-				<a class="btn btn-default js-open"  data-width="600px" data-height="300px" href="{u('system/theme/template_newfolder?theme='.$theme.'&dir='.$dir)}">
+				<a class="btn btn-default js-open"  data-width="600" data-height="300" href="{u('system/theme/template_newfolder?theme='.$theme.'&dir='.$dir)}">
 					<i class="fa fa-folder fa-fw"></i> <b>{t('新建目录')}</b>
 				</a>
-				<a class="btn btn-default js-open"  data-width="600px" data-height="300px" href="{u('system/theme/template_newfile?theme='.$theme.'&dir='.$dir)}">
+				<a class="btn btn-default js-open"  data-width="600" data-height="300" href="{u('system/theme/template_newfile?theme='.$theme.'&dir='.$dir)}">
 					<i class="fa fa-file fa-fw"></i> <b>{t('新建模板')}</b>
 				</a>
 			</div>
@@ -50,7 +50,7 @@
 				</td>
 				<td class="manage text-right">
 					<div class="hover-show">					
-						<a class="js-open" href="{u('system/theme/template_renamefolder?theme='.$theme.'&dir='.$f['path'])}" data-width="600px" data-height="300px">
+						<a class="js-open" href="{u('system/theme/template_renamefolder?theme='.$theme.'&dir='.$f['path'])}" data-width="600" data-height="300">
 							<i class="fa fa-pencil-square fa-fw"></i> {t('重命名')} & {t('注释')}
 						</a>
 						<s>|</s>
@@ -79,7 +79,7 @@
 							<i class="fa fa-edit fa-fw"></i> {t('编辑')}
 						</a>
 						<s>|</s>
-						<a class="js-open" href="{u('system/theme/template_renamefile?theme='.$theme.'&file='.$f['path'])}" data-width="600px" data-height="300px">
+						<a class="js-open" href="{u('system/theme/template_renamefile?theme='.$theme.'&file='.$f['path'])}" data-width="600" data-height="300">
 							<i class="fa fa-pencil-square fa-fw"></i> {t('重命名')} & {t('注释')}
 						</a>
 						<s>|</s>

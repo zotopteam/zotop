@@ -1,15 +1,17 @@
 {template 'dialog.header.php'}
+
 {form::header()}
 
 		{form::field(array('type'=>'hidden','name'=>'blockid','value'=>$block['id'],'required'=>'required'))}
 
-		<table class="field">
-			<tbody>
+
+			<div class="form-horizontal">
 			{loop m('block.block.fieldlist',$block.fields) $k $f}
+
 			{if $f.show}
-			<tr>
-				<td class="label">{form::label($f.label, $k, $f.required=='required')}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label($f.label, $k, $f.required=='required')}</div>
+				<div class="col-sm-10">
 					{if $f.type == 'title'}
 						{form::field(array_merge($f,array('value'=>$data[$k],'style'=>$data['style'])))}
 					{elseif in_array($f.type,array('image','file','images','files','editor'))}
@@ -17,16 +19,15 @@
 					{else}
 						{form::field(array_merge($f,array('value'=>$data[$k])))}
 					{/if}
-				</td>
-			</tr>
+				</div>
+			</div>
 			{/if}
+
 			{/loop}
-			</tbody>
-		</table>
+			</div>
 
 {form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 
 	// 对话框设置

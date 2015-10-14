@@ -30,7 +30,7 @@ class system_field
 		$html['js']		= html::import(A('system.url').'/assets/js/field.alias.js');
 		if( $attrs['data-source'] )
 		{
-			$html['getalias'] 	= '<a href="'.u('system/alias/get').'" tabindex="-1" class="btn btn-icon-text getalias" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'" title="'.t('获取别名').'"><i class="icon icon-refresh"></i><b>'.t('获取').'</b></a>';
+			$html['getalias'] 	= '<a href="'.u('system/alias/get').'" tabindex="-1" class="btn btn-icon-text getalias" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'" title="'.t('获取别名').'"><i class="fa fa-refresh"></i><b>'.t('获取').'</b></a>';
 			$html['error'] 		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 		}
 
@@ -57,7 +57,7 @@ class system_field
 			list($source_title, $source_content) = explode(',', $attrs['data-source']);
 
 			$html['js']		= html::import(A('system.url').'/assets/js/field.keywords.js');
-			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="icon icon-refresh"></i><b>'.t('提取').'</b></a>';
+			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="fa fa-refresh"></i><b>'.t('提取').'</b></a>';
 		}
 
 		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
@@ -141,10 +141,10 @@ class system_field
 
 		$html[] = '	<div class="images-area" id="field-'.$attrs['id'].'">';
 		$html[] = '	<div class="images-toolbar">';
-		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload"></i><b>'.t('批量上传').'</b></a>';
-		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('已上传').'</b></a>';
-		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/library/image', $upload).'"><i class="icon icon-images"></i><b>'.t('图像库').'</b></a>';
-		$html[] = '		<a class="btn btn-icon-text description" href="javasacript:;"><i class="icon icon-info"></i><b>'.t('批量描述').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="fa fa-upload"></i><b>'.t('批量上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="fa fa-image"></i><b>'.t('已上传').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/library/image', $upload).'"><i class="fa fa-images"></i><b>'.t('图像库').'</b></a>';
+		$html[] = '		<a class="btn btn-icon-text description" href="javasacript:;"><i class="fa fa-info"></i><b>'.t('批量描述').'</b></a>';
 		$html[] = '	</div>';
 		$html[] = '<div id="'.$attrs['id'].'-upload-progress" class="images-progressbar progressbar"><span class="progress"></span><span class="percent"></span></div>';
 		$html[] = '<div class="images-controls clearfix" id="'.$attrs['id'].'-upload-dragdrop">';
@@ -187,8 +187,8 @@ class system_field
 
 		$html['js']			= html::import(A('system.url').'/assets/js/field.file.js');
 		$html['field']		= form::field_text($attrs);
-		$html['uploader']	= '<a href="'.u('system/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
-		$html['selector']	= '<a href="'.u('system/upload/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="icon icon-file"></i><b>'.t('文件库').'</b></a>';
+		$html['uploader']	= '<a href="'.u('system/upload/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="fa fa-upload"></i><b>'.t('上传').'</b></a>';
+		$html['selector']	= '<a href="'.u('system/upload/library/file', $upload).'" tabindex="-1" class="btn btn-icon-text"><i class="fa fa-file"></i><b>'.t('文件库').'</b></a>';
 		$html['error']		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 
 		// hook
@@ -322,11 +322,15 @@ class system_field
 
 		unset($attrs['options']);
 
-		$html['field']		= form::field($attrs);
-		$html['js']			= html::import(A('system.url').'/assets/js/field.template.js');
-		$html['selector']	= '<a href="'.u('system/theme/template/select').'" id="'.$id.'-selector" tabindex="-1"  class="btn btn-icon-text btn-select" title="'.t('选择模版').'"><i class="icon icon-template"></i><b>'.t('选择').'</b></a>';
-		$html['editor']		= '<a href="'.u('system/theme/template_edit').'" id="'.$id.'-editor" tabindex="-1" class="btn btn-icon btn-edit" title="'.t('编辑模版').'"><i class="icon icon-edit"></i></a>';
-		$html['error']		= '<label for="'.$id.'" generated="true" class="error"></label>';
+		$html['js']       = html::import(A('system.url').'/assets/js/field.template.js');		
+		$html[]           = '<div class="input-group">';
+		$html['field']    = form::field($attrs);
+		$html[]           = '<span class="input-group-btn">';		
+		$html['selector'] = '<a href="'.u('system/theme/template/select').'" id="'.$id.'-selector" tabindex="-1"  class="btn btn-default btn-icon-text btn-select" title="'.t('选择模版').'"><i class="fa fa-file-text"></i> <b>'.t('选择').'</b></a>';
+		$html['editor']   = '<a href="'.u('system/theme/template_edit').'" id="'.$id.'-editor" tabindex="-1" class="btn btn-default btn-icon btn-edit" title="'.t('编辑模版').'"><i class="fa fa-edit"></i></a>';
+		$html[]           = '</span>';
+		$html[]           = '</div>';		
+		$html['error']    = '<label for="'.$id.'" generated="true" class="error"></label>';
 
 		// hook
 		$html = zotop::filter('system.field.template', $html, $attrs, $options);
