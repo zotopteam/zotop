@@ -92,16 +92,16 @@ class block_controller_datalist extends admin_controller
 		}
 
 		//全部分类
-		$categories = $this->category->cache();
-
+		$categories = $this->category->getall();
+		
 		//获取当前数据
-		$data = $this->datalist->get($id);
-
+		$data       = $this->datalist->get($id);
+		
 		// 应用数据
-		$block = $this->block->get($data['blockid']);
-
+		$block      = $this->block->get($data['blockid']);
+		
 		// 获取当前分类
-		$category = $this->category->get($block['categoryid']);
+		$category   = $this->category->get($block['categoryid']);
 
 
 		$this->assign('title',t('设置'));

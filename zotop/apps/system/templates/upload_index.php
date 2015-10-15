@@ -4,7 +4,7 @@
 
 <div class="main side-main no-footer">
 	<div class="main-header">
-		<a class="btn btn-primary btn-upload" id="upload" href="javascript:void(0)">
+		<a class="btn btn-primary btn-upload pull-left" id="upload" href="javascript:void(0)">
 			<i class="fa fa-upload fa-fw"></i><b>{t('上传%s', $typename)}</b>
 		</a>			
 

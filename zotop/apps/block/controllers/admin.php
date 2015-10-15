@@ -46,7 +46,7 @@ class block_controller_admin extends admin_controller
 		}
 
 		// 获取分类信息
-		$categories = $this->category->select();
+		$categories = $this->category->getall();
 
 		// 搜索关键词
 		if ( $keywords = $_REQUEST['keywords'] )
@@ -95,7 +95,7 @@ class block_controller_admin extends admin_controller
 			return $this->error($this->block->error());
 		}
 		//全部分类
-		$categories = $this->category->select();
+		$categories = $this->category->getall();
 
 		// 获取当前分类
 		$category 	= $this->category->get($categoryid);
@@ -140,7 +140,7 @@ class block_controller_admin extends admin_controller
 		}
 
 		//全部分类
-		$categories = $this->category->select();
+		$categories = $this->category->getall();
 
 		// 当前数据
 		$data = $this->block->get($id);

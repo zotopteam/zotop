@@ -4,7 +4,7 @@
 
 <div class="main side-main no-footer">
 	<div class="main-header">
-		<div class="btn-group">
+		<div class="btn-group pull-left">
 		  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		  {if $folderid} {m('system.attachment_folder.category',$folderid,'name')} {else} {t('全部')} {/if} <span class="caret"></span>
 		  </button>

@@ -75,9 +75,9 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 .tooltip-error .tooltip-inner{background-color:#ff0000;max-width:100%;}
 .tooltip-error .tooltip-inner:before{font-family:FontAwesome;content:'\f057';margin-right:5px;}
 
-.tooltip-block{color:#66bb00;cursor:help;}
+.tooltip-block{cursor:help;}
 .tooltip-block-content{display:none;line-height:1.8;}
-.tooltip-block-content img.preview{max-width:400px;max-height:300px;display:block;}
+.tooltip-block-content img.preview{max-width:500px;max-height:300px;display:block;}
 
 .popover{max-width:100%;}
 .popover-content{padding:8px;}
@@ -349,7 +349,7 @@ label.error:empty{display:none;}
 .main-header .nav-tabs>li.active>a,.main-header .nav-tabs>li.active>a:hover,.main-header .nav-tabs>li.active>a:focus{border:0 none;background:transparent;color:#ff6600;border-bottom:solid 2px #ff6600;}
 .main-header .nav-tabs>li>a>.badge{position: absolute;top:-5px;right:-8px;opacity:0.8;}
 
-.main-header .searchbar{float:right;margin:8px 0;width:220px;}
+.main-header .searchbar{float:right;margin:8px 4px;width:220px;}
 .main-header .searchbar .btn{margin:0;}
 
 .main-body{}
