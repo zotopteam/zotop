@@ -32,7 +32,7 @@ $this->db->createTable('block_category',array(
 
 // 默认插入的数据
 $default_category = array(
-	'1'	=>	array('id' => 1, 'name' => t('首页区块'), 'description' => t('网站首页区块'), 'listorder' => 1, 'posts' => 0 ),
+	'1'	=>	array('id' => 1, 'name' => t('全局区块'), 'description' => t('网站全局公用的区块'), 'listorder' => 1, 'posts' => 0 ),
 );
 
 // 插入数据

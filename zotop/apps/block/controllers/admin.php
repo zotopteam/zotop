@@ -46,7 +46,7 @@ class block_controller_admin extends admin_controller
 		}
 
 		// 获取分类信息
-		$categories = $this->category->select();
+		$categories = $this->category->getall();
 
 		// 搜索关键词
 		if ( $keywords = $_REQUEST['keywords'] )
@@ -54,11 +54,13 @@ class block_controller_admin extends admin_controller
 			$this->block->where('name','like', $keywords);
 		}
 
+		// 读取当前分类下面的模型
 		$data = $this->block->where('categoryid',$categoryid)->select();
 
 		foreach ($data as &$d)
 		{
-			$d['tag'] = '{block id="'.$d['id'].'"}';
+			$d['tag']          = '{block id="'.$d['id'].'"}';
+			$d['tag_advanced'] = '{block id="'.$d['id'].'" name="'.$d['name'].'" type="'.$d['type'].'"}';
 		}
 
 		$this->assign('title', A('block.name'));

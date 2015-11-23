@@ -21,7 +21,7 @@ class block_model_category extends model
 	{
 		if ( empty($data['name']) ) return $this->error(t('分类名称不能为空'));
 
-		$data['id'] = $this->max('id') + 1;
+		$data['id']        = $this->max('id') + 1;
 		$data['listorder'] = $this->max('listorder') + 1;
 
 		if ( $this->insert($data) )
@@ -45,8 +45,6 @@ class block_model_category extends model
 			return true;
 		}
 
-		return $this->error(debug::vars($up));
-
 		return false;
 	}
 
@@ -60,8 +58,6 @@ class block_model_category extends model
 
 		if ( empty($result) )
 		{
-			$result[0] = array('id'=>0, 'name'=>t('全局区块'));
-
 			$data =  $this->db()->orderby('listorder','asc')->select();
 
 			foreach( $data as &$d )
@@ -115,7 +111,7 @@ class block_model_category extends model
 
 		$disabled = $data['disabled'] ? 0 : 1;
 
-		if ( $id == 0 )
+		if ( $id == 1 )
 		{
 			return $this->error(t('该分类不能被禁用'));
 		}
