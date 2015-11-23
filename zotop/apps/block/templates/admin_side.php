@@ -8,14 +8,14 @@
 			{loop m('block.category.getall') $c}
 			<li{if substr_count(ZOTOP_URI,'block/admin') and $c['id'] == $categoryid} class="active"{/if}>
 				<a href="{u('block/admin/index/'.$c['id'])}">
-					<i class="fa fa-folder fa-fw"></i>{$c[name]}
+					<i class="fa fa-folder fa-fw"></i><span>{$c[name]}</span>
 				</a>
 			</li>
 			{/loop}
 			<li class="divider" role="separator"></li>
 			<li{if substr_count(ZOTOP_URI,'block/category')} class="active"{/if}>
 				<a href="{u('block/category')}">
-					<i class="fa fa-sitemap fa-fw"></i>{t('分类管理')}
+					<i class="fa fa-sitemap fa-fw"></i><span>{t('分类管理')}</span>
 				</a>
 			</li>
 		</ul>
