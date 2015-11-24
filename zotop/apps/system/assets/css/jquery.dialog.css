@@ -13,6 +13,7 @@
     background-color: #FFF;
     border: 0px solid #D0D0D0;
     border-radius: 4px;
+    overflow: hidden;
     outline: 0;
     background-clip: padding-box;
     font-size: 14px;
@@ -57,6 +58,7 @@
 .ui-dialog-header {
     white-space: nowrap;
     border-bottom: 1px solid #EFEFEF;
+    background: #f7f7f7;
 }
 .ui-dialog-close {
     position: relative;
@@ -114,7 +116,9 @@
 	height:100%;
 }
 .ui-dialog-footer {
-    padding: 12px;background:#f3f3f3;
+    padding: 12px;
+    background:#f7f7f7;
+    border-top: 1px solid #EFEFEF;
 }
 .ui-dialog-statusbar {
     float: left;

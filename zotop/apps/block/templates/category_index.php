@@ -20,7 +20,7 @@
 			<td class="w40 center hidden">{t('编号')}</td>
 			<td class="w400">{t('名称')}</td>
 			<td>{t('说明')}</td>
-			<td class="w60 none">{t('数据')}</td>
+			<td class="w60 hidden">{t('数据')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -42,7 +42,7 @@
 					</div>
 				</td>
 				<td>{$r['description']}</td>
-				<td class="none">{intval($r['posts'])}</td>
+				<td class="hidden">{intval($r['posts'])}</td>
 			</tr>
 		{/loop}
 		{/if}

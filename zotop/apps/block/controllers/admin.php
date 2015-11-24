@@ -48,6 +48,18 @@ class block_controller_admin extends admin_controller
 		// 获取分类信息
 		$categories = $this->category->getall();
 
+		// 如果没有任何分类，则转向分类管理
+		if ( empty($categories) ) 
+		{
+			$this->redirect(U('block/category'));
+		}
+
+		// 如果没有传入任何分类编号，则获取第一个
+		if ( empty($categoryid) )
+		{
+			$categoryid = reset(array_keys($categories));
+		}
+
 		// 搜索关键词
 		if ( $keywords = $_REQUEST['keywords'] )
 		{
