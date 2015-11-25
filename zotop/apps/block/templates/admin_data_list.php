@@ -6,7 +6,7 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<ul class="breadcrumb">
+		<ul class="breadcrumb hidden">
 			<li><a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a></li>
 			<li>{t('内容维护')}</li>		
 		</ul>	
@@ -28,22 +28,22 @@
 	<div class="main-body scrollable">
 
 		{if $block.data and is_array($block.data)}		
-			<table class="table table-hover list sortable" id="datalist" cellspacing="0" cellpadding="0">
+			<table class="table table-hover table-nowrap sortable" id="datalist" cellspacing="0" cellpadding="0">
 				<thead>
 					<tr>
 						<td class="drag">&nbsp;</td>
-						<td class="w40 center">{t('行号')}</td>
+						<td class="text-center" width="40">{t('行号')}</td>
 						<td>{t('标题')}</td>
-						<td class="w300">{t('操作')}</td>
+						<td class="text-right" width="200">{t('操作')}</td>
 					</tr>
 				</thead>
 				<tbody>
 				{loop m('block.datalist.getlist',$block.id) $i $r}
 					<tr>
 						<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
-						<td class="w40 center"></td>
+						<td class="text-center"></td>
 						<td>
-							<div class="title overflow">
+							<div class="title text-overflow">
 								{if $r.url}	<a href="{U($r.url)}" target="_blank">{$r.title}</a> {else}	{$r.title} {/if}
 
 								{if $r.image} 
@@ -53,20 +53,24 @@
 								{/if}								
 								{if $r.dataid} <i class="fa fa-share green" title="{t('关联数据')}"></i> {/if}
 								{if $r.stick} <i class="fa fa-up yellow" title="{t('已置顶')}"></i> {/if}
-							</div> 
+							</div>
 						</td>
-						<td>
-							<div class="manage">
+						<td class="manage text-right">
 								{if $r.stick}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="fa fa-down"></i> {t('取消置顶')}</a>
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="fa fa-arrow-down"></i> {t('取消置顶')}</a>
 								{else}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="fa fa-up"></i> {t('置顶')}</a>
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="fa fa-arrow-up"></i> {t('置顶')}</a>
 								{/if}
 								<s>|</s>
+								
+								{if $r.url}
+								<a href="{U($r.url)}" target="_blank"><i class="fa fa-eye"></i> {t('查看')}</a>
+								<s>|</s>
+								{/if}
+
 								<a href="{U('block/datalist/edit/'.$r.id)}" data-width="800px" data-height="400px" class="js-open"><i class="fa fa-edit"></i> {t('编辑')}</a>
 								<s>|</s>
-								<a href="{U('block/datalist/delete/'.$r.id)}" class="js-confirm"><i class="fa fa-delete"></i> {t('删除')}</a>
-							</div>
+								<a href="{U('block/datalist/delete/'.$r.id)}" class="js-confirm"><i class="fa fa-times"></i> {t('删除')}</a>
 						</td>
 					</tr>					
 				{/loop}				
@@ -87,8 +91,8 @@
 		</div>
 		{/if}
 		
-		<div class="container-fluid container-default">
-			<table class="table table-hover hidden list" id="historylist" cellspacing="0" cellpadding="0">
+		<div class="container-fluid container-default hidden">
+			<table class="table table-hover list" id="historylist" cellspacing="0" cellpadding="0">
 				<caption>{t('历史记录')}</caption>
 				<thead>
 					<tr>

@@ -92,7 +92,7 @@ class block_controller_datalist extends admin_controller
 		}
 
 		//全部分类
-		$categories = $this->category->cache();
+		$categories = $this->category->getall();
 
 		//获取当前数据
 		$data = $this->datalist->get($id);

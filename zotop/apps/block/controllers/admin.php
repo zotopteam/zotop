@@ -155,12 +155,12 @@ class block_controller_admin extends admin_controller
 
 		//全部分类
 		$categories = $this->category->select();
-
+		
 		// 当前数据
-		$data = $this->block->get($id);
-
+		$data       = $this->block->get($id);
+		
 		// 获取当前分类
-		$category = $this->category->get($data['categoryid']);
+		$category   = $this->category->get($data['categoryid']);
 
 
 		$this->assign('title',t('设置'));

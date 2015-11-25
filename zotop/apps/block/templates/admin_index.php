@@ -36,15 +36,15 @@
 		{else}
 		
 		{form::header()}
-			<table class="table zebra list sortable" id="datalist" cellspacing="0" cellpadding="0">
+			<table class="table table-nowrap sortable" id="datalist" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
 				<td class="drag">&nbsp;</td>
-				<td class="w50 center">{t('编号')}</td>
+				<td class="text-center" width="20">{t('编号')}</td>
 				<td>{t('名称')}</td>
-				<td class="w80">{t('类型')}</td>
-				<td class="w200">{t('调用代码')}</td>			
-				<td class="w160">{t('更新时间')}</td>
+				<td>{t('类型')}</td>
+				<td>{t('调用代码')}</td>			
+				<td width="160">{t('更新时间')}</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -52,21 +52,21 @@
 			{loop $data $r}
 				<tr>
 					<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-					<td class="center">{$r.id}</td>
+					<td class="text-center">
+					{$r.id}
+					</td>
 					<td>
-						<div class="title textflow" title="{$r['title']}"{if $r['style']}style="{$r['style']}"{/if}>
-						{if $r.name} {$r['name']} {else} <i class="gray">{t('自动创建')}</i> {/if}
-
-						<span>{$r['description']}</span>
+						<div class="title text-overflow" {if $r.style}style="{$r.style}"{/if}>
+						{if $r.name} {$r.name} {else} <i class="gray">{t('自动创建')}</i> {/if}
 						</div>
 						<div class="manage">
-							<a href="{u('block/admin/data/'.$r['id'])}">{t('内容维护')}</a>
-							<s></s>
-							<a class="ajax-post" href="{u('block/admin/publish/'.$r['id'])}">{t('发布')}</a>
-							<s></s>
-							<a href="{u('block/admin/edit/'.$r['id'])}">{t('设置')}</a>
-							<s></s>
-							<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}">{t('删除')}</a>
+							<a href="{u('block/admin/data/'.$r['id'])}"><i class="fa fa-database"></i> {t('内容维护')}</a>
+							<s>|</s>
+							<a class="ajax-post hidden" href="{u('block/admin/publish/'.$r['id'])}">{t('发布')}</a>
+							<s class="hidden">|</s>
+							<a href="{u('block/admin/edit/'.$r['id'])}"><i class="fa fa-cog"></i> {t('设置')}</a>
+							<s>|</s>
+							<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
 						</div>
 					</td>
 					<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
