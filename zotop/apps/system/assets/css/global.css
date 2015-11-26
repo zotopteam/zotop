@@ -113,7 +113,8 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 .table > tbody > tr > td >.content{font-size:14px;margin-top:8px;margin-bottom: 8px;}
 .table > tbody > tr > td >.description{font-size:12px;color:#999;margin-top:5px;}
 .table > tbody > tr > td >.manage{font-size:13px;margin-top:8px;}
-.table > tbody > tr > td >.manage s,.table td.manage s{color:#ddd;margin:0 3px;}
+.table > tbody > tr > td >.manage s,.table > tbody > tr > td.manage s{color:#ddd;margin:0 3px;}
+.table > tbody > tr > td.manage{font-size:13px;}
 .table th.select,.table td.select{width:38px;text-align:center;}
 
 .table > tbody > tr .hover-show{visibility:hidden;}

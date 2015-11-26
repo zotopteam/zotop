@@ -57,9 +57,9 @@
 						</td>
 						<td class="manage text-right">
 								{if $r.stick}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="fa fa-arrow-down"></i> {t('取消置顶')}</a>
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="js-ajax-post"><i class="fa fa-arrow-down"></i> {t('取消置顶')}</a>
 								{else}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="ajax-post"><i class="fa fa-arrow-up"></i> {t('置顶')}</a>
+								<a href="{U('block/datalist/stick/'.$r.id)}" class="js-ajax-post"><i class="fa fa-arrow-up"></i> {t('置顶')}</a>
 								{/if}
 								<s>|</s>
 								
@@ -84,59 +84,15 @@
 			</h1>
 		</div>
 		{/if}
-
-		{if $block['description']}
-		<div class="container-fluid container-info">			
-			{$block['description']}
-		</div>
-		{/if}
 		
-		<div class="container-fluid container-default hidden">
-			<table class="table table-hover list" id="historylist" cellspacing="0" cellpadding="0">
-				<caption>{t('历史记录')}</caption>
-				<thead>
-					<tr>
-						<td>{t('标题')}</td>
-						<td class="w300">{t('操作')}</td>
-					</tr>
-				</thead>
-				<tbody>
-					
-				</tbody>
-				<tfoot>
-					<tr>
-						<td colspan="2">
-							<a href="javscript:void(0)" class="btn btn-default btn-icon-text" id="historyrefresh"><i class="fa fa-refresh"></i><b>{t('刷新')}</b></a>
-							<div id="historypagination"></div>						
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-
-			<script id="historytemplate" type="text/x-jsrender">
-			  <tr>
-			    <td><a href="<[:url]>"><[:title]></a></td>
-			    <td>
-			    	<div class="manage">
-			    		<a href="<[:manage.back]>" class="ajax-post"><i class="fa fa-back"></i> {t('重新推荐')}</a>
-						<s>|</s>
-						<a href="<[:manage.edit]>" data-width="800px" data-height="400px" class="js-open"><i class="fa fa-edit"></i> {t('编辑')}</a>
-						<s>|</s>
-						<a href="<[:manage.delete]>" class="js-confirm"><i class="fa fa-delete"></i> {t('删除')}</a>				    		
-			    	</div>
-			    </td>
-			  </tr>
-			</script>
-		</div>
 
 	</div><!-- main-body -->
 	<div class="main-footer">
+		<div class="footer-text text-overflow">{$block['description']}</div>	
 	</div><!-- main-footer -->
 	{form::footer()}
 </div><!-- main -->
 
-<script type="text/javascript" src="{a('system.url')}/common/js/jquery.views.min.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/js/jquery.pagination.js"></script>
 <script type="text/javascript">
 
 // 重排行号
@@ -172,66 +128,6 @@ $(function(){
 		}
 	});
 });
-
-/**
- * 获取历史记录，带分页功能
- * 
- * @param  int pageindex 页面索引，从0开始，如：第一页为 0
- * @param  int pagesize  每页显示条数
- * @return null
- */
-function gethistorylist(pageindex){
-
-	//var loading = $.loading();
-	var pagesize = 10;
-
-	$.ajax({
-		url: "{u('block/datalist/historydata')}",
-		data:{page:pageindex + 1, pagesize:pagesize, blockid:{$block.id}},
-		dataType:'json',
-		success:function(result){
-			
-			//loading.close();
-
-			if ( result.total == 0 ) return false; 
-
-			$('#historylist').show();	
-
-			$('#historylist tbody').html(function(){
-				return $('#historytemplate').render(result.data);
-			});
-
-			$('#historypagination').pagination(result.total, {
-				current_page: pageindex,
-				items_per_page: pagesize,
-				num_edge_entries: 1,
-				num_display_entries: 7,
-				prev_text : "{t('前页')}",
-				next_text : "{t('下页')}",
-				load_first_page : false,
-				show_if_single_page : true,
-				link_to : '?pageindex=__id__',
-				callback:function(index,jq){
-					//gethistorylist(index);
-				}
-			});
-		}
-	});
-}
-
-$(function(){
-
-	var pageindex = {intval($_GET.pageindex)};
-
-	// 默认加载
-	gethistorylist(pageindex);
-
-	// 刷新历史记录
-	$('#historyrefresh').on('click',function(){
-		gethistorylist(pageindex);
-	});
-})
-
 
 </script>
 

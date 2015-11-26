@@ -26,14 +26,12 @@
 			<tr data-tt-id="{$data['id']}"{if $data['parentid']} data-tt-parent-id="{$data['parentid']}"{/if}>
 				<td class="name"><i class="fa {if $data['_child']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$data['name']}</td>
 				<td class="hidden-sm">{$data['app']}{if !empty($data['controller'])}/{$data['controller']}{/if}{if !empty($data['action'])}/{$data['action']}{/if}</td>
-				<td>
-					<div class="manage">
-						<a class="js-open" href="{u('system/priv/add/'.$data['id'])}" data-width="600px" data-height="280px"><i class="fa fa-plus fa-fw"></i>{t('添加子权限')}</a>
-						<s>|</s>
-						<a class="js-open" href="{u('system/priv/edit/'.$data['id'])}" data-width="600px" data-height="280px"><i class="fa fa-edit fa-fw"></i>{t('编辑')}</a>
-						<s>|</s>
-						<a class="js-confirm" href="{u('system/priv/delete/'.$data['id'])}"><i class="fa fa-times fa-fw"></i>{t('删除')}</a>
-					</div>
+				<td class="manage">
+					<a class="js-open" href="{u('system/priv/add/'.$data['id'])}" data-width="600px" data-height="280px"><i class="fa fa-plus fa-fw"></i>{t('添加子权限')}</a>
+					<s>|</s>
+					<a class="js-open" href="{u('system/priv/edit/'.$data['id'])}" data-width="600px" data-height="280px"><i class="fa fa-edit fa-fw"></i>{t('编辑')}</a>
+					<s>|</s>
+					<a class="js-confirm" href="{u('system/priv/delete/'.$data['id'])}"><i class="fa fa-times fa-fw"></i>{t('删除')}</a>
 				</td>
 			</tr>
 		{/loop}
