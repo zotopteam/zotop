@@ -63,10 +63,10 @@
 		{form::field(array('type'=>'hidden','name'=>'operate','value'=>'save'))}
 
 		{if $data['data']}
-		{form::field(array('type'=>'button','value'=>t('保存并返回'),'class'=>'submit btn-success','rel'=>'submit'))}
+			{form::field(array('type'=>'button','value'=>t('保存并返回'),'data-loading-text'=>t('保存中…'),'class'=>'submit btn-success','rel'=>'submit'))}
 		{/if}
 
-		{form::field(array('type'=>'button','value'=>t('保存并下一步'),'class'=>'submit btn-primary','rel'=>'save'))}
+		{form::field(array('type'=>'button','value'=>t('保存并下一步'),'data-loading-text'=>t('保存中…'),'class'=>'submit btn-primary','rel'=>'save'))}
 
 		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
 
@@ -92,10 +92,10 @@
 		form.validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
-			$(form).find('.submit').button('loading');
+			$(form).find('.submit').prop('disabled',true);
 			$.post(action, data, function(msg){
 				$.msg(msg);
-				!msg.state && $(form).find('.submit').button('reset');
+				!msg.state && $(form).find('.submit').prop('disabled',false);
 			},'json');
 		}});
 	});

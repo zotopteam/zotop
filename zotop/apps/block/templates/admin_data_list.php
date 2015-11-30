@@ -1,7 +1,5 @@
 {template 'header.php'}
-<div class="side">
 {template 'block/admin_side.php'}
-</div>
 
 <div class="main side-main">
 	<div class="main-header">
@@ -47,12 +45,12 @@
 								{if $r.url}	<a href="{U($r.url)}" target="_blank">{$r.title}</a> {else}	{$r.title} {/if}
 
 								{if $r.image} 
-									<i class="fa fa-image green tooltip-block" data-placement="bottom">
+									<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
 										<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
 									</i> 
 								{/if}								
-								{if $r.dataid} <i class="fa fa-share green" title="{t('关联数据')}"></i> {/if}
-								{if $r.stick} <i class="fa fa-up yellow" title="{t('已置顶')}"></i> {/if}
+								{if $r.dataid}<i class="fa fa-share text-success" title="{t('关联数据')}"></i> {/if}
+								{if $r.stick}<i class="fa fa-arrow-up text-success" title="{t('已置顶')}"></i> {/if}
 							</div>
 						</td>
 						<td class="manage text-right">

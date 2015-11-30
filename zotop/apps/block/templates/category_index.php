@@ -51,7 +51,7 @@
 		{form::footer()}
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
+		<div class="footer-text">{t('拖动列表项可以调整顺序')}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
 <script type="text/javascript">

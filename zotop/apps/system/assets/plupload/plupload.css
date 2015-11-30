@@ -1,6 +1,6 @@
 .upload-help{padding:150px 20px;text-align: center;font-size: 20px;line-height: 25px;}
 .upload-dragdrop-tips{font-size:16px;color:#999;margin:5px 0;visibility: hidden;}
-.upload-dropbox{background:#f7f7f7;}
+.upload-dropbox{/*background:#f7f7f7;*/}
 .upload-dropbox .upload-dragdrop-tips{visibility:visible;}
 .upload-dragover{background:#ffffcc;}
 .upload-drop{} 	

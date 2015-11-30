@@ -104,7 +104,7 @@
 					{$r['title']}
 
 					{if $r.image} 
-						<i class="icon icon-image green tooltip-block" data-placement="bottom">
+						<i class="icon icon-image text-success tooltip-block" data-placement="bottom">
 							<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
 						</i> 
 					{/if}

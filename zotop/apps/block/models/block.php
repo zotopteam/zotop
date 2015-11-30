@@ -115,6 +115,8 @@ class block_model_block extends model
 			$data['fields'] = unserialize($data['fields']);
 		}
 
+		$data['dataid'] = 'block-'.$id;
+
 		return $field ? $data[$field] : $data;
 	}
 

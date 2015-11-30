@@ -4,19 +4,16 @@
 
 <div class="main side-main no-footer">
 	<div class="main-header">
-		<a class="btn btn-primary btn-upload" id="upload" href="javascript:void(0)">
+		<a class="btn btn-primary btn-upload pull-left" id="upload" href="javascript:void(0)">
 			<i class="fa fa-upload fa-fw"></i><b>{t('上传%s', $typename)}</b>
 		</a>			
 
 		<div class="action">
-
 			{if $type=='image'}
 			<label class="btn">
 				<input type="checkbox" name="watermark" value="1" {if $params['watermark']==1}checked="checked"{/if}> {t('水印')}
 			</label>
-			{/if}
-
-		
+			{/if}		
 		</div>
 	</div>
 	<div class="main-body scrollable" id="upload-dragdrop">
