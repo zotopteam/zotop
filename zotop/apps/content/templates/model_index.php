@@ -1,28 +1,27 @@
 {template 'header.php'}
-<div class="side">
 {template 'content/admin_side.php'}
-</div>
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a href="{u('content/model/add')}" class="btn btn-icon-text btn-highlight dialog-open" data-width="750px" data-height="400px">
-				<i class="icon icon-add"></i><b>{t('新建模型')}</b>
+			<a href="{u('content/model/add')}" class="btn btn-primary btn-icon-text js-open" data-width="750px" data-height="400px">
+				<i class="fa fa-plus"></i><b>{t('新建模型')}</b>
 			</a>
 
-			<a href="javascript:;" class="btn btn-icon-text" id="importmodel">
-				<i class="icon icon-upload"></i><b>{t('导入模型')}</b>
+			<a href="javascript:;" class="btn btn-default btn-icon-text" id="importmodel">
+				<i class="fa fa-upload"></i><b>{t('导入模型')}</b>
 			</a>			
 		</div>
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 
 		{form::header()}
-		<table class="table list sortable" cellspacing="0" cellpadding="0">
+		<table class="table table-nowrap list sortable" cellspacing="0" cellpadding="0">
 		<thead>
 			<tr>
 			<td class="drag">&nbsp;</td>
-			<td class="w40 center">{t('状态')}</td>
+			<td class="text-center" width="40">{t('状态')}</td>
 			<td class="w300">{t('名称')}</td>
 			<td class="w140">{t('标识')}</td>					
 			<td>{t('描述')}</td>
@@ -34,19 +33,21 @@
 		{loop $data $r}
 			<tr>
 				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-				<td class="center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
+				<td class="center">
+					{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}
+				</td>
 				<td>
 					<div class="title">{$r['name']} </div>
 					<div class="manage">
-						<a class="dialog-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
-						<s></s>
-						<a href="{u('content/model/edit/'.$r['id'])}" class="dialog-open" data-width="750px" data-height="400px">{t('设置')}</a>						
-						<s></s>
+						<a class="js-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
+						<s>|</s>
+						<a href="{u('content/model/edit/'.$r['id'])}" class="js-open" data-width="750px" data-height="400px">{t('设置')}</a>						
+						<s>|</s>
 						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>
-						<s></s>
+						<s>|</s>
 						<a href="{u('content/model/export/'.$r['id'])}">{t('导出')}</a>												
-						<s></s>
-						<a href="{u('content/model/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
+						<s>|</s>
+						<a href="{u('content/model/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
 					</div>
 				</td>
 				<td>{$r['id']}</td>
@@ -66,7 +67,7 @@
 
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="tips">{t('拖动列表项可以调整顺序')}</div>
+		<div class="footer-text">{t('拖动列表项可以调整顺序')}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
 
@@ -94,9 +95,9 @@ $(function(){
 	});
 });
 </script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/plupload.full.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/i18n/zh_cn.js"></script>
-<script type="text/javascript" src="{A('system.url')}/common/plupload/jquery.upload.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/plupload.full.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/i18n/zh_cn.js"></script>
+<script type="text/javascript" src="{A('system.url')}/assets/plupload/jquery.upload.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$("#importmodel").upload({

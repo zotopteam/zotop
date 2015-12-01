@@ -123,6 +123,7 @@ $(function(){
 			dateISO: $.validator.format("请输入日期 (ISO)."),
 			number: $.validator.format("请输入数字"),
 			digits: $.validator.format("只能输入整数"),
+			integer : $.validator.format("请输入一个整数"),
 			creditcard: $.validator.format("请输入信用卡号"),
 			equalTo: $.validator.format("请再次输入相同的值"),
 			extension: $.validator.format("后缀名必须是 {0}"),
@@ -133,7 +134,35 @@ $(function(){
 			range: $.validator.format("请输入一个介于 {0} 和 {1} 之间的值"),
 			max: $.validator.format("请输入一个最大为 {0} 的值"),
 			min: $.validator.format("请输入一个最小为 {0} 的值")
+
 	});
+
+	// 增加扩展名验证
+	$.validator.addMethod("extension", function(value, element, param) {
+		param = typeof param === "string" ? param.replace(/,/g, "|") : "png|jpe?g|gif";
+		return this.optional(element) || value.match(new RegExp("\\.(" + param + ")$", "i"));
+	}, $.validator.messages.extension);
+
+	// 增加整数验证
+	$.validator.addMethod("integer", function(value, element) {
+		return this.optional(element) || /^-?\d+$/.test(value);
+	}, $.validator.messages.integer);
+
+	// 增加字符验证
+	$.validator.addMethod("lettersonly", function(value, element) {
+		return this.optional(element) || /^[a-z]+$/i.test(value);
+	}, "Letters only please");
+
+	// 增加正则验证
+	$.validator.addMethod("pattern", function(value, element, param) {
+		if (this.optional(element)) {
+			return true;
+		}
+		if (typeof param === "string") {
+			param = new RegExp("^(?:" + param + ")$");
+		}
+		return param.test(value);
+	}, "Invalid format.");	
 
 	// 使用bootstrap tooltip 作为错误提示
 	$.extend(jQuery.validator.defaults, {
