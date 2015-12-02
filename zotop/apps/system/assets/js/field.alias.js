@@ -12,23 +12,22 @@
 	
 	$(function(){
 		$('a.getalias').each(function(){
-			var btn = $(this).hide();
-			var href = btn.attr('href');
+			var btn    = $(this).addClass('disabled');
+			var href   = btn.attr('href');
 			var source = $('input[name=' + btn.attr('data-source') + ']');			
-			var to = $('input[name=' + btn.attr('data-to') + ']');
+			var to     = $('input[name=' + btn.attr('data-to') + ']');
 
-			source.val() ? btn.show() : btn.hide();
-			
+			source.val() ? btn.removeClass('disabled') : btn.addClass('disabled');			
 			source.on('change',function(){
-				source.val() ? btn.show() : btn.hide();
+				source.val() ? btn.removeClass('disabled') : btn.addClass('disabled');
 			});
 
 			btn.on('click',function(e){
 				e.preventDefault();	
-				btn.find('i.icon').addClass('icon-loading');
+				btn.addClass('disabled').find('i.fa').addClass('fa-spin');
 				$.get(href,{source : source.val(), maxlength:to.attr('maxlength')},function(alias){
 					to.val(alias);
-					btn.find('i.icon').removeClass('icon-loading');
+					btn.removeClass('disabled').find('i.fa').removeClass('fa-spin');
 				});				
 			});
 		});

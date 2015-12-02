@@ -24,17 +24,21 @@ class system_field
 		$attrs['pattern']          = '^[a-z0-9-_]+$';
 		$attrs['data-msg-pattern'] = t('只能包含小写字母、数字、下划线和中划线');
 		$attrs['remote']           = u('system/alias/check','ignore='.$attrs['value']);
-
-
-		$html['field']	= form::field_text($attrs);
-		$html['js']		= html::import(A('system.url').'/assets/js/field.alias.js');
+		
+		$html['group-start']       = '<div class="input-group">';
+		$html['field']             = form::field_text($attrs);
+		
 		if( $attrs['data-source'] )
 		{
-			$html['getalias'] 	= '<a href="'.u('system/alias/get').'" tabindex="-1" class="btn btn-icon-text getalias" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'" title="'.t('获取别名').'"><i class="fa fa-refresh"></i><b>'.t('获取').'</b></a>';
-			$html['error'] 		= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+			$html['js']        = html::import(A('system.url').'/assets/js/field.alias.js');			
+			$html['btn-start'] = '<span class="input-group-btn">';			
+			$html['getalias']  = '<a href="'.u('system/alias/get').'" tabindex="-1" class="btn btn-default btn-icon-text getalias" data-source="'.$attrs['data-source'].'" data-to="'.$attrs['name'].'" title="'.t('获取别名').'"><i class="fa fa-refresh"></i> <b>'.t('获取').'</b></a>';
+			$html['btn-end']   = '</span>';
 		}
-
-		$html['tips'] 	= form::tips(t('别名是在URL中使用的别称，它可以令URL更美观，只能包含小写字母、数字、下划线和中划线'));
+		
+		$html['group-end'] = '</div>';		
+		$html['error']     = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['tips']      = form::tips(t('别名是在URL中使用的别称，它可以令URL更美观，只能包含小写字母、数字、下划线和中划线'));
 
 		// hook
 		$html = zotop::filter('system.field.alias', $html, $attrs, $options);
@@ -50,18 +54,23 @@ class system_field
 	 */
 	public static function keywords($attrs)
 	{
-		$html['field']	= form::field_text($attrs);
+		
+		$html['group-start'] = '<div class="input-group">';
+		$html['field']       = form::field_text($attrs);
 
 		if( $attrs['data-source'] )
 		{
 			list($source_title, $source_content) = explode(',', $attrs['data-source']);
 
-			$html['js']		= html::import(A('system.url').'/assets/js/field.keywords.js');
-			$html['get'] 	= '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="fa fa-refresh"></i><b>'.t('提取').'</b></a>';
+			$html['btn-start'] = '<span class="input-group-btn">';
+			$html['js']        = html::import(A('system.url').'/assets/js/field.keywords.js');
+			$html['get']       = '<a href="'.u('system/keywords/get').'" tabindex="-1" class="btn btn-default btn-icon-text getkeywords" data-source-title="'.$source_title.'" data-source-content="'.$source_content.'"  data-to="'.$attrs['name'].'"><i class="fa fa-refresh"></i> <b>'.t('提取').'</b></a>';
+			$html['btn-end']   = '</span>';
 		}
 
-		$html['error']	= '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
-		$html['tips']	= form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
+		$html['group-end'] = '</div>';		
+		$html['error']     = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+		$html['tips']      = form::tips(t('合理填写有助于搜索引擎收录，多个关键词之间用“，”隔开'));
 
 		// hook
 		$html = zotop::filter('system.field.keywords', $html, $attrs, $options);

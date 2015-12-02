@@ -19,10 +19,10 @@
 
 			btn.on('click',function(e){
 				e.preventDefault();
-				btn.find('i.icon').addClass('icon-loading');
+				btn.addClass('disabled').find('i.fa').addClass('fa-spin');
 				$.post(href,{title:title.val(),content:content.val()},function(keywords){
 					to.val(keywords);
-					btn.find('i.icon').removeClass('icon-loading');
+					btn.removeClass('disabled').find('i.fa').removeClass('fa-spin');
 				});
 			});
 		});

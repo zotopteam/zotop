@@ -1,7 +1,7 @@
-<table class="field">
-	<tr>
-		<td class="label">{form::label(t('数值范围'),'length',false)}</td>
-		<td class="input">
+
+	<div class="form-group">
+		<div class="col-sm-2 control-label">{form::label(t('数值范围'),'length',false)}</div>
+		<div class="col-sm-10">
 			<div class="input-group">
 				<span class="input-group-addon">{t('最小值')}</span>
 				{form::field(array('type'=>'number','name'=>'settings[min]','value'=>$data['settings']['min']))}
@@ -12,6 +12,5 @@
 				{form::field(array('type'=>'number','name'=>'settings[max]','value'=>$data['settings']['max']))}
 			</div>			
 			
-		</td>
-	</tr>
-</table>
+		</div>
+	</div>

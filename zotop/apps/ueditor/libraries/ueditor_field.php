@@ -40,8 +40,15 @@ class ueditor_field
 				}
 			}
 
+			//定义默认的行数高度
+			$rows = zotop::filter('editor.rows',array(
+				'full'     => 25,
+				'standard' => 15,
+				'simple'   => 8
+			));
+
 			$attrs['id'] 	= empty($attrs['id']) ? $attrs['name'] : $attrs['id'];
-			$attrs['rows'] 	= empty($attrs['rows']) ? 8 : $attrs['rows'];
+			$attrs['rows'] 	= empty($attrs['rows']) ? $rows[$options['theme']] : $attrs['rows'];
 			$attrs['class'] = isset($attrs['class']) ? $attrs['class'].' '.$options['theme'] : $options['theme'];
 
 			// 开启额外工具条

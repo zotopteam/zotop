@@ -14,16 +14,16 @@
 		$data['settings']['image_height'] = c('system.image_height');
 	}
 ?>
-<table class="field">
-	<tr>
-		<td class="label">{form::label(t('图片水印'),'settings',false)}</td>
-		<td class="input">
+
+	<div class="form-group">
+		<div class="col-sm-2 control-label">{form::label(t('图片水印'),'settings',false)}</div>
+		<div class="col-sm-10">
 			{form::field(array('type'=>'bool','name'=>'settings[watermark]','value'=>$data['settings']['watermark']))}
-		</td>
-	</tr>
-	<tr>
-		<td class="label">{t('图片缩放')}</td>
-		<td class="input">
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-2 control-label">{t('图片缩放')}</div>
+		<div class="col-sm-10">
 			<div class="fl">
 				{form::field(array('type'=>'radio','name'=>'settings[image_resize]','value'=>$data['settings']['image_resize'],'options'=>array(0=>t('原图'),1=>t('缩放'),2=>t('裁剪'))))}
 			</div>
@@ -49,6 +49,6 @@
 						$(this).filter(':checked').val() == 0 ? $('.imagesize').hide() : $('.imagesize').show();
 				});
 			</script>
-		</td>
-	</tr>	
-</table>
+		</div>
+	</div>	
+

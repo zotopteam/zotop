@@ -1,46 +1,47 @@
 {template 'header.php'}
-<div class="side">
-	{template 'content/admin_side.php'}
-</div>
 
-{form::header()}
+{template 'content/admin_side.php'}
+
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{t('字段管理')}</div>
-		<div class="position">
-			<a href="{u('content/model')}">{t('模型管理')}</a>
-			<s class="arrow">></s>
-			<a href="{u('content/field/index/'.$modelid)}">{t('字段管理')} : {m('content.model.get',$modelid,'name')}</a>
-			<s class="arrow">></s>
-			{$title}
+		<a class="goback" href="{u('content/field/index/'.$modelid)}"><i class="fa fa-angle-left"></i> 返回</a>
+
+		<div class="title">{$title} : {m('content.model.get',$modelid,'name')}</div>
+		<div class="breadcrumb hidden">
+			<li><a href="{u('content/model')}">{t('模型管理')}</a></li>
+			<li><a href="{u('content/field/index/'.$modelid)}">{t('字段管理')} : {m('content.model.get',$modelid,'name')}</a></li>
+			<li>{$title}</li>
 		</div>		
 	</div><!-- main-header -->
+	
+	{form::header()}
 	<div class="main-body scrollable">
-
-		<table class="field">
-			<tbody>
+		
+		<div class="container-fluid">
+		<div class="form-horizontal">			
+			
 			{loop m('content.field.getfields',$modelid) $f}
-			<tr>
-				<td class="label">{form::label($f['label'],$f['for'],$f['required'])}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
+				<div class="col-sm-10">
 					{form::field($f['field'])}
 					{form::tips($f['tips'])}
-				</td>
-			</tr>
+				</div>
+			</div>
 			{/loop}
-			</tbody>
-		</table>		
+
+		</div>
+		</div>
 
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('提交')))}
-
 		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
 	</div><!-- main-footer -->
-</div><!-- main -->
-{form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
+	{form::footer()}
+</div><!-- main -->
+
 <script type="text/javascript">
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
