@@ -1,7 +1,7 @@
 
 	<div class="form-group">
 		<div class="col-sm-2 control-label">{form::label(t('选项列表'),'settings[options]',true)}</div>
-		<div class="col-sm-10">
+		<div class="col-sm-8">
 			<?php
 				if ( empty( $data['settings']['options'] ) )
 				{
@@ -15,7 +15,7 @@
 	</div>
 	<div class="form-group">
 		<div class="col-sm-2 control-label">{form::label(t('数据类型'),'settings[_datatype]',true)}</div>
-		<div class="col-sm-10">
+		<div class="col-sm-5">
 
 			<?php echo form::field(array(
 				'type'		=> 'select',

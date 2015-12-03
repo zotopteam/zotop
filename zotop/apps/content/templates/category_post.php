@@ -1,45 +1,47 @@
 {template 'header.php'}
-<div class="side">
 {template 'content/admin_side.php'}
-</div>
-{form::header()}
+
+
 <div class="main side-main">
 	<div class="main-header">
+		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">{$title}</div>
-		<div class="position">
-			<a href="{u('content/category')}">{t('根栏目')}</a>
+		<div class="breadcrumb">
+			<li><a href="{u('content/category')}">{t('根栏目')}</a></li>
 			{loop $parents $p}
-				<s class="arrow">></s>
-				<a href="{u('content/category/index/'.$p['id'])}">{$p['name']}</a>
+			<li><a href="{u('content/category/index/'.$p['id'])}">{$p['name']}</a></li>
 			{/loop}
-			<s class="arrow">></s>
-			{if $data['id']}{t('编辑')}{else}{t('添加')}{/if}
+			<li>{if $data['id']}{t('编辑')}{else}{t('添加')}{/if}</li>
 		</div>
 		<div class="action">
-
 		</div>
 	</div><!-- main-header -->
+
+	{form::header()}
 	<div class="main-body scrollable">
 		<input type="hidden" name="parentid" value="{$data['parentid']}">
 
-		<table class="field">
-			<caption>{t('基本设置')}</caption>
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('栏目名称'),'name',true)}</td>
-				<td class="input">
+		<div class="container-fluid">
+
+			<div class="form-horizontal">
+
+			<div class="form-title">{t('基本设置')}</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目名称'),'name',true)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('栏目别名'),'alias',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目别名'),'alias',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'alias','name'=>'alias','value'=>$data['alias'],'data-source'=>'name'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('栏目图片'),'image',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目图片'),'image',false)}</div>
+				<div class="col-sm-8">
 					<?php echo form::field(array(
 						'type'			=> 'image',
 						'name'			=> 'image',
@@ -50,27 +52,27 @@
 						'image_height'	=> c('content.category_image_height'),
 						'image_quality'	=> c('content.category_image_quality'),
 					))?>
-				</td>
-			</tr>			
-			<tr>
-				<td class="label">{form::label(t('首页模版'),'settings[template_index]',true)}</td>
-				<td class="input">
+				</div>
+			</div>			
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('首页模版'),'settings[template_index]',true)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'template','name'=>'settings[template_index]','value'=>$data['settings']['template_index'],'required'=>'required'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('列表页模版'),'settings[template_list]',true)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('列表页模版'),'settings[template_list]',true)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'template','name'=>'settings[template_list]','value'=>$data['settings']['template_list'],'required'=>'required'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('内容模型'),'models',false)}</td>
-				<td class="input">
-					<table class="controls">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('内容模型'),'models',false)}</div>
+				<div class="col-sm-8">
+					<table class="table table-border table-nowrap table-control">
 						<thead>
 							<tr>
-								<td class="w100">{t('选择模型')}</td>
+								<td>{t('选择模型')}</td>
 								<td>{t('内容页模版')}</td>
 							</tr>
 						</thead>
@@ -86,43 +88,40 @@
 								</td>
 								<td>
 									{if $m['template']}
-										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'required'=>'required','style'=>'width:360px;'))}
+										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'required'=>'required'))}
 									{/if}
-								<td>
+								</td>
 							</tr>
 							{/if}
 							{/loop}
 						</tbody>
 					</table>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		<table class="field">
-			<caption>{t('高级设置')}</caption>
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('栏目标题'),'title',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+
+			<div class="form-title">{t('高级设置')}</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目标题'),'title',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'title','value'=>$data['title']))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('栏目关键词'),'keywords',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目关键词'),'keywords',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'title,description'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('栏目描述'),'description',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目描述'),'description',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'placeholder'=>t('合理填写有助于搜索引擎排名优化')))}
-				</td>
-			</tr>	
+				</div>
+			</div>	
 			{if a('member')}
-			<tr>
-				<td class="label">{form::label(t('会员投稿'),'settings[contribute]',false)}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('会员投稿'),'settings[contribute]',false)}</div>
+				<div class="col-sm-8">
 
 					{form::field(array('type'=>'radio','options'=>array(0=>t('禁止'), 1=>t('允许')),'name'=>'settings[contribute]','value'=>(int)$data['settings']['contribute']))}
 
@@ -148,44 +147,41 @@
 							});
 						});
 					</script>
-				</td>
-			</tr>
+				</div>
+			</div>
 			{/if}
-			</tbody>
-		</table>
-		{if $data['childid']}
-		<table class="field">
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('设置复制'),'apply-setting-childs',false)}</td>
-				<td class="input">
+
+			{if $data['childid']}
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('设置复制'),'apply-setting-childs',false)}</div>
+				<div class="col-sm-8">
 					<span class="field"><label><input type="checkbox" name="apply-setting-childs" value="1"> {t('复制设置到全部子栏目')}</label></span>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		{/if}
+				</div>
+			</div>
+			{/if}
+		</div> 
+		</div> <!-- container-fluid -->
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
 
 		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
 	</div><!-- main-footer -->
-</div><!-- main -->
-{form::footer()}
+	{form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
+</div><!-- main -->
+
 <script type="text/javascript">
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');
-			var data = $(form).serialize();
+			var data   = $(form).serialize();
 			$.loading();
-			$(form).find('.submit').disable(true);
+			$(form).find('.submit').prop('disabled',true);
 			$.post(action, data, function(msg){
 
 				if( !msg.state ){
-					$(form).find('.submit').disable(false);
+					$(form).find('.submit').prop('disabled',false);
 				}
 
 				$.msg(msg);

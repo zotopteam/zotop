@@ -1,7 +1,7 @@
 
 	<div class="form-group">
 		<div class="col-sm-2 control-label">{form::label(t('选项列表'),'settings[options]',true)}</div>
-		<div class="col-sm-10">
+		<div class="col-sm-8">
 			<?php
 				if ( empty( $data['settings']['options'] ) )
 				{

@@ -125,7 +125,7 @@ class form
      */
     public static function label($text, $for, $required=false)
     {
-		return '<label class="form-label'.($required ? ' required' : '').'" for="'.$for.'">'.$text.($required ? '<b class="required">*</b>' : '').'</label>';
+		return '<label class="form-label'.($required ? ' required' : '').'" for="'.$for.'">'.$text.'</label>';
     }
 
     /**

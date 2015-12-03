@@ -399,7 +399,8 @@ class template
                 }
                 else
                 {
-                    if ( strpos($val, '$') === 0 or preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\)/', $val) )
+                    // TODO 属性中出现文字符合函数规则时会导致bug，比如：title="hello(hi,zotop)"，hello会被误以为是函数
+                    if ( strpos($val, '$') === 0 OR preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\)/', $val) )
                     {
                         $str .= "'$key'=>$val,";
                     }

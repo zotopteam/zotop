@@ -47,9 +47,12 @@ class content_controller_category extends admin_controller
 
 			return $this->error($this->category->error());
 		}
+		
+		// 获取当前栏目信息
+		$category = $parentid ? $this->category->get($parentid) : array();
 
 		// 获取当前的子栏目
-		$data = $this->category->getChild($parentid);
+		$data     = $this->category->getChild($parentid);
 
 		foreach( $data as &$d )
 		{
@@ -61,6 +64,7 @@ class content_controller_category extends admin_controller
 
 		$this->assign('title',t('栏目管理'));
 		$this->assign('parentid',$parentid);
+		$this->assign('category',$category);
 		$this->assign('parents',$parents);
 		$this->assign('current',$current);
 		$this->assign('data',$data);

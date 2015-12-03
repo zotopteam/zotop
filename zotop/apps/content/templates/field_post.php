@@ -4,8 +4,7 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<a class="goback" href="{u('content/field/index/'.$data.modelid)}"><i class="fa fa-angle-left"></i> 返回</a>
-
+		<div class="goback"><a class="goback" href="{u('content/field/index/'.$data.modelid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">{$title} {if $data.label}: {$data.label}{/if}</div>
 		<div class="breadcrumb hidden">
 			<li><a href="{u('content/model')}">{t('模型管理')}</a></li>
@@ -45,8 +44,14 @@
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('字段名'),'name',true)}</div>
 					<div class="col-sm-5">
-						{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]$1[a-z0-9_]{0,18}[a-z0-9]$1$','required'=>'required','readonly'=>$data['system']))}
-						{form::field(array('type'=>'hidden','name'=>'_name','value'=>$data['name']))}
+						{if $data.system}
+							{field type="text" name="name" value="$data.name" required="required" disabled="disabled" fieldname="true"}
+						{else}
+							{field type="text" name="name" value="$data.name" required="required" fieldname="true"}
+						{/if}
+
+						{field type="hidden" name="_name" value="$data.name"}
+
 						{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 					</div>
 				</div>
@@ -83,6 +88,7 @@
 							{form::field(array('type'=>'bool','name'=>'notnull','value'=>(int)$data['notnull']))}
 						</div>
 					</div>
+
 					<div class="form-group field-post">
 						<div class="col-sm-2 control-label">
 							{form::label(t('前台投稿'),'post',false)}
@@ -93,6 +99,7 @@
 
 						</div>
 					</div>
+
 					<div class="form-group field-base">
 						<div class="col-sm-2 control-label">
 							{form::label(t('基本信息'),'base',false)}
@@ -147,6 +154,11 @@
 	});
 
 	$(function(){
+
+		$.validator.addMethod("fieldname", function(value, element) {
+			return this.optional(element) || /^[a-z][a-z0-9_]{0,18}[a-z0-9]$/.test(value);
+		}, "{t('长度2-20，允许小写英文字母、数字和下划线，并且仅能字母开头，不以下划线结尾')}");
+
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
