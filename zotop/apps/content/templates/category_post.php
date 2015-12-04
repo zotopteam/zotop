@@ -7,7 +7,7 @@
 		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">{$title}</div>
 		<div class="breadcrumb">
-			<li><a href="{u('content/category')}">{t('根栏目')}</a></li>
+			<li><a href="{u('content/category')}">{t('栏目管理')}</a></li>
 			{loop $parents $p}
 			<li><a href="{u('content/category/index/'.$p['id'])}">{$p['name']}</a></li>
 			{/loop}

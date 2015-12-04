@@ -4,7 +4,7 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="goback"><a class="goback" href="{u('content/field/index/'.$data.modelid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
+		<div class="goback"><a href="{u('content/field/index/'.$data.modelid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">{$title} {if $data.label}: {$data.label}{/if}</div>
 		<div class="breadcrumb hidden">
 			<li><a href="{u('content/model')}">{t('模型管理')}</a></li>
@@ -46,13 +46,14 @@
 					<div class="col-sm-5">
 						{if $data.system}
 							{field type="text" name="name" value="$data.name" required="required" disabled="disabled" fieldname="true"}
+							{form::tips('系统字段的字段名不能修改')}
 						{else}
 							{field type="text" name="name" value="$data.name" required="required" fieldname="true"}
+							{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 						{/if}
 
 						{field type="hidden" name="_name" value="$data.name"}
 
-						{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 					</div>
 				</div>
 

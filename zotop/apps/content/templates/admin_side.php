@@ -6,19 +6,20 @@
 		<ul class="nav nav-pills nav-stacked nav-side">
 			<li {if ZOTOP_CONTROLLER == 'content' and !$categoryid}class="active"{/if}>
 				<a href="{u('content/content/index')}" ><i class="fa fa-list"></i> <span>{t('内容管理')}</span></a>
-			</li>
-			<li>
-			<table id="tree" class="table list navtree none" cellspacing="0" cellpadding="0">
-				<tbody>
-					{loop m('content.category.active') $c}
-					<tr data-tt-id="a{$c['id']}" {if $c['parentid'] !=0 }data-tt-parent-id="a{$c['parentid']}"{/if} {if $categoryid==$c['id']}class="active"{/if}>
-						<td class="name">
-							<a data-href="{u('content/content/index/'.$c['id'].'/publish')}"><i class="fa {if $c['childid']}fa-folder{else}fa-item{/if}"></i>{$c['name']}</a>
-						</td>
-					</tr>
-					{/loop}
-				</tbody>
-			</table>
+
+				<table id="tree" class="table nav-treetable hidden" cellspacing="0" cellpadding="0">
+					<tbody>
+						{loop m('content.category.active') $c}
+						<tr data-tt-id="a{$c['id']}" {if $c['parentid'] !=0 }data-tt-parent-id="a{$c['parentid']}"{/if} {if $categoryid==$c['id']}class="active"{/if}>
+							<td class="name">
+								<a data-href="{u('content/content/index/'.$c['id'].'/publish')}">
+									<i class="fa {if $c['childid']}fa-folder{else}fa-file{/if}"></i>{$c['name']}
+								</a>
+							</td>
+						</tr>
+						{/loop}
+					</tbody>
+				</table>
 			</li>
 			<li {if substr_count(ZOTOP_URI,'content/config')}class="active"{/if}>
 				<a href="{u('content/config')}"><i class="fa fa-cog"></i> <span>{t('内容设置')}</span></a>
@@ -44,14 +45,14 @@
 $(function(){
 	$("#tree").treetable({
 		column : 0,
-		indent : 18,
+		indent : 22,
 		expandable : true,
 		persist: true,
 		initialState : 'collapsed', //"expanded" or "collapsed".
 		clickableNodeNames : true,
-		stringExpand: "{t('展开')}",
-		stringCollapse: "{t('关闭')}"
-	}).removeClass('none');
+		stringExpand: null,
+		stringCollapse: null
+	}).removeClass('hidden');
 
 	{if $categoryid}
 		$("#tree").treetable("reveal", "a{$categoryid}");

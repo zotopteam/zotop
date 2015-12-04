@@ -14,7 +14,7 @@
 	<div class="form-group">
 		<div class="col-sm-2 control-label">{form::label(t('字段'),'fields',false)}</div>
 		<div class="col-sm-8">
-			<table class="table table-border table-nowrap">
+			<table class="table table-border table-nowrap table-control">
 			<thead>
 			<tr>
 				<td class="text-center">{t('显示')}</td>

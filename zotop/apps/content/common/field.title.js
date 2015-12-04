@@ -145,6 +145,10 @@ $(function(){
 			setstyle();
 		});
 
+		if ( $input.css('font-weight') == 'bold' ) {
+			$bold.addClass('active');
+		}
+
 		//色彩按钮
 		$color.attr('color',$input.css('color')).colorselector({
 			callback:function(v){

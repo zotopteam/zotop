@@ -5,7 +5,10 @@
 	<div class="form-group">
 		{form::label(t('模型名称'),'name',true)}
 		
-		{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
+		<div class="input-group">
+			<span class="input-group-btn">{field type="icon" name="icon" value="fa-file"}</span>
+			{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
+		</div>
 		
 		{form::tips(t('可读名称，如： 页面、文章、产品、下载'))}				
 	</div>

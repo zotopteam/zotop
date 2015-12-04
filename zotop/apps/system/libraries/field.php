@@ -382,5 +382,34 @@ class system_field
 
 		return implode("\n",$html);
 	}
+
+	/**
+	 * 图标选择器
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function icon($attrs)
+	{
+		$id = $attrs['name'] == $attrs['id'] ? $attrs['name'] : $attrs['name'].'_'.$attrs['id'];
+		$id = str_replace(array(']',' ','/','\\'), '', $id);
+		$id = str_replace(array('.','['), '_', $id);
+
+		$attrs['id']                         = $id;
+		$attrs['data-iconset']               = 'fontawesome';
+		$attrs['data-arrow-prev-icon-class'] = 'fa fa-arrow-left';
+		$attrs['data-arrow-next-icon-class'] = 'fa fa-arrow-right';
+		$attrs['data-icon']                  = $attrs['value'] ? $attrs['value'] : 'fa-file';
+		$attrs['data-rows']                  = $attrs['rows'] ? $attrs['rows'] : 4;
+		$attrs['data-cols']                  = $attrs['cols'] ? $attrs['cols'] : 12;
+		$attrs['role']                       = 'iconpicker';
+		
+		$html['field'] = form::field_button($attrs);
+		$html['js']    = html::import(A('system.url').'/assets/js/bootstrap-iconpicker.min.js');		
+		$html['css']   = html::import(A('system.url').'/assets/css/bootstrap-iconpicker.min.css');	
+		
+
+		return implode("\n",$html);
+	}	
 }
 ?>

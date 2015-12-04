@@ -1,68 +1,58 @@
 {template 'header.php'}
-<div class="side">
 {template 'content/admin_side.php'}
-</div>
-
 
 <div class="main side-main">
 	<div class="main-header">
 
-		<div class="title">
-		{if $title}
-			{$title}
-		{else}
-			{t('内容管理')}
-		{/if}
-		</div>
+		<div class="title">{if $title} {$title} {else} {t('内容管理')} {/if}</div>
 
-		
-		<ul class="navbar">
+		<ul class="nav nav-tabs tabdropable">
 			{loop m('content.content.status') $s $t}
-			<li{if $status == $s} class="current"{/if}>
+			<li{if $status == $s} class="active"{/if}>
 				<a href="{u('content/content/index/'.$categoryid.'/'.$s)}">{$t}
-				{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}<i class="msg">[{$statuscount}]</i>{/if}
+					{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}
+					<em class="badge badge-xs badge-danger">{$statuscount}</em>
+					{/if}
 				</a>
 			</li>
 			{/loop}
 		</ul>
-		
 
-		<form action="{u('content/content/search')}" method="post" class="searchbar">
-			{if $keywords}
-			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" style="width:200px;" x-webkit-speech/>
-			{else}
-			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" x-webkit-speech/>
-			{/if}
-			<button type="submit"><i class="icon icon-search"></i></button>
+		<form action="{u('content/content/search')}" class="searchbar input-group" method="post" role="search">				
+			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+			</span>
 		</form>
 
 		<div class="action">
-
 			{if $postmodels}
 				{if count($postmodels) < 2}
 					{loop $postmodels $i $m}
-						<a class="btn btn-highlight btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
-							<i class="icon icon-add"></i><b>{$m['name']}</b>
+						<a class="btn btn-primary btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
+							<i class="fa fa-plus"></i><b>{$m['name']}</b>
 						</a>
 					{/loop}
 				{else}
-				<div class="menu btn-menu">
-					<a class="btn btn-highlight btn-icon-text" href="javascript:void(0);"><i class="icon icon-add"></i> <b>{t('添加')}</b> <i class="icon icon-angle-down"></i></a>
-					<div class="dropmenu">
-						<div class="dropmenulist">
+				<div class="btn-group">
+					<a class="btn btn-primary btn-icon-text dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<i class="fa fa-plus"></i> <b>{t('添加')}</b> <i class="fa fa-angle-down"></i>
+					</a>
+					<ul class="dropdown-menu">
 							{loop $postmodels $i $m}
-								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}"><i class="icon icon-item icon-{$m['id']}"></i>{$m['name']}</a>
+								<li>
+								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}">
+									<i class="fa {$m.icon} fa-fw"></i>{$m['name']}
+								</a>
+								</li>
 							{/loop}
-						</div>
-					</div>
+					</ul>
 				</div>
 				{/if}
 			{/if}
 
 			{if $categoryid}
-			<a class="btn btn-icon" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}">
-				<i class="icon icon-open"></i>
-			</a>
+			<a class="btn btn-default btn-icon" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}"><i class="fa fa-eye"></i></a>
 			{/if}
 		</div>
 
@@ -71,23 +61,28 @@
 	<div class="main-body scrollable">
 
 		{if empty($data)}		
-			<div class="nodata">{t('暂时没有任何数据')}</div>
+		<div class="nodata">
+			<i class="fa fa-frown-o"></i>
+			<h1>
+				{t('暂时没有任何数据')}
+			</h1>
+		</div>
 		{else}
 
 		{form::header()}
-		<table class="table list sortable" id="datalist" data-categoryid="{$category.id}">
+		<table class="table table-hover table-nowrap list sortable" id="datalist" data-categoryid="{$category.id}">
 		<thead>
 			<tr>
 			{if $categoryid}
 			<td class="drag"></td>
 			{/if}
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-			<td class="w40 center">{t('状态')}</td>
+			<td class="text-center" width="40">{t('状态')}</td>
 			<td>{t('标题')}</td>
-			<td class="w80 center">{t('点击')}</td>
-			<td class="w80">{t('模型')}</td>
-			<td class="w100">{t('栏目')}</td>
-			<td class="w120">{t('发布者/发布时间')}</td>
+			<td class="text-center" width="80">{t('点击')}</td>
+			<td width="80">{t('模型')}</td>
+			<td>{t('栏目')}</td>
+			<td>{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -98,42 +93,42 @@
 				<td class="drag"></td>
 				{/if}
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-				<td class="center"><i class="icon icon-{$r['status']} {$r['status']}" title="{$statuses[$r['status']]}"></i></td>
+				<td class="text-center"><i class="fa fa-{$r['status']} fa-2x  text-{$r['status']}" title="{$statuses[$r['status']]}"></i></td>
 				<td>
 					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>					
 					{$r['title']}
 
 					{if $r.image} 
-						<i class="icon icon-image text-success tooltip-block" data-placement="bottom">
+						<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
 							<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
 						</i> 
 					{/if}
 					
-					{if $r.stick}<i class="icon icon-up yellow" title="{t('置顶')}"></i>{/if}
+					{if $r.stick}<i class="fa fa-arrow-up text-success" title="{t('置顶')}"></i>{/if}
 					</div>
 					<div class="manage">
 						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
-						<s></s>
+						<s>|</s>
 						<a href="{u('content/content/edit/'.$r['id'])}">{t('编辑')}</a>
-						<s></s>
+						<s>|</s>
 
 						{if $r.stick}
-						<a href="{u('content/content/stick/'.$r['id'].'/0')}" class="ajax-post">{t('取消置顶')}</a>
+						<a href="{u('content/content/stick/'.$r['id'].'/0')}" class="js-ajax-post">{t('取消置顶')}</a>
 						{else}
-						<a href="{u('content/content/stick/'.$r['id'].'/1')}" class="ajax-post">{t('置顶')}</a>
+						<a href="{u('content/content/stick/'.$r['id'].'/1')}" class="js-ajax-post">{t('置顶')}</a>
 						{/if}
-						<s></s>
+						<s>|</s>
 
 						{loop zotop::filter('content.manage',array(),$r) $m}
 						<a href="{$m['href']}" {$m['attr']}>{$m['text']}</a>
-						<s></s>
+						<s>|</s>
 						{/loop}
 
-						<a class="dialog-confirm" href="{u('content/content/delete/'.$r['id'])}">{t('删除')}</a>
+						<a class="js-confirm" href="{u('content/content/delete/'.$r['id'])}">{t('删除')}</a>
 					</div>
 				</td>
 			
-				<td class="center">{$r['hits']}</td>
+				<td class="text-center">{$r['hits']}</td>
 				<td><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
 				<td><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
 				<td>
@@ -157,12 +152,12 @@
 
 			{loop m('content.content.status') $s $t}
 				{if $status != $s}
-				<a class="btn operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>
+				<a class="btn btn-default operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>
 				{/if}
 			{/loop}
 
-			<a class="btn operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
-			<a class="btn operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>
+			<a class="btn btn-default operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
+			<a class="btn btn-default operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>
 		{/if}
 
 	</div><!-- main-footer -->

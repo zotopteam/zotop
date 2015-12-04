@@ -28,6 +28,7 @@ form::field('captcha',array('system_field','captcha'));
 form::field('template',array('system_field','template'));
 form::field('template_editor',array('system_field','template_editor'));
 form::field('code',array('system_field','template_editor'));
+form::field('icon',array('system_field','icon'));
 
 /**
  * 消息解析

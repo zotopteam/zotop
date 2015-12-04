@@ -55,6 +55,7 @@ $this->db->dropTable('content_model');
 $this->db->createTable('content_model',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID，如：news') ),
+		'icon'		=> array ( 'type'=>'varchar', 'length'=>255, 'notnull'=>true,'default'=>'fa-file', 'comment' => t('图标') ),
 		'name'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('名称') ),
 		'description'=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('说明') ),
 		'app'		=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('隶属应用ID') ),

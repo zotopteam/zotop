@@ -1,10 +1,10 @@
 {template 'header.php'}
-<div class="side">
 {template 'content/admin_side.php'}
-</div>
-{form::header()}
+
+
 <div class="main side-main">
 	<div class="main-header">
+		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">
 			{if $data['id']}
 				{t('编辑%s',m('content.model.get',$data.modelid,'name'))}
@@ -12,18 +12,20 @@
 				{t('添加%s',m('content.model.get',$data.modelid,'name'))}
 			{/if}
 		</div>
-		<div class="position">
-			<a href="{u('content/content')}">{t('内容管理')}</a>
+		<div class="breadcrumb hidden">
+			<li><a href="{u('content/content')}">{t('内容管理')}</a></li>
+			
 			{loop m('content.category.getparents',$data.categoryid) $p}
-				<s class="arrow">></s>
-				<a href="{u('content/content/index/'.$p['id'].'/publish')}">{$p['name']}</a>
+			<li><a href="{u('content/content/index/'.$p['id'].'/publish')}">{$p['name']}</a></li>
 			{/loop}			
 
 			{if $data['title']}
-				<s class="arrow">></s> {$data['title']}
+			<li>{$data['title']}</li>
 			{/if}
 		</div>
 	</div><!-- main-header -->
+
+	{form::header()}
 	<div class="main-body scrollable">
 
 		<input type="hidden" name="id" value="{$data['id']}">
@@ -31,24 +33,24 @@
 		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
 		<input type="hidden" name="status" value="{$data['status']}">
 
-		<table class="field">
-			<tbody>
-			{loop m('content.field.getfields',$data.modelid,$data) $f}
-			<tr>
-				<td class="label">{form::label($f['label'],$f['for'],$f['required'])}</td>
-				<td class="input">
-					{form::field($f['field'])}
-					{form::tips($f['tips'])}
-				</td>
-			</tr>
-			{/loop}
-			</tbody>
-		</table>		
+		<div class="container-fluid">
+			<div class="form-horizontal">
+				{loop m('content.field.getfields',$data.modelid,$data) $f}
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
+					<div class="col-sm-8">
+						{form::field($f['field'])}
+						{form::tips($f['tips'])}
+					</div>
+				</div>
+				{/loop}
+			</div>		
+		</div>		
 
 	</div><!-- main-body -->
 	<div class="main-footer">
 
-		{form::field(array('type'=>'button','value'=>t('保存并发布'),'class'=>'submit btn-highlight','rel'=>'publish'))}
+		{form::field(array('type'=>'button','value'=>t('保存并发布'),'class'=>'submit btn-success','rel'=>'publish'))}
 
 		{if $data['id']}
 		{form::field(array('type'=>'button','value'=>t('保存'),'class'=>'submit btn-primary','rel'=>'save'))}
@@ -59,10 +61,11 @@
 		{form::field(array('type'=>'button','value'=>t('返回列表'), 'onclick'=>'history.go(-1)'))}
 
 	</div><!-- main-footer -->
-</div><!-- main -->
-{form::footer()}
+	{form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
+</div><!-- main -->
+
+
 <script type="text/javascript">
 
 	var form = $('form.form');
@@ -91,7 +94,7 @@
 			var action = form.attr('action');
 			var data = form.serialize();
 
-			form.find('.submit').disable(true);
+			form.find('.submit').prop('disabled',true);
 
 			$.loading();
 			$.post(action, data, function(msg){
@@ -101,12 +104,12 @@
 					// 当保存草稿时候url返回值为内容编号
 					if ( operate == 'draft' && msg.url ) $('input[name=id]').val(msg.url);
 
-					form.find('.submit').disable(false);
+					form.find('.submit').prop('disabled',false);
 					msg.url = null;
 				}
 
 				if( !msg.state ){
-					form.find('.submit').disable(false);	
+					form.find('.submit').prop('disabled',false);	
 				}
 
 				$.msg(msg);

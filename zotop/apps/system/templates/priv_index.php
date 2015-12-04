@@ -50,7 +50,7 @@
 $(function(){
 	$("#tree").treetable({
 		column : 0,
-		indent : 44,
+		indent : 22,
 		expandable : true,
 		persist: true,
 		initialState : 'collapsed', //"expanded" or "collapsed".
