@@ -26,8 +26,9 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
 .badge{padding:3px 5px;font-weight:normal;}
 .badge-danger{background-color:#f00;}
-.badge-xs,.badge-sm{-webkit-transform:translate(0,-2px);-ms-transform:translate(0,-2px);-o-transform:translate(0,-2px);transform:translate(0,-2px);}
-.badge-xs{font-size:9px;-webkit-transform:scale(0.75);letter-spacing:1px;}
+.badge-xs{height:15px;line-height:15px;font-family:arial;padding:0 4px;border-radius:15px;font-size:10px;font-style:normal;}
+
+
 
 .dropdown-menu{border-radius:3px; padding:5px; box-shadow:3px 3px 0 rgba(12,12,12,0.03);}
 .dropdown-menu > li > a{color:#0072c6;padding:7px 10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; -moz-transition:all 0.2s ease-out 0s; -webkit-transition:all 0.2s ease-out 0s; transition:all 0.2s ease-out 0s;}
@@ -342,9 +343,12 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 /*主区域 无侧边 */
 .main{margin:0;height:100%;position:relative;}
 .main-header{vertical-align:middle;text-align:center;position:relative;clear:both;border-bottom:1px solid #efefef;background-color:#fff;height:60px;padding:5px 10px;}
-.main-header .goback{float:left;display:block;font-size:16px;padding-right:10px; margin:15px 5px; line-height:20px;border-right:solid 1px #ebebeb;}
-.main-header .goback a{text-decoration:none;}
+
+.main-header .goback{float:left;display:block;font-size:16px;padding-right:10px;margin:15px 5px; line-height:20px;border-right:solid 1px #ebebeb;}
+.main-header .goback a{text-decoration:none;min-width:18px;display:block;}
 .main-header .goback i{margin-right:5px;}
+.main-header .goback span{display: none;}
+
 .main-header .title{float:left;font-size:21px;font-weight:normal;padding:15px 5px;line-height:20px;margin-right: 10px;}
 .main-header .description{float:left;font-size:15px;color:#666;}
 .main-header .action{float:right;}

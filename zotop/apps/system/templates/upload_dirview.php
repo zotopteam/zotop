@@ -5,9 +5,9 @@
 <div class="main side-main no-footer">
 	<div class="main-header">
 		{if count($position)>1}
-		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('上级')}</span></a>
+		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('上级')}</span></a></div>
 		{else}
-		<a class="goback disabled" href="javascript:;"><i class="fa fa-angle-left"></i> <span>{t('上级')}</span></a>
+		<div class="goback"><a class="disabled" href="javascript:;"><i class="fa fa-angle-left"></i> <span>{t('上级')}</span></a></div>
 		{/if}
 		<ul class="breadcrumb">
 			{loop $position $n $p}

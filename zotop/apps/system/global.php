@@ -150,7 +150,7 @@ function alias($a, $b='')
 	if ( $a )
 	{
 		// 获取别名
-		if ( $b === '' ) return $alias->where('alias',$a)->getField('source');
+		if ( $b === '' ) return $alias->field('source')->where('alias',$a)->getField();
 
 		// 根据别名删除 alias('test', null)
 		if ( $b === null ) 	return $alias->where('alias', $a)->delete();

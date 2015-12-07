@@ -6,7 +6,7 @@
 
 	<div class="main-header">		
 		{if $keywords}
-		<a class="goback" href="{u('block/admin/index/'.$categoryid)}"><i class="fa fa-angle-left"></i> {t('返回')}</a>
+		<a class="goback" href="{u('block/admin/index/'.$categoryid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a>
 		<div class="title pull-center">{t('搜索 “%s”',$keywords)}</div>
 		{else}
 		<div class="title">{$category['name']} </div>

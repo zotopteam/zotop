@@ -1,0 +1,43 @@
+@charset "utf-8";
+
+/*
+ 编辑器内部默认的css，请配合详细页面上的样式使用
+ 
+ Author:zotop team
+ CretaeDate:2015-1-30
+ Description:编辑器内部样式
+ */
+
+body {font:16px/1.64 '\5fae\8f6f\96c5\9ed1',Tahoma,Geneva,'\5B8B\4F53';color:#333;word-wrap:break-word;margin:5px;width:auto;}
+input,textarea,select {margin:0;padding:0;font-size:14px;outline:none;resize:none}
+html:root body,html:root input,html:root button,html:root textarea,html:root select {font-family:Tahoma,Geneva,'\5fae\8f6f\96c5\9ed1','\5B8B\4F53'}
+form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,p,pre,code,fieldset,legend,th,td {margin:0;padding:0}
+i,em {font-style:normal}
+fieldset,img {border:0}
+button {cursor:pointer}
+button i {display:none}
+table {border-collapse:collapse;border-spacing:0}
+::selection {background:#b3d4fd;color:#666}
+:focus {outline:0}
+small {font-size:12px}
+a{color:#36c;text-decoration:none;cursor:pointer;outline:none;}
+a:hover {text-decoration:underline}
+a img {border:none}
+pre {background:#eee;border-left:2px solid #F37066;margin:10px;padding-left:5px;display:block;font-family:"Consolas","Courier New",Courier,mono,serif}
+blockquote{background:#eee;border-left:10px solid #666;padding:10px 12px;display:block;margin:10px;word-wrap:break-word;word-break:break-all}
+img {max-width:100%;cursor:pointer;border:0 none;}
+samp {display:block}
+table {table-layout:fixed;width:100%;word-break:break-all;word-wrap:break-word}
+th,td {border:1px solid #ddd;padding:5px 10px;font-weight:normal}
+th {background:#f7f7f7;border-top:2px solid #BBB}
+li,ul {margin:auto}
+em {font-style:italic}
+p{margin:8px 0px;}
+img,embed,object{max-width:100%;}
+
+h1,h2,h3{margin:10px 0;}
+h4,h5,h6{margin:5px 0;}
+
+.clearfix {zoom:1}
+.clearfix:after {clear:both;content:" ";display:block;height:0}
+.clearfix p {line-height:25px;margin:0 auto 0 auto}

@@ -73,7 +73,7 @@ class content_model_category extends model
         if ( empty($data['name']) ) return $this->error(t('名称不能为空'));
 
         // 检查别名是否存在
-        if ($data['alias'] and alias($data['alias'])) return $this->error(t('别名已经存在'));
+        if ( $data['alias'] and alias($data['alias']) ) return $this->error(t('别名已经存在'));
 
         $data['id'] = $this->max('id') + 1;
         $data['parentid'] = is_numeric($data['parentid']) ? max(0, $data['parentid']) : 0;
@@ -105,11 +105,11 @@ class content_model_category extends model
      */
     public function edit($data, $id)
     {
-        if (empty($data['name'])) return $this->error(t('名称不能为空'));
+        if ( empty($data['name']) ) return $this->error(t('名称不能为空'));
 
-        if ($data['alias'] and $alias = alias($data['alias']))
+        if ( $data['alias'] and $alias = alias($data['alias']) )
         {
-            if ($alias != "content/index/{$id}") return $this->error(t('别名已经存在'));
+            if ( $alias != "content/index/{$id}" ) return $this->error(t('别名已经存在').$alias);
         }
 
         if ( $this->update($data, $id) )

@@ -4,7 +4,7 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<a class="goback" href="{u('content/field/index/'.$modelid)}"><i class="fa fa-angle-left"></i> 返回</a>
+		<div class="goback"><a href="{u('content/field/index/'.$modelid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 
 		<div class="title">{$title} : {m('content.model.get',$modelid,'name')}</div>
 		<div class="breadcrumb hidden">

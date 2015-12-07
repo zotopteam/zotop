@@ -4,7 +4,7 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<a class="goback" href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('上一级')}</span></a>
+		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('上一级')}</span></a></div>
 		<div class="title hidden">{$title}</div>
 		<ul class="breadcrumb hidden-xs">
 			<li><a href="{u('system/theme/index')}"><i class="fa fa-magic"></i> {t('主题管理')}</a></li>
