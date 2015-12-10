@@ -15,8 +15,8 @@
 			<a class="btn btn-default btn-icon-text js-open"  data-width="600" data-height="300" href="{u('system/theme/template_newfile?dir='.$dir)}">
 				<i class="fa fa-file"></i><b>{t('新建模板')}</b>
 			</a>
-			<a class="btn btn-default btn-icon-text" href="javascript:location.reload();">
-				<i class="fa fa-refresh"></i><b>{t('刷新')}</b>
+			<a class="btn btn-default btn-icon" href="javascript:location.reload();" title="{t('刷新')}">
+				<i class="fa fa-refresh"></i></b>
 			</a>
 		</div>
 	</div><!-- main-header -->

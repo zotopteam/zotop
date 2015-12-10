@@ -24,9 +24,9 @@
 			<td class="text-center" width="40">{t('状态')}</td>
 			<td class="w300">{t('名称')}</td>
 			<td class="w140">{t('标识')}</td>					
-			<td>{t('描述')}</td>
-			<td class="w140">{t('类型')}</td>	
-			<td class="w80">{t('数据')}</td>
+			<td class="hidden-sm">{t('描述')}</td>
+			<td class="hidden">{t('类型')}</td>	
+			<td class="hidden-sm">{t('数据')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -37,7 +37,7 @@
 					{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}
 				</td>
 				<td>
-					<div class="title">{$r['name']} </div>
+					<div class="title"><i class="fa {$r.icon} fa-fw"></i> {$r['name']} </div>
 					<div class="manage">
 						<a class="js-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
 						<s>|</s>
@@ -51,14 +51,14 @@
 					</div>
 				</td>
 				<td>{$r['id']}</td>
-				<td>{$r['description']}</td>
-				<td>					
+				<td class="hidden-sm">{$r['description']}</td>
+				<td class="hidden">					
 					{if $r.app='content'}
 						{if $r.model=='extend'} {t('扩展模型')} {else} {t('基础模型')} {/if}
 					{/if}
 				</td>				
 				
-				<td>{$r['datacount']} {t('条')}</td>
+				<td class="hidden-sm">{$r['datacount']} {t('条')}</td>
 			</tr>
 		{/loop}
 		</tbody>

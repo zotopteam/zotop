@@ -5,17 +5,31 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">
-		{if $keywords}{t('Tag搜索“%s”',$keywords)}{else}{$title}{/if}
-		</div>
-		<form method="post" class="searchbar">
-			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" style="width:200px"/>
-			<button type="submit"><i class="icon icon-search"></i></button>
+		
+		{if $keywords}
+			<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
+			<div class="title pull-center">{t('搜索：%s',$keywords)}</div>
+		{else}
+			<div class="title">{$title}</div>
+		{/if}
+		
+
+		<form class="searchbar input-group" method="post" role="search">				
+			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+			</span>
 		</form>
+
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 		{if empty($data)}
-			<div class="nodata">{t('暂时没有任何数据')}</div>
+		<div class="nodata">
+			<i class="fa fa-frown-o"></i>
+			<h1>
+				{t('暂时没有任何数据')}
+			</h1>
+		</div>
 		{else}
 			{form::header()}
 			<table class="table zebra list datalist" cellspacing="0" cellpadding="0">
@@ -45,7 +59,8 @@
 		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
 
 		<input type="checkbox" class="checkbox select-all middle">
-		<a class="btn operate" href="{u('content/admintags/operate/delete')}">{t('删除')}</a>
+		
+		<a class="btn btn-default operate" href="{u('content/admintags/operate/delete')}">{t('删除')}</a>
 	</div><!-- main-footer -->
 </div><!-- main -->
 <script type="text/javascript">

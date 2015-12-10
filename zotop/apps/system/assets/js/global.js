@@ -8,11 +8,11 @@ $(function(){
 	$('input[placeholder], textarea[placeholder]').placeholder();
 
 	$(document).tooltip({placement:function(){
-		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
-	},selector:'[title]',container:'body',html:true});
+		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
+	},selector:'[title]',html:true});
 
 	$('.tooltip-block').tooltip({placement:function(){
-		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto';
+		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
 	},title:function(){
 		return '<div class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</div>';
 	},container:'body',html:true});
@@ -180,7 +180,7 @@ $(function(){
 					html: true,
 					title: value.message,
 					placement: function(){
-						return this.$element.data('placement') ? this.$element.data('placement') : 'top';
+						return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
 					},				
 					template: '<div class="tooltip tooltip-error" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
 				});

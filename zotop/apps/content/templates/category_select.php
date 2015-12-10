@@ -1,32 +1,33 @@
 {template 'dialog.header.php'}
-<div class="controls" style="margin:8px;height:280px;overflow:auto;">
-		<table id="tree" class="table list hidden">
-			<tbody>
-				<tr data-tt-id="0">
-					<td class="name"><i class="icon icon-folder"></i>{t('根栏目')}</td>
-				</tr>
-				{loop m('content.category.active') $c}
-						<tr data-tt-id="{$c['id']}" data-tt-parent-id="{$c['parentid']}" {if $id == $c['id']}class="selected"{/if}>
-							<td class="name"><i class="icon {if $c['childid']}icon-folder{else}icon-item{/if}"></i>{$c['name']}</td>
-						</tr>
-				{/loop}
-			</tbody>
-		</table>
-</div>
 
-<link rel="stylesheet" type="text/css" href="{A('system.url')}/common/css/jquery.treetable.css"/>
-<script type="text/javascript" src="{A('system.url')}/common/js/jquery.treetable.js"></script>
+{form}
+	<table id="tree" class="table table-hover table-nowrap table-border list hidden">
+		<tbody>
+			<tr data-tt-id="0">
+				<td class="name"><i class="fa fa-folder fa-fw text-primary"></i> {t('根栏目')}</td>
+			</tr>
+			{loop m('content.category.active') $c}
+					<tr data-tt-id="{$c['id']}" data-tt-parent-id="{$c['parentid']}" {if $id == $c['id']}class="selected"{/if}>
+						<td class="name"><i class="fa {if $c['childid']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$c['name']}</td>
+					</tr>
+			{/loop}
+		</tbody>
+	</table>
+{/form}
+
+<link rel="stylesheet" type="text/css" href="{A('system.url')}/assets/css/jquery.treetable.css"/>
+<script type="text/javascript" src="{A('system.url')}/assets/js/jquery.treetable.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$("#tree").treetable({
 			column : 0,
-			indent : 18,
+			indent : 22,
 			expandable : true,
 			persist: true,
 			initialState : 'collapsed', //"expanded" or "collapsed".
 			clickableNodeNames : true,
-			stringExpand: "{t('展开')}",
-			stringCollapse: "{t('关闭')}"
+			stringExpand:null,
+			stringCollapse:null
 		}).removeClass('hidden');
 
 		$("#tree").treetable("reveal", "{$id}");

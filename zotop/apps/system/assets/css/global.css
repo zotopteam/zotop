@@ -67,7 +67,7 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 .pagination>.active>a,.pagination>.active>span,.pagination>.active>a:hover,.pagination>.active>span:hover,.pagination>.active>a:focus,.pagination>.active>span:focus{background-color:#0064ae;border-color:#0064ae;}
 
 .tooltip{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;z-index:99999;}
-.tooltip-inner{padding:8px 15px;font-size:13px;line-height:150%;text-align:left;max-width:600px;}
+.tooltip-inner{padding:8px 15px;font-size:13px;line-height:150%;text-align:left;max-width:100%;white-space: nowrap;}
 
 .tooltip-error.top .tooltip-arrow{border-top-color:#ff0000;}
 .tooltip-error.bottom .tooltip-arrow{border-bottom-color:#ff0000;}
@@ -344,9 +344,9 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .main{margin:0;height:100%;position:relative;}
 .main-header{vertical-align:middle;text-align:center;position:relative;clear:both;border-bottom:1px solid #efefef;background-color:#fff;height:60px;padding:5px 10px;}
 
-.main-header .goback{float:left;display:block;font-size:16px;padding-right:10px;margin:15px 5px; line-height:20px;border-right:solid 1px #ebebeb;}
-.main-header .goback a{text-decoration:none;min-width:18px;display:block;}
-.main-header .goback i{margin-right:5px;}
+.main-header .goback{float:left;display:block;font-size:28px;margin:10px 10px 10px 0; line-height:20px;}
+.main-header .goback a{text-decoration:none;min-width:28px;display:block;border-radius: 50%;}
+.main-header .goback a:hover{background: #ebebeb;}
 .main-header .goback span{display: none;}
 
 .main-header .title{float:left;font-size:21px;font-weight:normal;padding:15px 5px;line-height:20px;margin-right: 10px;}
@@ -355,7 +355,9 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 
 .main-header .breadcrumb{float:left;font-size:16px;font-weight:normal;padding:15px 5px;line-height:20px;background:transparent;}
 .main-header .breadcrumb>li+li:before{font-family:FontAwesome;content:"\f105";padding-right:7px;}
+.main-header .breadcrumb>li.back+li:before{content:"|";}
 .main-header .breadcrumb>li>a:hover{text-decoration:none;}
+.main-header .breadcrumb>li>a>i{margin-right:2px;}
 
 .main-header .btn{margin:8px 4px;}
 .main-header .btn-group{margin:8px 4px;}

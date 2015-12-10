@@ -4,9 +4,9 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i> <span>{t('上一级')}</span></a></div>
-		<div class="title hidden">{$title}</div>
+		<div class="title">{$title}</div>
 		<ul class="breadcrumb hidden-xs">
+			<li class="back"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('上一级')}</span></a></li>
 			<li><a href="{u('system/theme/index')}"><i class="fa fa-magic"></i> {t('主题管理')}</a></li>
 			<li><a href="{u('system/theme/template?theme='.$theme)}"><i class="fa fa-table"></i> {t('模版管理')}</a></li>
 			{loop $position $p}

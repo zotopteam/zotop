@@ -3,17 +3,12 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{$title}</div>	
-
-	
-		{if $category}
-		<div class="goback"><a href="{u('content/category/index/'.$category.parentid)}"><i class="fa fa-angle-left"></i><span>{t('上一级')}</span></a></div>
-		{/if}
-
+		<div class="title">{$title}</div>
 
 		{if $parents}
 		<div class="breadcrumb hidden-sm">
-			<li><a href="{u('content/category')}">{$title}</a></li>
+			<li class="back"><a href="{u('content/category/index/'.$category.parentid)}"><i class="fa fa-angle-left"></i><span>{t('上一级')}</span></a></li>
+			<li class="root"><a href="{u('content/category')}">{$title}</a></li>
 			{loop $parents $p}
 			<li><a href="{u('content/category/index/'.$p['id'])}">{$p['name']}</a></li>
 			{/loop}

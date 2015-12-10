@@ -129,11 +129,11 @@
 			}else{
 				var option = $(this).attr('class').split(' ');
 
-				$(this).addClass('current').siblings("a").removeClass('current');
+				$(this).addClass('active').siblings("a").removeClass('active');
 
 				$.each(option, function(i, cls){
-					$('tr.options').hide();
-					$('tr.'+cls).show();
+					$('.options').hide();
+					$('.'+cls).show();
 				});
 			}
 		})

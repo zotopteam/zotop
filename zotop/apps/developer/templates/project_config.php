@@ -53,7 +53,7 @@
 	// 添加节点
 	configlist.addrow = function(key, val){
 		var row = $('<tr>'+
-		'<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;</td>'+
+		'<td class="drag">&nbsp;</td>'+
 		'<td><input type="text" class="text required" style="width:60%" name="config_key[]" value="'+ ( key || '' ) +'" placeholder="{t('只允许英文，数字和下划线')}"  pattern="^[a-z0-9_]+$"></td>'+
 		'<td><input type="text" class="text required" style="width:60%" name="config_val[]" value="'+ ( val || '' )+'"></td>'+
 		'<td><a href="javascript:;" class="delete" onclick="configlist.delrow(this)"><i class="icon icon-delete"></i> {t('删除')}</a></td>'+

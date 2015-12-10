@@ -32,7 +32,7 @@
 				<tbody>
 				{loop $data $r}
 					<tr>
-						<td class="drag" title="{t('拖动排序')}" data-placement="right">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+						<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
 						<td class="center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
 						<td>
 							<div class="title textflow">{$r['name']}</div>

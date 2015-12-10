@@ -131,7 +131,7 @@
 		datalist.addrow = function(pattern, route){
 			
 			var rowHtml = '<tr>'+
-			'<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;</td>'+
+			'<td class="drag">&nbsp;</td>'+
 			'<td><input type="text" class="form-control text" name="url_route[]" value="'+ ( route || '' ) +'" placeholder="{t('示例参考')}: content/<c>/<id>"></td>'+
 			'<td><input type="text" class="form-control text" name="url_pattern[]" value="'+ ( pattern || '' ) +'" placeholder="{t('示例参考')}: content/<c:index|list>-<id:num>.html"></td>'+
 			'<td class="manage"><a href="javascript:;" class="delete" onclick="datalist.delrow(this)"><i class="fa fa-trash"></i> {t('删除')}</a></td>'+

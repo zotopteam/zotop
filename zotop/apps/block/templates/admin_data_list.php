@@ -38,7 +38,7 @@
 				<tbody>
 				{loop m('block.datalist.getlist',$block.id) $i $r}
 					<tr>
-						<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
+						<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
 						<td class="text-center"></td>
 						<td>
 							<div class="title text-overflow">

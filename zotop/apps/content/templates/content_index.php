@@ -80,8 +80,8 @@
 			<td class="text-center" width="40">{t('状态')}</td>
 			<td>{t('标题')}</td>
 			<td class="text-center" width="80">{t('点击')}</td>
-			<td width="80">{t('模型')}</td>
-			<td>{t('栏目')}</td>
+			<td class="text-center">{t('模型')}</td>
+			<td class="text-center">{t('栏目')}</td>
 			<td>{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
@@ -129,8 +129,8 @@
 				</td>
 			
 				<td class="text-center">{$r['hits']}</td>
-				<td><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
-				<td><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
+				<td class="text-center"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
+				<td class="text-center"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
 				<td>
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>
@@ -197,7 +197,7 @@ $(function(){
 				var $dialog = $.dialog({
 					title:text,
 					url:"{u('content/category/select/'.$categoryid)}",
-					width:400,
+					width:600,
 					height:300,
 					ok:function(categoryid){
 						if ( categoryid ){
