@@ -184,7 +184,7 @@ label[for]{cursor:pointer;}
 .form-captcha a{position:absolute;top:3px;right:5px;z-index:3;width:auto;white-space:nowrap;vertical-align:middle;}
 
 /*input-group-merge*/
-.input-group-merge {border:1px solid #ccc;background:#fff;border-radius:4px;overflow:hidden;}
+.input-group-merge {border:1px solid #ccc;background:#fff;border-radius:4px;}
 .input-group-merge .form-control,.input-group-merge .input-group-addon{border:0 none;background:transparent;-webkit-box-shadow:none;box-shadow:none;}
 .input-group-merge .form-control:focus{-webkit-box-shadow:none;box-shadow:none;border:0 none;outline:0 none;display:table-cell !important;}
 .input-group-merge .fa{color:#0072C6;}

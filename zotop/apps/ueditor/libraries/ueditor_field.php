@@ -30,9 +30,9 @@ class ueditor_field
 			}
 
 			// 编辑器参数
-			$options = array('root'=>A('ueditor.url').'/editor/', 'theme'=>'standard', 'resize'=>0, 'tools'=>false, 'server'=>U('ueditor/server'), 'css'=> ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css');
+			$options = array('root'=>A('ueditor.url').'/editor/', 'toolbar'=>'standard', 'resize'=>0, 'tools'=>false, 'server'=>U('ueditor/server'), 'css'=> ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css');
 
-			foreach( array('theme','resize','tools','css') as $attr )
+			foreach( array('toolbar','resize','tools','css') as $attr )
 			{
 				if ( isset($attrs[$attr]) and !empty($attrs[$attr]) )
 				{
@@ -49,7 +49,6 @@ class ueditor_field
 
 			$attrs['id'] 	= empty($attrs['id']) ? $attrs['name'] : $attrs['id'];
 			$attrs['rows'] 	= empty($attrs['rows']) ? $rows[$options['theme']] : $attrs['rows'];
-			$attrs['class'] = isset($attrs['class']) ? $attrs['class'].' '.$options['theme'] : $options['theme'];
 
 			// 开启额外工具条
 			if ( $options['tools'] )

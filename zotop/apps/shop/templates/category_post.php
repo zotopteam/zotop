@@ -81,7 +81,7 @@
 			<tr>
 				<td class="label">{form::label(t('简介'),'content',false)}</td>
 				<td class="input">
-					{form::field(array('type'=>'editor','name'=>'content','value'=>$data['content'],'tools'=>true,'theme'=>'full','dataid'=>$data['dataid']))}
+					{form::field(array('type'=>'editor','name'=>'content','value'=>$data['content'],'tools'=>true,'toolbar'=>'full','dataid'=>$data['dataid']))}
 				</td>
 			</tr>
 			<tr>

@@ -25,10 +25,10 @@ class tinymce_field
 				'simple'   => 8
 			));
 
-			$attrs['theme'] = $attrs['theme'] ? $attrs['theme'] : 'standard';
 			$attrs['id']    = empty($attrs['id']) ? $attrs['name'] : $attrs['id'];
-			$attrs['rows']  = empty($attrs['rows']) ? $rows[$attrs['theme']] : $attrs['rows'];
-			$attrs['class'] = isset($attrs['class']) ? $attrs['class'].' '.$attrs['theme'] : $attrs['theme'];
+			$attrs['rows']  = empty($attrs['rows']) ? $rows[$attrs['toolbar']] : $attrs['rows'];
+			$attrs['rows']  = intval($attrs['rows']) ? intval($attrs['rows']) : 20;
+			$attrs['style'] = $attrs['style']."visibility:hidden;";
 
 			// 上传参数
 			$upload = array('app'=>ZOTOP_APP,'field'=>$attrs['name'],'select'=>0);
@@ -43,14 +43,14 @@ class tinymce_field
 
 			// 编辑器参数
 			$options = array(
-				'toolbar'          => ($attrs['toolbar'] ? $attrs['toolbar'] : $attrs['theme']),
-				'resize'           => 0,
 				'tools'            => false,
+				'toolbar'          => ($attrs['toolbar'] ? $attrs['toolbar'] : 'standard'),
+				'resize'           => true,				
 				'imagetools_proxy' => U('tinymce/server/proxy'),
-				'css'              => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css'
+				'content_css'      => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css'
 			);
 
-			foreach( array('toolbar','resize','tools','css') as $attr)
+			foreach( array('toolbar','resize','tools','content_css') as $attr)
 			{
 				if ( isset($attrs[$attr]) and !empty($attrs[$attr]) )
 				{

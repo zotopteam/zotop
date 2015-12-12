@@ -9,7 +9,7 @@ $(function(){
 
 	$(document).tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
-	},selector:'[title]',html:true});
+	},selector:'[title]',container:'body',html:true});
 
 	$('.tooltip-block').tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';

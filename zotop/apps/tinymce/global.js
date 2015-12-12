@@ -1,22 +1,24 @@
 //编辑器函数
 $.fn.editor = function(options){
 	var settings = {};
-	settings.width   = $(this).outerWidth();
-	settings.height  = $(this).outerHeight();
-	settings.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table contextmenu paste imagetools'];
-	settings.menubar = false;
-
-	settings.language = 'zh_CN';
+	settings.width         = $(this).outerWidth();
+	settings.height        = $(this).outerHeight();
+	settings.plugins       = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools'];
+	settings.menubar       = false;
+	//settings.elementpath = false;
+	settings.language      = 'zh_CN';
+	settings.skin          = 'zotop';
+	settings.toolbar_items_size = 'small';
 
 	switch(options.toolbar){
 		case 'basic':
-			options.toolbar =  'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+			options.toolbar =  'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
 			break;
 		case 'standard':
-			options.toolbar =  'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+			options.toolbar =  'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
 			break;
-		default:
-			options.toolbar =  "undo redo | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselectcut copy paste | searchreplace | bullist numlist outdent indent | blockquote link unlink anchor image media code insertdatetime forecolor backcolor table | hr removeformat | subscript superscript | charmap emoticons | visualchars visualblocks nonbreaking template pagebreak restoredraft preview fullscreen";
+		case 'full':
+			options.toolbar =  "undo redo copy paste searchreplace removeformat | forecolor backcolor bold italic underline strikethrough subscript superscript formatselect fontselect fontsizeselectcut | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote link unlink anchor image media  insertdatetime table charmap emoticons hr | visualchars visualblocks nonbreaking template pagebreak restoredraft preview code fullscreen";
 			break;
 	}
 

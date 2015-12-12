@@ -27,9 +27,9 @@
 
 
 	<div class="form-group">
-		<div class="col-sm-2 control-label">{t('编辑器设置')}</div>
+		<div class="col-sm-2 control-label">{t('工具栏')}</div>
 		<div class="col-sm-10">
-			{form::field(array('type'=>'radio','name'=>'settings[theme]','value'=>$data['settings']['theme'],'options'=>array('basic'=>t('简洁'),'standard'=>t('标准'),'full'=>t('全能'))))}
+			{form::field(array('type'=>'radio','name'=>'settings[toolbar]','value'=>$data['settings']['toolbar'],'options'=>array('basic'=>t('简洁'),'standard'=>t('标准'),'full'=>t('全能'))))}
 		</div>
 	</div>
 	<div class="form-group">

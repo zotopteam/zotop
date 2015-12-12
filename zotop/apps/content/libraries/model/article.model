@@ -71,12 +71,11 @@
 'notnull'=>'1',
 'unique'=>'0',
                     'settings'=>array(
-'theme'=>'full',
+'toolbar'=>'full',
                          'tools'=>array('image','file'),
                          'image_resize'=>'1',
                          'image_width'=>'980',
-                         'image_height'=>'600',
-                         'style'=>''
+                         'image_height'=>'600'
                     ),
                     'tips'=>'',
                     'base'=>'1',
@@ -262,7 +261,7 @@
 
 <div id="zotop_trace">
 	<div id="zotop_trace_open">
-		1.153066 S	</div>
+		1.124064 S	</div>
 	<div id="zotop_trace_tabs">
 		<div id="zotop_trace_tabs_nav">
 			<span class="on">基本信息</span>
@@ -274,11 +273,11 @@
 		<div id="zotop_trace_tabs_box">
 			
 			<dl class="on">
-				<dd>请求时间 : 2015-12-04 19:06:15</dd>
+				<dd>请求时间 : 2015-12-12 10:21:37</dd>
 				<dd>请求方法 : HTTP/1.1 GET</dd>
 				<dd>请求URL : http://127.0.0.4/index.php/content/model/export/article</dd>
-				<dd>运行时间 : 1.154066 S</dd>
-				<dd>内存开销 : 1.852600 Mb</dd>
+				<dd>运行时间 : 1.125064 S</dd>
+				<dd>内存开销 : 1.856407 Mb</dd>
 				<dd>数据查询 : <b>1</b></dd>
 				<dd>缓存读写 : GET: <b>2</b> SET: <b>0</b></dd>
 				<dd>文件加载 : <b>36</b></dd>				
@@ -290,7 +289,7 @@
 									<dd><i>2</i> <span>E:\zotop2\zotop\zotop.php ( 37.87KB )</span> </dd>
 									<dd><i>3</i> <span>E:\zotop2\zotop\libraries\classes\runtime.php ( 4.71KB )</span> </dd>
 									<dd><i>4</i> <span>E:\zotop2\zotop\preload.php ( 1.79KB )</span> </dd>
-									<dd><i>5</i> <span>E:\zotop2\zotop\config\app.php ( 6.89KB )</span> </dd>
+									<dd><i>5</i> <span>E:\zotop2\zotop\config\app.php ( 7.36KB )</span> </dd>
 									<dd><i>6</i> <span>E:\zotop2\zotop\apps\system\preload.php ( 0.36KB )</span> </dd>
 									<dd><i>7</i> <span>E:\zotop2\zotop\apps\developer\preload.php ( 0.03KB )</span> </dd>
 									<dd><i>8</i> <span>E:\zotop2\zotop\config\zotop.php ( 0.09KB )</span> </dd>
@@ -300,7 +299,7 @@
 									<dd><i>12</i> <span>E:\zotop2\zotop\config\session.php ( 0.30KB )</span> </dd>
 									<dd><i>13</i> <span>E:\zotop2\zotop\config\system.php ( 1.64KB )</span> </dd>
 									<dd><i>14</i> <span>E:\zotop2\zotop\config\site.php ( 0.24KB )</span> </dd>
-									<dd><i>15</i> <span>E:\zotop2\zotop\runtime\global.php ( 12.24KB )</span> </dd>
+									<dd><i>15</i> <span>E:\zotop2\zotop\runtime\global.php ( 12.46KB )</span> </dd>
 									<dd><i>16</i> <span>E:\zotop2\zotop\libraries\classes\form.php ( 14.29KB )</span> </dd>
 									<dd><i>17</i> <span>E:\zotop2\zotop\libraries\classes\template.php ( 20.07KB )</span> </dd>
 									<dd><i>18</i> <span>E:\zotop2\zotop\libraries\classes\application.php ( 10.54KB )</span> </dd>
@@ -333,17 +332,17 @@
 								
 												<dd>[ zotop.boot ] ---> translator_alias (Runtime: 0.000000S  /  Memory: -0KB)</dd>
 								
-												<dd class="end">[ zotop.boot ]  END (Runtime: 0.002000S  /  Memory: 111KB)</dd>
+												<dd class="end">[ zotop.boot ]  END (Runtime: 0.001000S  /  Memory: 111KB)</dd>
 								
 												<dd class="start">[ zotop.route ] START (3 events)</dd>
 								
-												<dd>[ zotop.route ] ---> router::init (Runtime: 0.006001S  /  Memory: 314KB)</dd>
+												<dd>[ zotop.route ] ---> router::init (Runtime: 0.005000S  /  Memory: 314KB)</dd>
 								
 												<dd>[ zotop.route ] ---> router::route (Runtime: 0.000000S  /  Memory: -0KB)</dd>
 								
 												<dd>[ zotop.route ] ---> system_alias (Runtime: 0.000000S  /  Memory: -0KB)</dd>
 								
-												<dd class="end">[ zotop.route ]  END (Runtime: 0.006001S  /  Memory: 315KB)</dd>
+												<dd class="end">[ zotop.route ]  END (Runtime: 0.005000S  /  Memory: 315KB)</dd>
 								
 												<dd class="start">[ zotop.ready ] START (1 events)</dd>
 								
@@ -356,7 +355,7 @@
 						</dl>
 
 			<dl>
-							<dd> <i>1</i> <span>SELECT * FROM `zotop_content_field` WHERE `modelid` = 'article' ORDER BY `listorder` ASC ( Runtime: 0.003000S  /  Memory: 14KB )</span> </dd>
+							<dd> <i>1</i> <span>SELECT * FROM `zotop_content_field` WHERE `modelid` = 'article' ORDER BY `listorder` ASC ( Runtime: 0.001000S  /  Memory: 14KB )</span> </dd>
 						</dl>
 
 

@@ -8,10 +8,9 @@
  Description:编辑器内部样式
  */
 
-body {font:16px/1.64 '\5fae\8f6f\96c5\9ed1',Tahoma,Geneva,'\5B8B\4F53';color:#333;word-wrap:break-word;margin:5px;width:auto;}
+body {font:16px/1.64 '\5fae\8f6f\96c5\9ed1',Tahoma,Geneva,'\5B8B\4F53';color:#333;word-wrap:break-word;margin:15px;width:auto;}
 input,textarea,select {margin:0;padding:0;font-size:14px;outline:none;resize:none}
 html:root body,html:root input,html:root button,html:root textarea,html:root select {font-family:Tahoma,Geneva,'\5fae\8f6f\96c5\9ed1','\5B8B\4F53'}
-form,ul,ol,li,dl,dt,dd,h1,h2,h3,h4,h5,p,pre,code,fieldset,legend,th,td {margin:0;padding:0}
 i,em {font-style:normal}
 fieldset,img {border:0}
 button {cursor:pointer}
@@ -32,7 +31,7 @@ th,td {border:1px solid #ddd;padding:5px 10px;font-weight:normal}
 th {background:#f7f7f7;border-top:2px solid #BBB}
 li,ul {margin:auto}
 em {font-style:italic}
-p{margin:8px 0px;}
+p{margin:15px 0px;text-indent:2em;}
 img,embed,object{max-width:100%;}
 
 h1,h2,h3{margin:10px 0;}
