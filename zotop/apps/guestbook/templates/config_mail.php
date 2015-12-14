@@ -20,26 +20,26 @@
 				
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('启用'),'addmail',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{form::field(array('type'=>'bool','name'=>'addmail','value'=>c('guestbook.addmail')))}
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('收件邮箱'),'addmail_sendto',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{form::field(array('type'=>'email','name'=>'addmail_sendto','value'=>c('guestbook.addmail_sendto')))}
 							{form::tips(t('新留言提示邮件将发送到收件邮箱，未填写收件邮箱将不会发送提示邮件'))}
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('邮件标题'),'addmail_title',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{form::field(array('type'=>'text','name'=>'addmail_title','value'=>c('guestbook.addmail_title')))}
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('邮件内容'),'addmail_sendto',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{field type="editor" name="addmail_content" value="c('guestbook.addmail_content')" rows="12" tools="image"}
 						</div>
 					</div>
@@ -50,19 +50,19 @@
 				
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('启用'),'replymail',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{form::field(array('type'=>'bool','name'=>'replymail','value'=>c('guestbook.replymail')))}
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('邮件标题'),'replymail_title',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{form::field(array('type'=>'text','name'=>'replymail_title','value'=>c('guestbook.replymail_title')))}
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('邮件内容'),'replymail_content',false)}</div>
-						<div class="col-sm-10">
+						<div class="col-sm-8">
 							{field type="editor" name="replymail_content" value="c('guestbook.replymail_content')" rows="12" tools="true"}
 						</div>
 					</div>
