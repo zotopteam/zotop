@@ -1542,7 +1542,6 @@ i.mce-i-resize {
 	padding:0 6px;
 	white-space:pre-wrap;
 	*white-space:pre;
-	min-width: 100px;
 	font-size: 14px;
 	line-height: 1.42857143;
 	color: #555;
