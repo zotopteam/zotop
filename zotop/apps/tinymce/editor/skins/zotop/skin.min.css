@@ -602,28 +602,29 @@ div.mce-fullscreen {
 	background-color:#f0f0f0;
 	padding:5px;
 	margin-top:5px;
-	opacity:.8;
-	filter:alpha(opacity=80);
+	opacity:.9;
+	filter:alpha(opacity=90);
 	zoom:1;
 	border-width:1px;
 	border-style:solid;
-	border-color:#ccc
+	border-color:#ccc;
+	border-radius: 4px;
 }
 .mce-notification-success {
 	background-color:#dff0d8;
 	border-color:#d6e9c6
 }
 .mce-notification-info {
-	background-color:#d9edf7;
-	border-color:#779ecb
+	background-color:#0072c6;
+	border-color:#0072c6
 }
 .mce-notification-warning {
 	background-color:#fcf8e3;
 	border-color:#faebcc
 }
 .mce-notification-error {
-	background-color:#f2dede;
-	border-color:#ebccd1
+	background-color:#ff0000;
+	border-color:#ff0000;
 }
 .mce-notification.mce-has-close {
 	padding-right:15px
@@ -668,7 +669,7 @@ div.mce-fullscreen {
 	background-color:#3c763d
 }
 .mce-notification-info *,.mce-notification-info .mce-progress .mce-text {
-	color:#31708f
+	color:#fff
 }
 .mce-notification-info .mce-progress .mce-bar-container {
 	border-color:#779ecb
@@ -686,7 +687,7 @@ div.mce-fullscreen {
 	background-color:#8a6d3b
 }
 .mce-notification-error *,.mce-notification-error .mce-progress .mce-text {
-	color:#a94442
+	color:#fff
 }
 .mce-notification-error .mce-progress .mce-bar-container {
 	border-color:#ebccd1
@@ -701,7 +702,7 @@ div.mce-fullscreen {
 	font-size:20px;
 	font-weight:bold;
 	line-height:20px;
-	color:#858585;
+	color:#fff;
 	cursor:pointer;
 	height:20px;
 	overflow:hidden
@@ -815,8 +816,8 @@ body .mce-abs-layout-item,.mce-abs-end {
 	*padding-bottom:2px
 }
 .mce-btn-small i {
-	line-height:20px;
-	vertical-align:top;
+	/*line-height:20px;*/
+	/*vertical-align:top;*/
 	*line-height:18px
 }
 .mce-btn .mce-caret {

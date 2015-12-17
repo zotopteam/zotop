@@ -3,7 +3,7 @@ $.fn.editor = function(options){
 	var settings = {};
 	settings.width         = $(this).outerWidth();
 	settings.height        = $(this).outerHeight();
-	settings.plugins       = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear wordcount tabfocus powerpaste'];
+	settings.plugins       = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear autosave localautosave wordcount tabfocus powerpaste'];
 	settings.menubar       = false;
 	//settings.elementpath = false;
 	settings.language      = 'zh_CN';
@@ -15,8 +15,7 @@ $.fn.editor = function(options){
 	settings.powerpaste_allow_local_images = true;
 
 	// settings.paste_data_images             = true;
-	// settings.automatic_uploads             = true;
-	
+	// settings.automatic_uploads             = true;	
 	// settings.images_upload_url             = 'postAcceptor1.php';
 	// settings.images_upload_base_path       = '/some/basepath';
 	// settings.images_upload_credentials     =  true;
@@ -30,7 +29,7 @@ $.fn.editor = function(options){
 			options.toolbar =  'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image';
 			break;
 		case 'full':
-			options.toolbar =  "undo redo copy paste searchreplace removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough subscript superscript formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | blockquote link unlink anchor image media  insertdatetime table charmap emoticons hr | visualchars visualblocks nonbreaking template pagebreak restoredraft preview code fullscreen";
+			options.toolbar =  "undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking template pagebreak | localautosave preview code fullscreen";
 			break;
 	}
 
