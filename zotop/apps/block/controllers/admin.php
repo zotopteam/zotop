@@ -109,7 +109,7 @@ class block_controller_admin extends admin_controller
 			return $this->error($this->block->error());
 		}
 		//全部分类
-		$categories = $this->category->getall();
+		$categories = $this->category->select();
 
 		// 获取当前分类
 		$category 	= $this->category->get($categoryid);

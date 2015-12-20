@@ -210,12 +210,8 @@ class block_model_block extends model
 			return array_map(array($this,'clearcache'), $id);
 		}
 
-		// 删除指定区块缓存		
-		$file = BLOCK_PATH_CACHE.DS."{$id}.html";
-
-		file::delete($file);
-
-		return file::exists($file) ? false : true;
+		// 删除指定区块缓存
+		return file::delete(BLOCK_PATH_CACHE.DS."{$id}.html");	
 	}
 
 
