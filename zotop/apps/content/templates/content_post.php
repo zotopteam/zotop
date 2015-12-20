@@ -1,8 +1,6 @@
 {template 'header.php'}
-{template 'content/admin_side.php'}
 
-
-<div class="main side-main">
+<div class="main">
 	<div class="main-header">
 		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">
@@ -37,8 +35,8 @@
 			<div class="form-horizontal">
 				{loop m('content.field.getfields',$data.modelid,$data) $f}
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
-					<div class="col-sm-8">
+					<div class="col-sm-2 col-md-2 col-lg-1 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
+					<div class="col-sm-10 col-md-10 col-lg-10">
 						{form::field($f['field'])}
 						{form::tips($f['tips'])}
 					</div>
@@ -57,8 +55,6 @@
 		{else}
 		{form::field(array('type'=>'button','value'=>t('保存草稿'),'class'=>'submit btn-primary','rel'=>'draft'))}
 		{/if}
-
-		{form::field(array('type'=>'button','value'=>t('返回列表'), 'onclick'=>'history.go(-1)'))}
 
 	</div><!-- main-footer -->
 	{form::footer()}

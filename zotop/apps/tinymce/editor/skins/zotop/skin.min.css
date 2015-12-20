@@ -939,14 +939,18 @@ i.mce-i-checkbox {
 	*height:32px
 }
 .mce-combobox input {
-	height:28px
+	height:28px;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
 }
 .mce-combobox.mce-disabled input {
 	color:#adadad
 }
 .mce-combobox .mce-btn {
-	border:1px solid #ebebeb;
-	border-left:0
+	border:1px solid #ccc;
+	border-left:0;
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;	
 }
 .mce-combobox button {
 	padding-right:8px;

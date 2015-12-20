@@ -50,6 +50,7 @@ define('ZOTOP_URL',             trim(dirname($_SERVER['SCRIPT_NAME']), DS)); //å
 define('ZOTOP_URL_CMS',         ZOTOP_URL . '/'.basename(dirname(__FILE__)));
 define('ZOTOP_URL_APPS',        ZOTOP_URL_CMS . '/apps');
 define('ZOTOP_URL_THEMES',      ZOTOP_URL_CMS . '/themes');
+define('ZOTOP_URL_RUNTIME',     ZOTOP_URL_CMS . '/runtime');
 define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
 define('ZOTOP_URL_PUBLIC',      ZOTOP_URL . '/public');
 

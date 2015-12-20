@@ -321,13 +321,32 @@ class file
      */
 	public static function remote($url, $local)
 	{
-        $cp = curl_init($url);
-        $fp = fopen($local,"w");
-        curl_setopt($cp, CURLOPT_FILE, $fp);
-        curl_setopt($cp, CURLOPT_HEADER, 0);
-        curl_exec($cp);
-        curl_close($cp);
-        fclose($fp);
+        $url = str_replace("&amp;", "&", $url);
+
+        // 必须是远程文件
+        if ( strpos($url, "http") !== 0 )
+        {
+        	return false;
+        }
+
+       	// 判断文件是否存在
+       	$heads = get_headers($url, 1);
+		if (!(stristr($heads[0], "200") && stristr($heads[0], "OK"))) {
+            return false;
+        }
+
+ 		//打开输出缓冲区并获取远程图片
+        ob_start();
+
+        $context = stream_context_create(
+            array('http' => array('follow_location' => false))
+        );
+
+        readfile($url, false, $context);
+        $content = ob_get_contents();
+        ob_end_clean();
+
+        return file::put($local, $content);
 	}
 
 	/**

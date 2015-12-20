@@ -20,8 +20,8 @@ class tinymce_field
 	{
 			//定义默认的行数高度
 			$rows = zotop::filter('editor.rows',array(
-				'full'     => 25,
-				'standard' => 15,
+				'full'     => 20,
+				'standard' => 12,
 				'simple'   => 8
 			));
 
@@ -43,11 +43,12 @@ class tinymce_field
 
 			// 编辑器参数
 			$options = array(
-				'tools'            => false,
-				'toolbar'          => ($attrs['toolbar'] ? $attrs['toolbar'] : 'standard'),
-				'resize'           => true,				
-				'imagetools_proxy' => U('tinymce/server/proxy'),
-				'content_css'      => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css'
+				'tools'             => false,
+				'toolbar'           => ($attrs['toolbar'] ? $attrs['toolbar'] : 'standard'),
+				'resize'            => true,				
+				'imagetools_proxy'  => U('tinymce/server/proxy'),
+				'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
+				'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css'
 			);
 
 			foreach( array('toolbar','resize','tools','content_css') as $attr)

@@ -3,33 +3,43 @@ $.fn.editor = function(options){
 	var settings = {};
 	settings.width         = $(this).outerWidth();
 	settings.height        = $(this).outerHeight();
-	settings.plugins       = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear autosave localautosave wordcount tabfocus powerpaste'];
 	settings.menubar       = false;
 	//settings.elementpath = false;
 	settings.language      = 'zh_CN';
 	settings.skin          = 'zotop';
-	//settings.autoresize    = true;
-
-	settings.toolbar_items_size            = 'small';
-	
+	//settings.autoresize                  = true;
+	settings.toolbar_items_size            = 'small';	
 	settings.powerpaste_allow_local_images = true;
+	//settings.paste_data_images           = false;
+	
+	settings.convert_urls                  = false;
+	settings.image_advtab                  = true;	
+	settings.images_upload_credentials     = true;
+	settings.images_upload_base_path       ='/';
+	settings.mage_prepend_url              = 'http://www.tinymce.com/images/';
+	
+	// settings.file_browser_callback	= function(field_name, url, type, win) {
+	// 	win.document.getElementById(field_name).value = 'my browser value'+url+'///'+type;
+	// };
 
-	// settings.paste_data_images             = true;
-	// settings.automatic_uploads             = true;	
-	// settings.images_upload_url             = 'postAcceptor1.php';
-	// settings.images_upload_base_path       = '/some/basepath';
-	// settings.images_upload_credentials     =  true;
+	// settings.images_upload_handler = function(blobInfo, success, failure){
+	// 	console.log(blobInfo);
+	// 	success('dddddd');
+	// };
 
 
 	switch(options.toolbar){
 		case 'basic':
-			options.toolbar =  'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+			options.plugins = ['advlist autolink lists link image media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus'];		
+			options.toolbar = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
 			break;
 		case 'standard':
-			options.toolbar =  'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image';
+			options.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus powerpaste'];		
+			options.toolbar = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image';
 			break;
 		case 'full':
-			options.toolbar =  "undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking template pagebreak | localautosave preview code fullscreen";
+			options.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus powerpaste'];
+			options.toolbar = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking template pagebreak | localautosave preview code fullscreen';
 			break;
 	}
 
@@ -78,7 +88,7 @@ $(function(){
 						html += '<a href="'+url+'" title="'+(description||name)+'" target="_blank" class="attachment '+ext+'">'+name+'</a>';
 					}
 				}
-				
+
 				editor.insertContent(html);
 				return true;
 			},

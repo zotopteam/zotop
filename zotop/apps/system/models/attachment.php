@@ -189,6 +189,61 @@ class system_model_attachment extends model
 		return $this->error($upload->error);
 	}
 
+	/**
+	 * 上传将内容中的远程文件和临时文件 TODO 暂未完成，没有加入临时文件的处理
+	 * 
+	 * @param  [type] $string [description]
+	 * @return [type]         [description]
+	 */
+	public function upload_content($string)
+	{
+		return preg_replace("/(http:\\/\\/[^>]*?\\.(".$this->allowexts."))/ie", "\$this->upload_content_callback('\\1')", $string);
+	}
+
+	/**
+	 * 本地化回调 TODO 暂未完成
+	 * 
+	 * @param  [type] $file [description]
+	 * @return [type]       [description]
+	 */
+	private function upload_content_callback($file)
+	{
+		if ( !preg_match( "#^(".$this->site_url.")#", $file) )
+		{
+			$file = $this->remote_download($file);
+		}
+
+		return $file;
+	}
+
+	/**
+	 * 远程文件本地化
+	 * 
+	 * @param  string $file 远程文件url
+	 * @return 文件链接
+	 */
+	public function remote_download($file)
+	{
+		if ( is_array($file) )
+		{
+			return array_map(array($this,'remote_download'), $file);
+		}
+
+		$filename = date('Ymdhis').rand(1000, 9999).'.'.file::ext($file);
+		$filepath = $this->savepath.$filename;
+
+		if ( file::remote($file,$filepath) )
+		{
+			// TODO 处理远程过来的文件，如图片加水印
+			
+			return ZOTOP_URL_UPLOADS.'/'.$filename;
+		}
+
+		return false;
+	}
+
+
+
     /**
      * 添加
      *
