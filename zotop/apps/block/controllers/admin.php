@@ -47,6 +47,7 @@ class block_controller_admin extends admin_controller
 
 		// 获取分类信息
 		$categories = $this->category->getall();
+<<<<<<< HEAD
 
 		// 如果没有任何分类，则转向分类管理
 		if ( empty($categories) ) 
@@ -59,6 +60,8 @@ class block_controller_admin extends admin_controller
 		{
 			$categoryid = reset(array_keys($categories));
 		}
+=======
+>>>>>>> 96c8ff80843e568241318a5253826bbc4f31fc5f
 
 		// 搜索关键词
 		if ( $keywords = $_REQUEST['keywords'] )
@@ -154,8 +157,13 @@ class block_controller_admin extends admin_controller
 		}
 
 		//全部分类
+<<<<<<< HEAD
 		$categories = $this->category->select();
 		
+=======
+		$categories = $this->category->getall();
+
+>>>>>>> 96c8ff80843e568241318a5253826bbc4f31fc5f
 		// 当前数据
 		$data       = $this->block->get($id);
 		

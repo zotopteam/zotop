@@ -36,6 +36,7 @@
 		{else}
 		
 		{form::header()}
+<<<<<<< HEAD
 			<table class="table table-nowrap sortable" id="datalist" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
@@ -45,12 +46,24 @@
 				<td>{t('类型')}</td>
 				<td>{t('调用代码')}</td>			
 				<td width="160">{t('更新时间')}</td>
+=======
+			<table class="table table-hover table-nowrap list sortable" id="datalist" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+				<td class="drag">&nbsp;</td>
+				<td>{t('名称')}</td>
+				<td class="text-center" width="8%">{t('编号')}</td>
+				<td class="text-center" width="8%">{t('类型')}</td>				
+				<td>{t('调用代码')}</td>
+				<td width="15%">{t('更新时间')}</td>
+>>>>>>> 96c8ff80843e568241318a5253826bbc4f31fc5f
 				</tr>
 			</thead>
 			<tbody>
 
 			{loop $data $r}
 				<tr>
+<<<<<<< HEAD
 					<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
 					<td class="text-center">
 					{$r.id}
@@ -67,13 +80,30 @@
 							<a href="{u('block/admin/edit/'.$r['id'])}"><i class="fa fa-cog"></i> {t('设置')}</a>
 							<s>|</s>
 							<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
+=======
+					<td class="drag" title="{t('拖动排序')}" data-placement="left">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+					<td>
+						<div class="title textflow" title="{$r['title']}"{if $r['style']}style="{$r['style']}"{/if}>
+						{if $r.name} {$r['name']} {else} <i class="text-mute">{t('自动创建')}</i> {/if}
+						<span class="description">{$r['description']}</span>
+						</div>
+						<div class="manage">
+							<a href="{u('block/admin/data/'.$r['id'])}"><i class="fa fa-database fa-fw"></i> {t('内容维护')}</a>
+							<s>|</s>
+							<a class="js-ajax-post" href="{u('block/admin/publish/'.$r['id'])}"> <i class="fa fa-publish fa-fw"></i> {t('发布')}</a>
+							<s>|</s>
+							<a href="{u('block/admin/edit/'.$r['id'])}"> <i class="fa fa-cog fa-fw"></i> {t('设置')}</a>
+							<s>|</s>
+							<a class="js-confirm" href="{u('block/admin/delete/'.$r['id'])}"> <i class="fa fa-times fa-fw"></i>{t('删除')}</a>
+>>>>>>> 96c8ff80843e568241318a5253826bbc4f31fc5f
 						</div>
 					</td>
-					<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
+					<td class="text-center">{$r.id}</td>
+					<td class="text-center"><div class="textflow">{m('block.block.types',$r.type)}</div></td>					
 					<td>{$r.tag}</td>
 					<td>
 						<div>{m('system.user.get', $r['userid'], 'username')}</div>
-						<div class="f12 time">{format::date($r['updatetime'])}</div>
+						<div>{format::date($r['updatetime'])}</div>
 					</td>
 				</tr>
 			{/loop}			
