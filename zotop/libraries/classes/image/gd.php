@@ -2,7 +2,7 @@
 defined('ZOTOP') or die('No direct access allowed.');
 
 /**
- * 图片类，Thanks for Kohana
+ * GD 驱动
  *
  * @copyright  (c)2009 zotop team
  * @package    zotop.ui
@@ -11,7 +11,6 @@ defined('ZOTOP') or die('No direct access allowed.');
  */
 class image_gd
 {
-    protected $image = array();
     protected $tmp_image;
 
     // A transparent PNG as a string
@@ -29,13 +28,10 @@ class image_gd
     {
         if (image_gd::$checked === false)
         {
-            // Make sure that GD2 is available
             if (!function_exists('gd_info')) throw new zotop_exception(t('需要GD库V2'));
 
-            // Get the GD information
             $info = gd_info();
 
-            // Make sure that the GD2 is installed
             if (strpos($info['GD Version'], '2.') === false)
             {
                 throw new zotop_exception(t('需要GD库V2'));
@@ -64,16 +60,14 @@ class image_gd
     /**
      * 处理图片
      *
+     * @param   array  $file 图片地址
      * @param   array  $image 图片参数
      * @param   array  $actions 操作集合
      * @param   string $target    存储目标文件
      * @return  boolean
      */
-    public function process($image, $actions, $target, $render = false)
+    public function process($file, $image, $actions, $target, $render = false)
     {
-        //存储图像
-        $this->image = $image;
-
         //从actions获取图片质量值，默认为95
         if (isset($actions['quality']))
         {
@@ -85,29 +79,29 @@ class image_gd
         switch ($image['mime'])
         {
             case 'image/jpeg':
-                $create = function_exists('imagecreatefromjpeg') ? 'imagecreatefromjpeg' : '';
-                $save = function_exists('imagejpeg') ? 'imagejpeg' : '';
+                $create  = function_exists('imagecreatefromjpeg') ? 'imagecreatefromjpeg' : '';
+                $save    = function_exists('imagejpeg') ? 'imagejpeg' : '';
                 $quality = ($quality === null) ? 100 : $quality;
                 break;
             case 'image/gif':
                 $create = function_exists('imagecreatefromgif') ? 'imagecreatefromgif' : '';
-                $save = function_exists('imagegif') ? 'imagegif' : '';
+                $save   = function_exists('imagegif') ? 'imagegif' : '';
                 unset($quality);
                 break;
             case 'image/png':
-                $create = function_exists('imagecreatefrompng') ? 'imagecreatefrompng' : '';
-                $save = function_exists('imagepng') ? 'imagepng' : '';
+                $create  = function_exists('imagecreatefrompng') ? 'imagecreatefrompng' : '';
+                $save    = function_exists('imagepng') ? 'imagepng' : '';
                 $quality = 9;
                 break;
         }
 
         if (empty($create) or empty($save))
         {
-            throw new zotop_exception(t('不支持该类型图片: %s', $image['path']));
+            throw new zotop_exception(t('不支持该类型图片: %s', $file));
         }
 
         // 创建临时图像
-        $this->tmp_image = $create($image['path']);
+        $this->tmp_image = $create($file);
 
         // 执行操作
         if ($status = $this->execute($actions))
@@ -325,15 +319,15 @@ class image_gd
      */
     public function watermark($properties)
     {
-        $watermark = new image($properties['watermark']['path']);
-
-        $overlay = imagecreatefromstring($watermark->render());
-
-        $width = imagesx($this->tmp_image);
-        $height = imagesy($this->tmp_image);
-
-        $top = $properties['top'];
-        $left = $properties['left'];
+        $watermark = new image($properties['file']);
+        
+        $overlay   = imagecreatefromstring($watermark->render());
+        
+        $width     = imagesx($this->tmp_image);
+        $height    = imagesy($this->tmp_image);
+        
+        $top       = $properties['top'];
+        $left      = $properties['left'];
 
         switch ($top)
         {
@@ -341,10 +335,10 @@ class image_gd
                 $y = 0 + $properties['offsety'];
                 break;
             case 'bottom':
-                $y = $height - $properties['watermark']['height'] - $properties['offsety'];
+                $y = $height - $properties['height'] - $properties['offsety'];
                 break;
             case 'center':
-                $y = round(($height - $properties['watermark']['height']) / 2);
+                $y = round(($height - $properties['height']) / 2);
                 break;
         }
 
@@ -354,10 +348,10 @@ class image_gd
                 $x = 0 + $properties['offsetx'];
                 break;
             case 'right':
-                $x = $width - $properties['watermark']['width'] - $properties['offsetx'];
+                $x = $width - $properties['width'] - $properties['offsetx'];
                 break;
             case 'center':
-                $x = round(($width - $properties['watermark']['width']) / 2);
+                $x = round(($width - $properties['width']) / 2);
                 break;
         }
 
@@ -374,7 +368,7 @@ class image_gd
 
         imagealphablending($this->tmp_image, true);
 
-        if ($status = imagecopy($this->tmp_image, $overlay, $x, $y, 0, 0, $properties['watermark']['width'], $properties['watermark']['height']))
+        if ($status = imagecopy($this->tmp_image, $overlay, $x, $y, 0, 0, $properties['width'], $properties['height']))
         {
             imagedestroy($overlay);
         }

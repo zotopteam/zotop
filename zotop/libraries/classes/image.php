@@ -12,17 +12,17 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class image
 {
 	// 缩放方向
-	const NONE 		= 'none';
-	const WIDTH 	= 'width';
-	const HEIGHT 	= 'height';
-	const AUTO 		= 'auto';
-	const INVERSE 	= 'inverse';
-
+	const NONE       = 'none';
+	const WIDTH      = 'width';
+	const HEIGHT     = 'height';
+	const AUTO       = 'auto';
+	const INVERSE    = 'inverse';
+	
 	// 翻转方向
-	const H 			= 'h';
-	const V 			= 'v';
-	const HORIZONTAL 	= 'H';
-	const VERTICAL 		= 'V';
+	const H          = 'h';
+	const V          = 'v';
+	const HORIZONTAL = 'H';
+	const VERTICAL   = 'V';
 
 	/**
 	 * @var 驱动
@@ -36,23 +36,47 @@ class image
 	public $actions = array();
 
 	/**
-	 * @var 图像信息
+	 * @var 图片文件地址
 	 */
-	public $image;
+	public $file;
 
 	/**
 	 * 图片处理工厂模式
 	 *
 	 *     $image = image::factory('upload/test.jpg');
 	 *
-	 * @param   string   image file path
+	 * @param   string   file file path
 	 * @param   string   driver type: GD, ImageMagick, etc
 	 * @return  Image
 	 */
-	public static function factory($image, $driver = '')
+	public static function open($file, $driver = null)
 	{
-		return new image($image, $driver);
+		return new image($file, $driver);
 	}
+
+	/**
+	 * 获取图片信息
+	 *
+	 * @param string $file 图片的地址,可以使用相对绝对地址或者相对地址
+	 * @return string
+	 */
+	public static function info($file)
+	{
+		$info = @getimagesize($file);
+
+		// 如果是一个存在的图片
+        if ( $info and is_array($info) )
+		{
+			return array(
+				'width'	=> intval($info[0]),
+				'height'=> intval($info[1]),
+				'size'	=> @filesize($file),
+				'mime'	=> $info['mime'],
+			);
+		}
+
+		return array();
+	}	
 
 	/**
 	 * 初始化
@@ -61,14 +85,24 @@ class image
 	 * @param   string   $driver 驱动
 	 * @return  object
 	 */
-	public function __construct($image, $driver = '')
+	public function __construct($file, $driver = null)
 	{
-		// 获取图片信息
-		$this->info = image::info($image);
-
-		if ( !$this->info )
+		//图片文件
+		if ( preg_match( "/^(".preg_quote( ZOTOP_URL, "/" )."|".preg_quote(ZOTOP_PATH, "/" ).")(.*)\$/", $file, $matches ) )
 		{
-			throw new zotop_exception(t('无效的图片文件 %s',$image));
+			$file = $matches[2];
+		}
+
+		// 格式化地址
+		$this->file = strpos($file, ZOTOP_PATH) === false ? ZOTOP_PATH.DS.$file : $file;
+		$this->file = format::path($this->file);
+
+		// 获取图片信息		
+		$this->info  = image::info($this->file);
+
+		if ( empty($this->info) )
+		{
+			throw new zotop_exception(t('无效的图片文件 %s',$this->file));
 		}
 
 		//获取图片信息
@@ -82,50 +116,6 @@ class image
 
 		// 实例化driver
 		$this->driver = new $driver();
-	}
-
-
-
-	/**
-	 * 获取图片信息
-	 *
-	 * @param string $file 图片的地址,可以使用相对绝对地址或者相对地址
-	 * @return string
-	 */
-	public static function info($file)
-	{
-		try
-		{
-			if ( preg_match( "/^(".preg_quote( ZOTOP_URL, "/" )."|".preg_quote( ZOTOP_PATH, "/" ).")(.*)\$/", $file, $matches ) )
-			{
-				$file = $matches[2];
-			}
-
-			// 格式化地址
-			$file = strpos($file, ZOTOP_PATH) === false ? ZOTOP_PATH.DS.$file : $file;
-			$file = format::path($file);
-
-			// 获取文件信息
-			$info = getimagesize($file);
-		}
-		catch (Exception $e)
-		{
-			// 避免错误
-		}
-
-		// 如果是一个存在的图片
-        if ( $info and is_array($info) )
-		{
-			return array(
-				'width'	=> intval($info[0]),
-				'height'=> intval($info[1]),
-				'size'	=> @filesize($file),
-				'mime'	=> $info['mime'],
-				'path'	=> $file,
-			);
-		}
-
-		return array();
 	}
 
 	public function valid($type, $value, $default='')
@@ -401,7 +391,7 @@ class image
 	}
 
 	/**
-	 * 裁剪图片到特定的宽度高度
+	 * 图片加水印
 	 *
 	 * @param   integer  $width
 	 * @param   integer  $height
@@ -409,14 +399,14 @@ class image
 	 * @param   integer  $left Y偏移, 支持参数：数字(单位px)或者 left, center, right
 	 * @return  object
 	 */
-	public function watermark($image, $position = 'bottom right', $opacity = 100, $offsetx = 5, $offsety = 5)
+	public function watermark($file, $position = 'bottom right', $opacity = 100, $offsetx = 5, $offsety = 5)
 	{
 		//获取水印图片的信息
-		$watermark = image::info($image);
+		$info = image::info($file);
 
-		if ( $watermark === false  )
+		if ( empty($info)  )
 		{
-			throw new zotop_exception(t('无效的水印图片 %s', $image));
+			throw new zotop_exception(t('无效的水印图片 %s', $file));
 		}
 
 		list($top,$left) = explode(' ',$position);
@@ -431,7 +421,9 @@ class image
 		//水印属性设置
 		$this->actions['watermark'] = array
 		(
-			'watermark' => $watermark,
+			'file'		=> $file,
+			'width'		=> $info['width'],
+			'height'	=> $info['height'],
 			'top' 		=> $top,
 			'left'    	=> $left,
 			'offsetx' 	=> $offsetx,
@@ -455,14 +447,14 @@ class image
 	{
 		if ( empty($target) )
 		{
-			$target = $this->info['path'];
+			$target = $this->file;
 		}
 		else
 		{
 			//替换目标文件中的 $dir(当前图片路径)，$name(当前图片名称，不含扩展名)， $ext(当前图片的扩展名)
 			if ( strpos($target,'%dir') !==false OR strpos($target,'%name') !==false OR strpos($target,'%ext') !==false )
 			{
-				$pathinfo	= pathinfo($this->info['path']);
+				$pathinfo	= pathinfo($this->file);
 				$target		= str_replace('%dir',$pathinfo['dirname'],$target);
 				$target		= str_replace('%name',basename($pathinfo['basename'], '.'.$pathinfo['extension']),$target);
 				$target		= str_replace('%ext',$pathinfo['extension'],$target);
@@ -480,7 +472,7 @@ class image
 		}
 
 		//保存图像
-		if ( $save = $this->driver->process($this->info, $this->actions, $target) )
+		if ( $save = $this->driver->process($this->file, $this->info, $this->actions, $target) )
 		{
 			if ( $chmod !== FALSE)
 			{
@@ -506,7 +498,7 @@ class image
 	{
 		ob_start();
 
-		$status = $this->driver->process($this->info, $this->actions, null, TRUE);
+		$status = $this->driver->process($this->file, $this->info, $this->actions, null, TRUE);
 
 		if ($keep_actions === FALSE)
 		{

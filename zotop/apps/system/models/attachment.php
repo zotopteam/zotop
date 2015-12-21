@@ -35,8 +35,52 @@ class system_model_attachment extends model
 		
 		
 		// 上传路径
-		$this->savepath  = ZOTOP_PATH_UPLOADS.DS.C('system.upload_dir');
+		$this->savepath  = $this->parse_path(ZOTOP_PATH_UPLOADS.DS.C('system.upload_dir'));
 	}
+
+	/*
+	 * 接续文件路径，支持变量，如：$year = 年 ，$month = 月 ，$day = 日
+	 *
+	 * @param string $filename，
+	 */
+	public function parse_path($filepath)
+	{
+		$p = array(
+			'[YYYY]' => date("Y"),
+			'[MM]' => date("m"),
+			'[DD]' => date("d"),
+	    );
+
+	    $path = strtr($filepath, $p);
+
+		return rtrim($path, DS);
+	}
+
+	/**
+	 * 获取文件的信息
+	 * 
+	 * @param  string $filepath 文件绝对路径
+	 * @return url
+	 */
+	public function fileinfo($filepath)
+	{
+		$info = array();
+
+		if ( file_exists($filepath) )
+		{
+			$info['id']   = md5($filepath);
+			$info['guid'] = md5_file($filepath);
+			$info['name'] = basename($filepath);			
+			$info['ext']  = file::ext($filepath);
+			$info['size'] = file::size($filepath);
+			$info['type'] = $this->type($filepath); //文件类型		
+			$info['path'] = format::path(substr($filepath, strlen(ZOTOP_PATH_UPLOADS))); //文件的相对路径
+			$info['url']  = format::url(ZOTOP_URL_UPLOADS.'/'.$info['path']); //文件的url
+		}
+
+		return $info;		
+	}
+
 
     /**
      * 附件类型
@@ -126,11 +170,16 @@ class system_model_attachment extends model
 			// 导入参数
 			extract($params,EXTR_OVERWRITE);
 
-			// 获取文件详细信息
-			$data['name']	= $_REQUEST["filename"] ? $_REQUEST["filename"] : basename($filepath);
-			$data['ext']	= file::ext($data['name']);
-			$data['size']	= file::size($filepath);
-			$data['type']	= $this->type($data['ext']); //文件类型
+			// 获取文件信息
+			$data = $this->fileinfo($filepath);
+
+			// 完善文件信息
+			$data['name']     = $_REQUEST["filename"] ? $_REQUEST["filename"] : basename($filepath);
+			$data['folderid'] = $folderid;
+			$data['app']      = $app ? $app : ZOTOP_APP;
+			$data['field']    = $field;
+			$data['status']   = isset($status) ? $status : ( $dataid ? 1 : 0 );
+			$data['dataid']   = $dataid ? $dataid : zotop::session('[id]');
 
 			if ( $data['type'] == 'image' )
 			{
@@ -167,16 +216,6 @@ class system_model_attachment extends model
 					//忽略错误
 				}
 			}
-
-			$data['id']			= md5($filepath);
-			$data['guid']		= md5_file($filepath);
-			$data['folderid']	= $folderid;
-			$data['app']		= $app ? $app : ZOTOP_APP;
-			$data['field']		= $field;
-			$data['status'] 	= isset($status) ? $status : ( $dataid ? 1 : 0 );
-			$data['dataid'] 	= $dataid ? $dataid : zotop::session('[id]');
-			$data['path']		= format::path(substr($filepath, strlen(ZOTOP_PATH_UPLOADS)));
-			$data['url']		= format::url(ZOTOP_URL_UPLOADS.'/'.$data['path']);
 
 			if ( $this->add($data) )
 			{
@@ -245,15 +284,15 @@ class system_model_attachment extends model
 
 
     /**
-     * 添加
+     * 添加文件到数据库
      *
      */
 	public function add($data)
 	{
-		$data['description']= $data['description'] ? $data['description'] : file::name($data['name'],true);
-		$data['userid']		= zotop::user('id');
-		$data['uploadip']	= request::ip();
-		$data['uploadtime'] = ZOTOP_TIME;
+		$data['description'] = $data['description'] ? $data['description'] : file::name($data['name'],true);
+		$data['userid']      = zotop::user('id');
+		$data['uploadip']    = request::ip();
+		$data['uploadtime']  = ZOTOP_TIME;
 
 		return $this->insert($data);
 	}

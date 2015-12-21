@@ -165,8 +165,7 @@ class plupload
 	 */
 	public function filepath($name)
 	{
-		//返回实际目录，并去掉末位的DS
-		$savepath = $this->parse_path($this->savepath);
+		$savepath = $this->savepath;
 
 		//支持相对根路径的目录，如aaa/aaa
 		if ( stripos($savepath, ZOTOP_PATH) === false )
@@ -217,24 +216,6 @@ class plupload
 		}
 
 		return $filepath;
-	}
-
-	/*
-	 * 接续文件路径，支持变量，如： $type = 文件类型 ，$year = 年 ，$month = 月 ，$day = 日
-	 *
-	 * @param string $filename，
-	 */
-	public function parse_path($filepath)
-	{
-		$p = array(
-			'[YYYY]' => date("Y"),
-			'[MM]' => date("m"),
-			'[DD]' => date("d"),
-	    );
-
-	    $path = strtr($filepath, $p);
-
-		return rtrim($path, DS);
 	}
 
 	public function error($error='')
