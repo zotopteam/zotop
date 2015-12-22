@@ -49,6 +49,7 @@ $.fn.editor = function(options){
 }
 
 $(function(){
+
 	$('.editor-insert').click(function(event){
 		event.preventDefault();
 
@@ -80,13 +81,15 @@ $(function(){
 					var description = data[i].description;
 					var ext         = data[i].ext || url.replace(/.+\./,"");
 
+					html += '<p class="attachment '+ext+'">';
 					if ( ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif' || ext == 'bmp'){
-						html += '<img src="'+url+'" alt="'+(description||name)+'" class="attachment '+ext+'"/>';
+						html += '<img src="'+url+'" alt="'+(description||name)+'" />';
 					} else if ( ext =='swf' ){
-						html += '<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0"><param name="quality" value="high" /><param name="movie" value="'+url+'" /><embed pluginspage="http://www.macromedia.com/go/getflashplayer" quality="high" src="'+url+'" type="application/x-shockwave-flash" width="500" height="400"></embed></object>';
+						html += '<embed quality="high" src="'+url+'" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" mode="transparent" width="500" height="400"></embed>';
 					}else{
-						html += '<a href="'+url+'" title="'+(description||name)+'" target="_blank" class="attachment '+ext+'">'+name+'</a>';
+						html += '<a href="'+url+'" title="'+(description||name)+'" target="_blank">'+name+'</a>';
 					}
+					html += '</p>';
 				}
 
 				editor.insertContent(html);
@@ -94,5 +97,32 @@ $(function(){
 			},
 			cancel:function(){}
 		},true);
+	});
+
+	//编辑器头部fixed
+	$('.main-body').on('scroll',function(e){
+		var toolbar  = $('.mce-toolbar-grp');
+		var editarea = $('.mce-edit-area');
+		var top      = $('.global-header').outerHeight() + $('.main-header').outerHeight();
+		var width    = toolbar.width();
+		var height   = toolbar.outerHeight();
+		var offset   = toolbar.offset(); 
+
+        if ( this.scrollTop > (offset.top + height) ) {	
+        	toolbar.css({
+	            position: 'fixed',
+	            top: top+'px',
+	            width: width + 'px'
+	        });
+	        editarea.css('padding-top',(top+height)+'px');
+        }else{
+        	editarea.css('padding-top','');
+
+			toolbar.css({
+				position: 'static',
+				top: '',
+				width: '',
+			});			
+        }		
 	});
 });

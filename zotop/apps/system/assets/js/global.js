@@ -19,7 +19,7 @@ $(function(){
 
 	//$('.tabdropable').tabdrop();
 
-	$('.scrollable').niceScroll();
+	$('.scrollable').niceScroll({boxzoom:false});
 });
 
 //dialog

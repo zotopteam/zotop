@@ -26,7 +26,7 @@
 
 
 
-				{field type="editor" name="data" value="$block.data" dataid="$block.id" theme="full" tools="true" rows="22" required="required"}
+				{field type="editor" name="data" value="$block.data" dataid="$block.id" toolbar="full" tools="true" rows="22" required="required"}
 
 			</div>
 
