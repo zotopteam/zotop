@@ -207,12 +207,12 @@ label[for]{cursor:pointer;}
 .panel .table:last-child{margin-bottom:0;}
 
 /*shortcut*/
-.shortcut{border:1px solid transparent;color:#666;background:transparent;margin:4px;padding:8px;display:block;overflow:hidden;zoom:1;border-radius:4px;position:relative;text-align:left;}
+.shortcut{border:1px solid transparent;color:#666;background:transparent;margin:6px;padding:6px;display:block;overflow:hidden;zoom:1;border-radius:4px;position:relative;text-align:left;}
 .shortcut:hover{border:1px solid #70c0e7;background:#e5f3fb;text-decoration:none;}
 .shortcut-icon {}
 .shortcut-icon img{width:48px;height:48px;}
 .shortcut-text {position:absolute;top:0px;left:64px;right:0;}
-.shortcut-text h2{font-size:16px;font-weight:bold;margin:10px 0;overflow:hidden;}
+.shortcut-text h2{font-size: 20px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;margin:7px 0 3px 0;}
 .shortcut-text p{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;width:100%;margin:0}
 .shortcut-badge {position:absolute;right:8px;top:10px;}
 .shortcut-badge a{color:#fff;}

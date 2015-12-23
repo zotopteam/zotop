@@ -38,7 +38,7 @@ $.fn.editor = function(options){
 			options.toolbar = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image';
 			break;
 		case 'full':
-			options.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus powerpaste'];
+			options.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus powerpaste zotop_pagebreak'];
 			options.toolbar = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking template pagebreak | localautosave preview code fullscreen';
 			break;
 	}
@@ -99,30 +99,30 @@ $(function(){
 		},true);
 	});
 
-	//编辑器头部fixed
-	$('.main-body').on('scroll',function(e){
-		var toolbar  = $('.mce-toolbar-grp');
-		var editarea = $('.mce-edit-area');
-		var top      = $('.global-header').outerHeight() + $('.main-header').outerHeight();
-		var width    = toolbar.width();
-		var height   = toolbar.outerHeight();
-		var offset   = toolbar.offset(); 
+	// //编辑器头部fixed
+	// $('.main-body').on('scroll',function(e){
+	// 	var toolbar  = $('.mce-toolbar-grp');
+	// 	var editarea = $('.mce-edit-area');
+	// 	var top      = $('.global-header').outerHeight() + $('.main-header').outerHeight();
+	// 	var width    = toolbar.width();
+	// 	var height   = toolbar.outerHeight();
+	// 	var offset   = toolbar.offset(); 
 
-        if ( this.scrollTop > (offset.top + height) ) {	
-        	toolbar.css({
-	            position: 'fixed',
-	            top: top+'px',
-	            width: width + 'px'
-	        });
-	        editarea.css('padding-top',(top+height)+'px');
-        }else{
-        	editarea.css('padding-top','');
+ //        if ( this.scrollTop > (offset.top + height + 10 ) ) {	
+ //        	toolbar.css({
+	//             position: 'fixed',
+	//             top: top+'px',
+	//             width: width + 'px'
+	//         });
+	//         editarea.css('padding-top',(top+height)+'px');
+ //        }else{
+ //        	editarea.css('padding-top','');
 
-			toolbar.css({
-				position: 'static',
-				top: '',
-				width: '',
-			});			
-        }		
-	});
+	// 		toolbar.css({
+	// 			position: 'static',
+	// 			top: '',
+	// 			width: '',
+	// 		});			
+ //        }		
+	// });
 });
