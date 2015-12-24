@@ -7,8 +7,7 @@
  CretaeDate:2015-1-30
  Description:编辑器内部样式
  */
-
-body {font:16px/1.64 '\5fae\8f6f\96c5\9ed1',Tahoma,Geneva,'\5B8B\4F53';color:#333;word-wrap:break-word;margin:15px;width:auto;}
+body {font:16px/1.64 '\5fae\8f6f\96c5\9ed1',Tahoma,Geneva,'\5B8B\4F53';color:#333;word-wrap:break-word;margin:0;padding:15px;}
 input,textarea,select {margin:0;padding:0;font-size:14px;outline:none;resize:none}
 html:root body,html:root input,html:root button,html:root textarea,html:root select {font-family:Tahoma,Geneva,'\5fae\8f6f\96c5\9ed1','\5B8B\4F53'}
 i,em {font-style:normal}
