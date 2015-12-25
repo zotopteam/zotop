@@ -2,19 +2,21 @@ body{background-color:#fff;color:#000;font-family:Verdana,Arial,Helvetica,sans-s
 
 /*zotop extend*/
 .mce-pagebreak {
-  border: 0 none;
-  height: auto;
-  margin:15px -15px;
-  padding:0;
-  text-indent: 0;
-  background: #ebebeb;
-  width: auto;
-  clear:both;
+	border: 0 none;
+	height: auto;
+	margin:15px -15px;
+	padding:0;
+	text-indent: 0;
+	background: #ebebeb;
+	width: auto;
+	clear:both;
+	font-size: 24px;
+	line-height: 50px;  
 }
 
 .mce-pagebreak:before,.mce-pagebreak:after{
 	content:'';
-	height:5px;
+	height:10px;
 	border: 1px solid #d5d5d5;
 	display: block;
 	background: #fff;

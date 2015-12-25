@@ -7,6 +7,13 @@ $.fn.editor = function(options){
 	//settings.elementpath = false;
 	settings.language      = 'zh_CN';
 	settings.skin          = 'zotop';
+
+
+	settings.force_br_newlines = false;
+	settings.force_p_newlines  = true;
+	settings.forced_root_block = 'p';
+	settings.invalid_elements  = "script,applet,iframe";
+
 	//settings.autoresize                  = true;
 	settings.toolbar_items_size            = 'small';	
 	settings.powerpaste_allow_local_images = true;
@@ -15,18 +22,10 @@ $.fn.editor = function(options){
 	settings.convert_urls                  = false;
 	settings.image_advtab                  = true;	
 	settings.images_upload_credentials     = true;
-	settings.images_upload_base_path       ='/';
-	settings.mage_prepend_url              = 'http://www.tinymce.com/images/';
 	
 	// settings.file_browser_callback	= function(field_name, url, type, win) {
 	// 	win.document.getElementById(field_name).value = 'my browser value'+url+'///'+type;
 	// };
-
-	// settings.images_upload_handler = function(blobInfo, success, failure){
-	// 	console.log(blobInfo);
-	// 	success('dddddd');
-	// };
-
 
 	switch(options.toolbar){
 		case 'basic':
