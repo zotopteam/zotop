@@ -15,7 +15,8 @@ $.fn.editor = function(options){
 	settings.invalid_elements  = "script,applet,iframe";
 
 	//settings.autoresize                  = true;
-	settings.toolbar_items_size            = 'small';	
+	settings.toolbar_items_size            = 'small';
+	settings.imagetools_toolbar            = 'alignleft aligncenter alignright editimage imageoptions';
 	settings.powerpaste_allow_local_images = true;
 	//settings.paste_data_images           = false;
 	
@@ -65,7 +66,7 @@ $(function(){
 			title: $(this).attr('title') || $(this).text(),
 			width: $(this).attr('data-width') || 1000,
 			height: $(this).attr('data-height') || 460,
-			statusbar: '<i class="icon icon-loading"></i>',
+			statusbar: '<i class="fa fa-spinner"></i>',
 			ok : function(data){
 				var html='';
 
