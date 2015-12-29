@@ -7,7 +7,7 @@
 			<li {if ZOTOP_CONTROLLER == 'content' and !$categoryid}class="active"{/if}>
 				<a href="{u('content/content/index')}" ><i class="fa fa-list"></i> <span>{t('内容管理')}</span></a>
 
-				<table id="tree" class="table nav-treetable hidden" cellspacing="0" cellpadding="0">
+				<table id="tree" class="table nav-treetable hidden hidden-xs" cellspacing="0" cellpadding="0">
 					<tbody>
 						{loop m('content.category.active') $c}
 						<tr data-tt-id="a{$c['id']}" {if $c['parentid'] !=0 }data-tt-parent-id="a{$c['parentid']}"{/if} {if $categoryid==$c['id']}class="active"{/if}>

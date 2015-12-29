@@ -79,10 +79,10 @@
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
 			<td class="text-center" width="40">{t('状态')}</td>
 			<td>{t('标题')}</td>
-			<td class="text-center" width="80">{t('点击')}</td>
-			<td class="text-center">{t('模型')}</td>
-			<td class="text-center">{t('栏目')}</td>
-			<td>{t('发布者/发布时间')}</td>
+			<td class="text-center hidden-xs" width="80">{t('点击')}</td>
+			<td class="text-center hidden-xs">{t('模型')}</td>
+			<td class="text-center hidden-xs">{t('栏目')}</td>
+			<td class="hidden-xs">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -128,10 +128,10 @@
 					</div>
 				</td>
 			
-				<td class="text-center">{$r['hits']}</td>
-				<td class="text-center"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
-				<td class="text-center"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
-				<td>
+				<td class="text-center hidden-xs">{$r['hits']}</td>
+				<td class="text-center hidden-xs"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
+				<td class="text-center hidden-xs"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
+				<td class="hidden-xs">
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>
 				</td>

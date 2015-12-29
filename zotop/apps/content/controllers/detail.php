@@ -20,7 +20,7 @@ class content_controller_detail extends site_controller
     {
         parent::__init();
 
-        $this->content = m('content.content');
+        $this->content  = m('content.content');
         $this->category = m('content.category');
     }
 
@@ -40,18 +40,12 @@ class content_controller_detail extends site_controller
             return $this->_404(t('编号为 %s 的内容不存在', $id));
         }
 
-		// 关键词转化为标签
-		$content['tags'] = $content['keywords'] ? explode(',', $content['keywords']) : array();
-
-		// 钩子
-        $content = zotop::filter('content.show', $content);
-
-		// 点击
-		$this->content->hit($content['id']);
-
+        // 钩子
+        $content  = zotop::filter('content.show', $content);
+        
         // 栏目数据
         $category = $this->category->get($content['categoryid']);
-
+        
         //模板
         $template = empty($content['template']) ? $category['settings']['models'][$content['modelid']]['template'] : $content['template'];
 
@@ -63,6 +57,12 @@ class content_controller_detail extends site_controller
         $this->display($template);
     }
 
+    /**
+     * 文件下载
+     * 
+     * @param  int $id 内容编号
+     * @return file
+     */
     public function action_download($id)
     {
         // 读取内容数据

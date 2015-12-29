@@ -1,17 +1,17 @@
 {template 'header.php'}
 
-<ul class="breadcrumb">
-    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
-	{content action="position" cid="$category.id"}
-	<li><a href="{$r.url}">{$r.name}</a></li>
-	{/content}
-    <li class="active">正文</li>
-</ul>
+<div class="container">
 
-<div class="container-fluid">
+	<ul class="breadcrumb">
+	    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
+		{content action="position" cid="$category.id"}
+		<li><a href="{$r.url}">{$r.name}</a></li>
+		{/content}
+	    <li class="active">正文</li>
+	</ul>
 
 	<div class="row">
-		<div class="col-sm-10 main">
+		<div class="col-sm-10 col-main">
 
 		<div class="content content-box content-page">
 			<h1 class="content-title">
@@ -24,7 +24,7 @@
 
 		</div><!-- main -->
 
-		<div class="col-sm-2 side">
+		<div class="col-sm-2 col-side">
 			<div class="blank hidden-md hidden-lg"></div>
 			<dl class="list-group">
 				<dt class="list-group-item">{$category.name}</dt>
