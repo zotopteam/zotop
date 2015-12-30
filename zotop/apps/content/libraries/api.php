@@ -306,8 +306,9 @@ class content_api
 		$contents  = preg_replace($regex, '[pagebreak]', $content['content']);
 		$contents  = explode('[pagebreak]', trim($contents,'[pagebreak]'));
 		$hastitle  = 0;
+		$uri       = m('content.content')->url($content['id'],$content['alias'],$content['url'], false);
+		$page      = intval($_GET['page']) ? max(intval($_GET['page']),$pagecount) : 1; //页码
 
-		$content['pagecount'] = $pagecount;		
 
 		// 去除空标题。并计算是否为标题分页
 		foreach( $titles as &$t )
@@ -321,10 +322,26 @@ class content_api
 		}
 
 		$content['hastitle']  = $hastitle ? true : false;
+		$content['pagecount'] = $pagecount;
+		$content['page']      = $page;
+
+		for ($page=1; $page <= $pagecount  ; $page++)
+		{ 
+			$prevpage = $page == 1 ? '' : $page - 1;
+			$nextpage = $page == $pagecount ? '' : $page + 1;
+
+			$content['pages'][$page] = array(
+				'title'    => $titles[$page-1],
+				'content'  => $contents[$page-1],
+				'url'      => U($uri,array('page'=>$page)),
+				'nexturl'  => $nextpage ? U($uri,array('page'=>$nextpage)) : '',
+				'prevurl'  => $prevpage ? U($uri,array('page'=>$prevpage)) : '',
+				'nextpage' => $nextpage,
+				'prevpage' => $prevpage
+			);
+		}
 
 		
-		$content['pages'] = array();
-
 
 		return $content;		
 	}

@@ -17,9 +17,13 @@
 			<h1 class="content-title">
 				{$content.title}
 			</h1>
+			{if $content.pagecount}
+
+			{else}
 			<div class="content-body text-justify">
 				{$content.content}
 			</div>
+			{/if}
 		</div><!-- content -->
 
 		</div><!-- main -->
