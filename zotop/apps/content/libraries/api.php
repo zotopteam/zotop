@@ -78,7 +78,7 @@ class content_api
 	public static function globalmsg($msg)
 	{
 		// 设置提示信息
-		/*
+		
 		if ( $pending = m('content.content.statuscount','pending') )
 		{
 			$msg[] = array(
@@ -87,7 +87,7 @@ class content_api
 				'type' => 'pending',
 			);
 		}
-		*/
+		
 
 		return $msg;
 	}
@@ -266,9 +266,10 @@ class content_api
 	 * 前台内容显示之前的数据处理 点击
 	 * 
 	 * @param  array $content 内容数组
+	 * @param  object $controller 控制器对象
 	 * @return array 处理后的内容
 	 */
-	public static function content_hits($content)
+	public static function content_hits($content, $controller)
 	{
 		// 点击
 		m('content.content')->hit($content['id']);
@@ -282,7 +283,7 @@ class content_api
 	 * @param  array $content 内容数组
 	 * @return array 处理后的内容
 	 */
-	public static function content_tags($content)
+	public static function content_tags($content, $controller)
 	{
 		// 关键词转化为标签
 		$content['tags'] = $content['keywords'] ? explode(',', $content['keywords']) : array();
@@ -296,44 +297,36 @@ class content_api
 	 * @param  array $content 内容数组
 	 * @return array 处理后的内容
 	 */
-	public static function content_pages($content)
+	public static function content_pages($content, $controller)
 	{
 		if ( strpos( $content['content'], 'mce-pagebreak') === FALSE ) return $content;
 
-		$regex     = "/<p class\\=\"mce-pagebreak\">(.*?)<\\/p>/";			
-		$pagecount = preg_match_all($regex, $content['content'], $matches);
-		$titles    = $matches[1];
-		$contents  = preg_replace($regex, '[pagebreak]', $content['content']);
-		$contents  = explode('[pagebreak]', trim($contents,'[pagebreak]'));
-		$hastitle  = 0;
-		$uri       = m('content.content')->url($content['id'],$content['alias'],$content['url'], false);
-		$page      = intval($_GET['page']) ? max(intval($_GET['page']),$pagecount) : 1; //页码
+		$regex          = "/<p class\\=\"mce-pagebreak\">(.*?)<\\/p>/";			
+		$pagecount      = preg_match_all($regex, $content['content'], $matches);
+		$titles         = $matches[1];
+		$contents       = preg_replace($regex, '[pagebreak]', $content['content']);
+		$contents       = explode('[pagebreak]', trim($contents,'[pagebreak]'));	
+		$uri            = m('content.content')->url($content['id'],$content['alias'],$content['url'], false);
+		$page           = isset($_GET['page']) ? min(intval($_GET['page']), $pagecount) : 1; //页码
+		$pagetitlecount = 0;			
 
+		$content['pages'] = array();
 
-		// 去除空标题。并计算是否为标题分页
-		foreach( $titles as &$t )
-		{
-			$t = trim($t,'&nbsp;');
-
-			if ( $t )
-			{
-				$hastitle = $hastitle + 1;
-			}
-		}
-
-		$content['hastitle']  = $hastitle ? true : false;
-		$content['pagecount'] = $pagecount;
-		$content['page']      = $page;
-
-		for ($page=1; $page <= $pagecount  ; $page++)
+		for ($p=1; $p <= $pagecount  ; $p++)
 		{ 
-			$prevpage = $page == 1 ? '' : $page - 1;
-			$nextpage = $page == $pagecount ? '' : $page + 1;
+			$prevpage = $p == 1 ? '' : $p - 1;
+			$nextpage = $p == $pagecount ? '' : $p + 1;
+			$title    = trim($titles[$p-1]);
 
-			$content['pages'][$page] = array(
-				'title'    => $titles[$page-1],
-				'content'  => $contents[$page-1],
-				'url'      => U($uri,array('page'=>$page)),
+			if ( $title ) 
+			{
+				$pagetitlecount = $pagetitlecount + 1;
+			}
+
+			$content['pages'][$p] = array(
+				'title'    => $title ? $title : $p,
+				'content'  => $contents[$p-1],
+				'url'      => U($uri,array('page'=>$p)),
 				'nexturl'  => $nextpage ? U($uri,array('page'=>$nextpage)) : '',
 				'prevurl'  => $prevpage ? U($uri,array('page'=>$prevpage)) : '',
 				'nextpage' => $nextpage,
@@ -341,9 +334,39 @@ class content_api
 			);
 		}
 
-		
+
+		$content['page']               = array();
+		$content['page']['count']      = $pagecount;
+		$content['page']['titlecount'] = $pagetitlecount;
+
+		// 将分页的内容赋值
+		if ( $page and $content['pages'] )
+		{
+			$content['page']['active']  = $page;
+			$content['page']['prevurl'] = $content['pages'][$page]['prevurl'];
+			$content['page']['nexturl'] = $content['pages'][$page]['nexturl'];
+			$content['page']['title']   = $content['pages'][$page]['title'];
+			$content['page']['content'] = $content['pages'][$page]['content'];
+		}
+
+		debug::dump($content['content']);
 
 		return $content;		
+	}
+
+	/**
+	 * 处理阅读全文
+	 * 
+	 * @param  array $content 内容数组
+	 * @return array 处理后的内容
+	 */
+	public static function content_full($content, $controller)
+	{
+		
+		// 去掉空的分页标题
+		$content['content'] = str_replace('<p class="mce-pagebreak">&nbsp;</p>', '', $content['content']);
+
+		return $content;
 	}
 
 }

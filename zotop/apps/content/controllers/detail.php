@@ -41,7 +41,7 @@ class content_controller_detail extends site_controller
         }
 
         // 钩子
-        $content  = zotop::filter('content.show', $content);
+        $content  = zotop::filter('content.show', $content, $this);
         
         // 栏目数据
         $category = $this->category->get($content['categoryid']);
@@ -55,6 +55,16 @@ class content_controller_detail extends site_controller
         $this->assign('content', $content);
         $this->assign('category', $category);
         $this->display($template);
+    }
+
+    public function action_fullcontent($id)
+    {
+        $content = $this->content->get(intval($id));
+                
+        // 钩子
+        $content  = zotop::filter('content.fullcontent', $content, $this);        
+
+        exit($content['content']);
     }
 
     /**

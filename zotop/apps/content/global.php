@@ -47,4 +47,6 @@ zotop::add('zotop.ready','content_api::content_template_tags');
 zotop::add('content.show','content_api::content_hits');
 zotop::add('content.show','content_api::content_tags');
 zotop::add('content.show','content_api::content_pages');
+
+zotop::add('content.fullcontent','content_api::content_full');
 ?>
