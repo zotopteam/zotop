@@ -287,7 +287,7 @@ class application
 	 * @param object exception object
 	 * @return boolean
 	 */
-	public static function exception_handler(Exception $e)
+	public static function exception_handler($e)
 	{
 		try
 		{

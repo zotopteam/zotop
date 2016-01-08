@@ -237,7 +237,7 @@ label.error{font-size:12px;margin-top:5px;}
 .content table th,.content table .c1{background-color:#DFEFFF;}
 .content table th,.content table td{border:1px solid #ebebeb;padding:4px 5px}
 .content table td{min-height:21px;}
-.content p{margin:0;padding:5px 0;}
+.content p{margin:15px 0px;text-indent:2em;}margin:15px 0px;text-indent:2em;
 /*.content h1{font-size:18px;vertical-align:baseline;line-height:20px;padding-top:10px;}
 .content h2{font-size:16px;vertical-align:baseline;line-height:18px;padding-top:10px;}
 .content h3{font-size:14px;vertical-align:baseline;line-height:16px;padding-top:10px;}*/

@@ -455,9 +455,12 @@ class model
      * @param  array  $data [description]
      * @return [type]       [description]
      */
-    public function save()
+    public function save($data=array())
     {
-    	$data = empty($this->data) ? $this->db->data() : $this->data;
+    	if ( empty($data) )
+    	{
+    		$data = empty($this->data) ? $this->db->data() : $this->data;
+    	}    	
 
     	//传入数据中有主键时update
     	if ( isset($data[$this->pk()]) )

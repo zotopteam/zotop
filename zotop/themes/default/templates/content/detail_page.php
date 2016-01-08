@@ -61,7 +61,6 @@
 						<script>
 							$(function(){
 								$('.fullcontent').on('click',function(){
-
 									$('.content-pages').load('{U('content/detail/fullcontent/'.$content.id)}');
 								});
 							})

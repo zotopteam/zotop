@@ -1,3 +1,3 @@
 <?php
-	return array('system','content','block','guestbook','ueditor');
+	return array('system','content','block','guestbook','tinymce');
 ?>

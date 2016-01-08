@@ -316,7 +316,7 @@ class content_api
 		{ 
 			$prevpage = $p == 1 ? '' : $p - 1;
 			$nextpage = $p == $pagecount ? '' : $p + 1;
-			$title    = trim($titles[$p-1]);
+			$title    = trim(trim($titles[$p-1],'&nbsp;'));
 
 			if ( $title ) 
 			{
@@ -324,7 +324,7 @@ class content_api
 			}
 
 			$content['pages'][$p] = array(
-				'title'    => $title ? $title : $p,
+				'title'    => $title ? $title : '',
 				'content'  => $contents[$p-1],
 				'url'      => U($uri,array('page'=>$p)),
 				'nexturl'  => $nextpage ? U($uri,array('page'=>$nextpage)) : '',
@@ -348,9 +348,7 @@ class content_api
 			$content['page']['title']   = $content['pages'][$page]['title'];
 			$content['page']['content'] = $content['pages'][$page]['content'];
 		}
-
-		debug::dump($content['content']);
-
+		
 		return $content;		
 	}
 

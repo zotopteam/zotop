@@ -88,23 +88,24 @@ class block_api
 	 */
 	public static function template_parse($str, $tpl)
 	{
-	    return preg_replace("/\{block(\s+[^}]+?)\}/ie", "block_api::template_parse_tag('\\1',\$tpl)", $str);
+	    return preg_replace_callback("/\{block(\s+[^}]+?)\}/i", 'self::parse_block_tag', $str);
 	}
 
 	/**
 	 * 获取区块解析后的数据
 	 *
 	 * @param string $str 区块参数
-	 * @param obj $tpl 当前模板对象
 	 * @return string  区块数据
 	 */
-	public static function template_parse_tag($str, $tpl)
+	public static function parse_block_tag($match)
 	{
-	    $attrs = $tpl->parse_attrs($str);
+	    $str   = $match[1];
+
+	    $attrs = template::parse_attrs($str);
 
 	    if ( $id = intval($attrs['id']) )
 	    {
-	        return '<?php echo block_show(' . $tpl->array_attrs($attrs) .', $this)?>';
+	        return '<?php echo block_show(' . template::array_attrs($attrs) .', $this)?>';
 	    }
 
 	    return '<div class="error block-error">'.t('区别编号错误').'</div>';

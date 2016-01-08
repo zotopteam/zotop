@@ -104,7 +104,7 @@ class system_model_user extends model
      * 删除用户
      *
      */
-	public function delete($id)
+	public function delete($id='')
 	{
 		if ( parent::delete($id) )
 		{

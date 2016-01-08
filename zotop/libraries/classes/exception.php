@@ -50,7 +50,7 @@ class zotop_exception extends Exception
 	 * @param   object  Exception
 	 * @return  string
 	 */
-	public static function text(Exception $e)
+	public static function text($e)
 	{
 		//return sprintf('%s', strip_tags($e->getMessage()));
 		return sprintf('%s [ %s ]: %s  %s [ %d ]',	get_class($e), $e->getCode(), strip_tags($e->getMessage()), debug::path($e->getFile()), $e->getLine());

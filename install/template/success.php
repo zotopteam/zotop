@@ -22,6 +22,6 @@
 
 <footer class="global-footer navbar-fixed-bottom clearfix" role="navigation">
 	<a id="prev" class="btn btn-default" href="../index.php"><?php echo t('网站首页')?></a>
-	<a id="next" class="btn btn-success pull-right" href="../<? echo basename(ZOTOP_PATH_CMS)?>/index.php"><?php echo t('网站管理后台')?></a>
+	<a id="next" class="btn btn-success pull-right" href="../<?php echo basename(ZOTOP_PATH_CMS)?>/index.php"><?php echo t('网站管理后台')?></a>
 </footer>
 <?php include ZOTOP_PATH_INSTALL.DS.'template'.DS.'footer.php';?>
