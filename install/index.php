@@ -167,7 +167,7 @@ class install
     		}
     		else
     		{
-    			$is_writable = is_writable($f) && (($r['type'] == 'file') ^ is_dir($f));
+    			$is_writable = ($r['type'] == 'file') ? is_writable($f) : folder::writeable($f);
     		}
 
 			$r['is_writable'] = $is_writable;
@@ -177,19 +177,13 @@ class install
     		if ( !$is_writable AND $r['writable'] ) $success = false;
     	}
 
-    	try
-    	{
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'caches',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'session',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'templates',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'backup',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'temp',0777);
-    		folder::create(ZOTOP_PATH_RUNTIME.DS.'block',0777);
-		}
-		catch (Exception $e)
-		{
-			$success = false;
-		}
+		folder::create(ZOTOP_PATH_RUNTIME.DS.'caches',0777);
+		folder::create(ZOTOP_PATH_RUNTIME.DS.'session',0777);
+		folder::create(ZOTOP_PATH_RUNTIME.DS.'templates',0777);
+		folder::create(ZOTOP_PATH_RUNTIME.DS.'backup',0777);
+		folder::create(ZOTOP_PATH_RUNTIME.DS.'temp',0777);
+		folder::create(ZOTOP_PATH_RUNTIME.DS.'block',0777);
+
 
 		include ZOTOP_PATH_INSTALL.DS.'template'.DS.'check.php';
 	}
@@ -252,11 +246,11 @@ class install
 					'pconnect' 	=> $pconnect,
 				);
 
-				// 尝试创建数据库
-				zotop::db($config)->create();
-
 				try
 				{
+					// 尝试创建数据库
+					zotop::db($config)->create();
+									
 					if ( zotop::db($config)->exists() )
 					{
 						if ( zotop::db($config)->tables() )

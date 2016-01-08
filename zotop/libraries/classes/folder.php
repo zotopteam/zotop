@@ -87,18 +87,7 @@ class folder
 	{
 		$dir = format::path($dir);
 
-		if ( !$dir )
-		{
-			return false;
-		}
-
-		// 检查目标目录是否存在
-		if ( is_dir($dir) || @mkdir($dir,$mode) ) return true;
-
-		// 创建父目录
-		if ( !folder::create(dirname($dir),$mode) ) return false;
-
-		if ( @mkdir($dir,$mode) )
+		if ( is_dir($dir) || mkdir($dir, $mode, true) )
 		{
 			return $dir;
 		}

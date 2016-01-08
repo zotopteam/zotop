@@ -150,7 +150,7 @@ class template
                 $content = $this->parse($content);
 
                 //写入解析后的模版
-                if ( false === @file_put_contents($compile, $content) )
+                if ( false === file::put($compile, $content) )
                 {
                     throw new zotop_exception(t("The dir [%s] is not exist or not writable", debug::path(dirname($compile))));
                 }
