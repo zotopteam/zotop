@@ -145,7 +145,7 @@
 	</div><!-- main-body -->
 	<div class="main-footer">
 		<div class="copyright clearfix">
-			<div class="copyright-thanks">{t('感谢您使用逐涛网站管理系统')}</div>
+			<div class="copyright-thanks">{t('感谢您使用逐涛网站管理系统1')}</div>
 			<div class="copyright-powered">{zotop::powered()}</div>
 		</div>
 	</div><!-- main-footer -->

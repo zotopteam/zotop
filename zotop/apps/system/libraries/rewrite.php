@@ -37,7 +37,6 @@ class rewrite
             }
 
             c('system.url_model',$model);
-
         }
 
         return $check;

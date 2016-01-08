@@ -30,10 +30,11 @@ class system_controller_check extends admin_controller
     {
 		// 检查文件和目录权限
     	$check_io = array(
-			ZOTOP_PATH           => array('name'=>t('根目录'), 'type'=>'folder', 'writable'=>true),
+			ZOTOP_PATH           => array('name'=>t('根目录1'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_CMS       => array('name'=>t('主目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_DATA      => array('name'=>t('数据目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_APPS      => array('name'=>t('应用目录'), 'type'=>'folder', 'writable'=>true),
+			ZOTOP_PATH_CONFIG    => array('name'=>t('配置目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_RUNTIME   => array('name'=>t('运行时目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_THEMES    => array('name'=>t('主题和模板目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_CACHE     => array('name'=>t('缓存目录'), 'type'=>'folder', 'writable'=>true),
@@ -45,25 +46,19 @@ class system_controller_check extends admin_controller
     	{
     		if ( !file_exists($f))
     		{
-    			if ( $r['type'] == 'file' )
-    			{
-    				$is_writable = (false !== @file_put_contents($f, ''));
-    			}
-    			else
-    			{
-    				$is_writable = folder::create($f, 0777);
-    			}
+    			$is_writable = ($r['type'] == 'file') ? (false !== @file_put_contents($f, '')) : folder::create($f, 0777);
     		}
     		else
     		{
-    			$is_writable = is_writable($f) && (($r['type'] == 'file') ^ is_dir($f));
+    			$is_writable = ($r['type'] == 'file') ? is_writable($f) : folder::writeable($f);
     		}
 
 			$r['is_writable'] = $is_writable;
-			$r['position']    = '/'.str_replace('\\','/',trim(str_replace(ZOTOP_PATH, '', $f),'\\'));
+
+			$r['position']    = '/'.str_replace(DS,'/', trim(str_replace(ZOTOP_PATH, '', $f), DS));
     	}
 
-		$this->assign('title',t('系统检测'));
+		$this->assign('title',t('系统信息'));
 		$this->assign('description',t('服务器信息及文件和目录权限检测'));
 		$this->assign('check_rewrite',rewrite::check());
 		$this->assign('check_io',$check_io);
@@ -108,7 +103,7 @@ class system_controller_check extends admin_controller
      * @access public
      * @return void
      */
-	public function action_rewriteCallback()
+	public function action_rewritecallback()
 	{
 		exit('ok');
 	}    
