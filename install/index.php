@@ -252,15 +252,21 @@ class install
 					'pconnect' 	=> $pconnect,
 				);
 
+				// 尝试创建数据库
+				zotop::db($config)->create();
+
 				try
 				{
-					if ( zotop::db($config)->create() )
+					if ( zotop::db($config)->exists() )
 					{
-						$msg = array('code'=>1, 'message'=>t('数据库创建成功'));
-					}
-					elseif ( zotop::db($config)->exists() )
-					{
-						$msg = array('code'=>0, 'message'=>t('数据库 $1 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
+						if ( zotop::db($config)->tables() )
+						{
+							$msg = array('code'=>0, 'message'=>t('数据库 $1 已经存在，是否继续？如果继续系统将会删除原有数据', $mysql_database));
+						}
+						else
+						{
+							$msg = array('code'=>1, 'message'=>t('数据库 $1 已经准备成功', $mysql_database));
+						}
 					}
 					else
 					{
@@ -271,6 +277,8 @@ class install
 				{
 					$msg = array('code'=>2, 'message'=>t('连接数据库失败，请检查数据库设置！$1', $e->getMessage()));
 				}
+
+
 			}
 		}
 
