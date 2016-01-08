@@ -250,7 +250,14 @@ abstract class db
 
             $this->bind = array();
 
-            $result = $this->PDOStatement->execute();
+            try
+            {
+                $result = $this->PDOStatement->execute();    
+            } 
+            catch (Exception $e)
+            {
+                throw new zotop_exception($this->errorinfo());
+            }       
 
             $this->reset();
 
