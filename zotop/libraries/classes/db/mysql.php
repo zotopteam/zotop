@@ -290,7 +290,7 @@ class db_mysql extends db
             return false;
         } 
 
-        return $this->execute('DROP TABLE `' . $this->tablename($tablename)).'`';        
+        return $this->execute('DROP TABLE `' . $this->tablename($tablename) . '`');        
     }
 
 
