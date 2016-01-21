@@ -217,6 +217,7 @@ label[for]{cursor:pointer;}
 .shortcut-badge {position:absolute;right:8px;top:10px;}
 .shortcut-badge a{color:#fff;}
 
+/*sidebar nav*/
 .nav-side{margin-bottom:30px;}
 .nav-side > li > a{padding:6px 15px;border-radius:0;}
 .nav-side > li > a:hover,
@@ -407,11 +408,27 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .side.main-side{width:245px;left:auto;right:0px;float:right;border:0 none;}
 
 @media (max-width:768px) {
-    .side{width:50px;}
+    .side{width:50px;z-index:1028;}
     .side-header{display:none;}
-    .side-body{top:0;}
+    .side-body{top:0;overflow: visible!important;}
     .nav-side>li>a>.fa{margin:0;}
-    .nav-side>li>a>span{display:none;}
+    .nav-side>li.active>a:before{display: none;}
+    .nav-side>li>a>span{
+    	position: absolute;
+	    left: 50px;
+	    top: 0px;
+	    z-index: 9999;
+	    white-space: nowrap;
+	    width: auto;
+	    height: 100%;
+	    font-size: 14px;
+	    padding:6px 15px;
+	    background-color: #ECF9FF;
+	    display: none;
+	}
+	.nav-side>li:hover>a>span{
+		display: block;
+	}
     .main.side-main{margin-left:50px;}
 }
 
