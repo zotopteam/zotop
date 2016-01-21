@@ -85,28 +85,28 @@ function system_upload_navbar($type='image')
 		'text'   => t('本地上传'),
 		'href'   => u('system/upload/'.$type, $_GET),
 		'icon'   => 'fa fa-upload',
-		'active' => substr_count(ZOTOP_URI,'system/upload/'.$type)
+		'active' => request::is('system/upload/'.$type)
 	);
 
 	$nav['library'] = array(
 		'text'   => t('从库中选择'),
 		'href'   => u('system/upload/library/'.$type, $_GET),
 		'icon'   => 'fa fa-server',
-		'active' => substr_count(ZOTOP_URI,'system/upload/library')
+		'active' => request::is('system/upload/library')
 	);
 
 	$nav['dirview'] = array(
 		'text'   => t('从目录中选择'),
 		'href'   => u('system/upload/dirview/'.$type, $_GET),
 		'icon'   => 'fa fa-folder',
-		'active' => substr_count(ZOTOP_URI,'system/upload/dirview')
+		'active' => request::is('system/upload/dirview')
 	);
 
 	// $nav['remote'] = array(
 	// 	'text'   => t('远程文件'),
 	// 	'href'   => u('system/upload/remote'.$type, $_GET),
 	// 	'icon'   => 'fa fa-link',
-	// 	'active' => substr_count(ZOTOP_URI,'system/upload/remote')
+	// 	'active' => request::is('system/upload/remote')
 	// );
 
 	return zotop::filter('system.upload.navbar', $nav, $type);		

@@ -222,6 +222,7 @@ class request
     public static function ip()
     {
         static $ip = null;
+
         if ($ip === null)
         {
             if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
@@ -245,6 +246,24 @@ class request
             }
         }
         return $ip;
+    }
+
+    /**
+     * 判断是当前路由是否为真
+     * 
+     * @return boolean [description]
+     */
+    public static function is()
+    {
+        foreach (func_get_args() as $pattern)
+        {
+            if ( substr_count(ZOTOP_URI, $pattern) OR str::is($pattern, urldecode(ZOTOP_URI)) ) 
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 ?>

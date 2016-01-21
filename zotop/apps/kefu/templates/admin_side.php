@@ -5,12 +5,12 @@
 	<div class="side-body">
 
 		<ul class="nav nav-pills nav-stacked nav-side">
-			<li{if substr_count(ZOTOP_URI,'kefu/admin')} class="active"{/if}>
+			<li{if request::is('kefu/admin')} class="active"{/if}>
 				<a href="{u('kefu/admin')}">
 					<i class="fa fa-home"></i><span>{t('客服管理')}</span>
 				</a>
 			</li>
-			<li{if substr_count(ZOTOP_URI,'kefu/config')} class="active"{/if}>
+			<li{if request::is('kefu/config')} class="active"{/if}>
 				<a href="{u('kefu/config')}">
 					<i class="fa fa-cog"></i><span>{t('设置')}</span>
 				</a>

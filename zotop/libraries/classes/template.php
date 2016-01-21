@@ -167,20 +167,6 @@ class template
     }
 
     /**
-     * 转义 // 为 /，并自动为数组变量增加单引号
-     *
-     * @param array $match 匹配结果
-     * @return 转义后的字符
-     */
-    public function addquote($match)
-    {
-        $str = $match[1];
-        $str = str_replace("\\\"", "\"", preg_replace("/\[([a-zA-Z0-9_\-\.\x7f-\xff]+)\]/s", "['\\1']", $str));
-        return '<?php echo '.$str.'?>';
-    }
-
-
-    /**
      * 模板解析函数
      *
      * @param string $template 模板内容
@@ -198,10 +184,10 @@ class template
         $str = preg_replace("/\<\!\-\-#.+?#\-\-\>/s", "", $str);
 
         // 解析 {literal}……………{/literal} 标签，literal中的内容不会参与之后的解析，直接显示
-        $str = preg_replace_callback("/\{literal\}(.*?){\/literal}/s", 'self::parse_literal', $str);
+        $str = preg_replace_callback("/\{literal\}(.*?){\/literal}/s", array($this,'parse_literal'), $str);
 
 		// 解析点符号数组 {……$r.id……} => {……$r['id']……}  {……$r.id.n……} => {……$r['id']['n']……}，最多支持三维数组
-		$str = preg_replace_callback("/\{(.+?)\}/s", 'self::parse_tag', $str);
+		$str = preg_replace_callback("/\{(.+?)\}/s", array('self','parse_tag'), $str);
 
 		// 解析单行php {php $i=1}
 		$str = preg_replace("/\{php\s+(.+)\}/i", "<?php \\1?>", $str);
@@ -214,7 +200,7 @@ class template
         {
         	if ( stripos($str, '{include') !== false )
         	{
-        		$str = preg_replace("/\{include\s+(.+)\}/ie", 'self::parse_include', $str);
+        		$str = preg_replace("/\{include\s+(.+)\}/ie", array('self','parse_include'), $str);
         	}
 		}
 
@@ -243,7 +229,7 @@ class template
         $str = preg_replace("/\{\/for\}/i", "<?php endfor; ?>", $str);
 
 		// 解析数组 {$r[id]} => $r['id']
-        $str = preg_replace_callback("/\{(\\$[a-zA-Z0-9_\[\]\'\"\$\x7f-\xff]+)\}/s", 'self::addquote', $str);
+        $str = preg_replace_callback("/\{(\\$[a-zA-Z0-9_\[\]\'\"\$\x7f-\xff]+)\}/s", array('self','addquote'), $str);
 
 		// 解析对象 {$content->title}
         $str = preg_replace("/\{(\\\$[a-zA-Z0-9_\-\>\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?php echo \\1;?>", $str);
@@ -261,16 +247,16 @@ class template
         $str = zotop::filter('template.parse', $str, $this);
 
         // 解析 form 和 field 标签
-        $str = preg_replace_callback('/\{form(\s+[^}]+?)(\/?)\}/i', 'self::parse_form', $str);
-        $str = preg_replace_callback('/\{field(\s+[^}]+?)(\/?)\}/i', 'self::parse_field', $str);
+        $str = preg_replace_callback('/\{form(\s+[^}]+?)(\/?)\}/i', array('self','parse_form'), $str);
+        $str = preg_replace_callback('/\{field(\s+[^}]+?)(\/?)\}/i', array('self','parse_field'), $str);
         $str = preg_replace("/\{form\}/i", "<?php echo form::header(); ?>", $str);
         $str = preg_replace("/\{\/form\}/i", "<?php echo form::footer(); ?>", $str);
 
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}
         if ($tag = template::tag())
         {
-            $str = preg_replace_callback('/\{('.implode('|', array_keys($tag)).')(\s+[^}]+?)(\/?)\}/i', 'self::parse_begin', $str);
-            $str = preg_replace_callback('/\{\/('.implode('|', array_keys($tag)).')\}/i', 'self::parse_end', $str);
+            $str = preg_replace_callback('/\{('.implode('|', array_keys($tag)).')(\s+[^}]+?)(\/?)\}/i', array('self','parse_begin'), $str);
+            $str = preg_replace_callback('/\{\/('.implode('|', array_keys($tag)).')\}/i', array('self','parse_end'), $str);
         }
 
         // 解析并还原 literal 标签
@@ -281,8 +267,6 @@ class template
 
         return "<?php defined('ZOTOP') or exit('No permission resources.'); ?>\r\n" . $str;
     }
-
-
 
     /**
      * 解析并存储 literal 标签中的内容
@@ -305,7 +289,22 @@ class template
         }
 
         return '';
+    }    
+
+    /**
+     * 转义 // 为 /，并自动为数组变量增加单引号
+     *
+     * @param array $match 匹配结果
+     * @return 转义后的字符
+     */
+    public static function addquote($match)
+    {
+        $str = $match[1];
+        $str = str_replace("\\\"", "\"", preg_replace("/\[([a-zA-Z0-9_\-\.\x7f-\xff]+)\]/s", "['\\1']", $str));
+        return '<?php echo '.$str.'?>';
     }
+
+
 
     /**
      * 内置的form标签解析 ，可以像使用 <form ……> 标签一样使用，但是自动生成代码内置了一些功能
@@ -315,7 +314,7 @@ class template
      * @param  array $match 匹配结果
      * @return string
      */
-    public function parse_form($match)
+    public static function parse_form($match)
     {
         $str   = $match[1];
         $attrs = self::parse_attrs($str);
@@ -337,7 +336,7 @@ class template
      * @param  array $match 匹配结果
      * @return string
      */
-    public function parse_field($match)
+    public static function parse_field($match)
     {
         $str   = $match[1];
         $attrs = self::parse_attrs($str);
@@ -350,13 +349,13 @@ class template
     /**
      * 解析标签中的点符号数组,最多支持四维数组
      *
-     * @param string $str 匹配到的标签内容
-     *
+     * @param  array $match 匹配结果
      * @return string 解析的结果
      */
-	public function parse_tag($match)
+	public static function parse_tag($match)
 	{
 		$str = $match[1];
+
         $var = '[a-zA-Z0-9_]+'; //数组允许使用的变量类型
 
 		$str = stripslashes($str);
@@ -429,16 +428,17 @@ class template
     /**
      * 自定义模板标签解析
      *
-     * @param string $html 匹配到的HTML代码
-     * @param string $tag 标签名称
-     * @param string $array_attrs 标签属性
-     * @param string $end 标签是否自动结束
-     *
+     * @param  array $match 匹配结果
      * @return string 解析的结果
      */
-    public function parse_begin($match)
+    public static function parse_begin($match)
     {
-        
+        /**
+         * $html 匹配到的HTML代码
+         * $tag 标签名称
+         * $array_attrs 标签属性
+         * $end 标签是否自动结束
+         */
         list($html, $tag, $str, $end) = $match;
 
         //标签的所有参数都必须以半角（英文）双引号括起来
@@ -497,9 +497,10 @@ class template
     /**
      * 模板标签解析：解析闭合标签
      *
+     * @param  array $match 匹配结果
      * @return string 解析的结果
      */
-    public function parse_end($match)
+    public static function parse_end($match)
     {
 		$newline = "\r\n";
 		$code .= $newline.'	$n++;';
@@ -511,10 +512,10 @@ class template
     /**
      * 将子模板写入当前模板， TODO 子模板自动更新
      * 
-     * @param  string $file 子模板路径
+     * @param  array $match 匹配结果
      * @return string
      */
-    private function parse_include($match)
+    private static function parse_include($match)
     {
     	$file = $match[1];
         $file = trim(trim($file,'"'),"'");

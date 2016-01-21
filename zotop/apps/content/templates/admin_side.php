@@ -21,16 +21,16 @@
 					</tbody>
 				</table>
 			</li>
-			<li {if substr_count(ZOTOP_URI,'content/config')}class="active"{/if}>
+			<li {if request::is('content/config')}class="active"{/if}>
 				<a href="{u('content/config')}"><i class="fa fa-cog"></i> <span>{t('内容设置')}</span></a>
 			</li>
-			<li {if substr_count(ZOTOP_URI,'content/category')}class="active"{/if}>
+			<li {if request::is('content/category')}class="active"{/if}>
 				<a href="{u('content/category')}"><i class="fa fa-sitemap"></i> <span>{t('栏目管理')}</span></a>
 				</li>
-			<li {if substr_count(ZOTOP_URI,'content/model') or substr_count(ZOTOP_URI,'content/field')}class="active"{/if}>
+			<li {if request::is('content/model','content/field')}class="active"{/if}>
 				<a href="{u('content/model')}"><i class="fa fa-cubes"></i> <span>{t('模型管理')}</span></a>
 			</li>
-			<li {if substr_count(ZOTOP_URI,'content/admintags')}class="active"{/if}>
+			<li {if request::is('content/admintags')}class="active"{/if}>
 				<a href="{u('content/admintags')}"><i class="fa fa-tag"></i> <span>{t('Tag管理')}</span></a>
 			</li>
 		</ul>

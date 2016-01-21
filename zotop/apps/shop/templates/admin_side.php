@@ -5,12 +5,12 @@
 
 <ul class="sidenavlist">
 	<li class="none">
-		<a href="{u('shop/admin')}"{if substr_count(ZOTOP_URI,'shop/admin')} class="current"{/if}>
+		<a href="{u('shop/admin')}"{if request::is('shop/admin')} class="current"{/if}>
 			<i class="icon icon-home"></i>{t('商城首页')}
 		</a>
 	</li>
 	<li>
-		<a href="{u('shop/goods')}"{if substr_count(ZOTOP_URI,'shop/goods') and !$categoryid} class="current"{/if}>
+		<a href="{u('shop/goods')}"{if request::is('shop/goods') and !$categoryid} class="current"{/if}>
 			<i class="icon icon-admin"></i>{t('商品管理')}
 		</a>
 	</li>
@@ -28,20 +28,20 @@
 		</table>
 	</li>
 	<li>
-		<a href="{u('shop/category')}"{if substr_count(ZOTOP_URI,'shop/category')} class="current"{/if}>
+		<a href="{u('shop/category')}"{if request::is('shop/category')} class="current"{/if}>
 			<i class="icon icon-category"></i>{t('商品分类')}
 		</a>
 	</li>
 
 	<li>
-		<a href="{u('shop/type')}"{if substr_count(ZOTOP_URI,'shop/type')} class="current"{/if}>
+		<a href="{u('shop/type')}"{if request::is('shop/type')} class="current"{/if}>
 			<i class="icon icon-flag"></i>{t('商品类型')}
 		</a>
 	</li>
 
 	{if c('shop.spec')}
 	<li>
-		<a href="{u('shop/spec')}"{if substr_count(ZOTOP_URI,'shop/spec')} class="current"{/if}>
+		<a href="{u('shop/spec')}"{if request::is('shop/spec')} class="current"{/if}>
 			<i class="icon icon-flag"></i>{t('商品规格')}
 		</a>
 	</li>
@@ -49,14 +49,14 @@
 	
 	{if c('shop.brand')}
 	<li>
-		<a href="{u('shop/brand')}"{if substr_count(ZOTOP_URI,'shop/brand')} class="current"{/if}>
+		<a href="{u('shop/brand')}"{if request::is('shop/brand')} class="current"{/if}>
 			<i class="icon icon-flag"></i>{t('商品品牌')}
 		</a>
 	</li>
 	{/if}
 
 	<li>
-		<a href="{u('shop/config')}"{if substr_count(ZOTOP_URI,'shop/config')} class="current"{/if}>
+		<a href="{u('shop/config')}"{if request::is('shop/config')} class="current"{/if}>
 			<i class="icon icon-config"></i>{t('设置')}
 		</a>
 	</li>

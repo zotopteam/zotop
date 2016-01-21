@@ -9,6 +9,26 @@
  */
 class str
 {
+    /**
+     * 正则判断值是否符合规则
+     *
+     * @param  string  $pattern
+     * @param  string  $value
+     * @return bool
+     */
+    public static function is($pattern, $value)
+    {
+        if ($pattern == $value)
+        {
+            return true;
+        }
+
+        $pattern = preg_quote($pattern, '#');
+        $pattern = str_replace('\*', '.*', $pattern);
+
+        return (bool) preg_match('#^'.$pattern.'\z#', $value);
+    }
+
 	/**
 	 * 查询字符是否存在于某字符串
 	 *
