@@ -15,10 +15,7 @@
 
 		{if empty($themes)}
 			<div class="nodata">
-				<i class="fa fa-frown-o"></i>
-				<h1>
-					{t('暂时没有可用主题，你可以上传或者安装一个主题')}
-				</h1>
+				{t('暂时没有可用主题，你可以上传或者安装一个主题')}
 			</div>			
 		{else}
 			<div class="container-fluid">

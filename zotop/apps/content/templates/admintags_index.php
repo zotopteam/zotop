@@ -24,12 +24,7 @@
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 		{if empty($data)}
-		<div class="nodata">
-			<i class="fa fa-frown-o"></i>
-			<h1>
-				{t('暂时没有任何数据')}
-			</h1>
-		</div>
+		<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
 			{form::header()}
 			<table class="table zebra list datalist" cellspacing="0" cellpadding="0">

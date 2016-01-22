@@ -472,12 +472,9 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 
 /* nodata */
 
-.nodata{text-align:center;color:#999;position:absolute;top:50%;left:0;right:0;margin-top:-136px;z-index:999;}
-.nodata>.fa{font-size:150px;}
-.nodata>h1{font-size:42px;margin:40px 0;line-height:1;}
-.nodata>h1>.btn{font-size:20px;vertical-align:top;}
-.nodata>.btn{padding:10px 20px;font-size:20px;}
-
+.nodata{text-align:center;color:#999;position:absolute;top:50%;left:0;right:0;margin-top:-80px;z-index:999;font-size:25px;}
+.nodata:before{font-family:fontawesome;content:'\f119';display:block;font-size: 150px;height:120px;}
+.nodata>.btn{margin-top:-6px;}
 /* notsupport */
 .notsupport{position:absolute;top:0;z-index:99999;width:100%;height:100%;text-align:center;clear:both;color:#fff;background:#0072C6;}
 .notsupport h1{font-size:100px;margin-top:200px;margin-bottom:30px;}

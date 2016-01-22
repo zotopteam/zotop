@@ -17,14 +17,11 @@
 
 		{if empty($data)}
 			<div class="nodata">
-				<i class="fa fa-frown-o"></i>
-				<h1>
-					{t('暂时没有任何数据')}
+				{t('暂时没有任何数据')}
 
-					<a class="btn btn-primary js-open" href="{u('system/badword/add')}" data-width="600px" data-height="380px">
-						<i class="fa fa-plus fa-fw"></i>{t('添加')}
-					</a>
-				</h1>
+				<a class="btn btn-primary js-open" href="{u('system/badword/add')}" data-width="600px" data-height="380px">
+					<i class="fa fa-plus fa-fw"></i>{t('添加')}
+				</a>
 			</div>
 		{else}
 		<table class="table table-hover list" cellspacing="0" cellpadding="0">

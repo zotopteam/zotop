@@ -26,61 +26,56 @@
 	<div class="main-body scrollable">
 
 		{if $block.data and is_array($block.data)}		
-			<table class="table table-hover table-nowrap sortable" id="datalist" cellspacing="0" cellpadding="0">
-				<thead>
-					<tr>
-						<td class="drag">&nbsp;</td>
-						<td class="text-center" width="40">{t('行号')}</td>
-						<td>{t('标题')}</td>
-						<td class="text-right" width="200">{t('操作')}</td>
-					</tr>
-				</thead>
-				<tbody>
-				{loop m('block.datalist.getlist',$block.id) $i $r}
-					<tr>
-						<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
-						<td class="text-center"></td>
-						<td>
-							<div class="title text-overflow">
-								{if $r.url}	<a href="{U($r.url)}" target="_blank">{$r.title}</a> {else}	{$r.title} {/if}
+		<table class="table table-hover table-nowrap sortable" id="datalist" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td class="drag">&nbsp;</td>
+					<td class="text-center" width="40">{t('行号')}</td>
+					<td>{t('标题')}</td>
+					<td class="text-right" width="200">{t('操作')}</td>
+				</tr>
+			</thead>
+			<tbody>
+			{loop m('block.datalist.getlist',$block.id) $i $r}
+				<tr>
+					<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
+					<td class="text-center"></td>
+					<td>
+						<div class="title text-overflow">
+							{if $r.url}	<a href="{U($r.url)}" target="_blank">{$r.title}</a> {else}	{$r.title} {/if}
 
-								{if $r.image} 
-									<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
-										<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
-									</i> 
-								{/if}								
-								{if $r.dataid}<i class="fa fa-share text-success" title="{t('关联数据')}"></i> {/if}
-								{if $r.stick}<i class="fa fa-arrow-up text-success" title="{t('已置顶')}"></i> {/if}
-							</div>
-						</td>
-						<td class="manage text-right">
-								{if $r.stick}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="js-ajax-post"><i class="fa fa-arrow-down"></i> {t('取消置顶')}</a>
-								{else}
-								<a href="{U('block/datalist/stick/'.$r.id)}" class="js-ajax-post"><i class="fa fa-arrow-up"></i> {t('置顶')}</a>
-								{/if}
-								<s>|</s>
-								
-								{if $r.url}
-								<a href="{U($r.url)}" target="_blank"><i class="fa fa-eye"></i> {t('查看')}</a>
-								<s>|</s>
-								{/if}
+							{if $r.image} 
+								<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
+									<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
+								</i> 
+							{/if}								
+							{if $r.dataid}<i class="fa fa-share text-success" title="{t('关联数据')}"></i> {/if}
+							{if $r.stick}<i class="fa fa-arrow-up text-success" title="{t('已置顶')}"></i> {/if}
+						</div>
+					</td>
+					<td class="manage text-right">
+							{if $r.stick}
+							<a href="{U('block/datalist/stick/'.$r.id)}" class="js-ajax-post"><i class="fa fa-arrow-down"></i> {t('取消置顶')}</a>
+							{else}
+							<a href="{U('block/datalist/stick/'.$r.id)}" class="js-ajax-post"><i class="fa fa-arrow-up"></i> {t('置顶')}</a>
+							{/if}
+							<s>|</s>
+							
+							{if $r.url}
+							<a href="{U($r.url)}" target="_blank"><i class="fa fa-eye"></i> {t('查看')}</a>
+							<s>|</s>
+							{/if}
 
-								<a href="{U('block/datalist/edit/'.$r.id)}" data-width="800px" data-height="400px" class="js-open"><i class="fa fa-edit"></i> {t('编辑')}</a>
-								<s>|</s>
-								<a href="{U('block/datalist/delete/'.$r.id)}" class="js-confirm"><i class="fa fa-times"></i> {t('删除')}</a>
-						</td>
-					</tr>					
-				{/loop}				
-				</tbody>
-			</table>
+							<a href="{U('block/datalist/edit/'.$r.id)}" data-width="800px" data-height="400px" class="js-open"><i class="fa fa-edit"></i> {t('编辑')}</a>
+							<s>|</s>
+							<a href="{U('block/datalist/delete/'.$r.id)}" class="js-confirm"><i class="fa fa-times"></i> {t('删除')}</a>
+					</td>
+				</tr>					
+			{/loop}				
+			</tbody>
+		</table>
 		{else}
-		<div class="nodata">
-			<i class="fa fa-frown-o"></i>
-			<h1>
-				{t('暂时没有任何数据')}
-			</h1>
-		</div>
+		<div class="nodata">{t('暂时没有任何数据')}</div>
 		{/if}
 		
 

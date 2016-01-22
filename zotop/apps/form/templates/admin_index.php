@@ -1,15 +1,13 @@
 {template 'header.php'}
 
-<div class="side">
 {template 'form/admin_side.php'}
-</div>
 
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight" href="{U('form/admin/add')}">
-				<i class="icon icon-add"></i><b>{t('添加表单')}</b>
+			<a class="btn btn-primary btn-icon-text" href="{U('form/admin/add')}">
+				<i class="fa fa-plus"></i><b>{t('添加表单')}</b>
 			</a>
 		</div>
 	</div>

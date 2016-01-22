@@ -40,10 +40,7 @@
 	<div class="main-body scrollable" id="upload-dragdrop">
 		{if empty($data)}
 			<div class="nodata">
-				<i class="fa fa-frown-o"></i>
-				<h1>
-					{t('暂时没有任何数据')}
-				</h1>
+				{t('暂时没有任何数据')}
 			</div>
 		{else}
 

@@ -14,15 +14,13 @@
 	<div class="main-body scrollable">
 		{if empty($data)}
 			<div class="nodata">
-				<i class="fa fa-frown-o"></i>
-				<h1>
-					{t('暂时没有任何数据')}
+				{t('暂时没有任何数据')}
 
-					<a class="btn btn-primary js-open" href="{U('kefu/admin/add')}" data-width="800px" data-height="400px">
-						<i class="fa fa-plus fa-fw"></i>{t('添加')}
-					</a>
-				</h1>
-			</div>		{else}
+				<a class="btn btn-primary js-open" href="{U('kefu/admin/add')}" data-width="800px" data-height="400px">
+					<i class="fa fa-plus fa-fw"></i>{t('添加')}
+				</a>
+			</div>
+		{else}
 		{form::header()}
 		<table class="table table-hover table-nowrap sortable">
 			<thead>
