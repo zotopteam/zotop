@@ -376,8 +376,6 @@ class system_model_app extends model
 
     		//重启系统
     		zotop::reboot();
-
-			unset($data);
 		}
 
 		return $cache;

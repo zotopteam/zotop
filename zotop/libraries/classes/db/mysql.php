@@ -74,7 +74,7 @@ class db_mysql extends db
 
             $db = self::instance($config);
             $db->execute("CREATE DATABASE IF NOT EXISTS `".$this->config['database'] ."` DEFAULT CHARACTER SET ".$this->config['charset']." COLLATE ".$this->config['collation']."");
-            $db->execute("USE `".$this->config['database'] ."`");
+            //$db->execute("USE `".$this->config['database'] ."`");
 
             return true; 
         }

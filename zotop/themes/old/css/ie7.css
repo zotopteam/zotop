@@ -1,6 +1,0 @@
-.position ul{margin-left:-20px;zoom:1;}
-.position li{*zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '<s>></s>' + this.innerHTML);}
-.position li s{color:#ccc;padding:0 5px;}
-
-ul.list li{*zoom:expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '<s>·</s>' + this.innerHTML);}
-ul.list li s{float:left;display:inline-block;width:18px;text-align:center;color:#ff6600;font-size:12px;font-weight:bold;}

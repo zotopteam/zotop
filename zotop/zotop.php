@@ -189,15 +189,14 @@ class zotop
      */
     public static function reboot()
     {
-
         // 系统重启接口
         zotop::run('zotop.reboot');
 
         // 删除核心缓存
-        @unlink(ZOTOP_PATH_RUNTIME . DS . 'preload.php');
-        @unlink(ZOTOP_PATH_RUNTIME . DS . 'global.php');
-        @unlink(ZOTOP_PATH_RUNTIME . DS . 'config.php');
-
+        file::delete(ZOTOP_PATH_RUNTIME . DS . 'preload.php');
+        file::delete(ZOTOP_PATH_RUNTIME . DS . 'global.php');
+        file::delete(ZOTOP_PATH_RUNTIME . DS . 'config.php');
+        
         return true;
     }
 
@@ -1106,9 +1105,10 @@ class zotop
         //存储数据
         if( $data !== '' )
         {
-            $data = "<?php\nreturn ".var_export($data,true).";\n?>";
-            file::put($file, $data);
             $files[$file] = $data;
+
+            $data = "<?php\nreturn ".var_export($data,true).";\n?>";
+            file::put($file, $data);            
             return true;
         }
 
