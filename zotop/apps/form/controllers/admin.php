@@ -107,7 +107,7 @@ class form_controller_admin extends admin_controller
  	 * @param  string $ignore 允许忽略的数据
  	 * @return json 操作结果
      */
-	public function action_check($key,$ignore='')
+	public function action_check($key, $ignore='')
 	{
 		if ( empty($ignore) )
 		{
@@ -137,9 +137,9 @@ class form_controller_admin extends admin_controller
 			exit('"'.t('只能由小写英文字母、数字和下划线组成，且有英文字母开头').'"');
 		}
 
-		$count = ($table == $ignore) ? 0 : $this->form->db()->table($table)->exists();
+		$count = ($table == $ignore) ? 0 : $this->form->db()->existsTable($table);
 
-		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
+		exit($count ? '"'.t('已经存在，请重新输入'.$count).'"' : 'true');
 	}
 
     /**

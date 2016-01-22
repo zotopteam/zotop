@@ -284,6 +284,8 @@ label[for]{cursor:pointer;}
 html{height:100%;overflow:hidden;}
 body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;line-height:180%;padding-top:50px;width:100%;height:100%;overflow:hidden;}
 
+.hide{display: none;}
+.show{display: block;}
 .blank{zoom:1;clear:both;display:block;height:15px;overflow:hidden;}
 .divider{height:1px;margin:9px 0;overflow: hidden;background-color: #e5e5e5;}
 .new{font-size:12px;color:#f00;}
@@ -293,6 +295,8 @@ body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,Wen
 .fixed-top{position:fixed;top:0;left:0;right:0;}
 .fixed-bottom{position:fixed;bottom:0;left:0;right:0;}
 .pull-center{float:none !important;margin-left:auto !important;margin-right:auto !important;display:inline-block;}
+
+
 
 
 .va-t{vertical-align:top !important;}

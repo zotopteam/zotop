@@ -6,7 +6,7 @@
 		<ul class="nav nav-pills nav-stacked nav-side">
 			<li>
 				<a href="{u('form/admin')}"{if request::is('form/admin')} class="current"{/if}>
-					<i class="fa fa-admin fa-fw"></i>{t('表单管理')}
+					<i class="fa fa-cubes fa-fw"></i>{t('表单管理')}
 				</a>
 			</li>
 			{loop m('form.form.cache') $r}

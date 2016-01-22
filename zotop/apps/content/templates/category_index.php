@@ -25,7 +25,7 @@
 			<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
 		{form::header()}
-		<table class="table table-nowrap table-hover list sortable" cellspacing="0" cellpadding="0">
+		<table class="table table-nowrap table-hover list sortable">
 		<thead>
 			<tr>
 			<td class="drag">&nbsp;</td>

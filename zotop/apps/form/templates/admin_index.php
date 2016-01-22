@@ -16,12 +16,11 @@
 			<div class="nodata">{t('没有找到任何数据')}</div>
 		{else}
 			{form::header()}
-			<table class="table list sortable">
+			<table class="table table-nowrap table-hover list sortable">
 				<thead>
-					<tr>
-									
+					<tr>									
 						<td class="drag"></td>
-						<td class="w40 center">{t('状态')}</td>
+						<td class="text-center" width="20">{t('状态')}</td>
 						<td class="w400">{t('名称')}</td>
 						<td class="w160">{t('数据表名')}</td>
 						<td>{t('说明')}</td>
@@ -31,25 +30,25 @@
 				{loop $data $r}
 					<tr>
 						<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
-						<td class="center">{if $r['disabled']}<i class="icon icon-false false"></i>{else}<i class="icon icon-true true"></i>{/if}</td>
+						<td class="text-center">{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}</td>
 						<td>
-							<div class="title textflow">{$r['name']}</div>
+							<div class="title text-overflow">{$r['name']}</div>
 							<div class="manage">
 								<a href="{u('form/data/index/'.$r['id'])}">{t('数据管理')}</a>
-								<s></s>
+								<s>|</s>
 								<a href="{u('form/field/index/'.$r['id'])}">{t('字段管理')}</a>
-								<s></s>
+								<s>|</s>
 								<a href="{u('form/admin/edit/'.$r['id'])}">{t('表单设置')}</a>
-								<s></s>
+								<s>|</s>
 
 								{if $r['disabled']}
-								<a href="{u('form/admin/status/'.$r['id'])}" class="dialog-confirm">{t('启用')}</a>
+								<a href="{u('form/admin/status/'.$r['id'])}" class="js-confirm">{t('启用')}</a>
 								{else}
-								<a href="{u('form/admin/status/'.$r['id'])}" class="dialog-confirm">{t('禁用')}</a>
+								<a href="{u('form/admin/status/'.$r['id'])}" class="js-confirm">{t('禁用')}</a>
 								{/if}
 
-								<s></s>
-								<a href="{u('form/admin/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
+								<s>|</s>
+								<a href="{u('form/admin/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
 							</div>
 						</td>
 						<td>{$r.table}</td>
@@ -62,7 +61,7 @@
 		{/if}
 	</div>
 	<div class="main-footer">
-	{a('form.description')}
+		<div class="footer-text">{a('form.description')}</div>
 	</div>
 </div>
 

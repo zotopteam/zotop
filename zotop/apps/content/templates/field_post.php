@@ -81,7 +81,7 @@
 
 				</div>
 
-				<div class="field field-extend {if $data.name=='title'}none{/if}">
+				<div class="field field-extend {if $data.name=='title'}hide{/if}">
 
 					<div class="form-group field-notnull">
 						<div class="col-sm-2 control-label">{form::label(t('不能为空'),'notnull',false)}</div>

@@ -11,7 +11,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class form_model_field extends model
 {
 	protected $pk 		= 'id';
-	protected $this->db 	= 'form_field';
+	protected $table 	= 'form_field';
 
 	public $controls;
 	public $system_fields = array('id','dataid','status','formid','table','select','orderby','page','size','cache','return','search','keywords');
