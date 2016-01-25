@@ -1248,7 +1248,7 @@ class zotop
     /**
      * 记录或者获取程序运行信息
      *
-     * @param  mixed  $type   类型，debug|sql|error……
+     * @param  mixed  $type   类型，run|debug|sql|error，其余类型并入debug中
      * @param  mixed  $info   详细信息
      * @return mixed
      */
@@ -1265,12 +1265,17 @@ class zotop
 
         $type = strtoupper($type);
 
+        if ( !in_array($type, array('RUN','DEBUG','ERROR','SQL')) )
+        {
+            $type = 'DEBUG';
+        }
+
         if ( empty($info) )
         {
             return isset($_trace[$type]) ? $_trace[$type] : array();
         }
 
-        if ( ( ZOTOP_ISAJAX or $record === true) and $record !== false )
+        if ( ( ZOTOP_ISAJAX OR $record === true) and $record !== false )
         {
             return zotop::log($info);
         }
@@ -1280,7 +1285,7 @@ class zotop
             $_trace[$type] = array();
         }
 
-        $_trace[$type][]   = print_r($info,true);
+        $_trace[$type][]   = $info;
 
         return true;
     }

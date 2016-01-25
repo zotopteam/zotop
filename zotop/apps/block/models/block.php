@@ -108,14 +108,17 @@ class block_model_block extends model
 	{
 		$data = $this->getbyid($id);
 
-		if ( in_array($data['type'], array('list','hand')) )
+		if ( $data )
 		{
-			$data['data'] 	= unserialize($data['data']);
-			$data['data'] 	= is_array($data['data']) ? $data['data'] : array();
-			$data['fields'] = unserialize($data['fields']);
-		}
+			if ( in_array($data['type'], array('list','hand')) )
+			{
+				$data['data'] 	= unserialize($data['data']);
+				$data['data'] 	= is_array($data['data']) ? $data['data'] : array();
+				$data['fields'] = unserialize($data['fields']);
+			}
 
-		$data['dataid'] = 'block-'.$id;
+			$data['dataid'] = 'block-'.$id;
+		}
 
 		return $field ? $data[$field] : $data;
 	}

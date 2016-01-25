@@ -16,7 +16,8 @@
 	#zotop_trace_tabs_box dd{margin: 0;padding:5px 8px;border-bottom: solid 1px #ddd;}
 	#zotop_trace_tabs_box dd.start{color:green;}
 	#zotop_trace_tabs_box dd.end{color:green;border-bottom: solid 5px #ddd;}
-	#zotop_trace_tabs_box dd i{padding: 0 5px;color:#999;}
+	#zotop_trace_tabs_box dd i{padding: 0 5px;color:#999;float:left;margin-right:10px;}
+	#zotop_trace_tabs_box dd pre {display: block;padding:10px;margin:0;font-size:12px;line-height:18px;word-break: break-all;word-wrap: break-word;color: #333;background-color: #f7f7f7;border: 1px solid #ebebeb;border-radius: 4px;}
 </style>
 
 <div id="zotop_trace">
@@ -79,7 +80,7 @@
 
 			<dl>
 			<?php foreach (zotop::trace('debug') as $key => $val): ?>
-				<dd> <i><?php echo $key+1 ?></i> <span><?php echo $val ?></span> </dd>
+				<dd> <i><?php echo $key+1 ?></i> <span><?php echo debug::vars($val) ?></span> </dd>
 			<?php endforeach ?>
 			</dl>
 

@@ -1138,7 +1138,7 @@ abstract class database
 		zotop::counter('db',1);
 
 		$info = $this->sql.' ( '.zotop::profile('db_query_start','db_query_end').' )';
-		zotop::trace('SQL', $info);
+		zotop::trace('SQL',$info);
 		return $info;
 	}
 }
