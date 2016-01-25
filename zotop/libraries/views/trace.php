@@ -28,9 +28,9 @@
 		<div id="zotop_trace_tabs_nav">
 			<span class="on"><?php echo t('基本信息')?></span>
 			<span><?php echo t('文件加载')?></span>
-			<span><?php echo t('运行流程')?></span>
-			<span><?php echo t('错误信息')?></span>
+			<span><?php echo t('运行流程')?></span>			
 			<span><?php echo t('数据查询')?></span>
+			<span><?php echo t('错误异常')?></span>
 			<span><?php echo t('调试信息')?></span>
 			<img id="zotop_trace_close" src="data:image/gif;base64,R0lGODlhDAAMAJEAAAAAAP///wMDA////yH5BAEAAAMALAAAAAAMAAwAAAIWnI8nqZ2LoJFxMkWZyHVw3znhB15JAQA7" alt="close">
 		</div>
@@ -64,12 +64,6 @@
 					<dd><?php echo $val ?></dd>
 				<?php endif ?>				
 			<?php endforeach ?>
-			</dl>
-
-			<dl>
-			<?php foreach (zotop::trace('error') as $key => $val): ?>
-				<dd> <i><?php echo $key+1 ?></i> <span><?php echo $val ?></span> </dd>
-			<?php endforeach ?>
 			</dl>			
 
 			<dl>
@@ -77,6 +71,12 @@
 				<dd> <i><?php echo $key+1 ?></i> <span><?php echo $val ?></span> </dd>
 			<?php endforeach ?>
 			</dl>
+
+			<dl>
+			<?php foreach (zotop::trace('error') as $key => $val): ?>
+				<dd> <i><?php echo $key+1 ?></i> <span><?php echo $val ?></span> </dd>
+			<?php endforeach ?>
+			</dl>			
 
 			<dl>
 			<?php foreach (zotop::trace('debug') as $key => $val): ?>

@@ -28,9 +28,6 @@
 
 {if $b = m('block.block.get',4)}
 
-{zotop::trace('debug','$b')}
-{zotop::trace('debug',$b)}
-
 <div id="mainslider" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
 	{loop $b.data $i $r}
