@@ -88,7 +88,7 @@ class block_api
 	 */
 	public static function template_parse($str, $tpl)
 	{
-	    return preg_replace_callback("/\{block(\s+[^}]+?)\}/i", 'self::parse_block_tag', $str);
+	    return preg_replace_callback("/\{block(\s+[^}]+?)\}/i", array('self','parse_block_tag'), $str);
 	}
 
 	/**

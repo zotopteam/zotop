@@ -454,7 +454,7 @@ class template
             {
                 if (in_array($v[1], array('return', 'cache')))
                 {
-                    $$v[1] = $v[2];
+                    ${$v[1]} = $v[2];
                     continue;
                 }
 
