@@ -130,7 +130,7 @@ class block_api
 			return form::field($attrs);
 		}
 
-		return '<div class="field-text">'.t('没有找到推荐区块，请进入区块管理添加').'</div>';
+		return '<div class="form-control-static">'.t('没有找到推荐区块，请进入区块管理添加').'</div>';
 	}
 }
 ?>

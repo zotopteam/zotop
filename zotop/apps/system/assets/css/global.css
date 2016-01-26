@@ -190,7 +190,6 @@ label[for]{cursor:pointer;}
 .input-group-merge .fa{color:#0072C6;}
 
 @media (min-width:768px){
-    .form-control-static{margin-bottom:14px;}
     .form-horizontal .form-title{padding:10px 15px;margin-left:-10px;margin-right:-10px;margin-bottom:5px;background:#f3f3f3;}    
     .form-horizontal .form-group{border-bottom:1px solid #efefef;}
     .form-horizontal .control-label {text-align:left;padding-left:20px;}
