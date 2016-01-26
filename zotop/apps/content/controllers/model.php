@@ -124,6 +124,27 @@ class content_controller_model extends admin_controller
     }
 
     /**
+     * 检查字模型标识是否被占用
+     *
+     * @return bool
+     */
+	public function action_check($key, $ignore='')
+	{
+		$ignore = empty($ignore) ? $_GET['ignore'] : $ignore;
+
+		if ( empty($ignore) )
+		{
+			$count = $this->model->where($key, $_GET[$key])->count();
+		}
+		else
+		{
+			$count = $this->model->where($key,$_GET[$key])->where($key,'!=',$ignore)->count();
+		}
+
+		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
+	}    
+
+    /**
      * 设置状态，禁用或者启用
      *
 	 * @param string $id 模型标识(ID)

@@ -170,7 +170,7 @@ $(function(){
 		showErrors: function(errorMap, errorList) {
 			
 			$.each(this.successList, function(index, value) {
-				return $(value).tooltip("hide");
+				return $(value).removeClass('error').tooltip("hide");
 			});
 
 			return $.each(errorList, function(index, value) {

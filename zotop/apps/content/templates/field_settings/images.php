@@ -23,7 +23,7 @@
 				{field type="select" name="settings[image_resize]" value="$data.settings.image_resize" options="array(0=>t('原图'),1=>t('缩放'),2=>t('裁剪'))"}
 			</div>
 
-			<div class="col-sm-3">
+			<div class="col-sm-4">
 				<div class="input-group imagesize">
 					<span class="input-group-addon">{t('宽高')}</span>
 					{form::field(array('type'=>'number','name'=>'settings[image_width]','value'=>$data['settings']['image_width'],'required'=>'required'))}

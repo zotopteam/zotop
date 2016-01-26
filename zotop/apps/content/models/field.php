@@ -276,7 +276,7 @@ class content_model_field extends model
 				$data['listorder'] = $this->max('id') + 1;
 			}
 
-			if ( $this->db->addField($tablename, $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($tablename, $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				//更新模型类型
 				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() > 0 )

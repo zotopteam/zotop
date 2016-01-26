@@ -21,7 +21,7 @@
 			
 		{else}
 			
-			{field type="text" name="id" value="$data.id" maxlength="32" identifier="true" required="required"}
+			{field type="text" name="id" value="$data.id" maxlength="32" identifier="true" required="required" remote="U('content/model/check/id')"}
 
 		{/if}
 		
@@ -57,8 +57,8 @@
 	$(function(){
 		
 		$.validator.addMethod("identifier", function(value, element) {
-			return this.optional(element) || /^[a-z]$1[a-z0-9]{0,31}$/.test(value);
-		}, "{t('0-32位长度的英文字符和数字，且不能以数字开头')}");
+			return this.optional(element) || /^[a-z][a-z0-9]{1,31}$/.test(value);
+		}, "{t('2-32位长度的英文字符和数字，且不能以数字开头')}");
 
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');

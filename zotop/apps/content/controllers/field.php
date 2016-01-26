@@ -176,9 +176,10 @@ class content_controller_field extends admin_controller
 		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
 	}
 
-
-
-	// 获取控件的设置
+	/**
+	 * ajax 获取控件的属性设置
+	 * @return [type] [description]
+	 */
 	public function action_settings()
 	{
 
