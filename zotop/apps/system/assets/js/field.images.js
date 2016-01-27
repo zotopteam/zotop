@@ -8,7 +8,7 @@ $.fn.imagesfield = function(name,value,params){
 
 function imagesfield($this, name, value, params){
 	var self        = this;
-	var list        = $this.find('ul.images-list');
+	var list        = $this.find('.field-images-list');
 	var select      = $this.find('a.select');
 	var upload      = $this.find('a.upload');
 	var description = $this.find('a.description');
@@ -18,15 +18,17 @@ function imagesfield($this, name, value, params){
 	// API methods
 	$.extend(self, {
 		init : function(){
+			value = value || [];
+
 			// 初始化数据
-			$.each(value,function(i,data){
+			$.each(value, function(i,data){
 				self.add(data.image, data.description);
 			});
 
 			// 拖动
 			list.sortable({
-				items: ".images-list-item",
-				placeholder:"ui-sortable-placeholder",
+				items: ".field-images-list-item",
+				placeholder:"field-images-list-item sortable-placeholder",
 				update:function(){
 					self.updatenumber();
 				}				
@@ -34,17 +36,19 @@ function imagesfield($this, name, value, params){
 
 		},
 		// update selectall state
-		add : function(image,description){
+		add : function(image, description){
 
-			var c = '<li class="images-list-item">';
-				c += '<div class="image-preview"><img src="'+ image +'"/><input type="hidden" name="'+ name +'['+ n +'][image]" value="'+ image +'"></div>';
-				c += '<div class="image-description"><textarea class="textarea" name="'+ name +'['+ n +'][description]" placeholder="图片描述……">' + (description || '') + "</textarea></div>";
-				c += '<div class="image-manage clearfix">';
-				c += '	<b class="number">#'+ (n+1) +'</b>';
-				c += '	<a class="upload" href="javascript:;" title="重新上传"><i class="icon icon-upload"></i></a>';
-				c += '	<a class="delete" href="javascript:;" title="删除"><i class="icon icon-remove"></i></a>';
+			var c = '<div class="field-images-list-item">';
+				c += '	<div class="thumbnail">';
+				c += '		<div class="image-preview"><img src="'+ image +'"/><input type="hidden" name="'+ name +'['+ n +'][image]" value="'+ image +'"></div>';
+				c += '		<div class="image-description"><textarea rows="2" class="form-control" name="'+ name +'['+ n +'][description]" placeholder="图片描述……">' + (description || '') + "</textarea></div>";
+				c += '		<div class="image-manage clearfix">';
+				c += '			<b class="number">#'+ (n+1) +'</b>';
+				c += '			<a class="upload pull-right" href="javascript:;" title="重新上传"><i class="fa fa-upload"></i></a>';
+				c += '			<a class="delete pull-right" href="javascript:;" title="删除"><i class="fa fa-trash"></i></a>';
+				c += '		</div>';
+				c += '	</div>';
 				c += '</div>';
-				c += '</li>';
 
 			var item = $(c).appendTo(list);
 
@@ -64,7 +68,7 @@ function imagesfield($this, name, value, params){
 						}
 				});
 
-			list.find('.image-list-empty').hide();
+			list.find('.field-images-list-empty').hide();
 
 			n++;
 		},
@@ -72,11 +76,11 @@ function imagesfield($this, name, value, params){
 		// 重排行号
 		updatenumber: function(){
 		    
-		    list.find(".images-list-item").each(function(d, a) {
+		    list.find(".field-images-list-item").each(function(d, a) {
 		        $(a).find("b.number").text('#' + (d + 1));
 		    });
 
-		    if ( list.find('.images-list-item').length > 0 )
+		    if ( list.find('.field-images-list-item').length > 0 )
 		    {
 		    	list.find('.image-list-empty').hide();
 		    }else{
@@ -139,7 +143,7 @@ function imagesfield($this, name, value, params){
 	// 删除
 	list.on('click','a.delete',function(){
 		  $(this).tooltip('destroy');
-		  $(this).parent().parent().remove();
+		  $(this).parent().parent().parent().remove();
 		  self.updatenumber();		  
 	})
 

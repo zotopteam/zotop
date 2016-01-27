@@ -1,0 +1,71 @@
+/*.images-area {position:relative;width: auto;}
+.images-controls {width:95%;margin-top:8px;padding:0px;}
+.images-progressbar {position:absolute;top:2px;right:4%;z-index:1000;width:460px;height:25px;line-height:25px;display:none;}
+*/
+/*ul.images-list li{float: left;width: 100%;border-bottom: solid 1px #ebebeb;}
+ul.images-list li.ui-sortable-placeholder{background-color:#ccf3fa;height:60px;}
+ul.images-list li.ui-sortable-helper{background-color:#fffdd7;z-index:1000;height:60px;}
+ul.images-list li div.column{float: left;height:60px;padding:10px 0;text-align: center;display: table-cell;vertical-align:middle;position: relative;}
+ul.images-list li div.column-drag{width:40px;background:url(../image/dragitem.png) no-repeat center center;cursor:move;}
+ul.images-list li div.column-preview{width: 80px;padding:10px 5px;}
+ul.images-list li div.column-preview .image{width: 100%;height:60px;line-height:60px;display:table-cell;vertical-align:middle;text-align:center;background:#eee;border: solid 1px #ebebeb;}
+ul.images-list li div.column-preview .image img{vertical-align:middle;max-width:100%;max-height:100%;}
+ul.images-list li div.column-description{width: 75%;text-align: left;}
+ul.images-list li div.column-description textarea.textarea{width:95%;height: 50px;padding: 5px;}
+ul.images-list li div.column-manage{width:80px;float: right;height:62px;}
+ul.images-list li div.column-manage a{vertical-align:middle;}
+*/
+/*ul.images-list{float: left;margin-left: -10px;margin-top: -10px;}
+ul.images-list li{width: 214px;height: 165px;overflow: hidden;text-align: center;padding:3px;border: solid 1px #D0D0D0;float: left;margin-left: 10px;margin-top: 10px;position: relative;cursor:move;background: #fff;}
+ul.images-list li.ui-sortable-placeholder{border:dashed 1px #D0D0D0;}
+ul.images-list li.ui-sortable-helper{background-color:#fffdd7;z-index:1000;}
+ul.images-list li.image-list-empty{line-height: 165px;cursor:auto;}
+
+ul.images-list li div.image-preview{width:214px;height:120px;line-height:120px;display:table-cell;vertical-align:middle;text-align:center;background:#EFF5FB;border: 0 none;}
+ul.images-list li div.image-preview img{vertical-align:middle;max-width:100%;max-height:100%;}
+
+ul.images-list li div.image-description{width:100%;height:40px;margin-top:3px;}
+ul.images-list li div.image-description textarea.textarea{width:100%;height:40px;padding: 0px;border:0 none;background: transparent;}
+
+ul.images-list li div.image-manage{display:none;position: absolute;top:3px;left:3px;width:214px;line-height:30px;background: rgba(0, 0, 0, 0.3);text-align: right;}
+ul.images-list li div.image-manage b{color: #fff;float: left;padding: 0 5px;font-weight: normal;}
+ul.images-list li div.image-manage a{float: right;width: 30px;height: 30px;line-height: 30px;text-align: center;}
+ul.images-list li div.image-manage i{color: #fff;cursor:pointer;font-size: 14px;}
+ul.images-list li div.image-manage i.icon-remove{color: #f00;}
+ul.images-list li:hover div.image-manage{display: block;}*/
+
+.field-images{position:relative;}
+.field-images-progress{margin:5px 0;display:none;}
+.field-images-list{margin:5px -5px;}
+.field-images-list-item{width:50%;height:180px;float:left;cursor:move;}
+.field-images-list-item.sortable-placeholder{border:dashed 1px #D0D0D0;background-color:#fffdd7;}
+.field-images-list-item.sortable-helper{background-color:#fffdd7;z-index:1000;}
+
+.field-images-list-item .thumbnail{margin:5px;}
+.field-images-list-item .image-preview{height:80px;line-height:80px;overflow:hidden;text-align:center;background:#EFF5FB;border: 0 none;border-radius:4px;}
+.field-images-list-item .image-preview img{max-width:100%;max-height:100%;width:auto;}
+.field-images-list-item .form-control{margin-top:5px;border-color:#ddd;padding:5px;height:45px;font-size:12px;}
+.field-images-list-item .image-manage{padding:5px;font-size:14px;}
+.field-images-list-item .image-manage a{margin-left:15px;}
+
+@media (max-width: 768px){
+	
+}
+
+/* 小屏幕（平板，大于等于 768px） */
+@media (min-width: 768px) {
+	.field-images-list-item{width:25%;height:200px;}
+	.field-images-list-item .image-preview{height:100px;line-height:100px;}
+}
+
+/* 中等屏幕（桌面显示器，大于等于 992px） */
+@media (min-width: 1280px) {
+	.field-images-list-item{width:20%;height:240px;}
+	.field-images-list-item .image-preview{height:140px;line-height:140px;}
+}
+
+/* 大屏幕（大桌面显示器，大于等于 1366px） */
+@media (min-width: 1400px) {
+	.field-images-list-item{width:16.66666%;height:260px;}
+	.field-images-list-item .image-preview{height:160px;line-height:160px;}
+}
