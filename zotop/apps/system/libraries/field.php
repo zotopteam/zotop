@@ -172,6 +172,7 @@ class system_field
 		$html[] = '</div>';
 
 		$html[] = '	<div class="field-images-list" id="'.$attrs['id'].'-upload-dragdrop">';
+		$html[] = '	<div class="field-images-list-empty">'.t('暂无图片').'</div>';
 		$html[] = '	</div>';		
 		$html[] = '</div>';
 

@@ -123,11 +123,13 @@ class content_controller_model extends admin_controller
 		$this->display('content/model_post.php');
     }
 
-    /**
-     * 检查字模型标识是否被占用
-     *
-     * @return bool
-     */
+   	/**
+   	 * 验证时的ajax回调，检查字模型标识(id)等是否被占用
+   	 * 
+   	 * @param  string $key    字段名
+   	 * @param  string $ignore 避免的字段值
+   	 * @return json
+   	 */
 	public function action_check($key, $ignore='')
 	{
 		$ignore = empty($ignore) ? $_GET['ignore'] : $ignore;

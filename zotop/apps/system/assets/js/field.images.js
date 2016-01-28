@@ -80,11 +80,11 @@ function imagesfield($this, name, value, params){
 		        $(a).find("b.number").text('#' + (d + 1));
 		    });
 
-		    if ( list.find('.field-images-list-item').length > 0 )
-		    {
-		    	list.find('.image-list-empty').hide();
+		    if ( list.find('.field-images-list-item').length > 0 ){
+		    	list.find('.field-images-list-empty').hide();
 		    }else{
-		    	list.find('.image-list-empty').show();
+		    	list.find('.field-images-list-empty').show();
+		    	n = 0;
 		    }	
 		}		
 	});
@@ -144,7 +144,7 @@ function imagesfield($this, name, value, params){
 	list.on('click','a.delete',function(){
 		  $(this).tooltip('destroy');
 		  $(this).parent().parent().parent().remove();
-		  self.updatenumber();		  
+		  self.updatenumber();	  
 	})
 
 
