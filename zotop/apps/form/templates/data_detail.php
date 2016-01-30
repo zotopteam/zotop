@@ -1,9 +1,9 @@
 {template 'dialog.header.php'}
 
-<table class="table zebra list">
+<table class="table table-nowrap list">
 	{loop $show $key $val}
 		<tr>
-			<td class="w200 vt">{$fields[$key]['label']}</td>
+			<td class="vat" width="100">{$fields[$key]['label']}</td>
 			<td>{$val}</td>
 		</tr>
 	{/loop}

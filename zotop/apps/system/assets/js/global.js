@@ -20,6 +20,9 @@ $(function(){
 	//$('.tabdropable').tabdrop();
 
 	$('.scrollable').niceScroll({boxzoom:false});
+
+	//maxlength
+	$('input[maxlength],textarea[maxlength]').maxlength({alwaysShow:true,appendToParent:true,threshold:10,separator:'/',placement:'bottom-right-inside'});	
 });
 
 //dialog
@@ -123,7 +126,7 @@ $(function(){
 			dateISO: $.validator.format("请输入日期 (ISO)."),
 			number: $.validator.format("请输入数字"),
 			digits: $.validator.format("只能输入整数"),
-			integer : $.validator.format("请输入一个整数"),
+			integer : $.validator.format("请输入正整数"),
 			creditcard: $.validator.format("请输入信用卡号"),
 			equalTo: $.validator.format("请再次输入相同的值"),
 			extension: $.validator.format("后缀名必须是 {0}"),
@@ -148,11 +151,6 @@ $(function(){
 		return this.optional(element) || /^-?\d+$/.test(value);
 	}, $.validator.messages.integer);
 
-	// 增加字符验证
-	$.validator.addMethod("lettersonly", function(value, element) {
-		return this.optional(element) || /^[a-z]+$/i.test(value);
-	}, "Letters only please");
-
 	// 增加正则验证
 	$.validator.addMethod("pattern", function(value, element, param) {
 		if (this.optional(element)) {
@@ -162,7 +160,7 @@ $(function(){
 			param = new RegExp("^(?:" + param + ")$");
 		}
 		return param.test(value);
-	}, "Invalid format.");	
+	}, $.validator.messages.pattern);	
 
 	// 使用bootstrap tooltip 作为错误提示
 	$.extend(jQuery.validator.defaults, {

@@ -1,8 +1,5 @@
 {template 'header.php'}
-<div class="side">
-	{template 'form/admin_side.php'}
-</div>
-
+{template 'form/admin_side.php'}
 
 <div class="main side-main">
 	<div class="main-header">
@@ -11,7 +8,7 @@
 		<div class="title">{$title}</div>
 
 		{if $data.id}
-		<div class="btn-group">
+		<div class="btn-group hidden">
 			<a href="{U('form/data/index/'.$data.id)}" class="btn btn-default"><i class="fa fa-list"></i> {t('数据管理')}</a>
 			<a href="{U('form/field/index/'.$data.id)}" class="btn btn-default"><i class="fa fa-database"></i> {t('字段管理')}</a>
 			<a href="{U('form/admin/edit/'.$data.id)}" class="btn btn-primary"><i class="fa fa-cog"></i> {t('表单设置')}</a>			
@@ -24,7 +21,7 @@
 		<div class="container-fluid">
 			<div class="form-horizontal">
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('名称'),'name',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('表单名称'),'name',true)}</div>
 					<div class="col-sm-8">
 						{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'minlength'=>2,'maxlength'=>20,'required'=>'required','remote'=>U('form/admin/check/name/'.$data['name'])))}
 						{form::tips('当前表单的名称，如“留言板”、“反馈”等')}
@@ -38,7 +35,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('描述'),'description',false)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('表单说明'),'description',false)}</div>
 					<div class="col-sm-8">
 						{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}
 					</div>
@@ -102,7 +99,6 @@
 </div><!-- main -->
 
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){

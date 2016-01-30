@@ -8,6 +8,10 @@ zotop::register('tinymce_field',ZOTOP_PATH_APPS.DS.'tinymce'.DS.'libraries'.DS.'
  * @param $attrs array 控件参数
  * @return string 控件代码
  */
-form::field('editor',array('tinymce_field','editor'));
 form::field('tinymce',array('tinymce_field','editor'));
+form::field('editor',array('tinymce_field','editor'));
+
+zotop::add('editor.options',array('tinymce_field','basic'));
+zotop::add('editor.options',array('tinymce_field','standard'));
+zotop::add('editor.options',array('tinymce_field','full'));
 ?>

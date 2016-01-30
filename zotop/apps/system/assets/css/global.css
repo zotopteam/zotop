@@ -91,7 +91,6 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
 .table-responsive{border:0 none;}
 
-
 .table{margin-bottom: 0;background: #fff;}
 .table>caption{padding:10px 15px;background:#f3f3f3;font-size: 18px;}
 .table>tbody>tr{-webkit-transition:background-color;-o-transition:background-color;transition:background-color;-webkit-transition-duration:300ms;transition-duration:300ms;}
@@ -295,9 +294,6 @@ body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,Wen
 .fixed-bottom{position:fixed;bottom:0;left:0;right:0;}
 .pull-center{float:none !important;margin-left:auto !important;margin-right:auto !important;display:inline-block;}
 
-
-
-
 .va-t{vertical-align:top !important;}
 .va-m{vertical-align:middle !important;}
 .va-b{vertical-align:bottom !important;}
@@ -483,3 +479,5 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .notsupport h1{font-size:100px;margin-top:200px;margin-bottom:30px;}
 .notsupport h2{font-size:30px;margin-bottom:30px;}
 .notsupport a,.notsupport a:hover{background:#0CF;color:#fff;margin:0 5px;padding:12px 24px;white-space:nowrap;text-decoration:none;}
+
+.bootstrap-maxlength{font-size:12px;line-height:12px;font-weight:normal;vertical-align:middle;}

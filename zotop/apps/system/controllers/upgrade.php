@@ -17,7 +17,7 @@ class system_controller_upgrade extends admin_controller
      */
 	public function action_list()
 	{
-		$file = a('form.path').DS.'templates'.DS.'field_index.php';
+		$file = a('form.path').DS.'templates'.DS.'data_index.php';
 		
 		$str  = file::get($file);
 
@@ -50,7 +50,7 @@ class system_controller_upgrade extends admin_controller
      */
 	public function action_form()
 	{
-		$file = a('form.path').DS.'templates'.DS.'admin_post.php';
+		$file = a('form.path').DS.'templates'.DS.'data_post.php';
 		
 		$str  = file::get($file);
 
@@ -68,6 +68,9 @@ class system_controller_upgrade extends admin_controller
 		$str = str_ireplace('</td>', '</div>', $str);
 
 		$str = str_ireplace('icon icon', 'fa fa', $str);
+
+		$str = str_ireplace('.disable(true);', ".button('loading');", $str);
+		$str = str_ireplace('.disable(false);', ".button('reset');", $str);
 
 		//$str = str_ireplace('<tr class="', '<div class="form-group ', $str);
 

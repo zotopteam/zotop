@@ -44,7 +44,7 @@ class form_controller_field extends admin_controller
 		// 获取模型字段
 		$data = $this->field->cache($formid);
 
-		$this->assign('title',m('form.form.get',$formid,'name'));
+		$this->assign('title',t('字段管理'));
 		$this->assign('data',$data);
 		$this->assign('formid',$formid);
 		$this->assign('controls',$this->field->controls);

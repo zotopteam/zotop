@@ -1,20 +1,15 @@
 {template 'header.php'}
-<div class="side">
-	{template 'form/admin_side.php'}
-</div><!-- side -->
+{template 'form/admin_side.php'}
 
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<div class="btn-group">
-			<a href="{U('form/data/index/'.$formid)}" class="btn btn-default"><i class="fa fa-list"></i> {t('数据管理')}</a>
-			<a href="{U('form/field/index/'.$formid)}" class="btn btn-primary"><i class="fa fa-database"></i> {t('字段管理')}</a>
-			<a href="{U('form/admin/edit/'.$formid)}" class="btn btn-default"><i class="fa fa-cog"></i> {t('表单设置')}</a>			
-		</div>
 		<div class="action">
 			<a class="btn btn-icon-text btn-primary" href="{U('form/field/add/'.$formid)}">
 				<i class="fa fa-plus"></i><b>{t('添加字段')}</b>
 			</a>
+			<a href="{U('form/data/index/'.$formid)}" class="btn btn-default"><i class="fa fa-list"></i> <b>{t('数据管理')}</b></a>
+			<a href="{U('form/admin/edit/'.$formid)}" class="btn btn-default"><i class="fa fa-cog"></i> <b>{t('表单设置')}</b></a>				
 		</div>
 	</div>
 	<div class="main-body scrollable">

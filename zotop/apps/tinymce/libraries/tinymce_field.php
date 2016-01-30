@@ -18,15 +18,10 @@ class tinymce_field
 	 */
 	public static function editor($attrs)
 	{
-			//定义默认的行数高度
-			$rows = zotop::filter('editor.rows',array(
-				'full'     => 20,
-				'standard' => 12,
-				'simple'   => 8
-			));
+		$attrs = zotop::filter('editor.attrs',$attrs);	
 
 			$attrs['id']    = empty($attrs['id']) ? $attrs['name'] : $attrs['id'];
-			$attrs['rows']  = empty($attrs['rows']) ? $rows[$attrs['toolbar']] : $attrs['rows'];
+			$attrs['rows']  = empty($attrs['rows']) ? self::mode($attrs['toolbar'],'rows') : $attrs['rows'];
 			$attrs['rows']  = intval($attrs['rows']) ? intval($attrs['rows']) : 20;
 			$attrs['style'] = $attrs['style']."visibility:hidden;";
 
@@ -42,22 +37,17 @@ class tinymce_field
 			}
 
 			// 编辑器参数
-			$options = array(
-				'tools'             => false,
-				'toolbar'           => ($attrs['toolbar'] ? $attrs['toolbar'] : 'standard'),
-				'resize'            => true,				
-				'imagetools_proxy'  => U('tinymce/server/proxy'),
-				'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
-				'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css'
-			);
+			$options = self::options_default();
 
-			foreach( array('toolbar','resize','tools','content_css') as $attr)
+			foreach( array_keys($options) as $attr)
 			{
 				if ( isset($attrs[$attr]) and !empty($attrs[$attr]) )
 				{
 					$options[$attr] = $attrs[$attr];unset($attrs[$attr]);
 				}
 			}
+
+			$options  = zotop::filter('editor.options', $options);
 
 			// 开启额外工具条
 			if ( $options['tools'] )
@@ -105,5 +95,121 @@ class tinymce_field
 
 			return implode("\n",$html);
 	}
+
+
+	/**
+	 * 编辑器默认类型
+	 * 
+	 * @return [type] [description]
+	 */
+	public static function mode($mode='', $key='')
+	{
+		$modes = zotop::filter('editor.mode',array(
+			'full'     => array(
+				'name'    => t('全能'),
+				'rows'    => 20,
+				'options' => array(
+					'plugins' => array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak'),
+					'toolbar' => 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample',
+				)
+			),
+			'standard' => array(
+				'name'    => t('标准'),
+				'rows'    => 12,
+				'options' => array(
+					'plugins' => array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak'),
+					'toolbar' => 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample',
+				)
+			),
+			'basic'    => array(
+				'name'    => t('基本'),
+				'rows'    => 8,
+				'options' => array(
+					'plugins' => array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak'),
+					'toolbar' => 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample',
+				)
+			)
+		));
+
+		if ( empty($mode) )
+		{
+			return $modes;
+		}
+
+		if ( empty($key) )
+		{
+			isset($modes[$mode]) ? $modes[$mode] : array();
+		}
+
+		return isset($modes[$mode]) ? $modes[$mode][$key] : '';
+	}
+
+	/**
+	 * 编辑器默认选项
+	 * 
+	 * @return [type] [description]
+	 */
+	public static function options_default()
+	{
+		return zotop::filter('editor.options.default', array(
+			'tools'             => false,
+			'toolbar'           => 'standard',
+			'resize'            => true,				
+			'imagetools_proxy'  => U('tinymce/server/proxy'),
+			'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
+			'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css'
+		));
+	}
+
+	/**
+	 * 编辑器参数
+	 * 
+	 * @param  array $options 编辑器参数
+	 * @return array
+	 */
+	public static function basic($options)
+	{
+		if ( $options['toolbar'] == 'basic' )
+		{
+			$options['plugins'] = "['advlist autolink lists link image media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus']";
+			$options['toolbar'] = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+		}
+
+		return $options;
+	}
+
+	/**
+	 * 编辑器参数
+	 * 
+	 * @param  array $options 编辑器参数
+	 * @return array
+	 */
+	public static function standard($options)
+	{		
+		if ( $options['toolbar'] == 'standard' )
+		{
+			$options['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus codesample powerpaste');
+			$options['toolbar'] = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample';
+		}
+
+		return $options;
+	}
+
+	/**
+	 * 编辑器参数
+	 * 
+	 * @param  array $options 编辑器参数
+	 * @return array
+	 */
+	public static function full($options)
+	{
+		if ( $options['toolbar'] == 'full' )
+		{
+			$options['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak');
+			$options['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
+		}
+
+		return $options;
+	}	
 }
 ?>

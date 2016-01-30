@@ -160,11 +160,11 @@ class form_controller_data extends admin_controller
 			return $this->error($this->data->error());
 		}
 
-		$data = $this->data->get($id);
-
+		// 当前数据
+		$data   = $this->data->get($id);
+		
+		// 字段内部
 		$fields = m('form.field')->getFields($formid, $data);
-
-		//debug::dump($fields,true);
 
 		$this->assign('title',t('编辑'));
 		$this->assign('formid',$formid);

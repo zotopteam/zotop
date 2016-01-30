@@ -6,10 +6,11 @@ defined('ZOTOP_INSTALL') OR die('No direct access allowed.');
 $this->db->dropTable('form');
 $this->db->createTable('form', array(
 	'fields'=>array(
-		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
+		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
+		'icon'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('表单图标') ),
 		'name'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('表单名称') ),
 		'description'=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('表单说明') ),
-		'table'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'comment' => t('数据表名称') ),
+		'table'		=> array ( 'type'=>'char', 'length'=>20, 'notnull'=>true, 'comment' => t('数据表名') ),
 		'settings'	=> array ( 'type'=>'text', 'default'=>null, 'comment' => t('表单设置') ),
 		'listorder'	=> array ( 'type'=>'smallint', 'length'=>5, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
 		'disabled'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否禁用，0：启用，1：禁用') ),

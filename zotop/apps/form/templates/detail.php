@@ -13,7 +13,7 @@
 <table class="table list">
 	{loop $show $key $val}
 		<tr>
-			<td class="w100 vt">{$fields[$key]['label']} :</td>
+			<td class="vat" width="120">{$fields[$key]['label']} :</td>
 			<td>{$val}</td>
 		</tr>
 	{/loop}

@@ -1,29 +1,28 @@
 {template 'header.php'}
-<div class="side">
-	{template 'form/admin_side.php'}
-</div>
 
-{form::header()}
-<div class="main side-main">
+<div class="main">
 	<div class="main-header">
+		<div class="goback"><a href="{U('form/data/index/'.$formid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">{$title}</div>
 	</div><!-- main-header -->
+
+	{form::header()}
 	<div class="main-body scrollable">
 		{form::field(array('type'=>'hidden','name'=>'formid','value'=>$data['formid'],'required'=>'required'))}
 
-		<table class="field">
-			<tbody>
+		<div class="container-fluid">
+			<div class="form-horizontal">
 			{loop $fields $f}
-			<tr>
-				<td class="label">{form::label($f['label'], $f['for'], $f['required'])}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label($f['label'], $f['for'], $f['required'])}</div>
+				<div class="col-sm-8">
 					{form::field($f['field'])}
 					{form::tips($f['tips'])}
-				</td>
-			</tr>
+				</div>
+			</div>
 			{/loop}
-			</tbody>
-		</table>
+			</div>
+		</div>
 
 	</div><!-- main-body -->
 	<div class="main-footer">
@@ -31,21 +30,21 @@
 
 		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
 	</div><!-- main-footer -->
-</div><!-- main -->
-{form::footer()}
+	{form::footer()}
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
+</div><!-- main -->
+
 <script type="text/javascript">
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
-			$(form).find('.submit').disable(true);
+			$(form).find('.submit').button('loading');
 			$.loading();
 			$.post(action, data, function(msg){
 
 				if ( !msg.state ){
-					$(form).find('.submit').disable(false);
+					$(form).find('.submit').button('reset');
 				}
 
 				$.msg(msg);

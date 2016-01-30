@@ -319,7 +319,7 @@ class form_model_field extends model
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
-			if ( $this->db->addField($data['table'], $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($data['table'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['table']}.fields", null);

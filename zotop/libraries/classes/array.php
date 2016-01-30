@@ -69,18 +69,15 @@ class arr
      * @param string $key 弹出的键名
      * @param string …… 键名
      *
-     * @return $mix	被弹出 的数据
+     * @return $mix	被弹出的数据, 如果弹出多个，则返回数组，否则返回该键的值
      */
     public static function take(&$array, $key)
     {
-        $array = (array )$array;
+        $array  = (array)$array;
         $return = array();
 
-        //如果弹出多个，则返回数组，否则返回该键的值
-        $result = (is_array($key) or func_num_args() > 2) ? true : false;
-
         //获取键
-        if (!is_array($key))
+        if ( !is_array($key) )
         {
             $key = array_slice(func_get_args(), 1);
         }
@@ -96,9 +93,7 @@ class arr
 
         if (empty($return)) return null;
 
-        if ($result) return $return;
-
-        return reset($return);
+        return count($return) > 2 ? $return : reset($return);
     }
 
     /**
@@ -170,14 +165,25 @@ class arr
     /**
      * 从数组中删除键，并返回删除该键后的数组
      *
+     * <code>
+     *  $array = array('value'=>'1','description'=>'2','label'=>'3');
+     *  $a = arr::remove($array,'label');
+     *  $b = arr::remove($array,array('label','description'));
+     *  $c = arr::remove($array,'label','description');
+     *  
+     *  $a = 3
+     *  $b = $c = array('label'=>'3','description'=>'2')
+     *
+     *</code>
+     *
      * @param array $array 目标数组
      * @param string $key 待删除的键名
      * ……
      * @return $mix	被弹出 的数据
      */
-    public static function remove($array, $key)
+    public static function remove(&$array, $key)
     {
-        $array = (array )$array;
+        $array = (array)$array;
 
         if (!is_array($key))
         {

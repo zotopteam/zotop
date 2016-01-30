@@ -1,35 +1,25 @@
 {template 'header.php'}
-<div class="side">
-	{template 'form/admin_side.php'}
-</div><!-- side -->
 
-<div class="main side-main">
+<div class="main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<ul class="navbar">
-			<li class="current"><a href="{U('form/data/index/'.$formid)}"><i class="icon icon-item"></i> {t('数据管理')}</a></li>
-			<li><a href="{U('form/field/index/'.$formid)}"><i class="icon icon-database"></i> {t('字段管理')}</a></li>
-			<li><a href="{U('form/admin/edit/'.$formid)}"><i class="icon icon-setting"></i> {t('表单设置')}</a></li>
-		</ul>
-
-		<form action="{u('form/data/index/'.$formid)}" class="searchbar" method="post">
-			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" x-webkit-speech/>
-			<button type="submit"><i class="icon icon-search"></i></button>
+		<form action="{u('form/data/index/'.$formid)}" class="searchbar input-group" method="post" role="search">				
+			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+			</span>
 		</form>
-
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight" href="{U('form/data/add/'.$formid)}">
-				<i class="icon icon-add"></i><b>{t('添加')}</b>
+			<a class="btn btn-icon-text btn-primary" href="{U('form/data/add/'.$formid)}">
+				<i class="fa fa-plus"></i><b>{t('添加')}</b>
 			</a>
-
 			{if $form.settings.list}
-			<a href="{U('form/index/list/'.$formid)}" target="_blank" class="btn btn-icon-text">
-				<i class="icon icon-view"></i><b>{t('前台列表')}</b>
+			<a href="{U('form/index/list/'.$formid)}" target="_blank" class="btn btn-icon-text btn-default">
+				<i class="fa fa-eye"></i><b>{t('前台列表')}</b>
 			</a>
 			{/if}
-
-			<a class="btn btn-icon-text" href="{U('form/data/export/'.$formid)}">
-				<i class="icon icon-index"></i><b>{t('导出')}</b>
+			<a class="btn btn-icon-text btn-default" href="{U('form/data/export/'.$formid)}">
+				<i class="fa fa-share-square-o"></i><b>{t('导出')}</b>
 			</a>
 		</div>
 
@@ -45,41 +35,41 @@
 		{else}
 
 			{form::header()}
-			<table class="table zebra list">
+			<table class="table table-nowrap table-hover list">
 				<thead>
 					<tr>
 						<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-						<td class="w50 none">{t('编号')}</td>
+						<td class="hidden">{t('编号')}</td>
 						{loop $list $name $field}
 						<td>{$field['label']}</td>
 						{/loop}
-						<td class="w200">{t('操作')}</td>
+						<td class="manage" width="180">{t('操作')}</td>
 					</tr>
 				</thead>
 				<tbody>
 				{loop $data $r}
 					<tr>
 						<td class="select"><input type="checkbox" name="id[]" value="{$r['id']}" class="checkbox select"/></td>
-						<td class="none">{$r.id}</td>
+						<td class="hidden">{$r.id}</td>
 						{loop $list $name $field}
 
 						<td>{m('form.field.show',$r[$name], $field)}</td>
 
 						{/loop}
-						<td>
-							<div class="manage">
-								{if $form['settings']['detail']}
-								<a href="{u('form/index/detail/'.$formid.'/'.$r['id'])}" target="_blank"><i class="icon icon-view"></i> {t('访问')}</a>
-								{else}
-								<a href="{u('form/data/detail/'.$formid.'/'.$r['id'])}" class="dialog-open" data-width="1000px" data-height="450px"><i class="icon icon-view"></i> {t('详细')}</a>
-								{/if}
-								<s></s>
+						<td class="manage">
 
-								<a href="{u('form/data/edit/'.$formid.'/'.$r['id'])}"><i class="icon icon-edit"></i> {t('编辑')}</a>
-								<s></s>
+							{if $form['settings']['detail']}
+							<a href="{u('form/index/detail/'.$formid.'/'.$r['id'])}" target="_blank"><i class="fa fa-eye"></i> {t('访问')}</a>
+							{else}
+							<a href="{u('form/data/detail/'.$formid.'/'.$r['id'])}" class="js-open" data-width="1000px" data-height="450px"><i class="fa fa-eye"></i> {t('详细')}</a>
+							{/if}
 
-								<a href="{u('form/data/delete/'.$formid.'/'.$r['id'])}" class="dialog-confirm"><i class="icon icon-delete"></i> {t('删除')}</a>
-							</div>
+							<s>|</s>
+
+							<a href="{u('form/data/edit/'.$formid.'/'.$r['id'])}"><i class="fa fa-edit"></i> {t('编辑')}</a>
+							<s>|</s>
+
+							<a href="{u('form/data/delete/'.$formid.'/'.$r['id'])}" class="js-confirm"><i class="fa fa-times"></i> {t('删除')}</a>
 						</td>
 					</tr>
 				{/loop}
@@ -91,11 +81,11 @@
 		{/if}
 	</div>
 	<div class="main-footer">
-		<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
+		<nav>{pagination::instance($total,$pagesize,$page)}</nav>
 
 		<input type="checkbox" class="checkbox select-all middle">
 
-		<a class="btn operate" href="{u('form/data/operate/'.$formid.'/delete')}">{t('删除')}</a>
+		<a class="btn btn-default operate" href="{u('form/data/operate/'.$formid.'/delete')}">{t('删除')}</a>
 	</div>
 </div>
 
