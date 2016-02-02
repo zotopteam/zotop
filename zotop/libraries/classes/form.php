@@ -200,6 +200,9 @@ class form
 
 			foreach($types as $type)
 			{
+				// HOOK全部字段
+				$field = zotop::filter("field.{$type}", $field);
+
 				// 调用设置的控件
 				if ( $callback = $fields[$type] )
 				{

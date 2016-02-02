@@ -63,7 +63,7 @@
 					<div class="form-group">
 						<div class="col-sm-2 control-label">{form::label(t('邮件内容'),'replymail_content',false)}</div>
 						<div class="col-sm-8">
-							{field type="editor" name="replymail_content" value="c('guestbook.replymail_content')" rows="12" tools="true"}
+							{field type="editor" name="replymail_content" value="c('guestbook.replymail_content')" rows="12" tools="image"}
 						</div>
 					</div>
 				

@@ -28,21 +28,6 @@ $.fn.editor = function(options){
 	// 	win.document.getElementById(field_name).value = 'my browser value'+url+'///'+type;
 	// };
 
-	// switch(options.toolbar){
-	// 	case 'basic':
-	// 		options.plugins = ['advlist autolink lists link image media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus'];		
-	// 		options.toolbar = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
-	// 		break;
-	// 	case 'standard':
-	// 		options.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus codesample powerpaste'];		
-	// 		options.toolbar = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample';
-	// 		break;
-	// 	case 'full':
-	// 		options.plugins = ['advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak'];
-	// 		options.toolbar = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
-	// 		break;
-	// }
-
 	options = $.extend(settings,options,{});
 
 	$(this).tinymce(options);
