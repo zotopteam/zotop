@@ -130,7 +130,7 @@ class tinymce_field
 	 * 
 	 * @return array
 	 */
-	public static function default($attrs)
+	public static function init($attrs)
 	{
 		$default = zotop::filter('tinymce.default', array(
 			'tools'             => false,

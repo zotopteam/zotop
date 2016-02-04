@@ -7,83 +7,94 @@
 <div class="main side-main">
 
 	<div class="main-header">
-		<div class="title">{$title}</div>
-		<div class="position">
-			<a href="{u('developer')}">{t('开发助手')}</a>
-			<s class="arrow">></s>
-			<a href="{u('developer/project')}">{$app['name']}</a>
-			<s class="arrow">></s>			
-			{$title}
-		</div>			
+		<div class="title">{$title}</div>		
 		<div class="action">
-			<a href="javascript:;" class="btn btn-icon-text btn-highlight" onclick="configlist.addrow()"><i class="icon icon-add"></i><b>{t('添加一项')}</b></a>
+			<a href="javascript:;" class="btn btn-icon-text btn-primary btn-add">
+				<i class="fa fa-plus"></i><b>{t('添加一项')}</b>
+			</a>
 		</div>
 	</div>
 
-	<form id="configform" method="post" action="{U('developer/project/config')}">
+	{form id="configform" method="post" action="U('developer/project/config')"}
 	<div class="main-body scrollable">
 			
-			<table class="table list zebra sortable" id="configlist">
-				<thead>
-					<tr>
-						<td	class="drag">&nbsp;</td>
-						<td class="w400">{t('键名')}</td>
-						<td>{t('键值')}</td>
-						<td class="w200">{t('操作')}</td>
-					</tr>
-				</thead>
-				<tbody>
-					
-				</tbody>
-			</table>
+		<table class="table sortable" id="configlist">
+			<thead>
+				<tr>
+					<td	class="drag">&nbsp;</td>
+					<td class="key">{t('键名')}</td>
+					<td class="value">{t('键值')}</td>
+					<td class="manage">{t('操作')}</td>
+				</tr>
+			</thead>
+			<tbody>				
+			</tbody>
+		</table>
 				
 	</div>
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
 	</div>
-	</form>
+	{/form}
 </div>
 
+<textarea id="template" class="hidden">
+	<tr>
+		<td class="drag">&nbsp;</td>
+		<td><input type="text" class="form-control required" name="config_key[{0}]" value="{0}" placeholder="{t('以字母开头且只允许小写字母，数字和下划线')}" pattern="^[a-z][a-z0-9_]+$" data-msg-pattern="{t('以字母开头且只允许小写字母，数字和下划线')}" required></td>
+		<td><input type="text" class="form-control required" name="config_val[{0}]" value="{1}" required></td>
+		<td class="manage"><a href="javascript:;" class="delete"><i class="fa fa-times fa-fw"></i>{t('删除')}</a></td>
+	</tr>	
+</textarea>
 
-
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
-<script type="text/javascript">
-	var configlist = {};
-
+<script>
+$(function(){
 	// 添加节点
-	configlist.addrow = function(key, val){
-		var row = $('<tr>'+
-		'<td class="drag">&nbsp;</td>'+
-		'<td><input type="text" class="text required" style="width:60%" name="config_key[]" value="'+ ( key || '' ) +'" placeholder="{t('只允许英文，数字和下划线')}"  pattern="^[a-z0-9_]+$"></td>'+
-		'<td><input type="text" class="text required" style="width:60%" name="config_val[]" value="'+ ( val || '' )+'"></td>'+
-		'<td><a href="javascript:;" class="delete" onclick="configlist.delrow(this)"><i class="icon icon-delete"></i> {t('删除')}</a></td>'+
-		'</tr>');
+	var addrow = function(key, val){
 
-		row.appendTo('#configlist tbody');
+		key = key || '';
+		val = val || '';
+
+		var template = $.validator.format($.trim($("#template").val()));
+		var row      = $(template(key,val)).appendTo("#configlist tbody");
 
 		if ( !key && !val ){
 			row.find('input:first').focus();
 		}				
 	}
 
-	// 删除节点
-	configlist.delrow = function(ele) {
-		$(ele).closest('tr').remove();
-	}
-
-// 生成默认数据
-$(function(){
-
 	var dataset = {json_encode((object)$config)};
 		dataset = $.isEmptyObject(dataset) ?  {'':''} : dataset;
 
-	for (var key in dataset) {
-		configlist.addrow(key, dataset[key]);
-	}
-});
+	$.each(dataset,function(key,val){
+		addrow(key, val);
+	});
 
-//sortable
-$(function(){
+	$('.btn-add').on('click',function(){
+		$form.valid() && addrow();
+	});		
+
+	var $form = $('#configform');
+
+	$form.on('change','input',function(){
+		$(this).submit();
+	});
+
+	$form.on('click','a.delete',function(){
+		$(this).closest('tr').remove();
+		$form.submit();
+	})		
+
+	$form.validate({submitHandler:function(form){
+		var action = $(form).attr('action');
+		var data   = $(form).serialize();
+		$(form).find('.submit').button('loading');
+		$.post(action, data, function(msg){
+			!msg.state && $.msg(msg);
+			$(form).find('.submit').button('reset');
+		},'json');
+	}});
+
 	$("table.sortable").sortable({
 		items: "tbody > tr",
 		handle: "td.drag",
@@ -96,23 +107,9 @@ $(function(){
 			return tr;
 		},
 		stop:function(event,ui){
-			//$('#configform').submit();
+			$form.submit();
 		}
 	});
-});
-
-$(function(){
-	$('#configform').on('change','input',function(){
-		//$(this).submit();
-	});
-
-	$('#configform').validate({submitHandler:function(form){
-		var action = $(form).attr('action');
-		var data = $(form).serialize();
-		$.post(action, data, function(msg){
-			$.msg(msg);
-		},'json');
-	}});
 });
 </script>
 {template 'footer.php'}

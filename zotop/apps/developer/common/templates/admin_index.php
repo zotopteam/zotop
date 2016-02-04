@@ -1,18 +1,16 @@
 {template 'header.php'}
 
-<div class="side">
 {template '[id]/admin_side.php'}
-</div>
 
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight" href="{U('[id]/admin/add')}">
-				<i class="icon icon-add"></i><b>{t('添加')}</b>
+			<a class="btn btn-icon-text btn-primary" href="{U('[id]/admin/add')}">
+				<i class="fa fa-plus"></i><b>{t('添加')}</b>
 			</a>
-			<a class="btn btn-icon-text" href="{U('[id]/admin/test')}">
-				<i class="icon icon-database"></i><b>{t('普通按钮')}</b>
+			<a class="btn btn-icon-text btn-default" href="{U('[id]/admin/test')}">
+				<i class="fa fa-info"></i><b>{t('普通按钮')}</b>
 			</a>
 		</div>
 	</div>
@@ -20,7 +18,7 @@
 		{if empty($data)}
 			<div class="nodata">{t('没有找到任何数据')}</div>
 		{else}
-		<table class="table zebra list">
+		<table class="table list">
 			<thead>
 				<tr>
 					<td class="select"><input type="checkbox" class="select-all"/></td>
@@ -29,26 +27,28 @@
 				</tr>
 			</thead>
 			<tbody>
-			{loop $data $r}
+				{loop $data $r}
 				<tr>
-					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"/></td>
+					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r.id}"/></td>
 					<td>
-						<div class="title textflow">{$r['title']}</div>
+						<div class="title text-overflow">{$r.title}</div>
 						<div class="manage">
-							<a href="{u('[id]/admin/edit/'.$r['id'])}">{t('编辑')}</a>
-							<s></s>
-							<a href="{u('[id]/admin/delete/'.$r['id'])}" class="dialog-confirm">{t('删除')}</a>
+							<a href="{u('[id]/admin/edit/'.$r.id)}">{t('编辑')}</a>
+							<s>|</s>
+							<a href="{u('[id]/admin/delete/'.$r.id)}" class="js-confirm">{t('删除')}</a>
 						</div>
 					</td>
-					<td></td>
+					<td>
+						{format::date($r.createtime)}
+					</td>
 				</tr>
-			{/loop}
+				{/loop}
 			<tbody>
 		</table>
 		{/if}
 	</div>
 	<div class="main-footer">
-
+		
 	</div>
 </div>
 {template 'footer.php'}

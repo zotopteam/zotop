@@ -1,5 +1,6 @@
 <?php
 defined('ZOTOP') OR die('No direct access allowed.');
+
 /**
  * [id] 应用设置控制器
  *

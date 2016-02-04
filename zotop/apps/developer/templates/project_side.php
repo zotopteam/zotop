@@ -1,29 +1,26 @@
-<div class="side-header">
-	{$app.name}
-</div><!-- side-header -->
-<div class="side-body no-footer scrollable">
+<div class="side">
+	<div class="side-header">
+		<a href="{u('developer')}" title="{t('返回首页')}"><i class="fa fa-angle-left"></i></a>
+		{$app.name}
+	</div><!-- side-header -->
+	<div class="side-body no-footer scrollable">
 
-	<ul class="sidenavlist">
-		<li>
-			<a href="{u('developer')}">
-				<i class="icon icon-back"></i>{t('返回首页')}
-			</a>
-		</li>
-		<li class="blank"></li>
-		<li>
-			<a href="{u('developer/project/index')}" {if request::is('developer/project/index')} class="current"{/if}>
-				<i class="icon icon-app"></i>{t('基本信息')}
-			</a>
-		</li>
-		<li>
-			<a href="{u('developer/project/config')}" {if request::is('developer/project/config')} class="current"{/if}>
-				<i class="icon icon-config"></i>{t('配置项管理')}
-			</a>
-		</li>
-		<li>
-			<a href="{u('developer/project/table')}" {if request::is('developer/project/table') or request::is('developer/schema')} class="current"{/if}>
-				<i class="icon icon-database"></i>{t('数据表管理')}
-			</a>
-		</li>											
-	</ul>
+		<ul class="nav nav-pills nav-stacked nav-side">
+			<li {if request::is('developer/project/index')} class="active"{/if}>
+				<a href="{u('developer/project/index')}">
+					<i class="fa fa-info-circle"></i>{t('基本信息')}
+				</a>
+			</li>
+			<li {if request::is('developer/project/config')} class="active"{/if}>
+				<a href="{u('developer/project/config')}">
+					<i class="fa fa-cog"></i>{t('配置项管理')}
+				</a>
+			</li>
+			<li {if request::is('developer/project/table','developer/schema')} class="active"{/if}>
+				<a href="{u('developer/project/table')}" >
+					<i class="fa fa-database"></i>{t('数据表管理')}
+				</a>
+			</li>											
+		</ul>
+	</div>
 </div>

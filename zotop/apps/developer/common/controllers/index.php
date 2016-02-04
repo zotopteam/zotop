@@ -1,5 +1,6 @@
 <?php
 defined('ZOTOP') OR die('No direct access allowed.');
+
 /*
 * [name] 首页控制器
 *
@@ -18,6 +19,7 @@ class [id]_controller_index extends site_controller
 	 */
 	public function action_index()
     {
+    	$data = array();
 
 		$this->assign('title',t('[name]'));
 		$this->assign('data',$data);

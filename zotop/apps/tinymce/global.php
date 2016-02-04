@@ -11,7 +11,7 @@ zotop::register('tinymce_field',ZOTOP_PATH_APPS.DS.'tinymce'.DS.'libraries'.DS.'
 form::field('editor',array('tinymce_field','editor'));
 form::field('tinymce',array('tinymce_field','editor'));
 
-zotop::add('tinymce.attrs',array('tinymce_field','default'));
+zotop::add('tinymce.attrs',array('tinymce_field','init'));
 zotop::add('tinymce.attrs',array('tinymce_field','tools'));
 zotop::add('tinymce.attrs',array('tinymce_field','basic'));
 zotop::add('tinymce.attrs',array('tinymce_field','standard'));

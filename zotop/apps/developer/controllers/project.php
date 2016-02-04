@@ -41,15 +41,23 @@ class developer_controller_project extends admin_controller
         if ( ZOTOP_ACTION != 'add' )
         {
             // 获取工程信息
-            if ( $_GET['dir'] )
+            if ( $_GET['project'] )
             {
-                zotop::cookie('project_dir', $_GET['dir'], 365*86400);
+                $this->dir = $_GET['project'];
+
+                zotop::cookie('project_dir', $this->dir, 365*86400);
+            }
+            else
+            {
+                $this->dir = zotop::cookie('project_dir');
             }
 
-            if ( $this->dir = zotop::cookie('project_dir') )
+            if ( empty($this->dir) )
             {
-                $this->app = @include(ZOTOP_PATH_APPS . DS . $this->dir . DS .'app.php');
+                return $this->redirect(U('developer'));
             }
+
+            $this->app = @include(ZOTOP_PATH_APPS . DS . $this->dir . DS .'app.php');
 
             if ( empty($this->app) or !is_array($this->app) )
             {
@@ -87,7 +95,7 @@ class developer_controller_project extends admin_controller
         {
             if ( $this->create_app($post) )
             {
-                $this->success(t('创建成功'), U('developer/project',array('project'=>$post['dir'])));
+                $this->success(t('创建成功'), U('developer/project/index',array('project'=>$post['dir'])));
             }
 
             return $this->error($this->error());
@@ -128,7 +136,7 @@ class developer_controller_project extends admin_controller
             file::put($app_path . DS . '_project.php', "<?php\nreturn ".var_export($post, true).";\n?>");
 
             // 保存并返回
-            return $this->success(t('保存成功'),U('developer/project'));
+            return $this->success(t('保存成功'),U('developer/project/index',array('project'=>$post['dir'])));
         }
 
         $this->assign('title', t('编辑应用'));
@@ -347,7 +355,7 @@ class developer_controller_project extends admin_controller
         // 应用目录
         $app_path       = ZOTOP_PATH_APPS . DS . $app['dir'];
 
-        if ( folder::exists($app_path ) )
+        if ( folder::exists($app_path) )
         {
             return $this->error(t('目录 $1 已经存在', $app['dir']));
         }
@@ -384,19 +392,19 @@ class developer_controller_project extends admin_controller
         $this->create_file('uninstall.php', $app_path . DS . 'uninstall.php', $app);
 
         // 写入前台控制器
-        $this->create_file('controller_index.php', $app_path . DS . 'controllers' .DS. "index.php", $app);
+        $this->create_file('controllers/index.php', $app_path . DS . 'controllers' .DS. "index.php", $app);
 
         // 写入后台控制器示例
-        $this->create_file('controller_admin.php', $app_path . DS . 'controllers' .DS. "admin.php", $app);
+        $this->create_file('controllers/admin.php', $app_path . DS . 'controllers' .DS. "admin.php", $app);
 
         // 写入前台模板
-        $this->create_file('template_index.php', $app_path . DS . 'templates' .DS. "index.php", $app);
+        $this->create_file('templates/index.php', $app_path . DS . 'templates' .DS. "index.php", $app);
 
         // 写入后台模板
-        $this->create_file('template_admin_index.php', $app_path . DS . 'templates' .DS. "admin_index.php", $app);
+        $this->create_file('templates/admin_index.php', $app_path . DS . 'templates' .DS. "admin_index.php", $app);
 
         // 写入侧边模板
-        $this->create_file('template_admin_side.php', $app_path . DS . 'templates' .DS. "admin_side.php", $app);
+        $this->create_file('templates/admin_side.php', $app_path . DS . 'templates' .DS. "admin_side.php", $app);
 
         return true;
     }
@@ -431,7 +439,7 @@ class developer_controller_project extends admin_controller
     }
 
     /**
-     * 清理模块设置
+     * 清理模块设置，只保留模块需要的部分
      *
      *
      * @param mixed $file 位于developer开发助手应用common目录下的文件名称

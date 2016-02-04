@@ -8,7 +8,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @copyright	(c)2009-2011 zotop team
  * @license		http://zotop.com/license.html
  */
-class system_controller_upgrade extends admin_controller
+class developer_controller_upgrade extends admin_controller
 {
 	/**
      * 列表替换
@@ -50,7 +50,7 @@ class system_controller_upgrade extends admin_controller
      */
 	public function action_form()
 	{
-		$file = a('form.path').DS.'templates'.DS.'data_post.php';
+		$file = a('developer.path').DS.'templates'.DS.'project_post.php';
 		
 		$str  = file::get($file);
 
@@ -77,5 +77,40 @@ class system_controller_upgrade extends admin_controller
 
 		debug::dump(file::put($file,$str));
 	}
+
+	/**
+     * 表单替换
+     *
+     * @return void
+     */
+	public function action_form2()
+	{
+		$file = a('developer.path').DS.'templates'.DS.'project_post.php';
+		
+		$str  = file::get($file);
+
+		$str = str_ireplace('<table class="field">', '<div class="container-fluid">', $str);
+		$str = str_ireplace('</table>', '</div>', $str);
+
+		$str = str_ireplace('<tbody>', '', $str);
+		$str = str_ireplace('</tbody>', '', $str);
+
+		$str = str_ireplace('<tr>', '<div class="form-group">', $str);
+		$str = str_ireplace('</tr>', '</div>', $str);		
+
+		$str = str_ireplace('<td class="label">', '', $str);
+		$str = str_ireplace('<td class="input">', '', $str);
+		$str = str_ireplace('</td>', '', $str);
+
+		$str = str_ireplace('icon icon', 'fa fa', $str);
+
+		$str = str_ireplace('.disable(true);', ".button('loading');", $str);
+		$str = str_ireplace('.disable(false);', ".button('reset');", $str);
+
+		//$str = str_ireplace('<tr class="', '<div class="form-group ', $str);
+
+
+		debug::dump(file::put($file,$str));
+	}	
 }
 ?>

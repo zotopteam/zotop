@@ -3,7 +3,7 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-primary js-open" href="{U('developer/project/add')}" data-width="800" data-height="400">
+			<a class="btn btn-icon-text btn-primary" href="{U('developer/project/add')}">
 				<i class="fa fa-plus"></i><b>{t('新建应用')}</b>
 			</a>
 		</div>
@@ -47,7 +47,7 @@
 					</tr>
 					<tr>
 						<td colspan="6" class="manage">
-							<a class="btn btn-primary btn-icon-text" href="{u('developer/project/index','dir='.$r['dir'])}">
+							<a class="btn btn-primary btn-icon-text" href="{u('developer/project/index','project='.$r['dir'])}">
 								<i class="fa fa-edit"></i><b>{t('管理应用')}</b>
 							</a>
 
@@ -65,7 +65,7 @@
 		</div>
 	</div>
 	<div class="main-footer">
-		<div class="footer-text">{t('管理 apps 目录下在建的应用')}</div>
+		<div class="footer-text">{A('developer.description')}</div>
 	</div>
 </div>
 <style type="text/css">
