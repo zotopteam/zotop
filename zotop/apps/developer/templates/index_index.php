@@ -3,8 +3,8 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-icon-text btn-highlight dialog-open" href="{U('developer/project/add')}" data-width="800" data-height="400">
-				<i class="icon icon-add"></i><b>{t('新建应用')}</b>
+			<a class="btn btn-icon-text btn-primary js-open" href="{U('developer/project/add')}" data-width="800" data-height="400">
+				<i class="fa fa-plus"></i><b>{t('新建应用')}</b>
 			</a>
 		</div>
 	</div>
@@ -45,6 +45,17 @@
 						<td class="w100">{t('网站')}</td>
 						<td colspan="3">{$r['homepage']}</td>
 					</tr>
+					<tr>
+						<td colspan="6" class="manage">
+							<a class="btn btn-primary btn-icon-text" href="{u('developer/project/index','dir='.$r['dir'])}">
+								<i class="fa fa-edit"></i><b>{t('管理应用')}</b>
+							</a>
+
+							<a class="btn btn-default btn-icon-text js-confirm pull-right" href="{U('developer/project/delete')}">
+								<i class="fa fa-times"></i><b>{t('删除应用')}</b>
+							</a>
+						</td>
+					</tr>
 				</table>
 			</div>
 		</div>
@@ -54,18 +65,12 @@
 		</div>
 	</div>
 	<div class="main-footer">
-		<div class="tips">{t('管理 apps 目录下在建的应用')}</div>
+		<div class="footer-text">{t('管理 apps 目录下在建的应用')}</div>
 	</div>
 </div>
 <style type="text/css">
 .media{border:solid 1px #ebebeb;margin:20px 0!important;background:#f7f7f7;padding:20px;}
 .media:hover{border:solid 1px #d5d5d5;}
-.media-left img{width:80px;}
-.media div.info {margin-left:121px;font-size:15px;line-height:30px;}
-.media div.title{line-height:50px;font-size:24px;}
-.media div.title span{font-size:20px;color:#666;}
-.media div.manage{padding:10px 0;}
-.media table{border-top:solid 1px #ebebeb;}
-.media table td{padding:5px 0;border-bottom:solid 1px #ebebeb;}
+.media-left img{width:80px;margin-right:20px;}
 </style>
 {template 'footer.php'}
