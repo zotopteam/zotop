@@ -238,4 +238,16 @@ function thumb($image, $width, $height, $default = null)
 
     return ZOTOP_URL_UPLOADS . $newimg;
 }
+
+/**
+ * debug::dump的简写，打印给定变量并结束脚本执行
+ * 
+ * @param  mixed  $var   待打印的变量
+ * @param  boolean $return 是否返回结果
+ * @return string
+ */
+function dd($var, $return = false)
+{
+    return debug::dump($var,$return);
+}
 ?>

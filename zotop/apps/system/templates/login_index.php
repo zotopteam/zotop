@@ -4,7 +4,7 @@
 
 		<div class="panel panel-login">
 			<div class="panel-heading text-center">
-				<h1 class="text-overflow">{t('$1管理',C('site.name'))}</h1>
+				<h1 class="text-overflow">{C('site.name')}</h1>
 			</div>
 			<div class="panel-body">
 

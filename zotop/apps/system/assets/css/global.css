@@ -28,8 +28,6 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 .badge-danger{background-color:#f00;}
 .badge-xs{height:15px;line-height:15px;font-family:arial;padding:0 4px;border-radius:15px;font-size:10px;font-style:normal;}
 
-
-
 .dropdown-menu{border-radius:3px; padding:5px; box-shadow:3px 3px 0 rgba(12,12,12,0.03);}
 .dropdown-menu > li > a{color:#0072c6;padding:7px 10px; -moz-border-radius:2px; -webkit-border-radius:2px; border-radius:2px; -moz-transition:all 0.2s ease-out 0s; -webkit-transition:all 0.2s ease-out 0s; transition:all 0.2s ease-out 0s;}
 .dropdown-menu > li > a:hover{background-color:#0064ae;color:#fff;}
@@ -58,7 +56,6 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
 .list-group{box-shadow:0 1px 1px #dcdcdc;}
 .list-group-item{border:1px solid #e6e6e6;}
-
 
 .thumbnail{margin-bottom:10px;}
 .thumbnail img{width:100%;}
@@ -263,7 +260,6 @@ label[for]{cursor:pointer;}
 
 /*.fa-spinner{background:url(../image/loading.gif) no-repeat center center;}*/
 
-
 /*导航条样式*/
 .scrollable{overflow:auto;outline:none;}
 .nicescroll-cursors{width:8px!important;background:#0072c6!important;opacity:0.9;}
@@ -287,23 +283,25 @@ body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,Wen
 .blank{zoom:1;clear:both;display:block;height:15px;overflow:hidden;}
 .divider{height:1px;margin:9px 0;overflow: hidden;background-color: #e5e5e5;}
 .new{font-size:12px;color:#f00;}
-.placeholder {color:gray;}
+.placeholder{color:gray;}
 .middle{display:table-cell;vertical-align:middle;}
-.noshadow {-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;}
 .fixed-top{position:fixed;top:0;left:0;right:0;}
 .fixed-bottom{position:fixed;bottom:0;left:0;right:0;}
 .pull-center{float:none !important;margin-left:auto !important;margin-right:auto !important;display:inline-block;}
+.rounded{border-radius:6px;}
+.circle{border-radius:50%;}
+.noshadow{-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none!important;}
+.noborder{border:0!important;}
+.noradius{border-radius:0!important;}
+.nomargin{margin:0!important;}
+.nopadding{padding:0!important;}
 
 .va-t{vertical-align:top !important;}
 .va-m{vertical-align:middle !important;}
 .va-b{vertical-align:bottom !important;}
 
-.m0 {margin:0!important;}
-.p0 {padding:0!important;}
-
 label.error{font-size:12px;margin-top:5px;color:#ff0000;display:none;}
 label.error:empty{display:none;}
-
 label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-weight:bold;}
 
 .global-header{position:fixed;top:0;left:0;right:0;z-index:100;background-color:#0072c6;box-shadow:0 1px rgba(255,255,255,0.1);}

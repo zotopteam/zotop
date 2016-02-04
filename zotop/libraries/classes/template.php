@@ -208,15 +208,15 @@ class template
         $str = preg_replace("/\{hook\s+(.+)\}/i", '<?php zotop::run(\\1, $this); ?>', $str);
 
 		// 解析 {if ……} {else} {elseif ……} {endif}标签
-		$str = preg_replace("/\{if\s+(.+?)\}/i", "<?php if(\\1):?>", $str );
-        $str = preg_replace("/\{else\}/i", "<?php else: ?>", $str);
-		$str = preg_replace("/\{elseif\s+(.+?)\}/i", "<?php elseif(\\1):?>", $str );
-        $str = preg_replace("/\{\/if\}/i", "<?php endif; ?>", $str);
+		$str = preg_replace("/\{if\s+(.+?)\}/i", "<?php if(\\1){?>", $str );
+        $str = preg_replace("/\{else\}/i", "<?php }else{ ?>", $str);
+		$str = preg_replace("/\{elseif\s+(.+?)\}/i", "<?php }elseif(\\1){?>", $str );
+        $str = preg_replace("/\{\/if\}/i", "<?php }?>", $str);
 
 		// 解析 {loop $data $r} {loop $data $k $v} {/loop}标签
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0; if(is_array(\\1)) foreach(\\1 as \\2){ ?>", $str);
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0; if(is_array(\\1)) foreach(\\1 as \\2 => \\3){ ?>", $str);
-        $str = preg_replace("/\{\/loop\}/i", "<?php \$n++;};unset(\$n); ?>", $str);
+        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0;if(\\1 && is_array(\\1)) foreach(\\1 as \\2){\$n++; ?>", $str);
+        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0; if(\\1 && is_array(\\1)) foreach(\\1 as \\2 => \\3){\$n++; ?>", $str);
+        $str = preg_replace("/\{\/loop\}/i", "<?php } ?>", $str);
 
 		// 解析函数标签 format::date($time);
 		$str = preg_replace("/\{([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\))\}/", "<?php echo \\1;?>", $str);
@@ -467,11 +467,11 @@ class template
 
             if ( $cache )
             {
-                $code .= $newline.'if ( null === $' . $callback . ' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ):';
-				$code .= $newline.'	if ( $' . $callback . ' = ' . $callback . '(' . self::array_attrs($attrs) . ') ) :';
-                $code .= $newline.'		zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $' . $callback . ', ' . $cache . ');';
-				$code .= $newline.'	endif;';
-                $code .= $newline.'endif;';
+                $code .= $newline.'if ( null === $' . $callback . ' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ){';
+				$code .= $newline.' if ( $' . $callback . ' = ' . $callback . '(' . self::array_attrs($attrs) . ') ){';
+                $code .= $newline.'	    zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $' . $callback . ', ' . $cache . ');';
+				$code .= $newline.'	}';
+                $code .= $newline.'}';
             }
 			else
 			{
@@ -484,10 +484,10 @@ class template
 			}
 			else
 			{
-				$code .= $newline.'if ( is_array($' . $callback . ') ):';
-				$code .= $newline.'	if ( isset($' . $callback . '[\'total\']) ){ extract($' . $callback . '); $' . $callback . ' = $data; $pagination = pagination::instance($total,$pagesize,$page); }'; // 分页
-				$code .= $newline.'	$n=0;'; //编号
-				$code .= $newline.'	foreach( $' . $callback . ' as $key => $'.$return.' ):'; //循环
+				$code .= $newline.'if(is_array($' . $callback . ')){';
+				$code .= $newline.' if(isset($' . $callback . '[\'total\']) && is_array($' . $callback . '[\'data\'])){ extract($' . $callback . '); $' . $callback . ' = $data; $pagination = pagination::instance($total,$pagesize,$page); }'; // 分页
+                $code .= $newline.' $n=0;'; //编号
+                $code .= $newline.' if($' . $callback . ') foreach( $' . $callback . ' as $key => $'.$return.' ){$n++;'; //循环
 			}
         }
 
@@ -503,9 +503,9 @@ class template
     public static function parse_end($match)
     {
 		$newline = "\r\n";
-		$code .= $newline.'	$n++;';
-		$code .= $newline.'	endforeach;';
-		$code .= $newline.'endif;';
+		
+		$code .= $newline.'  }';
+		$code .= $newline.'}';
         return '<?php' . $code . $newline .'?>';
     }
 

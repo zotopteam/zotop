@@ -257,7 +257,7 @@ class request
     {
         foreach (func_get_args() as $pattern)
         {
-            if ( substr_count(ZOTOP_URI, $pattern) OR str::is($pattern, urldecode(ZOTOP_URI)) ) 
+            if ( substr_count(ZOTOP_URI, $pattern) OR str::is(urldecode(ZOTOP_URI), $pattern) ) 
             {
                 return true;
             }

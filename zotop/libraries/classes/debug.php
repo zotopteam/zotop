@@ -33,7 +33,7 @@ class debug
     }
 
     /**
-     * 返回变量的内容
+     * 打印给定变量并结束脚本执行
      *
      * @param   mixed  变量
      * @param   echo  是否返回。默认为直接输出并exit

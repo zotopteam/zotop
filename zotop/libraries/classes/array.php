@@ -13,6 +13,157 @@ class arr
     public static $tree = array();
 
     /**
+     * 多维数组检查键名是否存在，运行使用点符号分割
+     *
+     * @param  array   $array
+     * @param  string  $key
+     * @return bool
+     */
+    public static function has($array, $key)
+    {
+        if ( empty($array) || is_null($key) )
+        {
+            return false;
+        }
+
+        if ( array_key_exists($key, $array) )
+        {
+            return true;
+        }
+
+        foreach ( explode('.', $key) as $segment )
+        {
+            if ( !is_array($array) || !array_key_exists($segment, $array) ) 
+            {
+                return false;
+            }
+
+            $array = $array[$segment];
+        }
+
+        return true;
+    }
+
+    /**
+     *  从数组或者多维数组中取出特定键值，键名可以使用点符号分割
+     *
+     *     // 获取 $array['foo']['bar']
+     *     $value = arr::get($array, 'foo.bar');
+     *
+     *     // 使用 * 可以进行搜索，并返回一个数组
+     *
+     *     $colors = arr::get($array, 'themes.*.name');
+     *
+     * @param   array   $array      原数组
+     * @param   mixed   $keys       键名(可使用点符号分割和*号搜索)
+     * @param   mixed   $default    默认值
+     * @return  mixed
+     */
+    public static function get($array, $keys, $default=null)
+    {
+        // 如果不是数组，返回默认值
+        if ( !is_array($array) ) return $default;
+
+        // 删除键名首位的空格和分隔符，并将键名转化为数组
+        if ( is_string($keys) )
+        {
+            $keys = trim(trim($keys),'.');
+
+            if (array_key_exists($keys, $array))
+            {
+                return $array[$keys];
+            }
+
+            $keys = explode('.', $keys);  
+        }
+
+        do
+        {
+            $key = array_shift($keys);
+            $key = ctype_digit($key) ? intval($key) : $key;
+
+            if ( isset($array[$key]) )
+            {
+                if ($keys)
+                {
+                    if ( is_array($array[$key]) )
+                    {
+                        $array = $array[$key];
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    return $array[$key];
+                }               
+            }
+            elseif ( $key === '*' )
+            {
+                $values = array();
+
+                foreach ($array as $arr)
+                {
+                    if ( $value = arr::get($arr, implode('.', $keys)) )
+                    {
+                        $values[] = $value;
+                    }
+                }
+
+                if ($values)
+                {
+                    return $values;
+                }
+                else
+                {
+                    break;
+                }                
+            }
+            else
+            {
+                break;
+            }
+        }
+        while ($keys);
+
+        return $default;
+    }
+
+    /**
+    * 多维数组设置值
+    *
+    * @param array   $array  数组
+    * @param string  $keys   键名(可使用点符号分割)
+    * @param mixed   $value  值
+    */
+    public static function set(&$array, $keys, $value)
+    {
+        if ( !is_array($keys) )
+        {
+            $keys = explode('.', $keys);
+        }
+
+        while ( count($keys) > 1 )
+        {
+            $key = array_shift($keys);
+            $key = ctype_digit($key) ? intval($key) : $key;
+
+            if ( !isset($array[$key]) || !is_array($array[$key]) )
+            {
+                $array[$key] = array();
+            }
+
+            $array = &$array[$key];
+        }
+        
+        $array[array_shift($keys)] = $value;
+
+        return $array;
+    }    
+
+    /**
      * 从数组里面获取特定值
      * 
      *     $username = arr::get($_POST, 'username');
@@ -24,7 +175,7 @@ class arr
      * @param   mixed   default value
      * @return  mixed
      */
-    public static function get($array, $key, $default = null)
+    public static function only($array, $key, $default = null)
     {
         if ( is_string($key) )
         {
@@ -49,7 +200,7 @@ class arr
         }
 
         return null;
-    }
+    }    
 
     /**
      * 从数组中弹出键，返回该键的值并从数组中删除该键，如果弹出多个键，则返回一个由弹出键组成的数组
@@ -95,6 +246,28 @@ class arr
 
         return count($return) > 2 ? $return : reset($return);
     }
+
+    /**
+     * 测试数组是否关联
+     *
+     *     // Returns TRUE
+     *     arr::is_assoc(array('username' => 'john.doe'));
+     *
+     *     // Returns FALSE
+     *     Arr::is_assoc('foo', 'bar');
+     *
+     * @param   array   $array  array to check
+     * @return  boolean
+     */
+    public static function is_assoc(array $array)
+    {
+        // Keys of the array
+        $keys = array_keys($array);
+
+        // If the array keys of the keys match the keys, then the array must
+        // not be associative (e.g. the keys array looked like {0:0, 1:1...}).
+        return array_keys($keys) !== $keys;
+    }    
 
     /**
      * 合并多维数组
@@ -201,6 +374,15 @@ class arr
     /*
     * 根据键值多维排序
     */
+   
+    /**
+     * 多维数组排序
+     * 
+     * @param  array &$array [description]
+     * @param  string $key    [description]
+     * @param  static $sort   升序[SORT_ASC]或者降序[SORT_DESC]
+     * @return array
+     */
     public static function multisort(&$array, $key, $sort = SORT_ASC)
     {
         if (!is_array($array)) return false;
@@ -221,9 +403,6 @@ class arr
 
         return $array;
     }
-
-    
-
 
     /**
      * trim 数组
@@ -300,21 +479,22 @@ class arr
      * @endcode
      *
      * @param array $arr 数据源
-     * @param string $col 要查询的键
+     * @param string $key 要查询的键
      *
      * @return array 包含指定键所有值的数组
      */
-    public static function column($arr, $col)
+    public static function column($arr, $key)
     {
         $ret = array();
 
         foreach ($arr as $row)
         {
-            if (isset($row[$col]))
+            if ( isset($row[$key]) )
             {
-                $ret[] = $row[$col];
+                $ret[] = $row[$key];
             }
         }
+        
         return $ret;
     }
 
@@ -347,7 +527,7 @@ class arr
      * );
      * $hashmap = arr::hashmap($rows, 'id');
      *
-     * dump($hashmap);
+     * debug::dump($hashmap);
      *   // 输出结果为
      *   // array(
      *   //   1 => array('id' => 1, 'value' => '1-1'),
@@ -415,20 +595,62 @@ class arr
      * @endcode
      *
      * @param array $arr 数据源
-     * @param string $key_field 作为分组依据的键名
+     * @param string $key 作为分组依据的键名
      *
      * @return array 分组后的结果
      */
-    public static function group($arr, $key_field)
+    public static function group($arr, $key)
     {
         $ret = array();
         foreach ($arr as $row)
         {
-            $key = $row[$key_field];
+            $key = $row[$key];
             $ret[$key][] = $row;
         }
         return $ret;
     }
+
+    /**
+     * 将多维数组转化为扁平数组
+     *
+     *     $array = array('set' => array('one' => 'something'), 'two' => 'other');
+     *
+     *     // Flatten the array
+     *     $array = arr::flatten($array);
+     *
+     *     // The array will now be
+     *     array('one' => 'something', 'two' => 'other');
+     *
+     *
+     * @param   array   $array  待扁平的数组
+     * @return  array
+     */
+    public static function flatten($array)
+    {
+        $is_assoc = arr::is_assoc($array);
+
+        $flat = array();
+
+        foreach ($array as $key => $value)
+        {
+            if (is_array($value))
+            {
+                $flat = array_merge($flat, arr::flatten($value));
+            }
+            else
+            {
+                if ($is_assoc)
+                {
+                    $flat[$key] = $value;
+                }
+                else
+                {
+                    $flat[] = $value;
+                }
+            }
+        }
+        return $flat;
+    }    
 
     /**
      * 将无限分类数组转化为树

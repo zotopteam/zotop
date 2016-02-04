@@ -10,15 +10,15 @@
 class str
 {
     /**
-     * 正则判断值是否符合规则
+     * 判断字串是否符合给定的模式。星号可以用来当作通配符。
      *
+     * @param  string  $str
      * @param  string  $pattern
-     * @param  string  $value
      * @return bool
      */
-    public static function is($pattern, $value)
+    public static function is($str, $pattern)
     {
-        if ($pattern == $value)
+        if ( $str == $pattern )
         {
             return true;
         }
@@ -26,7 +26,7 @@ class str
         $pattern = preg_quote($pattern, '#');
         $pattern = str_replace('\*', '.*', $pattern);
 
-        return (bool) preg_match('#^'.$pattern.'\z#', $value);
+        return (bool) preg_match('#^'.$pattern.'\z#', $str);
     }
 
 	/**
@@ -36,7 +36,7 @@ class str
 	 * @param $needle 要查找的字符
 	 * @return bool
 	 */
-	public static function exists($str, $needle)
+	public static function contains($str, $needle)
 	{
 		return !(strpos($str, $needle) === FALSE);
 	}
@@ -116,7 +116,6 @@ class str
 	 * @param string $start 开始位置
 	 * @param string $length 截取长度
 	 * @param string $charset 编码格式
-	 * @param string $suffix 截断显示字符
 	 * @return string
 	 */
 	public static function substr($str, $start, $length, $charset = "utf-8")
@@ -175,6 +174,7 @@ class str
 	public static function rand($len = 4, $type = '', $addons = '')
 	{
 		$str ='';
+		
 		switch($type)
 		{
 			case 0:
@@ -195,10 +195,10 @@ class str
 				break;
 		}
 
-		if($len>10 )
+		if( $len>10 )
 		{
 			//位数过长重复字符串一定次数
-			$chars= $type==1? str_repeat($chars,$len) : str_repeat($chars,5);
+			$chars= ($type == 1) ? str_repeat($chars,$len) : str_repeat($chars,5);
 		}
 
 		$chars   =   str_shuffle($chars);
