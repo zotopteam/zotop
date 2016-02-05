@@ -214,13 +214,13 @@ class developer_controller_project extends admin_controller
      * 创建数据表
      *
      */
-    public function action_createtable()
+    public function action_create_table()
     {
         if ( $post = $this->post() )
         {
             $schema = array(
                 'fields'  => array(
-                    'id' => array('type' => 'int', 'length' => 10, 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE),
+                    'id' => array('type' => 'int', 'length' => 10, 'unsigned' => TRUE, 'notnull' => TRUE, 'autoinc'=>TRUE, 'comment' => t('编号')),
                 ),
                 'primary' => array('id'),
                 'comment' => $post['comment'],
@@ -234,23 +234,7 @@ class developer_controller_project extends admin_controller
 
             if ( $this->db->createTable($post['name'], $schema) )
             {
-                $app = $this->app;
-
-                if ( empty($app['tables']) )
-                {
-                    $app['tables'] = $post['name'];
-                }
-                elseif ( strpos(','.$app['tables'].',',  ','.$post['name'].',') === false )
-                {
-                    $app['tables'] = $app['tables'].','.$post['name'];
-                }
-
-                // 写入应用配置
-                file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . 'app.php', "<?php\nreturn ".var_export($app, true).";\n?>");
-
-                // 写入项目文件
-                file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($app, true).";\n?>");
-
+                $this->app_tables($post['name']);
 
                 return $this->success(t('$1成功',t('新建数据表')),u('developer/project/table'));
             }
@@ -269,16 +253,12 @@ class developer_controller_project extends admin_controller
      * 修改数据表
      *
      */
-    public function action_edittable($table)
+    public function action_edit_table($table)
     {
-
         if ( $post = $this->post() )
         {
-            // app 信息
-            $app = $this->app;
-
             // 数据表更名
-            if (  $post['name'] != $table )
+            if ( $post['name'] and $post['name'] != $table )
             {
                 if ( $this->db->existsTable($post['name']) ) return $this->error(t('%s 已经存在', $post['name']));
 
@@ -287,22 +267,16 @@ class developer_controller_project extends admin_controller
                     return $this->error(t('更新表名称失败'));
                 }
 
-                $app['tables'] = str_replace(','.$table.',', ','.$post['name'].',', ','.$app['tables'].',');
-                $app['tables'] = trim($app['tables'], ',');
+                $this->app_tables($table, $post['name']);
             }
+
+            // TODO 更改表类型
 
             // 更新表注释
             if ( $this->db->commentTable($post['name'], $post['comment']) == false )
             {
                 return $this->error(t('更改表注释失败'));
             }
-
-            // 写入应用配置
-            file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . 'app.php', "<?php\nreturn ".var_export($app, true).";\n?>");
-
-            // 写入项目文件
-            file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($app, true).";\n?>");
-
 
             return $this->success(t('操作成功'),u('developer/project/table'));
         }
@@ -314,12 +288,27 @@ class developer_controller_project extends admin_controller
             $data['name'] = $table;
         }
 
-
         $this->assign('title', t('表设置'));
         $this->assign('data', $data);
         $this->display('developer/project_tablepost.php');
     }
 
+    /**
+     * 删除数据表
+     *
+     * @return bool
+     */
+    public function action_delete_table($table)
+    {
+        if ( $this->db->dropTable($table) )
+        {
+            $this->app_tables($table, null);
+
+            return $this->success(t('删除成功'),u('developer/project/table'));
+        }
+
+        return $this->error(t('$1失败', t('删除')));
+    }
 
     /**
      * 检查项目编号及文件目录是否被占用
@@ -460,6 +449,47 @@ class developer_controller_project extends admin_controller
         }
 
         return $setting;
+    }
+
+    /**
+     * 操作app.php中的tables值
+     * 
+     * @param  string $table 表名称
+     * @param  string $value 空=新增 null=删除 其他=修改
+     * @return [type]
+     */
+    private function app_tables($table, $value='')
+    {
+        $tables = explode(',',$this->app['tables']);
+
+        if ( $value === '' )
+        {
+            $tables[] = $table;
+        }
+        elseif ( $value === null )
+        {
+            foreach ($tables as $key => $val)
+            {
+                if ( $val == $table ) unset($tables[$key]);
+            }
+        }
+        else
+        {
+            foreach ($tables as $key => $val)
+            {
+                if ( $val == $table ) $tables[$key] = $value;
+            }            
+        }
+
+        $this->app['tables'] = implode(',', $tables);
+
+        // 写入应用配置
+        file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . 'app.php', "<?php\nreturn ".var_export($this->app, true).";\n?>");
+
+        // 写入项目文件
+        file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($this->app, true).";\n?>");        
+
+        return true;
     }
 }
 ?>

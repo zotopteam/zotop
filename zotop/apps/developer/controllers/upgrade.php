@@ -17,7 +17,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_list()
 	{
-		$file = a('form.path').DS.'templates'.DS.'data_index.php';
+		$file = a('developer.path').DS.'templates'.DS.'schema_index.php';
 		
 		$str  = file::get($file);
 
@@ -37,7 +37,7 @@ class developer_controller_upgrade extends admin_controller
 
 		$str = str_ireplace('dialog-', 'js-', $str);
 		$str = str_ireplace('<s></s>', '<s>|</s>', $str);
-
+		$str = str_ireplace('btn-highlight', 'btn-primary', $str);
 
 
 		debug::dump(file::put($file,$str));
@@ -85,7 +85,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form2()
 	{
-		$file = a('developer.path').DS.'templates'.DS.'project_post.php';
+		$file = a('developer.path').DS.'templates'.DS.'project_tablepost.php';
 		
 		$str  = file::get($file);
 
@@ -106,6 +106,8 @@ class developer_controller_upgrade extends admin_controller
 
 		$str = str_ireplace('.disable(true);', ".button('loading');", $str);
 		$str = str_ireplace('.disable(false);', ".button('reset');", $str);
+
+		
 
 		//$str = str_ireplace('<tr class="', '<div class="form-group ', $str);
 

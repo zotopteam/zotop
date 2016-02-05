@@ -90,6 +90,7 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
 .table{margin-bottom:0;}
 .table>caption{padding:10px 15px;background:#f3f3f3;font-size: 18px;}
+.table>caption.caption-default{padding:10px 0;background:#fff;}
 .table>tbody>tr{-webkit-transition:background-color;-o-transition:background-color;transition:background-color;-webkit-transition-duration:300ms;transition-duration:300ms;}
 .table>thead>tr>th,.table>tbody>tr>th,.table>tfoot>tr>th,.table>thead>tr>td,.table>tbody>tr>td,.table>tfoot>tr>td{padding:15px;font-size:15px;border-top-width:0;border-bottom:1px solid #efefef;vertical-align:middle;}
 .table>thead>tr>th,.table>thead>tr>td,.table>tfoot>tr>th,.table>tfoot>tr>td{background-color:#f3f3f3;padding:8px 15px;}
