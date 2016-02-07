@@ -1,65 +1,68 @@
 {template 'dialog.header.php'}
 
 	{form::header()}
-		<table class="field">
-			<tr>
-				<td class="label">{form::label(t('名称'),'name',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required','remote'=>u('developer/schema/checkfield/'.$tablename.'/'.$data['name'])))}
-				</td>
-			</tr>
+		<div class="container-fluid">
+		<div class="form-horizontal">
 
-			<tr>
-				<td class="label">{form::label(t('类型'),'type',false)}/{form::label(t('长度'),'length',false)}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('名称'),'name',true)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required','pattern'=>'[a-z0-9_]+','remote'=>u('developer/schema/checkfield/'.$tablename.'/'.$data['name'])))}
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('类型'),'type',false)}/{form::label(t('长度'),'length',false)}</div>
+				<div class="col-sm-4">
 					{form::field(array('type'=>'select','name'=>'type','value'=>$data['type'],'options'=>$types,'class'=>'short'))}
+				</div>
+				<div class="col-sm-4">
 					{form::field(array('type'=>'text','name'=>'length','value'=>$data['length'],'class'=>'short','placeholder'=>t('字段长度 或者 字段长度,精度'),'pattern'=>'[0-9,]+'))}
-				</td>
-			</tr>
+				</div>
+			</div>
 
 
-			<tr>
-				<td class="label">{form::label(t('默认值'),'default',false)}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('默认值'),'default',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'default','value'=>$data['default']))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('自增'),'autoinc',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('自增'),'autoinc',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'bool','name'=>'autoinc','value'=>$data['autoinc']))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('UNSIGNED'),'unsigned',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('UNSIGNED'),'unsigned',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'bool','name'=>'unsigned','value'=>$data['unsigned']))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('NOT NULL'),'notnull',false)}</td>
-				<td class="input">
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('NOT NULL'),'notnull',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'bool','name'=>'notnull','value'=>$data['notnull']))}
-				</td>
-			</tr>
+				</div>
+			</div>
 
-			<tr>
-				<td class="label">{form::label(t('注释'),'comment',false)}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('注释'),'comment',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'comment','value'=>$data['comment']))}
-				</td>
-			</tr>
+				</div>
+			</div>
 
-			<tr>
-				<td class="label">{form::label(t('位于'),'position',false)}</td>
-				<td class="input">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('位于'),'position',false)}</div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'select','name'=>'position','value'=>$data['position'],'options'=>$position,'class'=>'short'))}
-				</td>
-			</tr>
-		</table>
+				</div>
+			</div>
+		</div>
+		</div>
 	{form::footer()}
-	</form>
-	<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 	<script type="text/javascript">
 
 		// 对话框设置

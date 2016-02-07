@@ -48,10 +48,11 @@
 					{form::tips(t('具有完整功能的应用为模块，为其它应用服务的为插件'))}
 				</div>
 			</div>
-			<div class="form-group" style="display:none;">
+			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label($attrs['tables'],'tables',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'tables','value'=>$app['tables']))}
+					{form::tips(t('多个数据表之间用英文逗号隔开，不含前缀'))}
 				</div>
 			</div>
 			<div class="form-group">

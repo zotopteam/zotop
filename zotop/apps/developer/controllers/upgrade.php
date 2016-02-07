@@ -50,7 +50,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form()
 	{
-		$file = a('developer.path').DS.'templates'.DS.'project_post.php';
+		$file = a('developer.path').DS.'templates'.DS.'schema_post.php';
 		
 		$str  = file::get($file);
 
@@ -85,7 +85,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form2()
 	{
-		$file = a('developer.path').DS.'templates'.DS.'project_tablepost.php';
+		$file = a('developer.path').DS.'templates'.DS.'schema_post.php';
 		
 		$str  = file::get($file);
 

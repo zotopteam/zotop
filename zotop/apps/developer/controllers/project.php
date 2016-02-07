@@ -13,8 +13,9 @@ class developer_controller_project extends admin_controller
     protected $attrs;
     protected $dir; // 项目文件夹
     protected $app = array();
+    protected $app_path;
+    protected $app_file;
     protected $db;
-    protected $navbar = array();
 
     /**
      * 重载__init函数
@@ -57,14 +58,23 @@ class developer_controller_project extends admin_controller
                 return $this->redirect(U('developer'));
             }
 
-            $this->app = @include(ZOTOP_PATH_APPS . DS . $this->dir . DS .'app.php');
+            $this->app_path = ZOTOP_PATH_APPS . DS . $this->dir;
+            $this->app_file = $this->app_path . DS . 'app.php';
+
+            if ( !file::exists($this->app_file) )
+            {
+                return $this->error(t('$1 不存在', $this->app_file));
+            }
+            
+            $this->app      = @include($this->app_file);
 
             if ( empty($this->app) or !is_array($this->app) )
             {
-                return $this->error(t('未能在 $1 目录下找到 app.php', debug::path(ZOTOP_PATH_APPS . DS . $this->dir)));
+                return $this->error(t('$1 不正确', $this->app_file));
             }
 
             $this->assign('app',$this->app);
+            $this->assign('app_file', $this->app_file);
         }
 
         $this->assign('attrs',$this->attrs);
@@ -80,6 +90,8 @@ class developer_controller_project extends admin_controller
      */
     public function action_index()
     {
+        //$this->create_app($this->app);
+
         $this->assign('title', t('基本信息'));
         $this->display();
     }
@@ -119,21 +131,16 @@ class developer_controller_project extends admin_controller
         if ($post = $this->post())
         {
             // 重命名文件夹
-            if ( $this->dir != $post['dir'] )
+            if ( $this->dir != $post['dir'] and folder::rename($this->app_path, $post['dir']) )
             {
-                folder::rename(ZOTOP_PATH_APPS . DS . $this->dir, $post['dir']);
-            }
-
-            $app_path = ZOTOP_PATH_APPS . DS . $post['dir'];
+                $this->app_path = ZOTOP_PATH_APPS . DS . $post['dir'];
+            }            
 
             // 合并数据
             $post = $this->clear_setting(array_merge($this->app, $post));
 
             // 写入应用配置
-            file::put($app_path . DS . 'app.php', "<?php\nreturn ".var_export($post, true).";\n?>");
-
-            // 写入项目文件
-            file::put($app_path . DS . '_project.php', "<?php\nreturn ".var_export($post, true).";\n?>");
+            file::put($this->app_path . DS . 'app.php', "<?php\nreturn ".var_export($post, true).";\n?>");
 
             // 保存并返回
             return $this->success(t('保存成功'),U('developer/project/index',array('project'=>$post['dir'])));
@@ -146,6 +153,29 @@ class developer_controller_project extends admin_controller
     }
 
     /**
+     * 删除未安装应用
+     *
+     */
+    public function action_delete()
+    {
+        $dir = trim(rawurldecode($_GET['dir']));
+
+        if ( $dir  )
+        {
+            $path = ZOTOP_PATH_APPS.DS.$dir;
+
+            if ( folder::delete($path,true) )
+            {
+                return $this->success(t('删除成功'),u('developer/index'));
+            }
+
+            return $this->error(t('删除失败'));
+        }
+
+        return $this->error(t('禁止访问'));
+    }    
+
+    /**
      * 创建数据表
      *
      */
@@ -153,38 +183,69 @@ class developer_controller_project extends admin_controller
     {
         // 保存
         if ($post = $this->post())
-        {
-
-            $config_path = ZOTOP_PATH_APPS . DS . $this->dir . DS .'config.php';
-
+        {                        
             $config = is_array($post['config_key']) ? array_combine($post['config_key'], $post['config_val']) : array();
 
             // 写入应用配置
-            file::put($config_path, "<?php\nreturn ".var_export($config, true).";\n?>");
+            file::put($this->app_path.DS.'config.php', "<?php\nreturn ".var_export($config, true).";\n?>");
 
-            // 如果不存在配置控制器，写入配置控制器
-            if ( !file::exists(ZOTOP_PATH_APPS . DS . $this->dir . DS. 'controllers' .DS .'config.php') )
-            {
-                $this->create_file('controller_config.php', ZOTOP_PATH_APPS . DS . $this->dir . DS . 'controllers' .DS. "config.php", $this->app);
+            // 如果应用已经安装，写入全局配置
+            if ( A($this->app['id']) )
+            {   
+                m('system.app')->config(array_merge($config, c($this->app['id'])), $this->app['id']);
             }
 
-            // 写入配置模板，这里只能写入第一项
-            $this->app['config_first'] = $post['config_key'][0];
+            // 写入配置控制器
+            developer::make_file(DEVELOPER_SOURCE_PATH.DS.'controllers'.DS.'config.php', $this->app_path . DS . 'controllers' .DS. "config.php", $this->app , array(
+                'name'        => 'config',
+                'title'       => t('$1配置',$app['name']),
+                'description' => t('$1配置',$app['name'])
+            ));         
 
-            if ( !file::exists(ZOTOP_PATH_APPS . DS . $this->dir . DS. 'templates' .DS .'config_index.php') )
-            {
-                $this->create_file('template_config_index.php', ZOTOP_PATH_APPS . DS . $this->dir . DS . 'templates' .DS. "config_index.php", $this->app);
-            }
+            // 写入配置模板
+            developer::make_file(DEVELOPER_SOURCE_PATH.DS.'templates'.DS.'config_index.php', $this->app_path . DS . 'templates' .DS. "config_index.php", $this->app , array(
+                'name'        => 'config',
+                'title'       => t('$1配置',$app['name']),
+                'description' => t('$1配置',$app['name'])
+            ));
 
             return $this->success(t('保存成功'));
         }
 
         $config = @include(ZOTOP_PATH_APPS . DS . $this->dir . DS .'config.php');
-        $config = is_array($config) ? $config : array(''=>'');
+        $config = is_array($config) ? $config : array();
 
         $this->assign('title', t('配置项管理'));
         $this->assign('config',$config);
         $this->display();
+    }
+
+    /**
+     * 配置表单示例代码
+     * @return [type] [description]
+     */
+    public function action_config_formcode()
+    {
+        $config = @include($this->app_path . DS .'config.php');
+        $config = is_array($config) ? $config : array();
+        
+        $html   = file::get(DEVELOPER_SOURCE_PATH.DS.'templates'.DS.'config_field.php');
+        $code   = '';
+
+        foreach ($config as $key => $value)
+        {
+            $str = $html;
+            $str = str_replace('[name]', $key, $str);
+            $str = str_replace('[label]', $key, $str);
+            $str = str_replace('[tip]', $key, $str);
+            $str = str_replace('[value]', "c('{$this->app['id']}.{$key}')", $str);
+            
+            $code = $code."\n".$str;
+        }
+
+        $this->assign('title', t('表单示例代码'));
+        $this->assign('code',$code);
+        $this->display();        
     }
 
     /**
@@ -338,15 +399,12 @@ class developer_controller_project extends admin_controller
         if ( empty($app['id']) ) return $this->error(t('标识不允许为空'));
         if ( empty($app['dir']) ) return $this->error(t('目录不允许为空'));
 
-        // 开发助手common目录
-        $common_path    = A('developer.path') . DS . 'common';
-
         // 应用目录
         $app_path       = ZOTOP_PATH_APPS . DS . $app['dir'];
 
         if ( folder::exists($app_path) )
         {
-            return $this->error(t('目录 $1 已经存在', $app['dir']));
+           return $this->error(t('目录 $1 已经存在', $app['dir']));
         }
 
         // 创建应用文件夹
@@ -357,7 +415,7 @@ class developer_controller_project extends admin_controller
         folder::create($app_path . DS . 'libraries');
 
         // 放置默认的app图标
-        file::copy($common_path . DS . 'app.png', $app_path . DS . 'app.png');
+        file::copy(DEVELOPER_SOURCE_PATH . DS . 'app.png', $app_path . DS . 'app.png');
 
         // 清理配置文件
         $app = $this->clear_setting($app);
@@ -365,73 +423,61 @@ class developer_controller_project extends admin_controller
         // 写入应用配置
         file::put($app_path . DS . 'app.php', "<?php\nreturn ".var_export($app, true).";\n?>");
 
-        // 写入项目文件
-        file::put($app_path . DS . '_project.php', "<?php\nreturn ".var_export($app, true).";\n?>");
-
         // 写入全局文件
-        $this->create_file('global.php', $app_path . DS . 'global.php', $app);
-
-        // 写入api类
-        $this->create_file('api.php', $app_path . DS . 'libraries' .DS. "api.php", $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'global.php', $app_path . DS . 'global.php', $app);
 
         // 写入安装文件
-        $this->create_file('install.php', $app_path . DS . 'install.php', $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'install.php', $app_path . DS . 'install.php', $app);
 
         // 写入卸载文件
-        $this->create_file('uninstall.php', $app_path . DS . 'uninstall.php', $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'uninstall.php', $app_path . DS . 'uninstall.php', $app);        
 
-        // 写入前台控制器
-        $this->create_file('controllers/index.php', $app_path . DS . 'controllers' .DS. "index.php", $app);
+        // 写入api类
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'libraries'.DS.'api.php', $app_path . DS . 'libraries' .DS. "api.php", $app);
+
+        // 写入默认首页控制器
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'controllers'.DS.'site.php', $app_path . DS . 'controllers' .DS. "index.php", $app , array(
+            'name'        => 'index',
+            'title'       => t('$1首页',$app['name']),
+            'description' => t('$1首页',$app['name'])
+        ));
+
+        // 写入首页模板
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'templates'.DS.'site.php', $app_path . DS . 'templates' .DS. "index.php", $app , array(
+            'name'        => 'index',
+            'title'       => t('$1首页',$app['name']),
+            'description' => t('$1首页',$app['name'])
+        ));        
 
         // 写入后台控制器示例
-        $this->create_file('controllers/admin.php', $app_path . DS . 'controllers' .DS. "admin.php", $app);
-
-        // 写入前台模板
-        $this->create_file('templates/index.php', $app_path . DS . 'templates' .DS. "index.php", $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'controllers'.DS.'admin.php', $app_path . DS . 'controllers' .DS. "admin.php", $app , array(
+            'name'        => 'admin',
+            'title'       => t('$1管理',$app['name']),
+            'description' => t('$1管理',$app['name'])
+        ));
 
         // 写入后台模板
-        $this->create_file('templates/admin_index.php', $app_path . DS . 'templates' .DS. "admin_index.php", $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'templates'.DS.'admin_index.php', $app_path . DS . 'templates' .DS. "admin_index.php", $app , array(
+            'name'        => 'admin',
+            'title'       => t('$1管理',$app['name']),
+            'description' => t('$1管理',$app['name'])
+        ));
 
         // 写入侧边模板
-        $this->create_file('templates/admin_side.php', $app_path . DS . 'templates' .DS. "admin_side.php", $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'templates'.DS.'admin_side.php', $app_path . DS . 'templates' .DS. "admin_side.php", $app , array(
+            'name'        => 'admin',
+            'title'       => t('$1侧边栏',$app['name']),
+            'description' => t('$1侧边栏',$app['name'])
+        ));
 
         return true;
-    }
-
-    /**
-     * 读取程序模板文件，替换相应标签后写入项目文件夹中
-     *
-     *
-     * @param mixed $file 位于developer开发助手应用common目录下的文件名称
-     * @param mixed $target 应用下的目标文件夹
-     * @param mixed $app 项目数据
-     * @return void
-     */
-    private function create_file($template, $target, $app)
-    {
-        // 开发助手common目录下的文件
-        $template = A('developer.path') . DS . 'common' . DS . $template;
-
-        if (file::exists($template))
-        {
-            $str = file::get($template);
-
-            foreach ($app as $key => $val)
-            {
-                $str = str_replace('[' . $key . ']', $val, $str);
-            }
-
-            file::put($target, $str);
-        }
-
-        return false;
     }
 
     /**
      * 清理模块设置，只保留模块需要的部分
      *
      *
-     * @param mixed $file 位于developer开发助手应用common目录下的文件名称
+     * @param mixed $file 位于developer开发助手应用source目录下的文件名称
      * @param mixed $target 应用下的目标文件夹
      * @param mixed $app 项目数据
      * @return void
@@ -485,9 +531,6 @@ class developer_controller_project extends admin_controller
 
         // 写入应用配置
         file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . 'app.php', "<?php\nreturn ".var_export($this->app, true).";\n?>");
-
-        // 写入项目文件
-        file::put(ZOTOP_PATH_APPS . DS . $this->dir . DS . '_project.php', "<?php\nreturn ".var_export($this->app, true).";\n?>");        
 
         return true;
     }

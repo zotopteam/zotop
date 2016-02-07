@@ -17,46 +17,23 @@
 				<img src="{ZOTOP_URL_APPS}/{$r['dir']}/app.png">
 			</div>
 			<div class="media-body">
-				<h4 class="media-heading">{$r['name']} <span>( {$r['id']} )</span></h4>
+				<h4 class="media-heading">{$r['name']} <span>( {$r['id']} )</span> <span class="text-muted">{$r['version']}</span></h4>
 				<p>{$r['description']}</p>
-				<table class="table attr">
-					<tr>
-						<td class="w100">{t('标识')}</td>
-						<td>{$r['id']}</td>
-						<td class="w100">{t('目录')}</td>
-						<td>{$r['dir']}</td>
-						<td class="w100">{t('版本')}</td>
-						<td>{$r['version']}</td>
-					</tr>
-					<tr>
-						<td class="w100">{t('类型')}</td>
-						<td>{$r['type']}</td>
-
-						<td class="w100">{t('依赖')}</td>
-						<td>{$r['dependencies']}</td>
-						<td class="w100">{t('数据表')}</td>
-						<td>{$r['tables']}</td>
-					</tr>
-					<tr>
-						<td class="w100">{t('作者')}</td>
-						<td>{$r['author']}</td>
-						<td class="w100">{t('邮箱')}</td>
-						<td>{$r['email']}</td>
-						<td class="w100">{t('网站')}</td>
-						<td colspan="3">{$r['homepage']}</td>
-					</tr>
-					<tr>
-						<td colspan="6" class="manage">
-							<a class="btn btn-primary btn-icon-text" href="{u('developer/project/index','project='.$r['dir'])}">
-								<i class="fa fa-edit"></i><b>{t('管理应用')}</b>
+				<div class="manage">
+							<a class="" href="{u('developer/project/index','project='.$r['dir'])}">
+								<i class="fa fa-edit"></i> <b>{t('开发模式')}</b>
 							</a>
-
-							<a class="btn btn-default btn-icon-text js-confirm pull-right" href="{U('developer/project/delete')}">
-								<i class="fa fa-times"></i><b>{t('删除应用')}</b>
+							
+							{if A($r['id'])}
+							<span class="text-success pull-right">
+								<i class="fa fa-check-circle"></i> <b>{t('已安装')}</b>
+							</span>
+							{else}
+							<a class="js-confirm pull-right" href="{U('developer/project/delete',array('dir'=>$r['dir']))}">
+								<i class="fa fa-times"></i> <b>{t('删除应用')}</b>
 							</a>
-						</td>
-					</tr>
-				</table>
+							{/if}					
+				</div>
 			</div>
 		</div>
 		{else}

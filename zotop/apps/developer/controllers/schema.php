@@ -46,7 +46,6 @@ class developer_controller_schema extends admin_controller
 		$this->db = zotop::db();
 	}
 
-
 	/**
 	 * 数据表结构
 	 *
@@ -59,7 +58,7 @@ class developer_controller_schema extends admin_controller
 
 		$schema = $this->db->schema($table);
 
-		$this->assign('title',t('数据表结构'));
+		$this->assign('title',$table);
 		$this->assign('app',$app);
 		$this->assign('database',$database);
 		$this->assign('table',$table);
@@ -105,7 +104,7 @@ class developer_controller_schema extends admin_controller
 
 			if ( $result )
 			{
-				return $this->success(t('$1成功',$post['operation']),u("developer/schema/{$tablename}"));
+				return $this->success(t('$1设置成功',$post['operation']),u("developer/schema/{$tablename}"));
 			}
 			$this->error(t('$1失败',$post['operation']));
 		}
@@ -119,19 +118,19 @@ class developer_controller_schema extends admin_controller
 	 * @param $table 数据表名称
 	 * @return mixed
 	 */
-    public function action_show($tablename)
+    public function action_show($table)
     {
 		// 获取全部数据
-		$data      = $this->db->table($tablename)->select();
+		$data      = $this->db->table($table)->select();
 
 		// 获取数据表结构信息
-		$schema    = $this->db->schema($tablename);
+		$schema    = $this->db->schema($table);
 
 		// schema 格式化
 		$schemastr = $this->schemaStringify($schema);
 
 		$this->assign('title',t('数据表结构'));
-		$this->assign('tablename',$tablename);
+		$this->assign('table',$table);
 		$this->assign('schemastr',$schemastr);
 		$this->assign('data',$data);
 		$this->display();

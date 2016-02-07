@@ -64,7 +64,7 @@
 
 	</div>
 	<div class="main-footer">
-		<div class="footer-text">{t('应用项关联的数据表，如果是从其他位置添加的数据表，请手动修改当前app.php中的tables一项')}</div>
+		<div class="footer-text">{t('应用关联的数据表，添加已经存在的数据表，请编辑基本信息或者手动修改 $1 中的tables项',$app_path)}</div>
 	</div>
 </div>
 

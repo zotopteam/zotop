@@ -17,12 +17,24 @@
 		<img src="{ZOTOP_URL_APPS}/{$app['dir']}/app.png" class="hidden">
 
 		<table class="table list">
-			{loop $app $key $val}
-			<tr>
-				<td width="200"><b>{$attrs[$key]}</b> <span class="text-muted">{$key}</span></td>
-				<td>{$val}</td>
-			</tr>
-			{/loop}
+			<thead>
+				<tr>
+					<td>{t('名称')}</td>
+					<td>{t('标识')}</td>
+					<td>{t('值')}</td>
+					<td>{t('调用')}</td>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $app $key $val}
+				<tr>
+					<td width="200"><b>{$attrs[$key]}</b></td>
+					<td>{$key}</td>				
+					<td>{$val}</td>
+					<td>A('{$app['id']}.{$key}')</td>
+				</tr>
+				{/loop}				
+			</tbody>
 		</table>
 
 	</div>

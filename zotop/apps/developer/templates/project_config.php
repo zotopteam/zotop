@@ -12,6 +12,10 @@
 			<a href="javascript:;" class="btn btn-icon-text btn-primary btn-add">
 				<i class="fa fa-plus"></i><b>{t('添加一项')}</b>
 			</a>
+
+			<a href="{U('developer/project/config_formcode')}" class="btn btn-default">
+				<i class="fa fa-code"></i><b>{t('表单示例代码')}</b>
+			</a>
 		</div>
 	</div>
 
@@ -23,7 +27,7 @@
 				<tr>
 					<td	class="drag">&nbsp;</td>
 					<td class="key">{t('键名')}</td>
-					<td class="value">{t('键值')}</td>
+					<td class="value">{t('默认值')}</td>
 					<td class="manage">{t('操作')}</td>
 				</tr>
 			</thead>

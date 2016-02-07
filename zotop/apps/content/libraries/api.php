@@ -21,26 +21,26 @@ class content_api
 		$start = array_merge($start,array(
 
 			'content'=>array(
-				'text' 	=> A('content.name'),
-				'href' 	=> u('content/content'),
-				'icon' 	=> A('content.url').'/app.png',
+				'text'        => A('content.name'),
+				'href'        => u('content/content'),
+				'icon'        => A('content.url').'/app.png',
 				'description' => A('content.description'),
-				'allow' => priv::allow('content')
+				'allow'       => priv::allow('content')
 			),
 
 			'content_category'=>array(
-				'text'	=> t('栏目管理'),
-				'href'	=> u('content/category'),
-				'icon'	=>zotop::app('content.url').'/icons/category.png',
-				'description'=> t('栏目设置、添加、删除、排序'),
-				'allow' => priv::allow('content','category')
+				'text'        => t('栏目管理'),
+				'href'        => u('content/category'),
+				'icon'        =>zotop::app('content.url').'/icons/category.png',
+				'description' => t('栏目设置、添加、删除、排序'),
+				'allow'       => priv::allow('content','category')
 			),
 					
 		));
 
 		// 设置提示信息
 		/*
-		if ( $pending = m('content.content.statuscount','pending') )
+		if ( $pending = m('content.content.statuscount',0,'pending') )
 		{
 			$start['content']['msg'] = t('%s 条待审',$pending);
 		}
@@ -58,12 +58,12 @@ class content_api
 	{
 
 		$nav['content'] = array(
-			'text' => t('内容'),
-			'href' => u('content/content'),
-			'icon' => A('content.url').'/app.png',
+			'text'        => t('内容'),
+			'href'        => u('content/content'),
+			'icon'        => A('content.url').'/app.png',
 			'description' => A('content.description'),
-			'allow' => priv::allow('content'),
-			'current' => (ZOTOP_APP == 'content')
+			'allow'       => priv::allow('content'),
+			'current'     => (ZOTOP_APP == 'content')
 		);
 
 		return $nav;
@@ -79,7 +79,7 @@ class content_api
 	{
 		// 设置提示信息
 		
-		if ( $pending = m('content.content.statuscount','pending') )
+		if ( $pending = m('content.content.statuscount',0,'pending') )
 		{
 			$msg[] = array(
 				'text' => t('您有 %s 等待审核内容', $pending),
