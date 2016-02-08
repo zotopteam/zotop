@@ -29,7 +29,7 @@ class developer_controller_index extends admin_controller
 		//获取正在建设的项目
 		$projects = array();
 
-		foreach(glob(ZOTOP_PATH_APPS . DS . '*' . DS .'app.php') as $file)
+		foreach(glob(ZOTOP_PATH_APPS . DS . '*' . DS .'project.lock') as $file)
 		{
 			$projects[] = include(dirname($file).DS.'app.php');
 		}

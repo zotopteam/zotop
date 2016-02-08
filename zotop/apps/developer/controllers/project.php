@@ -423,6 +423,9 @@ class developer_controller_project extends admin_controller
         // 写入应用配置
         file::put($app_path . DS . 'app.php', "<?php\nreturn ".var_export($app, true).";\n?>");
 
+        // 写入项目文件
+        file::put($app_path . DS . 'project.lock', t('发布时请删除此文件'));
+
         // 写入全局文件
         developer::make_file(DEVELOPER_SOURCE_PATH.DS.'global.php', $app_path . DS . 'global.php', $app);
 

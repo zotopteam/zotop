@@ -206,7 +206,7 @@ function u($uri = '', $params = array(), $host = true)
  */
 function thumb($image, $width, $height, $default = null)
 {
-    $default = $default ? $default : ZOTOP_URL_PUBLIC . '/common/noimage.png';
+    $default = $default ? $default : ZOTOP_URL_CMS . '/common/noimage.png';
 
     if (empty($image)) return $default;
 

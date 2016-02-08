@@ -151,7 +151,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('水印图片'),'watermark_image',true)}</div>
-					<div class="col-sm-8">
+					<div class="col-sm-6">
 						<?php echo form::field(array(
 						   'type'		=> 'hidden',
 						   'name'		=> 'watermark_image',
@@ -160,14 +160,21 @@
 						   'extension'	=> 'png|jpg|jpeg|gif',
 						))?>
 
-						<div id="upload-preview" class="clearfix">
-							<div id="upload">
-								<i class="icon icon-upload"></i>
-								<b class="undragdrop">{t('点击上传')}</b>
-								<b class="dragdrop none">{t('点击上传或者将图片拖到此区域上传')}</b>
+						<div class="media media-upload rounded pointer" id="upload" data-toggle="tooltip">
+							<div class="media-left">
+								<img src="{format::url(ZOTOP_URL_CMS.'/common/'.c('system.watermark_image'))}" id="preview">
 							</div>
-							<img src="{format::url(ZOTOP_URL_CMS.'/watermark/'.c('system.watermark_image'))}" id="preview">
+							<div class="media-body text-center">
+								
+								<b class="upload-text">
+									<i class="fa fa-upload"></i>
+									<span>{t('点击上传')}</span>
+									<span class="upload-dragdrop-tips">{t('或者 将图片拖到此区域上传')}</span>
+								</b>
+								<b class="upload-progress text-success"></b>						
+							</div>
 						</div>
+
 						{form::tips(t('水印图片一般是小的矩形，建议长度在150px以内、高度在50px以内'))}
 					</div>
 				</div>
@@ -258,9 +265,9 @@
 </script>
 
 <style type="text/css">
-#upload-preview{float:left;position:relative;max-width:500px;height:50px;line-height:50px;border:1px solid #EBEBEB;}
-#upload-preview img{float:left;max-width:150px;height:50px;}
-#upload-preview #upload{width:300px;height:50px;line-height:50px;text-align:center;float:right;cursor:pointer;}
+.media-upload{border:1px solid #EBEBEB;padding:10px;}
+.media-upload .media-left img{float:left;max-width:150px;height:50px;}
+.media-upload .media-body{line-height:50px;}
 </style>
 
 <script type="text/javascript" src="{A('system.url')}/assets/plupload/plupload.full.js"></script>
@@ -271,20 +278,20 @@
 		var uploader = $("#upload").upload({
 			url : "{u('system/config/uploadwatermark')}",
 			//runtimes : 'flash',
-			multi:false,
+			multiple:false,
 			maxsize:'20mb',
 			//resize:{width:150,height:50,quality:100},
 			fileext: 'jpg,jpeg,png,gif',
 			filedescription : 'image file',
 			progress : function(up,file){
-				up.self.html('{t('上传中……')}'+up.total.percent + '%');
+				up.self.find('.upload-progress').html('……'+up.total.percent + '%');
 			},
 			uploaded : function(up,file,data){
 				$.msg(data);
 				$('#preview').attr('src',$('#preview').attr('src')+'?'+Math.random());
 			},
 			complete : function(up,files){
-				up.self.html(up.content);
+				up.self.find('.upload-progress').html('');
 			},
 			error : function(error,detail){
 				$.error(detail);

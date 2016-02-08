@@ -58,7 +58,7 @@ class developer_controller_schema extends admin_controller
 
 		$schema = $this->db->schema($table);
 
-		$this->assign('title',$table);
+		$this->assign('title',t('表结构'));
 		$this->assign('app',$app);
 		$this->assign('database',$database);
 		$this->assign('table',$table);
@@ -129,7 +129,7 @@ class developer_controller_schema extends admin_controller
 		// schema 格式化
 		$schemastr = $this->schemaStringify($schema);
 
-		$this->assign('title',t('数据表结构'));
+		$this->assign('title',t('安装代码'));
 		$this->assign('table',$table);
 		$this->assign('schemastr',$schemastr);
 		$this->assign('data',$data);

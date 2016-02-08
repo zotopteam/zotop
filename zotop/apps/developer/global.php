@@ -36,18 +36,4 @@ function developer_globalnavbar($nav)
 
 	return $nav;
 }
-
-/**
- * 页面导航
- * 
- * @param  string $table 表名称
- * @return array
- */
-function developer_schema_navbar($table)
-{
-	return zotop::filter('developer.schema.navbar',array(
-		'index' => array('text'=>t('表结构'),'href'=>U('developer/schema/index/'.$table),'class'=>''),
-		'show'  => array('text'=>t('导出'),'href'=>U('developer/schema/show/'.$table),'class'=>'')
-	));
-}
 ?>

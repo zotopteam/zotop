@@ -6,7 +6,7 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a class="btn btn-primary" href="javascript:;" id="upload">
+			<a class="btn btn-primary" href="javascript:;" id="upload" data-toggle="tooltip">
 				<i class="fa fa-upload fa-fw"></i><b>{t('上传新主题')}</b>
 			</a>
 		</div>
@@ -79,7 +79,7 @@
 		var uploader = $("#upload").upload({
 			url :"{u('system/theme/uploadprocess')}",
 			//runtimes :'flash',
-			multi:false,
+			multiple:false,
 			dragdrop:false,
 			maxsize:'20mb',
 			fileext:'zip',

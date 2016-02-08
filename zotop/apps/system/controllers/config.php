@@ -285,12 +285,12 @@ class system_controller_config extends admin_controller
 	{
 		if ( $post = $this->post() )
 		{
-			$image = new image(ZOTOP_PATH_CMS.DS.'watermark'.DS.'test.jpg');
-			$image->watermark(ZOTOP_PATH_CMS.DS.'watermark'.DS.$post['watermark_image'],$post['watermark_position'],$post['watermark_opacity']);
+			$image = new image(ZOTOP_PATH_CMS.DS.'common'.DS.'test.jpg');
+			$image->watermark(ZOTOP_PATH_CMS.DS.'common'.DS.$post['watermark_image'], $post['watermark_position'], $post['watermark_opacity']);
 			$image->quality($post['watermark_quality']);
-			$image->save(ZOTOP_PATH_CMS.DS.'watermark'.DS.'test-watermark.jpg');
+			$image->save(ZOTOP_PATH_CMS.DS.'common'.DS.'test-watermark.jpg');
 
-			return $this->success(ZOTOP_URL_CMS.'/watermark/test-watermark.jpg');
+			return $this->success(ZOTOP_URL_CMS.'/common/test-watermark.jpg');
 		}
 	}
 
@@ -301,7 +301,7 @@ class system_controller_config extends admin_controller
 	public function action_uploadwatermark()
 	{
 		// 将文件上传到水印目录下
-		$filepath = ZOTOP_PATH_CMS.DS.'watermark'.DS.'watermark.png';
+		$filepath = ZOTOP_PATH_CMS.DS.'common'.DS.'watermark.png';
 
 		// 文件上传
 		$upload = new plupload();

@@ -6,11 +6,10 @@
 	<div class="main-header">
 		<div class="goback"><a href="{U('developer/project/table')}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>	
 		<div class="title">{$table}</div>
-		
-		<div class="btn-group">
-			{loop developer_schema_navbar($table) $k $n}
-				<a href="{$n.href}" class="btn {if $k=='show'}btn-primary{else}btn-default{/if} {$n.class}">{$n.text}</a>
-			{/loop}
+		<div class="action">
+			<a href="{U('developer/schema/index/'.$table)}" class="btn">
+				<i class="fa fa-sitemap"></i> <b>{t('表结构')}</b>
+			</a>
 		</div>
 	</div>
 	<div class="main-body scrollable">

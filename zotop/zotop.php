@@ -43,7 +43,6 @@ define('ZOTOP_PATH_THEMES',     ZOTOP_PATH_CMS . DS . 'themes');
 define('ZOTOP_PATH_RUNTIME',    ZOTOP_PATH_CMS . DS . 'runtime');
 define('ZOTOP_PATH_CACHE',      ZOTOP_PATH_RUNTIME . DS . 'caches');
 define('ZOTOP_PATH_UPLOADS',    ZOTOP_PATH . DS . 'uploads');
-define('ZOTOP_PATH_PUBLIC',     ZOTOP_PATH . DS . 'public');
 
 // 定义URL
 define('ZOTOP_URL',             trim(dirname($_SERVER['SCRIPT_NAME']), DS)); //如果为根目录则为空
@@ -52,7 +51,6 @@ define('ZOTOP_URL_APPS',        ZOTOP_URL_CMS . '/apps');
 define('ZOTOP_URL_THEMES',      ZOTOP_URL_CMS . '/themes');
 define('ZOTOP_URL_RUNTIME',     ZOTOP_URL_CMS . '/runtime');
 define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
-define('ZOTOP_URL_PUBLIC',      ZOTOP_URL . '/public');
 
 // 调试模式，开始后将关闭运行时、模板缓存等，默认关闭
 defined('ZOTOP_DEBUG') or define('ZOTOP_DEBUG', false);
