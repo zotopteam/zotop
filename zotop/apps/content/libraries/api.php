@@ -63,7 +63,7 @@ class content_api
 			'icon'        => A('content.url').'/app.png',
 			'description' => A('content.description'),
 			'allow'       => priv::allow('content'),
-			'current'     => (ZOTOP_APP == 'content')
+			'active'      => (ZOTOP_APP == 'content')
 		);
 
 		return $nav;
@@ -263,7 +263,7 @@ class content_api
 	}
 
 	/**
-	 * 前台内容显示之前的数据处理 点击
+	 * HOOK 前台内容显示之前的数据处理 点击
 	 * 
 	 * @param  array $content 内容数组
 	 * @param  object $controller 控制器对象
@@ -278,7 +278,7 @@ class content_api
 	}
 
 	/**
-	 * 前台内容显示之前的数据处理 标签数组
+	 * HOOK 前台内容显示之前的数据处理 标签数组
 	 * 
 	 * @param  array $content 内容数组
 	 * @return array 处理后的内容
@@ -292,7 +292,7 @@ class content_api
 	}	
 
 	/**
-	 * 前台内容显示之前的数据处理 内容分页处理
+	 * HOOK 前台内容显示之前的数据处理 内容分页处理
 	 * 
 	 * @param  array $content 内容数组
 	 * @return array 处理后的内容
@@ -353,7 +353,7 @@ class content_api
 	}
 
 	/**
-	 * 处理阅读全文
+	 * HOOK 处理阅读全文
 	 * 
 	 * @param  array $content 内容数组
 	 * @return array 处理后的内容

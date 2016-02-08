@@ -6,17 +6,16 @@
 
 		<div class="title">{if $title} {$title} {else} {t('内容管理')} {/if}</div>
 
-		<ul class="nav nav-tabs tabdropable">
+		<div class="btn-group">
 			{loop m('content.content.status') $s $t}
-			<li{if $status == $s} class="active"{/if}>
-				<a href="{u('content/content/index/'.$categoryid.'/'.$s)}">{$t}
-					{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}
-					<em class="badge badge-xs badge-danger">{$statuscount}</em>
-					{/if}
-				</a>
-			</li>
-			{/loop}
-		</ul>
+			<a href="{u('content/content/index/'.$categoryid.'/'.$s)}" class="btn {if $status == $s}btn-success{else}btn-default{/if}">
+				{$t} 
+				{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}
+				 <span class="badge badge-xs badge-danger">{$statuscount}</span>
+				{/if}
+			</a>
+			{/loop}			
+		</div>
 
 		<form action="{u('content/content/search')}" class="searchbar input-group" method="post" role="search">				
 			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
@@ -39,21 +38,22 @@
 						<i class="fa fa-plus"></i> <b>{t('添加')}</b> <i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu">
-							{loop $postmodels $i $m}
-								<li>
+						{loop $postmodels $i $m}
+							<li>
 								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}">
 									<i class="fa {$m.icon} fa-fw"></i>{$m['name']}
 								</a>
-								</li>
-							{/loop}
+							</li>
+						{/loop}
 					</ul>
 				</div>
 				{/if}
-			{/if}
+			{/if}			
 
 			{if $categoryid}
-			<a class="btn btn-default btn-icon" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}"><i class="fa fa-eye"></i></a>
+			<a class="btn btn-default btn-icon-text" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}"><i class="fa fa-eye"></i><b>{t('访问')}</b></a>
 			{/if}
+
 		</div>
 
 	</div><!-- main-header -->
@@ -141,15 +141,18 @@
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{if $data}
-			<div class="pagination">{pagination::instance($total,$pagesize,$page)}</div>
+
+			{pagination::instance($total,$pagesize,$page)}
 
 			<input type="checkbox" class="checkbox select-all middle">
 
+			<div class="btn-group">
 			{loop m('content.content.status') $s $t}
-				{if $status != $s}
-				<a class="btn btn-default operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>
-				{/if}
-			{/loop}
+				{if $status != $s}<a class="btn btn-default operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>{/if}
+			{/loop}				
+			</div>
+
+
 
 			<a class="btn btn-default operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
 			<a class="btn btn-default operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>

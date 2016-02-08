@@ -118,23 +118,6 @@
                     'system'=>'1',
                     'disabled'=>'1'
                ),
-               'blockids'=>array(
-'control'=>'blockcommend',
-'label'=>'推荐到区块',
-'name'=>'blockids',
-'type'=>'varchar',
-'length'=>'128',
-'default'=>'',
-'notnull'=>'0',
-'unique'=>'0',
-                    'settings'=>array(),
-                    'tips'=>'',
-                    'base'=>'1',
-                    'post'=>'0',
-                    'search'=>'0',
-                    'system'=>'1',
-                    'disabled'=>'1'
-               ),
                'comment'=>array(
 'control'=>'bool',
 'label'=>'评论',
@@ -222,106 +205,116 @@
 	#zotop_trace_tabs_box dd{margin: 0;padding:5px 8px;border-bottom: solid 1px #ddd;}
 	#zotop_trace_tabs_box dd.start{color:green;}
 	#zotop_trace_tabs_box dd.end{color:green;border-bottom: solid 5px #ddd;}
-	#zotop_trace_tabs_box dd i{padding: 0 5px;color:#999;}
+	#zotop_trace_tabs_box dd i{padding: 0 5px;color:#999;float:left;margin-right:10px;}
+	#zotop_trace_tabs_box dd pre {display: block;padding:10px;margin:0;font-size:12px;line-height:18px;word-break: break-all;word-wrap: break-word;color: #333;background-color: #f7f7f7;border: 1px solid #ebebeb;border-radius: 4px;}
 </style>
 
 <div id="zotop_trace">
 	<div id="zotop_trace_open">
-		1.130065 S	</div>
+		1.067474 S	</div>
 	<div id="zotop_trace_tabs">
 		<div id="zotop_trace_tabs_nav">
 			<span class="on">基本信息</span>
 			<span>文件加载</span>
-			<span>运行流程</span>
+			<span>运行流程</span>			
 			<span>数据查询</span>
+			<span>错误异常</span>
+			<span>调试信息</span>
 			<img id="zotop_trace_close" src="data:image/gif;base64,R0lGODlhDAAMAJEAAAAAAP///wMDA////yH5BAEAAAMALAAAAAAMAAwAAAIWnI8nqZ2LoJFxMkWZyHVw3znhB15JAQA7" alt="close">
 		</div>
 		<div id="zotop_trace_tabs_box">
 			
 			<dl class="on">
-				<dd>请求时间 : 2015-12-12 10:20:15</dd>
+				<dd>请求时间 : 2016-02-08 19:16:36</dd>
 				<dd>请求方法 : HTTP/1.1 GET</dd>
-				<dd>请求URL : http://127.0.0.4/index.php/content/model/export/page</dd>
-				<dd>运行时间 : 1.132065 S</dd>
-				<dd>内存开销 : 1.854156 Mb</dd>
+				<dd>请求URL : http://127.0.0.1/index.php/content/model/export/page</dd>
+				<dd>运行时间 : 1.068287 S</dd>
+				<dd>内存开销 : 1.040268 Mb</dd>
 				<dd>数据查询 : <b>1</b></dd>
 				<dd>缓存读写 : GET: <b>2</b> SET: <b>0</b></dd>
-				<dd>文件加载 : <b>36</b></dd>				
+				<dd>文件加载 : <b>37</b></dd>				
 				<dd>配置文件 : <b>8</b></dd>
 			</dl>
 
 			<dl>
-									<dd><i>1</i> <span>E:\zotop2\index.php ( 0.19KB )</span> </dd>
-									<dd><i>2</i> <span>E:\zotop2\zotop\zotop.php ( 37.87KB )</span> </dd>
-									<dd><i>3</i> <span>E:\zotop2\zotop\libraries\classes\runtime.php ( 4.71KB )</span> </dd>
-									<dd><i>4</i> <span>E:\zotop2\zotop\preload.php ( 1.79KB )</span> </dd>
-									<dd><i>5</i> <span>E:\zotop2\zotop\config\app.php ( 7.36KB )</span> </dd>
-									<dd><i>6</i> <span>E:\zotop2\zotop\apps\system\preload.php ( 0.36KB )</span> </dd>
-									<dd><i>7</i> <span>E:\zotop2\zotop\apps\developer\preload.php ( 0.03KB )</span> </dd>
-									<dd><i>8</i> <span>E:\zotop2\zotop\config\zotop.php ( 0.09KB )</span> </dd>
-									<dd><i>9</i> <span>E:\zotop2\zotop\config\database.php ( 0.22KB )</span> </dd>
-									<dd><i>10</i> <span>E:\zotop2\zotop\config\router.php ( 0.03KB )</span> </dd>
-									<dd><i>11</i> <span>E:\zotop2\zotop\config\cookie.php ( 0.11KB )</span> </dd>
-									<dd><i>12</i> <span>E:\zotop2\zotop\config\session.php ( 0.30KB )</span> </dd>
-									<dd><i>13</i> <span>E:\zotop2\zotop\config\system.php ( 1.64KB )</span> </dd>
-									<dd><i>14</i> <span>E:\zotop2\zotop\config\site.php ( 0.24KB )</span> </dd>
-									<dd><i>15</i> <span>E:\zotop2\zotop\runtime\global.php ( 12.46KB )</span> </dd>
-									<dd><i>16</i> <span>E:\zotop2\zotop\libraries\classes\form.php ( 14.29KB )</span> </dd>
-									<dd><i>17</i> <span>E:\zotop2\zotop\libraries\classes\template.php ( 20.07KB )</span> </dd>
-									<dd><i>18</i> <span>E:\zotop2\zotop\libraries\classes\application.php ( 10.54KB )</span> </dd>
-									<dd><i>19</i> <span>E:\zotop2\zotop\libraries\classes\router.php ( 9.50KB )</span> </dd>
-									<dd><i>20</i> <span>E:\zotop2\zotop\libraries\classes\cache.php ( 3.88KB )</span> </dd>
-									<dd><i>21</i> <span>E:\zotop2\zotop\libraries\classes\cache\file.php ( 2.47KB )</span> </dd>
-									<dd><i>22</i> <span>E:\zotop2\zotop\libraries\classes\folder.php ( 10.34KB )</span> </dd>
-									<dd><i>23</i> <span>E:\zotop2\zotop\libraries\classes\format.php ( 5.86KB )</span> </dd>
-									<dd><i>24</i> <span>E:\zotop2\zotop\libraries\classes\file.php ( 10.51KB )</span> </dd>
-									<dd><i>25</i> <span>E:\zotop2\zotop\apps\content\controllers\model.php ( 4.19KB )</span> </dd>
-									<dd><i>26</i> <span>E:\zotop2\zotop\apps\system\libraries\admin_controller.php ( 1.91KB )</span> </dd>
-									<dd><i>27</i> <span>E:\zotop2\zotop\libraries\classes\controller.php ( 6.02KB )</span> </dd>
-									<dd><i>28</i> <span>E:\zotop2\zotop\apps\system\libraries\priv.php ( 1.08KB )</span> </dd>
-									<dd><i>29</i> <span>E:\zotop2\zotop\apps\content\models\model.php ( 6.09KB )</span> </dd>
-									<dd><i>30</i> <span>E:\zotop2\zotop\libraries\classes\model.php ( 12.73KB )</span> </dd>
-									<dd><i>31</i> <span>E:\zotop2\zotop\libraries\classes\db.php ( 47.89KB )</span> </dd>
-									<dd><i>32</i> <span>E:\zotop2\zotop\libraries\classes\db\mysql.php ( 26.14KB )</span> </dd>
-									<dd><i>33</i> <span>E:\zotop2\zotop\apps\content\models\field.php ( 12.62KB )</span> </dd>
-									<dd><i>34</i> <span>E:\zotop2\zotop\libraries\classes\array.php ( 16.41KB )</span> </dd>
-									<dd><i>35</i> <span>E:\zotop2\zotop\libraries\views\trace.php ( 27.14KB )</span> </dd>
-									<dd><i>36</i> <span>E:\zotop2\zotop\libraries\classes\request.php ( 6.82KB )</span> </dd>
+									<dd><i>1</i> <span>D:\zotop\index.php ( 0.23KB )</span> </dd>
+									<dd><i>2</i> <span>D:\zotop\zotop\zotop.php ( 38.09KB )</span> </dd>
+									<dd><i>3</i> <span>D:\zotop\zotop\libraries\classes\runtime.php ( 4.71KB )</span> </dd>
+									<dd><i>4</i> <span>D:\zotop\zotop\preload.php ( 1.79KB )</span> </dd>
+									<dd><i>5</i> <span>D:\zotop\zotop\config\app.php ( 6.12KB )</span> </dd>
+									<dd><i>6</i> <span>D:\zotop\zotop\apps\system\preload.php ( 0.36KB )</span> </dd>
+									<dd><i>7</i> <span>D:\zotop\zotop\apps\developer\preload.php ( 0.03KB )</span> </dd>
+									<dd><i>8</i> <span>D:\zotop\zotop\config\zotop.php ( 0.09KB )</span> </dd>
+									<dd><i>9</i> <span>D:\zotop\zotop\config\database.php ( 0.22KB )</span> </dd>
+									<dd><i>10</i> <span>D:\zotop\zotop\config\router.php ( 0.03KB )</span> </dd>
+									<dd><i>11</i> <span>D:\zotop\zotop\config\cookie.php ( 0.11KB )</span> </dd>
+									<dd><i>12</i> <span>D:\zotop\zotop\config\session.php ( 0.30KB )</span> </dd>
+									<dd><i>13</i> <span>D:\zotop\zotop\config\system.php ( 1.64KB )</span> </dd>
+									<dd><i>14</i> <span>D:\zotop\zotop\config\site.php ( 0.25KB )</span> </dd>
+									<dd><i>15</i> <span>D:\zotop\zotop\runtime\global.php ( 12.80KB )</span> </dd>
+									<dd><i>16</i> <span>D:\zotop\zotop\libraries\classes\form.php ( 14.37KB )</span> </dd>
+									<dd><i>17</i> <span>D:\zotop\zotop\libraries\classes\template.php ( 20.30KB )</span> </dd>
+									<dd><i>18</i> <span>D:\zotop\zotop\libraries\classes\application.php ( 10.53KB )</span> </dd>
+									<dd><i>19</i> <span>D:\zotop\zotop\libraries\classes\router.php ( 9.50KB )</span> </dd>
+									<dd><i>20</i> <span>D:\zotop\zotop\libraries\classes\cache.php ( 3.88KB )</span> </dd>
+									<dd><i>21</i> <span>D:\zotop\zotop\libraries\classes\cache\file.php ( 2.47KB )</span> </dd>
+									<dd><i>22</i> <span>D:\zotop\zotop\libraries\classes\folder.php ( 10.14KB )</span> </dd>
+									<dd><i>23</i> <span>D:\zotop\zotop\libraries\classes\format.php ( 5.86KB )</span> </dd>
+									<dd><i>24</i> <span>D:\zotop\zotop\libraries\classes\file.php ( 10.97KB )</span> </dd>
+									<dd><i>25</i> <span>D:\zotop\zotop\apps\content\libraries\api.php ( 11.76KB )</span> </dd>
+									<dd><i>26</i> <span>D:\zotop\zotop\apps\content\controllers\model.php ( 4.79KB )</span> </dd>
+									<dd><i>27</i> <span>D:\zotop\zotop\apps\system\libraries\admin_controller.php ( 1.91KB )</span> </dd>
+									<dd><i>28</i> <span>D:\zotop\zotop\libraries\classes\controller.php ( 6.02KB )</span> </dd>
+									<dd><i>29</i> <span>D:\zotop\zotop\apps\system\libraries\priv.php ( 1.08KB )</span> </dd>
+									<dd><i>30</i> <span>D:\zotop\zotop\apps\content\models\model.php ( 6.09KB )</span> </dd>
+									<dd><i>31</i> <span>D:\zotop\zotop\libraries\classes\model.php ( 12.79KB )</span> </dd>
+									<dd><i>32</i> <span>D:\zotop\zotop\libraries\classes\db.php ( 48.07KB )</span> </dd>
+									<dd><i>33</i> <span>D:\zotop\zotop\libraries\classes\db\mysql.php ( 26.16KB )</span> </dd>
+									<dd><i>34</i> <span>D:\zotop\zotop\apps\content\models\field.php ( 12.60KB )</span> </dd>
+									<dd><i>35</i> <span>D:\zotop\zotop\libraries\classes\array.php ( 22.39KB )</span> </dd>
+									<dd><i>36</i> <span>D:\zotop\zotop\libraries\views\trace.php ( 27.86KB )</span> </dd>
+									<dd><i>37</i> <span>D:\zotop\zotop\libraries\classes\request.php ( 7.22KB )</span> </dd>
 							</dl>
 
 			<dl>
 												<dd class="start">[ zotop.boot ] START (3 events)</dd>
 								
-												<dd>[ zotop.boot ] ---> application::boot (Runtime: 0.001000S  /  Memory: 109KB)</dd>
+												<dd>[ zotop.boot ] ---> application::boot (Runtime: 0.001798S  /  Memory: 49KB)</dd>
 								
-												<dd>[ zotop.boot ] ---> application::finduri (Runtime: 0.000000S  /  Memory: 0KB)</dd>
+												<dd>[ zotop.boot ] ---> application::finduri (Runtime: 0.000036S  /  Memory: 0KB)</dd>
 								
-												<dd>[ zotop.boot ] ---> translator_alias (Runtime: 0.000000S  /  Memory: -0KB)</dd>
+												<dd>[ zotop.boot ] ---> translator_alias (Runtime: 0.000003S  /  Memory: 0KB)</dd>
 								
-												<dd class="end">[ zotop.boot ]  END (Runtime: 0.001000S  /  Memory: 111KB)</dd>
+												<dd class="end">[ zotop.boot ]  END (Runtime: 0.001920S  /  Memory: 51KB)</dd>
 								
 												<dd class="start">[ zotop.route ] START (3 events)</dd>
 								
-												<dd>[ zotop.route ] ---> router::init (Runtime: 0.005000S  /  Memory: 314KB)</dd>
+												<dd>[ zotop.route ] ---> router::init (Runtime: 0.005179S  /  Memory: 135KB)</dd>
 								
-												<dd>[ zotop.route ] ---> router::route (Runtime: 0.000000S  /  Memory: -0KB)</dd>
+												<dd>[ zotop.route ] ---> router::route (Runtime: 0.000010S  /  Memory: 0KB)</dd>
 								
-												<dd>[ zotop.route ] ---> system_alias (Runtime: 0.000000S  /  Memory: -0KB)</dd>
+												<dd>[ zotop.route ] ---> system_alias (Runtime: 0.000029S  /  Memory: 0KB)</dd>
 								
-												<dd class="end">[ zotop.route ]  END (Runtime: 0.006000S  /  Memory: 315KB)</dd>
+												<dd class="end">[ zotop.route ]  END (Runtime: 0.005290S  /  Memory: 136KB)</dd>
 								
 												<dd class="start">[ zotop.ready ] START (1 events)</dd>
 								
-												<dd>[ zotop.ready ] ---> content_tags (Runtime: 0.000000S  /  Memory: 0KB)</dd>
+												<dd>[ zotop.ready ] ---> content_api::content_template_tags (Runtime: 0.000861S  /  Memory: 44KB)</dd>
 								
-												<dd class="end">[ zotop.ready ]  END (Runtime: 0.000000S  /  Memory: 1KB)</dd>
+												<dd class="end">[ zotop.ready ]  END (Runtime: 0.000891S  /  Memory: 44KB)</dd>
 								
 												<dd class="start">[ zotop.execute ] START (1 events)</dd>
 								
+						</dl>			
+
+			<dl>
+							<dd> <i>1</i> <span>SELECT * FROM `zotop_content_field` WHERE `modelid` = 'page' ORDER BY `listorder` ASC ( Runtime: 0.000878S  /  Memory: 30KB )</span> </dd>
 						</dl>
 
 			<dl>
-							<dd> <i>1</i> <span>SELECT * FROM `zotop_content_field` WHERE `modelid` = 'page' ORDER BY `listorder` ASC ( Runtime: 0.002001S  /  Memory: 12KB )</span> </dd>
+						</dl>			
+
+			<dl>
 						</dl>
 
 

@@ -43,7 +43,7 @@ class [app.id]_api
 			'icon'        => A('[app.id].url').'/app.png',
 			'description' => A('[app.id].description'),
 			'allow'       => priv::allow('[app.id]'),
-			'current'     => (ZOTOP_APP == '[app.id]')
+			'active'      => (ZOTOP_APP == '[app.id]')
 		);
 
 		return $nav;

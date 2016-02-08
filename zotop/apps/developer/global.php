@@ -31,7 +31,7 @@ function developer_globalnavbar($nav)
 		'icon'        => A('developer.url').'/app.png',
 		'description' => A('developer.description'),
 		'allow'       => priv::allow('developer'),
-		'current'     => (ZOTOP_APP == 'developer')
+		'active'      => (ZOTOP_APP == 'developer')
 	);
 
 	return $nav;

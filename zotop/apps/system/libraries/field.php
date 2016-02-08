@@ -270,9 +270,9 @@ class system_field
 		}
 		else
 		{
-			$html[]	= '<div class="input-group">';
+			$html[]	= '<div class="input-group input-group-merge">';
+			$html[]	= '<span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>';
 			$html[]	= form::field_text($attrs);
-			$html[]	= '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>';
 			$html[]	= '</div>';
 		}		
 

@@ -28,12 +28,12 @@ if ( ZOTOP_ISGET )
 	function guestbook_globalnavbar($nav)
 	{
 		$nav['guestbook'] = array(
-			'text' => t('留言'),
-			'href' => u('guestbook/admin'),
-			'icon' => A('guestbook.url').'/app.png',
+			'text'        => t('留言'),
+			'href'        => u('guestbook/admin'),
+			'icon'        => A('guestbook.url').'/app.png',
 			'description' => A('guestbook.description'),
-			'allow' => priv::allow('guestbook'),
-			'current' => (ZOTOP_APP == 'guestbook')
+			'allow'       => priv::allow('guestbook'),
+			'active'      => (ZOTOP_APP == 'guestbook')
 		);
 
 		return $nav;

@@ -5,17 +5,17 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<ul class="nav nav-tabs tabdropable">
-			<li{if $status == ''} class="active"{/if}><a href="{u('guestbook/admin/index')}"><i class="fa fa-all fa-fw"></i><span>{t('全部')}</span></a></li>
+
+		<div class="btn-group">
+			<a href="{u('guestbook/admin/index')}" class="btn {if $status == ''}btn-success{else}btn-default{/if}"><i class="fa fa-all fa-fw"></i><b>{t('全部')}</b></a></li>
 			{loop m('guestbook.guestbook.status') $s $t}
-			<li{if $status == $s} class="active"{/if}>
-				<a href="{u('guestbook/admin/index/'.$s)}">
-					<i class="fa fa-{$s} fa-fw"></i><span>{$t}</span>
-					{if m('guestbook.guestbook.statuscount',$s)}<em class="badge badge-xs badge-danger">{m('guestbook.guestbook.statuscount',$s)}</em>{/if}
-				</a>
-			</li>
-			{/loop}
-		</ul>
+			<a href="{u('guestbook/admin/index/'.$s)}" class="btn {if $status == $s}btn-success{else}btn-default{/if}">
+				<i class="fa fa-{$s} fa-fw"></i><span>{$t}</span>
+				{if m('guestbook.guestbook.statuscount',$s)}<em class="badge badge-xs badge-danger">{m('guestbook.guestbook.statuscount',$s)}</em>{/if}
+			</a>
+			{/loop}			
+		</div>
+
 		<form action="{u('guestbook/admin')}" class="searchbar input-group" method="post" role="search">				
 			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
 			<span class="input-group-btn">
@@ -40,10 +40,7 @@
 		<thead>
 			<tr>
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-			<td class="text-center" width="1%">{t('状态')}</td>
-			<td class="text-center" width="1%">{t('回复')}</td>
-			<td>{t('内容')}</td>
-			<td>{t('发布者IP/发布时间')}</td>
+			<td>{t('留言信息')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -51,11 +48,21 @@
 		{loop $data $r}
 			<tr>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-				<td class="text-center"><i class="fa fa-{$r['status']} text-{$r['status']}" title="{$statuses[$r['status']]}"></td>
-				<td class="text-center">{if $r['replytime']}<i class="fa fa-check-circle text-success" title="{t('已回复')}"></i>{else}<i class="fa fa-minus-circle text-warning" title="{t('未回复')}"></i>{/if}</td>
 				<td>
-					<b class="title">{$r['name']} <span>{$r['email']}</span> </b>
-					<p class="content">{$r['content']}</p>
+					<div class="title">
+						<span class="pull-right">{t('发布时间')} : {format::date($r['createtime'])}</span>
+						<span>{t('姓名')} : {$r['name']}</span>
+						<span class="text-muted">{t('邮箱')}：{$r['email']} {t('IP')}：{$r['createip']}</span>
+					</div>
+					<hr>
+					<p class="{if $r.status=='publish'}text-success{else}text-default{/if}">{$r['content']}</p>
+					{if $r.reply}
+					<hr>
+					<p class="text-danger">
+						 {c('guestbook.adminname')} {format::date($r.replytime)}: {$r.reply}
+					</p>
+					{/if}
+					<hr>
 					<div class="manage">
 						<a class="js-open" href="{u('guestbook/admin/reply/'.$r['id'])}" data-width="600" data-height="400"><i class="fa fa-reply"></i> {t('回复')}</a>
 						<s>|</s>
@@ -65,10 +72,6 @@
 						<s>|</s>
 						<a class="js-open" href="{u('system/ipbanned/add/'.$r['createip'])}" data-width="600" data-height="400"><i class="fa fa-ban"></i> {t('禁止此IP留言')}</a>
 					</div>
-				</td>
-				<td>
-					<div class="js-getip">{$r['createip']}</div>
-					<div>{format::date($r['createtime'])}</div>
 				</td>
 			</tr>
 		{/loop}

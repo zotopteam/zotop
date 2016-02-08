@@ -46,7 +46,6 @@ class content_model_field extends model
 			array('control'=>'keywords','label'=>t('关键词'),'name'=>'keywords','type'=>'varchar','length'=>'100','notnull'=>'0','settings'=>array('data-source'=>'title,content'),'base'=>'1','post'=>'1','search'=>'1'),
 			array('control'=>'summary','label'=>t('摘要'),'name'=>'summary','type'=>'varchar','length'=>'1000','notnull'=>'0','base'=>'1','post'=>'1','search'=>'1'),
 			array('control'=>'url','label'=>t('链接'),'name'=>'url','type'=>'varchar','length'=>'100','notnull'=>'0','base'=>'1','post'=>'0','search'=>'0'),
-			array('control'=>'blockcommend','label'=>t('推荐到区块'),'name'=>'blockids','type'=>'varchar','length'=>'128','notnull'=>'0','base'=>'1','post'=>'0','search'=>'0'),
 			array('control'=>'bool','label'=>t('评论'),'name'=>'comment','type'=>'tinyint','length'=>'1','default'=>'1','notnull'=>'0','base'=>'0','post'=>'0','search'=>'0'),
 			array('control'=>'alias','label'=>t('URL别名'),'name'=>'alias','type'=>'varchar','length'=>'128','notnull'=>'0','settings'=>array('data-source'=>'title'),'base'=>'1','post'=>'0','search'=>'0'),
 			array('control'=>'template','label'=>t('内容页模板'),'name'=>'template','type'=>'varchar','length'=>'100','notnull'=>'0','base'=>'0','post'=>'0','search'=>'0'),

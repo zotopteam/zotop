@@ -59,7 +59,7 @@
 	      		<li class="starting {if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} active{/if}"><a href="{u('system/admin')}"><i class="fa fa-dashboard hidden"></i> {t('开始')}</a></li>
 				{loop zotop::filter('system.globalnavbar',array()) $id $nav}
 				{if $nav.menu}
-				<li class="hidden-xs hidden-sm dropdown {if $nav.current}active{/if}">
+				<li class="hidden-xs hidden-sm dropdown {if $nav.active}active{/if}">
 					<a href="{$nav.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$nav.text} <span class="fa fa-angle-down"></span></a>
 					<ul class="dropdown-menu">
 					{if is_array($nav.menu)}
@@ -78,7 +78,7 @@
 					</ul>
 				</li>
 				{else}
-				<li class="hidden-xs hidden-sm {if $nav.current} active{/if}"><a href="{$nav.href}">{$nav.text}</a></li>
+				<li class="hidden-xs hidden-sm {if $nav.active} active{/if}"><a href="{$nav.href}">{$nav.text}</a></li>
 				{/if}
 				{/loop}      		
 	      	</ul>

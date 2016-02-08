@@ -40,12 +40,12 @@ class block_api
 	public static function globalnavbar($nav)
 	{
 	    $nav['block'] = array(
-	        'text'          => t('区块'),
-	        'href'          => u('block/admin'),
-	        'icon'          => A('block.url') . '/app.png',
-	        'description'   => A('block.description'),
-	        'allow'         => priv::allow('block'),
-	        'current'       => (ZOTOP_APP == 'block')
+			'text'        => t('区块'),
+			'href'        => u('block/admin'),
+			'icon'        => A('block.url') . '/app.png',
+			'description' => A('block.description'),
+			'allow'       => priv::allow('block'),
+			'active'      => (ZOTOP_APP == 'block')
 	    );
 
 		// foreach (m('block.category.getall') as $k => $v)
