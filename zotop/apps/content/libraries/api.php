@@ -125,8 +125,8 @@ class content_api
 		//获取临时id
 		$id = str_replace(array('.','[',']',' ','/','\\'), '', $attrs['name'].'_'.microtime(true));
 
-		$attrs['id'] = $id;
-		$attrs['class'] = isset($attrs['class']) ? 'title ruler '.$attrs['class'] : 'title ruler';
+		$attrs['id']         = $id;
+		$attrs['class']      = isset($attrs['class']) ? 'title ruler '.$attrs['class'] : 'title ruler';
 		$attrs['stylefield'] = isset($attrs['stylefield']) ? $attrs['stylefield'] : 'style';
 
 		$html[] = '<div class="input-group">';

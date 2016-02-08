@@ -12,9 +12,9 @@
 
 				<div class="form-group">
 					<div class="input-group input-group-merge">
-						<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw"></i></label>
+						<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw text-primary"></i></label>
 						{field type="text" name="username" value="$remember_username" placeholder="t('用户名')" required="required"}
-						<label for="remember" class="input-group-addon" title="{t('记住用户名')}" data-placement="right">
+						<label for="remember" class="input-group-addon" title="{t('记住用户名')}" data-toggle="tooltip" data-placement="right">
 							<input type="checkbox" class="checkbox" id="remember" name="remember" value="30" tabindex="-1" {if $remember_username}checked="checked"{/if}/>
 						</label>
 					</div>
@@ -22,7 +22,7 @@
 
 				<div class="form-group">
 					<div class="input-group input-group-merge">
-						<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw"></i></label>
+						<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw text-primary"></i></label>
 						{field type="password" name="password" placeholder="t('密码')" required="required"}
 					</div>
 				</div>
@@ -30,7 +30,7 @@
 				{if c('system.login_captcha')}
 				<div class="form-group">
 					<div class="input-group input-group-merge">
-						<label for="captcha" class="input-group-addon"><i class="fa fa-key fa-fw"></i></label>
+						<label for="captcha" class="input-group-addon"><i class="fa fa-key fa-fw text-primary"></i></label>
 						{field type="captcha" name="captcha" placeholder="t('验证码')" required="required"}
 					</div>
 				</div>
@@ -47,8 +47,11 @@
 
 
 	<div class="copyright fixed-bottom">
-		<div class="copyright-thanks">{t('感谢您使用逐涛网站管理系统')}</div>
-		<div class="copyright-powered">{zotop::powered()}</div>
+		<div class="hidden-xs pull-right">{zotop::powered()}</div>
+		<div class="hidden-xs">
+			{t('感谢您使用逐涛网站管理系统')}
+		</div>
+		
 	</div>
 
 	<script type="text/javascript">

@@ -146,10 +146,10 @@
 		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">
-		<div class="copyright clearfix">
-			<div class="copyright-thanks">{t('感谢您使用逐涛网站管理系统')}</div>
-			<div class="copyright-powered">{zotop::powered()}</div>
+		<div class="footer-text">
+			{t('感谢您使用逐涛网站管理系统')}
 		</div>
+		<div class="footer-text pull-right">{zotop::powered()}</div>
 	</div><!-- main-footer -->
 </div><!-- main -->
 
