@@ -31,6 +31,19 @@ class mobile_api
 	}
 
 	/**
+	 * HOOK globalnavbar
+	 * 
+	 * @param  array $nav 快捷导航数组
+	 * @return array
+	 */
+	public static function global_navbar($nav)
+	{
+		$nav['sitename']['active'] = request::is('site','mobile');
+
+		return $nav;
+	}	
+
+	/**
 	 * 在站点管理侧边条加入一个链接
 	 *
 	 * @param $attrs array 参数

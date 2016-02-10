@@ -37,7 +37,7 @@ class block_api
 	 * @param  array $nav 
 	 * @return array
 	 */
-	public static function globalnavbar($nav)
+	public static function global_navbar($nav)
 	{
 	    $nav['block'] = array(
 			'text'        => t('区块'),

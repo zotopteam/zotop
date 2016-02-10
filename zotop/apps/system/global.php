@@ -34,8 +34,8 @@ form::field('icon',array('system_field','icon'));
  * 初始化开始和全局消息
  *
  */
-zotop::add('system.globalnavbar','system_api::global_start');
-zotop::add('system.globalmsg','system_api::globalmsg');
+zotop::add('system.global.navbar','system_api::global_start');
+zotop::add('system.global.msg','system_api::global_msg');
 
 
 

@@ -22,7 +22,7 @@ function developer_system_start($start)
 }
 
 //system_globalnavbar
-zotop::add('system.globalnavbar','developer_globalnavbar');
+zotop::add('system.global.navbar','developer_globalnavbar');
 function developer_globalnavbar($nav)
 {
 	$nav['developer'] = array(

@@ -35,7 +35,7 @@ class system_api
 	 * @param  array $msg 消息数组
 	 * @return array
 	 */
-	public static function globalmsg($msg)
+	public static function global_msg($msg)
 	{
 		if ( ZOTOP_DEBUG )
 		{

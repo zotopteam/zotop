@@ -51,7 +51,7 @@
 						<li><a href="{u('system/zotop')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
 					</ul>      			
 	      		</li>
-				{loop zotop::filter('system.globalnavbar',array()) $id $nav}
+				{loop zotop::filter('system.global.navbar',array()) $id $nav}
 				<li class="{$nav.class} {if $nav.active}active{/if} {if $nav.menu}dropdown{/if} hidden-xs">
 				{if $nav.menu}
 					<a href="{$nav.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$nav.text} <span class="fa fa-angle-down"></span></a>
@@ -79,7 +79,7 @@
 		</div>
 		<div class="col-xs-6 col-md-5 col-lg-4">
 			<ul class="nav global-navbar pull-right">
-				{if $_GLOBALMSG = zotop::filter('system.globalmsg',array()) }
+				{if $_GLOBALMSG = zotop::filter('system.global.msg',array()) }
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-bell a-flash"></i> <span class="badge badge-xs badge-danger">{count($_GLOBALMSG)}</span>

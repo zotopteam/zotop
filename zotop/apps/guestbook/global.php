@@ -24,7 +24,7 @@ if ( ZOTOP_ISGET )
 	}
 
 	//system_globalnavbar
-	zotop::add('system.globalnavbar','guestbook_globalnavbar');
+	zotop::add('system.global.navbar','guestbook_globalnavbar');
 	function guestbook_globalnavbar($nav)
 	{
 		$nav['guestbook'] = array(
@@ -40,7 +40,7 @@ if ( ZOTOP_ISGET )
 	}
 
 	//system_globalmsg
-	zotop::add('system.globalmsg','guestbook_globalmsg');
+	zotop::add('system.global.msg','guestbook_globalmsg');
 	function guestbook_globalmsg($msg)
 	{
 			// 设置提示信息

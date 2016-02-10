@@ -17,9 +17,9 @@ class site_api
 	 * @param  array $nav 快捷导航数组
 	 * @return array
 	 */
-	public static function globalnavbar($nav)
+	public static function global_navbar($nav)
 	{
-		$nav['site'] = array(
+		$nav['sitename'] = array(
 			'text'   => C('site.name'),
 			'href'   => U('site/config/index'),
 			'allow'  => priv::allow('site'),

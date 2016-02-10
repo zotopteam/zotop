@@ -54,7 +54,7 @@ class content_api
 	 * @param $nav array 已有数据
 	 * @return array
 	 */
-	public static function globalnavbar($nav)
+	public static function global_navbar($nav)
 	{
 
 		$nav['content'] = array(
@@ -75,7 +75,7 @@ class content_api
 	 * @param $msg array 已有数据
 	 * @return array
 	 */
-	public static function globalmsg($msg)
+	public static function global_msg($msg)
 	{
 		// 设置提示信息
 		

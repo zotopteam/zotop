@@ -9,7 +9,7 @@ zotop::register('block_api', A('block.path') . DS . 'libraries' . DS . 'api.php'
 zotop::add('system.start', 'block_api::start');
 
 // 快捷导航
-zotop::add('system.globalnavbar', 'block_api::globalnavbar');
+zotop::add('system.global.navbar', 'block_api::global_navbar');
 
 // 一键刷新
 zotop::add('system.refresh', 'block_api::refresh');

@@ -35,7 +35,7 @@ class [app.id]_api
 	 * @param  [type] $nav [description]
 	 * @return [type]      [description]
 	 */
-	public static function globalnavbar($nav)
+	public static function global_navbar($nav)
 	{
 		$nav['[app.id]'] = array(
 			'text'        => A('[app.id].name'),

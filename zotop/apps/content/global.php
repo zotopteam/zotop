@@ -14,13 +14,13 @@ zotop::add('system.start','content_api::start');
 /**
  * 全局导航
  */
-zotop::add('system.globalnavbar','content_api::globalnavbar');
+zotop::add('system.global.navbar','content_api::global_navbar');
 
 
 /**
  * 全局消息
  */
-zotop::add('system.globalmsg','content_api::globalmsg');
+zotop::add('system.global.msg','content_api::global_msg');
 
 
 /**
