@@ -18,7 +18,7 @@ class content_api
 	 */
 	public static function start($start)
 	{
-		$start = array_merge($start,array(
+		$start = array_merge($start, array(
 
 			'content'=>array(
 				'text'        => A('content.name'),

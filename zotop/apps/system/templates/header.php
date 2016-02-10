@@ -35,14 +35,10 @@
   {hook 'admin.head'}
 </head>
 <body class="{ZOTOP_APP}-{ZOTOP_CONTROLLER}-{ZOTOP_ACTION}">
-
 {hook 'admin.header'}
-
 <header class="global-header">
 {if $_USER}
-
-	<nav class="row" role="navigation">
-				
+	<nav class="row" role="navigation">				
 		<div class="col-xs-6 col-md-7 col-lg-8">
 	      	<ul class="nav global-navbar tabdropable">
 	      		<li class="brand dropdown">
@@ -55,11 +51,9 @@
 						<li><a href="{u('system/zotop')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
 					</ul>      			
 	      		</li>
-	      		<li class="sitename hidden-xs"><a href="{U()}" target="_blank">{C('site.name')}</a></li>
-	      		<li class="starting {if ZOTOP_APP=='system' and ZOTOP_CONTROLLER=='admin'} active{/if}"><a href="{u('system/admin')}"><i class="fa fa-dashboard hidden"></i> {t('开始')}</a></li>
 				{loop zotop::filter('system.globalnavbar',array()) $id $nav}
+				<li class="{$nav.class} {if $nav.active}active{/if} {if $nav.menu}dropdown{/if} hidden-xs">
 				{if $nav.menu}
-				<li class="hidden-xs hidden-sm dropdown {if $nav.active}active{/if}">
 					<a href="{$nav.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$nav.text} <span class="fa fa-angle-down"></span></a>
 					<ul class="dropdown-menu">
 					{if is_array($nav.menu)}
@@ -76,10 +70,10 @@
 						{$nav.menu}
 					{/if}
 					</ul>
-				</li>
 				{else}
-				<li class="hidden-xs hidden-sm {if $nav.active} active{/if}"><a href="{$nav.href}">{$nav.text}</a></li>
+					<a href="{$nav.href}">{$nav.text}</a>
 				{/if}
+				</li>
 				{/loop}      		
 	      	</ul>
 		</div>
@@ -118,7 +112,6 @@
 {else}
 	<nav class="navbar" role="navigation">
 		<div class="navbar-header">
-
 		</div>
 		<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">

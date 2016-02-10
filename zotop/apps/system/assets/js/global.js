@@ -14,10 +14,10 @@ $(function(){
 	$('.tooltip-block').tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
 	},title:function(){
-		return '<div class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</div>';
+		return '<span class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</span>';
 	},container:'body',html:true});
 
-	//$('.tabdropable').tabdrop();
+	$('.tabdropable').tabdrop();
 
 	$('.scrollable').niceScroll({boxzoom:false});
 

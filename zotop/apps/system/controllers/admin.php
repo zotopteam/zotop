@@ -32,7 +32,7 @@ class system_controller_admin extends admin_controller
 
 		foreach( a() as $k=>$a)
 		{
-			if ( $k == 'system' ) continue;
+			if ( in_array($k, m('system.app')->cores) ) continue;
 
 			$shortcut = zotop::data($a['path'].DS.'shortcut.php');
 
@@ -43,6 +43,9 @@ class system_controller_admin extends admin_controller
 		}
 
 		$start = zotop::filter('system.start',$start);
+
+		//站点和系统图标放在最后
+		$start = $start + zotop::data(A('site.path').DS.'shortcut.php');
 		$start = $start + zotop::data(A('system.path').DS.'shortcut.php');
 
 		foreach( $start as $id => $nav )

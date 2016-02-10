@@ -12,39 +12,19 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class site_api
 {
 	/**
-	 * HOOK [system.start] 注册快捷方式
-	 *
-	 * @param $attrs array 控件参数
-	 * @return string 控件代码
-	 */
-	public static function start($start)
-	{
-		$start['site'] = array(
-			'text'        => t('站点设置'),
-			'href'        => U('site/config/index'),
-			'icon'        => A('site.url') . '/app.png',
-			'description' => t('站点名称、搜索优化、联系方式等设置'),
-			'allow'       => priv::allow('site'),
-		);
-
-		return $start;
-	}
-
-	/**
-	 * HOOK
+	 * HOOK globalnavbar
 	 * 
-	 * @param  [type] $nav [description]
-	 * @return [type]      [description]
+	 * @param  array $nav 快捷导航数组
+	 * @return array
 	 */
 	public static function globalnavbar($nav)
 	{
 		$nav['site'] = array(
-			'text'        => A('site.name'),
-			'href'        => U('site'),
-			'icon'        => A('site.url').'/app.png',
-			'description' => A('site.description'),
-			'allow'       => priv::allow('site'),
-			'active'      => (ZOTOP_APP == 'site')
+			'text'   => C('site.name'),
+			'href'   => U('site/config/index'),
+			'allow'  => priv::allow('site'),
+			'active' => request::is('site'),
+			'class'  => 'hidden-sm'
 		);
 
 		return $nav;

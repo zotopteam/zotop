@@ -299,7 +299,7 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .global-header{position:fixed;top:0;left:0;right:0;z-index:100;background-color:#0072c6;box-shadow:0 1px rgba(255,255,255,0.1);}
 .global-navbar{float:left;}
 .global-navbar > li{float:left;}
-.global-navbar > li > a{position:relative;display:block;max-width:150px;padding:15px;line-height:20px;color:#fff;font-size:15px;transition:all 0.2s ease-out 0s;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.global-navbar > li > a{position:relative;display:block;max-width:140px;padding:15px;line-height:20px;color:#fff;font-size:15px;transition:all 0.2s ease-out 0s;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
 .global-navbar > li > a:hover,.global-navbar > li > a:focus{background-color:#0064ae;outline:0 none;}
 .global-navbar > .active > a,.global-navbar > .active > a:hover,.global-navbar > .active >a:focus {background-color:#00BCF2;}
 .global-navbar > .open > a,.global-navbar > .open > a:hover,.global-navbar > .open > a:focus {background-color:#0064ae;}
@@ -394,7 +394,7 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .side.main-side{width:245px;left:auto;right:0px;float:right;border:0 none;}
 
 @media (max-width:768px) {
-    .side{width:50px;z-index:1028;}
+    .side{width:50px;z-index:1;}
     .side-header{display:none;}
     .side-body{top:0;overflow: visible!important;}
     .nav-side>li>a>.fa{margin:0;}
@@ -508,4 +508,3 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 }
 
 .zo-zotop:before {content: "\e001";}
-

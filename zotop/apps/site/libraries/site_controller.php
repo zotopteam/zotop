@@ -23,12 +23,6 @@ class site_controller extends controller
 		// 初始化接口
 		zotop::run('site.init', $this);		
 
-		// 网站关闭后，后台和管理员可以继续访问网站
-		if ( c('site.closed') and zotop::user('modelid') != 'admin' )
-		{
-			exit(c('site.closedreason'));
-		} 
-
 		// 定义主题
 		define('ZOTOP_THEME', C('site.theme'));
 
@@ -43,6 +37,14 @@ class site_controller extends controller
 		{
 			zotop::load(ZOTOP_PATH_THEMES.DS.ZOTOP_THEME.DS.'global.php');
 		}
+
+		// 网站关闭后，后台和管理员可以继续访问网站
+		if ( c('site.closed') and zotop::user('modelid') != 'admin' )
+		{
+			$this->assign('content',c('site.closed_reason'));
+			$this->display("system/404.php");
+			exit();
+		}		
 
 		// 初始化全局数据
 		$this->assign('_USER',zotop::user());

@@ -321,12 +321,9 @@ class install
 			$site = array(
 				'name' 			=> $site_name,
 				'url' 			=> WWW_URL,
-				'theme' 		=> 'default',
 				'title' 		=> $site_name,
 				'description' 	=> $site_name,
 				'keywords' 		=> $site_name,
-				'closed' 		=> '0',
-				'closedreason' 	=> t('暂时关闭'),
 			);
 
 			$admin = array (
@@ -341,13 +338,13 @@ class install
 			//写入默认数据库配置文件
 			file::put(ZOTOP_PATH_CONFIG.DS.'database.php', "<?php\nreturn ".var_export($config,true).";\n?>");
 
-			// 写入站点配置
-			file::put(ZOTOP_PATH_CONFIG.DS.'site.php', "<?php\nreturn ".var_export($site,true).";\n?>");
-
 			// 写入router配置
 			file::put(ZOTOP_PATH_CONFIG.DS.'router.php', "<?php\nreturn ".var_export($router,true).";\n?>");
 
-			// 记录创始人信息，用于写入数据库
+			// 缓存站点配置
+			file::put(ZOTOP_PATH_RUNTIME.DS.'site.php', "<?php\nreturn ".var_export($site,true).";\n?>");
+
+			// 缓存记录创始人信息，用于写入数据库
 			file::put(ZOTOP_PATH_RUNTIME.DS.'admin.php', "<?php\nreturn ".var_export($admin,true).";\n?>");
 		}
 
@@ -458,6 +455,11 @@ class install
 					// 将config写入数据库
 					if ( $config and is_array($config) )
 					{
+						if ( $app['id'] == 'site' )
+						{
+							$config = array_merge($config, include(ZOTOP_PATH_RUNTIME.DS."site.php"));
+						}
+
 						// 写入全部配置数据
 						foreach ( $config as $key=>$value )
 						{

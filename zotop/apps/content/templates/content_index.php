@@ -74,10 +74,10 @@
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
 			<td class="text-center" width="40">{t('状态')}</td>
 			<td>{t('标题')}</td>
-			<td class="text-center hidden-xs" width="80">{t('点击')}</td>
-			<td class="text-center hidden-xs">{t('模型')}</td>
-			<td class="text-center hidden-xs">{t('栏目')}</td>
-			<td class="hidden-xs">{t('发布者/发布时间')}</td>
+			<td class="text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
+			<td class="text-center hidden-xs hidden-sm">{t('模型')}</td>
+			<td class="text-center hidden-xs hidden-sm">{t('栏目')}</td>
+			<td class="hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -89,18 +89,24 @@
 				{/if}
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				<td class="text-center"><i class="fa fa-{$r['status']} fa-2x  text-{$r['status']}" title="{$statuses[$r['status']]}"></i></td>
-				<td>
-					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>					
-					{$r['title']}
+				<td >
+					<p class="title" {if $r['style']}style="{$r['style']}"{/if}>					
+						{$r['title']}
 
-					{if $r.image} 
+						{if $r.image} 
 						<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
-							<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
+							<span class="tooltip-block-content"><img src="{$r.image}" class="preview"></span>
 						</i> 
-					{/if}
+						{/if}
 					
-					{if $r.stick}<i class="fa fa-arrow-up text-success" title="{t('置顶')}"></i>{/if}
-					</div>
+						{if $r.stick}
+						<i class="fa fa-arrow-up text-success" data-toggle="tooltip" title="{t('置顶')}"></i>
+						{/if}
+
+						{if $f = C('content.newflag') }
+							{if (ZOTOP_TIME - $r[$f]) <= C('content.newflag_expires') * 3600}<i class="new">{t('新')}</i>{/if}
+						{/if}
+					</p>
 					<div class="manage">
 						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
 						<s>|</s>
@@ -123,10 +129,10 @@
 					</div>
 				</td>
 			
-				<td class="text-center hidden-xs">{$r['hits']}</td>
-				<td class="text-center hidden-xs"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
-				<td class="text-center hidden-xs"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
-				<td class="hidden-xs">
+				<td class="text-center hidden-xs hidden-sm">{$r['hits']}</td>
+				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
+				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
+				<td class="hidden-xs hidden-sm">
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>
 				</td>

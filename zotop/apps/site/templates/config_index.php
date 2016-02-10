@@ -116,10 +116,9 @@
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
 			$(form).find('.submit').button('loading');
-			$.loading();
 			$.post(action, data, function(msg){
 				$.msg(msg);
-				$(form).find('.submit').button('reset');
+				msg.state && location.reload();
 			},'json');
 		}});
 	});

@@ -4,11 +4,11 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		<div class="title">{t('全局设置')}</div>
-		<ul class="nav nav-tabs tabdropable">
+		<div class="title">{t('系统设置')}</div>
+		<ul class="nav nav-tabs">
 			{loop $navbar $k $n}
 			<li{if ZOTOP_ACTION == $k} class="active"{/if}>
-				<a href="{$n.href}"><i class="{$n.icon}"></i> <span>{$n.text}</span></a>
+				<a href="{$n.href}"><i class="{$n.icon} fa-fw"></i><span class="hidden-xs hidden-sm">{$n.text}</span></a>
 			</li>
 			{/loop}
 		</ul>
@@ -24,7 +24,7 @@
 
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('链接模式'),'url_model',false)}</div>
-					<div class="col-sm-10">
+					<div class="col-sm-8">
 						<div class="form-radio">
 							<div>
 								<label title="{t('默认模式需要服务器支持[pathinfo]，如果不支持请使用兼容模式')}">
@@ -60,7 +60,7 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('伪静态'),'url_suffix',false)}</div>
-					<div class="col-sm-10">
+					<div class="col-sm-8">
 						<?php echo form::field(array(
 							'type'=>'radio',
 							'options'=>array(
@@ -93,7 +93,7 @@
 							</div>
 						</i>						
 					</div>
-					<div class="col-sm-10">
+					<div class="col-sm-8">
 						<table class="table table-hover table-border sortable" id="datalist">
 							<thead>
 								<tr>
