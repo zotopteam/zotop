@@ -46,7 +46,7 @@
 	<tr>
 		<td class="drag">&nbsp;</td>
 		<td><input type="text" class="form-control required" name="config_key[{0}]" value="{0}" placeholder="{t('以字母开头且只允许小写字母，数字和下划线')}" pattern="^[a-z][a-z0-9_]+$" data-msg-pattern="{t('以字母开头且只允许小写字母，数字和下划线')}" required></td>
-		<td><input type="text" class="form-control required" name="config_val[{0}]" value="{1}" required></td>
+		<td><input type="text" class="form-control" name="config_val[{0}]" value="{1}"></td>
 		<td class="manage"><a href="javascript:;" class="delete"><i class="fa fa-times fa-fw"></i>{t('删除')}</a></td>
 	</tr>	
 </textarea>
@@ -75,7 +75,7 @@ $(function(){
 	});
 
 	$('.btn-add').on('click',function(){
-		$form.valid() && addrow();
+		addrow();
 	});		
 
 	var $form = $('#configform');

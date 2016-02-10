@@ -2,7 +2,7 @@
 
 <div class="main">
 	<div class="main-header">
-		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
+		<div class="goback"><a href="javascript:location.href=document.referrer;"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">
 			{if $data['id']}
 				{t('编辑%s',m('content.model.get',$data.modelid,'name'))}

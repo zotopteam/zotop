@@ -166,7 +166,7 @@ class zotop
      * @param string $uri 默认执行的uri，如：home
      * @return void
      */
-    public static function boot($uri = 'system/index')
+    public static function boot($uri = 'site/index')
     {
         // 设置全局uri值
         zotop::$uri = trim(trim($uri), '/');

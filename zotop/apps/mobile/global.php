@@ -18,6 +18,8 @@ zotop::register(array(
 // 在开始页面注册一个快捷方式
 zotop::add('system.start', 'mobile_api::start');
 
+// 在站点管理侧边条加入一个链接
+zotop::add('site.admin.sidebar','mobile_api::admin_sidebar');
 
 // 移动站点检查
 zotop::add('site.init','mobile_api::site_init');

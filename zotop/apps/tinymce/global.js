@@ -12,7 +12,7 @@ $.fn.editor = function(options){
 	settings.force_br_newlines = false;
 	settings.force_p_newlines  = true;
 	settings.forced_root_block = 'p';
-	settings.invalid_elements  = "script,applet,iframe";
+	settings.invalid_elements  = "script,applet";
 
 	//settings.autoresize                  = true;
 	settings.toolbar_items_size            = 'small';

@@ -103,7 +103,10 @@ class form
 		{
 			$form = array('action'=>$form);
 		}
-		$form = $form + array('class'=>'form','method'=>'post','action'=>request::url());
+
+		$form['class']  = $form['class'] ? 'form '.$form['class'] : 'form';
+		$form['method'] = $form['method'] ? $form['method'] : 'post';
+		$form['action'] = $form['action'] ? $form['action'] : request::url();
 
 		return '<form'.form::attributes($form).' novalidate>'."\n";
     }
@@ -120,8 +123,11 @@ class form
 
     /**
      * 输出字段标签
-     *
-     * @return void
+     * 
+     * @param  string  $text     标签
+     * @param  string $for     字段名
+     * @param  boolean $required 是否显示*号
+     * @return string
      */
     public static function label($text, $for, $required=false)
     {

@@ -155,7 +155,7 @@ class tinymce_field
 	{
 		if ( $attrs['toolbar'] == 'basic' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus');
+			$attrs['plugins'] = array('advlist autolink lists link image zotop_media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus');
 			$attrs['toolbar'] = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
 			$attrs['rows']    = 8;
 		}
@@ -173,7 +173,7 @@ class tinymce_field
 	{		
 		if ( $attrs['toolbar'] == 'standard' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus codesample powerpaste');
+			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus codesample powerpaste');
 			$attrs['toolbar'] = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample';
 			$attrs['rows']    = 12;
 		}
@@ -191,7 +191,7 @@ class tinymce_field
 	{
 		if ( $attrs['toolbar'] == 'full' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak');
+			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak');
 			$attrs['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
 			$attrs['rows']    = 20;
 		}

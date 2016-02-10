@@ -14,7 +14,7 @@ class system_model_app extends model
 	protected $table = 'app';
 
 	// 定义核心应用，核心应用无法禁用删除卸载
-	public $cores = array('system');
+	public $cores = array('system','site');
 
 
     // 插入成功后的回调方法

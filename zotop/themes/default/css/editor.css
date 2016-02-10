@@ -39,3 +39,5 @@ h4,h5,h6{margin:5px 0;}
 .clearfix {zoom:1}
 .clearfix:after {clear:both;content:" ";display:block;height:0}
 .clearfix p {line-height:25px;margin:0 auto 0 auto}
+
+p.mce-shim{text-indent:0;}

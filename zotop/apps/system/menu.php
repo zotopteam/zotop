@@ -7,7 +7,7 @@ return array(
 		'active' => request::is('system/app')
 	),
 	'system_config' => array(
-		'text'   => t('全局设置'),
+		'text'   => t('系统设置'),
 		'href'   => u('system/config'),
 		'icon'   => 'fa fa-gears',
 		'active' => request::is('system/config')

@@ -14,14 +14,12 @@ class system_controller_config extends admin_controller
 	public function navbar()
 	{
 		$navbar = array(
-			'index'		=> array('text'=>t('网站设置'),'href'=>u('system/config/index'),'icon'=>'fa fa-home'),
-			'upload'	=> array('text'=>t('附件上传'),'href'=>u('system/config/upload'),'icon'=>'fa fa-upload'),
-			'mail'		=> array('text'=>t('邮件发送'),'href'=>u('system/config/mail'),'icon'=>'fa fa-envelope'),
-			'cache'		=> array('text'=>t('缓存设置'),'href'=>u('system/config/cache'),'icon'=>'fa fa-rocket'),
-			'locale'	=> array('text'=>t('区域和语言'),'href'=>u('system/config/locale'),'icon'=>'fa fa-map'),
-			'url'		=> array('text'=>t('链接和路由'),'href'=>u('system/config/url'),'icon'=>'fa fa-link'),
-			'safety'	=> array('text'=>t('系统安全'),'href'=>u('system/config/safety'),'icon'=>'fa fa-shield'),
-
+			'index'  => array('text'=>t('附件上传'),'href'=>u('system/config/upload'),'icon'=>'fa fa-upload'),
+			'mail'   => array('text'=>t('邮件发送'),'href'=>u('system/config/mail'),'icon'=>'fa fa-envelope'),
+			'cache'  => array('text'=>t('缓存设置'),'href'=>u('system/config/cache'),'icon'=>'fa fa-rocket'),
+			'locale' => array('text'=>t('区域和语言'),'href'=>u('system/config/locale'),'icon'=>'fa fa-map'),
+			'url'    => array('text'=>t('链接和路由'),'href'=>u('system/config/url'),'icon'=>'fa fa-link'),
+			'safety' => array('text'=>t('系统安全'),'href'=>u('system/config/safety'),'icon'=>'fa fa-shield'),
 		);
 
 		$navbar = zotop::filter('system.config.navbar',$navbar);
@@ -30,59 +28,9 @@ class system_controller_config extends admin_controller
 	}
 
 	/**
-	 * 网站设置
-	 */
-    public function action_index()
-    {
-    	if( $post = $this->post() )
-    	{
-			$post['url'] = trim($post['url'],'/');
-
-			if ( m('system.app')->config($post, 'site') )
-			{
-				return $this->success(t('保存成功'));
-			}
-
-			return $this->error(m('system.app')->error());
-    	}
-
-		// 获取全部主题
-		$folders = folder::folders(ZOTOP_PATH_THEMES);
-
-		foreach( (array) $folders as $folder )
-		{
-			$theme = ZOTOP_PATH_THEMES.DS.$folder.DS.'theme.php';
-
-			if ( file::exists($theme) )
-			{
-				$theme = @include($theme);
-
-				if ( is_array($theme) and $theme['type'] != 'mobile' )
-				{
-					$themes[$folder] = $theme;
-					$themes[$folder]['id'] = $folder;
-					foreach ( array( 'png', 'gif', 'jpg', 'jpeg' ) as $ext )
-					{
-						if ( file::exists(ZOTOP_PATH_THEMES.DS.$folder.DS.'theme.'.$ext) )
-						{
-							$themes[$folder]['image'] = format::url(ZOTOP_URL_THEMES.'/'.$folder.'/theme.'.$ext);
-							break;
-						}
-					}
-				}
-			}
-		}
-
- 		$this->assign('title',t('网站设置'));
-		$this->assign('navbar',$this->navbar());
-		$this->assign('themes',$themes);
-		$this->display();
-    }
-
-	/**
 	 * 上传设置
 	 */
-    public function action_upload()
+    public function action_index()
     {
     	if( $post = $this->post() )
     	{

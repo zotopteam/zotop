@@ -34,10 +34,10 @@ return array(
 		'allow' => priv::allow('system','theme')
 	),	
 	'system_config' => array(
-		'text'=>t('全局设置'),
+		'text'=>t('系统设置'),
 		'href'=>u('system/config'),
 		'icon'=>A('system.url').'/icons/config.png',
-		'description'=>t('网站、上传、水印、邮件、安全等设置'),
+		'description'=>t('上传、水印、邮件、安全等设置'),
 		'allow' => priv::allow('system','config')
 	),
 	'system_admin' => array(

@@ -1,14 +1,14 @@
 <?php
 return array(
 	// 站点设置
-	'site_name'         => t('站点名称'),
-	'site_url'          => '',
-	'site_theme'        => 'default',
-	'site_title'        => '',
-	'site_keywords'     => '',
-	'site_description'  => '',
-	'site_closed'       => 0,
-	'site_closedreason' => '',
+	// 'site_name'         => t('站点名称'),
+	// 'site_url'          => '',
+	// 'site_theme'        => 'default',
+	// 'site_title'        => '',
+	// 'site_keywords'     => '',
+	// 'site_description'  => '',
+	// 'site_closed'       => 0,
+	// 'site_closedreason' => '',
 	
 
 	// 上传参数

@@ -9,11 +9,7 @@ $(function(){
 
 	$(document).tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
-	},selector:'[data-toggle="tooltip"]',html:true});
-
-	$(document).tooltip({placement:function(){
-		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
-	},selector:'a[title]',html:true});
+	},selector:'[data-toggle="tooltip"],a[title]',html:true});
 
 	$('.tooltip-block').tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';

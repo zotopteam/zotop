@@ -1,7 +1,7 @@
 <?php
 defined('ZOTOP') OR die('No direct access allowed.');
 /**
- * 首页控制器
+ * 系统首页控制器 //TODO 改作其它用途
  *
  * @package		system
  * @author		zotop team

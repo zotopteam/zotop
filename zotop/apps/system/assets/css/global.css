@@ -432,7 +432,7 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .body-dialog .main.side-main{margin-left:200px;}
 
 /* system-login-index */
-.system-login-index{background:#fff url(../image/wallpaper.jpg) no-repeat bottom center;padding:0;background-size:100% 100%;}
+.system-login-index{background:#fff url(../image/wallpaper.jpg) no-repeat bottom center;padding:0;background-size:cover;}
 .system-login-index .navbar a{color:#fff;}
 .system-login-index .navbar a:hover{background:transparent;}
 .system-login-index .global-header{box-shadow:none;background:transparent;}

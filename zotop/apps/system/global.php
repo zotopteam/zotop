@@ -5,7 +5,6 @@ zotop::register(array(
 	'rewrite'			=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'rewrite.php',
 	'plupload'			=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'plupload.php',
 	'system_field'		=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'field.php',
-	'site_controller'	=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'site_controller.php',
 	'admin_controller'	=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'admin_controller.php',
 ));
 

@@ -1,62 +1,40 @@
 {template 'header.php'}
+
 {template 'site/admin_side.php'}
 
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 	</div><!-- main-header -->
-
-	{form::header()}
+	{form class="form-horizontal"}
 	<div class="main-body scrollable">
-
+		
 		<div class="container-fluid">
-			
-			<fieldset class="form-horizontal">
 
-				<div class="form-title">{t('基本设置')}</div>
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('移动网址'),'url',false)}</div>
-					<div class="col-sm-6">
-						{form::field(array('type'=>'url','name'=>'url','value'=>c('mobile.url')))}
-						{form::tips(t('绑定域名后可通过域名访问移动版，如：http://m.zotop.com'))}
-					</div>						
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('关闭网站'),'closed',false)}</div>
+				<div class="col-sm-10">
+					{form::field(array('type'=>'bool','name'=>'closed','value'=>c('site.closed')))}
+					{form::tips(t('网站关闭时不影响网站后台访问并且管理员登陆系统之后可以访问网站'))}
 				</div>
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('移动主题'),'theme',true)}</div>					
-					<div class="col-sm-6">
-						<ul class="themelist clearfix">
-						{loop $themes $id $theme}
-							<li {if c('site.theme')== $id}class="selected"{/if} title="{$theme['description']}">
-								<label>
-								<i class="fa fa-check"></i>
-								<div class="image"><img src="{$theme['image']}"/></div>
-								<div class="title text-overflow">
-									<input type="radio" name="theme" value="{$id}" {if c('site.theme')== $id}checked="checked"{/if}/>
-									&nbsp;{$theme['name']}
-								</div>
-								</label>
-							</li>
-						{/loop}
-						</ul>					
-						<div class="help-block">
-						{t('移动版使用的主题，选择主题后移动版网站将以该主题显示')} <a href="{u('system/theme')}">{t('更多主题，请进入主题和模板管理')}</a>
-						</div>								
-					</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('关闭原因'),'closedreason',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'textarea','name'=>'closedreason','value'=>c('site.closedreason')))}
 				</div>
-				
-			</fieldset>
-		</div>	
+			</div>
+		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
 	</div><!-- main-footer -->
-	{form::footer()}
+	{form}
+
 </div><!-- main -->
 
-
 <style type="text/css">
-.themelist{margin:0 0 -30px 0;zoom:1;padding:0;}
+.themelist{margin:0 0 -30px 0;zoom:1;padding:0}
 .themelist li{position:relative;float:left;width:280px;overflow:hidden;margin:10px 20px 10px 0;background-color:#fff;padding:4px 4px 0 4px;border:3px solid #ebebeb;border-radius:4px;overflow:hidden;}
 .themelist li:hover{border:3px solid #d5d5d5;}
 .themelist li .image{width:100%;height:180px;line-height:0;overflow:hidden;cursor:pointer;}
@@ -75,18 +53,18 @@
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
 			$(form).find('.submit').button('loading');
+			$.loading();
 			$.post(action, data, function(msg){
 				$.msg(msg);
 				$(form).find('.submit').button('reset');
 			},'json');
-		}});		
+		}});
 	});
 
 	$(function(){
 		$('.themelist li').on('click',function(){
 			$(this).addClass('selected').siblings("li").removeClass('selected'); //单选
 		})
-	})		
+	})	
 </script>
-
 {template 'footer.php'}

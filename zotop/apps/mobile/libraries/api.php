@@ -14,20 +14,42 @@ class mobile_api
 	/**
 	 * 注册快捷方式
 	 *
-	 * @param $attrs array 控件参数
-	 * @return string 控件代码
+	 * @param $attrs array 参数
+	 * @return array
 	 */
 	public static function start($start)
 	{
 		$start['mobile'] = array(
-			'text' => A('mobile.name'),
-			'href' => U('mobile/config'),
-			'icon' => A('mobile.url') . '/app.png',
-			'description' => A('mobile.description'));
+			'text'        => A('mobile.name'),
+			'href'        => U('mobile/config'),
+			'icon'        => A('mobile.url') . '/app.png',
+			'description' => A('mobile.description'),
+			'allow'       => priv::allow('mobile')
+		);
 
 		return $start;
 	}
 
+	/**
+	 * 在站点管理侧边条加入一个链接
+	 *
+	 * @param $attrs array 参数
+	 * @return array
+	 */
+	public static function admin_sidebar($array)
+	{
+		// 将链接插入到 站点设置[config_index]之后
+		$array = arr::after($array,'config_index','config_mobile',array(
+			'text'        => A('mobile.name'),
+			'href'        => U('mobile/config'),
+			'icon'        => 'fa fa-mobile',
+			'description' => A('mobile.description'),
+			'allow'       => priv::allow('mobile'),
+			'active'      => request::is('mobile/config')
+		));
+
+		return $array;
+	}
 
 	/**
 	 * 检测是否为移动设备访问并自动加载移动主题,TODO 测试该函数在子目录使用情况下的效果
@@ -45,7 +67,7 @@ class mobile_api
 		{
 			$detect = new Mobile_Detect();
 
-			// 只侦测手机，侦测IPAD等平板
+			// 只侦测手机，不侦测IPAD等平板
 			if ( $detect->isMobile() and !$detect->isTablet() )
 			{
 				define('ZOTOP_MOBILE',true);
