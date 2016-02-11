@@ -99,7 +99,7 @@
 				</div>
 			</div>
 
-			<div class="form-title">{t('高级设置')}</div>
+			<div class="form-title">{t('搜索优化')}</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目标题'),'title',false)}</div>
 				<div class="col-sm-8">
@@ -117,7 +117,21 @@
 				<div class="col-sm-8">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'placeholder'=>t('合理填写有助于搜索引擎排名优化')))}
 				</div>
-			</div>	
+			</div>
+
+			<div class="form-title">{t('高级设置')}</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('是否在导航显示'),'apply-setting-childs',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'bool','name'=>'settings[isnav]','value'=>$data['settings']['isnav']))}
+					<div class="help-block">
+						{t('栏目是否在网站导航条显示')}
+					</div>
+				</div>
+			</div>
+
+
 			{if a('member')}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('会员投稿'),'settings[contribute]',false)}</div>
@@ -155,7 +169,7 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('设置复制'),'apply-setting-childs',false)}</div>
 				<div class="col-sm-8">
-					<span class="field"><label><input type="checkbox" name="apply-setting-childs" value="1"> {t('复制设置到全部子栏目')}</label></span>
+					<label class="form-control-static"><input type="checkbox" name="apply-setting-childs" value="1"> {t('复制设置到全部子栏目')}</label>
 				</div>
 			</div>
 			{/if}

@@ -48,8 +48,9 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li class="home"><a href="{U()}">{t('首页')}</a></li>          
-          {content action="category"}   
-          <li class="item{if $r.id == $category.rootid} active{/if}{if $r.childid} dropdown{/if}">            
+          {content action="category"}
+          {if $r.settings.isnav}
+          <li class="item {if $r.id == $category.rootid}active{/if} {if $r.childid}dropdown{/if}">            
             {if $r.childid}
               <a href="{$r.url}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.name} <span class="caret"></span></a>
               <ul class="dropdown-menu">
@@ -61,6 +62,7 @@
               <a href="{$r.url}">{$r.name}</a>
             {/if}          
           </li>
+          {/if}
           {/content}
         </ul>
         <form id="navbar-search-form" class="navbar-form navbar-right navbar-search-form" action="{u('content/search')}" method="get" role="search">
