@@ -13,6 +13,9 @@ $.fn.editor = function(options){
 	settings.force_p_newlines  = true;
 	settings.forced_root_block = 'p';
 	settings.invalid_elements  = "script,applet";
+	
+	// repair bug
+	settings.block_formats     = 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Pre=pre;Div=div;Blockquote=blockquote;';
 
 	//settings.autoresize                  = true;
 	settings.toolbar_items_size            = 'small';

@@ -50,16 +50,16 @@
           <li class="home"><a href="{U()}">{t('首页')}</a></li>          
           {content action="category"}
           {if $r.settings.isnav}
-          <li class="item {if $r.id == $category.rootid}active{/if} {if $r.childid}dropdown{/if}">            
+          <li class="item {if $r.id == $category.rootid}active{/if} {if $r.childid}dropdown{/if}">
+            <a href="{$r.url}">{$r.name}</a>          
             {if $r.childid}
-              <a href="{$r.url}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.name} <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                {content action="category" cid="$r.id" return="r2"}
-                <li><a href="{$r2.url}">{$r2.name}</a></li>
-                {/content}
-              </ul>              
-            {else}
-              <a href="{$r.url}">{$r.name}</a>
+            <ul class="dropdown-menu">
+              {content action="category" cid="$r.id" return="r2"}
+              {if $r2.settings.isnav}
+              <li><a href="{$r2.url}">{$r2.name}</a></li>
+              {/if}
+              {/content}
+            </ul>              
             {/if}          
           </li>
           {/if}

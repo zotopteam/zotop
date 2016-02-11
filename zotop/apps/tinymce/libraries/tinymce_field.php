@@ -56,7 +56,7 @@ class tinymce_field
 		$html[] = form::field_textarea($textarea);
 		$html[] = '</div>';
 
-		$html[]	= html::import(A('tinymce.url').'/editor/tinymce.jquery.min.js');
+		$html[]	= html::import(A('tinymce.url').'/editor/tinymce.min.js');
 		$html[]	= html::import(A('tinymce.url').'/editor/jquery.tinymce.min.js');			
 		$html[]	= html::import(A('tinymce.url').'/global.js');
 		$html[] = '<script type="text/javascript">';
@@ -139,7 +139,7 @@ class tinymce_field
 			'imagetools_proxy'  => U('tinymce/server/proxy'),
 			'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
 			'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css',
-			'rows'				=> 20,
+			'rows'				=> 18,
 		));
 
 		return array_merge($default, $attrs);
@@ -193,7 +193,7 @@ class tinymce_field
 		{
 			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak');
 			$attrs['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
-			$attrs['rows']    = 20;
+			$attrs['rows']    = 18;
 		}
 
 		return $attrs;
