@@ -161,7 +161,7 @@ class content_model_model extends model
 				$listorder++;
 			}
 
-			if ( count($extendfield)>1 )
+			if ( count($extendfield) > 1 )
 			{
 				$tablename 	= "content_model_{$data['id']}";
 				$schema 	= array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
