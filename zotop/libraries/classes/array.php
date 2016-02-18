@@ -485,6 +485,12 @@ class arr
      */
     public static function column($arr, $key)
     {
+        //PHP 5 >= 5.5.0 支持 array_column 参见：http://php.net/manual/zh/function.array-column.php
+        if ( function_exists("array_column") )
+        {
+            return array_column($arr, $key);
+        }
+
         $ret = array();
 
         foreach ($arr as $row)
