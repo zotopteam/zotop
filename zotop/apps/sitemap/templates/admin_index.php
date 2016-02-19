@@ -4,11 +4,15 @@
 	<div class="jumbotron text-center">
 		<h1>{a('sitemap.name')}</h1>
 		<p>{a('sitemap.description')}</p>
-		<p><a href="{U('sitemap/admin/create')}" class="btn btn-default btn-lg js-ajax-post"><i class="fa fa-refresh fa-fw"></i> {t('立即生成')}</a></p>
+		<p>
+			<a href="{U('sitemap/admin/create')}" class="btn btn-success btn-lg js-ajax-post">
+				<i class="fa fa-refresh fa-fw"></i> {t('立即生成')}
+			</a>
+		</p>
 	</div>
 </div>
 
-<div class="container-fluid container-default">
+<div class="container-fluid">
 
 	<table class="table">
 		<caption>{t('sitemap.xml')}</caption>

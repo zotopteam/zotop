@@ -8,6 +8,7 @@ a{color:#0072c6;}
 a:hover,a:focus{color:#0064ae;}
 a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
+.container-fluid{padding:10px;}
 .container-default{padding:10px;background-color:#f7f7f7;}
 .container-primary{padding:10px;background-color:#0072c6;color:#fff;}
 .container-success{padding:10px;background-color:#00bc3e;color:#fff;}
@@ -253,7 +254,7 @@ label[for]{cursor:pointer;}
 
 /*导航条样式*/
 .scrollable{overflow:auto;outline:none;}
-.nicescroll-cursors{width:8px!important;background:#0072c6!important;opacity:0.9;}
+.nicescroll-cursors{width:8px!important;background:#0072c6!important;border:1px solid rgba(255,255,255,0.5)!important;opacity:0.8;}
 
 ::-webkit-scrollbar{width:8px;height:8px;}
 ::-webkit-scrollbar-button{display:none;}
