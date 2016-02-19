@@ -62,7 +62,15 @@
 					{form::field(array('type'=>'text','name'=>'copyright','value'=>c('site.copyright')))}
 					<div class="help-block">{t('如：Copyright@2013-$1 版权所有',date('Y'))}</div>
 				</div>
-			</div>							
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('备案号'),'beian',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'text','name'=>'beian','value'=>c('site.beian')))}
+					<div class="help-block">{t('如果网站已经在工信部备案请输入备案号，如：京ICP备XXXXXX号')}</div>
+				</div>
+			</div>										
 					
 			<div class="form-title">{t('搜索优化')}</div>
 			<div class="form-group">
