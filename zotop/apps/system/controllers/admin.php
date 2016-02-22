@@ -27,7 +27,7 @@ class system_controller_admin extends admin_controller
 	 */
     public function action_index()
     {
-		$this->assign('title',t('开始'));
+		$this->assign('title',t('主页'));
 		$this->display();
     }
 

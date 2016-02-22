@@ -9,16 +9,18 @@
 			<div class="row">
 				{loop system_api::start() $s}
 				<div class="col-sm-4 col-md-3">
-					<a href="{$s['href']}" class="shortcut">
-						<div class="shortcut-icon"><img src="{$s['icon']}"></div>
+					<a href="{$s['href']}" class="shortcut shortcut-list">
+						<div class="shortcut-icon">
+							<img src="{$s['icon']}">
+							{if isset($s['badge'])}
+							<b class="shortcut-badge badge badge-xs badge-danger">{$s['badge']}</b>
+							{/if}		
+						</div>
 						<div class="shortcut-text">
 							<h2>{$s['text']}</h2>
 							<p>{$s['description']}</p>		
 						</div>
-					</a>
-					{if isset($s['msg'])}
-					<b class="shortcut-badge badge badge-xs badge-danger">{$s['msg']}</b>
-					{/if}			
+					</a>	
 				</div>
 				{/loop}
 			</div>

@@ -44,7 +44,7 @@ class system_api
 	public static function global_start($nav)
 	{
 		$nav['start'] = array(
-			'text'        => t('开始'),
+			'text'        => t('主页'),
 			'href'        => U('system/admin'),
 			'active'      => request::is('system/admin'),
 			'class'		  => ''

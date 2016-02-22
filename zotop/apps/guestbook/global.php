@@ -17,7 +17,8 @@ if ( ZOTOP_ISGET )
 		// 设置提示信息
 		if ( $pending = m('guestbook.guestbook')->statuscount('pending') )
 		{
-			$start['guestbook']['msg'] = '<a href="'.u('guestbook/admin/index/pending').'">'.t('%s 条新留言',$pending).'</a>';
+			$start['guestbook']['msg']   = '<a href="'.u('guestbook/admin/index/pending').'">'.t('%s 条新留言',$pending).'</a>';
+			$start['guestbook']['badge'] = $pending;
 		}
 
 		return $start;
