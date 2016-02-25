@@ -38,7 +38,7 @@
 						&nbsp;&nbsp;&nbsp;
 						<i class="fa fa-user"></i> {$r.hits}
 					</div>				
-					<div class="media-description hidden">{str::cut($r.summary,140)}</div>
+					<div class="media-description">{str::cut($r.summary,140)}</div>
 				</div>
 				</a>
 			</div>

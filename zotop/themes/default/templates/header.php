@@ -20,7 +20,6 @@
   <link href="{__THEME__}/css/bootstrap.min.css" rel="stylesheet">
   <link href="{__THEME__}/css/font-awesome.min.css" rel="stylesheet">
   <link href="{__THEME__}/css/animate.min.css" rel="stylesheet">
-  <link href="{__THEME__}/css/bootstrap-override.css" rel="stylesheet">
   <link href="{__THEME__}/css/global.css" rel="stylesheet">
   <script src="{__THEME__}/js/jquery.min.js"></script>
   <script src="{__THEME__}/js/bootstrap.min.js"></script>
@@ -32,7 +31,7 @@
 </head>
 <body>
 <header>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <nav class="navbar navbar-inverse">
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -77,3 +76,18 @@
     </div>
   </nav>
 </header>
+
+{if request::is('system/index')}
+<div class="slider slider-full">
+  {block id="1" type="list" name="t('大图轮播')" template="block/slider.php" fields="title,image,url"}
+</div>
+{/if}
+
+{if request::is('content/*')}  
+  <div class="banner banner-full" {if $banner = m('content.category.get',$category.rootid,'image')}style="background-image:url({thumb($banner,1920,300)}){/if}">
+    <div class="container">
+    <h1>{m('content.category.get',$category.rootid,'name')}</h1>
+    <p>{m('content.category.get',$category.rootid,'description')}</p>
+    </div>
+  </div>
+{/if}

@@ -11,13 +11,12 @@
 		{/content}
 	</ul>
 
-
 	<div class="pagelist">
 	
 	{content cid="$category.id" page="true" size="5"}
 	<div class="media">
 		<a href="{$r.url}">
-		<div class="media-left"><img src="{thumb($r.image,200,200)}" alt="{$r.title}"></div>
+		<div class="media-left"><img src="{thumb($r.image,160,160)}" alt="{$r.title}" class="img-circle" style="width:auto;"></div>
 		<div class="media-body">
 			<div class="media-heading" {$r.style}>{$r.title} {$r.new}</div>
 			<div class="media-info hidden">

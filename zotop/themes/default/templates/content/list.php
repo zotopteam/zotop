@@ -1,44 +1,55 @@
 {template 'header.php'}
 
-<div class="channel clearfix">
-	<h1>{m('content.category.get',$category.rootid, 'name')}</h1>
+{if m('content.category.get',$category.rootid, 'childid')}
+<nav class="nav nav-inline">
 	<ul>
-		{content action="category" cid="$category.rootid" return="c"}			
-			<li class="item-{$n} {if $category.id == $c.id}current{/if}"><s></s><a href="{$c.url}">{$c.name}</a></li>
+		<li><a href="{m('content.category.get',$category.rootid, 'url')}" {if $category.rootid==$category.id}class="active"{/if}>{t('全部')}</a></li>
+		{content action="category" cid="$category.rootid"}
+		<li><a href="{$r.url}" {if $r.id==$category.id}class="active"{/if}>{$r.name}</a></li>
 		{/content}
 	</ul>
-</div>
+</nav>
+{/if}
 
-<div class="position">
-    <ul>
-        <li><a href="{u()}">{t('首页')}</a></li>
+<div class="container">
+
+	<ul class="breadcrumb hidden">
+	    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
 		{content action="position" cid="$category.id"}
 		<li><a href="{$r.url}">{$r.name}</a></li>
 		{/content}
-    </ul>
-</div>
+	</ul>
 
-<div class="blank"></div>
-
-<ul class="image-text">
-	{content cid="$category.id" size="1" image="true"}
-	<li>
-		<div class="image"><a href="{$r.url}"><img src="{$r.image}" alt="{$r.title}"/></a></div>
-		<div class="text">
-			<b><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a></b>
-			<p>{str::cut($r.summary,200)}</p>
+	<div class="panel pagelist">
+		{content cid="$category.id" page="true" size="10"}
+		<div class="media media-sm">
+			<a href="{$r.url}">
+			{if $r.image and $n%2==0}
+			<div class="media-left"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+			{/if}
+			<div class="media-body">
+				<div class="media-heading">
+					<span class="pull-right text-muted">{format::date($r.createtime,'date')}</span>
+					<h4 {$r.style}>{$r.title}{$r.new}</h4> 
+				</div>
+				<div class="media-summary hidden-xs">{str::cut($r.summary,200)}</div>
+			</div>
+			{if $r.image and $n%2==1}
+			<div class="media-right"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+			{/if}					
+			</a>
 		</div>
-	</li>
-	{/content}
-</ul>
+		{/content}
 
-<ul class="list pagelist">
-	{content cid="$category.id" page="true" size="20"}
-	{if $n>0 and $n%5==0}<hr/>{/if}
-	<li><span class="extra">{format::date($r.createtime)}</span><a href="{$r.url}" {$r.style}>{$r.title}{$r.new}</a></li>
-	{/content}
-</ul>
+		{if $n==0}
+			<div class="nodata">
+				{t('暂时没有数据，请稍后访问')}
+			</div>
+		{/if}
 
-<div class="pagination">{$pagination}</div>
+		<nav class="text-center">{$pagination}</nav>				
+	</div>
+
+</div>
 
 {template 'footer.php'}

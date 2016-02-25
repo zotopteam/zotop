@@ -60,7 +60,7 @@
 				<div class="col-sm-2 control-label">{form::label(t('版权信息'),'copyright',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'copyright','value'=>c('site.copyright')))}
-					<div class="help-block">{t('如：Copyright@2013-$1 版权所有',date('Y'))}</div>
+					<div class="help-block">{t('如：Copyright©2013-$1 All Rights Reserved $2 版权所有',date('Y'),C('site.name'))}</div>
 				</div>
 			</div>
 

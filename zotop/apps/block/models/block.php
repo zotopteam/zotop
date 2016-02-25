@@ -232,12 +232,14 @@ class block_model_block extends model
 		// 自动创建区块
 		if ( empty($block) and is_array($attrs) )
 		{
-			$block 				= $attrs;
-			$block['type']		= empty($block['type']) ?  'list' : $block['type'];
-			$block['template']	= empty($block['template']) ? "block/{$block['type']}.php" : $block['template'];
-			$block['fields']	= empty($block['fields']) ? $this->fieldlist('title,url') : $this->fieldlist($block['fields']);
-			$block['listorder']	= empty($block['listorder']) ?  $block['id'] : $block['listorder'];
-			$block['data']		= in_array($block['type'],array('list','hand')) ? array() : '';
+			$block               = $attrs;
+			$block['categoryid'] = empty($block['categoryid']) ?  1 : $block['categoryid'];
+			$block['type']       = empty($block['type']) ?  'list' : $block['type'];
+			$block['template']   = empty($block['template']) ? "block/{$block['type']}.php" : $block['template'];
+			$block['fields']     = empty($block['fields']) ? $this->fieldlist('title,url') : $this->fieldlist($block['fields']);
+			$block['listorder']  = empty($block['listorder']) ?  $block['id'] : $block['listorder'];
+			$block['data']       = in_array($block['type'],array('list','hand')) ? array() : '';
+
 
 			if ( !$this->add($block) )
 			{
