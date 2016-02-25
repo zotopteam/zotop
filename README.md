@@ -2,7 +2,11 @@
 
 zotop是一个免费开源、快速、简洁的内容管理系统，由 zotop team 开发，全名为：逐涛内容管理系统，基于MIT开源协议发布，自2008年诞生以来一直秉承简洁实用的设计原则，程序操作简单、用户体验良好的同时还拥有弹性的应用扩展机制，非常适合中小企业、个人快速建站
 
-![image](https://dn-coding-net-production-static.qbox.me/6c592f24-f076-4456-a887-dbd348fddb2f.png) 
+![图片2][2]
+![图片1][1]
+
+  [1]: https://dn-coding-net-production-pp.qbox.me/b7d3780d-17ed-4ef8-900e-bbb69d1933e1.jpg
+  [2]: https://dn-coding-net-production-pp.qbox.me/3b96061e-0516-4c55-bab2-a1ef95d9512c.jpg
 
 #程序特点
 
@@ -16,7 +20,7 @@ zotop是一个免费开源、快速、简洁的内容管理系统，由 zotop te
 
 #环境支持
 
-php5.0 + mysql5.1 或者 php5.0 + sqlite3
+php5.2-php7.0 + mysql5.1
 
 #授权协议
 
