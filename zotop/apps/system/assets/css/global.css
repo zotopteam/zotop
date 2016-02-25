@@ -376,7 +376,6 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .main-footer .pagination{margin:5px;float:right;}
 .main-footer .btn{margin:5px 0 5px 5px;}
 
-
 /*固定头部尾部 */
 .main .main-body{position:absolute;top:60px;right:0;left:0;bottom:45px;}
 .main .main-footer{position:absolute;bottom:0;left:0;right:0;z-index:1;}

@@ -21,7 +21,7 @@ small {font-size:12px}
 a{color:#36c;text-decoration:none;cursor:pointer;outline:none;}
 a:hover {text-decoration:underline}
 a img {border:none}
-pre {background:#eee;border-left:2px solid #F37066;margin:10px;padding-left:5px;display:block;font-family:"Consolas","Courier New",Courier,mono,serif}
+pre {background:#eee;border-left:2px solid #F37066;padding: 1em;margin: .5em 0;display:block;font-family:"Consolas","Courier New",Courier,mono,serif}
 blockquote{background:#eee;border-left:10px solid #666;padding:10px 12px;display:block;margin:10px;word-wrap:break-word;word-break:break-all}
 img {max-width:100%;cursor:pointer;border:0 none;}
 samp {display:block}
