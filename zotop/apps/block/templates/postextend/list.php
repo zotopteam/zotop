@@ -13,7 +13,7 @@
 
 	<div class="form-group">
 		<div class="col-sm-2 control-label">{form::label(t('字段'),'fields',false)}</div>
-		<div class="col-sm-8">
+		<div class="col-sm-10">
 			<table class="table table-border table-nowrap table-control">
 			<thead>
 			<tr>

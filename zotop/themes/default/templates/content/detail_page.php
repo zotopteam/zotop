@@ -4,8 +4,6 @@
 	<ul>
 		{content cid="$category.id"}
 		<li><a href="{$r.url}" {if $r.id==$content.id}class="active"{/if}>{$r.title}</a></li>
-		{else}
-		<li class="blank"></li>
 		{/content}
 	</ul>
 </nav>

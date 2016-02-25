@@ -190,10 +190,19 @@ class system_model_attachment extends model
 					// 写入图片信息
 					$data 	= array_merge($data, $image->info);
 
-					// 压缩
-					if ( $image_resize and ( $data['width'] > $image_width or $data['height'] > $image_height ) )
+					// 缩放
+					if ( $image_resize == 1 and ( $data['width'] > $image_width or $data['height'] > $image_height ) )
 					{
 						if ( $image->quality($image_quality)->resize($image_width, $image_height)->save() )
+						{
+							$data = array_merge($data, image::info($filepath));
+						}
+					}
+
+					// 裁剪
+					if ( $image_resize == 2 )
+					{
+						if ( $image->quality($image_quality)->thumb($image_width, $image_height)->save() )
 						{
 							$data = array_merge($data, image::info($filepath));
 						}

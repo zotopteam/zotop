@@ -8,7 +8,7 @@ a{color:#0072c6;}
 a:hover,a:focus{color:#0064ae;}
 a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
-.container-fluid{padding:10px;}
+.container-fluid{}
 .container-default{padding:10px;background-color:#f7f7f7;}
 .container-primary{padding:10px;background-color:#0072c6;color:#fff;}
 .container-success{padding:10px;background-color:#00bc3e;color:#fff;}

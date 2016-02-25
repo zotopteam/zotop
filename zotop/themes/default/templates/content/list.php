@@ -9,6 +9,8 @@
 		{/content}
 	</ul>
 </nav>
+{else}
+<div class="blank"></div>
 {/if}
 
 <div class="container">

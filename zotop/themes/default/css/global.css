@@ -20,7 +20,7 @@
 .text-warning{color:#ffd740}
 .text-overflow{display:block;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;box-sizing:border-box;}
 
-.navbar{margin-bottom:0;}
+.navbar{margin-bottom:0;border-radius:0}
 
 .navbar-inverse{
 	background:#0072C6;
@@ -58,8 +58,6 @@
    background-color:#0064ae;
    color:#fff;
 }
-
-
 
 .navbar-default{background:#fff;}
 

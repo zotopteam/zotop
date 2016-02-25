@@ -77,7 +77,7 @@
   </nav>
 </header>
 
-{if request::is('system/index')}
+{if request::is('site/index')}
 <div class="slider slider-full">
   {block id="1" type="list" name="t('大图轮播')" template="block/slider.php" fields="title,image,url"}
 </div>

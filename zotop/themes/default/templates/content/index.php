@@ -13,7 +13,7 @@
 <div class="blank"></div>
 {/if}
 
-<div class="container">	
+<div class="container">
 
 {content action="category" cid="$category.id" return="c"}
 	<div class="panel panel-default">

@@ -22,7 +22,7 @@
 			{loop $data $r}
 				<tr>
 					<td>{$r['username']}</td>
-					<td title="{t('操作')}: {$r['app']}/{$r['controller']}/{$r['action']} <br/> {t('链接')}: {$r['url']}<br/> {t('结果')}: {$r['data']}" data-placement="bottom">
+					<td>
 						<div class="text-overflow">{$r['url']}</div>
 					</td>
 					<td>
