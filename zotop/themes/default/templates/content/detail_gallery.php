@@ -1,108 +1,64 @@
 {template 'header.php'}
-<div class="channel clearfix">
-	<h1>{m('content.category.get',$category.rootid, 'name')}</h1>
+
+{if m('content.category.get',$category.rootid, 'childid')}
+<nav class="nav nav-inline">
 	<ul>
-		{content action="category" cid="$category.rootid" return="c"}
-			<li class="item-{$n} {if $category.id == $c.id}current{/if}"><s></s><a href="{$c.url}">{$c.name}</a></li>
+		<li><a href="{m('content.category.get',$category.rootid, 'url')}" {if $category.rootid==$category.id}class="active"{/if}>{t('全部')}</a></li>
+		{content action="category" cid="$category.rootid"}
+		<li><a href="{$r.url}" {if $r.id==$category.id}class="active"{/if}>{$r.name}</a></li>
 		{/content}
 	</ul>
-</div>
+</nav>
+{/if}
 
-<div class="position">
-    <ul>
-        <li><i class="icon icon-home"></i> <a href="{u()}">{t('首页')}</a></li>
+<div class="container">
+
+	<ul class="breadcrumb hidden">
+	    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
 		{content action="position" cid="$category.id"}
 		<li><a href="{$r.url}">{$r.name}</a></li>
 		{/content}
-        <li>{$content.title}</li>
-    </ul>
-</div>
+	    <li class="active">{$content.title}</li>
+	</ul>
 
-<div class="row">
 
-	<div class="content">
-		<h1 class="content-title">{$content.title}</h1>
+	<div class="content content-box content-page">
+		<h1 class="content-title hidden">
+			{$content.title}
+		</h1>
+		
+		<div class="content-body">
 
-		<div class="content-info">
-
-			<b>{t('作者')}:</b> {if $content.author} {$content.author} {else} {c('site.name')} {/if}
-			<b>{t('来源')}:</b> {if $content.source} {$content.source} {else} {c('site.name')} {/if}
-			<b>{t('发布')}:</b> {format::date($content.createtime)}
-			<b>{t('点击')}:</b> {$content.hits}
-
-			<div class="fr share">{block 'share'}</div>
+			<div id="slider-{$content.id}" class="carousel slide" data-ride="carousel">
+			  <ol class="carousel-indicators">
+				{loop $content.gallery $i $r}
+				<li data-target="#slider-{$content.id}" data-slide-to="{$i}" {if $i==0}class="active"{/if}></li>
+				{/loop}
+			  </ol>
+			  <div class="carousel-inner" role="listbox">
+			  	{loop $content.gallery $i $r}
+			    <div class="item {if $i==0}active{/if}">
+			      <img src="{$r.image}" alt="{$r.title}">
+			    </div>
+			    {/loop}
+			  </div>
+			  <a class="left carousel-control" href="#slider-{$content.id}" role="button" data-slide="prev">
+			    <span class="icon-prev fa fa-angle-left" aria-hidden="true"></span>
+			    <span class="sr-only">{t('前')}</span>
+			  </a>
+			  <a class="right carousel-control" href="#slider-{$content.id}" role="button" data-slide="next">
+			    <span class="icon-next fa fa-angle-right" aria-hidden="true"></span>
+			    <span class="sr-only">{t('后')}</span>
+			  </a>
+			</div>			
 		</div>
 
-		<div class="content-body gallery">
-			<ul	id="galleryview" class="none">
-			{loop $content.gallery $r}
-				<li><img src="{$r.image}" data-description="{$r.description}" alt=""/></li>
-			{/loop}
-			</ul>
+		<div class="content-body">
+			{$content.summary}
 		</div>
-
-		<div class="blank"></div>
-		<div class="blank"></div>
-
-		<div class="content-body">{$content.summary}</div>
-
-		<div class="blank"></div>
-		<div class="blank"></div>
-
-		{if $content.tags}
-		<div class="content-tags">
-			<b>{t('标签')}</b> ：{loop $content.tags $t} <a href="{u('content/tag/'.$t)}">{$t}</a> {/loop}
-		</div>
-		{/if}
-
-		<div class="content-prev">
-			<b>{t('上篇')}</b> ：
-			{content cid="$category.id" prev="$content.id" size="1"}
-			<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a>
-			{/content}
-			{if empty($tag_content)} {t('暂无内容')} {/if}
-		</div>
-
-		<div class="content-next">
-			<b>{t('下篇')}</b> ：
-			{content cid="$category.id" next="$content.id" size="1"}
-			<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a>
-			{/content}
-			{if empty($tag_content)} {t('暂无内容')} {/if}
-		</div>
-
-		{content cid="$content.categoryid" keywords="$content.keywords" ignore="$content.id" size="4"/}
-		{if $tag_content}
-		<div class="content-related">
-			<h5>{t('相关内容')}</h5>
-			<ul class="list">
-			{loop $tag_content $r}
-			<li><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a></li>
-			{/loop}
-			</ul>
-		</div>
-		{/if}
 
 	</div><!-- content -->
 
-</div><!-- row -->
-
-{html::import(__THEME__.'/js/galleryview/jquery.galleryview.js')}
-{html::import(__THEME__.'/js/galleryview/jquery.timers-1.2.js')}
-{html::import(__THEME__.'/js/galleryview/jquery.galleryview.css')}
-<script type="text/javascript">
-$(function(){
-	$('#galleryview').galleryView({
-		panel_width: 1150,
-		panel_height : 600,
-		panel_scale : 'fit',
-		frame_width : 120,
-		frame_height : 60,
-		infobar_opacity: 0.8,
-		enable_overlays: true,
-		autoplay: true
-	}).show();
-})
-</script>
+</div> 
 
 {template 'footer.php'}

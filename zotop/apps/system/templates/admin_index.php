@@ -6,22 +6,26 @@
 	</div>
 	<div class="main-body scrollable">
 		<div class="container-fluid">
-		<div class="row">
-			{loop $start $s}
-			<div class="col-sm-4 col-md-3 p0">
-				<a href="{$s['href']}" class="shortcut">
-					<div class="shortcut-icon"><img src="{$s['icon']}"></div>
-					<div class="shortcut-text">
-						<h2>{$s['text']}</h2>
-						<p>{$s['description']}</p>		
-					</div>
-				</a>
-				{if isset($s['msg'])}
-				<b class="shortcut-badge badge badge-xs badge-danger">{$s['msg']}</b>
-				{/if}			
+			<div class="row">
+				{loop system_api::start() $s}
+				<div class="col-sm-4 col-md-3">
+					<a href="{$s['href']}" class="shortcut shortcut-list">
+						<div class="shortcut-icon">
+							<img src="{$s['icon']}">
+							{if isset($s['badge'])}
+							<b class="shortcut-badge badge badge-xs badge-danger">{$s['badge']}</b>
+							{/if}		
+						</div>
+						<div class="shortcut-text">
+							<h2>{$s['text']}</h2>
+							<p>{$s['description']}</p>		
+						</div>
+					</a>	
+				</div>
+				{/loop}
 			</div>
-			{/loop}
-		</div>
+			<div class="row">
+			</div>
 		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">

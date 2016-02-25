@@ -60,9 +60,17 @@
 				<div class="col-sm-2 control-label">{form::label(t('版权信息'),'copyright',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'copyright','value'=>c('site.copyright')))}
-					<div class="help-block">{t('如：Copyright@2013-$1 版权所有',date('Y'))}</div>
+					<div class="help-block">{t('如：Copyright©2013-$1 All Rights Reserved $2 版权所有',date('Y'),C('site.name'))}</div>
 				</div>
-			</div>							
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('备案号'),'beian',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'text','name'=>'beian','value'=>c('site.beian')))}
+					<div class="help-block">{t('如果网站已经在工信部备案请输入备案号，如：京ICP备XXXXXX号')}</div>
+				</div>
+			</div>										
 					
 			<div class="form-title">{t('搜索优化')}</div>
 			<div class="form-group">
@@ -103,10 +111,10 @@
 .themelist li .image{width:100%;height:180px;line-height:0;overflow:hidden;cursor:pointer;}
 .themelist li .image img{width:100%;}
 .themelist li .title{padding:5px 0;height:30px;line-height:30px;overflow:hidden;font-size:16px;font-weight:normal;cursor:pointer;}
-.themelist li .fa{position:absolute;top:4px;right:4px;display:none;z-index:20000;color:#fff;font-size:16px;}
+.themelist li .fa{position:absolute;top:4px;right:4px;display:none;z-index:2;color:#fff;font-size:16px;}
 .themelist li input{display:none;}
 .themelist li.selected {border:3px solid #66bb00;}
-.themelist li.selected:after{width:0;height:0;border-top:40px solid #66bb00;border-left:40px solid transparent;position:absolute;display:block;right:0;content:"";top:0;z-index:1001;}
+.themelist li.selected:after{width:0;height:0;border-top:40px solid #66bb00;border-left:40px solid transparent;position:absolute;display:block;right:0;content:"";top:0;z-index:1;}
 .themelist li.selected .fa{display:block;}
 </style>
 

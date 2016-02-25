@@ -12,6 +12,30 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class system_api
 {
 	/**
+	 * 开始菜单按钮导航
+	 * 
+	 * @return array
+	 */
+	public static function start()
+	{
+		$start = array();
+
+		// 图标HOOK
+		$start = zotop::filter('system.start',$start);
+
+		//站点和系统图标放在最后
+		$start = $start + zotop::data(A('site.path').DS.'shortcut.php');
+		$start = $start + zotop::data(A('system.path').DS.'shortcut.php');
+
+		foreach( $start as $id => $nav )
+		{
+			if ( $nav['allow'] === false ) unset($start[$id]);
+		}
+
+		return $start;		
+	}
+
+	/**
 	 * HOOK globalnavbar
 	 * 
 	 * @param  array $nav 快捷导航数组
@@ -20,7 +44,7 @@ class system_api
 	public static function global_start($nav)
 	{
 		$nav['start'] = array(
-			'text'        => t('开始'),
+			'text'        => t('主页'),
 			'href'        => U('system/admin'),
 			'active'      => request::is('system/admin'),
 			'class'		  => ''

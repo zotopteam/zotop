@@ -34,6 +34,7 @@ class developer_controller_index extends admin_controller
 			$projects[] = include(dirname($file).DS.'app.php');
 		}
 
+
 		$this->assign('title',t('开发助手'));
 		$this->assign('projects',$projects);
 		$this->display();

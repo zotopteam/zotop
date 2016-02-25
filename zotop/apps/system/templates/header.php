@@ -43,13 +43,32 @@
 	      	<ul class="nav global-navbar tabdropable">
 	      		<li class="brand dropdown">
 	      			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
-					<ul class="dropdown-menu">
-						<li><a href="{u('system/system/reboot')}" class="js-confirm"><i class="fa fa-refresh fa-fw"></i> {t('重启系统')}</a></li>
-						<li><a href="{u('system/check')}"><i class="fa fa-server fa-fw"></i> {t('系统检测')}</a></li>
-						<li class="divider" role="separator"></li>
-						<li><a href="http://www.zotop.com" target="_blank"><i class="fa fa-globe fa-fw"></i> {t('官方网站')}</a></li>					
-						<li><a href="{u('system/zotop')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
-					</ul>      			
+	      			<div class="dropdown-menu dropdown-start">
+						<ul class="scrollable">
+							{loop system_api::start() $s}
+							<li>
+								<a href="{$s.href}" class="shortcut shortcut-thumb" title="<h4>{$s.text}</h4><h5>{$s.description}</h5>" data-placement="right">
+									<div class="shortcut-icon">
+										<img src="{$s.icon}">
+										{if isset($s.badge)}
+										<b class="shortcut-badge badge badge-xs badge-danger">{$s.badge}</b>
+										{/if}									
+									</div>
+									<div class="shortcut-text">
+										<h2>{$s.text}</h2>
+									</div>								
+								</a>		
+							</li>
+							{/loop}							
+						</ul>
+						<ul class="hidden">
+							<li><a href="{u('system/system/reboot')}" class="js-confirm"><i class="fa fa-refresh fa-fw"></i> {t('重启系统')}</a></li>
+							<li><a href="{u('system/check')}"><i class="fa fa-server fa-fw"></i> {t('系统检测')}</a></li>
+							<li class="divider" role="separator"></li>
+							<li><a href="http://www.zotop.com" target="_blank"><i class="fa fa-globe fa-fw"></i> {t('官方网站')}</a></li>					
+							<li><a href="{u('system/zotop')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
+						</ul>   	      				
+	      			</div>  			
 	      		</li>
 				{loop zotop::filter('system.global.navbar',array()) $id $nav}
 				<li class="{$nav.class} {if $nav.active}active{/if} {if $nav.menu}dropdown{/if} hidden-xs">

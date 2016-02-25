@@ -27,35 +27,7 @@ class system_controller_admin extends admin_controller
 	 */
     public function action_index()
     {
-		// 用户信息
-		$start = array();
-
-		foreach( a() as $k=>$a)
-		{
-			if ( in_array($k, m('system.app')->cores) ) continue;
-
-			$shortcut = zotop::data($a['path'].DS.'shortcut.php');
-
-			if ( is_array($shortcut) )
-			{
-				$start = array_merge($start, $shortcut);
-			}			
-		}
-
-		$start = zotop::filter('system.start',$start);
-
-		//站点和系统图标放在最后
-		$start = $start + zotop::data(A('site.path').DS.'shortcut.php');
-		$start = $start + zotop::data(A('system.path').DS.'shortcut.php');
-
-		foreach( $start as $id => $nav )
-		{
-			if ( $nav['allow'] === false ) unset($start[$id]);
-		}
-
-		$this->assign('title',t('开始'));
-		$this->assign('start', $start);
-		$this->assign('user',$user);
+		$this->assign('title',t('主页'));
 		$this->display();
     }
 

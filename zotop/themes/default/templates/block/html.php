@@ -1,1 +1,1 @@
-<div class="html">{$data}</div>
+{$data}

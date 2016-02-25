@@ -37,8 +37,6 @@ form::field('icon',array('system_field','icon'));
 zotop::add('system.global.navbar','system_api::global_start');
 zotop::add('system.global.msg','system_api::global_msg');
 
-
-
 /**
  * 别名解析, 将别名路由到设定的uri
  *

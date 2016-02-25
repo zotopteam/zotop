@@ -12,29 +12,32 @@
 * 注册类，用于自动加载
 */
 zotop::register(array(
-    'runtime'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'runtime.php',
-    'debug'                 => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'debug.php',
-    'zotop_exception'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'exception.php',
-    'arr'                   => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'array.php',
-    'pinyin'                => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'pinyin.php',
-    'html'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'html.php',
-    'tree'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'tree.php',
-    'pagination'            => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'pagination.php',
-    'http'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'http.php',
-    'mail'                  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'mail.php',
-    'captcha'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'captcha.php',
-
-    'db'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php',
-    'db_mysql' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db' . DS . 'mysql.php',
-
-    'session'               => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session.php',
-    'session_native'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'native.php',
-    'session_file'          => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'file.php',
-    'image'                 => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'image.php',
-    'image_gd'              => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'image' . DS . 'gd.php',
-    'upload'                => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'upload.php',
-    'pclzip'                => ZOTOP_PATH_LIBRARIES . DS . 'extends' . DS . 'pclzip.lib.php',
-    ));
+    'runtime'         => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'runtime.php',
+    'debug'           => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'debug.php',
+    'zotop_exception' => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'exception.php',
+    'arr'             => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'array.php',
+    'pinyin'          => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'pinyin.php',
+    'html'            => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'html.php',
+    'tree'            => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'tree.php',
+    'pagination'      => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'pagination.php',
+    'http'            => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'http.php',
+    'mail'            => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'mail.php',
+    'captcha'         => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'captcha.php',
+    'validator'       => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'validator.php',
+    'upload'          => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'upload.php',
+    
+    'db'              => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php',
+    'db_mysql'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db' . DS . 'mysql.php',
+    
+    'session'         => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session.php',
+    'session_native'  => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'native.php',
+    'session_file'    => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'session' . DS . 'file.php',
+    
+    'image'           => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'image.php',
+    'image_gd'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'image' . DS . 'gd.php',
+    
+    'pclzip'          => ZOTOP_PATH_LIBRARIES . DS . 'extends' . DS . 'pclzip.lib.php',
+));
 
 /**
  *

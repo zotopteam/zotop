@@ -20,7 +20,7 @@ class site_controller_index extends site_controller
 	public function action_index()
     {
 		$this->assign('title',t('首页'));
-		$this->display();
+		$this->display('index.php');
 	}
 }
 ?>

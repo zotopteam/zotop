@@ -20,7 +20,7 @@ class content_controller_model extends admin_controller
 	{
 		parent::__init();
 
-		$this->model = m('content.model');
+		$this->model = m('content.model');	
 	}
 
 	/**
@@ -32,7 +32,7 @@ class content_controller_model extends admin_controller
 	{
 		if ( !$this->model->cache() )
 		{
-			$files = folder::files(A('content.path').DS.'libraries'.DS.'model',false,true,'model');
+			$files = folder::files(A('content.path').DS.'libraries'.DS.'model', false, true, 'model');
 
 			foreach ($files as $file)
 			{
@@ -61,6 +61,12 @@ class content_controller_model extends admin_controller
 		}
 
 		$data = $this->model->orderby('listorder','asc')->select();
+
+		// 如果没有模型，自动导入系统自带的模型 TODO 改进这里的安装体验
+		if ( empty($data) )
+		{
+			$this->redirect(u('content/model/init'));
+		}
 
 		foreach( $data as &$d )
 		{

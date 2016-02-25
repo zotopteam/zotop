@@ -42,9 +42,11 @@ class content_api
 		/*
 		if ( $pending = m('content.content.statuscount',0,'pending') )
 		{
-			$start['content']['msg'] = t('%s 条待审',$pending);
+			$start['content']['msg']   = t('%s 条待审',$pending);
+			$start['content']['badge'] = $pending;
 		}
 		*/
+	
 		return $start;
 	}
 

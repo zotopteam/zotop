@@ -54,16 +54,21 @@ class system_controller_system extends admin_controller
 		{
 			@set_time_limit(0);
 
-			foreach( array('caches', 'temp','templates') as $folder )
+			foreach( array('block','caches', 'temp','templates') as $folder )
 			{
 				folder::clear(ZOTOP_PATH_RUNTIME.DS.$folder);
 			}
 
+			// 清理缓存
 			zotop::cache(null);
 
+			// 清理系统运行文件
+			zotop::reboot();
+
+			// hook
 			zotop::run('system.refresh');
 
-			$this->success(t('刷新成功'));
+			return $this->success(t('刷新成功'));
 		}
 	}
 
@@ -87,7 +92,7 @@ class system_controller_system extends admin_controller
 			// 清理系统运行文件
 			zotop::reboot();
 
-			$this->success(t('重启成功'));
+			return $this->success(t('重启成功'));
 		}
     }
 }
