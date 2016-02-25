@@ -65,7 +65,7 @@
 						<s>|</s>
 						<a href="{u('content/category/edit/'.$r['id'])}">{t('编辑')}</a>
 						<s>|</s>
-						<a class="js-open" data-width="400" data-height="300" href="{u('content/category/move/'.$r['id'])}">{t('移动')}</a>
+						<a class="js-open" data-width="600" data-height="300" href="{u('content/category/move/'.$r['id'])}">{t('移动')}</a>
 						<s>|</s>
 						<a class="js-confirm" href="{u('content/category/status/'.$r['id'])}">{t('禁用')}</a>
 						<s>|</s>
