@@ -111,8 +111,16 @@
 					</ul>
 				</li>
 				{/if}
-				<li class="gotohome"><a href="{u()}" title="{t('访问 $1 首页',C('site.name'))}" target="_blank"><i class="fa fa-home"></i> <span class="hidden-xs hidden-sm">{t('网站首页')}</span></a></li>
-				<li class="clearcache"><a class="js-ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}"><i class="fa fa-magic"></i> <span class="hidden-xs hidden-sm">{t('一键刷新')}</span></a></li>
+				<li class="gotohome">
+					<a href="{u()}" title="{t('访问 $1 首页',C('site.name'))}" target="_blank">
+						<i class="fa fa-home fa-fw"></i> <span class="hidden-xs hidden-sm">{t('网站首页')}</span>
+					</a>
+				</li>
+				<li class="clearcache">
+					<a class="js-ajax-post" href="{u('system/system/refresh')}" title="{t('一键刷新缓存')}">
+						<i class="fa fa-magic fa-fw"></i> <span class="hidden-xs hidden-sm">{t('一键刷新')}</span>
+					</a>
+				</li>
 				<li class="dropdown hidden-xs">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 						<i class="fa fa-user"></i> <span class="hidden-xs hidden-sm">{zotop::user('username')}</span> <i class="fa fa-angle-down"></i>

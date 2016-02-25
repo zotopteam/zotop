@@ -251,7 +251,8 @@ class block_model_block extends model
 		{
 			foreach($block['data'] as &$d)
 			{
-				$d['url'] = U($d['url']);
+				$d['url']   = U($d['url']);
+				$d['style'] = $d['style'] ? 'style="'.$d['style'].'"' : '';
 			}
 		}
 

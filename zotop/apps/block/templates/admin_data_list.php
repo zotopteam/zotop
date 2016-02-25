@@ -42,7 +42,11 @@
 					<td class="text-center"></td>
 					<td>
 						<div class="title text-overflow">
-							{if $r.url}	<a href="{U($r.url)}" target="_blank">{$r.title}</a> {else}	{$r.title} {/if}
+							{if $r.url}
+								<a href="{U($r.url)}" target="_blank" {if $r.style}style="{$r.style}"{/if}>{$r.title}</a>
+							{else}
+								<span {if $r.style}style="{$r.style}"{/if}>{$r.title}</span>
+							{/if}
 
 							{if $r.image} 
 								<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
