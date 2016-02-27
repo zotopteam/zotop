@@ -47,10 +47,11 @@
 						'name'			=> 'image',
 						'value'			=> $data['image'],
 						'dataid'		=> $data['dataid'],
-						'image_resize'	=> c('content.category_image_resize'),
-						'image_width'	=> c('content.category_image_width'),
-						'image_height'	=> c('content.category_image_height'),
-						'image_quality'	=> c('content.category_image_quality'),
+						'image_resize'  => c('content.category_image_resize'),
+						'image_width'   => c('content.category_image_width'),
+						'image_height'  => c('content.category_image_height'),
+						'image_quality' => c('content.category_image_quality'),
+						'watermark'     =>0
 					))?>
 				</div>
 			</div>			

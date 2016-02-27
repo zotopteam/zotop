@@ -48,18 +48,19 @@
 					<div class="help-block">{t('多个qq之间用英文逗号隔开')}</div>
 				</div>
 			</div>
+
 			<div class="form-group">
-				<label for="skype" class="col-sm-2 control-label">{t('Skype')}</label>
+				<label for="weixin" class="col-sm-2 control-label">{t('微信公众号')}</label>
 				<div class="col-sm-8">
-					{field type="text" name="skype" value="c('site.skype')"}
+					{field type="text" name="wechat" value="c('site.wechat')"}
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="weixin" class="col-sm-2 control-label">{t('微信')}</label>
+				<label for="weixin" class="col-sm-2 control-label">{t('微信二维码')}</label>
 				<div class="col-sm-8">
-					{field type="text" name="weixin" value="c('site.weixin')"}
+					{field type="image" name="wechat_qrcode" value="c('site.wechat_qrcode')"}
 				</div>
-			</div>
+			</div>			
 			<div class="form-group">
 				<label for="weibo" class="col-sm-2 control-label">{t('微博')}</label>
 				<div class="col-sm-8">
@@ -72,7 +73,12 @@
 					{field type="text" name="wangwang" value="c('site.wangwang')"}
 				</div>
 			</div>	
-
+			<div class="form-group">
+				<label for="skype" class="col-sm-2 control-label">{t('Skype')}</label>
+				<div class="col-sm-8">
+					{field type="text" name="skype" value="c('site.skype')"}
+				</div>
+			</div>
 		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">
