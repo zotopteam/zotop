@@ -44,6 +44,12 @@ class site_api
 				'icon'   => 'fa fa-cog',
 				'active' => request::is('site/config/index')
 			),
+            'config_search' => array(
+                'text'   => t('搜索优化'),
+                'href'   => U('site/config/search'),
+                'icon'   => 'fa fa-search',
+                'active' => request::is('site/config/search')
+            ),            
 			'config_contact' => array(
 				'text'   => t('联系方式'),
 				'href'   => U('site/config/contact'),

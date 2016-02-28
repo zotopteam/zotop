@@ -95,9 +95,9 @@
 
     {if request::is('content/*')}
         {if $banner = m('content.category.get',$category.rootid,'image')}
-        <div class="banner banner-full" style="background-image:url({thumb($banner,1920,360)});background-size:cover;"></div>
+        <div class="banner banner-image" style="background-image:url({thumb($banner,1920,360)});background-size:cover;"></div>
         {else}
-        <div class="banner banner-full">
+        <div class="banner banner-text">
             <div class="container">
                 <h1>{m('content.category.get',$category.rootid,'name')}</h1>
                 <p>{m('content.category.get',$category.rootid,'description')}</p>

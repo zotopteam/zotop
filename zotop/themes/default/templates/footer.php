@@ -7,7 +7,7 @@
         <div class="footer-text text-center">
             <div>{C('site.copyright')} {if C('site.beian')} <a href="http://www.miitbeian.gov.cn/" target="_blank">{C('site.beian')}</a> {/if}</div>
             <div>{C('site.address')} {C('site.phone')} {C('site.fax')} {C('site.email')}</div>
-            <div class="powered">{zotop::powered()}</div>
+            <div class="powered">{zotop::powered()} {C('theme.name')}</div>
         </div>       
     </div>
 </footer>

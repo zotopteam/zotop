@@ -10,7 +10,6 @@
 	<div class="main-body scrollable">
 		
 		<div class="container-fluid">
-			<div class="form-title">{t('基本设置')}</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('网站名称'),'name',true)}</div>
 				<div class="col-sm-8">
@@ -71,29 +70,6 @@
 					<div class="help-block">{t('如果网站已经在工信部备案请输入备案号，如：京ICP备XXXXXX号')}</div>
 				</div>
 			</div>										
-					
-			<div class="form-title">{t('搜索优化')}</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('网站标题'),'title',true)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'title','value'=>c('site.title'),'required'=>'required'))}
-					{form::tips(t('网站标题一般显示在标题栏上，适当填写可以优化搜索'))}
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('网站关键词'),'keywords',true)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'keywords','value'=>c('site.keywords'),'required'=>'required'))}
-					{form::tips(t('请分析并填写网站关键词(Meta Keywords)，多个关键词使用空格隔开'))}
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('网站描述'),'description',true)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'textarea','name'=>'description','value'=>c('site.description'),'required'=>'required'))}
-					{form::tips(t('请填写网站描述信息(Meta Description)'))}
-				</div>
-			</div>
 
 		</div>
 	</div><!-- main-body -->

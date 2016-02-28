@@ -84,6 +84,27 @@ class site_controller_config extends admin_controller
     }
 
 	/**
+	 * 联系方式
+	 * 
+	 * @return mixed
+	 */
+	public function action_search()
+    {
+		if ( $post = $this->post() )
+		{
+			if ( m('system.app')->config($post) )
+			{
+				return $this->success(t('保存成功'));
+			}
+
+			return $this->error(m('system.app')->error());
+		}
+
+		$this->assign('title',t('搜索优化'));
+		$this->display();
+    }    
+
+	/**
 	 * 网站状态
 	 * 
 	 * @return mixed
