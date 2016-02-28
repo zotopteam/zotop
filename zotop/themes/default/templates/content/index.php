@@ -28,7 +28,7 @@
 				<div class="media-left"><img src="{thumb($r.image,400,300)}" alt="{$r.title}" class="media-object"/></div>
 				<div class="media-body">
 					<div class="media-heading">
-						<span class="pull-right text-muted">{format::date($r.createtime,'date')}</span>
+						<span class="pull-right text-muted hidden-xs">{format::date($r.createtime,'date')}</span>
 						<h4 {$r.style}>{$r.title} {$r.new}</h4>
 					</div>
 					<div class="media-summary hidden-xs">{str::cut($r.summary,200)}</div>
@@ -39,8 +39,8 @@
 
 		<ul class="list-group">
 			{content cid="$c.id" size="8" ignore="$r.id"}
-			<li class="list-group-item">
-				<span class="pull-right text-muted">{format::date($r.createtime,'date')}</span>
+			<li class="list-group-item text-overflow">
+				<span class="pull-right text-muted hidden-xs">{format::date($r.createtime,'date')}</span>
 				<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>{$r.new}
 			</li>
 			{else}

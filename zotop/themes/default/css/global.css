@@ -87,7 +87,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 
 .navbar-logo{margin-right:50px;}
 .navbar-logo img{height:50px;}
-.navbar-brand{margin-right:50px;font-size:30px;letter-spacing:2px;}
+.navbar-brand{margin-right:50px;font-size:28px;letter-spacing:2px;}
 
 .navbar-nav>li>a{font-size:16px;transition:all 0.2s ease-out 0s;}
 .navbar-nav>li>.dropdown-menu{border:0 none;padding:5px;background-color:rgba(255,255,255,.8);}
@@ -275,7 +275,7 @@ body.site-index-index .navbar-inverse:hover{background:#0072c6;}
 
 /* 分辨率小于 767px */
 @media (max-width:767px){
-	.banner{height:150px;padding:20px;}
+	.banner{height:150px;padding:10px;text-align:center;}
 
 	.nav-inline{border:0 none;padding-top:10px;padding-bottom:10px;}
 	.nav-inline ul li{display:block;float:left;width:29%;margin:5px 2%;}
@@ -286,7 +286,12 @@ body.site-index-index .navbar-inverse:hover{background:#0072c6;}
 	.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{background:#0072c6;border:0;}
 
 	.navbar-form{margin-bottom:0}
-	.navbar-form .btn{top:11px;right:8px;}
+	.navbar-form .btn{top:11px;right:8px;}    
+    
+    .carousel-control .icon-prev, .carousel-control .icon-next{visibility: hidden;}
 
-    .slider-full .carousel-inner>.item>img, .slider-full .carousel-inner>.item>a>img{max-width:none;height:200px;}
+    .slider-full .carousel-inner>.item{background-repeat:no-repeat;background-size:auto 100%;background-position:center center;}
+    .slider-full .carousel-inner>.item img{height:150px;visibility:hidden;}
+    
+    .section{padding:10px 5px;}
 }

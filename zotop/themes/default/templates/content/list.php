@@ -31,7 +31,7 @@
 			{/if}
 			<div class="media-body">
 				<div class="media-heading">
-					<span class="pull-right text-muted">{format::date($r.createtime,'date')}</span>
+					<span class="pull-right text-muted hidden-xs">{format::date($r.createtime,'date')}</span>
 					<h4 {$r.style}>{$r.title}{$r.new}</h4> 
 				</div>
 				<div class="media-summary hidden-xs">{str::cut($r.summary,200)}</div>

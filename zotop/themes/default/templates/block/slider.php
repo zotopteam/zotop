@@ -6,7 +6,7 @@
   </ol>
   <div class="carousel-inner" role="listbox">
   	{loop $data $i $r}
-    <div class="item {if $i==0}active{/if}">
+    <div class="item {if $i==0}active{/if}" style="background-image:url({$r.image});">
       <img src="{$r.image}" alt="{$r.title}">    
     </div>
     {/loop}
