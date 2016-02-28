@@ -13,17 +13,16 @@
 
 <div class="container">
 
-	<ul class="breadcrumb hidden">
+	<ul class="breadcrumb">
 	    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
 		{content action="position" cid="$category.id"}
 		<li><a href="{$r.url}">{$r.name}</a></li>
 		{/content}
-	    <li class="active">{$content.title}</li>
+	    <li class="active">正文</li>
 	</ul>
 
-
 	<div class="content content-box content-page">
-		<h1 class="content-title hidden">
+		<h1 class="content-title">
 			{$content.title}
 		</h1>
 		

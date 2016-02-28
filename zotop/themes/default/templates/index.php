@@ -45,4 +45,43 @@
         </div>
     </div>
 </section>
+
+
+{if $c = m('content.category.get',5)}
+<section class="section bg-primary">
+    <div class="container">
+            
+        <div class="page-header clearfix">
+            <h1 class="pull-left"><a href="{$c.url}">{$c.name}</a></h1>
+            <h5 class="hidden">{$c.description}</h5>
+            <nav>
+                <a class="more " href="{$c.url}">{t('更多')} <i class="fa fa-angle-right"></i></a>
+            </nav>
+        </div>
+
+        <div class="row">
+            {content cid="$c.id" size="8"}
+            <div class="col-xs-6 col-md-3 dataitem">
+ 
+                <div class="thumbnail product">
+                    <a href="{$r.url}">
+                    <div class="image"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+                    <div class="caption">
+                        <div class="title text-overflow" {$r.style}>{$r.title} {$r.new}</div>           
+                        <div class="description hidden">{str::cut($r.summary,140)}</div>                                
+                    </div>
+
+                    </a>
+                </div>
+
+            </div>
+            {else}
+            <div class="nodata">{t('暂时没有数据，请稍后访问')}</div>                   
+            {/content}
+        </div>
+               
+    </div>
+</section>
+{/if}
+
 {template 'footer.php'}

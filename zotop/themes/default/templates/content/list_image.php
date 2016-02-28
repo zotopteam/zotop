@@ -13,14 +13,14 @@
 
 <div class="container">
 
-			<div class="pagelist">
+			<ul class="breadcrumb">
+			    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
+				{content action="position" cid="$category.id"}
+				<li><a href="{$r.url}">{$r.name}</a></li>
+				{/content}
+			</ul>
 
-				<ul class="breadcrumb">
-				    <li><i class="fa fa-home"></i> <a href="{u()}">{t('首页')}</a></li>
-					{content action="position" cid="$category.id"}
-					<li><a href="{$r.url}">{$r.name}</a></li>
-					{/content}
-				</ul>
+			<div class="pagelist">
 
 				<div class="row">
 					{content cid="$category.id" page="true" size="20"}
@@ -29,19 +29,18 @@
 						<div class="thumbnail product">
 							<a href="{$r.url}">
 							<div class="image"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
-							<div class="title text-overflow" {$r.style}>{$r.title} {$r.new}</div>			
-							<div class="description hidden">{str::cut($r.summary,140)}</div>
+							<div class="caption">
+								<div class="title text-overflow" {$r.style}>{$r.title} {$r.new}</div>			
+								<div class="description hidden">{str::cut($r.summary,140)}</div>								
+							</div>
+
 							</a>
 						</div>
 
 					</div>
+					{else}
+					<div class="nodata">{t('暂时没有数据，请稍后访问')}</div>					
 					{/content}
-
-					{if $n==0}
-						<div class="nodata">
-							{t('暂时没有数据，请稍后访问')}
-						</div>
-					{/if}
 				</div>
 			
 				<nav class="text-center">{$pagination}</nav>
