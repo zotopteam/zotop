@@ -12,7 +12,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta content="black" name="apple-mobile-web-app-status-bar-style">
     <meta name="format-detection" content="telephone=no">
-    <link href="{__THEME__}/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    {C('site.meta')}
+    <link href="{if C('site.favicon')}{C('site.favicon')}{else}{__THEME__}/favicon.ico{/if}" rel="shortcut icon" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{__THEME__}/apple-touch-icon-180.png">
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{__THEME__}/apple-touch-icon-144.png">
     <link rel="apple-touch-icon-precomposed" sizes="120x120" href="{__THEME__}/apple-touch-icon-120.png">
@@ -42,7 +43,11 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand navbar-logo" href="{U()}">{C('site.name')}</a>
+                    {if C('site.logo')}
+                    <a class="navbar-logo" href="{U()}"><img src="{C('site.logo')}" alt="{C('site.name')}"></a>
+                    {else}
+                    <a class="navbar-brand" href="{U()}">{C('site.name')}</a>
+                    {/if}
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">

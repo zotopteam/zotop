@@ -12,7 +12,7 @@ return array(
 	
 
 	// 上传参数
-	'attachment_image_exts' => 'jpg,jpeg,gif,bmp,png',
+	'attachment_image_exts' => 'jpg,jpeg,gif,bmp,png,ico',
 	'attachment_image_size' => '20', //单位MB
 	
 	'attachment_file_exts'  => 'doc,docx,xls,xlsx,ppt,pptx,pps,pdf,txt,rar,zip',

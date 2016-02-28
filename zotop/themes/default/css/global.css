@@ -82,9 +82,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 .dropdown-menu>li>a{padding:10px 15px;border-radius:4px;}
 
 .navbar{margin-bottom:0;border-radius:0;border:0!important;position:absolute;top:0;left:0;right:0;z-index:99999;transition:all .5s;}
-.navbar-logo{padding-left:100px;margin-right:50px;background:url(../image/logo.png) no-repeat left center;text-indent:-1000px;overflow:hidden;}
 .navbar-toggle{border:0 none;}
 .navbar-toggle .icon-bar{width:18px;}
+
+.navbar-logo{margin-right:50px;}
+.navbar-logo img{height:50px;}
+.navbar-brand{margin-right:50px;font-size:30px;letter-spacing:2px;}
 
 .navbar-nav>li>a{font-size:16px;transition:all 0.2s ease-out 0s;}
 .navbar-nav>li>.dropdown-menu{border:0 none;padding:5px;background-color:rgba(255,255,255,.8);}
@@ -100,7 +103,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 
 .navbar-inverse{background:#0072C6;}
 .navbar-inverse .navbar-brand{color:#fff;}
-.navbar-inverse .navbar-logo{background-image:url(../image/logo-white.png)}
 .navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus{background-color:#00BCF2;}
 .navbar-inverse .navbar-nav>li>a{color:#fff;}
 .navbar-inverse .navbar-nav>li>a:hover{background-color:#0064ae;}

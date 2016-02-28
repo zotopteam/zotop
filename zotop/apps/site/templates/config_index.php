@@ -48,6 +48,22 @@
 			</div>
 
 			<div class="form-group">
+				<label for="weixin" class="col-sm-2 control-label">{t('站点LOGO')}</label>
+				<div class="col-sm-8">
+					{field type="image" name="logo" value="c('site.logo')"}
+					<div class="help-block">{t('网站logo图片，推荐使用PNG格式图片')}</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="weixin" class="col-sm-2 control-label">{t('站点Favicon')}</label>
+				<div class="col-sm-8">
+					{field type="image" name="favicon" value="c('site.favicon')"}
+					<div class="help-block">{t('收藏夹和浏览器地址栏左侧显示的小图标，宽高：16px*16px或32px*32px，格式：ico或png')}</div>
+				</div>
+			</div>							
+
+			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('站点标语'),'url',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'slogan','value'=>c('site.slogan')))}

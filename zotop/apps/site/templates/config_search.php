@@ -26,13 +26,26 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('首页关键词'),'keywords',true)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'text','name'=>'index_keywords','value'=>c('site.index_keywords'),'required'=>'required'))}
+					{form::tips(t('网站首页使用的关键词'))}
+				</div>
+			</div>			
+			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('网站描述'),'description',true)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>c('site.description'),'required'=>'required'))}
 					{form::tips(t('请填写网站描述信息(Meta Description)'))}
 				</div>
 			</div>
-
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('Meta标签'),'description',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'textarea','name'=>'meta','value'=>c('site.meta'),'placeholder'=>t('可放置<meta>、<script>、<style>和<link>标签')))}
+					{form::tips(t('设置网站head中的额外的Meta/script/style和link标签'))}
+				</div>
+			</div>
 		</div>
 	</div><!-- main-body -->
 	<div class="main-footer">
