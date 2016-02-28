@@ -336,7 +336,6 @@ class content_api
 			);
 		}
 
-
 		$content['page']               = array();
 		$content['page']['count']      = $pagecount;
 		$content['page']['titlecount'] = $pagetitlecount;

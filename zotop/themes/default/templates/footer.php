@@ -6,9 +6,10 @@
 
         <div class="footer-text text-center">
             <div>{C('site.copyright')} {if C('site.beian')} <a href="http://www.miitbeian.gov.cn/" target="_blank">{C('site.beian')}</a> {/if}</div>
-            <div>{C('site.address')} {C('site.phone')} {C('site.fax')} {C('site.email')}</div>
+            <div>{C('site.address')} {C('site.phone')} {C('site.fax')} {C('site.email')}</div>            
+            <div class="custom">{block id="3" type="html" name="t('网站底部自定义内容')" template="block/html.php"}</div>
             <div class="powered">{zotop::powered()} {C('theme.name')}</div>
-        </div>       
+        </div>      
     </div>
 </footer>
 
@@ -50,7 +51,8 @@
     </li>
 </ul>
 
-{hook 'site.footer'}
+{block id="5" type="text" name="t('统计代码')" template="block/text.php"}
 
+{hook 'site.footer'}
 </body>
 </html>

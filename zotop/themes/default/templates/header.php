@@ -79,7 +79,7 @@
                         <div class="form-group">
                             <input type="text" name="keywords" class="form-control" value="{$_GET['keywords']}">
                         </div>
-                        <button type="submit" class="btn"><i class=" fa fa-search"></i></button>
+                        <button type="submit" class="btn btn-transparent"><i class="fa fa-search"></i></button>
                     </form>
 
                 </div>
@@ -93,7 +93,7 @@
     </div>
     {/if}
 
-    {if request::is('content/*')}
+    {if request::is('content/*') and $category.rootid}
         {if $banner = m('content.category.get',$category.rootid,'image')}
         <div class="banner banner-image" style="background-image:url({thumb($banner,1920,360)});background-size:cover;"></div>
         {else}

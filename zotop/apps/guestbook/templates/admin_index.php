@@ -52,7 +52,16 @@
 					<div class="title">
 						<span class="pull-right">{t('发布时间')} : {format::date($r['createtime'])}</span>
 						<span>{t('姓名')} : {$r['name']}</span>
-						<span class="text-muted">{t('邮箱')}：{$r['email']} {t('IP')}：{$r['createip']}</span>
+						{if $r['email']}
+						<span class="text-muted">{t('邮箱')}：{$r['email']}</span>
+						{/if}
+						{if $r['mobile']}
+						<span class="text-muted">{t('手机')}：{$r['mobile']}</span>
+						{/if}
+						{if $r['qq']}
+						<span class="text-muted">{t('QQ')}：{$r['qq']}</span>
+						{/if}						
+						<span class="text-muted">{t('IP')}：{$r['createip']}</span>
 					</div>
 					<hr>
 					<p class="{if $r.status=='publish'}text-success{else}text-default{/if}">{$r['content']}</p>

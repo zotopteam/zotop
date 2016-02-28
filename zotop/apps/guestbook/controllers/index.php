@@ -73,7 +73,7 @@ class guestbook_controller_index extends site_controller
 
  			if ( $this->guestbook->add($post) )
 			{
-				return $this->success(t('留言已经提交成功，正等待管理员回复中……'), u('guestbook/index'));
+				return $this->success(t('留言已经提交成功，请等待管理员回复中……'), u('guestbook/index'));
 			}
 
 			return $this->error($this->guestbook->error());   		

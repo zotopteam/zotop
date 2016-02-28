@@ -24,9 +24,7 @@
 				{form::field(array('type'=>'hidden','name'=>'id','value'=>$block['id'],'required'=>'required'))}
 				{form::field(array('type'=>'hidden','name'=>'operate','value'=>'save'))}
 
-
-
-				{field type="editor" name="data" value="$block.data" dataid="$block.id" toolbar="full" tools="true" rows="22" required="required"}
+				{field type="editor" name="data" value="$block.data" dataid="$block.id" toolbar="full" tools="image,file" rows="22" required="required"}
 
 			</div>
 

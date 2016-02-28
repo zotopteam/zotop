@@ -31,9 +31,9 @@
 			<nav class="text-center">
 				<dl class="content-pagetitles">
 					<dt>{t('本文导航')}</dt>
-					{loop $content.pages $n $p}
-					<dd class="text-overflow {if $content.page.active==$n}active{/if}">
-						<i class="fa fa-caret-right"></i> <a href="{$p.url}">{t('第$1页',$n)} {$p.title}</a>
+					{loop $content.pages $i $p}
+					<dd class="text-overflow {if $content.page.active==$i}active{/if}">
+						<i class="fa fa-caret-right"></i> <a href="{$p.url}">{t('第$1页',$i)} {$p.title}</a>
 					</dd>
 					{/loop}
 				</dl>
@@ -51,8 +51,8 @@
 						<a href="{$content.page.prevurl}" class="btn btn-default prev"><i class="fa fa-angle-left"></i> {t('上一页')}</a>
 						{/if}	
 
-						{loop $content.pages $n $p}
-						<a href="{$p.url}" class="btn btn-default {if $content.page.active==$n}active{/if}">{$n}</a>
+						{loop $content.pages $i $p}
+						<a href="{$p.url}" class="btn btn-default {if $content.page.active==$i}active{/if}">{$i}</a>
 						{/loop}
 
 						{if $content.page.nexturl}
