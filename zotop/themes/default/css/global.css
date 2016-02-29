@@ -124,7 +124,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 .carousel-indicators{bottom:0;}
 .carousel-control.left,.carousel-control.right{background:transparent;}
 .carousel-control .icon-prev, .carousel-control .icon-next{font-size:80px;color:#fff;margin-top:-60px;display:none;}
+.carousel-inner>.item img{width:100%;}
 .carousel:hover .icon-prev,.carousel:hover .icon-next{display:block;}
+.slider-full .carousel-inner>.item{background-size:cover;}
+.slider-full .carousel-inner>.item img{visibility:hidden;}
 
 .panel{margin-bottom:10px;border-color:#efefef;box-shadow:none;}
 .panel-heading,.panel-footer{background:#fff;border-color:#efefef;}
@@ -275,7 +278,7 @@ body.site-index-index .navbar-inverse:hover{background:#0072c6;}
 
 /* 分辨率小于 767px */
 @media (max-width:767px){
-	.banner{height:150px;padding:10px;text-align:center;}
+	.banner{height:180px;padding:0 0px;text-align:center;}
 
 	.nav-inline{border:0 none;padding-top:10px;padding-bottom:10px;}
 	.nav-inline ul li{display:block;float:left;width:29%;margin:5px 2%;}
@@ -291,7 +294,7 @@ body.site-index-index .navbar-inverse:hover{background:#0072c6;}
     .carousel-control .icon-prev, .carousel-control .icon-next{visibility: hidden;}
 
     .slider-full .carousel-inner>.item{background-repeat:no-repeat;background-size:auto 100%;background-position:center center;}
-    .slider-full .carousel-inner>.item img{height:150px;visibility:hidden;}
+    .slider-full .carousel-inner>.item img{width:auto;height:150px;visibility:hidden;}
     
     .section{padding:10px 5px;}
 }
