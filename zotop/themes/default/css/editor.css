@@ -41,3 +41,16 @@ h4,h5,h6{margin:5px 0;}
 .clearfix p {line-height:25px;margin:0 auto 0 auto}
 
 p.mce-shim{text-indent:0;}
+
+/*zotop extend*/
+.mce-pagebreak{border: 0 none; height: auto; margin:15px -15px; padding:0; text-indent: 0; background: #ebebeb; width: auto; clear:both; font-size: 24px; line-height: 50px;}
+.mce-pagebreak:before,.mce-pagebreak:after{content:''; height:10px; border: 1px solid #d5d5d5; display: block; background: #fff;}
+.mce-pagebreak:before{border-top:0 none;}
+.mce-pagebreak:first-child{margin-top: -15px;}
+.mce-pagebreak:first-child:before{display: none;}
+.mce-pagebreak:after{border-bottom:0 none;}
+
+figure.image{display: inline-block;border: 1px solid transparent;margin: 0 2px 0 1px;background:transparent;}
+figure.image img{margin:0;}
+figure.image.align-center {display: table;margin-left: auto;margin-right: auto;}
+figure.image figcaption{margin: 6px 1px 6px 1px;text-align: center;}

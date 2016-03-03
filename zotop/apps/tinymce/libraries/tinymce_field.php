@@ -135,11 +135,13 @@ class tinymce_field
 		$default = zotop::filter('tinymce.default', array(
 			'tools'             => false,
 			'toolbar'           => 'standard',
-			'resize'            => true,				
+			'resize'            => true,
+			'image_caption'     => true,
+			'media_live_embeds' => true,
 			'imagetools_proxy'  => U('tinymce/server/proxy'),
 			'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
 			'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css',
-			'rows'				=> 18,
+			'rows'              => 18,
 		));
 
 		return array_merge($default, $attrs);

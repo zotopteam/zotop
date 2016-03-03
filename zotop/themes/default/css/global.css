@@ -239,6 +239,11 @@ textarea{resize:none;}
 .content .content-pagination{display:inline-block;margin:20px auto;}
 .content .content-pagination .active{background:#0072c6;border-color:#0072c6;color:#fff;box-shadow:none;}
 
+figure.image{display: inline-block;border: 1px solid transparent;margin: 0 2px 0 1px;background:transparent;}
+figure.image img{margin:0;}
+figure.image.align-center {display: table;margin-left: auto;margin-right: auto;}
+figure.image figcaption{margin: 6px 1px 6px 1px;text-align: center;}
+
 /*页面底部样式*/
 .footer{color:#777;padding:10px 0;border-top:1px solid #e5e5e5;background-color:#fff;}
 .footer .nav>li>a:hover, .footer .nav>li>a:focus{background-color:transparent;}
