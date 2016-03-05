@@ -196,8 +196,24 @@ class application
      */
     public static function shutdown()
     {
-        //exit(1);
+
     }
+
+    /**
+     * 页面追踪，TODO 追踪ajax数据
+     * 
+     * @return null
+     */
+    public static function trace()
+    {
+        // 输出调试追踪
+        if ( ZOTOP_TRACE AND !ZOTOP_ISAJAX )
+        {
+            ob_start();
+            include ZOTOP_PATH_LIBRARIES . DS . 'views' . DS . 'trace.php';
+            echo ob_get_clean();
+        }
+    }    
 
     /**
      * 输出缓冲函数
@@ -233,18 +249,6 @@ class application
      */
     public static function shutdown_handler()
     {
-        if ( ZOTOP_ISAJAX ) exit();
-
-        // 输出调试追踪
-        if ( ZOTOP_TRACE )
-        {
-            ob_start();
-            include ZOTOP_PATH_LIBRARIES . DS . 'views' . DS . 'trace.php';
-            echo ob_get_clean();
-            exit(1);            
-        }
-
-
         if ( $error = error_get_last() )
         {
             // 清理输出
