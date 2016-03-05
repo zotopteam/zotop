@@ -29,9 +29,8 @@ return array
 
 
     //database
-    'database' 			=> ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'database.php',
-	'database_mysql' 	=> ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'database'.DS.'mysql.php',
-	'database_sqlite' 	=> ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'database'.DS.'sqlite.php',
+    'db'              => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db.php',
+    'db_mysql'        => ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'db' . DS . 'mysql.php',
 
     //cache
     'cache' 				=> ZOTOP_PATH_LIBRARIES . DS . 'classes' . DS . 'cache.php',
