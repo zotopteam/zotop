@@ -133,6 +133,7 @@ class zotop
         zotop::add('zotop.execute',     'application::execute');
         zotop::add('zotop.render',      'application::render');
         zotop::add('zotop.shutdown',    'application::shutdown');
+        zotop::add('zotop.trace',       'application::trace');
 
         //加载核心文件
         if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG )
@@ -178,6 +179,7 @@ class zotop
         zotop::run('zotop.execute');
         zotop::run('zotop.render');
         zotop::run('zotop.shutdown');
+        zotop::run('zotop.trace');
     }
 
     /**
