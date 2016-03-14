@@ -108,24 +108,10 @@
 						{/if}
 					</p>
 					<div class="manage">
-						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
-						<s>|</s>
-						<a href="{u('content/content/edit/'.$r['id'])}">{t('编辑')}</a>
-						<s>|</s>
-
-						{if $r.stick}
-						<a href="{u('content/content/stick/'.$r['id'].'/0')}" class="js-ajax-post">{t('取消置顶')}</a>
-						{else}
-						<a href="{u('content/content/stick/'.$r['id'].'/1')}" class="js-ajax-post">{t('置顶')}</a>
-						{/if}
-						<s>|</s>
-
-						{loop zotop::filter('content.manage',array(),$r) $m}
-						<a href="{$m['href']}" {$m['attr']}>{$m['text']}</a>
-						<s>|</s>
+						{loop content_api::manage_menu($r) $m}
+						{if $n>1}<s>|</s>{/if}
+						<a {html::attributes($m.attrs)}><i class="{$m.icon} fa-fw"></i><span>{$m.text}</span></a>
 						{/loop}
-
-						<a class="js-confirm" href="{u('content/content/delete/'.$r['id'])}">{t('删除')}</a>
 					</div>
 				</td>
 			

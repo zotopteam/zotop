@@ -224,8 +224,8 @@ class arr
      */
     public static function take(&$array, $key)
     {
-        $array  = (array)$array;
         $return = array();
+        $array  = is_array($array) ? $array : array();
 
         //获取键
         if ( !is_array($key) )
@@ -242,9 +242,7 @@ class arr
             }
         }
 
-        if (empty($return)) return null;
-
-        return count($return) > 2 ? $return : reset($return);
+        return $return;
     }
 
     /**

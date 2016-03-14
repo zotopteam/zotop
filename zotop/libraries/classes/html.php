@@ -76,5 +76,49 @@ class html
 
         return '';
     }
+
+    /**
+     * 创建HTML标签
+     *
+     * @param array|string $attrs 标签名称
+     * @param string $value 标签值
+     * @return void
+     */
+    public static function attributes($key, $value = null)
+    {
+        $str = '';
+
+        if ( empty($key) ) return '';
+
+        if ( is_string($key) )
+        {
+            if( $value === null )
+            {
+                return '';
+            }
+            elseif ( is_string($value) )
+            {
+                return ' '.$key.'="'.htmlspecialchars($value, ENT_QUOTES, 'UTF-8').'"';
+            }
+            elseif( is_numeric($value) )
+            {
+                return ' '.$key.'="'.$value.'"';
+            }
+            elseif( is_bool($value)  )
+            {
+                return ' '.$key.'="'.($value ? 'true' : 'false').'"';
+            }
+        }
+
+        if ( is_array($key) )
+        {
+            foreach ( $key as $k=>$v )
+            {
+                $str .= html::attributes($k, $v);
+            }
+        }
+
+        return $str;
+    }
 }
 ?>

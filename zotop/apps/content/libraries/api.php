@@ -95,6 +95,43 @@ class content_api
 	}
 
 	/**
+	 * 后台内容项管理菜单
+	 * 
+	 * @param  $content $array 当前内容数据
+	 * @return array
+	 */
+	public static function manage_menu($content)
+	{
+		$menu = array(
+			'view'   => array('text'=>t('访问'),'icon'=>'fa fa-eye','href'=>$content['url'],'target'=>'_blank'),
+			'edit'   => array('text'=>t('编辑'),'icon'=>'fa fa-edit','href'=>U('content/content/edit/'.$content['id'])),
+			'stick'  => array('text'=>t('置顶'),'icon'=>'fa fa-arrow-up','href'=>U('content/content/stick/'.$content['id'].'/1'), 'class'=>'js-ajax-post'),
+			'delete' => array('text'=>t('删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-confirm')
+		);
+		
+		if ( $content['stick'] )
+		{
+			$menu['stick']  = array('text'=>t('取消置顶'),'icon'=>'fa fa-arrow-down','href'=>U('content/content/stick/'.$content['id'].'/0'), 'class'=>'js-ajax-post');
+		}
+		
+		// hook
+		$menu = zotop::filter('content.manage_menu',$menu);
+
+		// 格式化输出
+		$array = array();
+
+		foreach ($menu as $k => $m)
+		{
+			if ( priv::allow('content/manage/'.$k) )
+			{
+				$array[$k] = arr::take($m,'text','icon') + array('attrs'=>$m);
+			}					
+		}
+
+		return $array;
+	}
+
+	/**
 	 * 注册会员投稿
 	 *
 	 * @param $nav array 已有数据
