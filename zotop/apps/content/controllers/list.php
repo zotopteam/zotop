@@ -23,13 +23,24 @@ class content_controller_list extends site_controller
             return $this->_404(t('编号为 %s 的栏目不存在', $id));
         }
 
-		$template = $category['settings']['template_list'] ? $category['settings']['template_list'] : 'content/list.php';
+        // 如果没有设置栏目模板，则跳转到栏目的第一条内容
+        if ( empty($category['settings']['template_list']) )
+        {
+            $first = m('content.content.tag_content', array('cid'=>$category['id'],'size'=>1));
+
+            if ( empty($first) )
+            {
+                return $this->_404(t('编号为 %s 的栏目尚无数据', $id));
+            }
+
+            return $this->redirect($first['url']);
+        }
 
 		$this->assign('title', $category['name']);
 		$this->assign('keywords', $category['keywords']);
 		$this->assign('description', $category['description']);
 		$this->assign('category', $category);
-		$this->display($template);
+		$this->display($category['settings']['template_list']);
     }
 
 

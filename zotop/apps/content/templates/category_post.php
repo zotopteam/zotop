@@ -42,29 +42,20 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目图片'),'image',false)}</div>
 				<div class="col-sm-8">
-					<?php echo form::field(array(
-						'type'			=> 'image',
-						'name'			=> 'image',
-						'value'			=> $data['image'],
-						'dataid'		=> $data['dataid'],
-						'image_resize'  => c('content.category_image_resize'),
-						'image_width'   => c('content.category_image_width'),
-						'image_height'  => c('content.category_image_height'),
-						'image_quality' => c('content.category_image_quality'),
-						'watermark'     =>0
-					))?>
+					{field type="image" name="image" value="$data.image" dataid="$data.dataid" watermark="0"}
+					<div class="help-block">{t('根据栏目设计，可以作为栏目banner或者栏目图标使用')}</div>
 				</div>
 			</div>			
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('首页模版'),'settings[template_index]',true)}</div>
+				<div class="col-sm-2 control-label">{form::label(t('首页模版'),'settings[template_index]',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'template','name'=>'settings[template_index]','value'=>$data['settings']['template_index'],'required'=>'required'))}
+					{form::field(array('type'=>'template','name'=>'settings[template_index]','value'=>$data['settings']['template_index']))}
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('列表页模版'),'settings[template_list]',true)}</div>
+				<div class="col-sm-2 control-label">{form::label(t('列表页模版'),'settings[template_list]',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'template','name'=>'settings[template_list]','value'=>$data['settings']['template_list'],'required'=>'required'))}
+					{form::field(array('type'=>'template','name'=>'settings[template_list]','value'=>$data['settings']['template_list']))}
 				</div>
 			</div>
 			<div class="form-group">

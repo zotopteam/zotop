@@ -75,9 +75,9 @@ class content_model_category extends model
         // 检查别名是否存在
         if ( $data['alias'] and alias($data['alias']) ) return $this->error(t('别名已经存在'));
 
-        $data['id'] = $this->max('id') + 1;
-        $data['parentid'] = is_numeric($data['parentid']) ? max(0, $data['parentid']) : 0;
-        $data['rootid'] = is_numeric($data['rootid']) ? $data['rootid'] : $data['id'];
+        $data['id']        = $this->max('id') + 1;
+        $data['parentid']  = is_numeric($data['parentid']) ? max(0, $data['parentid']) : 0;
+        $data['rootid']    = is_numeric($data['rootid']) ? $data['rootid'] : $data['id'];
         $data['listorder'] = $this->where('parentid', '=', $data['parentid'])->max('listorder') + 1;
 
 
@@ -121,7 +121,7 @@ class content_model_category extends model
             if ( $data['apply-setting-childs'] )
             {
                 $childids = $this->get($id,'childids');
-                $applay = $this->where('id','in', explode(',', $childids))->data('settings', $data['settings'])->update();
+                $applay   = $this->where('id','in', explode(',', $childids))->data('settings', $data['settings'])->update();
             }
 
             // 数据关系
@@ -198,8 +198,6 @@ class content_model_category extends model
 
                 $result[$d['id']] = $d;
             }
-
-
         }
 
         return $result;
