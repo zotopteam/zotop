@@ -18,15 +18,27 @@ class system_field
 	 */
 	public static function alias($attrs)
 	{
+		list($example_prefix,$example_suffix) = explode('[alias]', U('[alias]'));
 		
 		$attrs['maxlength']        = intval($attrs['maxlength']);
 		$attrs['maxlength']        = ( $attrs['maxlength'] < 1 or $attrs['maxlength'] > 128 ) ? 128 : $attrs['maxlength'];
-		$attrs['pattern']          = '^[a-z0-9-_]+$';
-		$attrs['data-msg-pattern'] = t('只能包含小写字母、数字、下划线和中划线');
+		$attrs['pattern']          = '^[a-z0-9-_\/]+$';
+		$attrs['data-msg-pattern'] = t('只能包含小写字母、数字、下划线、中划线和斜线');
 		$attrs['remote']           = u('system/alias/check','ignore='.$attrs['value']);
 		
 		$html['group-start']       = '<div class="input-group">';
+		$html[]                    = '<span class="input-group-addon">';
+		$html[]                    = $example_prefix;
+		$html[]                    = '</span>';
+
 		$html['field']             = form::field_text($attrs);
+
+		if ( $example_suffix )
+		{
+			$html[]                    = '<span class="input-group-addon">';
+			$html[]                    = c('system.url_suffix');
+			$html[]                    = '</span>';
+		}
 		
 		if( $attrs['data-source'] )
 		{
@@ -38,7 +50,7 @@ class system_field
 		
 		$html['group-end'] = '</div>';		
 		$html['error']     = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
-		$html['tips']      = form::tips(t('别名是在URL中使用的别称，它可以令URL更美观，只能包含小写字母、数字、下划线和中划线'));
+		$html['tips']      = form::tips(t('别名可以令URL更简单和美观，只能包含小写字母、数字、下划线、中划线和斜线'));
 
 		// hook
 		$html = zotop::filter('system.field.alias', $html, $attrs, $options);

@@ -630,7 +630,7 @@ class zotop
                     $url .= '/' . $uri . c('system.url_suffix');
                     break;
                 default:
-                    $url = '?' . c('system.url_var') . '=' . $uri;
+                    $url .= '?' . c('system.url_var') . '=' . $uri;
                     break;
             }
         }

@@ -32,12 +32,12 @@ class content_controller_index extends site_controller
         {
             $rows = m('content.content.tag_content', array('cid'=>$category['id'],'size'=>1));
 
-            if ( $row = reset($rows) )
+            if ( $row = reset($rows) and $row['url'] )
             {
                 return $this->redirect($row['url']);
             }
 
-            return $this->_404(t('编号为 %s 的栏目尚无数据', $id));            
+            return $this->_404(t('栏目 “%s” 尚无数据', $category['name']));            
         }        
 
 		$this->assign('title', $category['name']);
