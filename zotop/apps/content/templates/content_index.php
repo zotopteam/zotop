@@ -3,7 +3,11 @@
 
 <div class="main side-main">
 	<div class="main-header">
-
+		
+		{if $keywords}
+		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
+		<div class="title pull-center">{$title}</div>
+		{else}		
 		<div class="title">{if $title} {$title} {else} {t('内容管理')} {/if}</div>
 
 		<div class="btn-group">
@@ -16,8 +20,9 @@
 			</a>
 			{/loop}			
 		</div>
+		{/if}
 
-		<form action="{u('content/content/search')}" class="searchbar input-group" method="post" role="search">				
+		<form action="{u('content/content/search')}" class="searchbar input-group" method="get" role="search">				
 			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
 			<span class="input-group-btn">
 				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
