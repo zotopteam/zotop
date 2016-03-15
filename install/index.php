@@ -513,21 +513,25 @@ class install
 
 		file::delete(ZOTOP_PATH_RUNTIME.DS.'admin.php');
 
+		// 生成密码盐
+		$salt = substr(uniqid(rand()), -6);
+
 		$user_data = array(
-			'id'		 => 1,
-			'username'	 => $admin['username'],
-			'password'	 => md5($admin['password']), //加密密码
-			'email'		 => $admin['email'],
-			'groupid'	 => 1, //角色为超级管理员
-			'modelid'	 => 'admin', //用户类型为系统用户
-			'loginip'	 => request::ip(),
-			'logintime'	 => ZOTOP_TIME,
+			'id'         => 1,
+			'username'   => $admin['username'],
+			'password'   => md5(md5($admin['password']).$salt), //加密密码 对应system.user中的加密方法
+			'salt'       => $salt,
+			'email'      => $admin['email'],
+			'groupid'    => 1, //角色为超级管理员
+			'modelid'    => 'admin', //用户类型为系统用户
+			'loginip'    => request::ip(),
+			'logintime'  => ZOTOP_TIME,
 			'logintimes' => 0,
-			'disabled'	 => 0,
+			'disabled'   => 0,
 			'updatetime' => ZOTOP_TIME,
-			'regtime'	 => ZOTOP_TIME,
-			'regip'		 => request::ip(),
-			'nickname'	 => $admin['username']
+			'regtime'    => ZOTOP_TIME,
+			'regip'      => request::ip(),
+			'nickname'   => $admin['username']
 		);
 
 		$admin_data = array(

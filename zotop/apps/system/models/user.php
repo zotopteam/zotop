@@ -47,13 +47,24 @@ class system_model_user extends model
      */
 	public function add($data)
 	{
-		if ( $this->checkusername($data['username']) == false ) return $this->error(t('用户名不符合要求'));
-		if ( $this->where('username',$data['username'])->exists() ) return $this->error(t('用户名已经存在'));
-		if ( $this->where('email',$data['email'])->exists() ) return $this->error(t('邮箱已经存在'));
+		// 如果有用户名，检查用户名
+		if ( $data['username'] )
+		{
+			if ( $this->checkusername($data['username']) == false )  return $this->error(t('用户名不符合要求'));
+			if ( $this->where('username',$data['username'])->exists() ) return $this->error(t('用户名已经存在'));
+		}
 
-		$data['password'] = $this->password($data['password']);
-		$data['regtime'] = ZOTOP_TIME;
-		$data['regip'] = request::ip();
+		// 检查邮箱是否已经存在
+		if ( $data['email'] and $this->where('email',$data['email'])->exists() ) return $this->error(t('邮箱已经存在'));
+		
+		// 检查手机号是否存在
+		if ( $data['mobile'] and $this->where('mobile',$data['mobile'])->exists() ) return $this->error(t('手机号已经存在'));
+
+		// 加入salt
+		$data['salt']     = substr(uniqid(rand()), -6);
+		$data['password'] = $this->password($data['password'], $data['salt']);
+		$data['regtime']  = ZOTOP_TIME;
+		$data['regip']    = request::ip();
 
 		if ( $data['id'] = $this->insert($data,true) )
 		{
@@ -72,7 +83,7 @@ class system_model_user extends model
 	{
 		if ( empty($id) or intval($id) == 0 ) return $this->error(t('用户编号错误'));
 
-		if ( isset($data['username']) and $this->checkusername($data['username']) == false )
+		if ( $data['username'] and $this->checkusername($data['username']) == false )
 		{
 			return $this->error(t('用户名不符合要求'));
 		}
@@ -80,7 +91,8 @@ class system_model_user extends model
 		// 保存前加密密码
 		if ( !empty($data['password']) )
 		{
-			$data['password'] = $this->password($data['password']);
+			$data['salt']     = $data['salt'] ? $data['salt'] : $this->field('salt')->where('id',$id)->getField();
+			$data['password'] = $this->password($data['password'], $data['salt']);
 		}
 		else
 		{
@@ -155,14 +167,13 @@ class system_model_user extends model
 	/**
 	 * 对密码进行加密，返回加密后的密码
 	 *
-	 * @param string $str 原密码
+	 * @param string $password 原密码
+	 * @param string $salt 密码盐
 	 * @return string 加密后的密码
 	 */
-	public function password($str)
+	public function password($password, $salt)
 	{
-	    $password = $str;
-	    $password = md5($password);
-	    return $password;
+	    return md5(md5($password).$salt);
 	}
 
 	/**
@@ -173,11 +184,8 @@ class system_model_user extends model
 	{
 		@extract($data);
 
-		if( $this->checkusername($username) == false ) return $this->error(t('请输入有效的账户名称'));
-		if( empty($password) or strlen($password) < 3 ) return $this->error(t('请输入有效的账户密码'));
-
-		//读取用户
-		$user = $this->where(array('username','=',$username))->getRow();
+		//读取用户,允许使用户名、邮箱或者手机号登录
+		$user = $this->where(array('username','=',$username),'or',array('email','=',$username),'or',array('mobile','=',$username))->getRow();
 
 		//用户不存在
 		if( empty($user) )
@@ -186,7 +194,7 @@ class system_model_user extends model
 		}
 
 		//验证密码
-		if ( $user['password'] != $this->password($password) )
+		if ( $user['password'] != $this->password($password, $user['salt']) )
 		{
 			return $this->error(t('密码 <b>%s</b> 错误，请检查是否输入有误',$password));
 		}
@@ -194,12 +202,12 @@ class system_model_user extends model
 		//验证状态
 		if ( $user['disabled'] )
 		{
-			return $this->error(t('账户 <b>%s</b> 已经被禁用',$username));
+			return $this->error(t('账户 <b>%s</b> 已经被禁用', $username));
 		}
 
 		zotop::run('user.beforelogin',$user);
 
-		//记录用户数据
+		//记录用户数据，TODO 使用session存储重要的登录信息
 		zotop::cookie('user.id',$user['id'], (int)$cookietime);
 		zotop::cookie('user.username',$user['username'], (int)$cookietime);
 		zotop::cookie('user.nickname',$user['nickname'], (int)$cookietime);
@@ -244,9 +252,9 @@ class system_model_user extends model
 	    if( empty($id) ) return false;
 
 	    return $this->where('id',intval($id))->data(array(
-	        'logintime' => ZOTOP_TIME,
-	    	'logintimes' => array('logintimes','+',1),
-	        'loginip'=> request::ip()
+			'logintime'  => ZOTOP_TIME,
+			'logintimes' => array('logintimes','+',1),
+			'loginip'    => request::ip()
 	    ))->update();
 	}
 

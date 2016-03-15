@@ -41,6 +41,18 @@ class system_model_admin extends model
 		// 用户登录
 		$user = m('system.user');
 
+		// 检查用户名是否有效
+		if( $user->checkusername($data['username']) == false )
+		{
+			return $this->error(t('请输入有效的账户名称'));
+		}
+
+		// 检查密码是否有效
+		if( empty($data['password']) or strlen($data['password']) < 3 )
+		{
+			return $this->error(t('请输入有效的账户密码'));
+		}
+
 		if ( $u = $user->login($data) )
 		{
 			$admin = $this->getbyid($u['id']);
