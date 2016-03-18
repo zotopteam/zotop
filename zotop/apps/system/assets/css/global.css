@@ -262,7 +262,7 @@ label[for]{cursor:pointer;}
 
 /*导航条样式*/
 .scrollable{overflow:auto;outline:none;}
-.nicescroll-cursors{width:6px!important;background:#0072c6!important;border:1px solid rgba(255,255,255,0.5)!important;opacity:0.8;}
+.nicescroll-cursors{width:6px!important;background:#000!important;border:1px solid rgba(255,255,255,0.5)!important;opacity:0.5;}
 
 ::-webkit-scrollbar{width:8px;height:8px;}
 ::-webkit-scrollbar-button{display:none;}
