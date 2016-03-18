@@ -17,7 +17,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_list()
 	{
-		$file = a('developer.path').DS.'templates'.DS.'schema_index.php';
+		$file = a('member.path').DS.'templates'.DS.'group_index.php';
 		
 		$str  = file::get($file);
 
@@ -44,18 +44,21 @@ class developer_controller_upgrade extends admin_controller
 	}
 
 	/**
-     * 表单替换
+     * 表单替换 horizontal
      *
      * @return void
      */
 	public function action_form()
 	{
-		$file = a('developer.path').DS.'templates'.DS.'schema_post.php';
+		$file = a('member.path').DS.'templates'.DS.'group_post.php';
 		
 		$str  = file::get($file);
 
 		$str = str_ireplace('<table class="field">', '<div class="container-fluid">', $str);
 		$str = str_ireplace('</table>', '</div>', $str);
+
+		$str = str_ireplace('<caption>', '<div class="form-title">', $str);
+		$str = str_ireplace('</caption>', '</div>', $str);	
 
 		$str = str_ireplace('<tbody>', '<div class="form-horizontal">', $str);
 		$str = str_ireplace('</tbody>', '</div>', $str);
@@ -85,12 +88,15 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form2()
 	{
-		$file = a('developer.path').DS.'templates'.DS.'schema_post.php';
+		$file = a('area.path').DS.'templates'.DS.'admin_post.php';
 		
 		$str  = file::get($file);
 
 		$str = str_ireplace('<table class="field">', '<div class="container-fluid">', $str);
 		$str = str_ireplace('</table>', '</div>', $str);
+
+		$str = str_ireplace('<caption>', '<div class="form-title">', $str);
+		$str = str_ireplace('</caption>', '</div>', $str);			
 
 		$str = str_ireplace('<tbody>', '', $str);
 		$str = str_ireplace('</tbody>', '', $str);

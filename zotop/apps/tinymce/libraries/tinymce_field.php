@@ -33,8 +33,6 @@ class tinymce_field
 		// 获取textarea参数
 		$textarea        = arr::take($attrs,'name','value','id','style','rows','class','required','maxlength','minlength','partten','remote');
 		
-		// tinymce 参数
-		// $tinymce         = arr::take($attrs,'tools','js');
 
 		$html   = array();
 		$html[] = '<div class="field-editor">';
@@ -133,7 +131,7 @@ class tinymce_field
 	public static function init($attrs)
 	{
 		$default = zotop::filter('tinymce.default', array(
-			'tools'             => false,
+			'tools'             => array('image','file'),
 			'toolbar'           => 'standard',
 			'resize'            => true,
 			'image_caption'     => true,
@@ -141,7 +139,6 @@ class tinymce_field
 			'imagetools_proxy'  => U('tinymce/server/proxy'),
 			'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
 			'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css',
-			'rows'              => 18,
 		));
 
 		return array_merge($default, $attrs);
@@ -159,7 +156,7 @@ class tinymce_field
 		{
 			$attrs['plugins'] = array('advlist autolink lists link image zotop_media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus');
 			$attrs['toolbar'] = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
-			$attrs['rows']    = 8;
+			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 8;
 		}
 
 		return $attrs;
@@ -175,9 +172,9 @@ class tinymce_field
 	{		
 		if ( $attrs['toolbar'] == 'standard' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave wordcount tabfocus codesample powerpaste');
-			$attrs['toolbar'] = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image codesample';
-			$attrs['rows']    = 12;
+			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste');
+			$attrs['toolbar'] = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image';
+			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 12;
 		}
 
 		return $attrs;
@@ -195,7 +192,7 @@ class tinymce_field
 		{
 			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample powerpaste zotop_pagebreak');
 			$attrs['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
-			$attrs['rows']    = 18;
+			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 18;
 		}
 
 		return $attrs;
