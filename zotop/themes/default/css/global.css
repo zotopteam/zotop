@@ -1,7 +1,6 @@
 /*! * zotop global v2.3.5 (http://zotop.com) * Copyright 2008-2015 zotop team. */
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 
-
 .bg-default{background-color:#fff;}
 .bg-primary{background-color:#0072c6 !important;color:#ffffff !important;}
 .bg-info{background-color:#ffffff !important;}
@@ -262,10 +261,7 @@ figure.image figcaption{margin: 6px 1px 6px 1px;text-align: center;}
 .scroll-btn li:hover>.popover{display:block;opacity:1;white-space:nowrap;}
 
 body{font-family:"Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;font-size:14px;line-height:150%;padding-top:50px;background-color:#f2f4f5;}
-body.site-index-index{padding-top:0;}
-body.site-index-index .navbar{background:transparent;}
-body.site-index-index .navbar-default:hover{background:#fff;}
-body.site-index-index .navbar-inverse:hover{background:#0072c6;}
+
 
 
 
@@ -290,8 +286,6 @@ body.site-index-index .navbar-inverse:hover{background:#0072c6;}
 	.nav-inline ul li a{display:block;font-size:15px;line-height:39px;margin:0;border-radius:2px;border:1px solid #dadada;}
 	.nav-inline ul li a:hover{color:#fff;background:#0072c6;border:1px solid #0072c6;}
 	.nav-inline ul li a.active{color:#fff;background:#0072c6;border:1px solid #0072c6;}
-
-	.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{background:#0072c6;border:0;}
 
 	.navbar-form{margin-bottom:0}
 	.navbar-form .btn{top:11px;right:8px;}    

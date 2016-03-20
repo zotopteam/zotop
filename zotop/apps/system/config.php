@@ -28,9 +28,9 @@ return array(
 
 	// 图片最大设置
 	'image_resize'  => '1',
-	'image_width'   => '980',
-	'image_height'  => '600',
-	'image_quality' => '95',
+	'image_width'   => '1920',
+	'image_height'  => '800',
+	'image_quality' => '100',
 
 	// 水印设置
 	'watermark'          => '1',
@@ -39,7 +39,7 @@ return array(
 	'watermark_opacity'  => '90',
 	'watermark_image'    => 'watermark.png',
 	'watermark_position' => 'bottom right',
-	'watermark_quality'  => '90',
+	'watermark_quality'  => '100',
 
 	// 邮件设置，默认邮件功能为false，后台填写参数并验证通过后为true
 	'mail'               => false,
