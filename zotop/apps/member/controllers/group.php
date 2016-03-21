@@ -42,7 +42,7 @@ class member_controller_group extends admin_controller
 			return $this->error($this->group->error());
 		}
 
-		$data = $this->group->where('modelid',$modelid)->select();
+		$data   = $this->group->where('modelid',$modelid)->select();
 		$models = $this->model->select();
 
 		$this->assign('title',t('会员组'));
@@ -56,7 +56,7 @@ class member_controller_group extends admin_controller
 	 * 添加
 	 *
 	 */
-	public function action_add($modelid='')
+	public function action_add($modelid='member')
     {
 		if ( $post = $this->post() )
 		{
@@ -70,11 +70,8 @@ class member_controller_group extends admin_controller
 
 		$data = array('modelid'=>$modelid);
 
-		$models = arr::hashmap($this->model->select(),'id','name');
-
 		$this->assign('title',t('添加会员组'));
 		$this->assign('data',$data);
-		$this->assign('models',$models);
 		$this->display('member/group_post.php');
 	}
 
@@ -96,11 +93,8 @@ class member_controller_group extends admin_controller
 
 		$data = $this->group->get($id);
 
-		$models = arr::hashmap($this->model->select(),'id','name');
-
 		$this->assign('title',t('添加会员组'));
 		$this->assign('data',$data);
-		$this->assign('models',$models);
 		$this->display('member/group_post.php');
 	}
 

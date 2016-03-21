@@ -34,7 +34,7 @@
 					<td class="text-center" width="60">{t('状态')}</td>
 					<td >{t('名称')}</td>
 					<td>{t('说明')}</td>
-					<td width="100">{t('积分下限')}</td>
+					<td width="100">{t('积分最小值')}</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,7 +55,7 @@
 						</div>
 					</td>
 					<td>{$r['description']}</td>
-					<td>{$r['point']}</td>
+					<td>{$r.settings.point}</td>
 				</tr>
 			{/loop}
 			<tbody>

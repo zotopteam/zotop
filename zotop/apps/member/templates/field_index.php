@@ -5,11 +5,15 @@
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
-		<ul class="navbar">
+		{if count($models) > 1}
+		<div class="btn-group">
 			{loop $models $i $m}
-			<li{if $modelid == $i} class="current"{/if}><a href="{u('member/field/index/'.$m['id'])}">{$m['name']}</a></li>
-			{/loop}
-		</ul>
+			<a href="{u('member/field/index/'.$m['id'])}" class="btn {if $modelid == $i}btn-success{else}btn-default{/if}">
+				{$m['name']}
+			</a>
+			{/loop}			
+		</div>
+		{/if}
 		<div class="action">
 			<a class="btn btn-icon-text btn-primary" href="{U('member/field/add/'.$modelid)}">
 				<i class="fa fa-plus"></i><b>{t('添加字段')}</b>
@@ -62,7 +66,7 @@
 		{/if}
 	</div>
 	<div class="main-footer">
-		{t('管理会员扩展信息字段，拖动行可以进行排序')}
+		<div class="footer-text">{t('管理会员扩展信息字段，拖动行可以进行排序')}</div>		
 	</div>
 </div>
 <script type="text/javascript">

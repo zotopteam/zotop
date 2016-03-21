@@ -3,27 +3,19 @@
 	{template 'member/admin_side.php'}
 </div>
 
-{form::header()}
+
 <div class="main side-main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 	</div><!-- main-header -->
+	{form class="form-horizontal"}
 	<div class="main-body scrollable">
 		{form::field(array('type'=>'hidden','name'=>'type','value'=>$data['type'],'required'=>'required'))}
 		{form::field(array('type'=>'hidden','name'=>'length','value'=>$data['length'],'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
 
 		<div class="container-fluid">
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('模型'),'modelid',true)}</div>
-				<div class="col-sm-8">
-					{if $data['name']}
-					<div class="field-text">{$models[$data['modelid']]}</div>
-					{form::field(array('type'=>'hidden','options'=>$models, 'name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
-					{else}
-					{form::field(array('type'=>'select','options'=>$models, 'name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
-					{/if}
-				</div>
-			</div>
+
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('控件'),'control',true)}</div>
 				<div class="col-sm-8">
@@ -61,36 +53,11 @@
 					{form::tips('多个默认值用英文逗号“,”隔开')}
 				</div>
 			</div>
-			</div>
-
-
 
 			<!-- 字段类型相关参数，从空间设定的模板加载HTML -->
 			<div id="settings">
 			</div>
 			<!-- /字段类型相关参数 -->
-
-			<div class="container-fluid">
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('样式'),'settings[style]',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'settings[style]','value'=>$data['settings']['style']))}
-					{form::tips('定义控件的[style]样式，如：width:200px;height:300px;')}
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('必填'),'notnull',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'notnull','value'=>$data['notnull']))}
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('值唯一'),'unique',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'unique','value'=>$data['unique']))}
-				</div>
-			</div>
 
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('注册时显示'),'base',false)}</div>
@@ -112,10 +79,11 @@
 
 		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
 	</div><!-- main-footer -->
-</div><!-- main -->
-{form::footer()}
+	{/form}
 
-	<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
+</div><!-- main -->
+
+
 	<script type="text/javascript">
 		var controls = {json_encode($controls)};
 
@@ -126,9 +94,7 @@
 			data.control = control;
 
 			$('#settings').load("{U('member/field/settings')}", data, function(){
-				$(this).find(".checkboxes").checkboxes();
-				$(this).find(".radios").radios();
-				$(this).find(".single-select").singleselect();
+
 			});
 		}
 

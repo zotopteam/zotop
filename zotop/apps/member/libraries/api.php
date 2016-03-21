@@ -91,6 +91,34 @@ class member_api
 	}
 
 	/**
+	 * 会员组设置，允许通过 HOOk [member.group.settings] 进行扩展
+	 *
+	 * 
+	 * @param  array $data 当前会员组的默认数据
+	 * @return array
+	 */
+	public static function group_settings($data)
+	{
+		$fields = zotop::filter('member.group.settings', array(
+			'username_color'    => array('label'=>t('用户名颜色'),'type'=>'color','colclass'=>'col-sm-3'),
+			'icon'              => array('label'=>t('用户组图标'),'type'=>'image','placeholder'=>t('一般使用16px或者32px的PNG图片')),
+			'point'             => array('label'=>t('积分最小值'),'type'=>'number','value'=>'0','required'=>true,'min'=>0,'colclass'=>'col-sm-3','tips'=>t('达到该值后用户方能升级到该用户组')),
+			'contribute'        => array('label'=>t('投稿设置'),'type'=>'radio','options'=>array(''=>t('禁止'),'pending'=>t('允许-需要审核'),'publish'=>t('允许-直接发布')),'value'=>''),
+			'contribute_number' => array('label'=>t('日投稿数'),'type'=>'number','value'=>'5','min'=>0,'required'=>true,'colclass'=>'col-sm-3'),
+		), $data);
+
+		foreach ($fields as $key => &$val)
+		{
+			$val['name']  = $val['name'] ? $val['name'] : 'settings['.$key.']';
+			$val['value'] = isset($data['settings'][$key]) ? $data['settings'][$key] : $val['value'];
+
+			$fields[$key] = arr::take($val,'label','tips','colclass') + array('field'=>$val);
+		}
+
+		return $fields;
+	}
+
+	/**
 	 * 发送验证邮件，激活码格式：rawurlencode(zotop::encode(用户编号|时间戳)
 	 *
 	 * @param $attrs array 控件参数

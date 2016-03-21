@@ -98,7 +98,7 @@ class system_field
 	 */
 	public static function image($attrs)
 	{
-		$attrs['placeholder'] = empty($options['placeholder']) ? t('请输入图片地址或者上传图片') : $options['placeholder'];
+		$attrs['placeholder'] = empty($attrs['placeholder']) ? t('请输入图片地址或者上传图片') : $attrs['placeholder'];
 		$attrs['extension']   = str_replace(',','|',C('system.attachment_image_exts'));
 
 		//上传参数
@@ -443,6 +443,34 @@ class system_field
 		$html['field'] = form::field_button($attrs);
 		$html['js']    = html::import(A('system.url').'/assets/js/bootstrap-iconpicker.min.js');		
 		$html['css']   = html::import(A('system.url').'/assets/css/bootstrap-iconpicker.min.css');	
+		
+
+		return implode("\n",$html);
+	}
+
+	/**
+	 * 颜色选择器
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function color($attrs)
+	{
+		$id = $attrs['name'] == $attrs['id'] ? $attrs['name'] : $attrs['name'].'_'.$attrs['id'];
+		$id = str_replace(array(']',' ','/','\\'), '', $id);
+		$id = str_replace(array('.','['), '_', $id);
+
+		$format = reset(arr::take($attrs,'format'));
+		$format = $format ? $format : 'hex';
+
+		$html[] = '<div class="input-group pickcolor" data-format="'.$format.'">';
+		$html[] = form::field_text($attrs);
+		$html[] = '	<span class="input-group-addon"><i></i></span>';
+		$html[] = '</div>';
+		$html[] = html::import(A('system.url').'/assets/colorpicker/js/bootstrap-colorpicker.min.js');		
+		$html[] = html::import(A('system.url').'/assets/colorpicker/css/bootstrap-colorpicker.min.css');
+		$html[] = html::import(A('system.url').'/assets/colorpicker/css/bootstrap-colorpicker.zotop.css');
+		$html[] = '<script>$(function(){$(".pickcolor").colorpicker()})</script>';
 		
 
 		return implode("\n",$html);

@@ -7,18 +7,14 @@
 		<div class="title">{$title}</div>
 	</div><!-- main-header -->
 
-	{form::header()}
+	{form class="form-horizontal"}
 	<div class="main-body scrollable">
 
 		<div class="container-fluid">
 			<div class="form-title">{t('基本信息')}</div>
-			<div class="form-horizontal">
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('模型'),'modelid',true)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'select','options'=>$models, 'name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
-				</div>
-			</div>
+			
+			{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
+
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('名称'),'name',true)}</div>
 				<div class="col-sm-8">
@@ -26,35 +22,31 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('描述'),'description',true)}</div>
+				<div class="col-sm-2 control-label">{form::label(t('描述'),'description',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}
 				</div>
 			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('禁用'),'disabled',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'bool','name'=>'disabled','value'=>$data['disabled']))}
+				</div>
 			</div>
-		</div>
-		<div class="container-fluid">
 			<div class="form-title">{t('会员组设置')}</div>
-			<div class="form-horizontal">
+
+			{loop member_api::group_settings($data) $f}
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('积分下限'),'point',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'number','name'=>'settings[point]','value'=>(int)$data['settings']['point']))}
+				<label class="col-sm-2 control-label {if $f.field.required}required{/if}" for="{$f.field.name}">{$f.label}</label>
+				<div class="{if $f.colclass}{$f.colclass}{else}col-sm-8{/if}">
+					{form::field($f.field)}
+					{if $f.tips}
+					<div class="help-block">{$f.tips}</div>			
+					{/if}
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('投稿设置'),'contribute',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'select','options'=>array(''=>t('禁止'),'pending'=>t('允许-需要审核'),'publish'=>t('允许-直接发布')),'name'=>'settings[contribute]','value'=>$data['settings']['contribute']))}
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('日投稿数'),'point',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'number','name'=>'settings[contributes]','value'=>(int)$data['settings']['contributes'],'min'=>0))}
-				</div>
-			</div>
-			</div>
+			{/loop}
+
 		</div>
 
 	</div><!-- main-body -->
@@ -62,19 +54,17 @@
 		{form::field(array('type'=>'submit','value'=>t('保存')))}
 		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
 	</div><!-- main-footer -->
-	{form::footer()}
+	{/form}
 
 </div><!-- main -->
 
 
-<script type="text/javascript" src="{zotop::app('system.url')}/common/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('form.form').validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();
 			$(form).find('.submit').button('loading');
-			$.loading();
 			$.post(action, data, function(msg){
 
 				if ( !msg.state ){

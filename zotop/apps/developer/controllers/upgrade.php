@@ -17,7 +17,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_list()
 	{
-		$file = a('member.path').DS.'templates'.DS.'group_index.php';
+		$file = a('member.path').DS.'templates'.DS.'field_index.php';
 		
 		$str  = file::get($file);
 
@@ -50,7 +50,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form()
 	{
-		$file = a('member.path').DS.'templates'.DS.'group_post.php';
+		$file = a('member.path').DS.'templates'.DS.'field_post.php';
 		
 		$str  = file::get($file);
 

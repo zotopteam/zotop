@@ -168,7 +168,7 @@ class member_controller_field extends admin_controller
 		$controls = $this->field->controls;
 
 		// 获取模板
-		$template = $controls[$control]['settings'] ?  $controls[$control]['settings'] : A('member.path').DS.'templates'.DS.'settings'.DS.$control.'.php';
+		$template = $controls[$control]['settings'] ?  $controls[$control]['settings'] : A('member.path').DS.'templates'.DS.'field_settings'.DS.$control.'.php';
 
 		if ( !file::exists($template) )
 		{
