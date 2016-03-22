@@ -29,19 +29,19 @@
 			<thead>
 				<tr>
 					<td class="drag"></td>
-					<td class="center w50">{t('状态')}</td>
+					<td class="text-center" width="40">{t('状态')}</td>
 					<td>{t('标签名')} ( {t('字段名')} )</td>
 					<td class="w100">{t('控件')}</td>
-					<td class="w100 text-center">{t('注册时显示')}</td>
-					<td class="w100 text-center">{t('必填')}</td>
-					<td class="w100 text-center">{t('值唯一')}</td>
+					<td class="text-center">{t('注册时显示')}</td>
+					<td class="text-center">{t('不能为空')}</td>
+					<td class="text-center">{t('值唯一')}</td>
 				</tr>
 			</thead>
 			<tbody>
 			{loop $data $r}
 				<tr>
 					<td class="drag"><input type="hidden" name="id[]" value="{$r['id']}"/></td>
-					<td class="text-center">{if !$r['disabled']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-false"></i>{/if}</td>
+					<td class="text-center">{if !$r['disabled']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-times-circle fa-2x text-muted"></i>{/if}</td>
 					<td>
 						<div class="title text-overflow">{$r['label']} ( {$r['name']} )</div>
 						<div class="manage">

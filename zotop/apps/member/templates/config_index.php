@@ -25,9 +25,14 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('邮件验证'),'register_validmail',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'register_validmail','value'=>c('member.register_validmail')))}
+					{form::field(array('type'=>'bool','name'=>'register_validmail','value'=>c('member.register_validmail')))}					
 
-					{form::tips(t('系统设置中的“邮件发送”发送功能设置正确才能正常使用该功能'))}
+					<div class="help-block">
+						<span>{t('发送邮件使用系统的邮件发送功能')}</span>
+						{if !C('system.mail')}
+						<a href="{U('system/config/mail')}" class="text-danger">{t('邮件发送功能尚未正确配置，立即配置')}</a>
+						{/if}
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -87,6 +92,13 @@
 						<span class="input-group-addon">{t('有效期')}</span>
 						{form::field(array('type'=>'number','name'=>'getpasswordmail_expire','value'=>c('member.getpasswordmail_expire'),'min'=>0.1))}
 						<span class="input-group-addon">{t('小时')}</span>
+					</div>
+
+					<div class="help-block">
+						<span>{t('发送邮件使用系统的邮件发送功能')}</span>
+						{if !C('system.mail')}
+						<a href="{U('system/config/mail')}" class="text-danger">{t('邮件发送功能尚未正确配置，立即配置')}</a>
+						{/if}
 					</div>
 				</div>
 				<div class="col-sm-3">

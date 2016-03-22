@@ -111,8 +111,8 @@ class member_model_member extends model
 
 		// 设置默认值
 		$data['groupid'] = $data['groupid'] ? $data['groupid'] : $model['settings']['groupid'];
-		$data['point'] = $data['point'] ? $data['point'] :  $model['settings']['point'];
-		$data['amount'] = $data['amount'] ? $data['amount']  : $model['settings']['amount'];
+		$data['point']   = $data['point'] ? $data['point'] :  $model['settings']['point'];
+		$data['amount']  = $data['amount'] ? $data['amount']  : $model['settings']['amount'];
 
 		if ( $insertid = $this->user->add($data) )
 		{
@@ -127,7 +127,7 @@ class member_model_member extends model
 
 			// 注册失败
 			$this->user->delete($insertid);
-			return false;
+			return $this->error($this->error());
 		}
 
 		return $this->error($this->user->error());

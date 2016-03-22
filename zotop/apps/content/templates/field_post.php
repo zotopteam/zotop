@@ -57,6 +57,14 @@
 					</div>
 				</div>
 
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('默认值'),'default',false)}</div>
+					<div class="col-sm-8">
+						{form::field(array('type'=>'text','name'=>'default','value'=>$data['default']))}
+						{form::tips('多个默认值用英文逗号“,”隔开')}
+					</div>
+				</div>				
+
 
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('输入提示'),'tips',false)}</div>
@@ -65,16 +73,6 @@
 						{form::tips('显示在字段别名下方作为表单输入提示')}
 					</div>
 				</div>
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('默认值'),'default',false)}</div>
-					<div class="col-sm-8">
-						{form::field(array('type'=>'text','name'=>'default','value'=>$data['default']))}
-						{form::tips('多个默认值用英文逗号“,”隔开')}
-					</div>
-				</div>
-			
-
 
 				<!-- 字段类型相关参数，从设定的模板加载HTML -->
 				<div id="settings">

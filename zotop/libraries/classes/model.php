@@ -299,7 +299,8 @@ class model
 		{
 			foreach( $data as $key=>$field )
 			{
-				if ( !in_array(strtolower($key), $this->fields()) )
+				// 2016年3月22日 加入过滤空输入的问题
+                if ( !in_array(strtolower($key), $this->fields()) or $data[$key] === '' )
 				{
 					unset($data[$key]);
 				}

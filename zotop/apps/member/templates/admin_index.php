@@ -19,18 +19,18 @@
 				<a class="btn btn-primary" href="{u('member/admin/add/'.$m['id'])}"> <i class="fa fa-plus fa-fw"></i> <span>{t('添加%s',$m['name'])}</span></a>
 				{/loop}
 			{else}
-			<div class="menu btn-menu">
-				<a class="btn btn-primary" href="javascript:void(0);"><i class="fa fa-plus fa-fw"></i> {t('添加会员')} <i class="fa fa-angle-down"></i></a>
-				<div class="dropmenu">
-					<div class="dropmenulist">
-						{loop $models $m}
-							{if !$m['disabled']}
-							<a href="{u('member/admin/add/'.$m['id'])}" data-placement="right" title="{$m['description']}">{t('添加%s',$m['name'])}</a>
-							{/if}
-						{/loop}
-					</div>
-				</div>
-			</div>
+			<div class="btn-group">
+				<a class="btn btn-primary btn-icon-text dropdown-toggle" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fa fa-plus"></i> <b>{t('添加')}</b> <i class="fa fa-angle-down"></i>
+				</a>
+				<ul class="dropdown-menu">
+				{loop $models $m}
+					{if !$m['disabled']}
+					<li><a href="{u('member/admin/add/'.$m['id'])}" data-placement="right" title="{$m['description']}">{t('添加%s',$m['name'])}</a></li>
+					{/if}
+				{/loop}
+				</ul>
+			</div>			
 			{/if}
 		</div>
 	</div>
@@ -39,18 +39,20 @@
 		{if empty($data)}
 			<div class="nodata">{t('没有找到任何数据')}</div>
 		{else}
-		<table class="table zebra list">
+		<table class="table table-hover table-nowrap list">
 			<thead>
 				<tr>
 					<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-					<td class="w40 text-center">{t('状态')}</td>
-					<td>{t('用户名')} ({t('昵称')})</td>
-					<td class="w140">{t('会员模型/会员组')}</td>
-					<td class="w60">{t('积分')}</td>
-					<td class="w60">{t('金钱')}</td>
-					<td class="w120">{t('手机')}</td>
-					<td class="w80">{t('邮箱')}</td>
-					<td class="w120">{t('最后登录')}</td>
+					<td class="text-center" width="40">{t('状态')}</td>
+					<td>{t('用户名')}</td>
+					<td>{t('昵称')}</td>
+					<td>{t('会员模型')}</td>
+					<td>{t('会员组')}</td>
+					<td>{t('积分')}</td>
+					<td>{t('金钱')}</td>
+					<td>{t('手机')}</td>
+					<td>{t('邮箱')}</td>
+					<td>{t('最后登录')}</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -59,34 +61,43 @@
 					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 					<td class="text-center">	{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted" title="{t('已禁用')}"></i>{else}<i class="fa fa-check-circle fa-2x text-success" title="{t('正常')}"></i>{/if}</td>
 					<td>
-						<div class="title text-overflow">{$r['username']} <span>( {$r['nickname']} )</span></div>
+						<div class="title text-overflow">{$r['username']} {if $r.nickname}<span>( {$r['nickname']} )</span>{/if}</div>
 						<div class="manage">
 							<a href="{u('member/admin/edit/'.$r['id'])}">{t('编辑')}</a>
 							<s>|</s>
 							<a href="{u('member/admin/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
 						</div>
 					</td>
-					<td>{$models[$r['modelid']]['name']}<br/>{$groups[$r['groupid']]['name']}</td>
+					<td>{$r.nickname}</td>
+					<td>{$models[$r['modelid']]['name']}</td>
+					<td>{$groups[$r['groupid']]['name']}</td>
 					<td>{$r['point']}</td>
 					<td>{$r['amount']}</td>
 					<td>
-						<div class="text-overflow">
-							{if $r['mobile']}
-								{if $r['mobilestatus']}<i class="fa fa-check-circle fa-2x text-success" title="{t('已验证')}"></i>{else}<i class="fa fa-times-circle fa-2x text-muted" title="{t('未验证')}"></i>{/if}
-								{$r['mobile']}
+						{if $r['mobile']}
+							{$r['mobile']}
+
+							{if $r['mobilestatus']}
+							<i class="fa fa-check-circle text-success" data-toggle="tooltip" title="{t('已验证')}"></i>
 							{else}
-								<span class="gray">{t('未填')}</span>
-							{/if}
-						</div>
+							<i class="fa fa-times-circle text-muted" data-toggle="tooltip"  title="{t('未验证')}"></i>
+							{/if}								
+						{else}
+							<span class="text-muted"></span>
+						{/if}
 					</td>
 					<td>
-						<span title="{$r['email']}">
-							{if $r['emailstatus']}
-								<i class="fa fa-check-circle fa-2x text-success"></i> {t('已验证')}
-								{else}
-								<i class="fa fa-times-circle fa-2x text-muted"></i> {t('未验证')}
-							{/if}
-						</span>
+						{if $r['email']}
+							{$r['email']}
+
+							{if $r['emailtatus']}
+							<i class="fa fa-check-circle text-success" data-toggle="tooltip" title="{t('已验证')}"></i>
+							{else}
+							<i class="fa fa-times-circle text-muted" data-toggle="tooltip"  title="{t('未验证')}"></i>
+							{/if}								
+						{else}
+							<span class="text-muted"></span>
+						{/if}
 					</td>
 					<td>
 						{if intval($r['logintimes'])>0}

@@ -66,7 +66,7 @@ class system_model_user extends model
 		$data['regtime']  = ZOTOP_TIME;
 		$data['regip']    = request::ip();
 
-		if ( $data['id'] = $this->insert($data,true) )
+		if ( $data['id'] = $this->insert($data) )
 		{
 			zotop::run('user.add', $data);
 			return $data['id'];

@@ -24,9 +24,9 @@ class member_model_field extends model
             'text'		=> array('name'=>t('单行文本') ,'type'=>'varchar', 'length'=>'255'),
 			'textarea'	=> array('name'=>t('多行文本') ,'type'=>'text'),
 			'number'	=> array('name'=>t('数字'),'type'=>'int', 'length'=>'10'),
-			'radio'		=> array('name'=>t('单选'),'type'=>'varchar', 'length'=>'50', 'settings' => A('member.path').DS.'templates'.DS.'settings'.DS.'radio_checkbox_select.php'),
-			'checkbox'	=> array('name'=>t('多选'),'type'=>'varchar', 'length'=>'50', 'settings' => A('member.path').DS.'templates'.DS.'settings'.DS.'radio_checkbox_select.php'),
-			'select'	=> array('name'=>t('下拉选择'),'type'=>'varchar', 'length'=>'50', 'settings' => A('member.path').DS.'templates'.DS.'settings'.DS.'radio_checkbox_select.php'),
+			'radio'		=> array('name'=>t('单选'),'type'=>'varchar', 'length'=>'50'),
+			'checkbox'	=> array('name'=>t('多选'),'type'=>'varchar', 'length'=>'50'),
+			'select'	=> array('name'=>t('下拉选择'),'type'=>'varchar', 'length'=>'50'),
 			'editor'	=> array('name'=>t('编辑器'),'type'=>'text'),
 			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
 			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),
@@ -143,7 +143,7 @@ class member_model_field extends model
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
-			if ( $this->db->addField($data['tablename'], $data['name'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($data['tablename'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
 				zotop::cache("{$data['tablename']}.fields",null);

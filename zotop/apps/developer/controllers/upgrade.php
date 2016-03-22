@@ -50,7 +50,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form()
 	{
-		$file = a('member.path').DS.'templates'.DS.'field_post.php';
+		$file = a('member.path').DS.'templates'.DS.'admin_post.php';
 		
 		$str  = file::get($file);
 

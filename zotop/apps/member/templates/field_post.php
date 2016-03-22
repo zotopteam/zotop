@@ -25,8 +25,9 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('字段名'),'name',true)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'pattern'=>'^[a-z]$1[a-z0-9_]{0,18}[a-z0-9]$1$','required'=>'required'))}
-					{form::field(array('type'=>'hidden','name'=>'_name','value'=>$data['name']))}
+					{field type="text" name="name" value="$data.name" required="required" fieldname="true"}
+					{field type="hidden" name="_name" value="$data.name"}
+
 					{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
 				</div>
 			</div>
@@ -38,13 +39,7 @@
 				</div>
 			</div>
 
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('输入提示'),'tips',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'tips','value'=>$data['tips']))}
-					{form::tips('显示在字段别名下方作为表单输入提示')}
-				</div>
-			</div>
+
 
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('默认值'),'default',false)}</div>
@@ -54,22 +49,37 @@
 				</div>
 			</div>
 
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('输入提示'),'tips',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'text','name'=>'tips','value'=>$data['tips']))}
+					{form::tips('显示在字段别名下方作为表单输入提示')}
+				</div>
+			</div>			
+
 			<!-- 字段类型相关参数，从空间设定的模板加载HTML -->
 			<div id="settings">
 			</div>
 			<!-- /字段类型相关参数 -->
 
+			<div class="form-group field-notnull">
+				<div class="col-sm-2 control-label">{form::label(t('不能为空'),'notnull',false)}</div>
+				<div class="col-sm-10">
+					{form::field(array('type'=>'bool','name'=>'notnull','value'=>(int)$data['notnull']))}
+				</div>
+			</div>			
+
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('注册时显示'),'base',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'base','value'=>$data['base']))}
+					{form::field(array('type'=>'bool','name'=>'base','value'=>(int)$data['base']))}
 				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('禁用'),'disabled',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'disabled','value'=>$data['disabled']))}
+					{form::field(array('type'=>'bool','name'=>'disabled','value'=>(int)$data['disabled']))}
 				</div>
 			</div>
 		</div>
@@ -114,6 +124,11 @@
 		});
 
 		$(function(){
+
+			$.validator.addMethod("fieldname", function(value, element) {
+				return this.optional(element) || /^[a-z][a-z0-9_]{0,18}[a-z0-9]$/.test(value);
+			}, "{t('长度2-20，允许小写英文字母、数字和下划线，并且仅能字母开头，不以下划线结尾')}");
+
 			$('form.form').validate({submitHandler:function(form){
 				var action = $(form).attr('action');
 				var data = $(form).serialize();

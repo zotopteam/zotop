@@ -22,6 +22,13 @@
 						<div class="col-sm-2 control-label">{form::label(t('启用'),'addmail',false)}</div>
 						<div class="col-sm-8">
 							{form::field(array('type'=>'bool','name'=>'addmail','value'=>c('guestbook.addmail')))}
+
+							<div class="help-block">
+								<span>{t('发送邮件使用系统的邮件发送功能')}</span>
+								{if !C('system.mail')}
+								<a href="{U('system/config/mail')}" class="text-danger">{t('邮件发送功能尚未正确配置，立即配置')}</a>
+								{/if}
+							</div>							
 						</div>
 					</div>
 					<div class="form-group">
@@ -52,6 +59,12 @@
 						<div class="col-sm-2 control-label">{form::label(t('启用'),'replymail',false)}</div>
 						<div class="col-sm-8">
 							{form::field(array('type'=>'bool','name'=>'replymail','value'=>c('guestbook.replymail')))}
+							<div class="help-block">
+								<span>{t('发送邮件使用系统的邮件发送功能')}</span>
+								{if !C('system.mail')}
+								<a href="{U('system/config/mail')}" class="text-danger">{t('邮件发送功能尚未正确配置，立即配置')}</a>
+								{/if}
+							</div>							
 						</div>
 					</div>
 					<div class="form-group">

@@ -27,8 +27,10 @@ class member_controller_field extends admin_controller
 	}
 
 	/**
-	 * index
-	 *
+	 * 字段列表页面
+	 * 
+	 * @param  string $modelid 模型编号
+	 * @return mixed
 	 */
 	public function action_index($modelid='member')
     {
@@ -43,10 +45,11 @@ class member_controller_field extends admin_controller
 		}
 
 		// 获取模型字段
-		$data = $this->field->where('modelid',$modelid)->select();
-
+		$data   = $this->field->where('modelid',$modelid)->select();
+		
 		//获取全部模型数据
 		$models = $this->model->select();
+		
 
 		$this->assign('title',t('字段管理'));
 		$this->assign('data',$data);
@@ -139,7 +142,7 @@ class member_controller_field extends admin_controller
      *
      * @return bool
      */
-	public function action_check($key,$ignore='')
+	public function action_check($key, $ignore='')
 	{
 		$ignore = empty($ignore) ? $_GET['ignore'] : $ignore;
 
@@ -189,13 +192,13 @@ class member_controller_field extends admin_controller
 
 		foreach ( $this->settings_fields as $name => $setting )
 		{
-			$settings_fields[$name]['label'] = $setting['label'];
-			$settings_fields[$name]['tips'] = $setting['tip'];
-			$settings_fields[$name]['for'] = $name;
-			$settings_fields[$name]['required'] = $setting['required'];
-
-			$settings_fields[$name]['field']['id'] = "settings_fields_{$name}";
-			$settings_fields[$name]['field']['name'] = "settings_fields[{$name}]";
+			$settings_fields[$name]['label']          = $setting['label'];
+			$settings_fields[$name]['tips']           = $setting['tip'];
+			$settings_fields[$name]['for']            = $name;
+			$settings_fields[$name]['required']       = $setting['required'];
+			
+			$settings_fields[$name]['field']['id']    = "settings_fields_{$name}";
+			$settings_fields[$name]['field']['name']  = "settings_fields[{$name}]";
 			$settings_fields[$name]['field']['value'] = isset($data['settings_fields'][$name]) ? $data['settings_fields'][$name]  : $setting['value'];
 
 			// 其他属性全部都设为字段属性
