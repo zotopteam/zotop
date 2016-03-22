@@ -10,6 +10,7 @@
 	</div><!-- main-header -->
 	{form class="form-horizontal"}
 	<div class="main-body scrollable">
+		{field type="hidden" name="referer" value="request::referer()"}
 		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
 		<div class="container-fluid">
 			<div class="form-title">{t('基本信息')}</div>

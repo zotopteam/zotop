@@ -45,7 +45,7 @@ class member_controller_field extends admin_controller
 		}
 
 		// 获取模型字段
-		$data   = $this->field->where('modelid',$modelid)->select();
+		$data   = $this->field->select($modelid);
 		
 		//获取全部模型数据
 		$models = $this->model->select();

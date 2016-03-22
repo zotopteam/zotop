@@ -30,7 +30,8 @@ class member_model_field extends model
 			'editor'	=> array('name'=>t('编辑器'),'type'=>'text'),
 			'email'		=> array('name'=>t('电子邮件'),'type'=>'varchar', 'length'=>'100'),
 			'url'		=> array('name'=>t('网址'),'type'=>'varchar', 'length'=>'100'),
-			'datetime'	=> array('name'=>t('日期时间'),'type'=>'int', 'length'=>'10'),
+			'date'		=> array('name'=>t('日期'),'type'=>'int', 'length'=>'10'),
+			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),
 			'image'		=> array('name'=>t('图片'),'type'=>'varchar', 'length'=>'100'),
         ));
 	}
@@ -54,17 +55,17 @@ class member_model_field extends model
 	/*
 	 *  获取数据集
 	 */
-	public function select()
+	public function select($modelid)
 	{
 		$data = array();
 
-		$rows = $this->db()->orderby('listorder','asc')->select();
+		$rows = $this->db()->where('modelid',$modelid)->orderby('listorder','asc')->select();
 
 		foreach( $rows as &$r )
 		{
 			$r['settings'] = $r['settings'] ? unserialize($r['settings']) : array();
 
-			$data[$r['id']] = $r;
+			$data[$r['name']] = $r;
 		}
 
 		return $data;
@@ -77,11 +78,11 @@ class member_model_field extends model
 	{
 		$fields = array();
 
-		if ( $dataset = $this->cache() )
+		if ( $dataset = $this->cache($modelid) )
 		{
 			foreach( $dataset as $i=>$r )
 			{
-				if ( $r['disabled'] or $r['modelid'] != $modelid ) continue;
+				if ( $r['disabled'] ) continue;
 
 				$fields[$i]['label']	= $r['label'];
 				$fields[$i]['for']		= $r['name'];
@@ -116,16 +117,17 @@ class member_model_field extends model
 	/*
 	 *  获取数据
 	 */
-	public function get($id, $field='')
+	public function get($id, $field='', $default=null)
 	{
-		$data = $this->cache();
+		$data = $this->getbyid($id);
+		$data['settings'] = $data['settings'] ? unserialize($data['settings']) : array();
 
-		if ( isset($data[$id])  )
+		if ( $field )
 		{
-			return $data[$id];
+			return isset($data[$field]) ? $data[$field] : $default;
 		}
 
-		return array();
+		return $data;
 	}
 
 	/*
@@ -149,7 +151,7 @@ class member_model_field extends model
 				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache(true);
+				$this->cache($data['modelid'],true);
 				return $id;
 			}
 		}
@@ -180,7 +182,7 @@ class member_model_field extends model
 				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache(true);
+				$this->cache($data['modelid'],true);
 				return $id;
 			}
 		}
@@ -206,10 +208,11 @@ class member_model_field extends model
 				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache(true);
+				$this->cache($data['modelid'],true);
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -224,7 +227,10 @@ class member_model_field extends model
 			$this->update(array('listorder'=>$i+1), $id);
 		}
 
-		$this->cache(true);
+		// 获取modelid
+		$modelid = $this->get($id, 'modelid');
+
+		$this->cache($modelid, true);
 		return true;
 	}
 
@@ -234,16 +240,15 @@ class member_model_field extends model
 	 * @param bool $refresh 是否强制刷新缓存
 	 * @return bool
 	 */
-	public function cache($refresh=false)
+	public function cache($modelid, $refresh=false)
 	{
-		$cache = zotop::cache("member.field");
+		$cache = zotop::cache("member.field.{$modelid}");
 
 		if ( $refresh or empty($cache) or !is_array($cache) )
 		{
-			// 更新缓存
-			$cache = $this->select();
+			$cache = $this->select($modelid);
 
-			zotop::cache("member.field", $cache, false);
+			zotop::cache("member.field.{$modelid}", $cache, false);
 		}
 
 		return $cache;

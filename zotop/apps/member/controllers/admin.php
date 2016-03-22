@@ -24,25 +24,38 @@ class member_controller_admin extends admin_controller
 		parent::__init();
 
 		$this->member = m('member.member');
-		$this->model = m('member.model');
-		$this->group = m('member.group');
-		$this->user = m('system.user');
+		$this->model  = m('member.model');
+		$this->group  = m('member.group');
+		$this->user   = m('system.user');
 	}
 
+
 	/**
-	 * index 动作
-	 *
+	 * 会员列表
+	 * 
+	 * @return mixed
 	 */
 	public function action_index()
     {
 
-		$models = $this->model->select();
-		$groups = $this->group->cache();
+		$models  = $this->model->select();
+		$groups  = $this->group->cache();
+
+		if ( $keywords = trim($_GET['keywords']) )
+		{
+			$this->user->where(array(
+				array('username','like',$keywords),'or',
+				array('mobile','like',$keywords),'or',
+				array('email','like',$keywords),'or',
+				array('nickname','like',$keywords)
+			));
+		}
 
 		$dataset = $this->user->where('modelid','in',array_keys($models))->orderby('logintime','desc')->getPage();
 
 		$this->assign('title',t('会员管理'));
 		$this->assign($dataset);
+		$this->assign('keywords',$keywords);
 		$this->assign('groups',$groups);
 		$this->assign('models',$models);
 		$this->display();
@@ -74,15 +87,19 @@ class member_controller_admin extends admin_controller
 			{
 				return $this->success(t('%s成功',$post['operation']),request::referer());
 			}
+
 			$this->error(t('%s失败',$post['operation']));
 		}
 
 		$this->error(t('禁止访问'));
     }
 
+
 	/**
-	 * 添加
-	 *
+	 * 添加会员
+	 * 
+	 * @param  string $modelid 模型标识
+	 * @return mixed
 	 */
 	public function action_add($modelid)
     {
@@ -112,9 +129,12 @@ class member_controller_admin extends admin_controller
 		$this->display('member/admin_post.php');
 	}
 
+
 	/**
-	 * 编辑
-	 *
+	 * 编辑会员
+	 * 
+	 * @param  int $id 会员编号
+	 * @return mixed
 	 */
 	public function action_edit($id)
     {
@@ -122,7 +142,7 @@ class member_controller_admin extends admin_controller
 		{
 			if ( $this->member->edit($post, $id) )
 			{
-				return $this->success(t('保存成功'),u('member/admin'));
+				return $this->success(t('保存成功'), request::referer());
 			}
 
 			return $this->error($this->member->error());
@@ -145,8 +165,10 @@ class member_controller_admin extends admin_controller
 	}
 
 	/**
-	 * 删除
-	 *
+	 * 删除会员
+	 * 
+	 * @param  int $id 会员编号
+	 * @return mixed
 	 */
 	public function action_delete($id)
 	{

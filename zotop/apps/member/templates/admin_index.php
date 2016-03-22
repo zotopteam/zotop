@@ -4,6 +4,16 @@
 
 <div class="main side-main">
 	<div class="main-header">
+		{if $keywords}
+		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
+		<div class="title pull-center">{t('搜索')}</div>
+		<form action="{u('member/admin/index')}" class="searchbar input-group" method="get" role="search">				
+			<input type="text" name="keywords" value="{$keywords}" placeholder="{t('请输入关键词')}" class="form-control" x-webkit-speech/>
+			<span class="input-group-btn">
+				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
+			</span>
+		</form>		
+		{else}	
 		<div class="title">{$title}</div>
 
 		<form action="{u('member/admin/index')}" class="searchbar input-group" method="get" role="search">				
@@ -12,7 +22,7 @@
 				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i></button>
 			</span>
 		</form>
-
+		
 		<div class="action">
 			{if count($models) == 1}
 				{loop $models $m}
@@ -33,6 +43,8 @@
 			</div>			
 			{/if}
 		</div>
+		{/if}
+
 	</div>
 	{form::header()}
 	<div class="main-body scrollable">
@@ -46,7 +58,9 @@
 					<td class="text-center" width="40">{t('状态')}</td>
 					<td>{t('用户名')}</td>
 					<td>{t('昵称')}</td>
+					{if count($models) > 1}
 					<td>{t('会员模型')}</td>
+					{/if}
 					<td>{t('会员组')}</td>
 					<td>{t('积分')}</td>
 					<td>{t('金钱')}</td>
@@ -61,15 +75,17 @@
 					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 					<td class="text-center">	{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted" title="{t('已禁用')}"></i>{else}<i class="fa fa-check-circle fa-2x text-success" title="{t('正常')}"></i>{/if}</td>
 					<td>
-						<div class="title text-overflow">{$r['username']} {if $r.nickname}<span>( {$r['nickname']} )</span>{/if}</div>
+						<div class="title text-overflow">{$r['username']}</div>
 						<div class="manage">
-							<a href="{u('member/admin/edit/'.$r['id'])}">{t('编辑')}</a>
+							<a href="{u('member/admin/edit/'.$r['id'])}"><i class="fa fa-edit"></i> {t('编辑')}</a>
 							<s>|</s>
-							<a href="{u('member/admin/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
+							<a href="{u('member/admin/delete/'.$r['id'])}" class="js-confirm"><i class="fa fa-times"></i> {t('删除')}</a>
 						</div>
 					</td>
 					<td>{$r.nickname}</td>
+					{if count($models) > 1}
 					<td>{$models[$r['modelid']]['name']}</td>
+					{/if}
 					<td>{$groups[$r['groupid']]['name']}</td>
 					<td>{$r['point']}</td>
 					<td>{$r['amount']}</td>
@@ -90,7 +106,7 @@
 						{if $r['email']}
 							{$r['email']}
 
-							{if $r['emailtatus']}
+							{if $r['emailstatus']}
 							<i class="fa fa-check-circle text-success" data-toggle="tooltip" title="{t('已验证')}"></i>
 							{else}
 							<i class="fa fa-times-circle text-muted" data-toggle="tooltip"  title="{t('未验证')}"></i>

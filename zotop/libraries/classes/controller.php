@@ -42,6 +42,7 @@ class controller
      */
     public function __init()
     {
+        //
     }
 
 
@@ -248,7 +249,7 @@ class controller
         $this->display("system/message.php");
 
         //exit后 无法进入 shoutdown render
-        exit(1);
+        //exit(1);
     }
 
     /*

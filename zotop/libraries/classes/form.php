@@ -104,11 +104,11 @@ class form
 			$form = array('action'=>$form);
 		}
 
-		$form['class']  = $form['class'] ? 'form '.$form['class'] : 'form';
-		$form['method'] = $form['method'] ? $form['method'] : 'post';
-		$form['action'] = $form['action'] ? $form['action'] : request::url();
+        $form['class']   = $form['class'] ? 'form '.$form['class'] : 'form';
+        $form['method']  = $form['method'] ? $form['method'] : 'post';
+        $form['action']  = $form['action'] ? $form['action'] : request::url();
 
-		return '<form'.form::attributes($form).' novalidate>'."\n";
+		return '<form'.form::attributes($form).' novalidate>'."\n".'<input type="hidden" name="referer" value="'.request::referer().'">'."\n";
     }
 
     /**

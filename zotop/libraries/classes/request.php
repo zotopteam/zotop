@@ -19,7 +19,7 @@ class request
      */
     public static function referer()
     {
-        return isset($_GET['referer']) ? $_GET['referer'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null);
+        return isset($_REQUEST['referer']) ? $_REQUEST['referer'] : (isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null);
     }
 
     /**

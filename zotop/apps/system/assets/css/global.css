@@ -322,7 +322,7 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .global-navbar .dropdown-menu-right:before{left:auto;right:14px;}
 .global-navbar .dropdown-menu-right:after{left:auto;right:15px;}
 
-.global-navbar .dropdown-start ul {padding:0;margin:0;width:600px;max-height:580px;}
+.global-navbar .dropdown-start ul {padding:0;margin:0;width:600px;max-height:430px;}
 .global-navbar .dropdown-start ul li{height:100px;width:16.6666%;margin:0;padding:0;text-align:center;display:inline-block;float:left;}
 
 

@@ -118,7 +118,7 @@ $this->db->createTable('user', array(
 		'username'     => array('type'=>'char','length'=>'32','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('用户名')),
 		'password'     => array('type'=>'char','length'=>'32','notnull'=>true,'autoinc'=>false,'comment'=>t('密码')),
 		'salt'         => array('type'=>'char','length'=>'6','notnull'=>true,'autoinc'=>false,'comment'=>t('密码加盐')),
-		'email'        => array('type'=>'char','length'=>'1','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('邮件地址')),
+		'email'        => array('type'=>'char','length'=>'50','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('邮件地址')),
 		'emailstatus'  => array('type'=>'tinyint','length'=>'1','notnull'=>false,'default'=>'0','autoinc'=>false,'comment'=>t('邮件验证，0=未验证，1=已经验证')),
 		'mobile'       => array('type'=>'char','length'=>'13','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('手机号码')),
 		'mobilestatus' => array('type'=>'tinyint','length'=>'1','notnull'=>false,'default'=>'0','autoinc'=>false,'comment'=>t('手机状态，0=未验证，1=已经验证')),

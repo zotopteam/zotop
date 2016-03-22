@@ -173,15 +173,7 @@ class content_model_content extends model
     public function save($data)
     {
         // 预处理 HOOK
-        try
-        {
-            $data = zotop::filter('content.before_save', $data);
-        }
-        catch (Exception $e)
-        {
-            return $this->error($e->getMessage());
-        }
-        
+        $data = zotop::filter('content.data', $data , $this);        
 
         if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
         if ( empty($data['modelid']) ) return $this->error(t('模型不能为空'));
@@ -246,7 +238,7 @@ class content_model_content extends model
             // 保存标签
             m('content.tag')->setRelated($data['id'], $data['keywords']);
 
-            zotop::run('content.after_save', $data);
+            zotop::run('content.save', $data);
 
             // 保存到区块
             // m('block.datalist')->setCommend($data['blockids'], array(
