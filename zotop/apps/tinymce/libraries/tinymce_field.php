@@ -50,6 +50,9 @@ class tinymce_field
 			unset($attrs['tools']);
 		}
 
+		// 为tinymce内部上传附加参数
+		// $attrs['images_upload_url'] = $attrs['images_upload_url'];
+
 
 		$html[] = form::field_textarea($textarea);
 		$html[] = '</div>';

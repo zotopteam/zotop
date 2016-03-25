@@ -124,7 +124,6 @@ class template
             }
         }
 
-
         return $template;
     }
 
@@ -157,11 +156,15 @@ class template
 
                 @chmod($compile, 0774);
 
+                zotop::trace('template', $template.' -> '.$compile);
+
                 return $compile;
             }
 
             throw new zotop_exception(t('The file [ %s ] not exist', debug::path($template)), 404);
         }
+
+        zotop::trace('template', $compile.' ( Source: '.$template.' ) ');
 
         return $compile;
     }

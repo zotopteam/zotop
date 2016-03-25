@@ -1265,7 +1265,7 @@ class zotop
 
         $type = strtoupper($type);
 
-        if ( !in_array($type, array('RUN','DEBUG','ERROR','SQL')) )
+        if ( !in_array($type, array('RUN','DEBUG','ERROR','SQL','TEMPLATE')) )
         {
             $type = 'DEBUG';
         }

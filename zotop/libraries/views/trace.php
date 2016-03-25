@@ -8,8 +8,11 @@
 	#zotop_trace_close{float: right;padding:12px;cursor: pointer;border-radius: 10px;}
 	#zotop_trace_tabs{position:fixed;bottom:0;right:0;z-index:99998;float:left;width:100%;display:none;}
 	#zotop_trace_tabs_nav{float:left;width:100%;border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;background: #f2f2f2;}
-	#zotop_trace_tabs_nav span{float:left; padding: 8px 15px;cursor: pointer;border-left: solid 1px #f2f2f2;border-right: solid 1px #f2f2f2;}
-	#zotop_trace_tabs_nav span.on{font-weight: bold;border-left: solid 1px #ddd;border-right: solid 1px #ddd;background: #ebebeb;}
+	#zotop_trace_tabs_nav span{float:left; padding: 8px 15px;cursor: pointer;}
+	#zotop_trace_tabs_nav span.on{background: #0072c6;color:#fff;}
+    #zotop_trace_tabs_nav span i:empty{display: none;}
+    #zotop_trace_tabs_nav span i{font-size:12px;color:#fff;background:#ff0000;border-radius:10px;padding:1px 6px;font-style:normal;font-weight:normal;}
+    #zotop_trace_tabs_nav span.on i{background:#fff;color:#0072c6;}
 	#zotop_trace_tabs_box {float:left;width:100%;height:260px;overflow:auto;background: #fff;}
 	#zotop_trace_tabs_box dl{display: none;padding: 0;margin: 0;}
 	#zotop_trace_tabs_box dl.on{display: block;}
@@ -26,12 +29,13 @@
 	</div>
 	<div id="zotop_trace_tabs">
 		<div id="zotop_trace_tabs_nav">
-			<span class="on"><?php echo t('基本信息')?></span>
-			<span><?php echo t('文件加载')?></span>
-			<span><?php echo t('运行流程')?></span>			
-			<span><?php echo t('数据查询')?></span>
-			<span><?php echo t('错误异常')?></span>
-			<span><?php echo t('调试信息')?></span>
+			<span class="on"><?php echo t('基本信息')?></span>			
+			<span><?php echo t('运行流程')?></span>
+            <span><?php echo t('文件加载')?> <i><?php echo count(get_included_files())?></i></span>		
+			<span><?php echo t('数据查询')?> <i><?php echo zotop::trace('sql') ? count(zotop::trace('sql')) : ''?></i> </span>
+            <span><?php echo t('模板调用')?> <i><?php echo zotop::trace('template') ? count(zotop::trace('template')) : ''?></i> </span>
+			<span><?php echo t('错误异常')?> <i><?php echo zotop::trace('error') ? count(zotop::trace('error')) : ''?></i> </span>
+			<span><?php echo t('调试信息')?> <i><?php echo zotop::trace('debug') ? count(zotop::trace('debug')) : ''?></i> </span>
 			<img id="zotop_trace_close" src="data:image/gif;base64,R0lGODlhDAAMAJEAAAAAAP///wMDA////yH5BAEAAAMALAAAAAAMAAwAAAIWnI8nqZ2LoJFxMkWZyHVw3znhB15JAQA7" alt="close">
 		</div>
 		<div id="zotop_trace_tabs_box">
@@ -49,12 +53,6 @@
 			</dl>
 
 			<dl>
-				<?php foreach (get_included_files() as $key => $val): ?>
-					<dd><i><?php echo $key+1 ?></i> <span><?php echo $val ?> ( <?php echo number_format(filesize($val)/1024,2) ?>KB )</span> </dd>
-				<?php endforeach ?>
-			</dl>
-
-			<dl>
 			<?php foreach (zotop::trace('run') as $key => $val): ?>
 				<?php if (strpos($val, 'START')): ?>
 					<dd class="start"><?php echo $val ?></dd>
@@ -64,13 +62,25 @@
 					<dd><?php echo $val ?></dd>
 				<?php endif ?>				
 			<?php endforeach ?>
-			</dl>			
+			</dl>
+
+            <dl>
+                <?php foreach (get_included_files() as $key => $val): ?>
+                    <dd><i><?php echo $key+1 ?></i> <span><?php echo $val ?> ( <?php echo number_format(filesize($val)/1024,2) ?>KB )</span> </dd>
+                <?php endforeach ?>
+            </dl>            			
 
 			<dl>
 			<?php foreach (zotop::trace('sql') as $key => $val): ?>
 				<dd> <i><?php echo $key+1 ?></i> <span><?php echo $val ?></span> </dd>
 			<?php endforeach ?>
 			</dl>
+
+            <dl>
+            <?php foreach (zotop::trace('template') as $key => $val): ?>
+                <dd> <i><?php echo $key+1 ?></i> <span><?php echo $val ?></span> </dd>
+            <?php endforeach ?>
+            </dl>            
 
 			<dl>
 			<?php foreach (zotop::trace('error') as $key => $val): ?>

@@ -21,6 +21,11 @@ class tinymce_controller_server extends admin_controller
         exit(json_encode($result));
 	}
 
+	/**
+	 * 加载远程图片
+	 * 
+	 * @return [type] [description]
+	 */
 	public function action_proxy()
 	{
 		$validMimeTypes = array("image/gif", "image/jpeg", "image/png");
@@ -58,6 +63,11 @@ class tinymce_controller_server extends admin_controller
 		echo $content;	
 	}
 
+	/**
+	 * 图片上传
+	 * 
+	 * @return [type] [description]
+	 */
 	public function action_uploadimage()
 	{
 		reset($_FILES);
