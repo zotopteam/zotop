@@ -108,14 +108,14 @@ class pagination
 			$query = http_build_query($params);
 		}
 
-		$scheme = empty($u['scheme']) ? '' : $u['scheme'].'://';
-		$user	= empty($u['user']) ? '' : $u['user'].':';
-		$pass	= empty($u['pass']) ? '' : $u['pass'].'@';
-		$host	= $u['host'];
-		$port = empty($u['port']) ? '' : ':'.$u['port'];
-		$path	= $u['path'];
-		$query	= empty($query) ? '' : '?'.$query;
-		$fragment = empty($u['fragment']) ? '' : '#'.$u['fragment'];
+        $scheme   = empty($u['scheme']) ? '' : $u['scheme'].'://';
+        $user     = empty($u['user']) ? '' : $u['user'].':';
+        $pass     = empty($u['pass']) ? '' : $u['pass'].'@';
+        $host     = $u['host'];
+        $port     = empty($u['port']) ? '' : ':'.$u['port'];
+        $path     = $u['path'];
+        $query    = empty($query) ? '' : '?'.$query;
+        $fragment = empty($u['fragment']) ? '' : '#'.$u['fragment'];
 
 		return "$scheme$user$pass$host$port$path$query$fragment";
 	}
@@ -128,11 +128,11 @@ class pagination
      */
 	public function render()
 	{
-		$total = intval($this->total); //总条数
-		$pagesize = intval($this->pagesize); //每页显示条数
-		$page = intval($this->page); //当前页码
-		$showpage = intval($this->showpage); //显示页码数,如值为10的时候，一共显示10个页码
-		$offset = ceil($showpage/2)-1; //页码偏移数
+        $total    = intval($this->total); //总条数
+        $pagesize = intval($this->pagesize); //每页显示条数
+        $page     = intval($this->page); //当前页码
+        $showpage = intval($this->showpage); //显示页码数,如值为10的时候，一共显示10个页码
+        $offset   = ceil($showpage/2)-1; //页码偏移数
 		
 		if (  $total == 0 ||  $pagesize == 0 ) return '';
 
@@ -179,13 +179,13 @@ class pagination
 		$prev = $page - 1;
 		$next = $page + 1;
 
-		$prevPage = $prev > 0 ? '<li><a class="prev" href="'.$this->url($prev).'">'.$this->prev.'</a></li>' : '';
-
-		$nextPage = $next <= $totalpage ? '<li><a class="next" href="'.$this->url($next).'">'.$this->next.'</a></li>' : '';
-
-		$firstPage = $from == 1 ? '' : '<li><a class="first" href="'.$this->url(1).'">'.$this->first.'</a></li>';
-
-		$lastPage = $to == $totalpage ? '' : '<li><a class="last" href="'.$this->url($totalpage).'">'.$this->last.'</a></li>';
+        $prevPage  = $prev > 0 ? '<li><a class="prev" href="'.$this->url($prev).'">'.$this->prev.'</a></li>' : '';
+        
+        $nextPage  = $next <= $totalpage ? '<li><a class="next" href="'.$this->url($next).'">'.$this->next.'</a></li>' : '';
+        
+        $firstPage = $from == 1 ? '' : '<li><a class="first" href="'.$this->url(1).'">'.$this->first.'</a></li>';
+        
+        $lastPage  = $to == $totalpage ? '' : '<li><a class="last" href="'.$this->url($totalpage).'">'.$this->last.'</a></li>';
 
 
 		$str = str_ireplace(
