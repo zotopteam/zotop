@@ -38,6 +38,22 @@ class system_model_attachment extends model
 		$this->savepath  = $this->parse_path(ZOTOP_PATH_UPLOADS.DS.C('system.upload_dir'));
 	}
 
+	/**
+	 * 获得当前默认的上传路径
+	 * 
+	 * @return string
+	 */
+	public function savepath()
+	{
+		//目录检测
+		if( !folder::create($this->savepath, 0777) )
+		{
+			return $this->error(t('目录不存在且无法自动创建',$this->savepath));
+		}
+
+		return $this->savepath;
+	}
+
 	/*
 	 * 接续文件路径，支持变量，如：$year = 年 ，$month = 月 ，$day = 日
 	 *
@@ -149,12 +165,6 @@ class system_model_attachment extends model
 	{
 		$params = is_array($params) ? $params : array();
 
-		// 获取图片缩放参数，如果没有传入任何图片参数，则使用系统默认的参数
-		foreach( array('image_resize','image_width','image_height','image_quality','watermark','watermark_width','watermark_height','watermark_image','watermark_position','watermark_opacity','watermark_quality') as $param )
-		{
-			$params[$param] = isset($params[$param]) ? $params[$param] : c('system.'.$param);
-		}
-
 		// 初始化上传对象
 		$upload = new plupload();
 		$upload->allowexts	= $this->allowexts;
@@ -167,71 +177,7 @@ class system_model_attachment extends model
 			// HOOK
 			zotop::run('system.attachment.upload', $filepath, $params);
 
-			// 导入参数
-			extract($params,EXTR_OVERWRITE);
-
-			// 获取文件信息
-			$data = $this->fileinfo($filepath);
-
-			// 完善文件信息
-			$data['name']     = $_REQUEST["filename"] ? $_REQUEST["filename"] : basename($filepath);
-			$data['folderid'] = $folderid;
-			$data['app']      = $app ? $app : ZOTOP_APP;
-			$data['field']    = $field;
-			$data['status']   = isset($status) ? $status : ( $dataid ? 1 : 0 );
-			$data['dataid']   = $dataid ? $dataid : zotop::session('[id]');
-
-			if ( $data['type'] == 'image' )
-			{
-				try{
-					
-					$image	= new image($filepath);
-
-					// 写入图片信息
-					$data 	= array_merge($data, $image->info);
-
-					// 缩放
-					if ( $image_resize == 1 and ( $data['width'] > $image_width or $data['height'] > $image_height ) )
-					{
-						if ( $image->quality($image_quality)->resize($image_width, $image_height)->save() )
-						{
-							$data = array_merge($data, image::info($filepath));
-						}
-					}
-
-					// 裁剪
-					if ( $image_resize == 2 )
-					{
-						if ( $image->quality($image_quality)->thumb($image_width, $image_height)->save() )
-						{
-							$data = array_merge($data, image::info($filepath));
-						}
-					}
-
-					//水印
-					if ( $watermark and $watermark_image and ( $data['width'] > $watermark_width or $data['height'] > $watermark_height ) )
-					{
-						$watermark_image = ZOTOP_PATH_CMS.DS.'watermark'.DS.$watermark_image;
-
-						if ( is_file($watermark_image) and $image->quality($watermark_quality)->watermark($watermark_image, $watermark_position, $watermark_opacity)->save() )
-						{
-							$data = array_merge($data, image::info($filepath));
-						}
-					}
-
-				}
-				catch(Exception $e)
-				{
-					//忽略错误
-				}
-			}
-
-			if ( $this->add($data) )
-			{
-				return $data;
-			}
-
-			return $this->error(t('保存失败'));
+			return $this->savefile($filepath, params);
 		}
 
 		return $this->error($upload->error);
@@ -282,21 +228,105 @@ class system_model_attachment extends model
 
 		if ( file::remote($file,$filepath) )
 		{
-			// TODO 处理远程过来的文件，如图片加水印
-			
+			// TODO 处理远程过来的文件，如图片加水印			
 			return ZOTOP_URL_UPLOADS.'/'.$filename;
 		}
 
 		return false;
 	}
 
+	/**
+	 * 将上传文件信息存到数据库中
+	 * 
+	 * @param string $filepath  文件地址
+	 * @param array  $params 相关参数
+	 * @return mixed
+	 */
+	public function savefile($filepath, $params=array())
+	{
+		$params = is_array($params) ? $params : array();
 
+		// HOOK
+		zotop::run('system.attachment.savefile', $filepath, $params);
+
+		// 获取图片缩放参数，如果没有传入任何图片参数，则使用系统默认的参数
+		foreach( array('image_resize','image_width','image_height','image_quality','watermark','watermark_width','watermark_height','watermark_image','watermark_position','watermark_opacity','watermark_quality') as $param )
+		{
+			$params[$param] = isset($params[$param]) ? $params[$param] : c('system.'.$param);
+		}
+
+		// 导入参数
+		extract($params, EXTR_OVERWRITE);
+
+		// 获取文件信息
+		$data = $this->fileinfo($filepath);
+
+		// 完善文件信息
+		$data['name']     = $_REQUEST["filename"] ? $_REQUEST["filename"] : basename($filepath);
+		$data['folderid'] = $folderid;
+		$data['app']      = $app ? $app : ZOTOP_APP;
+		$data['field']    = $field;
+		$data['status']   = isset($status) ? $status : ( $dataid ? 1 : 0 );
+		$data['dataid']   = $dataid ? $dataid : zotop::session('[id]');
+
+		if ( $data['type'] == 'image' )
+		{
+			try{
+				
+				$image	= new image($filepath);
+
+				// 写入图片信息
+				$data 	= array_merge($data, $image->info);
+
+				// 缩放
+				if ( $image_resize == 1 and ( $data['width'] > $image_width or $data['height'] > $image_height ) )
+				{
+					if ( $image->quality($image_quality)->resize($image_width, $image_height)->save() )
+					{
+						$data = array_merge($data, image::info($filepath));
+					}
+				}
+
+				// 裁剪
+				if ( $image_resize == 2 )
+				{
+					if ( $image->quality($image_quality)->thumb($image_width, $image_height)->save() )
+					{
+						$data = array_merge($data, image::info($filepath));
+					}
+				}
+
+				//水印
+				if ( $watermark and $watermark_image and $data['width'] > $watermark_width and $data['height'] > $watermark_height )
+				{		
+					$watermark_image = ZOTOP_PATH_CMS.DS.'common'.DS.$watermark_image;
+
+					if ( is_file($watermark_image) and $image->quality($watermark_quality)->watermark($watermark_image, $watermark_position, $watermark_opacity)->save() )
+					{
+						$data = array_merge($data, image::info($filepath));
+					}
+				}
+
+			}
+			catch(Exception $e)
+			{
+				//忽略错误
+			}
+		}
+
+		if ( $this->add($data) )
+		{
+			return $data;
+		}
+
+		return array();	
+	}
 
     /**
      * 添加文件到数据库
      *
      */
-	public function add($data)
+	public function add(&$data)
 	{
 		$data['description'] = $data['description'] ? $data['description'] : file::name($data['name'],true);
 		$data['userid']      = zotop::user('id');

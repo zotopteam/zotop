@@ -26,6 +26,7 @@ return array
 	'file' 			=> ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'file.php',
 	'folder' 		=> ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'folder.php',
     'str'			=> ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'str.php',
+    'url'           => ZOTOP_PATH_LIBRARIES.DS.'classes'.DS.'url.php',
 
 
     //database

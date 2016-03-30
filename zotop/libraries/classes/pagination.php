@@ -70,56 +70,13 @@ class pagination
 	{
 		if ( empty($this->url) )
 		{
-			return $this->join(array($this->param => $page));
+			return url::set_query_arg(array($this->param => $page));
 		}
 		
 		$url = str_replace('[page]',$page,$this->url);
 
 		return $url;
 	}
-
-    /**
-     * url连接
-     * 
-     * @param array $params 参数
-	 * @param string $url 页面URL
-     * @return mixed
-     */
-	public function join($params, $url='')
-	{
-		if ( empty($url) ) $url = request::url();
-
-		if ( is_string($params) )
-		{
-			parse_str($params,$params);
-		}
-		
-		$u = parse_url($url);
-
-        if(isset($u['query']))
-		{
-            parse_str($u['query'],$p);
-
-            $params = array_merge($p,$params);
-        }
-		
-		if ( is_array($params) )
-		{
-			$query = http_build_query($params);
-		}
-
-        $scheme   = empty($u['scheme']) ? '' : $u['scheme'].'://';
-        $user     = empty($u['user']) ? '' : $u['user'].':';
-        $pass     = empty($u['pass']) ? '' : $u['pass'].'@';
-        $host     = $u['host'];
-        $port     = empty($u['port']) ? '' : ':'.$u['port'];
-        $path     = $u['path'];
-        $query    = empty($query) ? '' : '?'.$query;
-        $fragment = empty($u['fragment']) ? '' : '#'.$u['fragment'];
-
-		return "$scheme$user$pass$host$port$path$query$fragment";
-	}
-
 
     /**
      * 渲染一个分页

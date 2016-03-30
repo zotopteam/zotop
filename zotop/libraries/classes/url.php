@@ -10,41 +10,81 @@ defined('ZOTOP') or die('No direct script access.');
  */
 class url
 {
-    public static function add_query_arg($args, $url=null)
+    /**
+     * 解析url，parse_url函数中的query为字符串，此函数用parse_str解析为数组
+     * 
+     * @param  string $url [description]
+     * @param  string $component 获取url中的组成部分，可选值：scheme|host|port|user|pass|path|query|fragment
+     * @return mixed
+     */
+    public static function parse($url, $component=null)
     {
-        if ( empty($url) ) $url = request::url();
+        $url = @parse_url($url);
+        $url = is_array($url) ? $url : array();
 
-        if ( is_string($args) )
+        // query 转化为数组
+        if ( isset($url['query']) )
         {
-            parse_str($args,$args);
-        }
-        
-        $u = parse_url($url);
+            @parse_str($url['query'], $query);
 
-        if(isset($u['query']))
-        {
-            parse_str($u['query'], $p);
+            $url['query'] = $query;
+        }       
 
-            $args = array_merge($p, $args);
-        }
-        
-        if ( is_array($args) )
-        {
-            $query = http_build_query($args);
-        }
-
-        $scheme   = empty($u['scheme']) ? '' : $u['scheme'].'://';
-        $user     = empty($u['user']) ? '' : $u['user'].':';
-        $pass     = empty($u['pass']) ? '' : $u['pass'].'@';
-        $host     = $u['host'];
-        $port     = empty($u['port']) ? '' : ':'.$u['port'];
-        $path     = $u['path'];
-        $query    = empty($query) ? '' : '?'.$query;
-        $fragment = empty($u['fragment']) ? '' : '#'.$u['fragment'];
-
-        return "$scheme$user$pass$host$port$path$query$fragment";     
+        return $component ? ( isset($url[$component]) ? $url[$component] : null ) : $url;
     }
 
+    /**
+     * 合并url数组
+     * 
+     * @param  array  $params 解析过的url数组
+     * @return string
+     */
+    public static function combine(array $params)
+    {
+        if ( is_array($params['query']) )
+        {
+            $params['query'] = http_build_query($params['query']);
+        }          
 
+        $scheme   = isset($params['scheme']) ? $params['scheme'] . '://' : ''; 
+        $host     = isset($params['host']) ? $params['host'] : ''; 
+        $port     = isset($params['port']) ? ':' . $params['port'] : ''; 
+        $user     = isset($params['user']) ? $params['user'] : ''; 
+        $pass     = isset($params['pass']) ? ':' . $params['pass']  : ''; 
+        $pass     = ($user || $pass) ? $pass.'@' : ''; 
+        $path     = isset($params['path']) ? $params['path'] : ''; 
+        $query    = isset($params['query']) ? '?' . $params['query'] : ''; 
+        $fragment = isset($params['fragment']) ? '#' . $params['fragment'] : '';
+
+        return "$scheme$user$pass$host$port$path$query$fragment";         
+    }
+
+    /**
+     * 设置URl中的查询参数
+     * 
+     * @param mixed $args  参数数组或者参数字符串
+     * @param string $url  待处理的url，默认不传值的时候为当前url
+     */
+    public static function set_query_arg($args, $url=null)
+    {
+        $url = empty($url) ? request::url() : $url;
+        $url = self::parse($url);
+
+        if ( $args )
+        {
+            if ( is_string($args) ) parse_str($args,$args);
+
+            if ( is_array($args) ) 
+            {
+                $url['query'] = array_merge((array)$url['query'], $args);
+            }            
+        }
+        else
+        {
+            $url['query'] = null;
+        }
+
+        return self::combine($url); 
+    }
 }
 ?>

@@ -51,7 +51,7 @@ class tinymce_field
 		}
 
 		// 为tinymce内部上传附加参数
-		// $attrs['images_upload_url'] = $attrs['images_upload_url'];
+		$attrs['images_upload_url'] = url::set_query_arg($upload, $attrs['images_upload_url']);
 
 
 		$html[] = form::field_textarea($textarea);
@@ -140,7 +140,7 @@ class tinymce_field
 			'image_caption'     => true,
 			'media_live_embeds' => true,
 			'imagetools_proxy'  => U('tinymce/server/proxy'),
-			'images_upload_url' => U('tinymce/server/uploadimage',array('HTTP_X_REQUESTED_WITH'=>true)),
+			'images_upload_url' => U('tinymce/server/uploadimage'),
 			'content_css'       => ZOTOP_URL_THEMES .'/'. C('site.theme') . '/css/editor.css',
 		));
 

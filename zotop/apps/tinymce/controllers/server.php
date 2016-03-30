@@ -45,7 +45,7 @@ class tinymce_controller_server extends admin_controller
 		{
 		      function getimagesizefromstring($string_data)
 		      {
-		         $uri = 'data://application/octet-stream;base64,'  . base64_encode($string_data);
+		         $uri = 'data://application/octet-stream;base64,' . base64_encode($string_data);
 		         return getimagesize($uri);
 		      }
 		}		
@@ -105,12 +105,16 @@ class tinymce_controller_server extends admin_controller
 			}
 
 			$filename = date('Ymdhis').rand(1000, 9999).'.'.file::ext($temp['name']);
-			$filepath = ZOTOP_PATH_RUNTIME.DS.'temp'.DS.$filename;
-			$fileurl  = ZOTOP_URL_RUNTIME.'/temp/'.$filename;
+			$filepath = m('system.attachment.savepath').DS.$filename;
 
+			// 移动文件
 			move_uploaded_file($temp['tmp_name'], $filepath);
 
-			exit(json_encode(array('location' => $fileurl)));
+			// 将文件保存到数据库
+			$file = m('system.attachment.savefile', $filepath, $_GET);
+
+
+			exit(json_encode(array('location' => $file['url'])));
 		}
 
 		header("HTTP/1.0 500 Server Error");	

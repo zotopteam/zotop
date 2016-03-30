@@ -176,7 +176,7 @@ class plupload
 		//目录检测
 		if( !folder::create($savepath, 0777) )
 		{
-			return $this->error(t('目录不存在且无法自动创建'));
+			return $this->error(t('目录不存在且无法自动创建',$savepath));
 		}
 
 		//设置目录为可写状态
