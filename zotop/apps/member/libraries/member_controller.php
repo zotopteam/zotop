@@ -26,12 +26,6 @@ class member_controller extends site_controller
 		//登录及权限检查
 		$this->__check();
 
-		// 初始化userid
-		$this->userid = zotop::user('id');
-
-		//初始化用户
-		$this->assign('_USER',zotop::user());
-
 		// hook
 		zotop::run('member.init', $this);
     }
@@ -42,13 +36,16 @@ class member_controller extends site_controller
      */
 	public function __check()
 	{
-		if( zotop::user('id') <=0 )
+        // 初始化userid
+        $this->userid = zotop::user('id');
+
+        if( $this->userid )
 		{
-			$this->redirect(U('member/login'));
-			return false;
+            $this->assign('_USER',zotop::user());		
+			return true;
 		}
 
-		return true;
+        return $this->redirect(U('member/login'));
 	}
 
 

@@ -1064,7 +1064,6 @@ class zotop
             $user = is_numeric($id) ? compact('id', 'username', 'password', 'groupid', 'modelid') : array();
         }
 
-
         //$key='' 则返回用户信息数组
         if (empty($key)) return $user;
 

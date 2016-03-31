@@ -86,7 +86,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 
 .navbar-logo{margin-right:50px;}
 .navbar-logo img{height:50px;}
-.navbar-brand{margin-right:50px;font-size:28px;letter-spacing:2px;}
+.navbar-brand{margin-right:50px;font-size:25px;letter-spacing:2px;}
+
+.navbar-split{line-height:20px;padding:15px 2px;color:#ddd;margin-top:-1px;}
 
 .navbar-nav>li>a{font-size:16px;transition:all 0.2s ease-out 0s;}
 .navbar-nav>li>.dropdown-menu{border:0 none;padding:5px;background-color:rgba(255,255,255,.8);}
@@ -110,6 +112,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 .navbar-inverse .navbar-nav>li>.dropdown-menu{border-color:#0064ae;}
 .navbar-inverse .navbar-nav>li>.dropdown-menu>li>a:hover{background-color:#0064ae;color:#fff;}
 .navbar-inverse .navbar-form .form-control{border-color:rgba(255,255,255,0.2);color:#fff;}
+.navbar-inverse .navbar-split{color:#fff;}
+.navbar-inverse .navbar-collapse,.navbar-inverse .navbar-form{border-color:rgba(255,255,255,0.1);}
 
 .nav-inline{width:100%;overflow:hidden;clear:both;border-bottom:solid 1px #efefef;margin-bottom:20px;background:#fff;}
 .nav-inline ul{width:100%;text-align:center;margin:0 auto;padding:0;overflow:hidden;}
@@ -263,12 +267,17 @@ figure.image figcaption{margin: 6px 1px 6px 1px;text-align: center;}
 body{font-family:"Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;font-size:14px;line-height:150%;padding-top:50px;background-color:#f2f4f5;}
 
 
-
-
 /* 分辨率大于 768px */
 @media (min-width:768px){
 	.dropdown.hover>.dropdown-menu,.dropdown:hover>.dropdown-menu{display:block;}
-	.navbar-form .form-control{width:140px;}
+	
+    .navbar-form .form-control{width:140px;}
+    
+    .navbar-right>li>a{font-size:14px;}
+
+    .navbar-member{margin-left:10px;}
+    .navbar-member>li>a{padding-left:6px;padding-right:6px;}
+
 	.carousel-indicators{bottom:0;}
 
     .form-horizontal .form-title{padding:10px 15px;margin-left:-10px;margin-right:-10px;margin-bottom:5px;background:#f3f3f3;}    

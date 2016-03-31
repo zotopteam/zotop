@@ -55,7 +55,7 @@
                         {content action="category"}
                         {if $r.settings.isnav}
                         <li class="item {if $r.id == $category.rootid}active{/if} {if $r.childid}dropdown{/if}">
-                            <a href="{$r.url}">{$r.name}</a>          
+                            <a href="{$r.url}">{$r.name} {if $r.childid}<span class="caret"></span>{/if}</a>      
                             {if $r.childid}
                             <ul class="dropdown-menu">
                                 {content action="category" cid="$r.id" return="r2"}
@@ -69,17 +69,26 @@
                         {/if}
                         {/content}
                     </ul>
+
                     {if A('member')}
-                    <ul class="nav navbar-nav navbar-right">
-                        <li class="dropdown">
-                            <a href="{u('member')}"><i class="fa fa-user fa-fw"></i> {t('用户中心')} <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{u('member/profile')}"><i class="fa fa-fw fa-user"></i> {t('个人资料')}</a></li>
-                                <li><a href="{u('member/loginout')}"><i class="fa fa-fw fa-sign-out"></i> {t('登出')}</a></li>
-                            </ul>
-                        </li>
+                    <ul class="nav navbar-nav navbar-right navbar-member">
+                        {if $_USER.username}   
+                            <li class="dropdown">
+                                <a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i><b>{$_USER.username}</b><span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i>{t('会员中心')} </a></li>
+                                    <li><a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i>{t('个人设置')} </a></li>
+                                    <li><a class="loginout" href="{U('member/login/loginout')}">{t('退出')}</a></li>     
+                                </ul>
+                            </li>                                                  
+                        {else}
+                            <li><a class="login" href="{U('member/login')}"><i class="icon icon-user"></i>{t('登录')}</a></li>
+                            <li class="navbar-split hidden-xs hidden-sm">|</li>
+                            <li><a class="register" href="{U('member/register')}">{t('注册')}</a></li>
+                        {/if}
                     </ul>
-                    {/if}          
+                    {/if}
+
                     <form id="navbar-search-form" class="navbar-form navbar-right navbar-search-form" action="{u('content/search')}" method="get" role="search">
                         <div class="form-group">
                             <input type="text" name="keywords" class="form-control" value="{$_GET['keywords']}">
