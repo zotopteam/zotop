@@ -54,7 +54,7 @@ class member_controller_login extends site_controller
 			if ( !$m['settings']['register'] or $m['disabled'] ) unset($models[$i]);
 		}
 
-		$this->assign('title',t('登录'));
+		$this->assign('title',t('会员登录'));
 		$this->assign('models',$models);
 		$this->display('member/login.php');
 	}

@@ -41,8 +41,10 @@
 							<a href="{u('member/group/index/'.$r['id'])}">{t('会员组')}</a>
 							<s>|</s>
 							<a href="{u('member/field/index/'.$r['id'])}">{t('字段管理')}</a>
+							{if $r.id != 'member'}
 							<s>|</s>
 							<a href="{u('member/model/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
+							{/if}
 						</div>
 					</td>
 					<td>{$r['description']}</td>

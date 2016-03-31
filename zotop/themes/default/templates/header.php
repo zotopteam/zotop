@@ -77,8 +77,8 @@
                                 <a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i><b>{$_USER.username}</b><span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i>{t('会员中心')} </a></li>
-                                    <li><a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i>{t('个人设置')} </a></li>
-                                    <li><a class="loginout" href="{U('member/login/loginout')}">{t('退出')}</a></li>     
+                                    <li><a href="{U('member/index')}"><i class="fa fa-cog fa-fw"></i>{t('个人设置')} </a></li>
+                                    <li><a href="{U('member/login/loginout')}" class="loginout"><i class="fa fa-sign-out fa-fw"></i>{t('退出')}</a></li>     
                                 </ul>
                             </li>                                                  
                         {else}
