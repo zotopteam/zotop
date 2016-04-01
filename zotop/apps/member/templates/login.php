@@ -1,91 +1,73 @@
 {template 'header.php'}
 
-<div class="container">
+<div class="section bg-primary bg-image">
+	<div class="container">
+		{form class="login"}
+			<div class="panel panel-login">
+				<div class="panel-heading text-center">
+					<h2 class="text-overflow">{$title}</h2>
+				</div>
+				<div class="panel-body">
 
-	<div class="row">
-		<div class="col-sm-6 col-md-offset-3">
-			{form class="login"}
-				<div class="panel panel-login">
-					<div class="panel-heading text-center">
-						<h2 class="text-overflow">{$title}</h2>
+					<div class="form-status">{t('请输入您的账户和密码')}</div>
+
+					<div class="form-group">
+						<div class="input-group input-group-merge">
+							<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw text-primary"></i></label>
+							{field type="text" name="username" value="$remember_username" placeholder="t('用户名/手机号/密码')" required="required"}
+						</div>
 					</div>
-					<div class="panel-body">
 
-						<div class="form-status">{t('请输入您的账户和密码')}</div>
-
-						<div class="form-group">
-							<div class="input-group input-group-merge">
-								<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw text-primary"></i></label>
-								{field type="text" name="username" value="$remember_username" placeholder="t('用户名/手机号/密码')" required="required"}
-							</div>
+					<div class="form-group">
+						<div class="input-group input-group-merge">
+							<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw text-primary"></i></label>
+							{field type="password" name="password" placeholder="t('密码')" required="required"}
 						</div>
-
-						<div class="form-group">
-							<div class="input-group input-group-merge">
-								<label for="password" class="input-group-addon"><i class="fa fa-lock fa-fw text-primary"></i></label>
-								{field type="password" name="password" placeholder="t('密码')" required="required"}
-							</div>
-						</div>
-
-						{if c('member.login_captcha')}
-						<div class="form-group">
-							<div class="input-group input-group-merge">
-								<label for="captcha" class="input-group-addon"><i class="fa fa-key fa-fw text-primary"></i></label>
-								{field type="captcha" name="captcha" placeholder="t('验证码')" required="required"}
-							</div>
-						</div>
-						{/if}
-						
-						<div class="form-group">
-							<span>
-								<input type="checkbox" class="checkbox" name="cookietime" value="50400" {if zotop::cookie('cookietime')}checked="checked"{/if}/>
-								<label for="cookietime">{t('两周内自动登录')}</label>
-							</span>							
-							<a href="{u('member/login/getpassword')}" class="pull-right">{t('忘记密码?')}</a>
-						</div>
-
-						<div class="form-group">
-							{field type="submit" value="t('登 录')" data-loading-text="t('登录中，请稍后……')" class="btn-block"}
-						</div>
-
 					</div>
-				</div>	
-			{/form}
-		</div>
+
+					{if c('member.login_captcha')}
+					<div class="form-group">
+						<div class="input-group input-group-merge">
+							<label for="captcha" class="input-group-addon"><i class="fa fa-key fa-fw text-primary"></i></label>
+							{field type="captcha" name="captcha" placeholder="t('验证码')" required="required"}
+						</div>
+					</div>
+					{/if}
+					
+					<div class="form-group">
+						<a href="{u('member/login/getpassword')}" class="pull-right">{t('忘记密码?')}</a>
+						<label for="cookietime">
+							<input type="checkbox" class="checkbox" id="cookietime" name="cookietime" value="50400" {if zotop::cookie('cookietime')}checked="checked"{/if}/>
+							{t('两周内自动登录')}
+						</label>					
+					</div>
+
+					<div class="form-group">
+						{field type="submit" value="t('登 录')" data-loading-text="t('登录中，请稍后……')" class="btn-block btn-lg"}
+					</div>
+					
+
+					<div class="form-group hidden">
+						第三方登录
+					</div>
+
+				</div>
+
+				<div class="panel-footer">
+					{t('还没有账号？')} <a href="{U('member/register')}">{t('立即注册')}</a>
+				</div>
+			</div>	
+		{/form}
 	</div>
 </div>
-
-<div class="row hidden">
-
-<div class="side">
-
-	{if !empty($models)}
-
-	<div class="register">
-	{t('还没有账号？')} <a href="{U('member/register')}">{t('立即注册')}</a>
-	</div>
-
-	<ul class="image-text member_model">
-	{loop $models $r}
-		<li>
-			<div class="image">
-				<div class="member_model {$r.id}"><s class="fa fa-user"></s></div>
-			</div>
-			<div class="text">
-				<div class="title"><a href="{U('member/register/'.$r.id)}">{$r.name}</a></div>
-				<div class="summary">{$r.description}</div>
-			</div>
-		</li>
-	{/loop}
-	</ul>
-	{/if}
-</div> <!-- side -->
-</div> <!-- row -->
 
 
 
 <style type="text/css">
-.panel-login{margin:80px auto;}
+.panel-login{margin:80px auto;max-width:500px;box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);border:none;}
+.panel-login .panel-heading{padding:10px;border:none;}
+.panel-login .panel-body{padding:20px;}
+.panel-login .panel-footer{padding:15px;border:none;}
 </style>
 
 <script type="text/javascript" src="{__THEME__}/js/jquery.validate.min.js"></script>

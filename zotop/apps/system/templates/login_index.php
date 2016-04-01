@@ -107,10 +107,14 @@
 
 						$('.form-status').html('<span class="'+msg.state+'">'+ msg.content +'</span>');
 
-						if( msg.url ){
+						if ( msg.url ) {
 							location.href = msg.url;
 							return true;
 						}
+
+                        if ( $('a.captcha').length ) {
+                            $('a.captcha').trigger('click');
+                        }
 
 						$('.submit').button('reset');
 

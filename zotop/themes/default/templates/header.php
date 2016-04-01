@@ -33,7 +33,7 @@
 </head>
 <body class="{ZOTOP_APP}-{ZOTOP_CONTROLLER}-{ZOTOP_ACTION}">
     {hook 'site.header'}
-    <header>
+    <header class="header">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
