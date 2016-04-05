@@ -9,13 +9,13 @@ $(function(){
 
 	$(document).tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
-	},selector:'[data-toggle="tooltip"],a[title]',html:true});
+	},selector:'[data-toggle="tooltip"],a[title]',html:true,trigger:'hover'});
 
 	$('.tooltip-block').tooltip({placement:function(){
 		return this.$element.data('placement') ? 'auto '+this.$element.data('placement') : 'auto bottom';
 	},title:function(){
 		return '<span class="tooltip-block-content" style="display:block">'+ $(this).find('.tooltip-block-content').html() + '</span>';
-	},container:'body',html:true});
+	},container:'body',html:true,trigger:'hover'});
 
 	$('.tabdropable').tabdrop();
 
