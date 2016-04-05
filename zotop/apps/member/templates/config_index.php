@@ -14,6 +14,19 @@
 		<div class="container-fluid">
 			<div class="form-title">{t('会员注册')}</div>
 
+            <div class="form-group">
+                <div class="col-sm-2 control-label">{form::label(t('会员注册'),'register',false)}</div>
+                <div class="col-sm-8">
+                {field type="radio" options="array(1=>t('允许-无需审核'),2=>t('允许-需要审核'),0=>t('禁止'))" name="register" value="c('member.register')"}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">{form::label(t('开启验证码'),'register_captcha',false)}</div>
+                <div class="col-sm-8">
+                    {form::field(array('type'=>'bool','name'=>'register_captcha','value'=>c('member.register_captcha')))}
+                </div>
+            </div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('禁用用户名'),'register_point',false)}</div>
 				<div class="col-sm-8">
@@ -21,6 +34,20 @@
 					{form::tips(t('禁止使用的用户名和昵称，每行一个，可以使用通配符*和?'))}
 				</div>
 			</div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">{form::label(t('注册协议'),'register_protocol',false)}</div>
+                <div class="col-sm-8">
+                    {form::field(array('type'=>'textarea','name'=>'register_protocol','value'=>c('member.register_protocol'),'rows'=>5))}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">{form::label(t('关闭注册原因'),'register_closed',false)}</div>
+                <div class="col-sm-8">
+                    {form::field(array('type'=>'textarea','name'=>'register_closed','value'=>c('member.register_closed'),'rows'=>3))}
+                </div>
+            </div>                        
 
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('邮件验证'),'register_validmail',false)}</div>
@@ -36,8 +63,26 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('验证邮件'),'register_validmail_content',false)}</div>
-				<div class="col-sm-6">
+				<div class="col-sm-2 control-label">
+                    {form::label(t('验证邮件'),'register_validmail_content',false)}
+                    <i class="fa fa-question-circle tooltip-block" data-placement="right">
+                        <div class="tooltip-block-content">
+                            <h4>{t('标题内容均支持使用如下变量替换')}:</h4>
+                            <table class="table table-condensed table-noborder">
+                                <tbody>
+                                    <tr><td>{username} </td><td>{t('用户名')}</td></tr>
+                                    <tr><td>{nickname} </td><td>{t('用户昵称')}</td></tr>
+                                    <tr><td>{time} </td><td>{t('发送时间')}</td></tr>
+                                    <tr><td>{sitename} </td><td>{t('网站名称 (站点设置中的网站名称)')}</td></tr>
+                                    <tr><td>{url} </td><td>{t('验证的url')}</td></tr>
+                                    <tr><td>{expire} </td><td>{t('有效期')}</td></tr>
+                                    <tr><td>{from} </td><td>{t('发送者的Email')}</td></tr>                  
+                                </tbody>
+                            </table>                                         
+                        </div>
+                    </i>
+                </div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'register_validmail_title','value'=>c('member.register_validmail_title')))}
 					<div class="blank"></div>
 					{field type="editor" name="register_validmail_content" value="c('member.register_validmail_content')" rows="13"}
@@ -47,21 +92,6 @@
 						{form::field(array('type'=>'number','name'=>'register_validmail_expire','value'=>c('member.register_validmail_expire'),'min'=>1))}
 						<span class="input-group-addon">{t('小时')}</span>
 					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="blank"></div>
-					<table class="table table-border text-muted">
-						<caption>{t('标题内容均支持使用如下变量替换')}:</caption>
-						<tbody>
-							<tr><td>{username} </td><td>{t('用户名')}</td></tr>
-							<tr><td>{nickname} </td><td>{t('用户昵称')}</td></tr>
-							<tr><td>{time} </td><td>{t('发送时间')}</td></tr>
-							<tr><td>{sitename} </td><td>{t('网站名称 (站点设置中的网站名称)')}</td></tr>
-							<tr><td>{url} </td><td>{t('验证的url')}</td></tr>
-							<tr><td>{expire} </td><td>{t('有效期')}</td></tr>
-							<tr><td>{from} </td><td>{t('发送者的Email')}</td></tr>					
-						</tbody>
-					</table>		
 				</div>
 			</div>
 
@@ -82,8 +112,26 @@
 
 			<div class="form-title">{t('找回密码')}</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('找回密码邮件'),'getpassword_mailcontent',false)}</div>
-				<div class="col-sm-6">
+				<div class="col-sm-2 control-label">
+                    {form::label(t('找回密码邮件'),'getpassword_mailcontent',false)}
+                    <i class="fa fa-question-circle tooltip-block" data-placement="right">
+                        <div class="tooltip-block-content">
+                            <h4>{t('标题内容均支持使用如下变量替换')}:</h4>
+                            <table class="table table-condensed table-noborder">
+                                <tbody>
+                                    <tr><td>{username} </td><td>{t('用户名')}</td></tr>
+                                    <tr><td>{nickname} </td><td>{t('用户昵称')}</td></tr>
+                                    <tr><td>{time} </td><td>{t('发送时间')}</td></tr>
+                                    <tr><td>{sitename} </td><td>{t('网站名称 (站点设置中的网站名称)')}</td></tr>
+                                    <tr><td>{code} </td><td>{t('邮件验证码')}</td></tr>
+                                    <tr><td>{expire} </td><td>{t('有效期')}</td></tr>
+                                    <tr><td>{from} </td><td>{t('发送者的Email')}</td></tr>                  
+                                </tbody>
+                            </table>                                         
+                        </div>
+                    </i>                    
+                </div>
+				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'getpasswordmail_title','value'=>c('member.getpasswordmail_title')))}
 					<div class="blank"></div>
 					{field type="editor" name="getpasswordmail_content" value="c('member.getpasswordmail_content')" rows="13"}
@@ -100,22 +148,7 @@
 						<a href="{U('system/config/mail')}" class="text-danger">{t('邮件发送功能尚未正确配置，立即配置')}</a>
 						{/if}
 					</div>
-				</div>
-				<div class="col-sm-3">
-					<div class="blank"></div>
-					<table class="table table-border text-muted">
-						<caption>{t('标题内容均支持使用如下变量替换')}:</caption>
-						<tbody>
-							<tr><td>{username} </td><td>{t('用户名')}</td></tr>
-							<tr><td>{nickname} </td><td>{t('用户昵称')}</td></tr>
-							<tr><td>{time} </td><td>{t('发送时间')}</td></tr>
-							<tr><td>{sitename} </td><td>{t('网站名称 (站点设置中的网站名称)')}</td></tr>
-							<tr><td>{code} </td><td>{t('邮件验证码')}</td></tr>
-							<tr><td>{expire} </td><td>{t('有效期')}</td></tr>
-							<tr><td>{from} </td><td>{t('发送者的Email')}</td></tr>				
-						</tbody>
-					</table>		
-				</div>				
+				</div>			
 			</div>
 
 		</div> <!-- container-fluid -->

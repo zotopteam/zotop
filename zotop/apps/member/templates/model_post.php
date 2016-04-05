@@ -48,23 +48,16 @@
 				</div>
 			</div>
 
-			<div class="form-title">{t('注册设置')}</div>
+			<div class="form-title">{t('高级设置')}</div>
 
-			<div class="form-group">
+			<div class="form-group hidden">
 				<div class="col-sm-2 control-label">{form::label(t('允许注册'),'settings[register]',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'bool','name'=>'settings[register]','value'=>$data['settings']['register']))}
 				</div>
 			</div>
 
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('注册页面模板'),'settings[register_template]',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'template','name'=>'settings[register_template]','value'=>$data['settings']['register_template'],'required'=>'required'))}
-				</div>
-			</div>
-
-			<div class="form-group">
+			<div class="form-group hidden">
 				<div class="col-sm-2 control-label">{form::label(t('开启验证码'),'settings[register_captcha]',false)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'bool','name'=>'settings[register_captcha]','value'=>$data['settings']['register_captcha']))}
@@ -92,15 +85,9 @@
 					{form::field(array('type'=>'select','options'=>$groups,'name'=>'settings[groupid]','value'=>$data['settings']['groupid'],'required'=>'required'))}
 					<div class="help-block">{t('用户注册时候默认的会员组')}</div>
 					{else}
-					{form::field(array('type'=>'input','name'=>'groupname','value'=>'','required'=>'required'))}
+					{form::field(array('type'=>'input','name'=>'settings[groupid]','value'=>'','required'=>'required'))}
 					<div class="help-block">{t('当前会员模型的默认用户组名称，保存后会自动创建默认会员组')}</div>
 					{/if}
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('注册协议'),'register_protocol',false)}</div>
-				<div class="col-sm-8">
-					{form::field(array('type'=>'editor','name'=>'register_protocol','value'=>$data['settings']['register_protocol']))}
 				</div>
 			</div>
 		</div>
