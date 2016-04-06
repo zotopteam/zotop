@@ -4,7 +4,7 @@ zotop::register(array(
 	'priv'				=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'priv.php',
 	'rewrite'			=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'rewrite.php',
 	'plupload'			=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'plupload.php',
-	'system_api'		=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'api.php',
+	'system_hook'		=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'hook.php',
 	'system_field'		=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'field.php',
 	'admin_controller'	=> ZOTOP_PATH_APPS.DS.'system'.DS.'libraries'.DS.'admin_controller.php',
 ));
@@ -35,8 +35,8 @@ form::field('color',array('system_field','color'));
  * 初始化开始和全局消息
  *
  */
-zotop::add('system.global.navbar','system_api::global_start');
-zotop::add('system.global.msg','system_api::global_msg');
+zotop::add('system.global.navbar','system_hook::global_start');
+zotop::add('system.global.msg','system_hook::global_msg');
 
 /**
  * 别名解析, 将别名路由到设定的uri

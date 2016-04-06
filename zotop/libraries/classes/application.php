@@ -207,7 +207,7 @@ class application
     public static function trace()
     {
         // 输出调试追踪
-        if ( ZOTOP_TRACE AND !ZOTOP_ISAJAX )
+        if ( C('system.trace') AND !ZOTOP_ISAJAX )
         {
             ob_start();
             include ZOTOP_PATH_LIBRARIES . DS . 'views' . DS . 'trace.php';
@@ -351,7 +351,7 @@ class application
 				header('Content-Type: text/html; charset=' . ZOTOP_CHARSET, TRUE, ($e instanceof zotop_exception) ? $code : 500);
 			}
 
-			if ( ZOTOP_DEBUG )
+			if ( C('system.debug') )
 			{
 				// 清理输出
                 ob_get_level() and ob_clean();

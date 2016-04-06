@@ -10,7 +10,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @copyright	zotop team
  * @license		http://www.zotop.com
  */
-class block_api
+class block_hook
 {
 	/**
 	 * 开始按钮

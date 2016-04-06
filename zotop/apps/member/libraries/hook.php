@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	zotop.chenlei
 * @license		http://www.zotop.com
 */
-class member_api
+class member_hook
 {
 	/**
 	 * 注册快捷方式

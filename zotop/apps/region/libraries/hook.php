@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright
 * @license
 */
-class region_api
+class region_hook
 {
 	/**
 	 * 注册快捷方式

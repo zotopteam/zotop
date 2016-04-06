@@ -11,13 +11,13 @@
 
 // 注册类库到系统中
 zotop::register(array(
-    '[app.id]_api' => A('[app.id].path') . DS . 'libraries' . DS . 'api.php',
+    '[app.id]_hook' => A('[app.id].path') . DS . 'libraries' . DS . 'hook.php',
 ));
 
 // 在开始页面注册快捷方式
-zotop::add('system.start', '[app.id]_api::start');
+zotop::add('system.start', '[app.id]_hook::start');
 
 
 // 注册一个控件
-// form::field('[app.id]_test', '[app.id]_api::test');
+// form::field('[app.id]_test', '[app.id]_hook::test');
 ?>

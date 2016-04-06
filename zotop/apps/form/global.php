@@ -11,21 +11,21 @@
 
 // 注册类库到系统中
 zotop::register(array(
-    'form_api' => A('form.path') . DS . 'libraries' . DS . 'api.php',
+    'form_hook' => A('form.path') . DS . 'libraries' . DS . 'hook.php',
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'form_api::start');
+zotop::add('system.start', 'form_hook::start');
 
 
 // 注册一个控件
-//form::field('form_test', 'form_api::test');
+//form::field('form_test', 'form_hook::test');
 
 // 模板标签
 template::tag('formdata','tag_formdata');
 
 function tag_formdata($attrs)
 {
-	return form_api::data($attrs);
+	return form_hook::data($attrs);
 }
 ?>

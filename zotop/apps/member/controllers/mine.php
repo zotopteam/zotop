@@ -101,7 +101,7 @@ class member_controller_mine extends member_controller
 
 		if ( $send == 2 and $data['email'] and $data['emailstatus'] == 0 )
 		{
-			$send = member_api::validmail($data['email'], $data);
+			$send = member_hook::validmail($data['email'], $data);
 
 			return $this->redirect(u('member/mine/validemail/'.$send));
 		}

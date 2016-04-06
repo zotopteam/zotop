@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	hankx
 * @license		http://www.hankx.com
 */
-class system_api
+class system_hook
 {
 	/**
 	 * 开始菜单按钮导航
@@ -61,20 +61,20 @@ class system_api
 	 */
 	public static function global_msg($msg)
 	{
-		if ( ZOTOP_DEBUG )
+		if ( C('system.debug') )
 		{
 			$msg[] = array(
-				'text' => t('系统调试[ ZOTOP_DEBUG ]开启中'),
-				'href' => 'javascript:;',
+				'text' => t('调试模式开启中，网站上线后请关闭'),
+				'href' => U('system/config/safety'),
 				'type' => 'warning',
 			);
 		}
 
-		if ( ZOTOP_TRACE )
+		if ( C('system.trace') )
 		{
 			$msg[] = array(
-				'text' => t('系统跟踪[ ZOTOP_TRACE ]开启中'),
-				'href' => 'javascript:;',
+				'text' => t('页面追踪开启中，网站上线后请关闭'),
+				'href' => U('system/config/safety'),
 				'type' => 'warning',
 			);
 		}	
@@ -83,7 +83,7 @@ class system_api
 		{
 			$msg[] = array(
 				'text' => t('安装目录尚未删除，为确保安全请删除安装目录'),
-				'href' => 'javascript:;',
+				'href' => U('system/config/safety'),
 				'type' => 'warning',
 			);
 		}

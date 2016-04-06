@@ -5,7 +5,7 @@
 	<div class="side-body no-footer scrollable">
 
 		<ul class="nav nav-pills nav-stacked nav-side">
-			{loop site_api::admin_sidebar() $m}
+			{loop site_hook::admin_sidebar() $m}
 			<li{if $m.active} class="active"{/if}>
 				<a href="{$m.href}">
 					<i class="{$m.icon} fa-fw"></i><span>{$m.text}</span>

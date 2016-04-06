@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	zotop team
 * @license		http://www.zotop.com
 */
-class sitemap_api
+class sitemap_hook
 {
 	/**
 	 * 注册快捷方式

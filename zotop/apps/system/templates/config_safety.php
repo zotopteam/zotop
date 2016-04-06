@@ -36,7 +36,28 @@
 
 						{form::tips(t('请使用32位随机字符串，用于系统加密，重设后需要重新登录'))}
 					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('开启调试模式'),'debug',true)}</div>
+					<div class="col-sm-5">
+						{field type="bool" name="debug" value="c('system.debug')"}						
+						<div class="help-block">
+							{t('开启调试模式后将关闭运行时、模板缓存等，开发时可以开启，网站上线后请关闭')}
+						</div>				
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('开启页面追踪'),'trace',true)}</div>
+					<div class="col-sm-5">
+						{field type="bool" name="trace" value="c('system.trace')"}						
+						<div class="help-block">
+							{t('开启后网站页面底部将显示程序跟踪信息，开发时可以开启，网站上线后请关闭')}
+						</div>				
+					</div>
 				</div>				
+
 			</fieldset>
 
 			<fieldset class="form-horizontal">

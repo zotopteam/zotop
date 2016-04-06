@@ -11,19 +11,19 @@
 
 // 注册类库到系统中
 zotop::register(array(
-    'mobile_api' => A('mobile.path') . DS . 'libraries' . DS . 'api.php',
+    'mobile_hook' => A('mobile.path') . DS . 'libraries' . DS . 'hook.php',
     'mobile_detect' => A('mobile.path') . DS . 'libraries' . DS . 'Mobile_Detect.php',
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'mobile_api::start');
+zotop::add('system.start', 'mobile_hook::start');
 
 // 更改顶栏网站名称的状态
-zotop::add('system.global.navbar', 'mobile_api::global_navbar');
+zotop::add('system.global.navbar', 'mobile_hook::global_navbar');
 
 // 在站点管理侧边条加入一个链接
-zotop::add('site.admin.sidebar','mobile_api::admin_sidebar');
+zotop::add('site.admin.sidebar','mobile_hook::admin_sidebar');
 
 // 移动站点检查
-zotop::add('site.init','mobile_api::site_init');
+zotop::add('site.init','mobile_hook::site_init');
 ?>

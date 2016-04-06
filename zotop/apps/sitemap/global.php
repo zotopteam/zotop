@@ -12,15 +12,15 @@
 // 注册类库到系统中
 zotop::register(array(
     'sitemap' 		=> A('sitemap.path') . DS . 'libraries' . DS . 'sitemap.php',
-    'sitemap_api' 	=> A('sitemap.path') . DS . 'libraries' . DS . 'api.php',    
+    'sitemap_hook' 	=> A('sitemap.path') . DS . 'libraries' . DS . 'hook.php',    
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'sitemap_api::start');
+zotop::add('system.start', 'sitemap_hook::start');
 
 /**
  * 站点地图
  */
-zotop::add('sitemap.items','sitemap_api::content');
+zotop::add('sitemap.items','sitemap_hook::content');
 
 ?>

@@ -26,6 +26,8 @@ class kefu_controller_index extends site_controller
 	 */
 	public function action_index()
     {
+    	// 输出JS，手动关闭trace
+    	C('system.trace', false);
 
 		$this->assign('title',t('在线客服'));
 		$this->assign('data',$data);

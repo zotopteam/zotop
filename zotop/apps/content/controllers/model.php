@@ -191,6 +191,9 @@ class content_controller_model extends admin_controller
      */
 	public function action_export($id)
 	{
+		// 输出JS，手动关闭trace
+    	C('system.trace', false);
+
 		$data = $this->model->export($id);
 		$data = arr::export($data,true);
 

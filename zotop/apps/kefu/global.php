@@ -11,11 +11,11 @@
 
 // 注册类库到系统中
 zotop::register(array(
-    'kefu_api' => A('kefu.path') . DS . 'libraries' . DS . 'api.php',
+    'kefu_hook' => A('kefu.path') . DS . 'libraries' . DS . 'hook.php',
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'kefu_api::start');
+zotop::add('system.start', 'kefu_hook::start');
 
 
 zotop::add('site.footer', 'kefu_show');

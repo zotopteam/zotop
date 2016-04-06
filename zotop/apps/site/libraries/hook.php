@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	zotop
 * @license		http://www.zotop.com
 */
-class site_api
+class site_hook
 {
 	/**
 	 * HOOK globalnavbar

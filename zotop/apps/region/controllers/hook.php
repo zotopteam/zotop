@@ -8,7 +8,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @copyright	(c)2009-2011 zotop team
  * @license		http://zotop.com/license.html
  */
-class region_controller_api extends site_controller
+class region_controller_hook extends site_controller
 {
 
 

@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	[app.author]
 * @license		[app.homepage]
 */
-class [app.id]_api
+class [app.id]_hook
 {
 	/**
 	 * HOOK [system.start] 注册快捷方式

@@ -276,14 +276,15 @@ body{font-family:"Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB,
 
 /* 分辨率大于 768px */
 @media (min-width:768px){
+    
 	.dropdown.hover>.dropdown-menu,.dropdown:hover>.dropdown-menu{display:block;}
 	
-    .navbar-form .form-control{width:140px;}
+    .navbar-form .form-control{width:140px;transition:all 0.2s ease-out 0s;}
+    .navbar-form .form-control:focus{width:180px;}
     
     .navbar-right>li>a{font-size:14px;}
-
     .navbar-member{margin-left:10px;}
-    .navbar-member>li>a{padding-left:6px;padding-right:6px;}
+    .navbar-member>li>a{padding-left:8px;padding-right:8px;}
 
 	.carousel-indicators{bottom:0;}
 

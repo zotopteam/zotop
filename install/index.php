@@ -9,8 +9,8 @@
  */
 
 // 设置安装时候需要用到的常量
-define('ZOTOP_DEBUG',			true);
-define('ZOTOP_TRACE',			true);
+define('C('system.debug')',			true);
+define('C('system.trace')',			true);
 define('ZOTOP_INSTALL',			true);
 define('ZOTOP_PATH_INSTALL', 	dirname(__FILE__));
 

@@ -23,7 +23,7 @@ class profiler
 	 */
 	public static function start($tag)
 	{
-		if ( !ZOTOP_DEBUG ) return false;
+		if ( !C('system.debug') ) return false;
 
 		$tag=strtolower($tag);
 		
@@ -46,7 +46,7 @@ class profiler
 	 */
 	public static function stop($tag)
 	{
-		if ( !ZOTOP_DEBUG ) return false;
+		if ( !C('system.debug') ) return false;
 
 		$tag = strtolower($tag);
 		
@@ -68,7 +68,7 @@ class profiler
 	 */
 	public static function mark($tag = '')
 	{
-		if ( !ZOTOP_DEBUG ) return false;
+		if ( !C('system.debug') ) return false;
 
 		if ( empty($tag) )
 		{

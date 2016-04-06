@@ -436,7 +436,7 @@ class developer_controller_project extends admin_controller
         developer::make_file(DEVELOPER_SOURCE_PATH.DS.'uninstall.php', $app_path . DS . 'uninstall.php', $app);        
 
         // 写入api类
-        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'libraries'.DS.'api.php', $app_path . DS . 'libraries' .DS. "api.php", $app);
+        developer::make_file(DEVELOPER_SOURCE_PATH.DS.'libraries'.DS.'hook.php', $app_path . DS . 'libraries' .DS. "hook.php", $app);
 
         // 写入默认首页控制器
         developer::make_file(DEVELOPER_SOURCE_PATH.DS.'controllers'.DS.'site.php', $app_path . DS . 'controllers' .DS. "index.php", $app , array(

@@ -141,7 +141,7 @@ class template
         //预定义解析过后的模版路径
         $compile  = ZOTOP_PATH_RUNTIME . DS . 'templates' . DS . substr(str_replace(DS, '.', $template), strlen(ZOTOP_PATH) + 1);
 
-        if (ZOTOP_DEBUG or !file_exists($compile) or @filemtime($template) > @filemtime($compile))
+        if (C('system.debug') or !file_exists($compile) or @filemtime($template) > @filemtime($compile))
         {
             if ($content = @file_get_contents($template))
             {

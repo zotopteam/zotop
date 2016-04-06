@@ -9,7 +9,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 * @copyright	zotop
 * @license		http://www.zotop.com
 */
-class form_api
+class form_hook
 {
 	/**
 	 * 注册快捷方式
@@ -126,12 +126,12 @@ class form_api
 			{
 				$return = $db->select($select)->getPage($page, $size, $total);
 
-				$return['data'] = form_api::process_data($return['data'], $fields);
+				$return['data'] = form_hook::process_data($return['data'], $fields);
 			}
 			else
 			{
 				$return = $db->select($select)->limit($size)->select();
-				$return = form_api::process_data($return, $fields);
+				$return = form_hook::process_data($return, $fields);
 			}
 
 			//debug::dump($return);

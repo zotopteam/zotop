@@ -408,7 +408,7 @@ abstract class db
 
         zotop::trace('error',$this->error);
 
-        if ( ZOTOP_DEBUG )
+        if ( C('system.debug') )
         {
             throw new zotop_exception($this->error);
         }              

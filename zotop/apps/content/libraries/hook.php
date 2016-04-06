@@ -8,7 +8,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  * @copyright	(c)2009 zotop team
  * @license		http://zotop.com/license.html
  */
-class content_api
+class content_hook
 {
 	/**
 	 * 注册开始页面图标

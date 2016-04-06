@@ -113,7 +113,7 @@
 						{/if}
 					</p>
 					<div class="manage">
-						{loop content_api::manage_menu($r) $m}
+						{loop content_hook::manage_menu($r) $m}
 						{if $n>1}<s>|</s>{/if}
 						<a {html::attributes($m.attrs)}><i class="{$m.icon} fa-fw"></i><span>{$m.text}</span></a>
 						{/loop}

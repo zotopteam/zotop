@@ -55,7 +55,7 @@
                         {content action="category"}
                         {if $r.settings.isnav}
                         <li class="item {if $r.id == $category.rootid}active{/if} {if $r.childid}dropdown{/if}">
-                            <a href="{$r.url}">{$r.name} {if $r.childid}<span class="caret"></span>{/if}</a>      
+                            <a href="{$r.url}">{$r.name} {if $r.childid}<span class="caret hidden-xs hidden-sm"></span>{/if}</a>      
                             {if $r.childid}
                             <ul class="dropdown-menu">
                                 {content action="category" cid="$r.id" return="r2"}

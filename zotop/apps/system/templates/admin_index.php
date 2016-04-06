@@ -7,7 +7,7 @@
 	<div class="main-body scrollable">
 		<div class="container-fluid">
 			<div class="row">
-				{loop system_api::start() $s}
+				{loop system_hook::start() $s}
 				<div class="col-sm-4 col-md-3">
 					<a href="{$s['href']}" class="shortcut shortcut-list">
 						<div class="shortcut-icon">

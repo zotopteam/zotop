@@ -52,12 +52,6 @@ define('ZOTOP_URL_THEMES',      ZOTOP_URL_CMS . '/themes');
 define('ZOTOP_URL_RUNTIME',     ZOTOP_URL_CMS . '/runtime');
 define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
 
-// 调试模式，开始后将关闭运行时、模板缓存等，默认关闭
-defined('ZOTOP_DEBUG') or define('ZOTOP_DEBUG', false);
-
-// 跟踪模式，开启后网站页面底部将显示程序跟踪信息，默认关闭
-defined('ZOTOP_TRACE') or define('ZOTOP_TRACE', false);
-
 // 系统启动
 zotop::init();
 
@@ -136,7 +130,7 @@ class zotop
         zotop::add('zotop.trace',       'application::trace');
 
         //加载核心文件
-        if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !ZOTOP_DEBUG )
+        if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !zotop::config('system.debug') )
         {
             // 预加载配置
             zotop::config(include(ZOTOP_PATH_RUNTIME . DS . "config.php"));
@@ -1224,7 +1218,7 @@ class zotop
      */
     public static function profile($start, $end = '')
     {
-        if ( !ZOTOP_TRACE ) return false;
+        if ( !C('system.trace') ) return false;
 
         static $states = array();
 
@@ -1253,7 +1247,7 @@ class zotop
      */
     public static function trace($type='', $info='', $record=null)
     {
-        if ( !ZOTOP_TRACE ) return false;
+        if ( !C('system.trace') ) return false;
 
         static $_trace =  array();
 

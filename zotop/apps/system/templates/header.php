@@ -45,7 +45,7 @@
 	      			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
 	      			<div class="dropdown-menu dropdown-start">
 						<ul class="scrollable">
-							{loop system_api::start() $s}
+							{loop system_hook::start() $s}
 							<li>
 								<a href="{$s.href}" class="shortcut shortcut-thumb" title="<h4>{$s.text}</h4><h5>{$s.description}</h5>" data-placement="right">
 									<div class="shortcut-icon">

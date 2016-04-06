@@ -3,16 +3,16 @@
 define('BLOCK_PATH_CACHE', ZOTOP_PATH_RUNTIME . DS . 'block');
 
 // 注册类库到系统中
-zotop::register('block_api', A('block.path') . DS . 'libraries' . DS . 'api.php');
+zotop::register('block_hook', A('block.path') . DS . 'libraries' . DS . 'hook.php');
 
 // 开始菜单
-zotop::add('system.start', 'block_api::start');
+zotop::add('system.start', 'block_hook::start');
 
 // 快捷导航
-zotop::add('system.global.navbar', 'block_api::global_navbar');
+zotop::add('system.global.navbar', 'block_hook::global_navbar');
 
 // 一键刷新
-zotop::add('system.refresh', 'block_api::refresh');
+zotop::add('system.refresh', 'block_hook::refresh');
 
 
 /**
@@ -22,7 +22,7 @@ zotop::add('system.refresh', 'block_api::refresh');
  * @param object $tpl 模板对象
  * @return  $str 解析后的模板代码
  */
-zotop::add('template.parse', 'block_api::template_parse');
+zotop::add('template.parse', 'block_hook::template_parse');
 
 
 /**
@@ -45,5 +45,5 @@ function block_show($attrs, $tpl)
 }
 
 // 注册控件：推荐位
-form::field('blockcommend', 'block_api::field_commend');
+form::field('blockcommend', 'block_hook::field_commend');
 ?>

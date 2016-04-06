@@ -154,7 +154,7 @@ class member_model_member extends model
 
 				if ( $this->table and $this->insert($data) )
 				{
-					member_api::validmail($data['email'], $data);
+					member_hook::validmail($data['email'], $data);
 
 					return $data['id'];
 				}

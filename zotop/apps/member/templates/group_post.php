@@ -35,7 +35,7 @@
 			</div>
 			<div class="form-title">{t('会员组设置')}</div>
 
-			{loop member_api::group_settings($data) $f}
+			{loop member_hook::group_settings($data) $f}
 			<div class="form-group">
 				<label class="col-sm-2 control-label {if $f.field.required}required{/if}" for="{$f.field.name}">{$f.label}</label>
 				<div class="{if $f.colclass}{$f.colclass}{else}col-sm-8{/if}">

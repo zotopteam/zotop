@@ -33,7 +33,7 @@ class runtime
         foreach ($app as $a)
         {
 
-            if ($a['status'] <= 0) continue;
+            if ( $a['status'] <= 0 ) continue;
 
             //注册核心文件
             if ( file_exists(ZOTOP_PATH_APPS . DS . $a['dir'] . DS . 'preload.php') )
@@ -56,7 +56,7 @@ class runtime
         zotop::config('cookie',   @include(ZOTOP_PATH_CONFIG.DS."cookie.php"));
         zotop::config('session',  @include(ZOTOP_PATH_CONFIG.DS."session.php"));
 
-        zotop::config('system',   @include(ZOTOP_PATH_CONFIG.DS."system.php"));
+        //zotop::config('system',   @include(ZOTOP_PATH_CONFIG.DS."system.php"));
         zotop::config('site',     @include(ZOTOP_PATH_CONFIG.DS."site.php"));
 
         //打包全局文件、类库文件及配置
