@@ -236,9 +236,9 @@ class system_controller_config extends admin_controller
 			$image = new image(ZOTOP_PATH_CMS.DS.'common'.DS.'test.jpg');
 			$image->watermark(ZOTOP_PATH_CMS.DS.'common'.DS.$post['watermark_image'], $post['watermark_position'], $post['watermark_opacity']);
 			$image->quality($post['watermark_quality']);
-			$image->save(ZOTOP_PATH_CMS.DS.'common'.DS.'test-watermark.jpg');
+			$image->save(ZOTOP_URL_RUNTIME.DS.'temp'.DS.'test-watermark.jpg');
 
-			return $this->success(ZOTOP_URL_CMS.'/common/test-watermark.jpg');
+			return $this->success(ZOTOP_URL_RUNTIME.'/temp/test-watermark.jpg');
 		}
 	}
 

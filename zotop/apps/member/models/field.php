@@ -103,7 +103,8 @@ class member_model_field extends model
 				$fields[$i]['required']          = $r['notnull'];
 				$fields[$i]['tips']              = $r['tips'];
 				$fields[$i]['base']              = $r['base'];
-				$fields[$i]['system']            = $r['system'];				
+				$fields[$i]['system']            = $r['system'];
+				$fields[$i]['unique']            = $r['unique'];					
 				
 				$fields[$i]['field']['id']       = $r['name'];
 				$fields[$i]['field']['name']     = $r['name'];
@@ -200,6 +201,13 @@ class member_model_field extends model
 	 */
 	public function edit($data,$id)
 	{
+		// 系统字段
+		if ( intval($data['system']) )
+		{
+			$this->update($data,$id);
+			$this->cache($data['modelid'], true);
+			return $id;
+		}
 
 		if ( $data = $this->checkdata($data) )
 		{
@@ -233,6 +241,8 @@ class member_model_field extends model
 	{
 		if ( $data = $this->get($id) )
 		{
+			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除'));
+
 			if ( empty($data['tablename']) )
 			{
 				$data['tablename'] = m('member.model')->where('id',$data['modelid'])->getField('tablename');
@@ -240,6 +250,13 @@ class member_model_field extends model
 
 			if ( $this->db->dropField($data['tablename'],$data['name']) and parent::delete($id) )
 			{
+				//更新模型类型
+				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $this->db->dropTable($data['tablename']) )
+				{
+					//m('member.model')->where('id',$data['modelid'])->data('model','')->update();
+					m('member.model')->cache(true);
+				}
+
 				// 更新数据表字段缓存
 				zotop::cache("{$data['tablename']}.fields",null);
 

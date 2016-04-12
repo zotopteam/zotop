@@ -91,27 +91,6 @@ class member_controller_register extends site_controller
 	}
 
     /**
-     * 检查用户名、邮箱是否被占用
-     *
-     * @return bool
-     */
-	public function action_check($key, $ignore='')
-	{
-		$ignore = empty($ignore) ? $_GET['ignore'] : $ignore;
-
-		if ( empty($ignore) )
-		{
-			$count = $this->member->user->where($key,$_GET[$key])->count();
-		}
-		else
-		{
-			$count = $this->member->user->where($key,$_GET[$key])->where($key,'!=',$ignore)->count();
-		}
-
-		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
-	}
-
-    /**
      * 验证用户邮箱
      *
      * @return bool
@@ -119,13 +98,19 @@ class member_controller_register extends site_controller
 	public function action_validmail()
 	{
 		// 获取验证码
-		$code = zotop::decode(rawurldecode($_GET['code']));
+		//$code = zotop::decode(rawurldecode($_GET['code']));
+		//list($id, $time) = explode('|',$code);
 
-		// 分解验证码
-		list($id, $time) = explode('|',$code);
+		extract($_GET);
 
 		// 验证链接有效期
 		if ( $time and (ZOTOP_TIME - $time) > C('member.register_validmail_expire') * 3600 )
+		{
+			return $this->error(t('链接已失效，请重新验证'));
+		}		
+
+		// 验证safekey
+		if ( empty($safekey) or $safekey != md5(C('system.safekey').$id.$time) )
 		{
 			return $this->error(t('链接已失效，请重新验证'));
 		}
@@ -134,12 +119,12 @@ class member_controller_register extends site_controller
 		if ( $id and $user = $this->member->user->getbyid($id) )
 		{
 			$this->member->user->where('id',$id)->data('emailstatus',1)->update();
-			$this->member->login($user);
-
+			$this->member->user->login($user);
+			
 			return $this->success(t('邮箱地址验证成功'),U('member/index'));
 		}
 
-		return $this->error(t('链接已失效，请重新验证'));
+		return $this->error(t('禁止访问'));
 	}
 }
 ?>

@@ -27,7 +27,9 @@ class member_model_member extends model
 	 */
 	public function login(array $data)
 	{
-		if ( $user = $this->user->login($data) )
+		extract($data);
+
+		if ( $user = $this->user->checklogin($username,$password,$expire) )
 		{
 			$this->user->point($user['id'], C('member.login_point'));
 
@@ -190,7 +192,7 @@ class member_model_member extends model
 					}
 				}				
 
-				member_hook::validmail($data['email'], $data);
+				zotop::filter('member.add',$data);
 				return $data['id'];
 
 			}
@@ -220,6 +222,7 @@ class member_model_member extends model
 					$this->data($data)->insert(true);
 				}
 
+				zotop::filter('member.edit',$data);
 				return true;
 			}
 

@@ -13,6 +13,15 @@ class system_model_admin extends model
 	protected $pk    = 'id';
 	protected $table = 'admin';
 
+	public $user;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		$this->user = m('system.user');
+	}
+
 
 	/**
 	 * 登录
@@ -22,6 +31,8 @@ class system_model_admin extends model
 	 */
 	public function login(array $data)
 	{
+		extract($data);
+
 		// 登录锁定
 		$maxfailed = c('system.login_maxfailed');
 		$locktime  = c('system.login_locktime'); //单位分钟
@@ -37,37 +48,22 @@ class system_model_admin extends model
 				return $this->error(t('登录失败次数过多，已被系统锁定，请$1分钟后再试', $locktime));
 			}
 		}
-
-		// 用户登录
-		$user = m('system.user');
-
-		// 检查用户名是否有效
-		if( $user->checkusername($data['username']) == false )
+	
+		if ( $user = $this->user->checklogin($username, $password, $expire) )
 		{
-			return $this->error(t('请输入有效的账户名称'));
-		}
+			$admin = $this->getbyid($user['id']);
 
-		// 检查密码是否有效
-		if( empty($data['password']) or strlen($data['password']) < 3 )
-		{
-			return $this->error(t('请输入有效的账户密码'));
-		}
-
-		if ( $u = $user->login($data) )
-		{
-			$admin = $this->getbyid($u['id']);
-
-			if ( empty($admin) or $u['modelid'] != 'admin' )
+			if ( empty($admin) or $user['modelid'] != 'admin' )
 			{
-				return $this->error(t('对不起，您不是管理员', $u['username']));
+				return $this->error(t('对不起，您不是管理员', $user['username']));
 			}
 
-			zotop::run('admin.login', array_merge($u,$admin));
+			zotop::run('admin.login', array_merge($user,$admin));
 
-			return array_merge($u,$admin);
+			return array_merge($user,$admin);
 		}
 
-		return $this->error($user->error());
+		return $this->error($this->user->error());
 	}
 
 	/**
@@ -77,7 +73,7 @@ class system_model_admin extends model
 	 */
 	public function logout()
 	{
-		if ( m('system.user')->logout() )
+		if ( $this->user->logout() )
 		{
 			zotop::run('admin.logout');
 			return true;

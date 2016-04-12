@@ -23,4 +23,10 @@ zotop::add('system.global.navbar','member_hook::globalnavbar');
 
 // 获取表单
 zotop::add('member.field.getfields','member_hook::edit_password');
+zotop::add('member.field.getfields','member_hook::ajax_remotecheck');
+
+//添加用户
+zotop::add('member.add','member_hook::send_validmail');
+zotop::add('member.edit','member_hook::send_validmail');
+
 ?>

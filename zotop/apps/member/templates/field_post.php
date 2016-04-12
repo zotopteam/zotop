@@ -13,33 +13,43 @@
 		{form::field(array('type'=>'hidden','name'=>'type','value'=>$data['type'],'required'=>'required'))}
 		{form::field(array('type'=>'hidden','name'=>'length','value'=>$data['length'],'required'=>'required'))}
 		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'system','value'=>$data['system'],'required'=>'required'))}
 
 		<div class="container-fluid">
-
+			
+			{if !$data.system}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('控件'),'control',true)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'select','name'=>'control','value'=>$data['control'],'options'=>$control_options,'class'=>'short'))}
 				</div>
 			</div>
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('字段名'),'name',true)}</div>
-				<div class="col-sm-8">
-					{field type="text" name="name" value="$data.name" required="required" fieldname="true"}
-					{field type="hidden" name="_name" value="$data.name"}
+			{/if}
 
-					{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
-				</div>
-			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('标签名'),'label',true)}</div>
 				<div class="col-sm-8">
 					{form::field(array('type'=>'text','name'=>'label','value'=>$data['label'],'required'=>'required'))}
 					{form::tips('可读名称，如“名称”，“地址”')}
 				</div>
+			</div>			
+
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('字段名'),'name',true)}</div>
+				<div class="col-sm-8">
+
+					{if $data.system}
+						{field type="text" name="name" value="$data.name" required="required" disabled="disabled" fieldname="true"}
+						{form::tips('系统字段的字段名不能修改')}
+					{else}
+						{field type="text" name="name" value="$data.name" required="required" fieldname="true"}
+						{form::tips('由小写英文字母、数字和下划线组成，并且仅能字母开头，不以下划线结尾')}
+					{/if}
+
+					{field type="hidden" name="_name" value="$data.name"}					
+
+				</div>
 			</div>
-
-
 
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('默认值'),'default',false)}</div>

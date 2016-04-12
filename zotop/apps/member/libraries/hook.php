@@ -124,16 +124,34 @@ class member_hook
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
-	public static function validmail($to, $data=array())
-	{
-		if ( $to and $data['id'] and intval(C('member.register_validmail')) and intval(C('system.mail')) )
+	public static function send_validmail($data)
+	{	
+		//用户邮箱
+		$to = $data['email'];
+
+		//用户编号
+		$id = $data['id']; 
+
+		if ( $to and $id and intval(C('member.register_validmail')) and intval(C('system.mail')) )
 		{
+			$params = array(
+				'id'      => $id,
+				'time'    => ZOTOP_TIME,
+				'safekey' => md5(C('system.safekey').$id.ZOTOP_TIME),
+				//'code'    => rawurldecode(zotop::encode($id.'|'.ZOTOP_TIME)
+			);
+
 			// 激活地址
-			$data['url'] = U('member/register/validmail', array('code'=>rawurldecode(zotop::encode($data['id'].'|'.ZOTOP_TIME))), true);
+			$data['url']    = U('member/register/validmail', $params, true);
+			$data['click']  = '<div class="click"><a href="'.$data['url'].'" target="_blank">'.$data['url'].'</a></div>';
+			$data['expire'] = C('register_validmail_expire');
 
 			//解析邮件内容
-			$title = self::parseMail(c('member.register_validmail_title'),$data);
+			$title   = self::parseMail(c('member.register_validmail_title'),$data);
+			$title   = zotop::filter('member.validmail.title', $title);
+			
 			$content = self::parseMail(c('member.register_validmail_content'),$data);
+			$content = zotop::filter('member.validmail.content', $content);
 
 			$mail = new mail();
 			$mail->sender = c('site.name');
@@ -151,10 +169,11 @@ class member_hook
      */
 	public function parseMail($str, $data)
 	{
-		$str = zotop::filter('member.parsemail', $str, $data);
+		$data = zotop::filter('member.parsemail', $data);
 
-		$str = str_replace('{site}',' '.c('site.name').' ',$str);
-		$str = str_replace('{click}','<div><a href="'.$data['url'].'" target="_blank">'.$data['url'].'</a></div>',$str);
+		// 默认值
+		$data['from']     = $data['from'] ? $data['from'] : c('system.mail_from');
+		$data['sitename'] = $data['sitename'] ? $data['sitename'] : c('site.name');		
 
 		foreach ( $data as $key=>$val )
 		{
@@ -177,6 +196,25 @@ class member_hook
 			$fields['password']['field']['value']    = '';
 			$fields['password']['field']['required'] = null;
 			$fields['password']['tips']              = t('请输入您要设置的新密码，不修改密码请留空');
+		}
+		
+		return $fields;
+	}
+
+	/**
+	 * 获取表单时不修改密码留空
+	 * 
+	 * @param  array $field 字段列表
+	 * @return array
+	 */
+	public static function ajax_remotecheck($fields)
+	{
+		foreach ($fields as $name => &$field)
+		{
+			if ( in_array($name, array('username','mobile','email','nickname')) )
+			{
+				$field['field']['remote']    = U('member/api/check_exists/'.$name.'/'.$field['field']['value']);
+			}
 		}
 		
 		return $fields;

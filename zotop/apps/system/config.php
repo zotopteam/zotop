@@ -69,7 +69,7 @@ return array(
 	'login_locktime'        => 30,
 	
 	// 安全码
-	'safekey'               => 'R82FPjR4SEEmQ7dck6Wk0PHeCr9pRFn2'
+	'safekey'               => 'R82FPjR4SEEmQ7dck6Wk0PHeCr9pRFn2',
 	
 	// 开启debug模式
 	'debug'                 => 0,

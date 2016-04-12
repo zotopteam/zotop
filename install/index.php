@@ -9,10 +9,9 @@
  */
 
 // 设置安装时候需要用到的常量
-define('C('system.debug')',			true);
-define('C('system.trace')',			true);
 define('ZOTOP_INSTALL',			true);
 define('ZOTOP_PATH_INSTALL', 	dirname(__FILE__));
+
 
 // 设置超时时间
 @set_time_limit(1000);
@@ -183,7 +182,6 @@ class install
 		folder::create(ZOTOP_PATH_RUNTIME.DS.'backup',0777);
 		folder::create(ZOTOP_PATH_RUNTIME.DS.'temp',0777);
 		folder::create(ZOTOP_PATH_RUNTIME.DS.'block',0777);
-
 
 		include ZOTOP_PATH_INSTALL.DS.'template'.DS.'check.php';
 	}

@@ -358,7 +358,7 @@ class content_model_field extends model
 			if ( $this->db->dropField($tablename, $data['name']) and parent::delete($id) )
 			{
 				//更新模型类型
-				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $this->db->drop($tablename) )
+				if ( $this->where('modelid', $data['modelid'])->where('system',0)->count() == 0 and $this->db->dropTable($tablename) )
 				{
 					m('content.model')->where('id',$data['modelid'])->data('model','')->update();
 					m('content.model')->cache(true);

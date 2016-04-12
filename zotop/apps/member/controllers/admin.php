@@ -182,26 +182,5 @@ class member_controller_admin extends admin_controller
 			return $this->error($this->member->error());
 		}
 	}
-
-    /**
-     * 检查用户名、邮箱是否被占用
-     *
-     * @return bool
-     */
-	public function action_check($key,$ignore='')
-	{
-		$ignore = empty($ignore) ? $_GET['ignore'] : $ignore;
-
-		if ( empty($ignore) )
-		{
-			$count = $this->member->user->where($key,$_GET[$key])->count();
-		}
-		else
-		{
-			$count = $this->member->user->where($key,$_GET[$key])->where($key,'!=',$ignore)->count();
-		}
-
-		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
-	}
 }
 ?>

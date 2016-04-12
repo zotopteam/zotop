@@ -9,10 +9,10 @@
 
 	            <h3>
 					<?php if( $admin['password'] == 'admin999'  ):?>
-					 <div class="text-error"><?php echo t('您使用的是系统默认密码，为确保安全，请登录后及时修改密码');?></div>
+					 <div><?php echo t('您使用的是系统默认密码，为确保安全，请登录后及时修改密码');?></div>
 					<?php endif;?>
 
-					<div class="text-error"><?php echo t('为了您站点的安全，安装完成后请及时删除网站根目录下的“install”文件夹');?></div>	            	
+					<div><?php echo t('为了您站点的安全，安装完成后请及时删除网站根目录下的“install”文件夹');?></div>	            	
 	            </h3>
 	        </div>
 	    </div>

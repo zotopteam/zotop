@@ -38,8 +38,8 @@ class member_controller_login extends site_controller
 
 			if ( $this->member->login($post) )
 			{
-				zotop::cookie('member.username',$post['username'], 365*24*3600);//记录cookie时间
-				zotop::cookie('cookietime',$post['cookietime'], 365*24*3600);//记录cookie时间
+				zotop::cookie('member.username',$post['username'], 365*24*3600);
+				zotop::cookie('cookietime',$post['cookietime'], 365*24*3600);
 
 				return $this->success(t('登陆成功，页面跳转中……'), u('member/index'));
 			}

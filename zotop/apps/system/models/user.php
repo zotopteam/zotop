@@ -176,42 +176,57 @@ class system_model_user extends model
 	    return md5(md5($password).$salt);
 	}
 
-	/**
-	 * 写入登陆信息
-	 *
-	 */
-	public function login(array $data)
-	{
-		@extract($data);
 
+	/**
+	 * 验证登录信息
+	 * 
+	 * @param  string  $username   账户，可以是用户名、手机号、邮箱
+	 * @param  string  $password   密码
+	 * @param  integer $cookietime 有效期
+	 * @return mixed
+	 */
+	public function checklogin($username, $password, $expire=0)
+	{
 		//读取用户,允许使用户名、邮箱或者手机号登录
 		$user = $this->where(array('username','=',$username),'or',array('email','=',$username),'or',array('mobile','=',$username))->getRow();
 
 		//用户不存在
 		if( empty($user) )
 		{
-			return $this->error(t('账户 <b>%s</b> 不存在，请检查是否输入有误',$username));
+			return $this->error(t('账户 %s 不存在，请检查是否输入有误', $username));
 		}
 
 		//验证密码
 		if ( $user['password'] != $this->password($password, $user['salt']) )
 		{
-			return $this->error(t('密码 <b>%s</b> 错误，请检查是否输入有误',$password));
+			return $this->error(t('密码 %s 错误，请检查是否输入有误',$password));
 		}
 
+		return $this->login($user, $expire);
+	}
+
+	/**
+	 * 写入用户登陆信息
+	 * 
+	 * @param  array  $user 用户在user表中的信息
+	 * @param  int  $expire 登录有效时间
+	 * @return mixed
+	 */
+	public function login(array $user, $expire=0)
+	{
 		//验证状态
 		if ( $user['disabled'] )
 		{
-			return $this->error(t('账户 <b>%s</b> 已经被禁用', $username));
+			return $this->error(t('账户 %s 已经被禁用', $username));
 		}
 
 		zotop::run('user.beforelogin',$user);
 
 		//记录用户数据，TODO 使用session存储重要的登录信息
-		zotop::cookie('user.id',$user['id'], (int)$cookietime);
-		zotop::cookie('user.username',$user['username'], (int)$cookietime);
-		zotop::cookie('user.nickname',$user['nickname'], (int)$cookietime);
-		zotop::cookie('auth',zotop::encode($user['id']."\t".$user['username']."\t".$user['password']."\t".$user['groupid']."\t".$user['modelid']), (int)$cookietime);
+		zotop::cookie('user.id',$user['id'], 365*24*3600);
+		zotop::cookie('user.username',$user['username'], 365*24*3600);
+		zotop::cookie('user.nickname',$user['nickname'], 365*24*3600);
+		zotop::cookie('auth',zotop::encode($user['id']."\t".$user['username']."\t".$user['password']."\t".$user['groupid']."\t".$user['modelid']), (int)$expire);
 
 		//刷新信息
 		$this->refresh($user['id']);
