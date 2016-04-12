@@ -24,9 +24,9 @@ class member_controller_register extends site_controller
 		parent::__init();
 
 		$this->member = m('member.member');
-		$this->model = m('member.model');
-		$this->field = m('member.field');
-		$this->group = m('member.group');
+		$this->model  = m('member.model');
+		$this->field  = m('member.field');
+		$this->group  = m('member.group');
 	}
 
 	/**

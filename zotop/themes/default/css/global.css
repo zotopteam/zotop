@@ -141,8 +141,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 .slider-full .carousel-inner>.item{background-size:cover;}
 .slider-full .carousel-inner>.item img{visibility:hidden;}
 
-.panel{margin-bottom:10px;border-color:#efefef;box-shadow:none;color:#333;}
-.panel-heading,.panel-footer{background:#fff;border-color:#efefef;}
+.panel{border-color:#efefef;box-shadow:none;color:#333;}
+.panel-heading,.panel-footer{background:transparent;border-color:#efefef;}
 .panel-heading{padding:20px;}
 .panel>.media{padding:15px;margin:0;}
 .panel>.media + .list-group .list-group-item:first-child{border:0 none;}
@@ -289,7 +289,7 @@ body{font-family:"Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB,
 	.carousel-indicators{bottom:0;}
 
     .form-horizontal .form-title{padding:10px 15px;margin-left:-10px;margin-right:-10px;margin-bottom:5px;background:#f3f3f3;}    
-    .form-horizontal .form-group{border-bottom:1px solid #efefef;}
+    .form-horizontal .form-group{/*border-bottom:1px solid #efefef;*/}
     .form-horizontal .control-label {text-align:left;padding-left:20px;}
     .form-horizontal label[for]{font-weight:normal;margin-bottom:0;}
 }

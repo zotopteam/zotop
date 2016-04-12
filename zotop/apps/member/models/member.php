@@ -10,7 +10,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class member_model_member extends model
 {
-	protected $pk = 'id'; //主键名称
+	protected $pk    = 'id'; //主键名称
 	protected $table = ''; //member模型挂载下面全部的模型，在添加、编辑、删除时候需赋值
 
 	public $user;
@@ -67,13 +67,13 @@ class member_model_member extends model
 			// 获取模型数据
 			$model = m('member.model')->get($data['modelid']);
 
-			if ( $model['tablename'] )
+			// 当前模型数据表
+			if ( $this->db->existsTable($model['tablename']) )
 			{
-				// 获取当前模型的数据表和字段
-				$this->table	= $model['tablename'];
+				$this->table = $model['tablename'];
 
 				$data = array_merge($data, parent::get($id));
-			}
+			}			
 		}
 
 		return empty($field) ? $data : $data[$field];
@@ -108,30 +108,58 @@ class member_model_member extends model
 
         // 预处理数据
 		$fields = m('member.field.cache', $data['modelid']);
-
-		// 唯一值查询
-		$mtable = m('member.model.get', $data['modelid'],'tablename');
-		$mquery = $data['id'] ? $this->db->table($mtable)->where('id','!=', $data['id']) : $this->db->table($mtable);
+		$fields = zotop::filter('member.field',$fields, $data, $this);
 
         foreach ($fields as $name => $field)
         {
-        	if ( $field['unique'] and $data[$name] and $mquery->where($name,$data[$name])->count() ) return $this->error(t('$1的值 $2 已经存在', $field['label'], $data[$name]));
-            if ( $field['notnull'] and empty($data[$name]) ) return $this->error(t('$1不能为空', $field['label']));
-            if ( $field['settings']['maxlength'] and str::len($data[$name]) > $field['settings']['maxlength'] ) return $this->error(t('$1最大长度为$2', $field['label'],$field['settings']['maxlength']));
-            if ( $field['settings']['minlength'] and str::len($data[$name]) < $field['settings']['minlength'] ) return $this->error(t('$1最小长度为$2', $field['label'],$field['settings']['minlength']));
-            if ( $field['settings']['max'] and intval($data[$name]) > $field['settings']['max'] ) return $this->error(t('$1最大值为$2', $field['label'],$field['settings']['max']));
-            if ( $field['settings']['min'] and intval($data[$name]) < $field['settings']['min'] ) return $this->error(t('$1最小值为$2', $field['label'],$field['settings']['min']));
+        	// 不检查禁用字段
+        	if ( $field['disabled'] ) continue;
+
+        	// 资料修改时候密码可以为空 TODO 写进HOOK里面
+        	if ( $name=='password' and $data['id'] and empty($data['password']) )
+        	{
+				$field['notnull'] = false;
+				$field['settings']['minlength'] = null;
+        	}
+
+        	// 检查是否允许为空
+        	if ( $field['notnull'] and empty($data[$name]) ) return $this->error(t('$1不能为空', $field['label']));
+
+        	// 检查是否唯一值
+        	if ( $field['unique'] and $data[$name] )
+        	{
+	        	$mtable = $field['system'] ? 'user' : m('member.model.get', $data['modelid'],'tablename');
+				$mquery = $data['id'] ? $this->db->table($mtable)->where('id','!=', $data['id']) : $this->db->table($mtable);
+
+				if ( $mquery->where($name,$data[$name])->count() )
+				{
+					return $this->error(t('$1的值 $2 已经存在', $field['label'], $data[$name]));
+				}
+        	}
+
+        	// 有值的时候才检查和处理
+        	if ( $data[$name] )
+        	{
+            	if ( $field['settings']['maxlength'] and str::len($data[$name]) > $field['settings']['maxlength'] ) return $this->error(t('$1最大长度为$2', $field['label'],$field['settings']['maxlength']));
+            	if ( $field['settings']['minlength'] and str::len($data[$name]) < $field['settings']['minlength'] ) return $this->error(t('$1最小长度为$2', $field['label'],$field['settings']['minlength']));
+            	if ( $field['settings']['max'] and intval($data[$name]) > $field['settings']['max'] ) return $this->error(t('$1最大值为$2', $field['label'],$field['settings']['max']));
+            	if ( $field['settings']['min'] and intval($data[$name]) < $field['settings']['min'] ) return $this->error(t('$1最小值为$2', $field['label'],$field['settings']['min']));            	
+            	if ( $field['control'] == 'keywords' and is_string($data[$name]) ) $data[$name] = str_replace('，', ',', $data[$name]);
+            	if ( $field['control'] == 'files' and is_array($data[$name]) ) $data[$name] = array_values($data[$name]);            	
+        	}
+
             if ( $field['control'] == 'date' or $field['control'] == 'datetime' ) $data[$name] = empty($data[$name]) ? ZOTOP_TIME : strtotime($data[$name]);
-            if ( $field['control'] == 'keywords' and $data[$name] ) $data[$name] = str_replace('，', ',', $data[$name]);
-            if ( $field['control'] == 'files' and $data[$name] ) $data[$name] = array_values($data[$name]);
+
         }
 
 		return zotop::filter('member.data',$data, $this);
 	}
 
-
-	/*
-	 *  新增数据
+	/**
+	 * 添加用户
+	 * 
+	 * @param array $data 用户数据
+	 * @return bool
 	 */
 	public function add($data)
 	{
@@ -139,9 +167,6 @@ class member_model_member extends model
 		{
 			// 获取模型数据
 			$model = m('member.model')->get($data['modelid']);
-
-			// 获取当前模型的数据表和字段
-			$this->table	= $model['tablename'];
 
 			// 设置默认值
 			$data['groupid'] = $data['groupid'] ? $data['groupid'] : $model['settings']['groupid'];
@@ -152,16 +177,22 @@ class member_model_member extends model
 			{
 				$data['id'] = $insertid;
 
-				if ( $this->table and $this->insert($data) )
+				// 当前模型数据表
+				if ( $this->db->existsTable($model['tablename']) )
 				{
-					member_hook::validmail($data['email'], $data);
+					$this->table = $model['tablename'];
 
-					return $data['id'];
-				}
+					if ( !$this->insert($data) )
+					{
+						// 附表插入失败时候，删除主表数据
+						$this->user->delete($insertid);
+						return false;
+					}
+				}				
 
-				// 注册失败
-				$this->user->delete($insertid);
-				return $this->error($this->error());
+				member_hook::validmail($data['email'], $data);
+				return $data['id'];
+
 			}
 
 			return $this->error($this->user->error());
@@ -179,14 +210,14 @@ class member_model_member extends model
 
 		if ( $data = $this->_data($data) )
 		{
-			// 获取当前模型的数据表
-			$this->table	= m('member.model')->get($data['modelid'], 'tablename');
-
 			if ( $this->user->edit($data, $id) )
 			{
-				if ( $this->table and $this->update($data, $id) )
+				$model = m('member.model')->get($data['modelid']);
+
+				if ( $this->db->existsTable($model['tablename']) )
 				{
-					return true;
+					$this->table= $model['tablename'];					
+					$this->data($data)->insert(true);
 				}
 
 				return true;
@@ -210,8 +241,12 @@ class member_model_member extends model
 
 		if ( $user = $this->user->getbyid($id)  )
 		{
-			// 获取当前模型的数据表
-			$this->table	= m('member.model')->get($user['modelid'], 'tablename');
+			$model = m('member.model')->get($data['modelid']);
+
+			if ( $this->db->existsTable($model['tablename']) )
+			{
+				$this->table = $model['tablename'];
+			}			
 
 			if ( $this->table and $this->user->delete($id) )
 			{

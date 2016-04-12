@@ -70,36 +70,40 @@ class member_model_model extends model
 			return $this->error(t('数据表名已经存在'));
 		}
 
-		// 新建默认用户组 TODO
+		// 新建默认用户组
 		$groupid = m('member.group')->add(array('name'=>$data['groupname'],'modelid'=>$data['id']));
 
-		if ( empty($groupid) ) return $this->error(t('新建用户组失败'));
+		if ( empty($groupid) )
+		{
+			 return $this->error(t('新建用户组失败'));
+		}
 
-		$data['app'] = 'member';
+		$data['app']                 = 'member';		
+		$data['listorder']           = $this->max('listorder') + 1;
 		$data['settings']['groupid'] = $groupid;
-		$data['listorder'] = $this->max('listorder') + 1;
 
 		if ( $id = $this->insert($data) )
 		{
-			// 创建表
-			$createtable = $this->db->createTable($data['tablename'],array(
-				'fields'=>array(
-					'id'		=> array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户编号') ),
-				),
-				'index'=>array(),
-				'unique'=>array(),
-				'primary'=>array ( 'id' ),
-				'comment' => t('%s会员扩展信息', $data['name'])
-			));
+			// 插入系统字段
+			$this->field = m('member.field');
 
-			if ( $createtable )
+			$listorder = 1;
+
+			foreach ( $this->field->system_fields as $field)
 			{
-				$this->cache(true);
-				return $id;
+				$field = $field + array(
+					'system'    => 1,
+					'modelid'   => $data['id'],
+					'listorder' => $listorder,
+				);
+
+				$this->field->insert($field);
+
+				$listorder++;
 			}
 
-			parent::delete($id);
-			return $this->error(t('创建数据表失败'));
+			$this->cache(true);
+			return $id;			
 		}
 
 		return false;

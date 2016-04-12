@@ -10,10 +10,11 @@ defined('ZOTOP') OR die('No direct access allowed.');
  */
 class member_model_field extends model
 {
-	protected $pk = 'id';
+	protected $pk    = 'id';
 	protected $table = 'user_field';
 
 	public $controls;
+	public $system_fields;
 
 	public function __construct()
 	{
@@ -34,6 +35,15 @@ class member_model_field extends model
 			'datetime'	=> array('name'=>t('日期+时间'),'type'=>'int', 'length'=>'10'),
 			'image'		=> array('name'=>t('图片'),'type'=>'varchar', 'length'=>'100'),
         ));
+
+		// 系统字段
+        $this->system_fields = zotop::filter('member.field.system',array(
+			'username'         => array('control'=>'username','label'=>t('用户名'),'name'=>'username','type'=>'varchar','length'=>'32','notnull'=>'1','settings'=>array('minlength'=>'2','maxlength'=>'32'),'base'=>'1','tips'=>t('4-20位字符，允许中文、英文、数字和下划线，不能含有特殊字符')),
+			'password'         => array('control'=>'password','label'=>t('密码'),'name'=>'password','type'=>'varchar','length'=>'32','notnull'=>'1','settings'=>array('minlength'=>'6','maxlength'=>'32'),'base'=>'1','tips'=>t('6-20位字符，可使用英文、数字或者符号组合，不建议使用纯数字、纯字母或者纯符号')),
+			'email'            => array('control'=>'email','label'=>t('邮箱'),'name'=>'email','type'=>'varchar','length'=>'50','notnull'=>'1','settings'=>array('maxlength'=>'32'),'base'=>'1'),
+			'mobile'           => array('control'=>'mobile','label'=>t('手机'),'name'=>'mobile','type'=>'varchar','length'=>'13','notnull'=>'1','settings'=>array('maxlength'=>'13'),'base'=>'1'),
+			'nickname'         => array('control'=>'nickname','label'=>t('昵称'),'name'=>'nickname','type'=>'varchar','length'=>'32','notnull'=>'0','settings'=>array('maxlength'=>'32'),'base'=>'0'),
+		));        
 	}
 
 	/*
@@ -71,8 +81,12 @@ class member_model_field extends model
 		return $data;
 	}
 
-	/*
-	 *  获取添加编辑时的表单字段
+	/**
+	 * 获取添加编辑时候的表单字段
+	 * 
+	 * @param  string $modelid 模型编号
+	 * @param  array  $data    字段数据
+	 * @return mixed
 	 */
 	public function getfields($modelid, $data=array())
 	{
@@ -84,15 +98,18 @@ class member_model_field extends model
 			{
 				if ( $r['disabled'] ) continue;
 
-				$fields[$i]['label']	= $r['label'];
-				$fields[$i]['for']		= $r['name'];
-				$fields[$i]['required']	= $r['notnull'];
-
-				$fields[$i]['field']['id']			= $r['name'];
-				$fields[$i]['field']['name']		= $r['name'];
-				$fields[$i]['field']['value']		= isset($data[$r['name']]) ? $data[$r['name']]  : $r['default'];
-				$fields[$i]['field']['type']		= $r['control'];
-				$fields[$i]['field']['required']	= $r['notnull'];
+				$fields[$i]['label']             = $r['label'];
+				$fields[$i]['for']               = $r['name'];
+				$fields[$i]['required']          = $r['notnull'];
+				$fields[$i]['tips']              = $r['tips'];
+				$fields[$i]['base']              = $r['base'];
+				$fields[$i]['system']            = $r['system'];				
+				
+				$fields[$i]['field']['id']       = $r['name'];
+				$fields[$i]['field']['name']     = $r['name'];
+				$fields[$i]['field']['value']    = isset($data[$r['name']]) ? $data[$r['name']]  : $r['default'];
+				$fields[$i]['field']['type']     = $r['control'];
+				$fields[$i]['field']['required'] = $r['notnull'];
 
 				// 将setting中的属性合并到字段
 				if ( is_array($r['settings']) )
@@ -105,13 +122,10 @@ class member_model_field extends model
 						}
 					}
 				}
-
-				$fields[$i]['tips']	= $r['tips'];
-				$fields[$i]['base']	= $r['base'];
 			}
 		}
 
-		return $fields;
+		return zotop::filter('member.field.getfields',$fields);
 	}
 
 	/*
@@ -139,16 +153,38 @@ class member_model_field extends model
 
 		if ( $data = $this->checkdata($data) )
 		{
+			// 模型扩展表名称
+			$tablename 	= $data['tablename'];
+
+			// 检查数据表是否存在
+			if ( !$this->db->existsTable($tablename) )
+			{
+				$schema = array(
+					'fields'  =>array(
+						'id'      => array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('用户编号') ),
+					),
+					'index'   =>array(),
+					'unique'  =>array(),
+					'primary' =>array ( 'id' ),
+					'comment' => t('%s会员扩展信息', $data['name'])
+				);
+
+				if ( !$this->db->createTable($tablename, $schema) )
+				{
+					return $this->error(t('创建扩展数据表 $1 失败', $tablename));
+				}
+			}			
+
 			// 检查字段名称是否已经存在
-			if ( $this->db->existsField($data['tablename'], $data['name']) )
+			if ( $this->db->existsField($tablename, $data['name']) )
 			{
 				return $this->error(t('字段名 %s 已经存在', $data['name']));
 			}
 
-			if ( $this->db->addField($data['tablename'], $this->fielddata($data)) and ( $id = $this->insert($data) ) )
+			if ( $this->db->addField($tablename, $this->fielddata($data)) and ( $id = $this->insert($data) ) )
 			{
 				// 更新数据表字段缓存
-				zotop::cache("{$data['tablename']}.fields",null);
+				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
 				$this->cache($data['modelid'],true);

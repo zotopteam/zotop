@@ -32,6 +32,7 @@
 					<td class="text-center" width="40">{t('状态')}</td>
 					<td>{t('标签名')} ( {t('字段名')} )</td>
 					<td class="w100">{t('控件')}</td>
+					<td class="text-center">{t('系统字段')}</td>
 					<td class="text-center">{t('注册时显示')}</td>
 					<td class="text-center">{t('不能为空')}</td>
 					<td class="text-center">{t('值唯一')}</td>
@@ -47,17 +48,18 @@
 						<div class="manage">
 							<a href="{u('member/field/edit/'.$r['id'])}">{t('编辑')}</a>
 							<s>|</s>
-							{if $r['issystem']}
+							{if $r['system']}
 							<a href="javascript:void(0);" class="disabled">{t('删除')}</a>
 							{else}
 							<a href="{u('member/field/delete/'.$r['id'])}" class="js-confirm" data-confirm="<b>{t('您确定要删除吗？删除后将删除全部相关数据并且无法恢复！')}</b>">{t('删除')}</a>
 							{/if}
 						</div>
 					</td>
-					<td>{$controls[$r['control']]['name']}</td>
-					<td class="text-center">{if $r['base']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-false"></i>{/if}</td>
-					<td class="text-center">{if $r['notnull']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-false"></i>{/if}</td>
-					<td class="text-center">{if $r['unique']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-false"></i>{/if}</td>
+					<td>{if $controls[$r['control']]['name']} {$controls[$r['control']]['name']} {else} {$r.control} {/if}</td>
+					<td class="text-center">{if $r['system']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-times-circle fa-2x text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r['base']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-times-circle fa-2x text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r['notnull']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-times-circle fa-2x text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r['unique']}<i class="fa fa-check-circle fa-2x text-success"></i>{else}<i class="fa fa-times-circle fa-2x text-muted"></i>{/if}</td>
 				</tr>
 			{/loop}
 			<tbody>

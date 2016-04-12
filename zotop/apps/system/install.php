@@ -200,7 +200,8 @@ $this->db->createTable('user_field', array(
 		'tips'		=> array ( 'type'=>'varchar', 'length'=>255, 'default'=>null, 'comment' => t('字段提示信息') ),
 		'listorder'	=> array ( 'type'=>'mediumint', 'length'=>8, 'default'=>'0', 'unsigned'=>true, 'comment' => t('字段排序') ),
 		'disabled'	=> array ( 'type'=>'tinyint', 'length'=>1, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('禁用，1：禁用，0：不禁用') ),
-		'base'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'comment' => t('基本字段，是否在注册时显示') ),
+		'base'		=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0','unsigned'=>true, 'comment' => t('基本字段，是否在注册时显示，0=否，1=是') ),
+		'system'	=> array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0','unsigned'=>true, 'comment' => t('系统字段，0=否，1=是') ),
 	),
 	'index'=>array(
 	),

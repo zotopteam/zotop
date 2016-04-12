@@ -16,55 +16,11 @@
 
 		{field type="hidden" name="modelid" value="$modelid" required="required"}
 
-		<div class="panel">
+		<div class="panel panel-register">
 			<div class="panel-heading">
-				<h4>{t('%s注册', $model['name'])}</h4>
+				<h3 class="text-center">{t('%s注册', $model['name'])}</h3>
 			</div>
-			<div class="panel-body">		
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('用户名'),'username',true)}</div>
-					<div class="col-sm-10">
-						{form::field(array('type'=>'text','name'=>'username','minlength'=>4,'maxlength'=>20,'required'=>'required','remote'=>u('member/register/check/username')))}
-
-						{form::tips(t('4-20位字符，允许中文、英文、数字和下划线，不能含有特殊字符'))}
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('请输入密码'),'password',true)}</div>
-					<div class="col-sm-10">
-						{form::field(array('type'=>'password','name'=>'password','required'=>'required'))}
-						{form::tips(t('6-20位字符，可使用英文、数字或者符号组合，不建议使用纯数字、纯字母或者纯符号'))}
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('请确认密码'),'password',true)}</div>
-					<div class="col-sm-10">
-						{form::field(array('type'=>'password','name'=>'password2','equalto'=>'#password','required'=>'required'))}
-
-						{form::tips(t('请再次输入您的密码'))}
-
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('您的昵称'),'password',true)}</div>
-					<div class="col-sm-10">
-					{form::field(array('type'=>'text','name'=>'nickname','value'=>$data['nickname'],'minlength'=>2,'maxlength'=>32,'required'=>'required','remote'=>u('member/register/check/nickname')))}
-
-					{form::tips(t('为自己起一个独特的昵称'))}
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('您的邮箱'),'password',true)}</div>
-					<div class="col-sm-10">
-					{form::field(array('type'=>'email','name'=>'email','value'=>$data['email'],'required'=>'required','remote'=>u('member/register/check/email')))}
-					{form::tips(t('您的邮箱地址，我们将给你发送邮件'))}
-					</div>
-				</div>
+			<div class="panel-body">	
 
 				{loop $fields $f}
 				<div class="form-group">
@@ -85,19 +41,36 @@
 				</div>
 				{/if}
 
+				<div class="form-group">
+					<div class="col-sm-2 control-label"></div>
+					<div class="col-sm-10">
+						<div class="text-muted">{t('点击“立即注册”，即表示您同意并愿意遵守我们的<a href="javascript:;">用户协议</a>')}</div>
+					</div>
+				</div>				
+
+				<div class="form-group">
+					<div class="result">&nbsp;</div>
+
+					{field type="submit" value="t('立即注册')" data-loading-text="t('注册中，请稍后……')" class="btn-block btn-lg"}
+
+										
+				</div>
+
 			</div><!-- pannl-body -->
-			<div class="panel-footer">
-				{form::field(array('type'=>'submit','value'=>t('立即注册')))}
-
-				<div class="result">&nbsp;</div>
-
+			<div class="panel-footer text-center">
+				{t('已有账号？')} <a href="{U('member/login')}">{t('立即登录')}</a>
 			</div>			
 		</div>	
 	{form::footer()}
 
 </div> <!-- container -->
 
-<script type="text/javascript" src="{__THEME__}/js/jquery.validate.min.js"></script>
+<style>
+	.panel-register{}
+	.panel-register .panel-body{max-width:800px;margin:auto;}
+	.panel-register .form-group:last-child{border:0;}
+</style>
+
 <script type="text/javascript">
 	// 登录
 	$(function(){

@@ -20,4 +20,7 @@ zotop::add('system.start', 'member_hook::start');
 
 // system_globalnavbar
 zotop::add('system.global.navbar','member_hook::globalnavbar');
+
+// 获取表单
+zotop::add('member.field.getfields','member_hook::edit_password');
 ?>

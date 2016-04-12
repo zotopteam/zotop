@@ -14,7 +14,7 @@
 					<div class="form-group">
 						<div class="input-group input-group-merge">
 							<label for="username" class="input-group-addon"><i class="fa fa-user fa-fw text-primary"></i></label>
-							{field type="text" name="username" value="$remember_username" placeholder="t('用户名/手机号/密码')" required="required"}
+							{field type="text" name="username" value="$remember_username" placeholder="t('用户名/手机号/邮箱')" required="required"}
 						</div>
 					</div>
 
@@ -53,7 +53,7 @@
 
 				</div>
 
-				<div class="panel-footer">
+				<div class="panel-footer text-center">
 					{t('还没有账号？')} <a href="{U('member/register')}">{t('立即注册')}</a>
 				</div>
 			</div>	
@@ -64,13 +64,12 @@
 
 
 <style type="text/css">
-.panel-login{margin:80px auto;max-width:500px;box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);border:none;}
+.panel-login{margin:80px auto;max-width:600px;box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);border:none;}
 .panel-login .panel-heading{padding:10px;border:none;}
-.panel-login .panel-body{padding:20px;}
+.panel-login .panel-body{padding:20px;margin:0 auto;max-width:500px;}
 .panel-login .panel-footer{padding:15px;border:none;}
 </style>
 
-<script type="text/javascript" src="{__THEME__}/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	// 登录
 	$(function(){

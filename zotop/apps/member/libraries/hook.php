@@ -163,5 +163,23 @@ class member_hook
 
 		return $str;
 	}
+
+	/**
+	 * 获取表单时不修改密码留空
+	 * 
+	 * @param  array $field 字段列表
+	 * @return array
+	 */
+	public static function edit_password($fields)
+	{
+		if ( $fields['password']['field']['value'] )
+		{
+			$fields['password']['field']['value']    = '';
+			$fields['password']['field']['required'] = null;
+			$fields['password']['tips']              = t('请输入您要设置的新密码，不修改密码请留空');
+		}
+		
+		return $fields;
+	}
 }
 ?>
