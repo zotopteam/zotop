@@ -120,7 +120,7 @@ $this->db->createTable('user', array(
 		'salt'         => array('type'=>'char','length'=>'6','notnull'=>true,'autoinc'=>false,'comment'=>t('密码加盐')),
 		'email'        => array('type'=>'char','length'=>'50','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('邮件地址')),
 		'emailstatus'  => array('type'=>'tinyint','length'=>'1','notnull'=>false,'default'=>'0','autoinc'=>false,'comment'=>t('邮件验证，0=未验证，1=已经验证')),
-		'mobile'       => array('type'=>'char','length'=>'13','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('手机号码')),
+		'mobile'       => array('type'=>'char','length'=>'11','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('手机号码')),
 		'mobilestatus' => array('type'=>'tinyint','length'=>'1','notnull'=>false,'default'=>'0','autoinc'=>false,'comment'=>t('手机状态，0=未验证，1=已经验证')),
 		'nickname'     => array('type'=>'char','length'=>'32','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('昵称')),
 		'avtar'        => array('type'=>'tinyint','length'=>'1','notnull'=>false,'default'=>'0','autoinc'=>false,'comment'=>t('头像状态，1=已上传头像，0=未上传头像')),
