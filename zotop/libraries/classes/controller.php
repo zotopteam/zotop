@@ -206,9 +206,9 @@ class controller
     public function error($content, $time = 3)
     {
         $this->message(array(
-			'state' => false,
-			'content' => $content,
-			'time' => $time
+            'state'   => false,
+            'content' => $content,
+            'time'    => $time
 		));
     }
 
@@ -221,10 +221,10 @@ class controller
     public function success($content, $url = null, $time = 2)
     {
         $this->message(array(
-			'state' => true,
-			'content' => $content,
-			'url' => $url,
-			'time' => $time
+            'state'   => true,
+            'content' => $content,
+            'url'     => $url,
+            'time'    => $time
 		));
     }
 
@@ -255,15 +255,15 @@ class controller
     /*
     * 404 error
     *
-    * @param array $msg
+    * @param string $content 错误消息
     * @return null
     */
-	public function _404($content)
-	{
-		header('HTTP/1.1 404 Not Found');
-        header('Status: 404 Not Found');
+    public function _404($content)
+    {
+        @header('HTTP/1.1 404 Not Found');
+        @header('Status: 404 Not Found');
 
-		$this->assign('content', $content);
-		$this->display("system/404.php");
-	}
+        $this->assign('content', $content);
+        $this->display("system/404.php");
+    }    
 }

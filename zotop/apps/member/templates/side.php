@@ -1,67 +1,60 @@
-<div class="user-info">
+<div class="user-sidebar">
 	<div class="user-avatar">
-			<a href="javascript:;">
-				<img src="{m('system.user.avatar', $_USER.id)}"/>
-			</a>
+		<img src="{m('system.user.avatar', $_USER.id, 'big')}" class="avatar img-responsive" />
+		<a href="javascript:;"></a>
 	</div>
-	<div class="user-main">
-		<div class="username textflow" title="{$_USER.username}">{$_USER.username}</div>
-		<div class="modelname textflow"><b>{m('member.model.get', $_USER.modelid, 'name')}</b></div>
-		<div class="groupname textflow"><b>{m('member.group.get', $_USER.groupid, 'name')}</b></div>
+
+	<div class="user-info">
+		<div class="username text-overflow" title="{$_USER.username}">{$_USER.username}</div>
+		<div class="modelname text-overflow">{m('member.model.get', $_USER.modelid, 'name')}</div>
+		<div class="groupname text-overflow">{m('member.group.get', $_USER.groupid, 'name')}</div>
 	</div>
-</div>
 
-<div class="user-data">
-	{t('积分')}<em>{m('system.user.get', $_USER.id, 'point')} </em>
-	<s>|</s>
-	{t('金钱')}<em>{m('system.user.get', $_USER.id, 'amount')} </em>
-</div>
+	<div class="user-data">
+		{t('积分')}:<em>{m('system.user.get', $_USER.id, 'point')} </em>
+		<s>|</s>
+		{t('金钱')}:<em>{m('system.user.get', $_USER.id, 'amount')} </em>
+	</div>
 
-<dl class="list navlist">
-	{loop zotop::filter('member.navlist',array()) $r}
+	<dl class="list-group">
+		{loop zotop::filter('member.navlist',array()) $r}
 
-	{if $r.menu and is_array($r.menu)}
-	<dt>{$r.text}</dt>
-	<dd>
-		{loop $r.menu $m}
-		<div class="item">
-			<a href="{$m.href}"><i class="icon {$m.icon}"></i> {$m.text}</a>
-			<span class="extra">{$m.extra}</span>
-		</div>
+		{if $r.menu and is_array($r.menu)}
+		<dt class="list-group-item list-group-title">{$r.text}</dt>
+		<dd class="list-group-item">
+			{loop $r.menu $m}
+			<dd class="list-group-item">
+				<a href="{$m.href}"><i class="icon {$m.icon}"></i> {$m.text}</a>
+				<span class="extra">{$m.extra}</span>
+			</dd>
+			{/loop}
+		</dd>
+		{/if}
+
 		{/loop}
-	</dd>
-	{/if}
-
-	{/loop}
-	<dt class="none">{t('财务')}</dt>
-	<dd class="none">
-		<div class="item"><a href="{U('member/amount/pay')}">{t('在线充值')}</a></div>
-		<div class="item"><a href="{U('member/amount/payment')}">{t('充值记录')}</a></div>
-		<div class="item"><a href="{U('member/amount/spend')}">{t('消费记录')}</a></div>
-		<div class="item"><a href="{U('member/amount/exchange')}">{t('积分兑换')}</a></div>
-	</dd>
-	<dt>{t('账户')}</dt>
-	<dd>
-		<div class="item"><a href="{U('member/mine')}"><i class="icon icon-user"></i> {t('修改我的账户资料')}</a></div>
-		<div class="item"><a href="{U('member/mine/email')}"><i class="icon icon-mail"></i> {t('修改我的邮箱')}</a></div>
-		<div class="item"><a href="{U('member/mine/password')}"><i class="icon icon-safe"></i> {t('修改我的密码')}</a></div>
-		<div class="item"><a href="{U('member/login/loginout')}"><i class="icon icon-out"></i> {t('退出账户')}</a></div>
-
-	</dd>
-</dl>
+		<dt class="list-group-item list-group-title">{t('财务')}</dt>
+		<dd class="list-group-item"><a href="{U('member/amount/pay')}">{t('在线充值')}</a></dd>
+		<dd class="list-group-item"><a href="{U('member/amount/payment')}">{t('充值记录')}</a></dd>
+		<dd class="list-group-item"><a href="{U('member/amount/spend')}">{t('消费记录')}</a></dd>
+		<dd class="list-group-item"><a href="{U('member/amount/exchange')}">{t('积分兑换')}</a></dd>
+		<dt class="list-group-item list-group-title">{t('账户')}</dt>
+		<dd class="list-group-item"><a href="{U('member/mine')}">{t('修改我的账户资料')}</a></dd>
+		<dd class="list-group-item"><a href="{U('member/mine/email')}">{t('修改我的邮箱')}</a></dd>
+		<dd class="list-group-item"><a href="{U('member/mine/password')}">{t('修改我的密码')}</a></dd>
+		<dd class="list-group-item"><a href="{U('member/login/loginout')}">{t('退出账户')}</a></dd>
+	</dl>
+</div>
 
 <style type="text/css">
-.row-s-m .main-inner{margin:0;margin-left:235px;border:1px solid #ECECEC;padding:20px;}
-.row-s-m .side{margin:0;margin-left:-100%;width:220px;border:1px solid #ECECEC;background:#FAFAFA;}
-
-.user-info {background-color:#fff;*zoom:1;padding:20px;}
-.user-info .user-avatar {float:left;width:64px;height:64px;}
-.user-info .user-avatar img {width:100%;height:100%;}
-.user-info .user-main{float:left;height:60px;width:100px;padding-left:15px;line-height:25px;margin-top:-3px;}
-.user-info .user-main .username {font-size:16px;}
-.user-info .user-main .modelname b{font-weight:normal;}
-.user-info .user-main .groupname b{font-weight:normal;}
-.user-data{clear:both;display:block;padding:20px;}
+.user-sidebar {padding:15px;background-color:#fafafa;border:1px solid #f3f3f3;border-width:0 1px;}
+.user-avatar{margin-bottom:15px;}
+.user-info{line-height:25px;}
+.user-info .username {font-size:16px;}
+.user-info .modelname b{font-weight:normal;}
+.user-info .groupname b{font-weight:normal;}
+.user-data{padding:15px 0;}
 .user-data em {font-style:normal;color:#ff6600;margin-left:3px;}
 .user-data s{margin:0 5px;color:#ccc;}
+.user-sidebar .list-group{border-shadow:none;margin:0 -15px;}
+.user-sidebar .list-group-item{border-width: 1px 0;border-radius: 0;background:transparent;}
 </style>

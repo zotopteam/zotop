@@ -152,7 +152,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 .panel-default>.panel-heading>.panel-title{font-size:24px;}
 .panel-default>.panel-heading{border-color:#efefef;background-color:#fff;}
 
-.list-group{box-shadow:0 1px 1px #efefef;}
+.list-group{}
+.list-group-title{background:#f7f7f7;}
 .list-group-item{border:1px solid #efefef;}
 .list-group-item a:before{float:left;display:block;content:"●";vertical-align:middle;padding-right:10px;color:#ccc;transition:all .3s;}
 
@@ -272,6 +273,10 @@ figure.image figcaption{margin: 6px 1px 6px 1px;text-align: center;}
 .scroll-btn li:hover>.popover{display:block;opacity:1;white-space:nowrap;}
 
 body{font-family:"Helvetica Neue", Helvetica, Microsoft Yahei, Hiragino Sans GB, WenQuanYi Micro Hei, sans-serif;font-size:14px;line-height:150%;padding-top:50px;background-color:#f2f4f5;}
+
+body.message p.action{margin-top:15px;}
+body.message p.action a{margin-right:15px;}
+body.message.success h1{color:#00bc3e;}
 
 
 /* 分辨率大于 768px */

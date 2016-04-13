@@ -31,13 +31,32 @@
     <![endif]-->
     {hook 'site.head'}
 </head>
-<body class="message error 404">
+<body class="message {if $state}success{else}error{/if}">
 	<div class="container">
 		<h1>{$content}</h1>
+		{if $url}
+		<h4 class="jump"><b id="wait">{$time}</b> {t('页面自动跳转中……')}  {t('或者')}  <a id="href" href="{$url}">{t('点击跳转')}</a></h4>
+		{/if}
+		{if $detail}
+		<p class="detail">{$detail}</p>
+		{/if}		
 		<p class="action">
-			<a class="btn btn-default hidden" href="javascript:history.go(-1)">{t('返回前页')}</a>
-			<a class="btn btn-default hidden"  href="javascript:location.reload();">{t('重试')}</a>			
+			<a href="javascript:history.go(-1)">{t('返回前页')}</a>
+			<a href="javascript:location.reload();">{t('重试')}</a>
 		</p>
 	</div>
+	<script type="text/javascript">
+		$(function(){
+			var wait = $('#wait').text();
+			var interval = setInterval(function(){
+				var time = -- wait;
+				$('#wait').text(time)
+				if(time == 0) {
+					location.href = $('#href').attr('href');
+					clearInterval(interval);
+				};
+			}, 1000);
+		});
+	</script>	
 </body>
 </html>

@@ -136,7 +136,6 @@ class system_model_user extends model
 	 */
 	public function avatar($uid=0, $size='middle', $path=false)
 	{
-
 		// hook
 		$params = func_get_args();
 		$avatar = zotop::filter('user.avatar', $avatar, $params);
@@ -160,7 +159,7 @@ class system_model_user extends model
 		}
 
 
-		return ZOTOP_URL_UPLOADS."/avatar/{$size}.gif";
+		return ZOTOP_URL_COMMON."/noavatar_{$size}.gif";
 
 	}
 
