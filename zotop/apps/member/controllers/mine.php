@@ -24,9 +24,9 @@ class member_controller_mine extends member_controller
 		parent::__init();
 
 		$this->member = m('member.member');
-		$this->model = m('member.model');
-		$this->group = m('member.group');
-		$this->user = m('system.user');
+		$this->model  = m('member.model');
+		$this->group  = m('member.group');
+		$this->user   = m('system.user');
 	}
 
 	/**
@@ -48,7 +48,7 @@ class member_controller_mine extends member_controller
 		$data = $this->member->get($this->userid);
 
 		$fields = m('member.field')->getFields($data['modelid'], $data);
-
+		
 		$groups = arr::hashmap(m('member.group')->getModel($data['modelid']),'id','name');
 
 		$models = $this->model->get($data['modelid']);

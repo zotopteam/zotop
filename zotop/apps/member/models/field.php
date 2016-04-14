@@ -126,7 +126,7 @@ class member_model_field extends model
 			}
 		}
 
-		return zotop::filter('member.field.getfields',$fields);
+		return zotop::filter('member.field.getfields', $fields, $data);
 	}
 
 	/*
@@ -241,7 +241,7 @@ class member_model_field extends model
 	{
 		if ( $data = $this->get($id) )
 		{
-			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除'));
+			if ( intval($data['system']) ) return $this->error(t('系统字段不能删除，如果不需要请禁用'));
 
 			if ( empty($data['tablename']) )
 			{

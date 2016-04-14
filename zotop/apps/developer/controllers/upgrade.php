@@ -50,7 +50,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form()
 	{
-		$file = a('member.path').DS.'templates'.DS.'admin_post.php';
+		$file = a('member.path').DS.'templates'.DS.'mine_index.php';
 		
 		$str  = file::get($file);
 
@@ -114,6 +114,49 @@ class developer_controller_upgrade extends admin_controller
 		$str = str_ireplace('.disable(false);', ".button('reset');", $str);
 
 		
+
+		//$str = str_ireplace('<tr class="', '<div class="form-group ', $str);
+
+
+		debug::dump(file::put($file,$str));
+	}
+
+	/**
+     * 表单替换 horizontal
+     *
+     * @return void
+     */
+	public function action_form3()
+	{
+		$file = a('member.path').DS.'templates'.DS.'mine_index.php';
+		
+		$str  = file::get($file);
+
+		
+
+		$str = str_ireplace('{form::header()}', '{form class="form-horizontal"}', $str);
+		$str = str_ireplace('{form::footer()}', '{/form}', $str);
+
+		$str = str_ireplace('<table class="field">', '', $str);
+		$str = str_ireplace('</table>', '', $str);
+
+		$str = str_ireplace('<caption>', '<div class="form-title">', $str);
+		$str = str_ireplace('</caption>', '</div>', $str);	
+
+		$str = str_ireplace('<tbody>', '', $str);
+		$str = str_ireplace('</tbody>', '', $str);
+
+		$str = str_ireplace('<tr>', '<div class="form-group">', $str);
+		$str = str_ireplace('</tr>', '</div>', $str);		
+
+		$str = str_ireplace('<td class="label">', '<div class="col-sm-2 control-label">', $str);
+		$str = str_ireplace('<td class="input">', '<div class="col-sm-8">', $str);
+		$str = str_ireplace('</td>', '</div>', $str);
+
+		$str = str_ireplace('icon icon', 'fa fa', $str);
+
+		$str = str_ireplace('.disable(true);', ".button('loading');", $str);
+		$str = str_ireplace('.disable(false);', ".button('reset');", $str);
 
 		//$str = str_ireplace('<tr class="', '<div class="form-group ', $str);
 
