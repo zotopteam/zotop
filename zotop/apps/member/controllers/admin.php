@@ -172,15 +172,12 @@ class member_controller_admin extends admin_controller
 	 */
 	public function action_delete($id)
 	{
-		if( $this->post() )
+		if ( $this->member->delete($id) )
 		{
-			if ( $this->member->delete($id) )
-			{
-				return $this->success(t('删除成功'),u('member/admin'));
-			}
-
-			return $this->error($this->member->error());
+			return $this->success(t('删除成功'),u('member/admin'));
 		}
+
+		return $this->error($this->member->error());
 	}
 }
 ?>

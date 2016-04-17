@@ -24,19 +24,19 @@
 
 				{loop $fields $f}
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label($f['label'], $f['for'], $f['required'])}</div>
+					<label for="{$f.for}" class="col-sm-2 control-label {if $f.field.required}required{/if}">{$f.label}</label>
 					<div class="col-sm-10">
 						{form::field($f['field'])}
-						{form::tips($f['tips'])}
+						{if $f.tips}<div class="help-block">{$f.tips}</div>{/if}
 					</div>
 				</div>
 				{/loop}
 
 				{if C('member.register_captcha')}
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('验证码'),'captcha')}</div>
+					<label for="captcha" class="col-sm-2 control-label required">{t('验证码')}</label>
 					<div class="col-sm-10">
-						{form::field(array('type'=>'captcha','name'=>'captcha','required'=>'required'))}
+						{field type="captcha" name="captcha" required="required"}
 					</div>
 				</div>
 				{/if}
@@ -50,10 +50,7 @@
 
 				<div class="form-group">
 					<div class="result">&nbsp;</div>
-
-					{field type="submit" value="t('立即注册')" data-loading-text="t('注册中，请稍后……')" class="btn-block btn-lg"}
-
-										
+					{field type="submit" value="t('立即注册')" data-loading-text="t('注册中，请稍后……')" class="btn-block btn-lg"}								
 				</div>
 
 			</div><!-- pannl-body -->

@@ -43,11 +43,9 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    {if C('site.logo')}
-                    <a class="navbar-logo" href="{U()}"><img src="{C('site.logo')}" alt="{C('site.name')}"></a>
-                    {else}
-                    <a class="navbar-brand" href="{U()}">{C('site.name')}</a>
-                    {/if}
+                    <a class="navbar-brand" href="{U()}">
+                       {if C('site.logo')} <img src="{C('site.logo')}" class="navbar-image navbar-logo" alt="{C('site.name')}"> {else} {C('site.name')} {/if}
+                    </a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -74,7 +72,10 @@
                     <ul class="nav navbar-nav navbar-right navbar-member">
                         {if $_USER.username}   
                             <li class="dropdown">
-                                <a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i><b>{$_USER.username}</b><span class="caret"></span></a>
+                                <a href="{U('member/index')}">
+                                    <img src="{m('system.user.avatar',$_USER.id,'small')}" class="navbar-image circle" alt="{t('用户头像')}">
+                                    <b>{$_USER.username}</b><span class="caret"></span>
+                                </a>
                                 <ul class="dropdown-menu">
                                     <li><a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i>{t('会员中心')} </a></li>
                                     <li><a href="{U('member/index')}"><i class="fa fa-cog fa-fw"></i>{t('个人设置')} </a></li>
@@ -83,7 +84,7 @@
                             </li>                                                  
                         {else}
                             <li><a class="login" href="{U('member/login')}"><i class="icon icon-user"></i>{t('登录')}</a></li>
-                            <li class="navbar-split hidden-xs hidden-sm">|</li>
+                            <li class="navbar-text navbar-divider hidden-xs hidden-sm">|</li>
                             <li><a class="register" href="{U('member/register')}">{t('注册')}</a></li>
                         {/if}
                     </ul>

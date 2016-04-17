@@ -1,15 +1,14 @@
 {template 'header.php'}
 <style type="text/css">
-.user-sidebar {padding:15px;background-color:#fafafa;border:1px solid #f3f3f3;border-radius:4px;}
-.user-avatar{margin-bottom:15px;}
-.user-info{line-height:25px;}
+.user-sidebar{background-color:#fafafa;border:1px solid #f3f3f3;border-radius:4px;}
+.user-avatar{padding:15px;}
+.user-info{line-height:25px;padding:15px;margin-top:-15px;}
 .user-info .username {font-size:16px;}
-.user-info .modelname b{font-weight:normal;}
-.user-info .groupname b{font-weight:normal;}
-.user-data{padding:15px 0;}
-.user-data em {font-style:normal;color:#ff6600;margin-left:3px;}
-.user-data s{margin:0 5px;color:#ccc;}
-.user-sidebar .list-group{border-shadow:none;margin:0 -15px;}
+.user-data{padding:15px 0;text-align:center;margin-top:-15px;margin-bottom:0;}
+.user-data li{float: left;width:50%;list-style:none;line-height:25px;}
+.user-data li:first-child{border-right:solid 1px #ebebeb;}
+.user-data em {font-style:normal;color:#ff6600;display: block;font-size:18px;}
+.user-sidebar .list-group{border-shadow:none;}
 .user-sidebar .list-group-item{border-width: 1px 0;border-radius: 0;background:transparent;}
 .user-sidebar .list-group-item:last-child{border:0;}
 </style>
@@ -27,15 +26,13 @@
 
 					<div class="user-info">
 						<div class="username text-overflow" title="{$_USER.username}">{$_USER.username}</div>
-						<div class="modelname text-overflow">{m('member.model.get', $_USER.modelid, 'name')}</div>
-						<div class="groupname text-overflow">{m('member.group.get', $_USER.groupid, 'name')}</div>
+						<div class="model-group text-overflow">{m('member.model.get', $_USER.modelid, 'name')} {m('member.group.get', $_USER.groupid, 'name')}</div>
 					</div>
 
-					<div class="user-data">
-						{t('积分')}:<em>{m('system.user.get', $_USER.id, 'point')} </em>
-						<s>|</s>
-						{t('金钱')}:<em>{m('system.user.get', $_USER.id, 'amount')} </em>
-					</div>
+					<ul class="user-data clearfix">
+						<li><em>{m('system.user.get', $_USER.id, 'point')} </em> {t('积分')}</li>
+						<li><em>{m('system.user.get', $_USER.id, 'amount')} </em> {t('金钱')}</li>						
+					</ul>
 
 					<dl class="list-group">
 						{loop zotop::filter('member.navlist',array()) $r}

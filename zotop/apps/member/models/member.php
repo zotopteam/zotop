@@ -67,11 +67,12 @@ class member_model_member extends model
 		if ( $data = $this->user->get($id)  )
 		{
 			// 获取模型数据
-			$model = m('member.model')->get($data['modelid']);
+			$model = m('member.model')->getbyid($data['modelid']);
 
 			// 当前模型数据表
 			if ( $this->db->existsTable($model['tablename']) )
 			{
+
 				$this->table = $model['tablename'];
 
 				$data = array_merge($data, parent::get($id));
@@ -104,9 +105,13 @@ class member_model_member extends model
 	 */
 	private function _data($data)
 	{
-		if ( isset($data['username']) and $this->checkname($data['username']) == false ) return $this->error(t('用户名包含禁止使用的字符'));
-		if ( isset($data['nickname']) and $this->checkname($data['nickname']) == false ) return $this->error(t('昵称包含禁止使用的字符'));
 		if ( empty($data['modelid']) ) return $this->error(t('模型不能为空'));
+
+		if ( $data['modelid'] != 'admin' )
+		{
+			if ( isset($data['username']) and $this->checkname($data['username']) == false ) return $this->error(t('用户名包含禁止使用的字符'));
+			if ( isset($data['nickname']) and $this->checkname($data['nickname']) == false ) return $this->error(t('昵称包含禁止使用的字符'));
+		}
 
         // 预处理数据
 		$fields = m('member.field.cache', $data['modelid']);
@@ -168,7 +173,7 @@ class member_model_member extends model
 		if ( $data = $this->_data($data) )
 		{
 			// 获取模型数据
-			$model = m('member.model')->get($data['modelid']);
+			$model = m('member.model')->getbyid($data['modelid']);
 
 			// 设置默认值
 			$data['groupid'] = $data['groupid'] ? $data['groupid'] : $model['settings']['groupid'];
@@ -214,7 +219,7 @@ class member_model_member extends model
 		{
 			if ( $this->user->edit($data, $id) )
 			{
-				$model = m('member.model')->get($data['modelid']);
+				$model = m('member.model')->getbyid($data['modelid']);
 
 				if ( $this->db->existsTable($model['tablename']) )
 				{
@@ -244,16 +249,17 @@ class member_model_member extends model
 
 		if ( $user = $this->user->getbyid($id)  )
 		{
-			$model = m('member.model')->get($data['modelid']);
+			$model = m('member.model')->getbyid($data['modelid']);
 
 			if ( $this->db->existsTable($model['tablename']) )
 			{
 				$this->table = $model['tablename'];
-			}			
+			}
 
-			if ( $this->table and $this->user->delete($id) )
+			if ( $this->user->delete($id) )
 			{
-				return parent::delete($id);
+				if ( $this->table ) parent::delete($id);
+				return true;
 			}
 
 			return $this->error($this->user->error());

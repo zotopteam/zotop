@@ -10,7 +10,7 @@
 
 			{loop $fields $f}
 			<div class="form-group">
-				<label for="{$f.for}" class="col-sm-2 control-label {if $f.required}required{/if}">{$f.label}</label>
+				<label for="{$f.for}" class="col-sm-2 control-label {if $f.field.required}required{/if}">{$f.label}</label>
 				<div class="col-sm-8">
 					{form::field($f.field)}
 					{if $f.tips}<div class="help-block">{$f.tips}</div>{/if}
