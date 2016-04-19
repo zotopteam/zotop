@@ -219,5 +219,34 @@ class member_hook
 		
 		return $fields;
 	}
+
+	/**
+	 * 获取用户的菜单，用于登录后顶部导航栏下显示
+	 * 
+	 * @param  [type] $modelid [description]
+	 * @return [type]          [description]
+	 */
+	public static function navbar($modelid)
+	{
+		return zotop::filter('member.navbar',array(
+			'member_index' => array(
+				'text'   => t('会员中心'),
+				'href'   => U('member/index'),
+				'icon'   => 'fa fa-user',
+				'active' => request::is('member/index')
+			),
+			'member_mine' => array(
+				'text'   => t('个人设置'),
+				'href'   => U('member/mine'),
+				'icon'   => 'fa fa-cog',
+				'active' => request::is('member/mine')
+			),
+			'logout' => array(
+				'text'   => t('退出'),
+				'href'   => U('member/login/logout'),
+				'icon'   => 'fa fa-sign-out'
+			),											
+		),$modelid);		
+	}
 }
 ?>

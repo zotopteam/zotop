@@ -76,10 +76,10 @@
                                     <img src="{m('system.user.avatar',$_USER.id,'small')}" class="navbar-image circle" alt="{t('用户头像')}">
                                     <b>{$_USER.username}</b><span class="caret"></span>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="{U('member/index')}"><i class="fa fa-user fa-fw"></i>{t('会员中心')} </a></li>
-                                    <li><a href="{U('member/index')}"><i class="fa fa-cog fa-fw"></i>{t('个人设置')} </a></li>
-                                    <li><a href="{U('member/login/loginout')}" class="loginout"><i class="fa fa-sign-out fa-fw"></i>{t('退出')}</a></li>     
+                                <ul class="dropdown-menu">  
+                                    {loop member_hook::navbar($_USER.modelid) $nav}
+                                    <li><a href="{$nav.href}"><i class="{$nav.icon} fa-fw"></i> {$nav.text}</a></li>
+                                    {/loop}
                                 </ul>
                             </li>                                                  
                         {else}

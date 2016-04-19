@@ -36,9 +36,9 @@
 			</div>
 
             <div class="form-group">
-                <div class="col-sm-2 control-label">{form::label(t('注册协议'),'register_protocol',false)}</div>
+                <div class="col-sm-2 control-label">{form::label(t('用户注册协议'),'register_protocol',false)}</div>
                 <div class="col-sm-8">
-                    {form::field(array('type'=>'textarea','name'=>'register_protocol','value'=>c('member.register_protocol'),'rows'=>5))}
+                    {form::field(array('type'=>'editor','name'=>'register_protocol','value'=>c('member.register_protocol'),'rows'=>8))}
                 </div>
             </div>
 

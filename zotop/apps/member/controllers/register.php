@@ -68,14 +68,6 @@ class member_controller_register extends site_controller
 			return $this->error(t('禁止注册'));
 		}
 
-		// 字段信息
-		$fields = m('member.field')->getFields($modelid);
-
-		foreach( $fields as $i=>$f )
-		{
-			if( $f['base'] == 0 and $f['required'] == 0 ) unset($fields[$i]);
-		}
-
 		// 当前模型
 		$model = $this->model->get($modelid);
 
@@ -86,7 +78,6 @@ class member_controller_register extends site_controller
 		$this->assign('model',$model);
 		$this->assign('modelid',$modelid);
 		$this->assign('models',$models);
-		$this->assign('fields',$fields);
 		$this->display($template);
 	}
 

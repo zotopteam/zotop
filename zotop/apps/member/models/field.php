@@ -40,9 +40,9 @@ class member_model_field extends model
         $this->system_fields = zotop::filter('member.field.system',array(
 			'username'         => array('control'=>'username','label'=>t('用户名'),'name'=>'username','type'=>'varchar','length'=>'32','notnull'=>'1','settings'=>array('minlength'=>'2','maxlength'=>'32'),'base'=>'1','tips'=>t('4-20位字符，允许中文、英文、数字和下划线，不能含有特殊字符')),
 			'password'         => array('control'=>'password','label'=>t('密码'),'name'=>'password','type'=>'varchar','length'=>'32','notnull'=>'1','settings'=>array('minlength'=>'6','maxlength'=>'32'),'base'=>'1','tips'=>t('6-20位字符，可使用英文、数字或者符号组合，不建议使用纯数字、纯字母或者纯符号')),
-			'email'            => array('control'=>'email','label'=>t('邮箱'),'name'=>'email','type'=>'varchar','length'=>'50','notnull'=>'1','settings'=>array('maxlength'=>'32'),'base'=>'1'),
-			'mobile'           => array('control'=>'mobile','label'=>t('手机'),'name'=>'mobile','type'=>'varchar','length'=>'13','notnull'=>'1','settings'=>array('maxlength'=>'13'),'base'=>'1'),
-			'nickname'         => array('control'=>'nickname','label'=>t('昵称'),'name'=>'nickname','type'=>'varchar','length'=>'32','notnull'=>'0','settings'=>array('maxlength'=>'32'),'base'=>'0'),
+			'email'            => array('control'=>'email','label'=>t('邮箱'),'name'=>'email','type'=>'varchar','length'=>'50','notnull'=>'1','settings'=>array('maxlength'=>'32'),'base'=>'1','tips'=>t('建议使用您的常用邮箱')),
+			'mobile'           => array('control'=>'mobile','label'=>t('手机'),'name'=>'mobile','type'=>'varchar','length'=>'13','notnull'=>'1','settings'=>array('maxlength'=>'13'),'base'=>'1','tips'=>t('建议使用您的常用手机号')),
+			'nickname'         => array('control'=>'nickname','label'=>t('昵称'),'name'=>'nickname','type'=>'varchar','length'=>'32','notnull'=>'0','settings'=>array('maxlength'=>'32'),'base'=>'0','tips'=>t('为自己起一个昵称')),
 		));        
 	}
 
@@ -126,7 +126,25 @@ class member_model_field extends model
 			}
 		}
 
-		return zotop::filter('member.field.getfields', $fields, $data);
+		return zotop::filter('member.field.getfields', $fields, $modelid, $data);
+	}
+
+	/**
+	 * 获取注册的表单字段
+	 * 
+	 * @param  [type] $modelid [description]
+	 * @return [type]          [description]
+	 */
+	public function register($modelid, $data=array())
+	{
+		$fields = $this->getfields($modelid, $data);
+
+		foreach ($fields as $k=>$f)
+		{
+			if ( $f['base'] == 0 and $f['required'] == 0 ) unset($fields[$k]);
+		}
+
+		return zotop::filter('member.field.register', $fields, $modelid, $data);
 	}
 
 	/*

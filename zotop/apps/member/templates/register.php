@@ -8,21 +8,21 @@
 		{/loop}
 	</ul>
 </nav>
-{/if}	
+{/if}
 
 <div class="container">
 
 	{form class="form-horizontal"}
 
-		{field type="hidden" name="modelid" value="$modelid" required="required"}
+		{field type="hidden" name="modelid" value="$model.id" required="required"}
 
 		<div class="panel panel-register">
 			<div class="panel-heading">
-				<h3 class="text-center">{t('%s注册', $model['name'])}</h3>
+				<h3 class="text-center">{t('%s注册', $model.name)}</h3>
 			</div>
 			<div class="panel-body">	
 
-				{loop $fields $f}
+				{loop m('member.field.register',$model.id) $f}
 				<div class="form-group">
 					<label for="{$f.for}" class="col-sm-2 control-label {if $f.field.required}required{/if}">{$f.label}</label>
 					<div class="col-sm-10">
@@ -40,13 +40,19 @@
 					</div>
 				</div>
 				{/if}
-
+				
+				{if C('member.register_protocol')}
 				<div class="form-group">
 					<div class="col-sm-2 control-label"></div>
 					<div class="col-sm-10">
-						<div class="text-muted">{t('点击“立即注册”，即表示您同意并愿意遵守我们的<a href="javascript:;">用户协议</a>')}</div>
+						<input type="checkbox" name="agree" id="agree" value="1" class="required" checked="checked">
+						<label class="text-muted" for="agree">{t('同意并愿意遵守我们的<a href="#register_protocol" data-toggle="collapse">《用户注册协议》</a>')}</label>
+						<div class="collapse register_protocol" id="register_protocol">
+							{C('member.register_protocol')}
+						</div>
 					</div>
-				</div>				
+				</div>
+				{/if}			
 
 				<div class="form-group">
 					<div class="result">&nbsp;</div>
@@ -63,9 +69,11 @@
 </div> <!-- container -->
 
 <style>
-	.panel-register{}
-	.panel-register .panel-body{max-width:800px;margin:auto;}
+	.panel-register{margin:60px auto;max-width:800px;}
+	.panel-register .panel-body{max-width:600px;margin:auto;}
 	.panel-register .form-group:last-child{border:0;}
+
+	.register_protocol{height:300px;overflow: auto;}
 </style>
 
 <script type="text/javascript">
