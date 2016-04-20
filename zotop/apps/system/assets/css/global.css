@@ -267,11 +267,11 @@ label[for]{cursor:pointer;}
 .scrollable{overflow:auto;outline:none;}
 .nicescroll-cursors{width:6px!important;background:#000!important;border:1px solid rgba(255,255,255,0.5)!important;opacity:0.5;}
 
-::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar{width:6px;height:6px;}
 ::-webkit-scrollbar-button{display:none;}
-::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece{background:-webkit-gradient(linear,left);width:8px;height:8px;}
-::-webkit-scrollbar-thumb{border-width:0 1px;border-style:solid;border-color:#fefefe;border-radius:4px;background:#8a8a8a;}
-::-webkit-scrollbar-thumb:horizontal{border-width:1px 0;border-style:solid;border-color:#fefefe;border-radius:4px;background:#d9d9d9;}
+::-webkit-scrollbar-track, ::-webkit-scrollbar-track-piece{background:-webkit-gradient(linear,left);width:6px;height:6px;}
+::-webkit-scrollbar-thumb{border-width:0 0px;border-style:solid;border-color:#fefefe;border-radius:4px;background:#8a8a8a;}
+::-webkit-scrollbar-thumb:horizontal{border-width:0px 0;border-style:solid;border-color:#fefefe;border-radius:4px;background:#d9d9d9;}
 ::-webkit-scrollbar-thumb:hover{background:#bdbdbd;}
 ::-webkit-scrollbar-thumb:active{background:#8e8e8e;}
 
