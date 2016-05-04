@@ -132,8 +132,9 @@ class member_model_field extends model
 	/**
 	 * 获取注册的表单字段
 	 * 
-	 * @param  [type] $modelid [description]
-	 * @return [type]          [description]
+	 * @param  string $modelid 模型编号，如：member,admin 或者自定义的模型编号
+	 * @param  array  $data    模型数据
+	 * @return array
 	 */
 	public function register($modelid, $data=array())
 	{

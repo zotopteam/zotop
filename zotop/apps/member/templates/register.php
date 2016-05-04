@@ -26,7 +26,7 @@
 				<div class="form-group">
 					<label for="{$f.for}" class="col-sm-2 control-label {if $f.field.required}required{/if}">{$f.label}</label>
 					<div class="col-sm-10">
-						{form::field($f['field'])}
+						{form::field($f.field)}
 						{if $f.tips}<div class="help-block">{$f.tips}</div>{/if}
 					</div>
 				</div>
@@ -72,7 +72,6 @@
 	.panel-register{margin:60px auto;max-width:800px;}
 	.panel-register .panel-body{max-width:600px;margin:auto;}
 	.panel-register .form-group:last-child{border:0;}
-
 	.register_protocol{height:300px;overflow: auto;}
 </style>
 

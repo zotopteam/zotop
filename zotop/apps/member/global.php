@@ -27,5 +27,7 @@ zotop::add('member.field.getfields','member_hook::ajax_remotecheck');
 
 //添加用户
 zotop::add('member.add','member_hook::send_validmail');
-zotop::add('member.edit','member_hook::send_validmail');
+
+//会员中心编辑用户界面
+
 ?>
