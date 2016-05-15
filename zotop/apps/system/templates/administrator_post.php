@@ -28,14 +28,14 @@
 				</div>
 				{if empty($data['password'])}
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('用户密码'),'password',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('新密码'),'password',true)}</div>
 					<div class="col-sm-5">
 						{form::field(array('type'=>'password','name'=>'password','minlength'=>6,'maxlength'=>20,'required'=>'required'))}
-						{form::tips(t('请输入您要设置的新密码'))}
+						{form::tips(t('请输入您要设置的新密码，不修改密码请勿输入'))}
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('密码确认'),'password2',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('确认新密码'),'password2',true)}</div>
 					<div class="col-sm-5">
 						{form::field(array('type'=>'password','name'=>'password2','equalto'=>'#password','minlength'=>6,'maxlength'=>20,'required'=>'required'))}
 						{form::tips(t('为确保安全，请再次输入新密码'))}

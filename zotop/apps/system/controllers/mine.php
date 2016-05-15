@@ -72,7 +72,9 @@ class system_controller_mine extends admin_controller
 	{
 		if ( $post = $this->post() )
 		{
-			if ( $this->user->where('id',$this->userid)->getField('password') != $this->user->password($post['password']) )
+			$user = $this->user->where('id',$this->userid)->getRow();
+
+            if ( $this->user->password($post['password'],$user['salt']) != $user['password'] )
 			{
 				return $this->error(t('原密码错误，请重新输入'));
 			}
@@ -88,10 +90,10 @@ class system_controller_mine extends admin_controller
 			}
 
 			// 加密
-			$post['newpassword'] = $this->user->password($post['newpassword']);
+			$post['newpassword'] = $this->user->password($post['newpassword'],$user['salt']);
 
 			// 更新密码
-			if ( $this->user->update( array('password'=>$post['newpassword']), $this->userid) )
+			if ( $this->user->data('password',$post['newpassword'])->where('id',$this->userid)->update() )
 			{
 				return $this->success(t('保存成功'));
 			}
@@ -186,9 +188,9 @@ class system_controller_mine extends admin_controller
      */
 	public function action_checkpassword()
 	{
-		$password = $this->user->where('id',$this->userid)->getField('password');
+		$user = $this->user->where('id',$this->userid)->getRow();
 
-		if ( $this->user->password($_GET['password']) == $password )
+		if ( $this->user->password($_GET['password'],$user['salt']) == $user['password'] )
 		{
 			echo 'true';
 		}
