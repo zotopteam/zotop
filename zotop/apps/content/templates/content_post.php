@@ -33,7 +33,7 @@
 
 		<div class="container-fluid">
 			<div class="form-horizontal">
-				{loop m('content.field.getfields',$data.modelid,$data) $f}
+				{loop m('content.field.formatted',$data.modelid,$data) $f}
 				<div class="form-group">
 					<div class="col-sm-2 col-md-2 col-lg-1 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
 					<div class="col-sm-10 col-md-10 col-lg-10">

@@ -39,7 +39,7 @@ class member_controller_mine extends member_controller
 		{
 			if ( $this->member->edit($post, $this->userid) )
 			{
-				return $this->success(t('保存成功'),u('member/mine'));
+				return $this->success(t('保存成功'));
 			}
 
 			return $this->error($this->member->error());
@@ -47,7 +47,7 @@ class member_controller_mine extends member_controller
 
 		$data = $this->member->get($this->userid);
 
-		$fields = m('member.field')->getFields($data['modelid'], $data);
+		$fields = m('member.field')->formatted($data['modelid'], $data);
 		
 		$groups = arr::hashmap(m('member.group')->getModel($data['modelid']),'id','name');
 
@@ -86,7 +86,7 @@ class member_controller_mine extends member_controller
 
 		$data = $this->user->get($this->userid);
 
-		$this->assign('title',t('修改我的邮箱'));
+		$this->assign('title',t('修改邮箱'));
 		$this->assign('data',$data);
 		$this->display();
 	}
@@ -159,7 +159,7 @@ class member_controller_mine extends member_controller
 
 		$data = $this->user->get($this->userid);
 
-		$this->assign('title',t('修改我的密码'));
+		$this->assign('title',t('修改密码'));
 		$this->assign('data',$data);
 		$this->display();
 	}

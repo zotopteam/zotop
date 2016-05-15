@@ -128,7 +128,7 @@ class developer_controller_upgrade extends admin_controller
      */
 	public function action_form3()
 	{
-		$file = a('member.path').DS.'templates'.DS.'mine_index.php';
+		$file = a('member.path').DS.'templates'.DS.'mine_email.php';
 		
 		$str  = file::get($file);
 

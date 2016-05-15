@@ -115,7 +115,7 @@ class member_controller_admin extends admin_controller
 
 		$data = array('modelid'=>$modelid);
 
-		$fields = m('member.field')->getFields($modelid);
+		$fields = m('member.field')->formatted($modelid);
 
 		$models = $this->model->get($modelid);
 
@@ -150,7 +150,7 @@ class member_controller_admin extends admin_controller
 
 		$data = $this->member->get($id);
 
-		$fields = m('member.field')->getFields($data['modelid'], $data);
+		$fields = m('member.field')->formatted($data['modelid'], $data);
 
 		$groups = arr::hashmap(m('member.group')->getModel($data['modelid']),'id','name');
 

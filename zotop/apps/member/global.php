@@ -22,8 +22,9 @@ zotop::add('system.start', 'member_hook::start');
 zotop::add('system.global.navbar','member_hook::globalnavbar');
 
 // 获取表单
-zotop::add('member.field.getfields','member_hook::edit_password');
-zotop::add('member.field.getfields','member_hook::ajax_remotecheck');
+zotop::add('member.field.formatted','member_hook::edit_password');
+zotop::add('member.field.formatted','member_hook::ajax_remotecheck');
+zotop::add('member.field.formatted','member_hook::mine_edit');
 
 //添加用户
 zotop::add('member.add','member_hook::send_validmail');

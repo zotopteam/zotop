@@ -228,6 +228,17 @@ class form
 		return false;
     }
 
+    /**
+     * 静态控件
+     *
+     * @param $attrs array 控件参数
+     * @return string 控件代码
+     */
+    public static function field_static($attrs)
+    {
+        return '<p class="form-control-static">'.$attrs['value'].'</p>';
+    }
+
 	/**
      * text 文本控件
      *

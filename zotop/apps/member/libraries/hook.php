@@ -221,21 +221,46 @@ class member_hook
 	}
 
 	/**
+	 * 会员中心修改我的个人资料时禁止修改用户名、密码和邮箱
+	 * 
+	 * @param  array $field 字段列表
+	 * @return array
+	 */
+	public static function mine_edit($fields)
+	{
+		if ( defined('ZOTOP_MEMBER') )
+		{
+			// 禁止修改用户名
+			$fields['username']['field']['type'] = 'static';
+			$fields['username']['tips']          = null;
+
+			// 不显示修改密码
+			unset($fields['password']);
+
+			// 禁止直接修改邮箱
+			$fields['email']['field']['type']  = 'static';
+			$fields['email']['field']['value'] = $fields['email']['field']['value'] ? $fields['email']['field']['value'].' <a href="'.u('member/mine/email').'">['.t('修改').']</a>' : '<a href="'.u('member/mine/email').'">['.t('添加').']</a>';
+			$fields['email']['tips']           = null;
+		}
+
+		return $fields;
+	}
+
+	/**
 	 * 获取用户的菜单，用于登录后顶部导航栏下显示
 	 * 
-	 * @param  [type] $modelid [description]
-	 * @return [type]          [description]
+	 * @return array
 	 */
-	public static function navbar($modelid)
+	public static function navbar()
 	{
 		return zotop::filter('member.navbar',array(
-			'member_index' => array(
+			'index' => array(
 				'text'   => t('会员中心'),
 				'href'   => U('member/index'),
 				'icon'   => 'fa fa-user',
 				'active' => request::is('member/index')
 			),
-			'member_mine' => array(
+			'mine' => array(
 				'text'   => t('个人设置'),
 				'href'   => U('member/mine'),
 				'icon'   => 'fa fa-cog',
@@ -246,7 +271,47 @@ class member_hook
 				'href'   => U('member/login/logout'),
 				'icon'   => 'fa fa-sign-out'
 			),											
-		),$modelid);		
+		));		
+	}
+
+	/**
+	 * 会员中心侧边栏
+	 * 
+	 * @return array
+	 */
+	public static function sidebar()
+	{
+		return zotop::filter('member.sidebar',array(
+			'index' => array(
+				'text'   => t('会员中心'),
+				'href'   => U('member/index'),
+				'icon'   => 'fa fa-home',
+				'active' => request::is('member/index')
+			),
+			'finance' => array(
+				'text'   => t('我的财务'),
+				'href'   => U('member/finance'),
+				'icon'   => 'fa fa-money',
+				'active' => request::is('member/amount','member/ponit'),
+				'menu'	 => array(
+					'pay'      => array('text'=>t('在线充值'),'href'=>u('member/amount/pay'),'icon'=>'fa fa-pay','active'=>request::is('member/amount/pay')),
+					'payment'  => array('text'=>t('充值记录'),'href'=>u('member/amount/payment'),'icon'=>'fa fa-payment','active'=>request::is('member/amount/payment')),
+					'spend'    => array('text'=>t('消费记录'),'href'=>u('member/amount/spend'),'icon'=>'fa fa-spend','active'=>request::is('member/amount/spend')),
+					'exchange' => array('text'=>t('积分兑换'),'href'=>u('member/amount/exchange'),'icon'=>'fa fa-exchange','active'=>request::is('member/amount/exchange')),
+				)
+			),				
+			'mine' => array(
+				'text'   => t('个人设置'),
+				'href'   => U('member/mine'),
+				'icon'   => 'fa fa-user',
+				'active' => request::is('member/mine'),
+				'menu'	 => array(
+					'index'    => array('text'=>t('个人资料'),'href'=>u('member/mine/index'),'icon'=>'fa fa-user','active'=>request::is('member/mine/index')),
+					'safe'     => array('text'=>t('安全中心'),'href'=>u('member/mine/safe'),'icon'=>'fa fa-safe','active'=>request::is('member/mine/safe')),
+					'password' => array('text'=>t('修改密码'),'href'=>u('member/mine/password'),'icon'=>'fa fa-password','active'=>request::is('member/mine/password')),
+				)
+			),										
+		));		
 	}
 }
 ?>

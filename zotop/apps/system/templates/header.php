@@ -37,7 +37,7 @@
 <body class="{ZOTOP_APP}-{ZOTOP_CONTROLLER}-{ZOTOP_ACTION}">
 {hook 'admin.header'}
 <header class="global-header">
-{if $_USER}
+{if $_USER AND $_USER['modelid']=='admin'}
 	<nav class="row" role="navigation">				
 		<div class="col-xs-6 col-md-7 col-lg-8">
 	      	<ul class="nav global-navbar tabdropable">

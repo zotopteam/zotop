@@ -114,8 +114,8 @@ class member_model_member extends model
 		}
 
         // 预处理数据
-		$fields = m('member.field.cache', $data['modelid']);
-		$fields = zotop::filter('member.field',$fields, $data, $this);
+		$fields = m('member.field.cacheall', $data['modelid']);
+		$fields = zotop::filter('member.field.data',$fields, $data, $this);
 
         foreach ($fields as $name => $field)
         {
@@ -130,7 +130,7 @@ class member_model_member extends model
         	}
 
         	// 检查是否允许为空
-        	if ( $field['notnull'] and empty($data[$name]) ) return $this->error(t('$1不能为空', $field['label']));
+        	if ( isset($data[$name]) and $field['notnull'] and empty($data[$name]) ) return $this->error(t('$1不能为空', $field['label']));
 
         	// 检查是否唯一值
         	if ( $field['unique'] and $data[$name] )

@@ -104,7 +104,7 @@ class form_controller_index extends site_controller
 
 		$data = array_merge(array('formid'=>$formid),$_GET);
 
-		$fields = m('form.field.getfields',$formid, $data);
+		$fields = m('form.field.formatted',$formid, $data);
 
 		$this->assign('title',$form['name']);
 		$this->assign('form',$form);

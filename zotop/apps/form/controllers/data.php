@@ -133,7 +133,7 @@ class form_controller_data extends admin_controller
 			return $this->error($this->data->error());
 		}
 
-		$fields = m('form.field')->getFields($formid);
+		$fields = m('form.field')->formatted($formid);
 
 		$this->assign('title',t('添加'));
 		$this->assign('formid',$formid);
@@ -164,7 +164,7 @@ class form_controller_data extends admin_controller
 		$data   = $this->data->get($id);
 		
 		// 字段内部
-		$fields = m('form.field')->getFields($formid, $data);
+		$fields = m('form.field')->formatted($formid, $data);
 
 		$this->assign('title',t('编辑'));
 		$this->assign('formid',$formid);

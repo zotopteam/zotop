@@ -20,7 +20,7 @@
 		<div class="container-fluid">
 		<div class="form-horizontal">			
 			
-			{loop m('content.field.getfields',$modelid) $f}
+			{loop m('content.field.formatted',$modelid) $f}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
 				<div class="col-sm-10">

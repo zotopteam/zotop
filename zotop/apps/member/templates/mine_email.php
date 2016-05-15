@@ -1,69 +1,51 @@
-{template 'header.php'}
+{template 'member/header.php'}
 
-<div class="position">
-    <ul>
-        <li><a href="{u()}">{t('首页')}</a></li>
-		<li><a href="{u('member/index')}">{t('会员中心')}</a></li>
-        <li>{$title}</li>
-    </ul>
-</div>
+{form class="form-horizontal"}
+	{field type="hidden" name="modelid" value="$data.modelid"}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<div class="panel-title">{$title}</div>
+		</div>
+		<div class="panel-body">
 
-<div class="row row-s-m">
-<div class="main">
-<div class="main-inner">
+			
+				
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('当前邮箱地址'),'')}</div>
+					<div class="col-sm-8">
+						{field type="static" value="$data.email"}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('新邮箱地址'),'email',true)}</div>
+					<div class="col-sm-8">
+						
+						<div class="input-group">
+						
+							{field type="email" name="email" required="required" remote="u('member/mine/check/email','ignore='.$data['email'])"}
+						
+							<div class="input-group-addon">
+								<a href="">{t('发送验证码')}</a>
+							</div>
+						</div>
 
-{form::header()}
-	<div class="main-header">
-		<div class="title">{$title}</div>
-	</div><!-- main-header -->
-	<div class="main-body scrollable">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('邮箱验证码'),'verifycode',true)}</div>
+					<div class="col-sm-4">
+						{form::field(array('type'=>'verifycode','name'=>'verifycode','value'=>'','required'=>'required'))}
+					</div>
+				</div>			
 
-		<table class="field">
-			<tbody>
-			<tr>
-				<td class="label">{form::label(t('当前邮箱地址'),'')}</td>
-				<td class="input">
-					<div class="field-text"><b>{$data['email']}</b></div>
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('新邮箱地址'),'email',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'email','name'=>'email','value'=>'','required'=>'required','remote'=>u('member/mine/check/email','ignore='.$data['email'])))}
-					{form::tips(t('邮箱地址修改后我们将向您的新邮箱发送一封验证邮件，请点击邮件中的链接重新验证'))}
-				</td>
-			</tr>
-			<tr>
-				<td class="label">{form::label(t('验证码'),'captcha',true)}</td>
-				<td class="input">
-					{form::field(array('type'=>'captcha','name'=>'captcha','value'=>'','required'=>'required'))}
-				</td>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-
-	</div><!-- main-body -->
-	<div class="main-footer">
-		{form::field(array('type'=>'submit','value'=>t('提交')))}
-
-		{form::field(array('type'=>'button','value'=>t('取消'), 'onclick'=>'history.go(-1)'))}
-
-		<span class="result error"></span>
-
-	</div><!-- main-footer -->
-
-{form::footer()}
+		</div><!-- panel-body -->
+		<div class="panel-footer">
+			{field type="submit" value="t('提交')"}
+		</div>
+	</div> <!-- panel -->
+{/form}
 
 
-</div> <!-- main-inner -->
-</div> <!-- main -->
-<div class="side">
-	{template 'member/side.php'}
-</div> <!-- side -->
-</div> <!-- row -->
-
-<script type="text/javascript" src="{__THEME__}/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 	// 登录
 	$(function(){
@@ -71,25 +53,14 @@
 			submitHandler:function(form){
 				var action = $(form).attr('action');
 				var data = $(form).serialize();
-				$(form).find('.submit').disable(true);
+				$(form).find('.submit').button('loading');
 				$.post(action, data, function(msg){
-
-					if( msg.state ){
-
-						$(form).find('.result').html(msg.content);
-
-						if ( msg.url ){
-							location.href = msg.url;
-						}
-						return true;
-					}
-					$(form).find('.submit').disable(false);
-					$(form).find('.result').html(msg.content);
-					return false;
+					$(form).find('.submit').button('reset');
+					$.msg(msg);	
 				},'json');
 			}
 		});
 	});
 </script>
 
-{template 'footer.php'}
+{template 'member/footer.php'}

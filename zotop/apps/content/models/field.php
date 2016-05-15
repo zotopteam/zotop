@@ -98,7 +98,7 @@ class content_model_field extends model
 	 * @param  array  $data  表单数据
 	 * @return array 格式化的表单
 	 */
-	public function getfields($modelid, $data=array())
+	public function formatted($modelid, $data=array())
 	{
 
 		$fields = array();
@@ -148,7 +148,7 @@ class content_model_field extends model
 			}
 		}
 
-		return zotop::filter('content.field.getfields', $fields, $modelid, $data);
+		return zotop::filter('content.field.formatted', $fields, $modelid, $data);
 	}
 
 	/**

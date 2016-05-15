@@ -21,9 +21,11 @@
     <link href="{__THEME__}/css/bootstrap.min.css" rel="stylesheet">
     <link href="{__THEME__}/css/font-awesome.min.css" rel="stylesheet">
     <link href="{__THEME__}/css/animate.min.css" rel="stylesheet">
+    <link href="{__THEME__}/css/jquery.dialog.css" rel="stylesheet">
     <link href="{__THEME__}/css/global.css" rel="stylesheet">
     <script src="{__THEME__}/js/jquery.min.js"></script>
     <script src="{__THEME__}/js/bootstrap.min.js"></script>
+    <script src="{__THEME__}/js/jquery.dialog.js"></script>
     <script src="{__THEME__}/js/global.js"></script>
     <!--[if lt IE 9]>
     <script src="{__THEME__}/js/html5shiv.min.js"></script>

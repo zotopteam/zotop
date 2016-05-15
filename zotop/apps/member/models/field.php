@@ -82,17 +82,17 @@ class member_model_field extends model
 	}
 
 	/**
-	 * 获取添加编辑时候的表单字段
+	 * 获取格式化的表单字段
 	 * 
 	 * @param  string $modelid 模型编号
 	 * @param  array  $data    字段数据
 	 * @return mixed
 	 */
-	public function getfields($modelid, $data=array())
+	public function formatted($modelid, $data=array())
 	{
 		$fields = array();
 
-		if ( $dataset = $this->cache($modelid) )
+		if ( $dataset = $this->cacheall($modelid) )
 		{
 			foreach( $dataset as $i=>$r )
 			{
@@ -126,7 +126,7 @@ class member_model_field extends model
 			}
 		}
 
-		return zotop::filter('member.field.getfields', $fields, $modelid, $data);
+		return zotop::filter('member.field.formatted', $fields, $modelid, $data);
 	}
 
 	/**
@@ -138,7 +138,7 @@ class member_model_field extends model
 	 */
 	public function register($modelid, $data=array())
 	{
-		$fields = $this->getfields($modelid, $data);
+		$fields = $this->formatted($modelid, $data);
 
 		foreach ($fields as $k=>$f)
 		{
@@ -207,7 +207,7 @@ class member_model_field extends model
 				zotop::cache("{$tablename}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['modelid'],true);
+				$this->cacheall($data['modelid'],true);
 				return $id;
 			}
 		}
@@ -224,7 +224,7 @@ class member_model_field extends model
 		if ( intval($data['system']) )
 		{
 			$this->update($data,$id);
-			$this->cache($data['modelid'], true);
+			$this->cacheall($data['modelid'], true);
 			return $id;
 		}
 
@@ -245,7 +245,7 @@ class member_model_field extends model
 				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['modelid'],true);
+				$this->cacheall($data['modelid'],true);
 				return $id;
 			}
 		}
@@ -280,7 +280,7 @@ class member_model_field extends model
 				zotop::cache("{$data['tablename']}.fields",null);
 
 				// 更新字段缓存
-				$this->cache($data['modelid'],true);
+				$this->cacheall($data['modelid'],true);
 				return true;
 			}
 		}
@@ -302,7 +302,7 @@ class member_model_field extends model
 		// 获取modelid
 		$modelid = $this->get($id, 'modelid');
 
-		$this->cache($modelid, true);
+		$this->cacheall($modelid, true);
 		return true;
 	}
 
@@ -312,7 +312,7 @@ class member_model_field extends model
 	 * @param bool $refresh 是否强制刷新缓存
 	 * @return bool
 	 */
-	public function cache($modelid, $refresh=false)
+	public function cacheall($modelid, $refresh=false)
 	{
 		$cache = zotop::cache("member.field.{$modelid}");
 

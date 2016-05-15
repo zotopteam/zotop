@@ -83,7 +83,7 @@ class form_model_field extends model
 	 * @param  array  $data  表单数据
 	 * @return array 格式化的表单
 	 */
-	public function getfields($formid, $data=array())
+	public function formatted($formid, $data=array())
 	{
 
 		$fields = array();

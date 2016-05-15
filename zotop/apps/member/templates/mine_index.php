@@ -21,7 +21,6 @@
 		</div><!-- panel-body -->
 		<div class="panel-footer">
 			{field type="submit" value="t('提交')"}
-			<span class="result"></span>
 		</div>
 	</div> <!-- panel -->
 {/form}
@@ -35,20 +34,8 @@
 				var data = $(form).serialize();
 				$(form).find('.submit').button('loading');
 				$.post(action, data, function(msg){
-
-					if( msg.state ){
-
-						$(form).find('.result').html(msg.content);
-
-						if ( msg.url ){
-							location.href = msg.url;
-						}
-
-						return true;
-					}
 					$(form).find('.submit').button('reset');
-					$(form).find('.result').html(msg.content);
-					return false;
+					$.msg(msg);					
 				},'json');
 			}
 		});
