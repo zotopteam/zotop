@@ -103,6 +103,37 @@
 	}
 
 	/**
+	 * 进度条
+	 * 
+	 * @param  {int}   percent  数字，0-100之间为进度 或者 false 关闭进度条
+	 * @param  {Function} callback 回调
+	 * @return {Object} 进度条
+	 */
+	$.progress = function(percent,callback){
+		
+		var options = {
+			id: 'progress',
+			skin: 'ui-progress',
+			title: false,
+			content: '<div class="progress"><div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">0%</div><a href="javascript:;" class="close" i="close">&#215;</a></div>',
+			padding: 0,
+			fixed: true,
+			resize: false,
+			onclose: callback
+		}
+
+		var dialog = $.dialog(options);
+
+		if ( parseInt(percent) <= 100 ) {
+			dialog._$('content').find('.progress-bar').attr('aria-valuenow', percent).css('width',percent+'%').text(percent+'%');
+			return dialog;
+		} else {
+			$.dialog('progress').close().remove();
+			return true;
+		}		
+	}
+
+	/**
 	 * 消息提示
 	 * @param   {Json}     (可选) 参数
 	 * @param   {Bool}     (可选) 缓存内容

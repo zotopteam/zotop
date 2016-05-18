@@ -386,3 +386,7 @@
 
 .ui-message-error{color:#ff0000;border-color:#ff0000; }
 .ui-message-error .msg-icon:before{content:'\f057';}
+
+.ui-popup-focus .ui-progress{box-shadow:none;}
+.ui-progress .progress{max-width:50%;min-width:500px;margin:0;}
+.ui-progress .progress .close{position: absolute;top:0px;right:5px;}
