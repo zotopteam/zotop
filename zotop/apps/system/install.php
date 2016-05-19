@@ -448,4 +448,24 @@ $this->db->table('attachment_folder')->data(array(
 	'name'		=> t('常用文件'),
 	'listorder'	=> 2,
 ))->insert();
+
+// 手机验证码或者邮箱验证码表 创建
+$this->db->dropTable('verifycode');
+$this->db->createTable('verifycode', array(
+     'fields'=>array(
+          'id'=>array('type'=>'mediumint','length'=>'8','notnull'=>true,'unsigned'=>true,'autoinc'=>true,'comment'=>t('编号，自增')),
+          'target'=>array('type'=>'char','length'=>'100','notnull'=>true,'autoinc'=>false,'comment'=>t('手机号或邮箱地址')),
+          'verifycode'=>array('type'=>'char','length'=>'6','notnull'=>true,'autoinc'=>false,'comment'=>t('发送的验证码')),
+          'sendip'=>array('type'=>'char','length'=>'15','notnull'=>true,'autoinc'=>false,'comment'=>t('IP地址')),
+          'sendtime'=>array('type'=>'int','length'=>'10','notnull'=>true,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('发送的时间')),
+          'userid'=>array('type'=>'mediumint','length'=>'8','notnull'=>false,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('用户的编号，对应用户表')),
+          'status'=>array('type'=>'tinyint','length'=>'1','notnull'=>true,'default'=>'1','autoinc'=>false,'comment'=>t('状态，1=默认发送状态'))
+     ),
+     'index'=>array(),
+     'unique'=>array(),
+     'primary'=>array('id'),
+     'comment'=>t('验证码'),
+     'engine'=>'MyISAM'
+));
+
 ?>

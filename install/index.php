@@ -557,6 +557,15 @@ class install
 		//写入数据
 		file::put(ZOTOP_PATH_CONFIG.DS.'app.php', "<?php\nreturn ".var_export($app,true).";\n?>");
 
+		// 清理运行时
+		foreach( array('block','caches','temp','templates','sessions') as $folder )
+		{
+			folder::clear(ZOTOP_PATH_RUNTIME.DS.$folder);
+		}
+
+		// 清理缓存
+		zotop::cache(null);		
+
 		//重启系统
 		zotop::reboot();
 

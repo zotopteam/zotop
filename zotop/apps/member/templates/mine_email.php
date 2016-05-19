@@ -1,7 +1,9 @@
 {template 'member/header.php'}
 
 {form class="form-horizontal"}
+
 	{field type="hidden" name="modelid" value="$data.modelid"}
+
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="panel-title">{$title}</div>
@@ -21,12 +23,14 @@
 					<div class="col-sm-8">
 						
 						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+							{field type="email" name="email" required="required" remote="u('member/mine/check/email')"}
 						
-							{field type="email" name="email" required="required" remote="u('member/mine/check/email','ignore='.$data['email'])"}
-						
-							<div class="input-group-addon">
-								<a href="">{t('发送验证码')}</a>
-							</div>
+							<span class="input-group-btn">
+								<a id="sendverifycode" class="btn btn-primary" data-loading-text="{t('发送中...')}" href="{U('member/verifycode/sendemail')}">
+								{t('发送邮箱验证码')}
+								</a>
+							</span>
 						</div>
 
 					</div>
@@ -47,9 +51,8 @@
 
 
 <script type="text/javascript">
-	// 登录
 	$(function(){
-		$('form.form').validate({
+		var validator = $('form.form').validate({
 			submitHandler:function(form){
 				var action = $(form).attr('action');
 				var data = $(form).serialize();
@@ -60,7 +63,43 @@
 				},'json');
 			}
 		});
+
+	    var count,counts=6;
+		var $btn    = $("#sendverifycode");
+		var $target = $("[name=email]");
+		var btntext = $btn.html();
+
+	    // 发送验证码并倒计时
+	    $btn.on('click', function(e) {
+	        e.preventDefault();
+
+	        // 发送之前验证字段
+	        if ( !validator.element('[name=email]') ){
+	        	return false;
+	        }
+
+	        $btn.button('loading');
+	        $.post($btn.attr('href'),{'target':$target.val()},function(msg){            	
+                if( msg.state ){
+			        count = counts;	        
+			        var timer = setInterval(function () {
+			            if(count == 0){
+			                clearInterval(timer);
+			                $btn.button('reset');
+			            }else{
+			                count--;
+			                $btn.html(btntext + " ("+count+")");
+			            }
+			        },1000);
+                }else{
+                	$btn.button('reset');
+                }
+                $.msg(msg);
+	        },'json');
+	    });		
 	});
 </script>
+
+
 
 {template 'member/footer.php'}

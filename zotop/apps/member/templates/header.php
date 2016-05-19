@@ -1,12 +1,12 @@
 {template 'header.php'}
 <style type="text/css">
-.user-sidebar{/*background-color:#fafafa;border:1px solid #f3f3f3;border-radius:4px;*/padding:10px;}
+.user-sidebar{background-color:#fff;border:1px solid #f3f3f3;border-radius:4px;padding:20px;}
 .user-sidebar .list-group{border-shadow:none;}
 .user-sidebar .list-group-item{border-width: 1px 0;border-radius: 0;background:transparent;}
 .user-sidebar .list-group-item:last-child{border:0;}
 
 .list-sidebar dt{margin-top:20px;margin-bottom:8px;font-weight:700;font-size: 18px;}
-.list-sidebar dt:first-child{margin-top:0;}
+.list-sidebar dt:first-child{margin-top:0px;}
 .list-sidebar dt a{text-decoration:none;color:#000;}
 .list-sidebar dt.active a{color:#0072C6;}
 

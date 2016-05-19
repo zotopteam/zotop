@@ -198,7 +198,7 @@ class member_controller_login extends site_controller
 	{
 		$str = zotop::filter('member.parsemail', $str, $data);
 
-		$str = str_replace('{site}',' '.c('site.name').' ',$str);
+		$str = str_replace('{sitename}',' '.c('site.name').' ',$str);
 
 		foreach ( $data as $key=>$val )
 		{
