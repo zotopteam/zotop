@@ -89,15 +89,19 @@
 			submitHandler:function(form){
 				var action = $(form).attr('action');
 				var data = $(form).serialize();
-				$(form).find('.submit').disable(true);
+				$(form).find('.submit').button('loading');
 				$(form).find('.form-status').html('{t('正在登录中, 请稍后……')}');
 				$.post(action, data, function(msg){
-					if( msg ) $(form).find('.form-status').html('<span class="'+msg.state+'">'+ msg.content +'</span>');
+					if( msg.state ) {
+                        $(form).find('.form-status').html('<span class="text-success">'+ msg.content +'</span>');
+                    }else{
+                        $(form).find('.form-status').html('<span class="text-error">'+ msg.content +'</span>');
+                    }
 					if( msg.url ){
 						location.href = msg.url;
 						return true;
 					}
-					$(form).find('.submit').disable(false);
+					$(form).find('.submit').button('reset');
 					return false;
 				},'json');
 			}
