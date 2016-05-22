@@ -449,13 +449,33 @@ $this->db->table('attachment_folder')->data(array(
 	'listorder'	=> 2,
 ))->insert();
 
+// [mailtemplate] 创建
+$this->db->dropTable('mail_template');
+$this->db->createTable('mail_template', array(
+     'fields'=>array(
+          'id'=>array('type'=>'int','length'=>'10','notnull'=>true,'unsigned'=>true,'autoinc'=>true,'comment'=>t('编号')),
+          'app'=>array('type'=>'char','length'=>'32','notnull'=>true,'autoinc'=>false,'comment'=>t('应用标识')),
+          'code'=>array('type'=>'char','length'=>'64','notnull'=>true,'autoinc'=>false,'comment'=>t('模板代码，用于调用')),
+          'subject'=>array('type'=>'varchar','length'=>'200','notnull'=>true,'autoinc'=>false,'comment'=>t('邮件标题')),
+          'content'=>array('type'=>'text','notnull'=>true,'autoinc'=>false,'comment'=>t('邮件内容')),
+          'ishtml'=>array('type'=>'tinyint','length'=>'1','notnull'=>true,'default'=>'1','unsigned'=>true,'autoinc'=>false,'comment'=>t('是否为html')),
+          'expire'=>array('type'=>'int','length'=>'10','notnull'=>false,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('有效期，单位：秒')),
+          'params'=>array('type'=>'text','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('可用变量，序列化的数组'))
+     ),
+     'index'=>array(),
+     'unique'=>array(),
+     'primary'=>array('id'),
+     'comment'=>t('邮件模板'),
+     'engine'=>'MyISAM'
+));
+
 // 手机验证码或者邮箱验证码表 创建
 $this->db->dropTable('verifycode');
 $this->db->createTable('verifycode', array(
      'fields'=>array(
           'id'=>array('type'=>'mediumint','length'=>'8','notnull'=>true,'unsigned'=>true,'autoinc'=>true,'comment'=>t('编号，自增')),
-          'target'=>array('type'=>'char','length'=>'100','notnull'=>true,'autoinc'=>false,'comment'=>t('手机号或邮箱地址')),
-          'verifycode'=>array('type'=>'char','length'=>'6','notnull'=>true,'autoinc'=>false,'comment'=>t('发送的验证码')),
+          'sendto'=>array('type'=>'char','length'=>'100','notnull'=>true,'autoinc'=>false,'comment'=>t('手机号或邮箱地址')),
+          'code'=>array('type'=>'char','length'=>'6','notnull'=>true,'autoinc'=>false,'comment'=>t('发送的验证码')),
           'sendip'=>array('type'=>'char','length'=>'15','notnull'=>true,'autoinc'=>false,'comment'=>t('IP地址')),
           'sendtime'=>array('type'=>'int','length'=>'10','notnull'=>true,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('发送的时间')),
           'userid'=>array('type'=>'mediumint','length'=>'8','notnull'=>false,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('用户的编号，对应用户表')),

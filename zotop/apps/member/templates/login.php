@@ -64,10 +64,13 @@
 
 
 <style type="text/css">
-.panel-login{margin:80px auto;max-width:600px;box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);border:none;}
+.panel-login{margin:80px auto;max-width:500px;box-shadow: 0 1px 2px 0 rgba(0,0,0,0.2);border:none;}
 .panel-login .panel-heading{padding:10px;border:none;}
-.panel-login .panel-body{padding:20px;margin:0 auto;max-width:500px;}
+.panel-login .panel-body{padding:20px;margin:0 auto;max-width:460px;}
 .panel-login .panel-footer{padding:15px;border:none;}
+@media (max-width:1400px){
+    .panel-login{margin:30px auto;}
+}
 </style>
 
 <script type="text/javascript">
