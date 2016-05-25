@@ -760,7 +760,7 @@ class zotop
             }
 
             // 如果没有相关数据，尝试从配置中获取
-            if ( !isset(zotop::$config[$name]) )
+            if ( empty(zotop::$config[$name]) )
             {
                 $path = ZOTOP_PATH_CONFIG . DS . "{$name}.php";
 
