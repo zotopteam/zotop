@@ -1,9 +1,6 @@
 {template 'header.php'}
 <style type="text/css">
-.user-sidebar{background-color:#fff;border:1px solid #f3f3f3;border-radius:4px;padding:20px;}
-.user-sidebar .list-group{border-shadow:none;}
-.user-sidebar .list-group-item{border-width: 1px 0;border-radius: 0;background:transparent;}
-.user-sidebar .list-group-item:last-child{border:0;}
+.panel-sidebar{padding:20px;}
 
 .list-sidebar dt{margin-top:20px;margin-bottom:8px;font-weight:700;font-size: 18px;}
 .list-sidebar dt:first-child{margin-top:0px;}
@@ -20,21 +17,18 @@
 	
 		<div class="row">
 			<div class="col-sm-2">
-				<div class="user-sidebar">
-
+				<div class="panel panel-default panel-sidebar">
 					<dl class="list-sidebar">
-						{loop member_hook::sidebar() $r}
-						<dt class="item {if $r.active}active{/if}"><a href="{$r.href}"><i class="icon {$r.icon} fa-fw"></i> {$r.text}</a></dt>
-
-						{if $r.menu and is_array($r.menu)}
-
-							{loop $r.menu $m}
-							<dd {if $m.active}class="active"{/if}>
-								<a href="{$m.href}">{$m.text}</a>
-								<span class="extra">{$m.extra}</span>
-							</dd>
-							{/loop}
-						{/if}
+						{loop member_hook::sidebar() $r}							
+							<dt {if $r.active}class="active"{/if}><a href="{$r.href}"><i class="icon {$r.icon} fa-fw"></i> {$r.text}</a></dt>
+							{if $r.menu and is_array($r.menu)}
+								{loop $r.menu $m}
+								<dd {if $m.active}class="active"{/if}>
+									<a href="{$m.href}">{$m.text}</a>
+									<span class="extra">{$m.extra}</span>
+								</dd>
+								{/loop}
+							{/if}
 						{/loop}
 					</dl>
 				</div>			

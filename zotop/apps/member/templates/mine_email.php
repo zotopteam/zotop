@@ -10,37 +10,38 @@
 		</div>
 		<div class="panel-body">
 
-			
-				
+				{if $data.email}
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('当前邮箱地址'),'')}</div>
+					<label for="static" class="col-sm-2 control-label">{t('当前邮箱地址')}</label>
 					<div class="col-sm-8">
 						{field type="static" value="$data.email"}
 					</div>
 				</div>
+				{/if}
+
 				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('新邮箱地址'),'email',true)}</div>
-					<div class="col-sm-8">
+					<label for="email" class="col-sm-2 control-label required">{t('新邮箱地址')}</label>
+					<div class="col-sm-8">						
+						{field type="email" name="email" required="required" remote="u('member/mine/check/email')"}
+					</div>
+				</div>				
+
+				<div class="form-group">
+					<label for="verifycode" class="col-sm-2 control-label required">{t('邮箱验证码')}</label>
+					<div class="col-sm-5">
 						
 						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-							{field type="email" name="email" required="required" remote="u('member/mine/check/email')"}
+							{field type="verifycode" name="verifycode" required="required" remote="u('member/mine/check/email')"}
 						
 							<span class="input-group-btn">
 								<a id="sendverifycode" class="btn btn-primary" data-loading-text="{t('发送中...')}" href="{U('member/verifycode/sendemail')}">
-								{t('发送邮箱验证码')}
+								{t('获取邮箱验证码')}
 								</a>
 							</span>
 						</div>
 
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-sm-2 control-label">{form::label(t('邮箱验证码'),'verifycode',true)}</div>
-					<div class="col-sm-4">
-						{form::field(array('type'=>'verifycode','name'=>'verifycode','value'=>'','required'=>'required'))}
-					</div>
-				</div>			
+				</div>		
 
 		</div><!-- panel-body -->
 		<div class="panel-footer">
@@ -64,7 +65,7 @@
 			}
 		});
 
-	    var count,counts=6;
+	    var count,counts=60;
 		var $btn    = $("#sendverifycode");
 		var $target = $("[name=email]");
 		var btntext = $btn.html();

@@ -138,7 +138,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{line-height:1.5}
 .slider-full .carousel-inner>.item{background-size:cover;}
 .slider-full .carousel-inner>.item img{visibility:hidden;}
 
-.panel{border-color:#efefef;box-shadow:none;color:#333;}
+.panel{border-color:#efefef;box-shadow:none;color:#333;margin-bottom:10px;}
 .panel-heading,.panel-footer{background:transparent;border-color:#efefef;}
 .panel-heading{padding:20px;}
 .panel>.media{padding:15px;margin:0;}

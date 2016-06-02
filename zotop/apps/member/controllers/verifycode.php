@@ -31,8 +31,10 @@ class member_controller_verifycode extends site_controller
 			return $this->error(t('系统尚未设置邮件发送功能，请联系管理员'));
 		}
 
-		if ( $this->sendMail($target) )
+		if ( $verifycode = $this->sendMail($target) )
 		{
+			m('system.verifycode')->save($target, $verifycode);
+
 			return $this->success(t('发送成功'));
 		}
 
@@ -61,7 +63,7 @@ class member_controller_verifycode extends site_controller
 			$mail->sender = c('site.name');
 			$mail->send($to, $title, $content);
 
-			return true;
+			return $data['code'];
 		}
 
 		return false;
