@@ -5,6 +5,8 @@
 		<div class="panel panel-login">
 			<div class="panel-heading text-center">
 				<h1 class="text-overflow">{C('site.name')}</h1>
+				<div class="wave wave1"></div>
+				<div class="wave wave2"></div>
 			</div>
 			<div class="panel-body">
 
