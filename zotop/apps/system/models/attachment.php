@@ -177,7 +177,7 @@ class system_model_attachment extends model
 			// HOOK
 			zotop::run('system.attachment.upload', $filepath, $params);
 
-			return $this->savefile($filepath, params);
+			return $this->savefile($filepath, $params);
 		}
 
 		return $this->error($upload->error);
