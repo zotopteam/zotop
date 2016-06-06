@@ -23,15 +23,15 @@ class system_model_log extends model
 	public function write($state, $data)
 	{
 		$data = array(
-			'state' => $state ? 'success' : 'error',
-			'app' => ZOTOP_APP,
+			'state'      => $state ? 'success' : 'error',
+			'app'        => ZOTOP_APP,
 			'controller' => ZOTOP_CONTROLLER,
-			'action' => ZOTOP_ACTION,
-			'data' => $data,
-			'userid' => zotop::user('id'),
-			'username' => zotop::user('username') ? zotop::user('username') : $_POST['username'],
-			'url' => request::url(false),
-			'createip' => request::ip(),
+			'action'     => ZOTOP_ACTION,
+			'data'       => $data,
+			'userid'     => zotop::user('id'),
+			'username'   => zotop::user('username') ? zotop::user('username') : $_POST['username'],
+			'url'        => request::url(false),
+			'createip'   => request::ip(),
 			'createtime' => ZOTOP_TIME
 		);
 

@@ -29,9 +29,11 @@ class member_controller_mine extends member_controller
 		$this->user   = m('system.user');
 	}
 
+
 	/**
-	 * index 动作
-	 *
+	 * 个人资料
+	 * 
+	 * @return mixed
 	 */
 	public function action_index()
     {
@@ -53,7 +55,7 @@ class member_controller_mine extends member_controller
 
 		$models = $this->model->get($data['modelid']);
 
-		$this->assign('title',t('修改我的账户资料'));
+		$this->assign('title',t('个人资料'));
 		$this->assign('data',$data);
 		$this->assign('groups',$groups);
 		$this->assign('fields',$fields);
@@ -62,19 +64,28 @@ class member_controller_mine extends member_controller
 	}
 
 	/**
-	 * 修改邮箱
-	 *
+	 * 安全中心
+	 * 
+	 * @return mixed
+	 */
+	public function action_security()
+	{
+
+	}
+
+	/**
+	 * 修改或者设置邮箱
+	 * 
+	 * @return mixed
 	 */
 	public function action_email()
     {
 		if ( $post = $this->post() )
 		{
-			if ( !captcha::check() )
+			if ( !m('system.verifycode')->check($post['email'],$post['verifycode']) )
 			{
-				return $this->error(t('验证码错误，请重试'));
+				return $this->error(t('验证码错误，请重新尝试'));
 			}
-
-			$post['emailstatus'] = 0;
 
 			if ( $this->user->update($post, $this->userid) )
 			{
@@ -92,44 +103,14 @@ class member_controller_mine extends member_controller
 	}
 
 	/**
-	 * 重新发送验证邮件
-	 *
-	 */
-	public function action_validemail($send=2)
-    {
-		$data = $this->user->get($this->userid);
-
-		if ( $send == 2 and $data['email'] and $data['emailstatus'] == 0 )
-		{
-			$send = member_hook::validmail($data['email'], $data);
-
-			return $this->redirect(u('member/mine/validemail/'.$send));
-		}
-
-		if ( $data['email'] and $data['emailstatus'] )
-		{
-			return $this->redirect(u('member/index'));
-		}
-
-		$this->assign('title',t('验证邮箱地址'));
-		$this->assign('data',$data);
-		$this->assign('result',$result);
-		$this->display();
-	}
-
-	/**
-	 * 修改密码
-	 *
+	 * 修改或者设置密码
+	 * 
+	 * @return mixed
 	 */
 	public function action_password()
     {
 		if ( $post = $this->post() )
 		{
-			if ( !captcha::check() )
-			{
-				return $this->error(t('验证码错误，请重试'));
-			}
-
 			if ( empty($post['newpassword']) or $post['newpassword'] != $post['newpassword2'] )
 			{
 				return $this->error(t('新密码不能为空，且两次输入的必须一致'));
@@ -140,16 +121,19 @@ class member_controller_mine extends member_controller
 				return $this->error(t('密码长度必须在6-20位之间'));
 			}
 
-			if ( $this->user->where('id',$this->userid)->getField('password') != $this->user->password($post['password']) )
+			$user = $this->user->get($this->userid);
+
+			// 如果用户有设置密码，测试原密码是否正确
+			if ( $user['password'] and $this->user->password($post['password'],$user['salt']) != $user['password'] )
 			{
 				return $this->error(t('原密码错误，请重新输入'));
 			}
 
 			// 加密
-			$post['newpassword'] = $this->user->password($post['newpassword']);
+			$post['newpassword'] = $this->user->password($post['newpassword'], $user['salt']);
 
 			// 更新密码
-			if ( $this->user->update( array('password'=>$post['newpassword']), $this->userid) )
+			if ( $this->user->data('password',$post['newpassword'])->where('id', $this->userid)->update() )
 			{
 				return $this->success(t('修改成功'),u('member/index'));
 			}
@@ -159,7 +143,9 @@ class member_controller_mine extends member_controller
 
 		$data = $this->user->get($this->userid);
 
-		$this->assign('title',t('修改密码'));
+		$title = $data['password'] ? t('修改密码') : t('设置密码');
+
+		$this->assign('title',$title);
 		$this->assign('data',$data);
 		$this->display();
 	}
@@ -190,11 +176,11 @@ class member_controller_mine extends member_controller
      *
      * @return bool
      */
-	public function action_checkpassword()
+	public function action_check_password()
 	{
-		$password = $this->user->where('id',$this->userid)->getField('password');
+		$user = $this->user->get($this->userid);
 
-		if ( $this->user->password($_GET['password']) == $password )
+		if ( $this->user->password($_GET['password'],$user['salt']) == $user['password'] )
 		{
 			echo 'true';
 		}

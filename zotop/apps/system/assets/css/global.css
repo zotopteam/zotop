@@ -438,6 +438,8 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 /*css3 动画*/
 @-webkit-keyframes flash{0%,50%,100%{opacity:1;}25%,75%{opacity:0;}}
 @-moz-keyframes flash{0%,50%,100%{opacity:1;}25%,75%{opacity:0;}}
+@keyframes wave1{from{left:-236px}to{left:-1233px}}
+@keyframes wave2{from{left:0}to{left:-1009px}}
 
 .a-flash{-webkit-animation:flash 1s .5s infinite ease both;-moz-animation:flash 1s .2s infinite ease both;}
 
@@ -457,8 +459,10 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .system-login-index .copyright a{color:#fff;}
 
 .panel-login{width:600px;padding:4px;margin:-220px 0 0 -300px;background:#fff;background:rgba(255,255,255,0.8);box-shadow:0 0 10px rgba(0,0,0,0.2);border:0 none;-webkit-backface-visibility:hidden;-webkit-transition:-webkit-transform 0.4s ease;position:absolute;top:50%;left:50%;z-index:999;}
-.panel-login .panel-heading{background-color:#0072c6;color:#fff;border:0 none;}
+.panel-login .panel-heading{background-color:#0072c6;color:#fff;border:0 none;position: relative;overflow: hidden;}
 .panel-login .panel-heading h1{margin:50px auto;font-size:40px;}
+.panel-login .panel-heading .wave{height:85px;width:400%;position:absolute;bottom:-45px;left:-236px;z-index:999;background: url(../image/wave1.png) repeat-x;animation: wave1 25s linear .4s infinite normal;}
+.panel-login .panel-heading .wave2{background: url(../image/wave2.png);bottom:-35px;z-index:998;left:30px;animation: wave2 60s linear .4s infinite normal;}
 .panel-login .panel-body{padding:15px 30px;}
 .panel-login .form-status{margin-bottom:10px;}
 
