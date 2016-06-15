@@ -63,7 +63,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label($attrs['description'],'description',false)}</div>
+				<div class="col-sm-2 control-label">{form::label($attrs['description'],'description',true)}</div>
 				<div class="col-sm-8">
 				{form::field(array('type'=>'textarea','name'=>'description','value'=>$app['description'],'required'=>'required'))}
 				{form::tips(t('请详细填写您的应用的描述或者说明'))}
