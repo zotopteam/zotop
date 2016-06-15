@@ -17,6 +17,8 @@ zotop::register(array(
 // 在开始页面注册快捷方式
 zotop::add('system.start', '[app.id]_hook::start');
 
+// 注册后台顶部的快捷导航
+//zotop::add('system.global.navbar','[app.id]::global_navbar');
 
 // 注册一个控件
 // form::field('[app.id]_test', '[app.id]_hook::test');

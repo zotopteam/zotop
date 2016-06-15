@@ -14,7 +14,7 @@ class [app.id]_hook
 	/**
 	 * HOOK [system.start] 注册快捷方式
 	 *
-	 * @param $attrs array 控件参数
+	 * @param  array $attrs 已有快捷方式数组
 	 * @return string 控件代码
 	 */
 	public static function start($start)
@@ -32,8 +32,8 @@ class [app.id]_hook
 	/**
 	 * HOOK
 	 * 
-	 * @param  [type] $nav [description]
-	 * @return [type]      [description]
+	 * @param  array $nav 已有快捷导航数组
+	 * @return array
 	 */
 	public static function global_navbar($nav)
 	{
