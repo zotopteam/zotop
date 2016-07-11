@@ -79,7 +79,7 @@ class content_controller_content extends admin_controller
 		}
 
 		// 获取数据集
-		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->getpage();
+		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->paginate();
 
 		// 允许发布的模型
 		$postmodels = array();
@@ -116,7 +116,7 @@ class content_controller_content extends admin_controller
 			return $this->error(t('请输入关键词'));
 		}
 
-		$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->orderby('listorder','desc')->getPage();
+		$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->orderby('listorder','desc')->paginate();
 
 		$this->assign('title', t('搜索“$1”',$keywords));
 		$this->assign('keywords',$keywords);

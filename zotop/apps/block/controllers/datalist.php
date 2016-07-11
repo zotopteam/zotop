@@ -151,7 +151,7 @@ class block_controller_datalist extends admin_controller
 	{
 		@extract($_GET);
 
-		$dataset = $this->datalist->where('blockid',$blockid)->where('status','history')->orderby('id','desc')->getPage($page, $pagesize);
+		$dataset = $this->datalist->where('blockid',$blockid)->where('status','history')->orderby('id','desc')->paginate($page, $pagesize);
 
 		//格式化数据
 		foreach ($dataset['data'] as &$data)

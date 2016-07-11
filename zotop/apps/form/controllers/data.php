@@ -70,7 +70,7 @@ class form_controller_data extends admin_controller
 			$this->data->where($_search);
 		}
 
-		$dataset = $this->data->getPage();	
+		$dataset = $this->data->paginate();	
 
 		$this->assign('title',$form['name']);		
 		$this->assign('formid',$formid);

@@ -962,22 +962,22 @@ abstract class db
      */
     public function parseField($fields)
     {
-          if ( !empty($fields) )
-          {
-              if ( is_string($fields) )
-              {
-                  $fields = explode('.',$fields);
-              }
+        if ( !empty($fields) )
+        {
+            if ( is_string($fields) )
+            {
+                $fields = explode('.',$fields);
+            }
 
-              $array = array();
+            $array = array();
 
-              foreach($fields as $key=>$filed)
-              {
-                $array[] = $this->escapeColumn($filed);
-              }
+            foreach($fields as $key=>$field)
+            {
+                $array[] = $this->escapeColumn($field);
+            }
 
-              return implode(',',$array);
-          }
+            return implode(',',$array);
+        }
 
           return '*';
     }
@@ -1293,13 +1293,12 @@ abstract class db
      * @param  [type]  $total    总共查询数据条数，0 计算真实的数据量
      * @return $this
      */
-    public function getpage($page=0, $pagesize=20, $total=0)
+    public function paginate($page=0, $pagesize=20, $total=0)
     {
         $page       = intval($page)>0 ? intval($page) : ( intval($_GET['page'])>0 ? intval($_GET['page']) : 1 );
         $pagesize   = intval($pagesize)>0 ? intval($pagesize) : 20;
         $total      = intval($total)>0 ? intval($total) : 0;
         $sqlBuilder = $this->sqlBuilder;
-
         
         // 计算真实数据量
         if ( $total == 0 )
@@ -1317,7 +1316,6 @@ abstract class db
                 $total = zotop::cache($hash);
             }               
         }
-
         
         // 通过 page 和 pagesize 计算
         $sqlBuilder['limit']  = $pagesize;
@@ -1337,7 +1335,7 @@ abstract class db
      * 
      * @return array
      */
-    public function getrow()
+    public function row()
     {
         if ( $data = $this->limit(1)->select() )
         {
@@ -1348,13 +1346,29 @@ abstract class db
     }
 
     /**
-     * 获取单个字段的数据
+     * 从单条记录中取出并直接返回字段的值
+     *
+     * @code
+     *
+     * // 使用field传入字段名称
+     * $db->table('content')->where(……)->field('name')->value()
+     *
+     * // 使用value函数参数传入字段名称
+     * $db->table('content')->where(……)->value('name')
      * 
-     * @return [type] [description]
+     * @endcode
+     * 
+     * @param  string $field 字段名称，等于空时候取决于$this->field()函数传入的值
+     * @return mixed
      */
-    public function getfield()
+    public function value($field='')
     {
-        if ( $data = $this->getrow() )
+        if ( $field )
+        {
+            $this->field($field);
+        }
+
+        if ( $data = $this->row() )
         {
             return reset($data);
         }
@@ -1780,7 +1794,7 @@ abstract class db
         {       
             $field  = isset($args[0]) ? $args[0] : '*';
             
-            $result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->getfield();
+            $result = $this->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->orderby(null)->value();
 
             return is_numeric($result) ? $result : 0;
         }

@@ -32,7 +32,7 @@ class system_controller_ipbanned extends admin_controller
 		$this->ipbanned->where('expires','<',ZOTOP_TIME)->delete();
 
 		// 获取全部数据
-		$dataset = $this->ipbanned->orderby('expires','asc')->getPage();
+		$dataset = $this->ipbanned->orderby('expires','asc')->paginate();
 
 		$this->assign('title',t('IP禁止'));
 		$this->assign($dataset);

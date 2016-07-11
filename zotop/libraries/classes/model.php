@@ -233,9 +233,9 @@ class model
 	 * @param $num int|bool 总条数|缓存查询条数，$toal = (false||0) 不缓存查询
 	 * @return mixed
 	 */
-	public function getPage($page=0, $pagesize=20, $total = false)
+	public function paginate($page=0, $pagesize=20, $total = false)
 	{
-		return $this->db()->getPage($page,$pagesize,$total);
+		return $this->db()->paginate($page,$pagesize,$total);
 	}  
 
 	/**
@@ -243,9 +243,9 @@ class model
 	 *
      * @return mixed
 	 */
-    public function getRow()
+    public function row()
     {
-        return $this->db()->getRow();
+        return $this->db()->row();
     }
 
 	/**
@@ -254,9 +254,9 @@ class model
      * @param string $field 字段名称
      * @return mixed
 	 */
-    public function getField()
+    public function value()
     {
-        return $this->db()->getField();
+        return $this->db()->value();
     }
 
 
@@ -278,7 +278,7 @@ class model
 
 		if ( !isset($data[$id]) )
 		{
-			$data[$id] = $this->where($this->pk(), '=', $id)->getRow();
+			$data[$id] = $this->where($this->pk(), '=', $id)->row();
 		}
 
 		return empty($field) ? $data[$id] : $data[$id][$field];
@@ -567,7 +567,7 @@ class model
 
 			if ( in_array($field, $this->fields()) )
 			{
-				return $this->db()->where($field,'=', $args[0])->getrow();
+				return $this->db()->where($field,'=', $args[0])->row();
 			}
 		}
 		elseif( substr($method, 0, 8) == 'deleteby' )
@@ -589,7 +589,7 @@ class model
 			// $user->sum('hits');
 			$field =  isset($args[0]) ? $args[0] : '*';
 
-			$result = $this->db()->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->getField();
+			$result = $this->db()->field(strtoupper($method).'('.$field.') AS zotop_'.$method)->value();
 
 			return is_numeric($result) ? $result : 0;
 		}

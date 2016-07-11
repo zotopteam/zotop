@@ -43,7 +43,7 @@ class guestbook_controller_admin extends admin_controller
 			));
 		}
 
-		$dataset = $this->guestbook->orderby('createtime','desc')->getPage();
+		$dataset = $this->guestbook->orderby('createtime','desc')->paginate();
 
 		$this->assign('title',t('留言管理'));
 		$this->assign('statuses',$statuses);

@@ -43,9 +43,9 @@ class guestbook_model_guestbook extends model
      * 获取列表数据
      *
      */
-	public function getPage($page=0, $pagesize=20, $total = false)
+	public function paginate($page=0, $pagesize=20, $total = false)
 	{
-		return $this->db()->getPage($page,$pagesize,$total);
+		return $this->db()->paginate($page,$pagesize,$total);
 	}
 
 

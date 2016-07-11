@@ -91,7 +91,7 @@ class system_model_user extends model
 		// 保存前加密密码
 		if ( !empty($data['password']) )
 		{
-			$data['salt']     = $data['salt'] ? $data['salt'] : $this->field('salt')->where('id',$id)->getField();
+			$data['salt']     = $data['salt'] ? $data['salt'] : $this->field('salt')->where('id',$id)->value();
 			$data['password'] = $this->password($data['password'], $data['salt']);
 		}
 		else
@@ -187,7 +187,7 @@ class system_model_user extends model
 	public function checklogin($username, $password, $expire=0)
 	{
 		//读取用户,允许使用户名、邮箱或者手机号登录
-		$user = $this->where(array('username','=',$username),'or',array('email','=',$username),'or',array('mobile','=',$username))->getRow();
+		$user = $this->where(array('username','=',$username),'or',array('email','=',$username),'or',array('mobile','=',$username))->row();
 
 		//用户不存在
 		if( empty($user) )

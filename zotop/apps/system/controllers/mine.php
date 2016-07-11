@@ -72,7 +72,7 @@ class system_controller_mine extends admin_controller
 	{
 		if ( $post = $this->post() )
 		{
-			$user = $this->user->where('id',$this->userid)->getRow();
+			$user = $this->user->where('id',$this->userid)->row();
 
             if ( $this->user->password($post['password'],$user['salt']) != $user['password'] )
 			{
@@ -153,7 +153,7 @@ class system_controller_mine extends admin_controller
 	public function action_log()
 	{
 		// 获取全部数据
-		$dataset = m('system.log')->where('username',zotop::user('username'))->orderby('createtime','desc')->getPage(0,20);
+		$dataset = m('system.log')->where('username',zotop::user('username'))->orderby('createtime','desc')->paginate(0,20);
 
 		$this->assign('title',t('查看我的日志'));
 		$this->assign($dataset);
@@ -188,7 +188,7 @@ class system_controller_mine extends admin_controller
      */
 	public function action_checkpassword()
 	{
-		$user = $this->user->where('id',$this->userid)->getRow();
+		$user = $this->user->where('id',$this->userid)->row();
 
 		if ( $this->user->password($_GET['password'],$user['salt']) == $user['password'] )
 		{

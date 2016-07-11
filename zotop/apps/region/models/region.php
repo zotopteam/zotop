@@ -29,7 +29,7 @@ class region_model_region extends model
 	{
 		$parents = array();
 
-		if ( $parentids = $this->where('id',$id)->getField('parentids') )
+		if ( $parentids = $this->where('id',$id)->value('parentids') )
 		{
 			$parents = $this->where('id','in',explode(',',$region['parentids']))->select();
 		}
@@ -60,7 +60,7 @@ class region_model_region extends model
 
 		if ( $data['parentid'] )
 		{
-			$data['parentids'] = $this->where('id',$data['parentid'])->getField('parentids').','.$data['id'];
+			$data['parentids'] = $this->where('id',$data['parentid'])->value('parentids').','.$data['id'];
 			$data['level'] = count(explode(',',$data['parentids']));
 		}
 		else

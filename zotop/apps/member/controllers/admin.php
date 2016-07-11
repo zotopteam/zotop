@@ -51,7 +51,7 @@ class member_controller_admin extends admin_controller
 			));
 		}
 
-		$dataset = $this->user->where('modelid','in',array_keys($models))->orderby('logintime','desc')->getPage();
+		$dataset = $this->user->where('modelid','in',array_keys($models))->orderby('logintime','desc')->paginate();
 
 		$this->assign('title',t('会员管理'));
 		$this->assign($dataset);

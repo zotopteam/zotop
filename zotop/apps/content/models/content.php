@@ -79,9 +79,9 @@ class content_model_content extends model
      * @param bool $total 总数
      * @return
      */
-    public function getpage($page = 0, $pagesize = 20, $total = false)
+    public function paginate($page = 0, $pagesize = 20, $total = false)
     {
-        $dataset = $this->db()->getpage($page, $pagesize, $total);
+        $dataset = $this->db()->paginate($page, $pagesize, $total);
 
         foreach ($dataset['data'] as &$d)
         {
@@ -478,7 +478,7 @@ class content_model_content extends model
 		{
 			$page = ( intval($page)>0 ) ? intval($page) : 0;
 
-			$return = $db->getPage($page, $size, intval($total));
+			$return = $db->paginate($page, $size, intval($total));
 			$return['data'] = $this->process($return['data'], $mid);
 		}
 		else

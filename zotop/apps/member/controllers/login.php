@@ -96,7 +96,7 @@ class member_controller_login extends site_controller
 			{
 				if ( !captcha::check() ) return $this->error(t('验证码错误，请重试'));
 
-				$user = m('system.user')->where(array('username','=',$post['username']),'or', array('email','=',$post['username']))->getRow();
+				$user = m('system.user')->where(array('username','=',$post['username']),'or', array('email','=',$post['username']))->row();
 
 				if( empty($user) )
 				{

@@ -124,7 +124,7 @@ class form_hook
 			// 分页 page="true"
 			if ( strtolower($page) == 'true' )
 			{
-				$return = $db->select($select)->getPage($page, $size, $total);
+				$return = $db->select($select)->paginate($page, $size, $total);
 
 				$return['data'] = form_hook::process_data($return['data'], $fields);
 			}

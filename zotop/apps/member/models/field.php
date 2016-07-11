@@ -264,7 +264,7 @@ class member_model_field extends model
 
 			if ( empty($data['tablename']) )
 			{
-				$data['tablename'] = m('member.model')->where('id',$data['modelid'])->getField('tablename');
+				$data['tablename'] = m('member.model')->where('id',$data['modelid'])->value('tablename');
 			}
 
 			if ( $this->db->dropField($data['tablename'],$data['name']) and parent::delete($id) )
@@ -344,7 +344,7 @@ class member_model_field extends model
 
 		if ( empty($data['tablename']) )
 		{
-			$data['tablename'] = m('member.model')->where('id',$data['modelid'])->getField('tablename');
+			$data['tablename'] = m('member.model')->where('id',$data['modelid'])->value('tablename');
 		}
 
 		return $data;

@@ -48,7 +48,7 @@ class content_model_tag extends model
             if (empty($tag)) continue;
 
             // 读取标签信息,如果找到且未添加过关联则增加次数,否则增加新标签并增加关联
-			$tagid = $this->where('name',$tag)->getField('id');
+			$tagid = $this->where('name',$tag)->value('id');
 
             if ( empty($tagid) )
             {

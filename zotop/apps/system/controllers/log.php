@@ -34,7 +34,7 @@ class system_controller_log extends admin_controller
 		m('system.log')->where('createtime','<',$expire)->delete();
 
 		// 获取全部数据
-        $dataset = m('system.log')->orderby('createtime','desc')->getPage();
+        $dataset = m('system.log')->orderby('createtime','desc')->paginate();
 
         $this->assign('title', t('系统操作日志'));
         $this->assign($dataset);

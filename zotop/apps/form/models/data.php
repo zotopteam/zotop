@@ -55,7 +55,7 @@ class form_model_data extends model
 
 		if ( !isset($data[$id]) )
 		{
-			$row = $this->where('id', '=', $id)->getRow();
+			$row = $this->where('id', '=', $id)->row();
 
 			if ( $row )
 			{

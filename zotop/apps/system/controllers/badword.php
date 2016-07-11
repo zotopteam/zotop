@@ -28,7 +28,7 @@ class system_controller_badword extends admin_controller
 	 */
 	public function action_index()
 	{
-		$dataset = $this->badword->orderby('listorder','asc')->getPage();
+		$dataset = $this->badword->orderby('listorder','asc')->paginate();
 
 		$this->assign('title',t('敏感词管理'));
 		$this->assign($dataset);

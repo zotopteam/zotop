@@ -45,7 +45,7 @@ class guestbook_controller_index extends site_controller
 				$this->guestbook->where('status', '=', 'publish');
 			}
 
-			$dataset = $this->guestbook->orderby('createtime','desc')->getPage();
+			$dataset = $this->guestbook->orderby('createtime','desc')->paginate();
 
 			$dataset['data'] = zotop::filter('guestbook.show',$dataset['data']);
 		}

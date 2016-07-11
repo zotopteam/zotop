@@ -39,7 +39,7 @@ class system_controller_attachment extends admin_controller
 			$where[] = array('folderid','=',$folderid);
 		}
 
-		$dataset = $this->attachment->where($where)->orderby('uploadtime','desc')->getPage();
+		$dataset = $this->attachment->where($where)->orderby('uploadtime','desc')->paginate();
 
 		$this->assign('title',t('附件管理'));
 		$this->assign('type',$type);

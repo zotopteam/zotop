@@ -43,7 +43,7 @@ class content_controller_search extends site_controller
 				$db->where($keywords_where);
 			}
 
-			$dataset = $db->orderby('updatetime desc')->getPage(null, 20);
+			$dataset = $db->orderby('updatetime desc')->paginate(null, 20);
 
 			$dataset['data'] = m('content.content.process', $dataset['data']);
 		}

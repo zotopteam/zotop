@@ -43,7 +43,7 @@ class content_controller_contribute extends member_controller
 		// 搜索: 标题和关键词
 		if ( $keywords = $_REQUEST['keywords'] )
 		{
-			$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->where('userid',$this->userid)->orderby('createtime','desc')->getPage();
+			$dataset = $this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)))->where('userid',$this->userid)->orderby('createtime','desc')->paginate();
 		}
 		else
 		{
@@ -58,7 +58,7 @@ class content_controller_contribute extends member_controller
 			}
 
 			// 获取数据集
-			$dataset = $this->content->where('userid',$this->userid)->orderby('createtime','desc')->getPage();
+			$dataset = $this->content->where('userid',$this->userid)->orderby('createtime','desc')->paginate();
 		}
 
 			// 允许发布的模型

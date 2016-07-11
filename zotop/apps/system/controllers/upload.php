@@ -135,7 +135,7 @@ class system_controller_upload extends admin_controller
 		}
 
 		// 获取数据
-		$dataset = $this->attachment->orderby('uploadtime','desc')->getPage(null,20);
+		$dataset = $this->attachment->orderby('uploadtime','desc')->paginate(null,20);
 
 		
 		$this->assign('title',t('从库中选择'));

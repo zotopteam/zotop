@@ -29,7 +29,7 @@ class content_controller_admintags extends admin_controller
 			 $this->tag->where('name','like',$keywords);
 		}
 
-		$dataset = $this->tag->orderby('id','desc')->getPage();
+		$dataset = $this->tag->orderby('id','desc')->paginate();
 
 		$this->assign('title',t('Tag管理'));
 		$this->assign('keywords',$keywords);
