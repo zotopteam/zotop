@@ -254,9 +254,9 @@ class model
      * @param string $field 字段名称
      * @return mixed
 	 */
-    public function value()
+    public function value($field='')
     {
-        return $this->db()->value();
+        return $this->db()->value($field);
     }
 
 
