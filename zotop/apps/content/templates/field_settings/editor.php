@@ -9,17 +9,17 @@
 		$data['settings']['tools'] = array('image');
 	}
 
-	if ( empty( $data['settings']['image_resize'] ) )
+	if ( !isset( $data['settings']['image_resize'] ) )
 	{
 		$data['settings']['image_resize'] = 1;
 	}
 
-	if ( empty( $data['settings']['image_width'] ) )
+	if ( !isset( $data['settings']['image_width'] ) )
 	{
 		$data['settings']['image_width'] = c('system.image_width');
 	}
 
-	if ( empty( $data['settings']['image_height'] ) )
+	if ( !isset( $data['settings']['image_height'] ) )
 	{
 		$data['settings']['image_height'] = c('system.image_height');
 	}

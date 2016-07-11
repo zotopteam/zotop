@@ -4,12 +4,12 @@
 		$data['settings']['image_resize'] = c('system.image_resize');
 	}
 
-	if ( empty( $data['settings']['image_width'] ) )
+	if ( !isset( $data['settings']['image_width'] ) )
 	{
 		$data['settings']['image_width'] = c('system.image_width');
 	}
 
-	if ( empty( $data['settings']['image_height'] ) )
+	if ( !isset( $data['settings']['image_height'] ) )
 	{
 		$data['settings']['image_height'] = c('system.image_height');
 	}
