@@ -19,7 +19,7 @@ $(function(){
 
 	$('.tabdropable').tabdrop();
 
-	$('.scrollable').niceScroll({boxzoom:false});
+	$('.scrollable').niceScroll({cursorwidth:"6px",boxzoom:false});
 
 	//maxlength
 	$('input[maxlength],textarea[maxlength]').maxlength({alwaysShow:true,appendToParent:true,threshold:10,separator:'/',placement:'bottom-right-inside'});	

@@ -265,7 +265,7 @@ label[for]{cursor:pointer;}
 
 /*导航条样式*/
 .scrollable{overflow:auto;outline:none;}
-.nicescroll-cursors{width:6px!important;background:#000!important;border:1px solid rgba(255,255,255,0.5)!important;opacity:0.5;}
+.nicescroll-cursors{background:#000!important;border:0px solid rgba(255,255,255,0.5)!important;opacity:0.5;}
 
 ::-webkit-scrollbar{width:6px;height:6px;}
 ::-webkit-scrollbar-button{display:none;}
