@@ -1,10 +1,6 @@
 {template 'header.php'}
 
-<div class="side">
-	{template 'system/system_side.php'}
-</div>
-
-<div class="main side-main">
+<div class="main">
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
@@ -26,7 +22,7 @@
 			<div class="panel">
 				<div class="panel-heading">
 					<h2>{t('服务器环境')}</h2>
-					<small>{t('当前服务器环境信息')}</small>
+					<small>{t('当前服务器环境基本信息')}</small>
 				</div>
 				<div class="panel-body">		
 					<div class="row">

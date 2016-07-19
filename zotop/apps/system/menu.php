@@ -54,17 +54,17 @@ return array(
 		'icon'   => 'fa fa-flag',
 		'active' => request::is('system/log')
 	),
-	'system_check' => array(
-		'text'   => t('系统检测'),
-		'href'   => u('system/check'),
-		'icon'   => 'fa fa-check',
-		'active' => request::is('system/check')
-	),
-	'system_zotop' => array(
-		'text'   => t('关于zotop'),
-		'href'   => u('system/zotop'),
-		'icon'   => 'fa fa-info-circle',
-		'active' => request::is('system/zotop')
-	),											
+	// 'system_check' => array(
+	// 	'text'   => t('系统检测'),
+	// 	'href'   => u('system/check'),
+	// 	'icon'   => 'fa fa-check',
+	// 	'active' => request::is('system/check')
+	// ),
+	// 'system_zotop' => array(
+	// 	'text'   => t('关于zotop'),
+	// 	'href'   => u('system/zotop'),
+	// 	'icon'   => 'fa fa-info-circle',
+	// 	'active' => request::is('system/zotop')
+	// ),											
 );
 ?>
