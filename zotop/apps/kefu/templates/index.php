@@ -26,7 +26,7 @@ var html = [
 	'	<div class="kefu-header"><i class="fa fa-user"></i> '+ config.header +'</div>',
 	'	<div class="kefu-body">',
 	{loop m('kefu.kefu.cache') $r}
-	'	<div class="item item-{$r.type}">{$r.show}</div>',
+	'	<div class="item item-{$r.type}">{format::js($r.show)}</div>',
 	{/loop}
 	'	</div>',
 	'	<div class="kefu-footer">'+ config.footer +'</div>',

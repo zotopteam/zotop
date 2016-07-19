@@ -22,14 +22,14 @@
 			</div>
 		{else}
 		{form::header()}
-		<table class="table table-hover table-nowrap sortable">
+		<table class="table table-hover sortable">
 			<thead>
 				<tr>
 					<td class="drag"></td>
-					<td class="text-center" width="1%">{t('状态')}</td>
+					<td class="text-center" width="8%">{t('状态')}</td>
 					<td>{t('名称')}</td>
-					<td class="w100">{t('类型')}</td>					
-					<td class="w300">{t('预览')}</td>
+					<td width="10%">{t('类型')}</td>					
+					<td width="40%">{t('预览')}</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -38,11 +38,11 @@
 					<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
 					<td class="text-center">{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x  text-success"></i>{/if}</td>
 					<td>
-						<div class="title text-overflow">
+						<div class="title">
 							{if $r['account']}
 								{$r['account']} <span>{$r['text']}</span>
 							{else}
-								{$r['text']}
+								{format::textarea($r['text'])}
 							{/if}						
 						</div>
 						<div class="manage">
@@ -52,7 +52,7 @@
 						</div>
 					</td>
 					<td>{m('kefu.kefu.types',$r.type)}</td>
-					<td><div class="title text-overflow">{$r['show']}</div></td>
+					<td>{$r['show']}</td>
 				</tr>
 			{/loop}
 			<tbody>

@@ -30,7 +30,6 @@ class kefu_controller_index extends site_controller
     	C('system.trace', false);
 
 		$this->assign('title',t('在线客服'));
-		$this->assign('data',$data);
 		$this->display('kefu/index.php');
 	}
 }

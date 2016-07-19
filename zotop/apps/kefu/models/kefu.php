@@ -41,19 +41,25 @@ class kefu_model_kefu extends model
 			{
 				case 'qq':
 					$r['show'] .= '<a href="http://wpa.qq.com/msgrd?v=3&uin='.$r['account'].'&site='.c('site.url').'&menu=yes" target="_blank" title="'.$r['text'].'">';
-					$r['show'] .= '	<img src="http://wpa.qq.com/pa?p=2:'.$r['account'].':52" class="icon va-m"/> <span class="vm" '.$style.'>'.$r['text'].'</span>';
+					$r['show'] .= '	<img src="http://wpa.qq.com/pa?p=2:'.$r['account'].':52" class="icon va-m"/> <span class="va-m" '.$style.'>'.$r['text'].'</span>';
 					$r['show'] .= '</a>';
 					break;
 				case 'skype':
 					$r['show'] .= '<a href="skype:'.$r['account'].'?call" title="'.$r['text'].'">';
-					$r['show'] .= '	<img src="http://mystatus.skype.com/mediumicon/'.$r['account'].'" class="icon va-m"/> <span class="vm" '.$style.'>'.$r['text'].'</span>';
+					$r['show'] .= '	<img src="http://mystatus.skype.com/mediumicon/'.$r['account'].'" class="icon va-m"/> <span class="va-m" '.$style.'>'.$r['text'].'</span>';
 					$r['show'] .= '</a>';
 					break;
 				case 'phone':
 					$r['show'] = '<i class="fa fa-phone"></i> <span title="'.$r['text'] .'" '.$style.'>'.$r['text'].' '.$r['account'].'</span>';
 					break;
-				default:
+				case 'text':
+					$r['show'] = format::textarea($r['text']);
+					break;
+				case 'group':
 					$r['show'] = '<p '.$style.'>'.$r['text'].'</p>';
+					break;					
+				default:
+					$r['show'] = $r['text'];
 					break;
 			}
 
