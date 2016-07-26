@@ -449,23 +449,26 @@ $this->db->table('attachment_folder')->data(array(
 	'listorder'	=> 2,
 ))->insert();
 
-// [mailtemplate] 创建
-$this->db->dropTable('mail_template');
-$this->db->createTable('mail_template', array(
+// [message_template] 创建
+$this->db->dropTable('message_template');
+$this->db->createTable('message_template', array(
      'fields'=>array(
           'id'=>array('type'=>'int','length'=>'10','notnull'=>true,'unsigned'=>true,'autoinc'=>true,'comment'=>t('编号')),
           'app'=>array('type'=>'char','length'=>'32','notnull'=>true,'autoinc'=>false,'comment'=>t('应用标识')),
+          'type'=>array('type'=>'char','length'=>'64','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('类型 mail=邮件 sms=短信 msg=站内信')),
           'code'=>array('type'=>'char','length'=>'64','notnull'=>true,'autoinc'=>false,'comment'=>t('模板代码，用于调用')),
-          'subject'=>array('type'=>'varchar','length'=>'200','notnull'=>true,'autoinc'=>false,'comment'=>t('邮件标题')),
-          'content'=>array('type'=>'text','notnull'=>true,'autoinc'=>false,'comment'=>t('邮件内容')),
+          'title'=>array('type'=>'varchar','length'=>'200','notnull'=>true,'autoinc'=>false,'comment'=>t('标题')),
+          'content'=>array('type'=>'text','notnull'=>true,'autoinc'=>false,'comment'=>t('内容')),
           'ishtml'=>array('type'=>'tinyint','length'=>'1','notnull'=>true,'default'=>'1','unsigned'=>true,'autoinc'=>false,'comment'=>t('是否为html')),
           'expire'=>array('type'=>'int','length'=>'10','notnull'=>false,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('有效期，单位：秒')),
           'params'=>array('type'=>'text','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('可用变量，序列化的数组'))
      ),
      'index'=>array(),
-     'unique'=>array(),
+     'unique'=>array(
+          'code'=>array('code')
+     ),
      'primary'=>array('id'),
-     'comment'=>t('邮件模板'),
+     'comment'=>t('消息模板，用于邮件、短信或站内信等'),
      'engine'=>'MyISAM'
 ));
 

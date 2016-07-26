@@ -62,6 +62,20 @@ class developer
             A('developer.path').DS.'source'.DS.'controllers'.DS.'admin.php'       => t('后台控制器-基础'),     
             A('developer.path').DS.'source'.DS.'controllers'.DS.'admin_model.php' => t('后台模型控制器-[列表-添加-编辑-删除]'),
         ));
-    }     
+    }
+
+    /**
+     * 默认的模型模板
+     * 
+     * @param  string $table 表名称
+     * @return array
+     */
+    public static function models()
+    {
+        return zotop::filter('developer.models',array(
+            A('developer.path').DS.'source'.DS.'models'.DS.'base.php'     => t('基本模型'),
+            //A('developer.path').DS.'source'.DS.'models'.DS.'advanced.php' => t('高级模型'),
+        ));
+    }         
 }
 ?>

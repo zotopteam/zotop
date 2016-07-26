@@ -7,7 +7,7 @@ return array (
   'version' => '2.52',
   'type' => 'module',
   'dependencies' => '',
-  'tables' => 'member',
+  'tables' => 'member,message_template',
   'author' => 'zotop team',
   'email' => 'zotop.chenlei@gmail.com',
   'homepage' => 'http://www.zotop.com',

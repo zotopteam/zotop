@@ -20,7 +20,7 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('新控制器名称'),'name',true)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'name','placeholder'=>t('只允许小写字母、数字'),'required'=>'required','pattern'=>'[a-z0-9]+','data-msg-pattern'=>t('只允许小写字母、数字'),'remote'=>u('developer/make/check/controller')))}
+					{form::field(array('type'=>'text','name'=>'name','placeholder'=>t('只允许小写字母、数字和下划线'),'required'=>'required','pattern'=>'[a-z0-9_]+','data-msg-pattern'=>t('只允许小写字母、数字和下划线'),'remote'=>u('developer/make/check/controller')))}
 					<div class="help-block">{t('控制器文件')}: {$path}{DS}<span class="name text-primary">______</span>.php</div>
 					<div class="help-block">{t('控制器类名')}: {$app.id}_controller_<span class="name text-primary">______</span></div>
 				</div>

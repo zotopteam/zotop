@@ -30,7 +30,7 @@ class system_controller_check extends admin_controller
     {
 		// 检查文件和目录权限
     	$check_io = array(
-			ZOTOP_PATH           => array('name'=>t('根目录1'), 'type'=>'folder', 'writable'=>true),
+			ZOTOP_PATH           => array('name'=>t('根目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_CMS       => array('name'=>t('主目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_DATA      => array('name'=>t('数据目录'), 'type'=>'folder', 'writable'=>true),
 			ZOTOP_PATH_APPS      => array('name'=>t('应用目录'), 'type'=>'folder', 'writable'=>true),

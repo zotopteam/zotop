@@ -78,9 +78,15 @@ class member_hook
 			'member_field' => array(
 				'text'   => t('字段管理'),
 				'href'   => U('member/field'),
-				'icon'   => 'fa fa-power-off',
+				'icon'   => 'fa fa-field',
 				'active' => request::is('member/field')
 			),
+			'member_message_template' => array(
+				'text'   => t('消息模板'),
+				'href'   => U('member/message_template'),
+				'icon'   => 'fa fa-template',
+				'active' => request::is('member/message_template')
+			),			
 			'member_config' => array(
 				'text'   => t('设置'),
 				'href'   => U('member/config'),
