@@ -1,29 +1,31 @@
 //编辑器函数
 $.fn.editor = function(options){
 	var settings = {};
-	settings.width                         = $(this).outerWidth();
-	settings.height                        = $(this).outerHeight();
-	settings.menubar                       = false;
-	//settings.elementpath                 = false;
-	settings.language                      = 'zh_CN';
-	settings.skin                          = 'zotop';	
-	
-	settings.force_br_newlines             = false;
-	settings.force_p_newlines              = true;
-	settings.forced_root_block             = 'p';
-	settings.invalid_elements              = "script,applet";	
-	// repair bug
-	settings.block_formats                 = 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Pre=pre;Div=div;Blockquote=blockquote;';
-	
-	//settings.autoresize                  = true;
-	settings.toolbar_items_size            = 'small';
-	settings.imagetools_toolbar            = 'alignleft aligncenter alignright editimage imageoptions';
-	settings.powerpaste_allow_local_images = true;
-	settings.paste_data_images             = true;
-	
-	settings.convert_urls                  = false;
-	settings.image_advtab                  = true;	
-	settings.images_upload_credentials     = true;
+    settings.width                         = $(this).outerWidth();
+    settings.height                        = $(this).outerHeight();
+    settings.menubar                       = false;
+    //settings.elementpath                 = false;
+    settings.language                      = 'zh_CN';
+    settings.wordcount_cleanregex          = /[，！？；：（）【】［］。「」﹁﹂“”、·《》…—～〈〉『』〔〕〖〗]+/g;
+    settings.wordcount_countregex          = /[^\u0000-\u007F]/g;
+    settings.skin                          = 'zotop';	
+    
+    settings.force_br_newlines             = false;
+    settings.force_p_newlines              = true;
+    settings.forced_root_block             = 'p';
+    settings.invalid_elements              = "script,applet";	
+    // repair bug
+    settings.block_formats                 = 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Pre=pre;Div=div;Blockquote=blockquote;';
+    
+    //settings.autoresize                  = true;
+    settings.toolbar_items_size            = 'small';
+    settings.imagetools_toolbar            = 'alignleft aligncenter alignright imageoptions';
+    settings.powerpaste_allow_local_images = true;
+    settings.paste_data_images             = true;
+    
+    settings.convert_urls                  = false;
+    settings.image_advtab                  = true;	
+    settings.images_upload_credentials     = true;
 	
 	// settings.file_browser_callback	= function(field_name, url, type, win) {
 	// 	win.document.getElementById(field_name).value = 'my browser value'+url+'///'+type;

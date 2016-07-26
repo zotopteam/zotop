@@ -77,10 +77,14 @@ class tinymce_controller_server extends admin_controller
 
 		if (is_uploaded_file($temp['tmp_name']))
 		{
-			if (isset($_SERVER['HTTP_ORIGIN'])) {
-				if (in_array($_SERVER['HTTP_ORIGIN'], $accepted_origins)) {
+			if (isset($_SERVER['HTTP_ORIGIN']))
+            {
+				if (in_array($_SERVER['HTTP_ORIGIN'], $accepted_origins))
+                {
 					header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
-				} else {
+				}
+                else
+                {
 					header("HTTP/1.0 403 Origin Denied");
 					return;
 				}
