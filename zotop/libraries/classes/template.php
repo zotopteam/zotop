@@ -190,6 +190,7 @@ class template
         $str = preg_replace_callback("/\{literal\}(.*?){\/literal}/s", array($this,'parse_literal'), $str);
 
 		// 解析点符号数组 {……$r.id……} => {……$r['id']……}  {……$r.id.n……} => {……$r['id']['n']……}，最多支持三维数组
+        // 转换非标准数组为标准格式 {……$r[id]……} => {……$r['id']……}
 		$str = preg_replace_callback("/\{(.+?)\}/s", array('self','parse_tag'), $str);
 
 		// 解析单行php {php $i=1}
@@ -232,10 +233,13 @@ class template
         $str = preg_replace("/\{\/for\}/i", "<?php endfor; ?>", $str);
 
 		// 解析数组 {$r[id]} => $r['id']
-        $str = preg_replace_callback("/\{(\\$[a-zA-Z0-9_\[\]\'\"\$\x7f-\xff]+)\}/s", array('self','addquote'), $str);
+        //$str = preg_replace_callback("/\{(\\$[a-zA-Z0-9_\[\]\'\"\$\x7f-\xff]+)\}/s", array('self','addquote'), $str);
 
-		// 解析对象 {$content->title}
+		// 解析数组，变量和对象 {$r['id']} {$id} {$content->title}
         $str = preg_replace("/\{(\\\$[a-zA-Z0-9_\-\>\[\]\'\"\$\.\x7f-\xff]+)\}/s", "<?php echo \\1;?>", $str);
+
+        // 解析带参数的数组，变量和对象 {$r['title'] length="2"} {$img width="200" height="150"} {$content->title length="2"}
+        $str = preg_replace_callback("/\{(\\\$[a-zA-Z0-9_\-\>\[\]\'\"\$\.\x7f-\xff]+)(\s+[^}]+?)\}/s", array('self','parse_var'), $str);
 
 		// 解析自增、自减标签 {$i++} {$i--} {++$i} {--$i}
         $str = preg_replace("/\{\+\+\\$(.+?)\}/", "<?php ++$\\1; ?>", $str);
@@ -295,7 +299,7 @@ class template
     }    
 
     /**
-     * 转义 // 为 /，并自动为数组变量增加单引号
+     * 转义 // 为 /，并自动为数组变量增加单引号 已经废弃，合并到parse_tag中
      *
      * @param array $match 匹配结果
      * @return 转义后的字符
@@ -304,9 +308,87 @@ class template
     {
         $str = $match[1];
         $str = str_replace("\\\"", "\"", preg_replace("/\[([a-zA-Z0-9_\-\.\x7f-\xff]+)\]/s", "['\\1']", $str));
-        return '<?php echo '.$str.'?>';
+        return '{'.$str.'}';
     }
 
+    /**
+     * 解析并输出变量，带属性
+     *
+     * @param array $match 匹配结果
+     * @return 转义后的字符
+     */
+    public static function parse_var($match)
+    {
+        $str = $match[1];
+
+        $attrs = self::parse_attrs($match[2]);
+
+        // 解析属性数组
+        foreach($attrs as $key=>$val)
+        {
+            // 如果是变量、函数、数字，直接输出
+            if ( strpos($val, '$') === 0 OR preg_match('/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\)/', $val) OR preg_match('/^[0-9]*$/', $val))
+            {
+                $attrs[$key] = $val;
+            }
+            else
+            {
+                $attrs[$key] = "'" . addslashes($val) . "'";
+            }
+        }     
+
+        // 长度
+        if ( ($length = (int)$attrs['length']) and ($length = (int)$attrs['len']) )
+        {
+            $str = 'str::cut('.$str.','.$length.')';
+        }
+
+        // 大小
+        if ( $size = (int)$attrs['size'] )
+        {
+            $str = 'format::size('.$str.','.$size.')';
+        }        
+
+        // 日期格式化
+        if ( $date = $attrs['date'] )
+        {
+            $str = 'format::date('.$str.','.$date.')';
+        }
+
+        // 缩略图
+        // 长度
+        if ( ($width = (int)$attrs['width']) and ($height = (int)$attrs['height']) )
+        {
+            
+
+            $default = $attrs['default'] ? $attrs['default'] : 'null';
+
+            $str = 'thumb('.$str.','.$width.','.$height.','.$default.')';
+        }
+
+        // 默认值
+        if ( $empty = $attrs['empty'] )
+        {
+            $str = '(empty('.$str.') ? '.$empty.' : '.$str.')';
+        }
+
+        // IIF  TODO 未知BUG，无法判断真假
+        if ( ($true = $attrs['true']) or ($false = $attrs['false']) )
+        {
+            $true = $true ? $true : 'null';
+            $false = $false ? $false : 'null';
+
+            $str = '(!'.$str.' ? '.$false.' : '.$true.')';
+        }
+
+        // 格式化textarea数据
+        if ( $nl2p = $attrs['nl2p'] )
+        {
+            $str = 'format::nl2p('.$str.')';
+        }                
+
+        return '<?php echo '.$str.'?>';
+    }
 
 
     /**
@@ -351,6 +433,7 @@ class template
 
     /**
      * 解析标签中的点符号数组,最多支持四维数组
+     * 转义 // 为 /，自动为数组变量增加单引号
      *
      * @param  array $match 匹配结果
      * @return string 解析的结果
@@ -362,9 +445,12 @@ class template
         $var = '[a-zA-Z0-9_]+'; //数组允许使用的变量类型
 
 		$str = stripslashes($str);
+
 		$str = preg_replace("/\\\$(".$var.")\.(".$var.")\.(".$var.")\.(".$var.")/", "$\\1['\\2']['\\3']['\\4']", $str);
         $str = preg_replace("/\\\$(".$var.")\.(".$var.")\.(".$var.")/", "$\\1['\\2']['\\3']", $str);
-        $str = preg_replace("/\\\$(".$var.")\.(".$var.")/", "$\\1['\\2']", $str);       
+        $str = preg_replace("/\\\$(".$var.")\.(".$var.")/", "$\\1['\\2']", $str);
+
+        $str = preg_replace("/\\\$(".$var.")\[([a-zA-Z0-9_\-\.\x7f-\xff]+)\]/s", "$\\1['\\2']", $str);     
 
 		return '{'.$str.'}';
 	}

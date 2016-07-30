@@ -239,7 +239,7 @@ function thumb($image, $width, $height, $default = null)
         }
     }
 
-    return ZOTOP_URL_UPLOADS . $newimg;
+    return ZOTOP_URL_UPLOADS . trim($newimg,'\\');
 }
 
 /**
