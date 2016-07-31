@@ -27,27 +27,25 @@
 		<div class="media media-sm">
 			<a href="{$r.url}">
 			{if $r.image and $n%2==0}
-			<div class="media-left"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+			<div class="media-left"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 			{/if}
 			<div class="media-body">
 				<div class="media-heading">
-					<span class="pull-right text-muted hidden-xs">{format::date($r.createtime,'date')}</span>
+					<span class="pull-right text-muted hidden-xs">{$r.createtime date="date"}</span>
 					<h4 {$r.style}>{$r.title}{$r.new}</h4> 
 				</div>
-				<div class="media-summary hidden-xs">{str::cut($r.summary,200)}</div>
+				<div class="media-summary hidden-xs">{$r.summary nl2p="true" length="100"}</div>
 			</div>
 			{if $r.image and $n%2==1}
-			<div class="media-right"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+			<div class="media-right"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 			{/if}					
 			</a>
 		</div>
-		{/content}
-
-		{if $n==0}
+		{else}
 			<div class="nodata">
 				{t('暂时没有数据，请稍后访问')}
 			</div>
-		{/if}
+		{/content}
 
 		<nav class="text-center">{$pagination}</nav>				
 	</div>

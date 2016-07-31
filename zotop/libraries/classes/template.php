@@ -335,10 +335,12 @@ class template
             {
                 $attrs[$key] = "'" . addslashes($val) . "'";
             }
-        }     
+        }
+
+        $str = zotop::filter('template.parse_var',$str, $attrs); 
 
         // 长度
-        if ( ($length = (int)$attrs['length']) and ($length = (int)$attrs['len']) )
+        if ( ($length = (int)$attrs['length']) OR ($length = (int)$attrs['len']) )
         {
             $str = 'str::cut('.$str.','.$length.')';
         }
@@ -385,7 +387,9 @@ class template
         if ( $nl2p = $attrs['nl2p'] )
         {
             $str = 'format::nl2p('.$str.')';
-        }                
+        }
+
+
 
         return '<?php echo '.$str.'?>';
     }
