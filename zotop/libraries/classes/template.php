@@ -337,7 +337,7 @@ class template
             }
         }
 
-        $str = zotop::filter('template.parse_var',$str, $attrs); 
+        $str = zotop::filter('template.parse_var', $str, $attrs); 
 
         // 长度
         if ( ($length = (int)$attrs['length']) OR ($length = (int)$attrs['len']) )
@@ -358,14 +358,10 @@ class template
         }
 
         // 缩略图
-        // 长度
         if ( ($width = (int)$attrs['width']) and ($height = (int)$attrs['height']) )
         {
-            
-
             $default = $attrs['default'] ? $attrs['default'] : 'null';
-
-            $str = 'thumb('.$str.','.$width.','.$height.','.$default.')';
+            $str     = 'thumb('.$str.','.$width.','.$height.','.$default.')';
         }
 
         // 默认值
@@ -377,10 +373,9 @@ class template
         // IIF  TODO 未知BUG，无法判断真假
         if ( ($true = $attrs['true']) or ($false = $attrs['false']) )
         {
-            $true = $true ? $true : 'null';
+            $true  = $true ? $true : 'null';
             $false = $false ? $false : 'null';
-
-            $str = '(!'.$str.' ? '.$false.' : '.$true.')';
+            $str   = '(!'.$str.' ? '.$false.' : '.$true.')';
         }
 
         // 格式化textarea数据
@@ -388,8 +383,6 @@ class template
         {
             $str = 'format::nl2p('.$str.')';
         }
-
-
 
         return '<?php echo '.$str.'?>';
     }
