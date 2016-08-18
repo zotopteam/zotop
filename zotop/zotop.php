@@ -39,19 +39,19 @@ define('ZOTOP_PATH_APPS',       ZOTOP_PATH_CMS . DS . 'apps');
 define('ZOTOP_PATH_LIBRARIES',  ZOTOP_PATH_CMS . DS . 'libraries');
 define('ZOTOP_PATH_DATA',       ZOTOP_PATH_CMS . DS . 'data');
 define('ZOTOP_PATH_CONFIG',     ZOTOP_PATH_CMS . DS . 'config');
-define('ZOTOP_PATH_THEMES',     ZOTOP_PATH_CMS . DS . 'themes');
+define('ZOTOP_PATH_COMMON',     ZOTOP_PATH_CMS . DS . 'common');
 define('ZOTOP_PATH_RUNTIME',    ZOTOP_PATH_CMS . DS . 'runtime');
 define('ZOTOP_PATH_CACHE',      ZOTOP_PATH_RUNTIME . DS . 'caches');
-define('ZOTOP_PATH_COMMON',     ZOTOP_PATH . DS . 'common');
+define('ZOTOP_PATH_THEMES',     ZOTOP_PATH . DS . 'themes');
 define('ZOTOP_PATH_UPLOADS',    ZOTOP_PATH . DS . 'uploads');
 
 // 定义URL
 define('ZOTOP_URL',             trim(dirname($_SERVER['SCRIPT_NAME']), DS)); //如果为根目录则为空
 define('ZOTOP_URL_CMS',         ZOTOP_URL . '/'.basename(dirname(__FILE__)));
 define('ZOTOP_URL_APPS',        ZOTOP_URL_CMS . '/apps');
-define('ZOTOP_URL_THEMES',      ZOTOP_URL_CMS . '/themes');
 define('ZOTOP_URL_RUNTIME',     ZOTOP_URL_CMS . '/runtime');
-define('ZOTOP_URL_COMMON',     ZOTOP_URL_CMS . '/common');
+define('ZOTOP_URL_COMMON',      ZOTOP_URL_CMS . '/common');
+define('ZOTOP_URL_THEMES',      ZOTOP_URL . '/themes');
 define('ZOTOP_URL_UPLOADS',     ZOTOP_URL . '/uploads');
 
 // 系统启动
