@@ -109,7 +109,7 @@
 	 * @param  {Function} callback 回调
 	 * @return {Object} 进度条
 	 */
-	$.progress = function(percent,callback){
+	$.progress = function(percent, callback){
 		
 		var options = {
 			id: 'progress',

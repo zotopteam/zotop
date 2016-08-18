@@ -168,7 +168,6 @@ $(function(){
 			}
 		});
 	});
-
 });
 
 </script>
@@ -180,11 +179,11 @@ $(function(){
 	$(function(){
 		var uploader = $("#upload").upload({
 			url : "{u('system/attachment/uploadprocess')}",
-			multiple:true,
-			params:{folderid:'{intval($folderid)}'},
+			multiple: true,
+			params: {folderid:'{intval($folderid)}'},
 			maxsize:'20mb',
-			fileext: '{$allowexts}',
-			filedescription : '{t('选择文件')}',
+			extensions: '{$allowexts}',
+			title : '{t('选择文件')}',
 			uploaded: function(up,file,msg){
 				$.msg(msg);
 			},

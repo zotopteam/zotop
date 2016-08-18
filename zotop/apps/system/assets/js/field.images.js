@@ -53,12 +53,12 @@ function imagesfield($this, name, value, params){
 			var item = $(c).appendTo(list);
 
 				item.find('a.upload').upload({
-						url		: upload.attr('href'),
-						params	: params,
-						multi	: false,
-						fileext	:'jpg,jpeg,png,gif,bmp',
-						filedescription: '选择图片',
-						uploaded : function(up,file,msg){
+						url: upload.attr('href'),
+						params: params,
+						multiple: false,
+						extensions: 'jpg,jpeg,png,gif,bmp',
+						title: '选择图片',
+						uploaded: function(up,file,msg){
 							if ( msg.state ){						
 								item.find('.image-preview').find('img').attr('src',msg.file.url);
 								item.find('.image-preview').find('input').val(msg.file.url);
@@ -94,11 +94,11 @@ function imagesfield($this, name, value, params){
 
 	//上传
 	upload.upload({
-		url		: upload.attr('href'),
-		params	: params,
-		fileext	:'jpg,jpeg,png,gif,bmp',
-		filedescription: '选择图片',
-		uploaded : function(up,file,msg){
+		url: upload.attr('href'),
+		params: params,
+		extensions:'jpg,jpeg,png,gif,bmp',
+		title: '选择图片',
+		uploaded: function(up,file,msg){
 			if ( msg.state ){
 				self.add(msg.file.url, msg.file.description);
 				return true;

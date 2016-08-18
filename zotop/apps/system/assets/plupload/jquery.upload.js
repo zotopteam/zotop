@@ -10,9 +10,15 @@
 jquery upload api
 
 @example
+	
 
-	<div id="uploader">
+	<div id="uploader-button">
 		<p>Your browser doesn't have HTML5,Flash support</p>
+	</div>
+	
+	// 默认上传区域ID为上传按钮编号加上"-dragdrop"，如果未设置，则为上传按钮本身
+	<div id="uploader-button-dragdrop">
+		<p>Dragdrop to upload zone</p>
 	</div>
 
 	<script>
@@ -21,12 +27,11 @@ jquery upload api
 			multiple : true,
 			autostart : true
 			params : {username:'admin'},
-			fileext : 'jpg,gif,png',
-			filedescription : 'image file',
+			extensions : 'jpg,gif,png',
+			title : 'image file',
 			maxsize: '2mb',
 			resize : {width : 200, height : 200, quality : 90, crop: false},
 			rename: true,
-			dragdrop : '.dragdrop-area',
 			uploaded : function(up, file){
 				// 单个文件上传完成
 			},
@@ -51,8 +56,8 @@ jquery upload api
 @param {Object} 详细设置选项说明
 	@param {String} [settings.runtimes="html5,flash,silverlight,html4"] 上传运行时，依次加载
 	@param {String} [settings.url] 服务器端的接收上传数据的url
-	@param {String} [settings.fileext] 允许上传的文件格式，默认为图片："jpg,jpeg,gif,png" 错误：`plupload.FILE_EXTENSION_ERROR`
-	@param {String} [settings.filedescription] 允许上传的文件说明，默认为："Image file"
+	@param {String} [settings.extensions] 允许上传的文件格式，默认为图片："jpg,jpeg,gif,png" 错误：`plupload.FILE_EXTENSION_ERROR`
+	@param {String} [settings.title] 允许上传的文件说明，默认为："Image file"
 	@param {Object} [settings.params] 文件上传时传递的参数
 	@param {Number|String} [settings.maxsize=20MB] 选择文件时的文件大小限制, 默认为byte ,支持 b, kb, mb, gb, tb 等单位. 如： "10mb" 或者 "100kb"`. 错误： `plupload.FILE_SIZE_ERROR`.
 	@param {Number|String} [settings.maxcount=0] 选择文件个数限制，默认为不限制
@@ -154,19 +159,19 @@ jquery upload api
 		if (!options) return plupload.uploaders[$(this[0]).attr('id')];
 
 		var defaults = {
-			runtimes : 'html5,flash,html4',
-            params : {}, // 传递的参数
-			multiple : true, //允许一次选择多个文件
-			duplicate : false,  //是否允许重复选择上传文件
-			fileext	: '',
-			filedescription	: '',
-            maxsize : '20mb',
-            chunk_size : '2mb',
-            unique_names : true, // 唯一文件名
-			dragdrop : true,
-            autostart : true,
-			maxcount : 100,
-			error : function(error,detail){
+			runtimes: 'html5,flash,html4',
+			params: {}, // 传递的参数
+			multiple: true, //允许一次选择多个文件
+			duplicate: false,  //是否允许重复选择上传文件
+			title: '',
+			extensions: '',
+			maxsize: '20mb',
+			chunk_size: '2mb',
+			unique_names: true, // 唯一文件名
+			dragdrop: true,
+			autostart: true,
+			maxcount: 100,
+			error: function(error,detail){
 				$.error(error +' '+ detail);
 			}
 		}
@@ -174,15 +179,15 @@ jquery upload api
 		options = $.extend({}, defaults, options);
 
 		// 载入flash 和 silverlight 上传文件
-		options.basepath = options.basepath || plupload.basepath();
-		options.flash_swf_url = options.flash_swf_url || options.basepath + 'Moxie.swf';
-		options.silverlight_xap_url = options.silverlight_xap_url || options.basepath + 'Moxie.xap';
+		options.basepath            = options.basepath || plupload.basepath();
+		options.flash_swf_url       = options.basepath + 'Moxie.swf';
+		options.silverlight_xap_url = options.basepath + 'Moxie.xap';
 
 		// 自定义属性的转换
-		options.multipart_params = options.params;
-		options.multi_selection = options.multiple;
-		options.filters = {
-			mime_types : [{ title : options.filedescription, extensions : options.fileext}],
+		options.multipart_params = options.multipart_params || options.params;
+		options.multi_selection  = options.multi_selection || options.multiple;
+		options.filters = options.filters || {
+			mime_types : [{ title : options.title, extensions : options.extensions}],
 			max_file_size : options.maxsize,
 			prevent_duplicates : !options.duplicate
 		};
@@ -230,7 +235,7 @@ jquery upload api
 				}
 
 				//默认为AJAX模式
-				uploader.params('HTTP_X_REQUESTED_WITH','xmlhttprequest');
+				uploader.params('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
 				
 
 			// 存储对象
@@ -294,8 +299,8 @@ jquery upload api
 						selectedFiles.splice(selectedCount - extraCount, extraCount);
 
 						up.trigger('Error', {
-							code : plupload.FILE_COUNT_ERROR,
-							message :plupload.t('File count error.')
+							code: plupload.FILE_COUNT_ERROR,
+							message: plupload.t('File count error.')
 						});
 					}
 				});

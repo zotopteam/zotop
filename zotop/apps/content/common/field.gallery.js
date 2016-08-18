@@ -62,8 +62,8 @@ function galleryeditor(gallery, name, value, params){
 	upload.upload({
 		url		: upload.attr('href'),
 		params	: params,
-		fileext	:'jpg,jpeg,png,gif,bmp',
-		filedescription: '选择图片',
+		extensions	:'jpg,jpeg,png,gif,bmp',
+		title: '选择图片',
 		uploaded : function(up,file,msg){
 			if ( msg.state ){
 				self.add(msg.file.url, msg.file.description);

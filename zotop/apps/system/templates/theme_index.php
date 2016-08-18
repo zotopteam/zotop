@@ -79,11 +79,11 @@
 		var uploader = $("#upload").upload({
 			url :"{u('system/theme/uploadprocess')}",
 			//runtimes :'flash',
-			multiple:false,
-			dragdrop:false,
-			maxsize:'20mb',
-			fileext:'zip',
-			filedescription :'zip file',
+			multiple: false,
+			dragdrop: false,
+			maxsize: '20mb',
+			extensions: 'zip',
+			title :'zip file',
 			progress :function(up,file){
 				up.self.html('{t('上传中……')}' +up.total.percent + '%');
 			},

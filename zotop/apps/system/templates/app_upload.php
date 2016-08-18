@@ -65,8 +65,8 @@
 			url: "{u('system/app/uploadprocess')}",
 			multiple: false,
 			maxsize: '20mb',
-			fileext: 'zip',
-			filedescription : 'zip file',
+			extensions: 'zip',
+			title : 'zip file',
 			progress : function(up,file){
 				up.self.html('<h1>{t('上传中……')}' +up.total.percent + '%</h1>');
 			},

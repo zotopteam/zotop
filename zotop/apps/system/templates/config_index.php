@@ -277,12 +277,11 @@
 	$(function(){
 		var uploader = $("#upload").upload({
 			url : "{u('system/config/uploadwatermark')}",
-			//runtimes : 'flash',
-			multiple:false,
-			maxsize:'20mb',
+			multiple: false,
+			maxsize: '20mb',
 			//resize:{width:150,height:50,quality:100},
-			fileext: 'jpg,jpeg,png,gif',
-			filedescription : 'image file',
+			extensions: 'jpg,jpeg,png,gif',
+			title : 'image file',
 			progress : function(up,file){
 				up.self.find('.upload-progress').html('……'+up.total.percent + '%');
 			},

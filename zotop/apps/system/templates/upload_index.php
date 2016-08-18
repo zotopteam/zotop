@@ -138,11 +138,11 @@
 		// 上传
 		var uploader = $("#upload").upload({
 			url : "{u('system/upload/uploadprocess')}",
-			multi:true,
-			params : params,
+			multiple: true,
+			params: params,
 			maxsize:'{intval($maxsize)}mb',
-			fileext: '{$allowexts}',
-			filedescription : '{t('选择%s',$typename)}',
+			extensions: '{$allowexts}',
+			title : '{t('选择%s',$typename)}',
 			uploaded : function(up,file,msg){				
 				if ( msg.state ){
 					view.add(msg.file);

@@ -101,10 +101,10 @@ $(function(){
 <script type="text/javascript">
 	$(function(){
 		$("#importmodel").upload({
-			url : "{u('content/model/upload')}",
-			multi:false,
-			fileext: 'model',
-			filedescription : '{t('模型文件(.model)')}',
+			url: "{u('content/model/upload')}",
+			multiple: false,
+			extensions: 'model',
+			title : '{t('模型文件(.model)')}',
 			uploaded : function(up,file,msg){
 				$.msg(msg);
 			}
