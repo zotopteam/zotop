@@ -406,7 +406,9 @@ class install
 	 */
 	public function installing()
 	{
-		$this->db = zotop::db();
+		$database = include(ZOTOP_PATH_CONFIG.DS.'database.php');
+
+		$this->db = zotop::db($database);
 
 		// 安装当前应用
 		try
@@ -509,8 +511,6 @@ class install
 		//写入默认管理员
 		$admin = include(ZOTOP_PATH_RUNTIME.DS.'admin.php');
 
-		file::delete(ZOTOP_PATH_RUNTIME.DS.'admin.php');
-
 		// 生成密码盐
 		$salt = substr(uniqid(rand()), -6);
 
@@ -541,9 +541,6 @@ class install
 		$this->db->table('user')->data($user_data)->insert(true);
 		$this->db->table('admin')->data($admin_data)->insert(true);
 
-		//写入锁定文件
-		file::put(ZOTOP_PATH_DATA.DS.'install.lock', t('如果需要重装系统请删除此文件'));
-
 		//重新写入应用信息
 		$data = $this->db->field('*')->table('app')->orderby('listorder','asc')->select();
 
@@ -557,11 +554,17 @@ class install
 		//写入数据
 		file::put(ZOTOP_PATH_CONFIG.DS.'app.php', "<?php\nreturn ".var_export($app,true).";\n?>");
 
+		//写入锁定文件
+		file::put(ZOTOP_PATH_DATA.DS.'install.lock', t('如果需要重装系统请删除此文件'));
+
 		// 清理运行时
 		foreach( array('block','caches','temp','templates','sessions') as $folder )
 		{
 			folder::clear(ZOTOP_PATH_RUNTIME.DS.$folder);
 		}
+
+		file::delete(ZOTOP_PATH_RUNTIME.DS.'site.php');
+		file::delete(ZOTOP_PATH_RUNTIME.DS.'admin.php');
 
 		// 清理缓存
 		zotop::cache(null);		

@@ -132,7 +132,7 @@ class zotop
         zotop::add('zotop.trace',       'application::trace');
 
         //加载核心文件
-        if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !zotop::config('system.debug') )
+        if ( file_exists(ZOTOP_PATH_RUNTIME . DS . "preload.php") && !zotop::config('system.debug') && !defined('ZOTOP_INSTALL') )
         {
             // 预加载配置
             zotop::config(include(ZOTOP_PATH_RUNTIME . DS . "config.php"));
@@ -280,10 +280,7 @@ class zotop
     }
 
     /**
-     * Recursively sanitizes an input variable:
-     *
-     * - Strips slashes if magic quotes are enabled
-     * - Normalizes all newlines to LF
+     * 循环清理输入数据
      *
      * @param mixed any variable
      * @return mixed sanitized variable
@@ -294,7 +291,6 @@ class zotop
         {
             foreach ($value as $key => $val)
             {
-                // Recursively clean each value
                 $value[$key] = zotop::sanitize($val);
             }
         }
@@ -302,13 +298,11 @@ class zotop
         {
             if (ZOTOP_MAGIC_QUOTES === true)
             {
-                // Remove slashes added by magic quotes
                 $value = stripslashes($value);
             }
 
             if (strpos($value, "\r") !== false)
             {
-                // Standardize newlines
                 $value = str_replace(array("\r\n", "\r"), "\n", $value);
             }
         }
@@ -551,8 +545,6 @@ class zotop
         return $language;
     }
 
-
-
     /**
      * 根据参数生成完整的URL，支持路由
      *
@@ -759,8 +751,8 @@ class zotop
                 $key = null;
             }
 
-            // 如果没有相关数据，尝试从配置中获取
-            if ( empty(zotop::$config[$name]) )
+            // 如果没有相关数据，尝试从配置中直接获取
+            if ( !isset(zotop::$config[$name]) )
             {
                 $path = ZOTOP_PATH_CONFIG . DS . "{$name}.php";
 
@@ -824,7 +816,7 @@ class zotop
         }
 
         // 空值，返回全部应用数据
-        if (empty($key)) return $app;
+        if ( empty($key) ) return $app;
 
         // 字符串
         if ( is_string($key) )
@@ -859,9 +851,9 @@ class zotop
         $identify = md5($class);
 
         // 实例化
-        if (!isset($instances[$identify]))
+        if ( !isset($instances[$identify]) )
         {
-            if (class_exists($class))
+            if ( class_exists($class) )
             {
                 $instance = new $class();
                 $instances[$identify] = $instance;
@@ -1296,7 +1288,7 @@ class zotop
     {
         if ( $info )
         {
-            $file = $file ? $file : ZOTOP_PATH_RUNTIME.DS.'log'.DS.date('ymd').DS.ZOTOP_APP.'_'.ZOTOP_CONTROLLER.'_'.ZOTOP_ACTION.'.php';
+            $file = $file ? $file : ZOTOP_PATH_RUNTIME . DS . 'log' . DS. date('ymd') . DS . ZOTOP_APP.'_'.ZOTOP_CONTROLLER.'_'.ZOTOP_ACTION.'.php';
             $info = date('Y-m-d H:i:s')."\n".print_r($info,true)."\n";
 
             if ( !file::exists($file) )

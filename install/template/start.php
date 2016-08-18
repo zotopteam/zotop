@@ -17,8 +17,8 @@
 </section>
 
 <footer class="global-footer navbar-fixed-bottom clearfix" role="navigation">
-        <a class="next btn btn-success pull-right disabled" href="javascript:void(0);"><?php echo t('下一步')?> <i class="fa fa-angle-right"></i></a>
-    </nav>
+    <a id="prev" class="btn btn-default" href="../index.php"><?php echo t('网站首页')?></a>
+    <a id="next" class="btn btn-success pull-right" href="../<?php echo basename(ZOTOP_PATH_CMS)?>/index.php"><?php echo t('网站管理后台')?></a>
 </footer>
 
 
