@@ -13,6 +13,74 @@ class arr
     public static $tree = array();
 
     /**
+     * 格式化键名路径
+     * 
+     * @param  string $path 键名路径
+     * @param  string $delimiter 原始分隔符
+     * @return string 格式化后的路径
+     */
+    public static function format_path($path, $delimiter=null)
+    {
+        $path = str_replace(array('[]', '[', ']'), array('*', '.', ''), $path);
+
+        if ( $delimiter )
+        {
+            $path = str_replace($delimiter, '.', $path);
+        }
+
+        return $path;
+    }
+
+    /**
+     * 分解数组为键名和键值数组
+     *
+     * @param  array  $array
+     * @return array
+     */
+    public static function divide($array)
+    {
+        return array(array_keys($array), array_values($array));
+    }
+
+    /**
+     * 用第二个数组中的数据覆盖第一个数组中同键名的数据
+     * 与merge的区别是第一个数组中并不存在的键不会被添加
+     * 
+     *     $a1 = array('name' => 'john', 'mood' => 'happy', 'food' => 'bacon');
+     *     $a2 = array('name' => 'jack', 'food' => 'tacos', 'drink' => 'beer');
+     *
+     *     // 例如：
+     *     $array = arr::overwrite($a1, $a2);
+     *
+     *     // 结果：
+     *     array('name' => 'jack', 'mood' => 'happy', 'food' => 'tacos')
+     *
+     * @param   array   $array1 数组
+     * @param   array   $array2 数组
+     * @return  array
+     */
+    public static function overwrite($array1, $array2)
+    {
+        foreach (array_intersect_key($array2, $array1) as $key => $value)
+        {
+            $array1[$key] = $value;
+        }
+
+        if (func_num_args() > 2)
+        {
+            foreach (array_slice(func_get_args(), 2) as $array2)
+            {
+                foreach (array_intersect_key($array2, $array1) as $key => $value)
+                {
+                    $array1[$key] = $value;
+                }
+            }
+        }
+
+        return $array1;
+    }       
+
+    /**
      * 多维数组检查键名是否存在，运行使用点符号分割
      *
      * @param  array   $array
@@ -45,7 +113,7 @@ class arr
     }
 
     /**
-     *  从数组或者多维数组中取出特定键值，键名可以使用点符号分割
+     *  从数组或者多维数组中按照键名路径返回值
      *
      *     // 获取 $array['foo']['bar']
      *     $value = arr::get($array, 'foo.bar');
@@ -55,27 +123,54 @@ class arr
      *     $colors = arr::get($array, 'themes.*.name');
      *
      * @param   array   $array      原数组
-     * @param   mixed   $keys       键名(可使用点符号分割和*号搜索)
+     * @param   mixed   $path       键名路径(可使用点符号分割和*号搜索)
      * @param   mixed   $default    默认值
      * @return  mixed
      */
-    public static function get($array, $keys, $default=null)
+    public static function get($array, $path, $default = NULL)
     {
-        // 如果不是数组，返回默认值
-        if ( !is_array($array) ) return $default;
-
-        // 删除键名首位的空格和分隔符，并将键名转化为数组
-        if ( is_string($keys) )
+        // 如果路径为数组，则为获取多个值
+        if ( is_array($path) )
         {
-            $keys = trim(trim($keys),'.');
+            $result  = array();
 
-            if (array_key_exists($keys, $array))
+            // 如果path为关联数组，则分割数组，键名为路径数组，键值为赋值数组
+            if ( self::is_assoc($path) )
             {
-                return $array[$keys];
+                $path = self::overwrite($path, (array)$default);
+                list($path, $default) = self::divide($path);
             }
 
-            $keys = explode('.', $keys);  
+            foreach ($path as $k=>$p)
+            {
+                $result[] = self::get($array, $p, $default[$k]);
+            }
+
+            return $result;
         }
+
+        // 如果不是数组，直接返回默认值
+        if ( !is_array($array))
+        {
+            return $default;
+        }
+
+        // 如果已经存在，直接返回
+        if ( array_key_exists($path, $array) )
+        {
+            return $array[$path];
+        }
+
+        // 定义分隔符
+        $delimiter = '.';
+
+        // 处理不规范的路径
+        $path = ltrim($path, "{$delimiter} ");
+        $path = rtrim($path, "{$delimiter} *");
+        $path = self::format_path($path);
+
+        // 路径转数组
+        $keys = explode($delimiter, $path);
 
         do
         {
@@ -98,15 +193,15 @@ class arr
                 else
                 {
                     return $array[$key];
-                }               
+                }
             }
-            elseif ( $key === '*' )
+            elseif ($key === '*')
             {
                 $values = array();
 
                 foreach ($array as $arr)
                 {
-                    if ( $value = arr::get($arr, implode('.', $keys)) )
+                    if ( $value = self::get($arr, implode($delimiter, $keys)) )
                     {
                         $values[] = $value;
                     }
@@ -119,7 +214,7 @@ class arr
                 else
                 {
                     break;
-                }                
+                }
             }
             else
             {
@@ -128,43 +223,116 @@ class arr
         }
         while ($keys);
 
+        // 未找到直接返回默认值
         return $default;
-    }
+    }    
 
     /**
-    * 多维数组设置值
+    * 通过键名路径给数组赋值，当值为NULL时，删除对应的键名，键名路径暂时不支持*匹配
     *
     * @param array   $array  数组
-    * @param string  $keys   键名(可使用点符号分割)
+    * @param string  $path   键名路径
     * @param mixed   $value  值
-    */
-    public static function set(&$array, $keys, $value)
+    * @return array
+    */   
+    public static function set(&$array, $path, $value = NULL)
     {
-        if ( !is_array($keys) )
+        // 如果是数组，则为多个赋值
+        if ( is_array($path) )
         {
-            $keys = explode('.', $keys);
+            // 如果path为关联数组，则分割数组，键名为路径数组，键值为赋值数组
+            if ( self::is_assoc($path) )
+            {
+                $path = self::overwrite($path, (array)$value);
+                list($path, $value) = self::divide($path);
+            }
+
+            foreach ($path as $k => $p)
+            {
+                self::set($array, $p, $value[$k]);
+            }
+
+            return $array;
         }
 
-        while ( count($keys) > 1 )
+        // 定义分隔符
+        $delimiter = '.';
+
+        $path = self::format_path($path);
+
+        // 键名路径转化为数组
+        $keys = explode($delimiter, $path);
+
+        while (count($keys) > 1)
         {
             $key = array_shift($keys);
             $key = ctype_digit($key) ? intval($key) : $key;
 
-            if ( !isset($array[$key]) || !is_array($array[$key]) )
+            if (!isset($array[$key]))
             {
                 $array[$key] = array();
             }
 
             $array = &$array[$key];
         }
-        
-        $array[array_shift($keys)] = $value;
+
+        // 当值为NULL的时候，删除值
+        if ( $value === NULL )
+        {
+            unset($array[array_shift($keys)]);
+        }
+        else
+        {
+            $array[array_shift($keys)] = $value;
+        }        
 
         return $array;
+    }
+
+    /**
+     * 通过键名路径删除数组中的键
+     * 
+     * @param  array &$array    数组
+     * @param  mixed $path      键名路径，为数组的时候删除多个键值
+     * @return array
+     */
+    public static function forget(&$array, $path)
+    {
+        foreach ( (array)$path as $p)
+        {
+            self::set($array, $p, null);
+        }
+
+        return $array;
+    }
+
+    /**
+     *  从数组或者多维数组中按照键名路径返回值，并删除原有的值
+     *
+     * @param   array   $array      原数组
+     * @param   mixed   $path       键名路径(可使用点符号分割)
+     * @param   mixed   $default    默认值
+     * @return  mixed
+     */    
+    public static function pull(&$array, $path, $default = NULL)
+    {
+        // 如果path为关联数组，则分割数组
+        if ( is_array($path) and self::is_assoc($path) )
+        {
+            $path = self::overwrite($path, (array)$default);
+
+            list($path, $default) = self::divide($path);
+        }
+
+        $value = self::get($array, $path, $default);
+
+        self::forget($array, $path);
+
+        return $value;
     }    
 
     /**
-     * 从数组里面获取特定值
+     * 从数组里面获取特定值 废弃
      * 
      *     $username = arr::get($_POST, 'username');
      *
@@ -203,7 +371,7 @@ class arr
     }    
 
     /**
-     * 从数组中弹出键，返回该键的值并从数组中删除该键，如果弹出多个键，则返回一个由弹出键组成的数组
+     * 从数组中弹出键，返回该键的值并从数组中删除该键，如果弹出多个键，则返回一个由弹出键组成的数组 废弃
      *
      * <code>
      *	$array = array('value'=>'1','description'=>'2','label'=>'3');
@@ -246,7 +414,7 @@ class arr
     }
 
     /**
-     * 测试数组是否关联
+     * 测试数组是否为关联数组
      *
      *     // Returns TRUE
      *     arr::is_assoc(array('username' => 'john.doe'));
@@ -259,11 +427,8 @@ class arr
      */
     public static function is_assoc(array $array)
     {
-        // Keys of the array
         $keys = array_keys($array);
 
-        // If the array keys of the keys match the keys, then the array must
-        // not be associative (e.g. the keys array looked like {0:0, 1:1...}).
         return array_keys($keys) !== $keys;
     }    
 
@@ -334,7 +499,7 @@ class arr
     }
 
     /**
-     * 从数组中删除键，并返回删除该键后的数组
+     * 从数组中删除键，并返回删除该键后的数组 废弃
      *
      * <code>
      *  $array = array('value'=>'1','description'=>'2','label'=>'3');
@@ -548,6 +713,7 @@ class arr
     public static function hashmap(array $arr, $key_field, $value_field = null)
     {
         $ret = array();
+
         if ($value_field)
         {
             foreach ($arr as $row)
@@ -562,6 +728,7 @@ class arr
                 $ret[$row[$key_field]] = $row;
             }
         }
+        
         return $ret;
     }
 

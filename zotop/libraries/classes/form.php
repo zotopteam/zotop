@@ -10,6 +10,13 @@
 class form
 {
     /**
+     * 表单绑定数据
+     * 
+     * @var array
+     */
+    protected static $data = array();
+
+    /**
      * 创建标签
      *
      * @param array|string $attrs 标签名称
@@ -104,9 +111,15 @@ class form
 			$form = array('action'=>$form);
 		}
 
+        // 设置表单默认值
         $form['class']   = $form['class'] ? 'form '.$form['class'] : 'form';
         $form['method']  = $form['method'] ? $form['method'] : 'post';
         $form['action']  = $form['action'] ? $form['action'] : request::url();
+
+        //dd($form['data']);
+
+        // 处理表单绑定数据
+        self::$data = arr::pull($form,'data');
 
 		return '<form'.form::attributes($form).' novalidate>'."\n".'<input type="hidden" name="referer" value="'.request::referer().'">'."\n";
     }
@@ -118,6 +131,9 @@ class form
      */
     public static function footer()
     {
+        // 重置表单绑定数据
+        self::$data = array();
+
 		return '</form>'."\n";
     }
 
@@ -142,6 +158,23 @@ class form
 	{
 		return empty($tips) ? '' : '<span class="help-block">'.$tips.'</span>';
 	}
+
+    /**
+     * 获取或者设置字段绑定数据
+     * 
+     * @return [type] [description]
+     */
+    public static function data($key)
+    {
+        if ( is_array($key) )
+        {
+            self::$data = array_merge(self::$data, $key);
+
+            return self::$data;
+        }
+
+        return arr::get(self::$data, $key);
+    }
 
     /**
      * 设置或者生成一个字段
@@ -169,7 +202,7 @@ class form
     {
 		static $fields = array();
 
-		//设置控件
+		// 设置控件
 		if ( is_string($field) and !empty($callback) )
 		{
 			$field = strtolower($field);
@@ -181,7 +214,9 @@ class form
 
 			return ( $fields[$field] = $callback );
 		}
-		elseif ( is_array($field) )
+		
+        // 生成控件
+        if ( is_array($field) )
 		{
 			// 默认设置控件编号为控件名称
 			$field['id'] 	= empty($field['id']) ? $field['name'] : $field['id'];
@@ -199,7 +234,11 @@ class form
 				$field['class'] = $field['class'].' required';
 			}
 
-			//debug::dump($field);
+            // 处理表单的绑定数据
+            if ( is_null($field['value']) and is_array(self::$data) and self::$data )
+            {
+                $field['value'] = self::data($field['name']);
+            }
 
 			// 字段类型依次查找，用英文逗号分隔，如summary,textarea，如果找不到summary控件，则输出textarea控件
 			$types = explode(',',$field['type']); unset($field['type']);

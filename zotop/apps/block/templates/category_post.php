@@ -1,17 +1,17 @@
 {template 'dialog.header.php'}
 
-	{form::header()}
+	{form data="$data"}
 
-			<div class="form-group">
-				{form::label(t('名称'),'name',true)}				
-				{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}				
-			</div>
-			<div class="form-group">
-				{form::label(t('说明'),'description',false)}				
-				{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}				
-			</div>
+		<div class="form-group">
+			<label for="name" class="required">{t('名称')}</label>				
+			{field type="text" name="name" required="required"}			
+		</div>
+		<div class="form-group">
+			<label for="description" class="required">{t('说明')}</label>
+			{field type="textarea" name="description" required="required"}
+		</div>
 
-	{form::footer()}
+	{/form}
 
 <script type="text/javascript">
 	// 对话框设置
