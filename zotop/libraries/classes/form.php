@@ -36,7 +36,7 @@ class form
 				return $value ? ' '.$key : '';
 			}
 
-			if( $value === null )
+			if( $value == null )
 			{
 				return '';
 			}

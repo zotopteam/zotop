@@ -1,20 +1,20 @@
 {template 'dialog.header.php'}
 
-{form class="form-horizontal" data="$data"}
+{form data="$data"}
 
 
 	{loop $block.fields $k $f}
 
 		{if $f.show and $f.name='data['.$f.name.']'}
 		<div class="form-group">
-			<div class="col-sm-2 control-label">{form::label($f.label, $k, $f.required=='required')}</div>
-			<div class="col-sm-10">
-				{if $f.type == 'title'}
-					{form::field(array_merge($f,array('stylefield'=>'data[style]')))}
-				{else}
-					{form::field($f)}
-				{/if}
-			</div>
+			{form::label($f.label, $f.name, $f.required=='required')}
+			
+			{if $f.type == 'title'}
+				{form::field(array_merge($f,array('stylefield'=>'data[style]')))}
+			{else}
+				{form::field($f)}
+			{/if}
+			
 		</div>
 		{/if}
 

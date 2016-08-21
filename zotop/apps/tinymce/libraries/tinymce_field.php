@@ -65,7 +65,7 @@ class tinymce_field
 		$html[]	= html::import(A('tinymce.url').'/global.js');
 		$html[] = '<script type="text/javascript">';
 		$html[] = '	$(function(){';
-		$html[] = '		$(\'textarea[name='.$textarea['name'].']\').editor('.json_encode($attrs).');';
+		$html[] = '		$("#'.$textarea['id'].'").editor('.json_encode($attrs).');';
 		$html[] = '	});';
 		$html[] = '</script>';
 		$html[] = '<label for="'.$textarea['id'].'" generated="true" class="error"></label>';

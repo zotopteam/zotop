@@ -57,9 +57,9 @@
 						<div class="manage">
 							<a href="{u('block/admin/data/'.$r['id'])}"><i class="fa fa-database"></i> {t('内容维护')}</a>
 							<s>|</s>
-							<a class="ajax-post hidden" href="{u('block/admin/publish/'.$r['id'])}">{t('发布')}</a>
+							<a class="ajax-post hidden" href="{u('block/admin/publish/'.$r['id'])}">{t('重新发布')}</a>
 							<s class="hidden">|</s>
-							<a href="{u('block/admin/edit/'.$r['id'])}"><i class="fa fa-cog"></i> {t('设置')}</a>
+							<a href="{u('block/admin/edit/'.$r['id'])}"><i class="fa fa-cog"></i> {t('区块设置')}</a>
 							<s>|</s>
 							<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
 						</div>

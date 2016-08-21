@@ -163,7 +163,7 @@ class block_controller_admin extends admin_controller
 		$category   = $this->category->get($data['categoryid']);
 
 
-		$this->assign('title',t('设置'));
+		$this->assign('title',t('区块设置'));
 		$this->assign('category',$category);
 		$this->assign('categoryid',$category['id']);
 		$this->assign('categories',$categories);
@@ -196,10 +196,12 @@ class block_controller_admin extends admin_controller
      * 
      * @return [type] [description]
      */
-    public function action_postextend()
+    public function action_postextend($action=null)
     {
 		// 获取当前控件
 		$type = $_POST['type'];
+
+		//dd($_POST);
 
 		// 获取模板
 		$template = A('block.path').DS.'templates'.DS.'postextend'.DS.$type.'.php';
@@ -209,7 +211,18 @@ class block_controller_admin extends admin_controller
 			exit('');
 		}
 
+		if ( $action == 'add' )
+		{
+			$key = 'custom_'.ZOTOP_TIME;
+
+			$_POST['fields'][$key] = array(
+				'show'=>1,'label'=>'','type'=>'text','name'=>'','required'=>'required'
+			);
+		}
+
+
 		$this->assign('data',$_POST);
+
 		$this->display($template);
     }
 

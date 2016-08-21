@@ -84,7 +84,7 @@ class block_model_block extends model
 			'text'		=>	t('单行文本'),
 			'textarea'	=>	t('多行文本'),
 			'number'	=>	t('数字'),
-			'url'		=>	t('文本'),
+			'url'		=>	t('链接'),
 			'image'		=>	t('图像'),
 			'file'		=>	t('文件'),
 			'date'		=>	t('日期'),
