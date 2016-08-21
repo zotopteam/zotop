@@ -53,6 +53,12 @@
 						{/if}						
 					</td>
 					<td>
+						{if in_array($v['name'], array('title','url','image','description','time'))}
+							{form::field(array('type'=>'hidden','name'=>'fields['.$k.'][type]','value'=>$v['type']))}
+						{else}
+							{form::field(array('type'=>'select','options'=>m('block.block.fieldtypes'),'name'=>'fields['.$k.'][type]','value'=>$v['type']))}
+						{/if}
+
 						{if in_array($v['name'], array('title','description'))}
 						<div class="input-group">
 							<span class="input-group-addon">{t('长度')}</span>
@@ -81,12 +87,6 @@
 									{form::field(array('type'=>'select','options'=>array(1=>t('有水印'),0=>t('无水印')),'name'=>'fields['.$k.'][watermark]','value'=>$v['watermark']))}
 								</div>
 							</div>
-						{/if}
-						
-						{if in_array($v['name'], array('c1','c2','c3','c4','c5'))}
-							{form::field(array('type'=>'select','options'=>m('block.block.fieldtypes'),'name'=>'fields['.$k.'][type]','value'=>$v['type']))}
-						{else}
-							{form::field(array('type'=>'hidden','name'=>'fields['.$k.'][type]','value'=>$v['type']))}
 						{/if}
 					</td>
 				</tr>

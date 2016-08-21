@@ -42,14 +42,21 @@ class block_model_datalist extends model
 	{
 		$rows = m('block.block.get',$blockid,'rows');
 
-		$db = $this->db()->where('blockid','=',$blockid)->where('status','=','publish')->orderby('stick','desc')->orderby('listorder','desc');
+		$query = $this->db()->where('blockid','=',$blockid)->where('status','=','publish')->orderby('stick','desc')->orderby('listorder','desc');
 
 		if ( $rows > 0  )
 		{
-			$db->limit($rows);
+			$query->limit($rows);
 		}
 
-		return arr::hashmap($db->select(), 'id');		
+		$result = $query->select();
+
+		foreach ($result as &$r)
+		{
+			$r['data'] = (array)unserialize($r['data']);
+		}
+
+		return arr::hashmap($result, 'id');		
 	}
 
 	/**
@@ -64,21 +71,35 @@ class block_model_datalist extends model
 
 		foreach( $this->getList($blockid) as $list )
 		{
-			$d = array();
-
-			foreach( $list as $k=>$f )
-			{
-				if ( in_array($k, array('title','style','url','image','description','time','c1','c2','c3','c4','c5')) )
-				{
-					if ( $f ) $d[$k] = $f;
-				}
-			}
-
-			$data[] = $d;
-
+			$data[] = $list['data'];
 		}
 
 		return $data;
+	}
+
+    /**
+     * 根据主键获取数据
+     *
+	 * @code
+	 * $this->get(1);
+	 * $this->get(1, 'name');
+	 * @endcode
+	 *
+	 * @param $id 主键键值
+	 * @param $field 需要查询的字段
+     * @return array
+     */
+	public function get($id, $field='')
+	{
+		static $data = array();
+
+		if ( !isset($data[$id]) )
+		{
+			$data[$id] = $this->where($this->pk(), '=', $id)->row();
+			$data[$id]['data'] = unserialize($data[$id]['data']);
+		}
+
+		return empty($field) ? $data[$id] : $data[$id][$field];
 	}
 
     /**
@@ -88,7 +109,7 @@ class block_model_datalist extends model
 	public function add($data)
 	{
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
-		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
+		if ( empty($data['data']['title']) ) return $this->error(t('标题不能为空'));
 
 		$data['time']       = strtotime($data['time']) ;
 
@@ -113,7 +134,7 @@ class block_model_datalist extends model
 	public function edit($data, $id)
 	{
 		if ( empty($data['blockid']) ) return $this->error(t('区块编号不能为空'));
-		if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
+		if ( empty($data['data']['title']) ) return $this->error(t('标题不能为空'));
 		
 		$data['time']       = strtotime($data['time']) ;
 		$data['updatetime'] = ZOTOP_TIME ;

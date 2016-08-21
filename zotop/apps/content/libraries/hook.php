@@ -161,22 +161,20 @@ class content_hook
 	 */
 	public static function field_title($attrs)
 	{
-		//获取临时id
-		$id = str_replace(array('.','[',']',' ','/','\\'), '', $attrs['name'].'_'.microtime(true));
+		$stylefield    = arr::pull($attrs,'stylefield','style');
+		
+		// 字段设置
+		$attrs['style']  = $attrs['style'] ? $attrs['style'] : form::data($stylefield);
 
-		$attrs['id']         = $id;
-		$attrs['class']      = isset($attrs['class']) ? 'title ruler '.$attrs['class'] : 'title ruler';
-		$attrs['stylefield'] = isset($attrs['stylefield']) ? $attrs['stylefield'] : 'style';
-
-		$html[] = '<div class="input-group">';
-		$html[] = form::field_text($attrs);
-		$html[] = form::field_hidden(array('name'=>$attrs['stylefield'],'value'=>$attrs['style'],'tabindex'=>-1));
+		$html[] = '<div class="input-group input-title">';
+		$html[] = form::field($attrs);
+		$html[] = form::field(array('type'=>'hidden', 'name'=>$stylefield, 'value'=>$attrs['style'], 'tabindex'=>-1));
 		$html[] = '<span class="input-group-btn">';
 		$html[] = '	<a href="javascript:void(0);" tabindex="-1" class="btn btn-default btn-icon" rel="bold" title="'.t('加粗').'"><i class="fa fa-bold"></i></a>';
 		$html[] = '	<a href="javascript:void(0);" tabindex="-1" class="btn btn-default btn-icon" rel="color" title="'.t('颜色').'"><i class="fa fa-font"></i></a>';
 		$html[] = '</span>';
 		$html[] = '</div>';
-		$html[] = '<label for="'.$id.'" generated="true" class="error"></label>';
+		$html[] = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
 		$html[]	= html::import(A('content.url').'/common/field.title.js');
 
 		return implode("\n",$html);
@@ -201,8 +199,6 @@ class content_hook
 	 */
 	public static function field_images($attrs)
 	{
-		$attrs['id'] = $attrs['id'] ? $attrs['id'] : $attrs['name'];
-
 		//上传参数
 		$upload = array('app'=>ZOTOP_APP,'field'=>$attrs['name'],'select'=>0);
 

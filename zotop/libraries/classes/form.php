@@ -65,6 +65,7 @@ class form
 		return $str;
 	}
 
+
 	/**
 	 * 将字符串转化成标准的选项数组
 	 *
@@ -188,7 +189,7 @@ class form
      * }
      * field::set('textarea','mytextarea');
      *
-	 * 2,生成一个新的框架
+	 * 2,生成一个新的控件
 	 *
 	 * echo form::field(array('type'=>'textarea'));
 	 *
@@ -218,10 +219,6 @@ class form
         // 生成控件
         if ( is_array($field) )
 		{
-			// 默认设置控件编号为控件名称
-			$field['id'] 	= empty($field['id']) ? $field['name'] : $field['id'];
-			$field['id'] 	= str_replace(array('.',']',' ','/','\\'), '', str_replace('[', '-', $field['id']));
-
 			// 如果未设置控件类型，则默认为text
 			$field['type'] 	= empty($field['type']) ? 'text' : strtolower($field['type']);
 
@@ -229,7 +226,7 @@ class form
 			$field['class'] = empty($field['class']) ? str_replace(',',' ',$field['type']) : str_replace(',',' ',$field['type']).' '.$field['class'];
 
 			// 处理required标签( validation 在ie下无法正常解析 required = "true" 或者 required = "required")
-			if ( $field['required'] )
+			if ( arr::pull($field,'required') )
 			{
 				$field['class'] = $field['class'].' required';
 			}
@@ -240,8 +237,11 @@ class form
                 $field['value'] = self::data($field['name']);
             }
 
+            // 默认设置控件编号为控件名称
+            $field['id']    = $field['id'] ? $field['id'] : str_replace(['.', '[]', '[', ']'], ['-', '', '-', ''], $field['name']);
+
 			// 字段类型依次查找，用英文逗号分隔，如summary,textarea，如果找不到summary控件，则输出textarea控件
-			$types = explode(',',$field['type']); unset($field['type']);
+            $types = explode(',',$field['type']); unset($field['type']);
 
 			foreach($types as $type)
 			{

@@ -108,12 +108,11 @@
 
 $(function(){
 	//template控件处理函数
-	$('input.title').each(function(){
-		var $input = $(this);
-		var $bold = $input.parent().find('a[rel=bold]');
-		var $color = $input.parent().find('a[rel=color]');
-
-		var stylefield = $input.attr('stylefield');
+	$('.input-title').each(function(){
+		var $input = $(this).find('input:first');
+		var $bold  =  $(this).find('a[rel=bold]');
+		var $color =  $(this).find('a[rel=color]');		
+		var $style = $(this).find('input:last');
 
 		//设置style数据
 		function setstyle(){
@@ -129,7 +128,7 @@ $(function(){
 
 			$input.attr('style',style);
 
-			$('input[name='+stylefield+']').val(style);
+			$style.val(style);
 		}
 
 		//加粗按钮
@@ -153,7 +152,6 @@ $(function(){
 		$color.attr('color',$input.css('color')).colorselector({
 			callback:function(v){
 				$color.attr('color',v).css('color',v);
-;
 				setstyle();
 			}
 		});

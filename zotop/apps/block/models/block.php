@@ -47,11 +47,6 @@ class block_model_block extends model
 			'image'			=> array('show'=>0,'label'=>t('图片'),'type'=>'image','name'=>'image','required'=>'required','image_resize'=>1,'image_width'=>'','image_height'=>'','watermark'=>0),
 			'description'	=> array('show'=>0,'label'=>t('摘要'),'type'=>'textarea','name'=>'description','required'=>'required','minlength'=>0,'maxlength'=>255),
 			'time'			=> array('show'=>0,'label'=>t('日期'),'type'=>'datetime','name'=>'time','required'=>'required'),
-			'c1'			=> array('show'=>0,'label'=>t('自定义1'),'type'=>'text','name'=>'c1'),
-			'c2'			=> array('show'=>0,'label'=>t('自定义2'),'type'=>'text','name'=>'c2'),
-			'c3'			=> array('show'=>0,'label'=>t('自定义3'),'type'=>'text','name'=>'c3'),
-			'c4'			=> array('show'=>0,'label'=>t('自定义4'),'type'=>'text','name'=>'c4'),
-			'c5'			=> array('show'=>0,'label'=>t('自定义5'),'type'=>'text','name'=>'c5'),
 		);
 		
 		// 直接返回全部

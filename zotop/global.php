@@ -243,7 +243,7 @@ function thumb($image, $width, $height, $default = null)
 }
 
 /**
- * debug::dump的简写，打印给定变量并结束脚本执行
+ * 打印给定变量并结束脚本执行 TODO 一次打印多个
  * 
  * @param  mixed  $var   待打印的变量
  * @param  boolean $return 是否返回结果
@@ -252,5 +252,16 @@ function thumb($image, $width, $height, $default = null)
 function dd($var, $return = false)
 {
     return debug::dump($var,$return);
+}
+
+/**
+ * 在控制台追踪参数 TODO 一次显示多个
+ * 
+ * @param  mixed  $var   待打印的变量
+ * @return mixed
+ */
+function tt($var)
+{
+    return zotop::trace('info', $var);
 }
 ?>

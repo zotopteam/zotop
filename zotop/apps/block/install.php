@@ -69,29 +69,20 @@ $this->db->createTable('block',array(
 	'primary'=>array ( 'id' ),
 	'comment' => t('区块表') 
 ));
+
 // [block_datalist] 创建
 $this->db->dropTable('block_datalist');
 $this->db->createTable('block_datalist',array(
 	'fields'=>array(
-		'id'          => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('') ),
-		'blockid'     => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'comment' => t('区块编号') ),
-		'app'         => array ( 'type'=>'char', 'length'=>64, 'default'=>null, 'comment' => t('应用编号') ),
-		'dataid'	  => array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('数据编号') ),
-		'title'       => array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('标题') ),
-		'style'       => array ( 'type'=>'varchar', 'length'=>50, 'default'=>null, 'comment' => t('标题样式') ),
-		'url'         => array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('链接') ),
-		'image'       => array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('图片') ),
-		'description' => array ( 'type'=>'text', 'default'=>null, 'comment' => t('摘要') ),
-		'time'        => array ( 'type'=>'int', 'length'=>10, 'default'=>null, 'unsigned'=>true, 'comment' => t('时间') ),
-		'c1'          => array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段1') ),
-		'c2'          => array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段2') ),
-		'c3'          => array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段3') ),
-		'c4'          => array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段4') ),
-		'c5'          => array ( 'type'=>'text', 'default'=>null, 'comment' => t('自定义字段5') ),
-		'userid'      => array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('创建人编号') ),
-		'listorder'   => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
-		'stick'       => array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否固顶，0：不固顶，1：固顶') ),
-		'status'      => array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('状态') ),
+		'id'        => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
+		'dataid'    => array ( 'type'=>'varchar', 'length'=>100, 'default'=>null, 'comment' => t('数据编号') ),
+		'blockid'   => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'comment' => t('区块编号') ),
+		'app'       => array ( 'type'=>'char', 'length'=>64, 'default'=>null, 'comment' => t('应用编号') ),		
+		'data'      => array ( 'type'=>'text', 'notnull'=>true, 'comment' => t('数据') ),
+		'userid'    => array ( 'type'=>'mediumint', 'length'=>8, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('创建人编号') ),
+		'listorder' => array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'default'=>'0', 'unsigned'=>true, 'comment' => t('排序') ),
+		'stick'     => array ( 'type'=>'tinyint', 'length'=>1, 'default'=>'0', 'unsigned'=>true, 'comment' => t('是否固顶，0：不固顶，1：固顶') ),
+		'status'    => array ( 'type'=>'char', 'length'=>10, 'default'=>null, 'comment' => t('状态') ),
 	),
 	'index'=>array(
 		'blockid_listorder' => array ( 'blockid',  'listorder' ),

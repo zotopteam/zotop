@@ -43,14 +43,14 @@
 					<td>
 						<div class="title text-overflow">
 							{if $r.url}
-								<a href="{U($r.url)}" target="_blank" {if $r.style}style="{$r.style}"{/if}>{$r.title}</a>
+								<a href="{U($r.data.url)}" target="_blank" {if $r.data.style}style="{$r.data.style}"{/if}>{$r.data.title}</a>
 							{else}
-								<span {if $r.style}style="{$r.style}"{/if}>{$r.title}</span>
+								<span {if $r.data.style}style="{$r.data.style}"{/if}>{$r.data.title}</span>
 							{/if}
 
-							{if $r.image} 
+							{if $r.data.image} 
 								<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
-									<div class="tooltip-block-content"><img src="{$r.image}" class="preview"></div>
+									<div class="tooltip-block-content"><img src="{$r.data.image}" class="preview"></div>
 								</i> 
 							{/if}								
 							{if $r.dataid}<i class="fa fa-share text-success" title="{t('关联数据')}"></i> {/if}

@@ -1,37 +1,28 @@
 {template 'dialog.header.php'}
 
-{form::header()}
-
-		{form::field(array('type'=>'hidden','name'=>'blockid','value'=>$block['id'],'required'=>'required'))}
+{form class="form-horizontal" data="$data"}
 
 
-			<div class="form-horizontal">
-			{loop m('block.block.fieldlist',$block.fields) $k $f}
+	{loop $block.fields $k $f}
 
-
-			{if $f.show}
-			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label($f.label, $k, $f.required=='required')}</div>
-				<div class="col-sm-10">
-					{if $f.type == 'title'}
-						{form::field(array_merge($f,array('value'=>$data[$k],'style'=>$data['style'])))}
-					{elseif in_array($f.type,array('image','file','images','files','editor'))}
-						{form::field(array_merge($f,array('value'=>$data[$k],'dataid'=>'block-'.$block['id'])))}
-						<div class="help-block">
-						{if $f.image_width} {t('图片宽度:$1 px',$f.image_width)} {/if}
-						{if $f.image_height} {t('图片高度:$1 px',$f.image_height)} {/if}							
-						</div>
-					{else}
-						{form::field(array_merge($f,array('value'=>$data[$k])))}
-					{/if}
-				</div>
+		{if $f.show and $f.name='data['.$f.name.']'}
+		<div class="form-group">
+			<div class="col-sm-2 control-label">{form::label($f.label, $k, $f.required=='required')}</div>
+			<div class="col-sm-10">
+				{if $f.type == 'title'}
+					{form::field(array_merge($f,array('stylefield'=>'data[style]')))}
+				{else}
+					{form::field($f)}
+				{/if}
 			</div>
-			{/if}
+		</div>
+		{/if}
 
-			{/loop}
-			</div>
+	{/loop}
 
-{form::footer()}
+	{field type="hidden" name="blockid" required="required"}
+
+{/form}
 
 <script type="text/javascript">
 

@@ -13,15 +13,17 @@ class arr
     public static $tree = array();
 
     /**
-     * 格式化键名路径
+     * 键名转路径
+     *
+     * data[name] => data.name
      * 
      * @param  string $path 键名路径
      * @param  string $delimiter 原始分隔符
      * @return string 格式化后的路径
      */
-    public static function format_path($path, $delimiter=null)
+    public static function key_path($path, $delimiter=null)
     {
-        $path = str_replace(array('[]', '[', ']'), array('*', '.', ''), $path);
+        $path = str_replace(array('[*]', '[', ']'), array('*', '.', ''), $path);
 
         if ( $delimiter )
         {
@@ -30,6 +32,7 @@ class arr
 
         return $path;
     }
+
 
     /**
      * 分解数组为键名和键值数组
@@ -167,7 +170,7 @@ class arr
         // 处理不规范的路径
         $path = ltrim($path, "{$delimiter} ");
         $path = rtrim($path, "{$delimiter} *");
-        $path = self::format_path($path);
+        $path = self::key_path($path);
 
         // 路径转数组
         $keys = explode($delimiter, $path);
@@ -258,7 +261,7 @@ class arr
         // 定义分隔符
         $delimiter = '.';
 
-        $path = self::format_path($path);
+        $path = self::key_path($path);
 
         // 键名路径转化为数组
         $keys = explode($delimiter, $path);
@@ -330,45 +333,7 @@ class arr
 
         return $value;
     }    
-
-    /**
-     * 从数组里面获取特定值 废弃
-     * 
-     *     $username = arr::get($_POST, 'username');
-     *
-     *     $newaray = arr::get($_GET, 'name,page,title');
-     *
-     * @param   array   array to extract from
-     * @param   string  key name
-     * @param   mixed   default value
-     * @return  mixed
-     */
-    public static function only($array, $key, $default = null)
-    {
-        if ( is_string($key) )
-        {
-            if ( strpos($key, ',') === false )
-            {
-                return isset($array[$key]) ? $array[$key] : $default;
-            }
-
-            $key = explode(',', $key);
-        }
-
-        if ( is_array($key) )
-        {
-            $return = array();
-
-            foreach($key as $k)
-            {
-                $return[$k] = isset($array[$k]) ?  $array[$k] :  $default[$k];
-            }
-
-            return $return;
-        }
-
-        return null;
-    }    
+   
 
     /**
      * 从数组中弹出键，返回该键的值并从数组中删除该键，如果弹出多个键，则返回一个由弹出键组成的数组 废弃
@@ -728,7 +693,7 @@ class arr
                 $ret[$row[$key_field]] = $row;
             }
         }
-        
+
         return $ret;
     }
 
@@ -747,7 +712,7 @@ class arr
      * );
      * $values = arr::group($rows, 'parent');
      *
-     * dump($values);
+     * dd($values);
      *   // 按照 parent 分组的输出结果为
      *   // array(
      *   //   1 => array(

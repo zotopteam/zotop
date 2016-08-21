@@ -98,8 +98,9 @@ class system_field
 	 */
 	public static function image($attrs)
 	{
+		$attrs['dataid']      = $attrs['dataid'] ? $attrs['dataid'] : form::data('dataid');
+		$attrs['extension']   = $attrs['extension'] ? $attrs['extension'] : str_replace(',','|',C('system.attachment_image_exts'));
 		$attrs['placeholder'] = empty($attrs['placeholder']) ? t('请输入图片地址或者上传图片') : $attrs['placeholder'];
-		$attrs['extension']   = str_replace(',','|',C('system.attachment_image_exts'));
 
 		//上传参数
 		$upload = array('app'=>ZOTOP_APP,'field'=>$attrs['name'],'select'=>1);
