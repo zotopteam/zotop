@@ -42,21 +42,6 @@ class form_hook
 		return $start;
 	}
 
-
-	/**
-	 * 测试控件，请修改或者删除此处代码，详细修改方式请参见文档
-	 *
-	 * @param $attrs array 控件参数
-	 * @return string 控件代码
-	 */
-	public static function test($attrs)
-	{
-		// 控件属性
-		$html['field'] = form::field_text($attrs);
-
-		return implode("\n",$html);
-	}
-
 	/**
 	 * formdata 模板标签解析
 	 * 
@@ -65,7 +50,7 @@ class form_hook
 	 */
 	public function data($attrs)
 	{
-		$params = arr::take($attrs,'formid','select','orderby','page','size','cache','where','return','search','keywords');
+		$params = arr::pull($attrs, array('formid','select','orderby','page','size','cache','where','return','search','keywords'));
 
 		@extract($params);
 

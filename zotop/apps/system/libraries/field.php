@@ -457,12 +457,7 @@ class system_field
 	 */
 	public static function color($attrs)
 	{
-		$id = $attrs['name'] == $attrs['id'] ? $attrs['name'] : $attrs['name'].'_'.$attrs['id'];
-		$id = str_replace(array(']',' ','/','\\'), '', $id);
-		$id = str_replace(array('.','['), '_', $id);
-
-		$format = reset(arr::take($attrs,'format'));
-		$format = $format ? $format : 'hex';
+		$format = arr::pull($attrs,'format','hex');
 
 		$html[] = '<div class="input-group pickcolor" data-format="'.$format.'">';
 		$html[] = form::field_text($attrs);

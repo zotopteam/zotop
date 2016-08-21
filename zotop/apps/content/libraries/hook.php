@@ -124,7 +124,7 @@ class content_hook
 		{
 			if ( priv::allow('content/manage/'.$k) )
 			{
-				$array[$k] = arr::take($m,'text','icon') + array('attrs'=>$m);
+				$array[$k] = arr::pull($m, array('text','icon')) + array('attrs'=>$m);
 			}					
 		}
 

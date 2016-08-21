@@ -21,17 +21,20 @@ class tinymce_field
 		// 参数HOOK
 		$attrs           = zotop::filter('tinymce.attrs',$attrs);
 		
-		// 参数完善
-		$attrs['app']    = empty($attrs['app']) ? ZOTOP_APP : $attrs['app'];
-		$attrs['field']  = empty($attrs['field']) ? $attrs['name'] : $attrs['field'];
-		$attrs['select'] = intval($attrs['select']);
 		$attrs['style']  = $attrs['style']."visibility:hidden;";
 		
 		// 获取上传参数
-		$upload          = arr::take($attrs,'app','field','select','maxfile','dataid','image_resize','image_width', 'image_height','image_quality','watermark','watermark_width','watermark_height','watermark_image','watermark_position','watermark_opacity');
+		$upload = arr::pull($attrs,
+			array('app','field','select','maxfile','dataid','image_resize','image_width', 'image_height','image_quality','watermark','watermark_width','watermark_height','watermark_image','watermark_position','watermark_opacity'),
+			array(
+				'app'    => ZOTOP_APP,
+				'field'  => $attrs['name'],
+				'select' => intval($attrs['select'])
+			)
+		);
 		
 		// 获取textarea参数
-		$textarea        = arr::take($attrs,'name','value','id','style','rows','class','required','maxlength','minlength','partten','remote');
+		$textarea = arr::pull($attrs,array('name','value','id','style','rows','class','required','maxlength','minlength','partten','remote'));
 		
 
 		$html   = array();

@@ -48,15 +48,18 @@ class arr
     /**
      * 用第二个数组中的数据覆盖第一个数组中同键名的数据
      * 与merge的区别是第一个数组中并不存在的键不会被添加
-     * 
+     * <code>
+     *     // 例如：
      *     $a1 = array('name' => 'john', 'mood' => 'happy', 'food' => 'bacon');
      *     $a2 = array('name' => 'jack', 'food' => 'tacos', 'drink' => 'beer');
      *
-     *     // 例如：
+     *     // 操作：
      *     $array = arr::overwrite($a1, $a2);
      *
      *     // 结果：
-     *     array('name' => 'jack', 'mood' => 'happy', 'food' => 'tacos')
+     *     $array = array('name' => 'jack', 'mood' => 'happy', 'food' => 'tacos')
+     *
+     *  </code>
      *
      * @param   array   $array1 数组
      * @param   array   $array2 数组
@@ -122,6 +125,7 @@ class arr
      *     $value = arr::get($array, 'foo.bar');
      *
      *     // 使用 * 可以进行搜索，并返回一个数组
+     *     // 获取 $array['foo'][*]['bar']
      *
      *     $colors = arr::get($array, 'themes.*.name');
      *
@@ -140,13 +144,13 @@ class arr
             // 如果path为关联数组，则分割数组，键名为路径数组，键值为赋值数组
             if ( self::is_assoc($path) )
             {
-                $path = self::overwrite($path, (array)$default);
-                list($path, $default) = self::divide($path);
+                $default = array_merge($path, (array)$default);
+                $path    = array_keys($path);
             }
 
-            foreach ($path as $k=>$p)
+            foreach ($path as $p)
             {
-                $result[] = self::get($array, $p, $default[$k]);
+                $result[$p] = self::get($array, $p, $default[$p]);
             }
 
             return $result;
@@ -246,13 +250,13 @@ class arr
             // 如果path为关联数组，则分割数组，键名为路径数组，键值为赋值数组
             if ( self::is_assoc($path) )
             {
-                $path = self::overwrite($path, (array)$value);
-                list($path, $value) = self::divide($path);
+                $value = array_merge($path, (array)$value);
+                $path  = array_keys($path);           
             }
 
-            foreach ($path as $k => $p)
+            foreach ($path as $p)
             {
-                self::set($array, $p, $value[$k]);
+                self::set($array, $p, $value[$p]);
             }
 
             return $array;
@@ -301,81 +305,44 @@ class arr
      */
     public static function forget(&$array, $path)
     {
-        foreach ( (array)$path as $p)
-        {
-            self::set($array, $p, null);
-        }
-
-        return $array;
+        return self::set($array, $path, null);
     }
 
     /**
-     *  从数组或者多维数组中按照键名路径返回值，并删除原有的值
+     * 从数组或者多维数组中按照键名路径返回值，并删除原有的值
+     * 如果弹出多个键，则返回一个由弹出键组成的数组, 否则返回该项的值
+     *
+     * <code>
+     *  // 数组
+     *  $array = array('value'=>'1','description'=>'2','label'=>'3');
+     *
+     *  // 操作
+     *  $a = arr::pull($array,'label','默认值');
+     *  $b = arr::pull($array,'text','默认值');
+     *  $c = arr::pull($array,array('label','description'));
+     *  $d = arr::pull($array,array('text','description'),array('text'=>'默认值'));
+     *  
+     *  $a = 3
+     *  $b = '默认值'
+     *  $c = array('label'=>null,'description'=>'2')
+     *  $d = array('text'=>'默认值','description'=>null)
+     *  $array = array('value'=>'1');
+     *
+     * </code>
      *
      * @param   array   $array      原数组
      * @param   mixed   $path       键名路径(可使用点符号分割)
      * @param   mixed   $default    默认值
-     * @return  mixed
-     */    
+     *
+     * @return $mix 被弹出的数据, 如果弹出多个，则返回数组，否则返回该键的值
+     */      
     public static function pull(&$array, $path, $default = NULL)
     {
-        // 如果path为关联数组，则分割数组
-        if ( is_array($path) and self::is_assoc($path) )
-        {
-            $path = self::overwrite($path, (array)$default);
-
-            list($path, $default) = self::divide($path);
-        }
-
         $value = self::get($array, $path, $default);
 
         self::forget($array, $path);
 
         return $value;
-    }    
-   
-
-    /**
-     * 从数组中弹出键，返回该键的值并从数组中删除该键，如果弹出多个键，则返回一个由弹出键组成的数组 废弃
-     *
-     * <code>
-     *	$array = array('value'=>'1','description'=>'2','label'=>'3');
-     *	$a = arr::take($array,'label');
-     *	$b = arr::take($array,array('label','description'));
-     *	$c = arr::take($array,'label','description');
-     *  
-     *	$a = 3
-     *	$b = $c = array('label'=>'3','description'=>'2')
-     *
-     *</code>
-     *
-     * @param array $array 目标数组
-     * @param string $key 弹出的键名
-     * @param string …… 键名
-     *
-     * @return $mix	被弹出的数据, 如果弹出多个，则返回数组，否则返回该键的值
-     */
-    public static function take(&$array, $key)
-    {
-        $return = array();
-        $array  = is_array($array) ? $array : array();
-
-        //获取键
-        if ( !is_array($key) )
-        {
-            $key = array_slice(func_get_args(), 1);
-        }
-
-        foreach ($key as $k)
-        {
-            if (array_key_exists($k, $array))
-            {
-                $return[$k] = $array[$k];
-                unset($array[$k]);
-            }
-        }
-
-        return $return;
     }
 
     /**
