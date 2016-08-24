@@ -1,7 +1,6 @@
 <?php
 //注册类库
 zotop::register(array(
-	//'content_model'		=>	ZOTOP_PATH_APPS.DS.'content'.DS.'libraries'.DS.'model.php',
 	'content_hook'		=>	ZOTOP_PATH_APPS.DS.'content'.DS.'libraries'.DS.'hook.php',
 ));
 
@@ -37,12 +36,12 @@ form::field('summary', 'content_hook::field_summary');
 
 
 /**
- * 模板标签解析
+ * 模板标签注册
  */
-template::tag('content','content_tag_parse');
+template::tag('content','tag_content');
 
 /**
- * 模版标签 {content action="list"}……{/content}
+ * 模版标签解析 {content cid="1"}……{/content}
  *
  * 标签说明
  *
@@ -59,14 +58,14 @@ template::tag('content','content_tag_parse');
  *
  *  内部标签
  *
- *  {$r.id},{$r.title},{$r.style},{$r.url},{$r.createtime},{$r.updatetime}
+ *  {$r.id},{$r.title},{$r.style},{$r.url},{$r.createtime},{$r.updatetime} ……
  *
  *  扩展标签
  *
  *  {$r.newflag} {$r.new}
  */     
 
-function content_tag_parse($attrs)
+function tag_content($attrs)
 {
     $result = array();
 
@@ -89,11 +88,10 @@ function content_tag_parse($attrs)
 }
 
 /**
- * 内容显示钩子
+ * 内容详细页面显示钩子
  */
 zotop::add('content.show','content_hook::content_hits');
 zotop::add('content.show','content_hook::content_tags');
 zotop::add('content.show','content_hook::content_pages');
-
 zotop::add('content.fullcontent','content_hook::content_full');
 ?>

@@ -99,18 +99,21 @@
 					<b>{t('上一篇')}</b> ：
 					{content cid="$category.id" prev="$content.id" size="1"}
 					<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>
+					{else}
+					<span class="text-muted">{t('暂无内容')}</span>
 					{/content}
-					{if empty($tag_content)} {t('暂无内容')} {/if}
 				</div>
 
 				<div class="content-next">
 					<b>{t('下一篇')}</b> ：
 					{content cid="$category.id" next="$content.id" size="1"}
 					<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>
+					{else}
+					<span class="text-muted">{t('暂无内容')}</span>
 					{/content}
-					{if empty($tag_content)} {t('暂无内容')} {/if}
 				</div>
-			</div>			
+			</div>
+					
 		</div><!-- content -->
 
 </div> 

@@ -50,33 +50,25 @@
 		</div>
 		{/if}
 
-		<div class="content-prev">
-			<b>{t('上篇')}</b> ：
-			{content cid="$category.id" prev="$content.id" size="1"}
-			<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a>
-			{/content}
-			{if empty($tag_content)} {t('暂无内容')} {/if}
-		</div>
+		<div class="content-prev-next">
+			<div class="content-prev">
+				<b>{t('上一篇')}</b> ：
+				{content cid="$category.id" prev="$content.id" size="1"}
+				<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>
+				{else}
+				<span class="text-muted">{t('暂无内容')}</span>
+				{/content}
+			</div>
 
-		<div class="content-next">
-			<b>{t('下篇')}</b> ：
-			{content cid="$category.id" next="$content.id" size="1"}
-			<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a>
-			{/content}
-			{if empty($tag_content)} {t('暂无内容')} {/if}
+			<div class="content-next">
+				<b>{t('下一篇')}</b> ：
+				{content cid="$category.id" next="$content.id" size="1"}
+				<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>
+				{else}
+				<span class="text-muted">{t('暂无内容')}</span>
+				{/content}
+			</div>
 		</div>
-
-		{content keywords="$content.keywords" ignore="$content.id" size="5"/}
-		{if $tag_content}
-		<div class="content-related">
-			<h5>{t('相关内容')}</h5>
-			<ul class="list">
-			{loop $tag_content $r}
-			<li><a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}{$r.new}</a></li>
-			{/loop}
-			</ul>
-		</div>
-		{/if}
 
 	</div><!-- content -->
 
