@@ -1,6 +1,9 @@
 {template 'header.php'}
 
-<div class="main">
+{template 'block/admin_side.php'}
+
+<div class="main side-main">
+
 	<div class="main-header">
         <div class="goback"><a href="javascript:location.href=document.referrer;"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">{$title}</div>
@@ -15,25 +18,25 @@
 			<div class="form-horizontal">
 
 				<div class="form-group">
-					<div class="col-sm-1 control-label">{form::label(t('类型'),'type',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('类型'),'type',true)}</div>
 					<div class="col-sm-8">
 						{form::field(array('type'=>'radio','options'=>m('block.block.types'),'name'=>'type','value'=>$data['type']))}
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="col-sm-1 control-label">{form::label(t('名称'),'name',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('名称'),'name',true)}</div>
 					<div class="col-sm-8">
 						{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
 					</div>
 				</div>
                 <div class="form-group">
-                    <div class="col-sm-1 control-label">{form::label(t('描述'),'description',false)}</div>
+                    <div class="col-sm-2 control-label">{form::label(t('描述'),'description',false)}</div>
                     <div class="col-sm-8">
                         {form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description']))}
                     </div>
                 </div>                			
 				<div class="form-group">
-					<div class="col-sm-1 control-label">{form::label(t('分类'),'type',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('分类'),'type',true)}</div>
 					<div class="col-sm-8">
 						{form::field(array('type'=>'select','options'=>arr::hashmap($categories,'id','name'),'name'=>'categoryid','value'=>$data['categoryid']))}
 					</div>
@@ -42,7 +45,7 @@
 				<div class="extend"></div>
 
 				<div class="form-group">
-					<div class="col-sm-1 control-label">{form::label(t('模版'),'template',true)}</div>
+					<div class="col-sm-2 control-label">{form::label(t('模版'),'template',true)}</div>
 					<div class="col-sm-8">
 
 						{form::field(array('type'=>'template','name'=>'template','value'=>$data['template'],'required'=>'required'))}
@@ -61,7 +64,7 @@
 
 		{if $data['data']}
         
-            {field type="button" value="t('保存并下一步')" data-loading-text="t('保存中…')" class="submit btn-success" rel="submit"}
+            {field type="button" value="t('保存并返回')" data-loading-text="t('保存中…')" class="submit btn-success" rel="submit"}
 
 		{/if}
 

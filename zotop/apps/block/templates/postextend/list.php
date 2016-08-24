@@ -1,7 +1,7 @@
 
 
 	<div class="form-group">
-		<div class="col-sm-1 control-label">{form::label(t('行数'),'rows',false)}</div>
+		<div class="col-sm-2 control-label">{form::label(t('行数'),'rows',false)}</div>
 		<div class="col-sm-4">
 			<div class="input-group">
 				{form::field(array('type'=>'number','name'=>'rows','value'=>intval($data['rows']),'min'=>0))}
@@ -12,18 +12,18 @@
 	</div>
 
 	<div class="form-group">
-		<div class="col-sm-1 control-label">{form::label(t('字段'),'fields',false)}</div>
-		<div class="col-sm-11">
-			<table class="table table-border table-nowrap table-control fieldlists">
+		<div class="col-sm-2 control-label">{form::label(t('字段'),'fields',false)}</div>
+		<div class="col-sm-10">
+			<table class="table table-border table-nowrap table-control form-group-sm fieldlists">
 			<thead>
 			<tr>
 				<td class="text-center">{t('显示')}</td>
-				<td class="w100" width="15%">{t('名称')}</td>
-				<td class="w100" width="15%">
+				<td class="w100" width="13%">{t('名称')}</td>
+				<td class="w100" width="13%">
 					{t('标识')} &nbsp;	<i class="icon icon-help" title="{t('可在模板的loop循环中使用')}"></i>
 				</td>
 				<td class="text-center">{t('必填')}</td>
-				<td width="15%">{t('类型')}</td>
+				<td width="13%">{t('类型')}</td>
 				<td>{t('设置')}</td>
 			</tr>
 			</thead>
@@ -104,7 +104,8 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="6">
+					<td></td>
+					<td colspan="5">
 						<a class="btn btn-primary btn-sm" href="javascript:;" onclick="field.add(this)"><i class="fa fa-plus fa-fw"></i> <b>{t('添加字段')}</b></a>
 					</td>					
 				</tr>
@@ -113,7 +114,7 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-1 control-label">{form::label(t('推送'),'commend',false)}</div>
+		<div class="col-sm-2 control-label">{form::label(t('推送'),'commend',false)}</div>
 		<div class="col-sm-8">
 			{form::field(array('type'=>'radio','options'=>array(0=>t('禁止推送'),1=>t('允许推送')),'name'=>'commend','value'=>$data['commend']))}
 		</div>
