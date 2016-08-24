@@ -50,7 +50,7 @@
 
 						{form::field(array('type'=>'template','name'=>'template','value'=>$data['template'],'required'=>'required'))}
 
-						{form::tips(t('模板决定区块的显示效果，支持 {literal}{$id}/{$name}/{$data}{/literal} 等标签'))}
+						{form::tips(t('模板决定区块的显示效果，支持 {literal}{$id}/{$name}/{$description}/{$data}{/literal} 等标签'))}
 					</div>
 				</div>
 

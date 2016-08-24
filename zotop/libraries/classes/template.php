@@ -61,7 +61,7 @@ class template
      * 当callback为空的时候，如 template::tag('content') 时 回调函数为：tag_content
      *
      * @param string $tag 标签名称
-     * @param string $callback 回调函数
+     * @param string $callback 回调函数，暂时只支持函数，不支持静态方法
      * @return string
      */
     public static function tag($tag = null, $callback = '')

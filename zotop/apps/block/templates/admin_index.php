@@ -7,7 +7,7 @@
 	<div class="main-header">		
 		{if $keywords}
 		<a class="goback" href="{u('block/admin/index/'.$categoryid)}"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a>
-		<div class="title pull-center">{t('搜索 “%s”',$keywords)}</div>
+		<div class="title">{t('搜索 “%s”',$keywords)}</div>
 		{else}
 		<div class="title">{$category['name']} </div>
 		{/if}
@@ -67,8 +67,8 @@
 					<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
 					<td>{$r.tag}</td>
 					<td>
-						<div>{m('system.user.get', $r['userid'], 'username')}</div>
-						<div class="f12 time">{format::date($r['updatetime'])}</div>
+						<div>{m('system.user.get', $r.userid, 'username')}</div>
+						<small class="text-muted time">{$r.updatetime date="u|datetime"}</small>
 					</td>
 				</tr>
 			{/loop}			
