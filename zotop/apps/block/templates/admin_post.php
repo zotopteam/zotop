@@ -91,6 +91,20 @@
 
 
 	$(function(){
+        $.validator.addMethod("fieldname", function(value, element) {
+            return this.optional(element) || /^[a-z][a-z0-9_]{0,18}[a-z0-9]$/.test(value);
+        }, "{t('长度2-20，允许小写英文字母、数字和下划线，并且仅能字母开头，不以下划线结尾')}");
+
+        $.validator.addMethod("uniquename", function(value, element) {
+            var uniquename = true;
+            $('input[uniquename]').not(element).each(function(){
+                if ( value == $(this).val() ){
+                    uniquename = false;   
+                }
+            });
+            return uniquename;
+        }, "{t('标识已经存在，请使用其它标识')}");        
+
 		form.validate({submitHandler:function(form){
 			var action = $(form).attr('action');
 			var data = $(form).serialize();

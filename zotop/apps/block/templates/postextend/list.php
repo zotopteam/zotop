@@ -18,12 +18,12 @@
 			<thead>
 			<tr>
 				<td class="text-center">{t('显示')}</td>
-				<td class="w100" width="13%">{t('名称')}</td>
-				<td class="w100" width="13%">
+				<td class="w100" width="12%">{t('名称')}</td>
+				<td class="w100" width="12%">
 					{t('标识')} &nbsp;	<i class="icon icon-help" title="{t('可在模板的loop循环中使用')}"></i>
 				</td>
 				<td class="text-center">{t('必填')}</td>
-				<td width="13%">{t('类型')}</td>
+				<td width="12%">{t('类型')}</td>
 				<td>{t('设置')}</td>
 			</tr>
 			</thead>
@@ -42,14 +42,14 @@
 						{/if}
 					</td>
 					<td>
-						<input type="text" name="fields[{$k}][label]" class="form-control text required" value="{$v['label']}">
+						<input type="text" name="fields[{$k}][label]" class="form-control text required" value="{$v['label']}" placeholder="{t('名称')}">
 					</td>
 					<td>
 						{if in_array($v['name'], array('title','url','image','description','time'))}
-						<input type="hidden" name="fields[{$k}][name]" class="form-control" value="{$v['name']}">
+						<input type="hidden" name="fields[{$k}][name]" class="form-control" value="{$v['name']}" fieldname="true" uniquename="true">
 						<input type="text" name="showname" class="form-control text" value="{$v['name']}" disabled>
 						{else}
-						<input type="text" name="fields[{$k}][name]" class="form-control required" value="{$v['name']}">
+						<input type="text" name="fields[{$k}][name]" class="form-control required" value="{$v['name']}" placeholder="{t('标识')}" fieldname="true" uniquename="true">
 						{/if}
 					</td>
 					<td class="text-center">
@@ -72,12 +72,22 @@
 						{if in_array($v['type'], array('title','text','textarea'))}
 						<div class="input-group">
 							<span class="input-group-addon">{t('长度')}</span>
-							{form::field(array('type'=>'number','name'=>'fields['.$k.'][minlength]','value'=>$v['minlength'],'placeholder'=>t('最小')))}
+							{form::field(array('type'=>'number','name'=>'fields['.$k.'][minlength]','value'=>$v['minlength'],'placeholder'=>t('最小长度')))}
 							<span class="input-group-addon">-</span>
-							{form::field(array('type'=>'number','name'=>'fields['.$k.'][maxlength]','value'=>$v['maxlength'],'placeholder'=>t('最大')))}
+							{form::field(array('type'=>'number','name'=>'fields['.$k.'][maxlength]','value'=>$v['maxlength'],'placeholder'=>t('最大长度')))}
 							<span class="input-group-addon">{t('字')}</span>
 						</div>
 						{/if}
+
+						{if in_array($v['type'], array('number'))}
+						<div class="input-group">
+							<span class="input-group-addon">{t('范围')}</span>
+							{form::field(array('type'=>'number','name'=>'fields['.$k.'][min]','value'=>$v['minlength'],'placeholder'=>t('最小值')))}
+							<span class="input-group-addon">-</span>
+							{form::field(array('type'=>'number','name'=>'fields['.$k.'][max]','value'=>$v['maxlength'],'placeholder'=>t('最大值')))}
+						</div>
+						{/if}
+
 
 						{if in_array($v['type'], array('image','images'))}
 							<div class="row">
@@ -106,7 +116,7 @@
 				<tr>
 					<td></td>
 					<td colspan="5">
-						<a class="btn btn-primary btn-sm" href="javascript:;" onclick="field.add(this)"><i class="fa fa-plus fa-fw"></i> <b>{t('添加字段')}</b></a>
+						<a class="btn btn-primary btn-sm" href="javascript:;" onclick="field.add(this)"><i class="fa fa-plus fa-fw"></i><b>{t('添加字段')}</b></a>
 					</td>					
 				</tr>
 			</tfoot>

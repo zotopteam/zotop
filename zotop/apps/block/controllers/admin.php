@@ -236,6 +236,7 @@ class block_controller_admin extends admin_controller
 		{
 			return $this->success(t('删除成功'),request::referer());
 		}
+		
 		return $this->error($this->block->error());
 	}
 

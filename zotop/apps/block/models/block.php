@@ -43,7 +43,7 @@ class block_model_block extends model
 	{
 		$fieldlist = array(
 			'title'			=> array('show'=>1,'label'=>t('标题'),'type'=>'title','name'=>'title','minlength'=>1,'maxlength'=>50, 'required'=>'required'),
-			'url'			=> array('show'=>0,'label'=>t('链接'),'type'=>'text','name'=>'url','required'=>'required'),
+			'url'			=> array('show'=>0,'label'=>t('链接'),'type'=>'link','name'=>'url','required'=>'required'),
 			'image'			=> array('show'=>0,'label'=>t('图片'),'type'=>'image','name'=>'image','required'=>'required','image_resize'=>1,'image_width'=>'','image_height'=>'','watermark'=>0),
 			'description'	=> array('show'=>0,'label'=>t('摘要'),'type'=>'textarea','name'=>'description','required'=>'required','minlength'=>0,'maxlength'=>255),
 			'time'			=> array('show'=>0,'label'=>t('日期'),'type'=>'datetime','name'=>'time','required'=>'required'),
@@ -84,7 +84,8 @@ class block_model_block extends model
 			'text'		=>	t('单行文本'),
 			'textarea'	=>	t('多行文本'),
 			'number'	=>	t('数字'),
-			'url'		=>	t('链接'),
+			'url'		=>	t('网址'),
+			'link'		=>	t('链接'),
 			'image'		=>	t('图像'),
 			'file'		=>	t('文件'),
 			'date'		=>	t('日期'),
@@ -209,7 +210,8 @@ class block_model_block extends model
 		}
 
 		// 删除指定区块缓存
-		return file::delete(BLOCK_PATH_CACHE.DS."{$id}.html");	
+		file::delete(BLOCK_PATH_CACHE.DS."{$id}.html");
+		return true;
 	}
 
 
@@ -301,8 +303,11 @@ class block_model_block extends model
 
 			if ( parent::delete($id) )
 			{
-				return $this->clearcache($id);
+				$this->clearcache($id);
+				return true;
 			}
+
+			return false;
 		}
 
 		return $this->error(t('编号为 %s 的数据不存在', $id));

@@ -61,7 +61,7 @@
 							<s class="hidden">|</s>
 							<a href="{u('block/admin/edit/'.$r['id'])}"><i class="fa fa-cog"></i> {t('区块设置')}</a>
 							<s>|</s>
-							<a class="dialog-confirm" href="{u('block/admin/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
+							<a class="js-confirm" href="{u('block/admin/delete/'.$r['id'])}"><i class="fa fa-times"></i> {t('删除')}</a>
 						</div>
 					</td>
 					<td><div class="textflow">{m('block.block.types',$r.type)}</div></td>
