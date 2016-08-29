@@ -35,14 +35,13 @@
 					{/if}
 					<div class="media-body">
 						<div class="media-heading">
-							<h4>{$r.title}</h4>  {$r.new}
+							<h4>{$r.title}{$r.new}</h4> 
 						</div>		
-						<p class="media-summary">{str::cut($r.summary,140)}</p>
+						<p class="media-summary">{$r.summary length="140"}</p>
 						<div>
 							<span class="text-success">{$r.url}</span>
 							<span class="text-muted">{m('content.category.get',$r.categoryid, 'name')}</span>
-							<span class="text-muted">{format::date($r.createtime,'u|date')}</span>
-
+							<span class="text-muted">{$r.createtime date="u|date"}</span>
 						</div>						
 					</div>
 					</a>

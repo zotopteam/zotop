@@ -11,14 +11,12 @@ defined('ZOTOP') or die('No direct access allowed.');
 class template
 {
     /**
-     *
      * @var array 模板变量
      */
     public $vars = array();
 
 
     /**
-     *
      * @var string 模板主题标识
      */
     public $theme = null;
@@ -31,11 +29,14 @@ class template
 
 
     /**
-     * 
      * @var array
      */
     private $literal = array();
 
+    /**
+     * @var array 循环参数
+     */    
+    private $loopstack = array();
 
     /**
      * 初始化控制器
@@ -217,10 +218,11 @@ class template
 		$str = preg_replace("/\{elseif\s+(.+?)\}/i", "<?php }elseif(\\1){?>", $str );
         $str = preg_replace("/\{\/if\}/i", "<?php }?>", $str);
 
-		// 解析 {loop $data $r} {loop $data $k $v} {/loop}标签
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0;if(\\1 && is_array(\\1)) foreach(\\1 as \\2){\$n++; ?>", $str);
-        $str = preg_replace("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", "<?php \$n=0; if(\\1 && is_array(\\1)) foreach(\\1 as \\2 => \\3){\$n++; ?>", $str);
-        $str = preg_replace("/\{\/loop\}/i", "<?php } ?>", $str);
+		// 解析 {loop $data $r} {loop $data $k $v} {/loop}标签        
+        $str = preg_replace_callback("/\{loop\s+(\S+)\s+(\S+)\}/i", array($this,'parse_loop_begin'), $str);
+        $str = preg_replace_callback("/\{loop\s+(\S+)\s+(\S+)\s+(\S+)\}/i", array($this,'parse_loop_begin'), $str);
+        $str = preg_replace_callback("/\{empty\}/i", array($this,'parse_loop_empty'), $str);
+        $str = preg_replace_callback("/\{\/loop\}/i", array($this,'parse_loop_end'), $str);
 
 		// 解析函数标签 format::date($time);
 		$str = preg_replace("/\{([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff:]*\(.*?\))\}/", "<?php echo \\1;?>", $str);
@@ -262,8 +264,8 @@ class template
         // 解析用户自定义标签 {content ……}……{/content} 或者 {content ……/}
         if ($tag = template::tag())
         {
-            $str = preg_replace_callback('/\{('.implode('|', array_keys($tag)).')(\s+[^}]+?)(\/?)\}/i', array('self','parse_begin'), $str);
-            $str = preg_replace_callback('/\{\/('.implode('|', array_keys($tag)).')\}/i', array('self','parse_end'), $str);
+            $str = preg_replace_callback('/\{('.implode('|', array_keys($tag)).')(\s+[^}]+?)(\/?)\}/i', array('self','parse_tag_begin'), $str);
+            $str = preg_replace_callback('/\{\/('.implode('|', array_keys($tag)).')\}/i', array('self','parse_tag_end'), $str);
         }
 
         // 解析并还原 literal 标签
@@ -512,12 +514,128 @@ class template
     }
 
     /**
+     * 初始化新的循环数据属性
+     *
+     * @param  array $data
+     * @return void
+     */
+    public function loopstack($data)
+    {   
+        // 取得最后一个循环数据作为父数据
+        $parent = end($this->loopstack);
+
+        // 初始化循环属性
+        $this->loopstack[] = array(
+            'number' => 0,
+            'index'  => 0,
+            'count'  => count($data),
+            'first'  => true,
+            'last'   => ($length == 1),
+            'depth'  => count($this->loopstack) + 1,
+            'parent' => $parent,
+        );  
+    }
+
+    /**
+     * 循环并计算索引数据
+     * 
+     * @return void
+     */
+    public function loopindices()
+    {
+        $loop = &$this->loopstack[count($this->loopstack) - 1];
+        $loop['number']++;
+        $loop['index'] = $loop['number'] - 1;
+        $loop['first'] = $loop['number'] == 1;
+        $loop['last']  = $loop['number'] == $loop['count'];
+    }
+
+    /**
+     * 获取当前的循环数据
+     * 
+     * @return array
+     */
+    public function loopcurrent()
+    {
+        return end($this->loopstack);
+    }
+
+   /**
+     * 删除最后一个数据
+     *
+     * @return void
+     */
+    public function looppop()
+    {
+        array_pop($this->loopstack);
+    }    
+
+    /**
+     * 解析{loop ……}标签
+     * 
+     * @param  array $match 标签参数
+     * @return string
+     */
+    public function parse_loop_begin($match)
+    {
+        $code    = '';
+        $newline = "\r\n";
+
+        $data    = $match[1];
+        $key     = $match[3] ? $match[2] : '';
+        $value   = $match[3] ? $match[3] : $match[2];
+
+        $code .= $newline.'if ( is_array('.$data.') ) {';
+
+        $code .= $newline.' $__loopdata='.$data.';$this->loopstack($__loopdata);';
+
+        if ( $key )
+        {
+            $code .= $newline.' if ( $__loopdata ) foreach ( $__loopdata as '.$key.' => '.$value.' ) {';
+        }
+        else
+        {
+            $code .= $newline.' if ( $__loopdata ) foreach ( $__loopdata as '.$value.' ) {';
+        }
+
+        $code .= $newline.'     $this->loopindices();$loop=$this->loopcurrent();';
+
+        return '<?php '. $code . $newline .' ?>';
+    }
+
+    /**
+     * 解析{empty}标签
+     * @return [type] [description]
+     */
+    public function parse_loop_empty()
+    {
+        return '<?php } else { ?>';
+    }
+
+    /**
+     * 解析{/loop}标签
+     * 
+     * @return [type] [description]
+     */
+    public function parse_loop_end()
+    {
+        $code    = '';
+        $newline = "\r\n";
+
+        $code .= $newline.' }';
+        $code .= $newline.' $this->looppop();$loop=$this->loopcurrent();';
+        $code .= $newline.'}';
+
+        return '<?php '. $code . $newline .' ?>';
+    }
+
+    /**
      * 自定义模板标签解析
      *
      * @param  array $match 匹配结果
      * @return string 解析的结果
      */
-    public static function parse_begin($match)
+    public static function parse_tag_begin($match)
     {
         /**
          * $html 匹配到的HTML代码
@@ -553,15 +671,15 @@ class template
 
             if ( $cache )
             {
-                $code .= $newline.'if ( null === $' . $callback . ' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ){';
-				$code .= $newline.' if ( $' . $callback . ' = ' . $callback . '(' . self::array_attrs($attrs) . ') ){';
-                $code .= $newline.'	    zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $' . $callback . ', ' . $cache . ');';
+                $code .= $newline.'if ( null === $'.$callback.' = zotop::cache(\'' .$tag . md5(stripslashes($html)). '\') ){';
+				$code .= $newline.' if ( $'.$callback.' = '.$callback.'(' . self::array_attrs($attrs) . ') ){';
+                $code .= $newline.'	    zotop::cache(\'' .$tag . md5(stripslashes($html)). '\', $'.$callback.', ' . $cache . ');';
 				$code .= $newline.'	}';
                 $code .= $newline.'}';
             }
 			else
 			{
-				$code .= $newline.'$' . $callback . ' = ' . $callback . '(' . self::array_attrs($attrs) . ');';
+				$code .= $newline.'$'.$callback.' = ' .$callback.'('.self::array_attrs($attrs).');';
 			}
 
 			if ( $end )
@@ -570,10 +688,11 @@ class template
 			}
 			else
 			{
-				$code .= $newline.'if(is_array($' . $callback . ')){';
-				$code .= $newline.' if(isset($' . $callback . '[\'total\']) && is_array($' . $callback . '[\'data\'])){ extract($' . $callback . '); $' . $callback . ' = $data; $pagination = pagination::instance($total,$pagesize,$page); }'; // 分页
-                $code .= $newline.' $n=0;'; //编号
-                $code .= $newline.' if($' . $callback . ') foreach( $' . $callback . ' as $key => $'.$return.' ){$n++;'; //循环
+				$code .= $newline.'if ( is_array($'.$callback.') ) {';
+				$code .= $newline.' if ( isset($'.$callback.'[\'total\']) && is_array($'.$callback.'[\'data\']) ) {extract($'.$callback.'); $'.$callback.' = $data; $pagination = pagination::instance($total,$pagesize,$page); }'; // 分页
+                $code .= $newline.' $this->loopstack($'.$callback.');';
+                $code .= $newline.' if ( $'.$callback.' ) foreach ( $'.$callback.' as $key => $'.$return.' ) {';
+                $code .= $newline.'     $this->loopindices();$loop=$this->loopcurrent();';
 			}
         }
 
@@ -586,11 +705,12 @@ class template
      * @param  array $match 匹配结果
      * @return string 解析的结果
      */
-    public static function parse_end($match)
+    public static function parse_tag_end($match)
     {
 		$newline = "\r\n";
 		
 		$code .= $newline.'  }';
+        $code .= $newline.'  $this->looppop();$loop=$this->loopcurrent();';
 		$code .= $newline.'}';
         return '<?php' . $code . $newline .'?>';
     }
@@ -605,7 +725,6 @@ class template
     {
     	$file = $match[1];
         $file = trim(trim($file,'"'),"'");
-
 
     	return $this->render($file);
     }

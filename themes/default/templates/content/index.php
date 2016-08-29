@@ -14,7 +14,6 @@
 {/if}
 
 <div class="container">
-
 {content action="category" cid="$category.id" return="c"}
 	<div class="panel panel-default">
 		<div class="panel-heading">			
@@ -25,13 +24,13 @@
 		{content cid="$c.id" size="1" image="true"}
 		<div class="media media-sm">
 			<a href="{$r.url}" title="{$r.title}">
-				<div class="media-left"><img src="{thumb($r.image,400,300)}" alt="{$r.title}" class="media-object"/></div>
+				<div class="media-left"><img src="{$r.image width="400" height="300"}" alt="{$r.title}" class="media-object"/></div>
 				<div class="media-body">
 					<div class="media-heading">
-						<span class="pull-right text-muted hidden-xs">{format::date($r.createtime,'date')}</span>
+						<span class="pull-right text-muted hidden-xs">{$r.createtime date="date"}</span>
 						<h4 {$r.style}>{$r.title} {$r.new}</h4>
 					</div>
-					<div class="media-summary hidden-xs">{str::cut($r.summary,200)}</div>
+					<div class="media-summary hidden-xs">{$r.summary length="200"}</div>
 				</div>
 			</a>
 		</div>
@@ -40,16 +39,15 @@
 		<ul class="list-group">
 			{content cid="$c.id" size="8" ignore="$r.id"}
 			<li class="list-group-item text-overflow">
-				<span class="pull-right text-muted hidden-xs">{format::date($r.createtime,'date')}</span>
+				<span class="pull-right text-muted hidden-xs">{$r.createtime date="date"}</span>
 				<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>{$r.new}
 			</li>
-			{else}
+			{empty}
 			<li class="list-group-item"><div class="nodata">{t('暂无数据')}</div></li>
 			{/content}
 		</ul>
 	</div><!-- panel -->
 {/content}
-
 </div>
 
 {template 'footer.php'}

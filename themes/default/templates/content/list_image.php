@@ -28,10 +28,10 @@
 		 
 						<div class="thumbnail product">
 							<a href="{$r.url}">
-							<div class="image"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+							<div class="image"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 							<div class="caption">
 								<div class="title text-overflow" {$r.style}>{$r.title} {$r.new}</div>			
-								<div class="description hidden">{str::cut($r.summary,140)}</div>								
+								<div class="description hidden">{$r.summary length="140"}</div>								
 							</div>
 
 							</a>

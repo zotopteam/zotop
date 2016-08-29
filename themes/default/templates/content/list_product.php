@@ -34,17 +34,17 @@
 
 		<div class="thumbnail">
 			<a href="{$r.url}">
-			<div class="image"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+			<div class="image"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 			<div class="caption">
 				<div class="title text-overflow" {$r.style}>{$r.title} {$r.new}</div>
 				<div class="info hidden">
 					<i class="fa fa-folder"></i> {m('content.category.get',$r.categoryid, 'name')}
 					&nbsp;&nbsp;&nbsp;
-					<i class="fa fa-calendar"></i> {format::date($r.createtime,'u|date')}
+					<i class="fa fa-calendar"></i> {$r.createtime date="u|date"}
 					&nbsp;&nbsp;&nbsp;
 					<i class="fa fa-user"></i> {$r.hits}
 				</div>				
-				<div class="description hidden">{str::cut($r.summary,140)}</div>
+				<div class="description hidden">{$r.summary length="140"}</div>
 			</div>
 			</a>
 		</div>

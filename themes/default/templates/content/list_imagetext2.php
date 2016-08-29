@@ -29,11 +29,11 @@
 			<div class="media-info hidden-sm">
 				<i class="fa fa-folder"></i> {m('content.category.get',$r.categoryid, 'name')}
 				&nbsp;&nbsp;&nbsp;
-				<i class="fa fa-calendar"></i> {format::date($r.createtime,'u|date')}
+				<i class="fa fa-calendar"></i> {$r.createtime date="u|date"}
 				&nbsp;&nbsp;&nbsp;
 				<i class="fa fa-user"></i> {$r.hits}
 			</div>				
-			<div class="media-description visible-lg-block">{str::cut($r.summary,140)}</div>
+			<div class="media-description visible-lg-block">{$r.summary length="140"}</div>
 		</div>
 		</a>
 	</div>

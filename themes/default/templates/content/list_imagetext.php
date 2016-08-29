@@ -17,17 +17,17 @@
 	{content cid="$category.id" page="true" size="5"}
 	<div class="media">
 		<a href="{$r.url}">
-		<div class="media-left"><img src="{thumb($r.image,200,200)}" alt="{$r.title}"></div>
+		<div class="media-left"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 		<div class="media-body">
 			<div class="media-heading" {$r.style}>{$r.title} {$r.new}</div>
 			<div class="media-info hidden">
 				<i class="fa fa-folder"></i> {m('content.category.get',$r.categoryid, 'name')}
 				&nbsp;&nbsp;&nbsp;
-				<i class="fa fa-calendar"></i> {format::date($r.createtime,'u|date')}
+				<i class="fa fa-calendar"></i> {$r.createtime date="u|date"}
 				&nbsp;&nbsp;&nbsp;
 				<i class="fa fa-user"></i> {$r.hits}
 			</div>				
-			<div class="media-description visible-lg-block">{str::cut($r.summary,240)}</div>
+			<div class="media-description visible-lg-block">{$r.summary length="240"}</div>
 		</div>
 		</a>
 	</div>

@@ -28,9 +28,9 @@
 		 
 						<div class="thumbnail product">
 							<a href="{$r.url}">
-							<div class="image"><img src="{thumb($r.image,400,300)}" alt="{$r.title}"></div>
+							<div class="image"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 							<div class="title text-overflow" {$r.style}>{$r.title} {$r.new}</div>			
-							<div class="description text-overflow">{str::cut($r.summary,140)}</div>
+							<div class="description text-overflow">{$r.summary length="140"}</div>
 							</a>
 						</div>
 

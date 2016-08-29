@@ -28,9 +28,9 @@
 			</h1>
 			<div class="content-info">
 
-				<b>{t('作者')}:</b> {if $content.author} {$content.author} {else} {c('site.name')} {/if} &nbsp;&nbsp;&nbsp;
-				<b>{t('来源')}:</b> {if $content.source} {$content.source} {else} {c('site.name')} {/if} &nbsp;&nbsp;&nbsp;
-				<b>{t('发布')}:</b> {format::date($content.createtime)} &nbsp;&nbsp;&nbsp;
+				<b>{t('作者')}:</b> {$content.author empty="c('site.name')"} &nbsp;&nbsp;&nbsp;
+				<b>{t('来源')}:</b> {$content.source empty="c('site.name')"} &nbsp;&nbsp;&nbsp;
+				<b>{t('发布')}:</b> {$content.createtime date="date"} &nbsp;&nbsp;&nbsp;
 				<b>{t('点击')}:</b> {$content.hits}
 
 
@@ -99,7 +99,7 @@
 					<b>{t('上一篇')}</b> ：
 					{content cid="$category.id" prev="$content.id" size="1"}
 					<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>
-					{else}
+					{empty}
 					<span class="text-muted">{t('暂无内容')}</span>
 					{/content}
 				</div>
@@ -108,7 +108,7 @@
 					<b>{t('下一篇')}</b> ：
 					{content cid="$category.id" next="$content.id" size="1"}
 					<a href="{$r.url}" title="{$r.title}" {$r.style}>{$r.title}</a>
-					{else}
+					{empty}
 					<span class="text-muted">{t('暂无内容')}</span>
 					{/content}
 				</div>
