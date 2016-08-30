@@ -36,7 +36,7 @@ class template
     /**
      * @var array 循环参数
      */    
-    private $loopstack = array();
+    private $loop_stack = array();
 
     /**
      * 初始化控制器
@@ -519,19 +519,19 @@ class template
      * @param  array $data
      * @return void
      */
-    public function loopstack($data)
+    public function loop_stack($data)
     {   
         // 取得最后一个循环数据作为父数据
-        $parent = end($this->loopstack);
+        $parent = end($this->loop_stack);
 
         // 初始化循环属性
-        $this->loopstack[] = array(
+        $this->loop_stack[] = array(
             'number' => 0,
             'index'  => 0,
             'count'  => count($data),
             'first'  => true,
             'last'   => ($length == 1),
-            'depth'  => count($this->loopstack) + 1,
+            'depth'  => count($this->loop_stack) + 1,
             'parent' => $parent,
         );  
     }
@@ -541,9 +541,9 @@ class template
      * 
      * @return void
      */
-    public function loopindices()
+    public function loop_indices()
     {
-        $loop = &$this->loopstack[count($this->loopstack) - 1];
+        $loop = &$this->loop_stack[count($this->loop_stack) - 1];
         $loop['number']++;
         $loop['index'] = $loop['number'] - 1;
         $loop['first'] = $loop['number'] == 1;
@@ -555,9 +555,9 @@ class template
      * 
      * @return array
      */
-    public function loopcurrent()
+    public function loop_current()
     {
-        return end($this->loopstack);
+        return end($this->loop_stack);
     }
 
    /**
@@ -565,9 +565,9 @@ class template
      *
      * @return void
      */
-    public function looppop()
+    public function loop_pop()
     {
-        array_pop($this->loopstack);
+        array_pop($this->loop_stack);
     }    
 
     /**
@@ -578,27 +578,27 @@ class template
      */
     public function parse_loop_begin($match)
     {
-        $code    = '';
+        
         $newline = "\r\n";
 
-        $data    = $match[1];
-        $key     = $match[3] ? $match[2] : '';
-        $value   = $match[3] ? $match[3] : $match[2];
+        $code    = '';
 
-        $code .= $newline.'if ( is_array('.$data.') ) {';
+        $code .= $newline.'$__loopdata = '.trim($match[1]).';';
 
-        $code .= $newline.' $__loopdata='.$data.';$this->loopstack($__loopdata);';
+        $code .= $newline.'if ( is_array($__loopdata) ) {';
 
-        if ( $key )
+        $code .= $newline.' $this->loop_stack($__loopdata);';
+
+        if ( trim($match[3]) )
         {
-            $code .= $newline.' if ( $__loopdata ) foreach ( $__loopdata as '.$key.' => '.$value.' ) {';
+            $code .= $newline.' if ( $__loopdata ) foreach ( $__loopdata as '.trim($match[2]).' => '.trim($match[3]).' ) {';
         }
         else
         {
-            $code .= $newline.' if ( $__loopdata ) foreach ( $__loopdata as '.$value.' ) {';
+            $code .= $newline.' if ( $__loopdata ) foreach ( $__loopdata as '.trim($match[2]).' ) {';
         }
 
-        $code .= $newline.'     $this->loopindices();$loop=$this->loopcurrent();';
+        $code .= $newline.'     $this->loop_indices(); $loop = $this->loop_current();';
 
         return '<?php '. $code . $newline .' ?>';
     }
@@ -623,7 +623,7 @@ class template
         $newline = "\r\n";
 
         $code .= $newline.' }';
-        $code .= $newline.' $this->looppop();$loop=$this->loopcurrent();';
+        $code .= $newline.' $this->loop_pop(); $loop = $this->loop_current();';
         $code .= $newline.'}';
 
         return '<?php '. $code . $newline .' ?>';
@@ -690,9 +690,9 @@ class template
 			{
 				$code .= $newline.'if ( is_array($'.$callback.') ) {';
 				$code .= $newline.' if ( isset($'.$callback.'[\'total\']) && is_array($'.$callback.'[\'data\']) ) {extract($'.$callback.'); $'.$callback.' = $data; $pagination = pagination::instance($total,$pagesize,$page); }'; // 分页
-                $code .= $newline.' $this->loopstack($'.$callback.');';
+                $code .= $newline.' $this->loop_stack($'.$callback.');';
                 $code .= $newline.' if ( $'.$callback.' ) foreach ( $'.$callback.' as $key => $'.$return.' ) {';
-                $code .= $newline.'     $this->loopindices();$loop=$this->loopcurrent();';
+                $code .= $newline.'     $this->loop_indices();$loop=$this->loop_current();';
 			}
         }
 
@@ -710,7 +710,7 @@ class template
 		$newline = "\r\n";
 		
 		$code .= $newline.'  }';
-        $code .= $newline.'  $this->looppop();$loop=$this->loopcurrent();';
+        $code .= $newline.'  $this->loop_pop();$loop=$this->loop_current();';
 		$code .= $newline.'}';
         return '<?php' . $code . $newline .'?>';
     }

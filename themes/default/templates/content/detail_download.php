@@ -4,7 +4,7 @@
 	<h1>{m('content.category.get',$category.rootid, 'name')}</h1>
 	<ul>
 		{content action="category" cid="$category.rootid" return="c"}
-			<li class="item-{$n} {if $category.id == $c.id}current{/if}"><s></s><a href="{$c.url}">{$c.name}</a></li>
+			<li class="item-{$loop.number} {if $category.id == $c.id}current{/if}"><s></s><a href="{$c.url}">{$c.name}</a></li>
 		{/content}
 	</ul>
 </div>

@@ -29,7 +29,7 @@
 			</thead>
 			<tbody>
 				{loop m('block.block.fieldlist',$data['fields']) $k $v}
-				<tr data-key="{$k}" data-index="{$n}">
+				<tr data-key="{$k}" data-index="{$loop.index}">
 					<td class="text-center">
 						{if in_array($v['name'], array('title'))}
 						<input type="checkbox" class="disabled" checked disabled>

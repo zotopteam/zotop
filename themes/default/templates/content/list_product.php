@@ -13,14 +13,14 @@
 	<div class="channel clearfix">
 		<a href="{m('content.category.get',$category.id, 'url')}" class="btn btn-default {if $category.id == $category.id}btn-success{/if}" role="button">{m('content.category.get',$category.id, 'name')}</a>
 		{content action="category" cid="$category.id" return="c"}			
-		<a href="{$c.url}" class="btn btn-default item-{$n} {if $category.id == $c.id}btn-success{/if}" role="button">{$c.name}</a>
+		<a href="{$c.url}" class="btn btn-default item-{$loop.number} {if $category.id == $c.id}btn-success{/if}" role="button">{$c.name}</a>
 		{/content}
 	</div>
 	{elseif $category.parentid != 0}
 	<div class="channel clearfix">
 		<a href="{m('content.category.get',$category.parentid, 'url')}" class="btn btn-default {if $category.id == $category.parentid}btn-success{/if}" role="button">{m('content.category.get',$category.parentid, 'name')}</a>
 		{content action="category" cid="$category.parentid" return="c"}			
-		<a href="{$c.url}" class="btn btn-default item-{$n} {if $category.id == $c.id}btn-success{/if}" role="button">{$c.name}</a>
+		<a href="{$c.url}" class="btn btn-default item-{$loop.number} {if $category.id == $c.id}btn-success{/if}" role="button">{$c.name}</a>
 		{/content}	
 	</div>
 	{/if}

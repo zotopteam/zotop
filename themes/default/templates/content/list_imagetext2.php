@@ -13,7 +13,7 @@
 	<div class="channel clearfix">
 		<a href="{m('content.category.get',$category.rootid, 'url')}" class="btn btn-default {if $category.id == $category.rootid}btn-success{/if}" role="button">{m('content.category.get',$category.rootid, 'name')}</a>
 		{content action="category" cid="$category.rootid" return="c"}			
-		<a href="{$c.url}" class="btn btn-default item-{$n} {if $category.id == $c.id}btn-success{/if}" role="button">{$c.name}</a>
+		<a href="{$c.url}" class="btn btn-default item-{$loop.number} {if $category.id == $c.id}btn-success{/if}" role="button">{$c.name}</a>
 		{/content}
 	</div>
 	{/if}
