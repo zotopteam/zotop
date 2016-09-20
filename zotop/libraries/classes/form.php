@@ -36,7 +36,7 @@ class form
 				return $value ? ' '.$key : '';
 			}
 
-			if( $value == null )
+			if( $value === null )
 			{
 				return '';
 			}
@@ -238,7 +238,7 @@ class form
             }
 
             // 默认设置控件编号为控件名称
-            $field['id']    = $field['id'] ? $field['id'] : str_replace(['.', '[]', '[', ']'], ['-', '', '-', ''], $field['name']);
+            $field['id']    = $field['id'] ? $field['id'] : str_replace(array('.', '[]', '[', ']'), array('-', '', '-', ''), $field['name']);
 
 			// 字段类型依次查找，用英文逗号分隔，如summary,textarea，如果找不到summary控件，则输出textarea控件
             $types = explode(',',$field['type']); unset($field['type']);
