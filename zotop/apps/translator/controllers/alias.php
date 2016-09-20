@@ -42,18 +42,22 @@ class translator_controller_alias extends controller
 	 */
 	private function translate($str, $from = 'zh', $to = 'en')
 	{
-		// 首先对要翻译的文字进行 urlencode 处理
-		$str = urlencode($str);
-		
 		$api = c('translator.api');
 
-		switch ($api) {
-			case 'baidu':
-				$url    = "http://openapi.baidu.com/public/2.0/bmt/translate?client_id=" . c('translator.baidu_clientid') ."&q=" .$str. "&from=".$from."&to=".$to;			
-				$result = json_decode($this->getresult($url), true);				
-				$result = is_array($result) ? $result['trans_result'][0]['dst'] : '';
+		switch ($api)
+		{
+			case 'baidu':		
+				$appid  = C('translator.baidu_appid');
+				$seckey = C('translator.baidu_seckey');
+				$salt   = rand(10000,99999);
+				$sign   = md5($appid . $str . $salt . $seckey);
+				$str    = rawurlencode($str);
+				$url    = "http://api.fanyi.baidu.com/api/trans/vip/translate?q={$str}&from={$from}&to={$to}&appid={$appid}&salt={$salt}&sign={$sign}";
+				$result = json_decode($this->getresult($url), true);
+				$result = is_array($result) ? $result['trans_result'][0]['dst'] : '111';
 				break;			
 			case 'youdao':
+				$str = urlencode($str);
 				$url    = 'http://fanyi.youdao.com/openapi.do?keyfrom='.c('translator.youdao_keyfrom').'&key='.c('translator.youdao_key').'&type=data&doctype=json&version=1.1&q='.$str;			
 				$result = json_decode($this->getresult($url), true);
 				$result = is_array($result) ? $result['translation'][0] : '';

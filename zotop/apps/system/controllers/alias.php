@@ -19,7 +19,13 @@ class system_controller_alias extends controller
 
 		if ( $source = $_GET['source'] )
 		{
-			$alias = trim(substr(pinyin::get($source,'-'),0,intval($_GET['maxlength'])),'-');
+			// 最大长度
+			$maxlength = max(16,intval($_GET['maxlength']));
+			
+			// 别名转换
+			$alias     = pinyin::get($source,'-');
+			$alias     = trim($alias,'-');
+			$alias     = substr(strtolower($alias), 0, $maxlength);
 		}
 
 		exit($alias);

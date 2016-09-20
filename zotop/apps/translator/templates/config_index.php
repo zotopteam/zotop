@@ -48,15 +48,21 @@
 				</div>				
 
 				<div class="form-group api-option api-option-baidu hidden">
-					{form::label(t('API Key'),'baidu_clientid',true)}
+					{form::label(t('API ID'),'baidu_appid',true)}
 
-					{form::field(array('type'=>'text','name'=>'baidu_clientid','value'=>c('translator.baidu_clientid'),'required'=>'required'))}
+					{form::field(array('type'=>'text','name'=>'baidu_appid','value'=>c('translator.baidu_appid'),'required'=>'required'))}
+					
+					<div class="blank"></div>
 
-					<div class="help-block">{t('在百度开发者中心注册得到的授权API key')}</div>
+					{form::label(t('密钥'),'baidu_seckey',true)}
+
+					{form::field(array('type'=>'text','name'=>'baidu_seckey','value'=>c('translator.baidu_seckey'),'required'=>'required'))}					
+
+					<div class="help-block">{t('在百度翻译开放平台申请的APP ID和密钥')}</div>
 
 					<div class="alert alert-warning" role="alert">
-						<p>{t('百度翻译API是百度面向开发者推出的免费翻译服务开放接口 ,默认API KEY使用限制为1000次/小时限制，请申请一个自己的API KEY来使用')}</p>
-						<p>{t('申请地址')} : <a target="_blank" href="http://developer.baidu.com/console#app/project">http://developer.baidu.com/console#app/project</a></p>
+						<p>{t('百度翻译API是百度面向开发者推出的免费翻译服务开放接口 ,每月翻译字符数低于200万，享免费服务，请申请一个自己的APP ID和密钥来使用')}</p>
+						<p>{t('申请地址')} : <a target="_blank" href="http://api.fanyi.baidu.com/">http://api.fanyi.baidu.com/</a></p>
 					</div>
 				</div>
 
@@ -83,10 +89,18 @@
 	
 	// api选项切换
 	$(function(){
+		show_option();
+
 		$('[name=api]').on('change',function(){
-			$('.api-option').addClass('hidden');
-			$('.api-option-'+$(this).val()).removeClass('hidden');
+			show_option();
 		})
+
+		function show_option() {
+			var api = $('[name=api]:checked').val();
+
+			$('.api-option').addClass('hidden');
+			$('.api-option-'+api).removeClass('hidden');		
+		}
 	});
 
 	// 表单提交

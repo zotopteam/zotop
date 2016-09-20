@@ -4,6 +4,7 @@ return array(
 	'api'            => 'youdao', 
 	
 	// 百度翻译
+	'baidu_appid'    => '20160920000028991',
 	'baidu_clientid' => '74ZhyitozKIGBERYaEHPUK7a',
 	
 	// 有道翻译
@@ -12,6 +13,5 @@ return array(
 	
 	// 别名长度
 	'alias_length'   => 128,
-
 );
 ?>
