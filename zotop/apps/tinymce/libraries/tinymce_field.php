@@ -35,27 +35,32 @@ class tinymce_field
 		
 		// 获取textarea参数
 		$textarea = arr::pull($attrs,array('name','value','id','style','rows','class','required','maxlength','minlength','partten','remote'));
-		
+
+		// 额外工具
+		$tools = arr::pull($attrs,'tools',array());
+
+		if ( $tools )
+		{
+			$attrs['plugins'][0] = $attrs['plugins'][0].' zotop_tools';
+
+			foreach ($tools as $name=>$tool)
+			{
+				$tool['name'] = 'tool-'.$name;
+				$tool['url']  = U($tool['url'], $upload);
+
+				$attrs['tools'][] = $tool;
+
+				$attrs['toolbar'] = $attrs['toolbar'].' '.$tool['name'];
+			}		
+		}
+
+
+
+		// 为tinymce内部上传附加参数
+		$attrs['images_upload_url'] = url::set_query_arg($upload, $attrs['images_upload_url']);		
 
 		$html   = array();
 		$html[] = '<div class="field-editor">';
-
-		// 开启额外工具条
-		if ( isset($attrs['tools']) and is_array($attrs['tools']) )
-		{
-			$html[] = '<div class="btn-toolbar btn-toolbar-top btn-toolbar-editor">';
-			foreach( $attrs['tools'] as $k=>$t )
-			{
-				$html[] = '<a href="'.U($t['url'], $upload).'" tabindex="-1" class="btn btn-default editor-insert" data-field="'.$textarea['name'].'" data-type="'.$t['type'].'" title="'.t('插入%s',$t['text']).'"><i class="'.$t['icon'].' fa-fw"></i><b>'.$t['text'].'</b></a>';
-			}
-			$html[] = '</div>';
-
-			unset($attrs['tools']);
-		}
-
-		// 为tinymce内部上传附加参数
-		$attrs['images_upload_url'] = url::set_query_arg($upload, $attrs['images_upload_url']);
-
 
 		$html[] = form::field_textarea($textarea);
 		$html[] = '</div>';
@@ -105,10 +110,10 @@ class tinymce_field
 	{
 		// 额外工具条通过 editor.tools 扩展，可以在其它编辑器共用
 		$tools = zotop::filter('editor.tools',array(
-			'image'	=> array('type'=>'image','text'=>t('图片'),'icon'=>'fa fa-image','url'=>'system/upload/image'),
-			'file'	=> array('type'=>'file','text'=>t('文件'),'icon'=>'fa fa-file','url'=>'system/upload/file'),
-			'video'	=> array('type'=>'video','text'=>t('视频'),'icon'=>'fa fa-video','url'=>'system/upload/video'),
-			'audio'	=> array('type'=>'audio','text'=>t('音频'),'icon'=>'fa fa-audio','url'=>'system/upload/audio'),
+			'image'	=> array('type'=>'image','text'=>t('图片'),'title'=>t('选择或上传图片'),'icon'=>'image','url'=>'system/upload/image'),
+			'file'	=> array('type'=>'file','text'=>t('文件'),'title'=>t('选择或上传文件'),'icon'=>'fa fa-file','url'=>'system/upload/file'),
+			'video'	=> array('type'=>'video','text'=>t('视频'),'title'=>t('选择或上传视频'),'icon'=>'fa fa-video','url'=>'system/upload/video'),
+			'audio'	=> array('type'=>'audio','text'=>t('音频'),'title'=>t('选择或上传音频'),'icon'=>'fa fa-audio','url'=>'system/upload/audio'),
 		));
 
 		// 只显示传入的部分

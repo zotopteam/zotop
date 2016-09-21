@@ -812,12 +812,12 @@ body .mce-abs-layout-item,.mce-abs-end {
 }
 .mce-btn-small button {
 	padding:1px 5px;
-	font-size:12px;
+	font-size:13px;
 	*padding-bottom:2px
 }
 .mce-btn-small i {
-	/*line-height:20px;*/
-	/*vertical-align:top;*/
+/*	line-height:20px;
+	vertical-align:top;*/
 	*line-height:18px
 }
 .mce-btn .mce-caret {
@@ -1927,6 +1927,18 @@ i.mce-i-onekeyclear:before{
     vertical-align:top;
 }
 
+
+i.mce-i-fa{
+	font-family: 'fontawesome',Arial;
+	text-align: center;
+}
+
+.mce-btn-small i.mce-i-fa{
+	font-family: 'fontawesome',Arial;
+	font-size: 13px;
+}
+
 .mce-custom-color-btn .mce-btn button{
 	padding: 5px 5px;
 }
+

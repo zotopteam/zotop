@@ -50,6 +50,8 @@ p.mce-shim{text-indent:0;}
 .mce-pagebreak:first-child:before{display: none;}
 .mce-pagebreak:after{border-bottom:0 none;}
 
+.mce-preview-object{text-indent:0}
+
 figure.image{display: inline-block;border: 1px solid transparent;margin: 0 2px 0 1px;background:transparent;}
 figure.image img{margin:0;}
 figure.image.align-center {display: table;margin-left: auto;margin-right: auto;}

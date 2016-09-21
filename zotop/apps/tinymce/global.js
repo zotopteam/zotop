@@ -31,61 +31,63 @@ $.fn.editor = function(options){
 	// 	win.document.getElementById(field_name).value = 'my browser value'+url+'///'+type;
 	// };
 
-	options = $.extend(settings,options,{});
+	options = $.extend(settings,options,{}); 
 
 	$(this).tinymce(options);
 }
 
+
+
 $(function(){
 
-	$('.editor-insert').click(function(event){
-		event.preventDefault();
+	// $('.editor-insert').click(function(event){
+	// 	event.preventDefault();
 
-		var field  = $(this).attr('data-field'); // 插入到字段
-		var type   = $(this).attr('data-type'); // 返回数据类型
-		var title  = $(this).attr('title') || $(this).text() ;
-		var value  = '';
-		var handle = $(this).attr('href');
-		var editor = $('[name='+field+']').tinymce();
+	// 	var field  = $(this).attr('data-field'); // 插入到字段
+	// 	var type   = $(this).attr('data-type'); // 返回数据类型
+	// 	var title  = $(this).attr('title') || $(this).text() ;
+	// 	var value  = '';
+	// 	var handle = $(this).attr('href');
+	// 	var editor = $('[name='+field+']').tinymce();
 
-		var dialog = $.dialog({
-			id: 'insert-html',
-			url: handle,
-			title: $(this).attr('title') || $(this).text(),
-			width: $(this).attr('data-width') || 1000,
-			height: $(this).attr('data-height') || 460,
-			statusbar: '<i class="fa fa-spinner"></i>',
-			ok : function(data){
-				var html='';
+	// 	var dialog = $.dialog({
+	// 		id: 'insert-html',
+	// 		url: handle,
+	// 		title: $(this).attr('title') || $(this).text(),
+	// 		width: $(this).attr('data-width') || 1000,
+	// 		height: $(this).attr('data-height') || 460,
+	// 		statusbar: '<i class="fa fa-spinner"></i>',
+	// 		ok : function(data){
+	// 			var html='';
 
-				if ( type == 'html' ){
-					editor.insertContent(data);
-					return true;
-				}
+	// 			if ( type == 'html' ){
+	// 				editor.insertContent(data);
+	// 				return true;
+	// 			}
 
-				for(var i=0; i<data.length; i++){
-					var name        = data[i].name;
-					var url         = data[i].url;
-					var description = data[i].description;
-					var ext         = data[i].ext || url.replace(/.+\./,"");
+	// 			for(var i=0; i<data.length; i++){
+	// 				var name        = data[i].name;
+	// 				var url         = data[i].url;
+	// 				var description = data[i].description;
+	// 				var ext         = data[i].ext || url.replace(/.+\./,"");
 
-					html += '<p class="attachment '+ext+'">';
-					if ( ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif' || ext == 'bmp'){
-						html += '<img src="'+url+'" alt="'+(description||name)+'" />';
-					} else if ( ext =='swf' ){
-						html += '<embed quality="high" src="'+url+'" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" mode="transparent" width="500" height="400"></embed>';
-					}else{
-						html += '<a href="'+url+'" title="'+(description||name)+'" target="_blank">'+name+'</a>';
-					}
-					html += '</p>';
-				}
+	// 				html += '<p class="insert-data insert-data-'+ext+'">';
+	// 				if ( ext == 'jpg' || ext == 'jpeg' || ext == 'png' || ext == 'gif' || ext == 'bmp'){
+	// 					html += '<img src="'+url+'" alt="'+(description||name)+'" />';
+	// 				} else if ( ext =='swf' ){
+	// 					html += '<embed quality="high" src="'+url+'" type="application/x-shockwave-flash" allowScriptAccess="always" allowFullScreen="true" mode="transparent" width="500" height="400"></embed>';
+	// 				}else{
+	// 					html += '<a href="'+url+'" title="'+(description||name)+'" target="_blank">'+name+'</a>';
+	// 				}
+	// 				html += '</p>';
+	// 			}
 
-				editor.insertContent(html);
-				return true;
-			},
-			cancel:function(){}
-		},true);
-	});
+	// 			editor.insertContent(html);
+	// 			return true;
+	// 		},
+	// 		cancel:function(){}
+	// 	},true);
+	// });
 
 	// //编辑器头部fixed
 	// $('.main-body').on('scroll',function(e){
