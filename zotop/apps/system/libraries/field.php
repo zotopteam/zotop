@@ -450,12 +450,38 @@ class system_field
 	}
 
 	/**
-	 * 颜色选择器
+	 * 颜色选择器 spectrum
 	 *
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
 	public static function color($attrs)
+	{
+		$options = arr::pull($attrs,array('color'),array(
+			'color' => $attrs['value']
+		));
+
+		$html[] = '<div class="input-group input-group-color" id="'.$attrs['id'].'-color">';
+		$html[] = form::field_text($attrs);
+		$html[] = '	<span class="input-group-addon colorpicker"><i style="background-color:'.$attrs['value'].'"></i></span>';
+		$html[] = '</div>';
+		$html[] = html::import(A('system.url').'/assets/spectrum/spectrum.js');
+		$html[] = html::import(A('system.url').'/assets/spectrum/field_color.js');		
+		$html[] = html::import(A('system.url').'/assets/spectrum/spectrum.css');
+		$html[] = html::import(A('system.url').'/assets/spectrum/spectrum.zotop.css');
+		$html[] = '<script>$(function(){$("#'.$attrs['id'].'-color").field_color('.json_encode($options).')})</script>';
+		
+
+		return implode("\n",$html);
+	}	
+
+	/**
+	 * 颜色选择器 bootstrap-colorpicker
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function color2($attrs)
 	{
 		$format = arr::pull($attrs,'format','hex');
 

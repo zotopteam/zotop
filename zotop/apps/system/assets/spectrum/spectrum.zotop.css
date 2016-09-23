@@ -1,0 +1,8 @@
+.input-group-color .input-group-addon{padding:6px 10px;}
+.input-group-color .input-group-addon i, .input-group-colorpicker .add-on i{
+    height:18px;
+    width: 18px;
+    border:solid 1px #ccc;
+    display: block;
+    cursor: pointer;
+}
