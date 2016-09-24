@@ -457,9 +457,20 @@ class system_field
 	 */
 	public static function color($attrs)
 	{
-		$options = arr::pull($attrs,array('color'),array(
-			'color' => $attrs['value']
-		));
+		$default = array(
+			'color'                => $attrs['value'],
+			'preferredFormat'      => 'hex',
+			'showInput'            => false,
+			'allowEmpty'           => false,
+			'showPalette'          => true,
+			'showPaletteOnly'      => false,
+			'showSelectionPalette' => true,
+			'cancelText'           => t('取消'),
+			'chooseText'           => t('选择'),
+			'clearText'            => t('清除颜色'),			
+		);
+
+		$options = arr::pull($attrs,array_keys($default),$default);
 
 		$html[] = '<div class="input-group input-group-color" id="'.$attrs['id'].'-color">';
 		$html[] = form::field_text($attrs);
