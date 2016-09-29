@@ -17,16 +17,19 @@
 		</div>
 	</div>
 	<div class="main-body scrollable" id="upload-dragdrop">
-		<div id="upload-progress" class="progress global-progress hidden">
-			<div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:1%">
-				<span class="progress-percent">0%</span>
-			</div>
-		</div>
-
 		<div class="container-fluid">
 			<div class="filelist" id="filelist"></div>				
 		</div>
 	</div><!-- main-body -->
+    <div class="main-body main-progress hidden" id="upload-progress">
+        <h1></h1>
+        <h2>{t('正在上传')} <span class="progress-percent">0%</span></h2>
+        <div class="progress">
+            <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:1%">
+                
+            </div>
+        </div>
+    </div>    
 	<div class="main-footer">
 	</div>
 </div><!-- main -->
@@ -139,6 +142,7 @@
 		var uploader = $("#upload").upload({
 			url : "{u('system/upload/uploadprocess')}",
 			multiple: true,
+            //chunk_size:'100kb',
 			params: params,
 			maxsize:'{intval($maxsize)}mb',
 			extensions: '{$allowexts}',

@@ -334,8 +334,6 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 
 .global-footer{display:none;}
 
-.global-progress{position:fixed;top:50%;left:20%;width:60%;z-index:9999;border:solid 1px #ccc;}
-
 
 @media (max-width:768px) {
     .gloabl-navbar>li>a{padding:15px 8px;}

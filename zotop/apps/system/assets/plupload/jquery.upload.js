@@ -373,7 +373,7 @@ jquery upload api
 					uploader.disableBrowse(true);
 
 					// 如果找到总进度条，则显示
-					$('#'+id+'-progress').removeClass('hidden').show();
+					$('#'+id+'-progress').removeClass('hidden').show();				
 
 					typeof options.started == 'function' && options.started(uploader);
 				}else{
@@ -429,6 +429,10 @@ jquery upload api
 			uploader.bind("UploadComplete", function(up, files) {
 
 				$('#'+id+'-progress').hide();
+				
+				// 更新总进度
+				$('#'+id+'-progress').find('.progress-bar').css('width','1%');
+				$('#'+id+'-progress').find('.progress-percent').html('1%');					
 
 				typeof options.complete == 'function' && options.complete(up, files);
 			});

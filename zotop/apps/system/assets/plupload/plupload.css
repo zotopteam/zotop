@@ -29,9 +29,11 @@ div.fileitem a,div.fileitem a:hover{text-decoration:none;}
 
 div.pageloader{float:left;width:100%;margin-top:15px;text-align:center;clear: both;}
 
-
-
-
+.main-progress{z-index:10000;background:#ebebeb;color:#97989a;padding:20px 80px;}
+.main-progress h1{background:url(uploading.png) no-repeat center center;height:200px;}
+.main-progress h2{text-align:center;margin-bottom:30px;}
+.main-progress .progress{height:30px;}
+.main-progress .progress-bar{line-height:30px;}
 
 
 
