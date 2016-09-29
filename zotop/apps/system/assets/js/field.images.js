@@ -113,8 +113,8 @@ function imagesfield($this, name, value, params){
 		var dialog = $.dialog({
 			url: $(this).attr('href'),
 			title: $(this).attr('title') || $(this).text(),
-			width: $(this).attr('data-width') || 1000,
-			height: $(this).attr('data-height') || 460,
+			width: $(this).attr('data-width') || '90%',
+			height: $(this).attr('data-height') || '80%',
 			ok: function(files){
 				$.each(files,function(i,data){
 					self.add(data.url, data.description);

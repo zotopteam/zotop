@@ -36,8 +36,8 @@
 					var $dialog = $.dialog({
 						url : $(this).attr('href') + '&file=' + $input.val(),
 						title: $(this).attr('title') || $(this).text(),
-						width: $(this).attr('data-width') || 1000,
-						height: $(this).attr('data-height') || 460,
+						width: $(this).attr('data-width') || '90%',
+						height: $(this).attr('data-height') || '80%',
 						statusbar: '<i class="icon icon-loading"></i>',
 						ok : function(insert){
 							$input.val(insert[0].url).trigger('change',[insert[0]]);

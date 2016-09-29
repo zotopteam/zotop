@@ -67,7 +67,27 @@
 			p = p.concat(p.concat(p.concat(p)));
 			timerId = setInterval(fx, 8);
 			return this;
-		}
+		},
+	    width: function (value) {
+	        
+	        // 支持百分比
+	        if ( value.toString().indexOf('%') !== -1 ) {
+	        	value = (parseInt(value.split('%')[0]) / 100) * $(window).width();
+	        }
+
+	        this._$('content').css('width', value);
+	        return this.reset();
+	    },
+	    height: function (value) {
+	    	
+	        // 支持百分比
+	        if ( value.toString().indexOf('%') !== -1 ) {
+	        	value = (parseInt(value.split('%')[0]) / 100) * $(window).height();
+	        }
+
+	        this._$('content').css('height', value);
+	        return this.reset();
+	    }	
 	});
 
 	/**
