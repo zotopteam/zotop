@@ -6,3 +6,72 @@
     display: block;
     cursor: pointer;
 }
+
+
+.zotop.sp-container{
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+
+.zotop.sp-container .sp-palette .sp-thumb-el{
+    border-color:#e0e0e0;
+}
+
+.zotop.sp-container .sp-palette .sp-thumb-el:hover, 
+.zotop.sp-container .sp-palette .sp-thumb-el.sp-thumb-active {
+    border-color: orange;
+}
+
+.zotop.sp-container .sp-color, 
+.zotop.sp-container .sp-hue, 
+.zotop.sp-container .sp-clear {
+    border: solid 1px #FFF;
+}
+
+.zotop.sp-container .sp-input-container{margin-bottom:0px;}
+.zotop.sp-container .sp-input{
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;    
+}
+
+.zotop.sp-container .sp-button-container {
+    width: 100%;
+    margin-top:6px;
+}
+.zotop.sp-container .sp-cancel,
+.zotop.sp-container button{
+    padding: 3px 10px;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 400;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    text-shadow: none;
+    display: inline-block;
+    color:#333;
+}
+.zotop.sp-container .sp-cancel{
+    float: left;
+}
+
+.zotop.sp-container button{
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    float: right;
+}
+
+
+.zotop .sp-picker-container{width:218px;}
