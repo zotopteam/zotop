@@ -114,7 +114,7 @@
 					</p>
 					<div class="manage">
 						{loop content_hook::manage_menu($r) $m}
-						{if $n>1}<s>|</s>{/if}
+						{if $loop.index}<s>|</s>{/if}
 						<a {html::attributes($m.attrs)}><i class="{$m.icon} fa-fw"></i><span>{$m.text}</span></a>
 						{/loop}
 					</div>
@@ -148,9 +148,7 @@
 				{if $status != $s}<a class="btn btn-default operate" href="{u('content/content/operate/'.$s)}" rel="{$s}">{$t}</a>{/if}
 			{/loop}				
 			</div>
-
-
-
+			
 			<a class="btn btn-default operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
 			<a class="btn btn-default operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>
 		{/if}

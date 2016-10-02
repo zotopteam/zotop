@@ -26,7 +26,7 @@
 		{content cid="$category.id" page="true" size="10"}
 		<div class="media media-sm">
 			<a href="{$r.url}">
-			{if $r.image and $n%2==0}
+			{if $r.image and $loop.index%2==0}
 			<div class="media-left"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 			{/if}
 			<div class="media-body">
@@ -36,7 +36,7 @@
 				</div>
 				<div class="media-summary hidden-xs">{$r.summary nl2p="true" length="100"}</div>
 			</div>
-			{if $r.image and $n%2==1}
+			{if $r.image and $loop.index%2==1}
 			<div class="media-right"><img src="{$r.image width="400" height="300"}" alt="{$r.title}"></div>
 			{/if}					
 			</a>
