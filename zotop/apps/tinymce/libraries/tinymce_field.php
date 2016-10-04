@@ -41,23 +41,25 @@ class tinymce_field
 
 		if ( $tools )
 		{
-			$attrs['plugins'][0] = $attrs['plugins'][0].' zotop_tools';
+			$attrs['plugins'] = $attrs['plugins'].' zotop_tools';
 
 			foreach ($tools as $name=>$tool)
 			{
-				$tool['name'] = 'tool-'.$name;
+				$tool['name'] = $name;
 				$tool['url']  = U($tool['url'], $upload);
 
 				$attrs['tools'][] = $tool;
 
-				$attrs['toolbar'] = $attrs['toolbar'].' '.$tool['name'];
-			}		
+				if ( !in_array($name, explode(' ', $attrs['toolbar']) ) )
+				{
+					$attrs['toolbar'] = $attrs['toolbar'].' '.$tool['name'];
+				}				
+			}
 		}
 
-
-
 		// 为tinymce内部上传附加参数
-		$attrs['images_upload_url'] = url::set_query_arg($upload, $attrs['images_upload_url']);		
+		$attrs['images_upload_url'] = url::set_query_arg($upload, $attrs['images_upload_url']);
+
 
 		$html   = array();
 		$html[] = '<div class="field-editor">';
@@ -165,8 +167,8 @@ class tinymce_field
 	{
 		if ( $attrs['toolbar'] == 'basic' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image zotop_media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus');
-			$attrs['toolbar'] = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image';
+			$attrs['plugins'] = 'advlist autolink lists link image zotop_media table paste textcolor colorpicker textpattern onekeyclear localautosave tabfocus nonbreaking noneditable';
+			$attrs['toolbar'] = 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image file video audio';
 			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 8;
 		}
 
@@ -183,8 +185,8 @@ class tinymce_field
 	{		
 		if ( $attrs['toolbar'] == 'standard' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample');
-			$attrs['toolbar'] = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image';
+			$attrs['plugins'] = 'advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample nonbreaking noneditable';
+			$attrs['toolbar'] = 'undo redo removeformat onekeyclear | forecolor backcolor bold italic underline strikethrough formatselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist link image file video audio';
 			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 12;
 		}
 
@@ -201,8 +203,8 @@ class tinymce_field
 	{
 		if ( $attrs['toolbar'] == 'full' )
 		{
-			$attrs['plugins'] = array('advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample zotop_pagebreak wordcount');
-			$attrs['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink | image media | insertdatetime table anchor charmap emoticons blockquote hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
+			$attrs['plugins'] = 'advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample zotop_pagebreak wordcount nonbreaking noneditable';
+			$attrs['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough blockquote | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink anchor | image file video audio media | insertdatetime table  charmap emoticons  hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
 			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 18;
 		}
 
