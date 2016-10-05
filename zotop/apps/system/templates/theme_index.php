@@ -34,10 +34,10 @@
 						</div>
 						<div class="description">{$theme['description']}</div>
 						<div class="action">
-							<a href="{U('system/theme/template','theme='.$id)}">{t('模板管理')}</a>
+							<a href="{U('system/theme/template','theme='.$id)}"><i class="fa fa-file-text"></i> {t('模板管理')}</a>
 							<s></s>
 							{if in_array($id, $current)}
-							<b class="true" href="javascript:;"><i class="icon icon-true true"></i> {t('使用中')}</b>
+							<b class="text-success" href="javascript:;"><i class="fa fa-check-circle"></i> {t('使用中')}</b>
 							{else}
 							<a class="dialog-confirm" href="{U('system/theme/delete/'.$id)}">{t('删除')}</a>
 							{/if}

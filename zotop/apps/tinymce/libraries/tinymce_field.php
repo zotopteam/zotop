@@ -63,7 +63,6 @@ class tinymce_field
 
 		$html   = array();
 		$html[] = '<div class="field-editor">';
-
 		$html[] = form::field_textarea($textarea);
 		$html[] = '</div>';
 

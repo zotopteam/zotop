@@ -373,7 +373,7 @@ class system_field
 		$html['field']    = form::field($attrs);
 		$html[]           = '<span class="input-group-btn">';		
 		$html['selector'] = '<a href="'.u('system/theme/template/select').'" id="'.$id.'-selector" tabindex="-1"  class="btn btn-default btn-icon-text btn-select" title="'.t('选择模版').'"><i class="fa fa-file-text"></i> <b>'.t('选择').'</b></a>';
-		$html['editor']   = '<a href="'.u('system/theme/template_edit').'" id="'.$id.'-editor" tabindex="-1" class="btn btn-default btn-icon btn-edit" title="'.t('编辑模版').'"><i class="fa fa-edit"></i></a>';
+		$html['editor']   = '<a href="'.u('system/theme/template_edit').'" id="'.$id.'-editor" tabindex="-1" class="btn btn-default btn-icon btn-edit" title="'.t('编辑模版').'"><i class="fa fa-edit"></i><b class="hidden">'.t('编辑模版').'</b></a>';
 		$html[]           = '</span>';
 		$html[]           = '</div>';		
 		$html['error']    = '<label for="'.$id.'" generated="true" class="error"></label>';

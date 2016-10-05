@@ -1,14 +1,11 @@
 .CodeMirror{
-	height:100%;width:100%;
-	line-height: 1.5em;
-	font-family: Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace !important;
+	width:100%;
+    height:100%;
+    font-size: 12px;
+	line-height: 1.8em;
+	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', 'monospace' !important;
 	color-profile: sRGB;
 	rendering-intent: auto;
 }
 
-
-
-
-.template-editor{width:650px;border:1px solid #d0d0d0;border-radius: 2px;}
-.template-editor-head{height:40px;border-bottom:solid 1px #d0d0d0;display:none;}
-.template-editor-body{height:260px;overflow:auto;}
+.CodeMirror-gutters {border-right:0 none; padding-right: 0.6em; }

@@ -1,8 +1,8 @@
 //编辑器函数
 $.fn.editor = function(options){
 	var settings = {};
-    settings.width                         = $(this).outerWidth();
-    settings.height                        = $(this).outerHeight();
+    //settings.width                         = $(this).outerWidth();
+    //settings.height                        = $(this).outerHeight();
     settings.menubar                       = false;
     //settings.elementpath                 = false;
     settings.language                      = 'zh_CN';
@@ -17,7 +17,6 @@ $.fn.editor = function(options){
     // repair bug
     settings.block_formats                 = 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Pre=pre;Div=div;Blockquote=blockquote;';
     
-    //settings.autoresize                  = true;
     settings.toolbar_items_size            = 'small';
     settings.imagetools_toolbar            = 'alignleft aligncenter alignright imageoptions';
     settings.powerpaste_allow_local_images = true;
@@ -26,6 +25,7 @@ $.fn.editor = function(options){
     settings.convert_urls                  = false;
     settings.image_advtab                  = true;	
     settings.images_upload_credentials     = true;
+
 	
 	// settings.file_browser_callback	= function(field_name, url, type, win) {
 	// 	win.document.getElementById(field_name).value = 'my browser value'+url+'///'+type;
@@ -89,30 +89,39 @@ $(function(){
 	// 	},true);
 	// });
 
-	// //编辑器头部fixed
-	// $('.main-body').on('scroll',function(e){
-	// 	var toolbar  = $('.mce-toolbar-grp');
-	// 	var editarea = $('.mce-edit-area');
-	// 	var top      = $('.global-header').outerHeight() + $('.main-header').outerHeight();
-	// 	var width    = toolbar.width();
-	// 	var height   = toolbar.outerHeight();
-	// 	var offset   = toolbar.offset(); 
+	//编辑器头部fixed
+    // var main = $('.main-body');
+    // main.find('.field-editor').each(function(){
+    //     var field         = $(this);
+    //     var offset        = $(this).offset();  
+    //     var fixed     = $('.global-header').outerHeight() + $('.main-header').outerHeight(); 
 
- //        if ( this.scrollTop > (offset.top + height + 10 ) ) {	
- //        	toolbar.css({
-	//             position: 'fixed',
-	//             top: top+'px',
-	//             width: width + 'px'
-	//         });
-	//         editarea.css('padding-top',(top+height)+'px');
- //        }else{
- //        	editarea.css('padding-top','');
+    //     console.log('offsettop'+offset.top);
 
-	// 		toolbar.css({
-	// 			position: 'static',
-	// 			top: '',
-	// 			width: '',
-	// 		});			
- //        }		
-	// });
+    //     main.on('scroll',function(e){
+    //         var toolbar       = field.find('.mce-toolbar-grp');
+    //         var editarea      = field.find('.mce-edit-area');
+    //         var offset_top    = offset.top;
+    //         var offset_bottom = offset.top + field.outerHeight() - toolbar.outerHeight() - 100;
+            
+    //         if ( (main.scrollTop() > offset_top) && (main.scrollTop() < offset_bottom) ) {    
+    //             toolbar.css({
+    //                 position: 'fixed',
+    //                 zindex:10000,
+    //                 top: fixed+'px',
+    //                 width: toolbar.width() + 'px'
+    //             });
+    //             editarea.css('padding-top',toolbar.outerHeight()+'px');
+    //         }else{
+    //             editarea.css('padding-top','');
+
+    //             toolbar.css({
+    //                 position: 'static',
+    //                 top: '',
+    //                 width: '',
+    //             });         
+    //         }
+
+    //     });            
+    // });
 });

@@ -32,8 +32,8 @@
 					url: $(this).attr('href') + '?file=' + $input.val(),
 					title: $(this).text(),
 					statusbar: '<i class="icon icon-loading"></i>',
-					width: $(this).attr('data-width') || 1000,
-					height: $(this).attr('data-height') || 500,
+					width: $(this).attr('data-width') || '90%',
+					height: $(this).attr('data-height') || '80%',
 					ok : function(template){
 						$input.val(template);
 					},
@@ -49,10 +49,10 @@
 
 				var $dialog = $.dialog({
 					url: $(this).attr('href') + '?file=' + $input.val(),
-					title: $(this).text(),
+					title: $(this).text() || $(this).attr('title'),
 					statusbar: '<i class="icon icon-loading"></i>',
-					width: $(this).attr('data-width') || 1000,
-					height: $(this).attr('data-height') || 500,
+                    width: $(this).attr('data-width') || '90%',
+                    height: $(this).attr('data-height') || '80%',
 					ok : function(){},
 					okValue : '保存',
 					cancel:function(){}

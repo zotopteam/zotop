@@ -28,13 +28,12 @@
 		<table class="table table-nowrap table-hover list sortable">
 		<thead>
 			<tr>
-			<td class="drag">&nbsp;</td>
-			<td class="text-center" width="40">{t('状态')}</td>			
-			<td>{t('名称')}</td>
-			<td class="hidden" width="20"></td>
-			<td class="text-center">{t('编号')}</td>
-			<td>{t('别名')}</td>
-			<td class="text-center">{t('数据')}</td>
+    			<td class="drag">&nbsp;</td>
+    			<td class="text-center" width="40">{t('状态')}</td>			
+    			<td>{t('名称')}</td>
+    			<td class="text-center">{t('编号')}</td>
+    			<td>{t('别名')}</td>
+    			<td class="text-center">{t('数据')}</td>
 			</tr>
 		</thead>
 		<tbody>
@@ -72,13 +71,6 @@
 						<a class="js-confirm" href="{u('content/category/delete/'.$r['id'])}">{t('删除')}</a>
 						{/if}
 					</div>
-				</td>
-				<td class="hidden">
-					{if $r['childid']}
-					<i class="fa fa-folder fa-2x text-primary" title="{t('有子栏目')}"></i>
-					{else}
-					<i class="fa fa-file fa-2x text-primary" title="{t('无子栏目')}"></i>
-					{/if}
 				</td>				
 				<td class="text-center">{$r['id']}</td>
 				<td>{$r['alias']}</td>
@@ -115,7 +107,7 @@ $(function(){
 			var action = $(this).parents('form').attr('action');
 			var data = $(this).parents('form').serialize();
 			$.post(action, data, function(msg){
-				$.msg(msg);location.reload();
+				$.msg(msg);//location.reload();
 			},'json');
 		}
 	});
