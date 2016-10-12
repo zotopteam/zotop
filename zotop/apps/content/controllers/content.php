@@ -57,18 +57,17 @@ class content_controller_content extends admin_controller
 
 
 	/**
-	 * 列表
-	 *
+	 * 内容列表
+	 * 
+	 * @param  integer $categoryid 栏目编号
+	 * @param  string  $status     状态
+	 * @return mixed
 	 */
     public function action_index($categoryid=0, $status='publish')
     {
-		// 栏目
-		if ( $categoryid )
+		// 获取包含子栏目的全部数据
+		if ( $categoryid and $category = $this->category->get($categoryid) )
 		{
-			// 获取栏目信息
-			$category = $this->category->get($categoryid);
-
-			// 获取包含子栏目的全部数据
 			$this->content->where('categoryid','in',$category['childids']);
 		}
 
@@ -81,23 +80,23 @@ class content_controller_content extends admin_controller
 		// 获取数据集
 		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->paginate();
 
-		// 允许发布的模型
-		$postmodels = array();
+		// 获取全部模型，并筛选出当前栏目可用的模型
+		$models = $this->model->cache();
 
-		foreach( m('content.model.cache') as $i=>$m )
+		foreach( $models as $i=>$m )
 		{
-			if ( $m['disabled'] ) continue;
-
-			if ( $category['settings']['models'][$i]['enabled'] == 0 ) continue;
-
-			$postmodels[$i] = $m;
+			if ( $m['disabled'] OR $category['settings']['models'][$i]['enabled'] == 0 )
+			{
+				unset($models[$i]);
+			}
 		}
-
+		
 		$this->assign('title',$category['name']);
 		$this->assign('categoryid',$categoryid);
 		$this->assign('status',$status);
 		$this->assign('category',$category);
-		$this->assign('postmodels',$postmodels);
+		$this->assign('categories',$categories);
+		$this->assign('models',$models);
 		$this->assign($dataset);
 		$this->display();
     }

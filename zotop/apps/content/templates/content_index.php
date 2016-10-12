@@ -30,9 +30,9 @@
 		</form>
 
 		<div class="action">
-			{if $postmodels}
-				{if count($postmodels) < 2}
-					{loop $postmodels $i $m}
+			{if $models}
+				{if count($models) < 2}
+					{loop $models $i $m}
 						<a class="btn btn-primary btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
 							<i class="fa fa-plus"></i><b>{$m['name']}</b>
 						</a>
@@ -43,7 +43,7 @@
 						<i class="fa fa-plus"></i> <b>{t('添加')}</b> <i class="fa fa-angle-down"></i>
 					</a>
 					<ul class="dropdown-menu">
-						{loop $postmodels $i $m}
+						{loop $models $i $m}
 							<li>
 								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}">
 									<i class="fa {$m.icon} fa-fw"></i>{$m['name']}
@@ -138,7 +138,6 @@
 	</div><!-- main-body -->
 	<div class="main-footer">
 		{if $data}
-
 			{pagination::instance($total,$pagesize,$page)}
 
 			<input type="checkbox" class="checkbox select-all middle">

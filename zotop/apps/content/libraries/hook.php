@@ -18,6 +18,19 @@ class content_hook
 	 */
 	public static function start($start)
 	{
+		$models = m('content.model.cache');
+
+		// 初始化模型，当没有任何模型的时候自动导入系统自带的模型，并自动返回前页
+		if ( empty($models) )
+		{
+			$files = folder::files(A('content.path').DS.'libraries'.DS.'model', false, true, 'model');
+
+			foreach ($files as $file)
+			{
+				m('content.model.import', @include($file));
+			}	
+		}
+		
 		$start = array_merge($start, array(
 
 			'content'=>array(

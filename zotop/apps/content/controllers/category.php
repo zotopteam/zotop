@@ -23,13 +23,6 @@ class content_controller_category extends admin_controller
 
 		$this->model    = m('content.model');
 		$this->category = m('content.category');
-
-
-		// 模型自动导入 TODO 改进这里的安装体验
-		if ( !$this->model->cache() )
-		{
-			$this->redirect(u('content/model/init'));
-		}
 	}
 
  	/**
