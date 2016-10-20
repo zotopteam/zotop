@@ -99,8 +99,7 @@ template::tag('menu','tag_menu');
 /**
  * 模版标签解析 {menu rootid="globalnavbar" parentid="……"}……{/menu}
  *
- */     
-
+ */
 function tag_menu($attrs)
 {
 	if ( !isset($attrs['parentid']) )
