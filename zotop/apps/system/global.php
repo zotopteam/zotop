@@ -90,4 +90,36 @@ function alias($a, $b='')
 
 	return false;
 }
+
+/**
+ * 模板标签注册
+ */
+template::tag('menu','tag_menu');
+
+/**
+ * 模版标签解析 {menu rootid="globalnavbar" parentid="……"}……{/menu}
+ *
+ */     
+
+function tag_menu($attrs)
+{
+	if ( !isset($attrs['parentid']) )
+	{
+		$attrs['parentid'] = $attrs['rootid'];
+	}
+
+	$result = array();
+	
+	$menu   = m('system.menu.cache', $attrs['rootid']);
+
+	foreach ($menu as $key => $val)
+	{
+		if ( $val['parentid'] == $attrs['parentid'] )
+		{
+			$result[$key] = $val;
+		}
+	}
+
+    return $result;
+}
 ?>

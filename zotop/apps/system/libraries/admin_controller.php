@@ -19,14 +19,16 @@ class admin_controller extends controller
     {
 		parent::__init();
 
-		//定义为后台入口
+		// 定义为后台入口
 		define('ZOTOP_ADMIN',true);	
 
-		//登录及权限检查
+		// 登录及权限检查
 		$this->__check();
 
-		//初始化用户
+		// 初始化用户
 		$this->assign('_USER',zotop::user());
+
+        // 初始化开始菜单
 
 		// hook
 		zotop::run('admin.init', $this);

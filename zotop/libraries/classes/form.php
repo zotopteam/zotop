@@ -329,7 +329,11 @@ class form
 	public static function field_number($attrs)
 	{
 		//$attrs['type'] = 'number';
-		$attrs['step'] = intval($attrs['step']) ? intval($attrs['step']) : 1;
+
+        if ( isset($attrs['step']) )
+        {
+            $attrs['step'] = max(intval($attrs['step']),1);
+        }
 		
 		return form::field_text($attrs);
 	}
