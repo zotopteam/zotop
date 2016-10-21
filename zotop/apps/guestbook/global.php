@@ -25,20 +25,20 @@ if ( ZOTOP_ISGET )
 	}
 
 	//system_globalnavbar
-	zotop::add('system.global.navbar','guestbook_globalnavbar');
-	function guestbook_globalnavbar($nav)
-	{
-		$nav['guestbook'] = array(
-			'text'        => t('留言'),
-			'href'        => u('guestbook/admin'),
-			'icon'        => A('guestbook.url').'/app.png',
-			'description' => A('guestbook.description'),
-			'allow'       => priv::allow('guestbook'),
-			'active'      => (ZOTOP_APP == 'guestbook')
-		);
+	// zotop::add('menu.system_navbar','guestbook_system_navbar');
+	// function guestbook_system_navbar($nav)
+	// {
+	// 	$nav['guestbook'] = array(
+	// 		'text'        => t('留言'),
+	// 		'href'        => u('guestbook/admin'),
+	// 		'icon'        => A('guestbook.url').'/app.png',
+	// 		'description' => A('guestbook.description'),
+	// 		'allow'       => priv::allow('guestbook'),
+	// 		'active'      => (ZOTOP_APP == 'guestbook')
+	// 	);
 
-		return $nav;
-	}
+	// 	return $nav;
+	// }
 
 	//system_globalmsg
 	zotop::add('system.global.msg','guestbook_globalmsg');

@@ -16,5 +16,5 @@ zotop::register(array(
 ));
 
 // 快捷导航
-zotop::before('system.global.navbar','system_hook::global_start','site_hook::global_navbar');
+zotop::add('menu.system_navbar','site_hook::system_navbar');
 ?>

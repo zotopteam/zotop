@@ -97,29 +97,12 @@ function alias($a, $b='')
 template::tag('menu','tag_menu');
 
 /**
- * 模版标签解析 {menu rootid="globalnavbar" parentid="……"}……{/menu}
+ * 模版标签解析 {menu rootid="globalnavbar"}……{/menu}
  *
  */     
 
 function tag_menu($attrs)
 {
-	if ( !isset($attrs['parentid']) )
-	{
-		$attrs['parentid'] = $attrs['rootid'];
-	}
-
-	$result = array();
-	
-	$menu   = m('system.menu.cache', $attrs['rootid']);
-
-	foreach ($menu as $key => $val)
-	{
-		if ( $val['parentid'] == $attrs['parentid'] )
-		{
-			$result[$key] = $val;
-		}
-	}
-
-    return $result;
+    return m('system.menu.tree', $attrs['rootid']);
 }
 ?>

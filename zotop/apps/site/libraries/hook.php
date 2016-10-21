@@ -17,15 +17,15 @@ class site_hook
 	 * @param  array $nav 快捷导航数组
 	 * @return array
 	 */
-	public static function global_navbar($nav)
+	public static function system_navbar($nav)
 	{
-		$nav['sitename'] = array(
+		$nav = arr::unshift($nav,'sitename', array(
 			'text'   => C('site.name'),
-			'href'   => U('site/config/index'),
-			'allow'  => priv::allow('site'),
-			'active' => request::is('site'),
+			'href'   => 'site/config/index',
+			'allow'  => 'site',
+			'active' => 'site',
 			'class'  => 'hidden-sm'
-		);
+		));
 
 		return $nav;
 	}

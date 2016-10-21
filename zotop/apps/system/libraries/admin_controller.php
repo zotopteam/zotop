@@ -28,8 +28,6 @@ class admin_controller extends controller
 		// 初始化用户
 		$this->assign('_USER',zotop::user());
 
-        // 初始化开始菜单
-
 		// hook
 		zotop::run('admin.init', $this);
     }

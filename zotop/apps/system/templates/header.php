@@ -70,30 +70,33 @@
 						</ul>   	      				
 	      			</div>  			
 	      		</li>
-				{loop zotop::filter('system.global.navbar',array()) $id $nav}
-				<li class="{$nav.class} {if $nav.active}active{/if} {if $nav.menu}dropdown{/if} hidden-xs">
-				{if $nav.menu}
-					<a href="{$nav.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$nav.text} <span class="fa fa-angle-down"></span></a>
-					<ul class="dropdown-menu">
-					{if is_array($nav.menu)}
-						{loop $nav.menu $m}
-							{if is_array($m)}
-							<li class="dropdown-menu-item {$m.class}"><a href="{$m.href}">{$m.icon} {$m.text}</a></li>
-							{elseif $m=='divider'}
-							<li class="divider" role="separator"></li>
-							{else}
-								{$m}
-							{/if}
-						{/loop}
-					{else}
-						{$nav.menu}
-					{/if}
-					</ul>
-				{else}
-					<a href="{$nav.href}">{$nav.text}</a>
-				{/if}
-				</li>
-				{/loop}      		
+
+                {menu rootid="system_navbar"}
+                    {if is_string($r)}
+                    <li class="text hidden-xs">
+                        {$r}
+                    </li>                        
+                    {elseif $r.children}
+                    <li class="{$r.class} {if request::is($r.active)}active{/if} dropdown hidden-xs">
+                        <a href="{U($r.href)}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.text} <span class="fa fa-angle-down"></span></a>
+                        <ul class="dropdown-menu">
+                            {loop $r.children $c}
+                                {if is_array($c)}
+                                    <li class="dropdown-menu-item {$c.class}"><a href="{U($c.href)}">{if $c.icon}<i class="{$c.icon}"></i>{/if} {$c.text}</a></li>
+                                {elseif $m=='divider'}
+                                    <li class="divider" role="separator"></li>                                    
+                                {else}
+                                    <li class="dropdown-menu-item dropdown-menu-text">{$c}</a></li>
+                                {/if}
+                            {/loop}
+                        </ul>                    
+                    </li>               
+                    {else}
+                    <li class="{$r.class} {if request::is($r.active)}active{/if} hidden-xs">
+                        <a href="{U($r.href)}">{$r.text}</a>
+                    </li>                     
+                    {/if}
+                {/menu}
 	      	</ul>
 		</div>
 		<div class="col-xs-6 col-md-5 col-lg-4">

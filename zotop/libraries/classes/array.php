@@ -773,27 +773,33 @@ class arr
      *
      * @endcode
      *
-     * @param array $data   //无限分类数组(传入前需要对无限分类数组的 parentid 进行 ASC 排序，数据库读取数据排序或者使用arr::multisort($data,'parentid'))
+     * @param array $data   //无限分类数组
      * @param int $rootid	//初始的父编号，一般为0             
      * @param int $id		//编号键名
      * @param int $parentid //父编号键名
      * @param int $level    //分类级别
      * @return array $tree 
      */
-    public static function tree(&$data, $rootid = 0, $id = "id", $parentid = "parentid", $level = 0)
+    public static function tree($data, $rootid = 0, $id = 'id', $parentid = 'parentid', $children='children')
     {
-        foreach ($data as $k => $v)
+        $tree = array();
+
+        foreach($data as $row)
         {
-            if ($v[$parentid] == $rootid)
+            if( $row[$parentid] == $rootid )
             {
-                $v['_level'] = $level;
-                self::$tree[] = $v;
-                unset($data[$k]);
-                self::tree($data, $v[$id], $id, $parentid, $level + 1);
+                $tmp = self::tree($data, $row[$id], $id, $parentid, $children);
+
+                if ( $tmp )
+                {
+                    $row[$children] = $tmp;
+                }
+
+                $tree[$row[$id]] = $row;         
             }
         }
 
-        return self::$tree;
+        return $tree;          
     }
 
     /**

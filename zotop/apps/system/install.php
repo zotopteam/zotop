@@ -499,7 +499,6 @@ $this->db->createTable('menu', array(
           'parentid'=>array('type'=>'varchar','length'=>'128','notnull'=>true,'autoinc'=>false,'comment'=>t('父编号')),
           'rootid'=>array('type'=>'varchar','length'=>'128','notnull'=>true,'autoinc'=>false,'comment'=>t('位置，如：root=根目录 start=后台开始菜单 globalnavbar=后台快捷导航 sitenavbar=站点导航')),
           'app'=>array('type'=>'char','length'=>'32','notnull'=>true,'autoinc'=>false,'comment'=>t('所属的应用编号')),
-          'dataid'=>array('type'=>'varchar','length'=>'100','notnull'=>false,'default'=>NULL,'autoinc'=>false,'comment'=>t('原数据编号，用于判定链接是不是已经存在')),
           'data'=>array('type'=>'text','notnull'=>true,'autoinc'=>false,'comment'=>t('序列化的链接信息，包含text，href，icon等')),
           'listorder'=>array('type'=>'int','length'=>'11','notnull'=>false,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('同级排序')),
           'disabled'=>array('type'=>'tinyint','length'=>'3','notnull'=>false,'default'=>'0','unsigned'=>true,'autoinc'=>false,'comment'=>t('是否禁用，0=否 1=是'))
@@ -514,17 +513,17 @@ $this->db->createTable('menu', array(
 ));
 
 // 插入开始菜单
-$globalnavbar = array(
+$system_navbar = array(
 	'id'       => 'start',
-	'parentid' => 'globalnavbar',
-	'rootid'   => 'globalnavbar',
+	'parentid' => 'system_navbar',
+	'rootid'   => 'system_navbar',
 	'app'      => 'system',
 	'data'     => array(
 		'text'   => t('主页'),
-		'href'   => 'system/main',
-		'active' => 'system/main'
+		'href'   => 'system/admin',
+		'active' => 'system/admin'
 	)
 );
 
-$this->db->table('menu')->data($globalnavbar)->insert();
+$this->db->table('menu')->data($system_navbar)->insert();
 ?>

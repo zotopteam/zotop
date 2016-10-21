@@ -22,13 +22,16 @@ class system_model_menu extends model
      */
     public function select()
     {   
-        $select   = array();
+        $select = array();
 
-        foreach ($this->select() as $d)
+        foreach (parent::select() as $r)
         {
-            $data = unserialize(arr::pull($d,'data'));
+            if ( $data = unserialize($r['data']) )
+            {
+                $r['data'] = $data;
+            }
 
-            $data[$d['id']] = array_merge($d, (array)$data);
+            $select[$r['id']] = $r;            
         }
 
         return $select;
@@ -36,13 +39,13 @@ class system_model_menu extends model
 
 
     /**
-     * 取得缓存的数据
+     * 获取树形
      * 
      * @param  string  $rootid  根编号
      * @param  boolean $refresh 是否强制刷新
      * @return array
      */
-	public function cache($rootid=null, $refresh=false)
+	public function tree($rootid=null, $refresh=false)
 	{
         $rootid = $rootid ? $rootid : $this->rootid;
         
@@ -52,13 +55,41 @@ class system_model_menu extends model
 
         if ( $refresh or empty($data) or !is_array($data) )
         {
-            $data = $this->where('rootid', $rootid)->where('disabled',0)->orderby('listorder','asc')->select();
+            $data = $this->field('id,parentid,data')->where('rootid', $rootid)->where('disabled',0)->orderby('listorder','asc')->select();
+            $data = arr::tree($data, $rootid);
+            $data = $this->flatten($data);
 
             zotop::cache($name, $data, false);
         }
+        
+        $data = zotop::filter($name, $data);
+
+        //tt($data);
 
         return $data;
 	}
 
+    /**
+     * 将树形转化为扁平树形
+     * 
+     * @param  [type] $data [description]
+     * @return [type]       [description]
+     */
+    private function flatten($data)
+    {
+        $flatten = array();
+
+        foreach ($data as $key => $value)
+        {
+            $flatten[$key] = $value['data'];
+
+            if ( is_array($value['data']) AND is_array($value['children']) AND $value['children'] )
+            {
+                $flatten[$key]['children'] = $this->flatten($value['children']);
+            }
+        }
+
+        return $flatten;
+    }
 }
 ?>
