@@ -103,12 +103,6 @@ class system_model_app extends model
 				$install = include(ZOTOP_PATH_APPS.DS.$dir.DS.'install.php');
 			}
 
-			// 安装设置文件
-			if ( file::exists(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php') )
-			{
-				$config = include(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php');
-			}
-
 			//写入数据库
 			if ( $install !== false  )
 			{
@@ -119,12 +113,20 @@ class system_model_app extends model
 				$app['listorder'] 	= $this->max('listorder') + 1;
 				$app['installtime'] = ZOTOP_TIME;
 				$app['updatetime'] 	= ZOTOP_TIME;
-
-				// 将config写入数据库
-				if ( $config and is_array($config) )
+			
+				// 安装设置文件
+				if ( file::exists(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php') )
 				{
-					$this->config($config, $app['id']);
+					$config = include(ZOTOP_PATH_APPS.DS.$dir.DS.'config.php');
+
+					if ( $config and is_array($config) )
+					{
+						$this->config($config, $app['id']);
+					}				
 				}
+
+				// 写入菜单
+				$this->menu($app);
 
 				// 写入根权限
 				$this->db->insert('admin_priv', array('id'=>$app['id'], 'name'=>$app['name'], 'app'=>$app['id']));
@@ -276,6 +278,12 @@ class system_model_app extends model
 		}
 
 		return false;
+	}
+
+	// 插入菜单项
+	public function menu($app)
+	{
+		
 	}
 
 	/**
