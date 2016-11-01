@@ -126,7 +126,12 @@ class system_model_app extends model
 				}
 
 				// 写入菜单
-				$this->menu($app);
+				foreach (array('system_navbar','system_start') as $menu)
+				{
+					$menus = @include(ZOTOP_PATH_APPS.DS.$dir.DS.'data'.DS.$menu.'.php');
+
+					$this->menu($menus, $app['id'], $menu);
+				}				
 
 				// 写入根权限
 				$this->db->insert('admin_priv', array('id'=>$app['id'], 'name'=>$app['name'], 'app'=>$app['id']));
@@ -180,6 +185,9 @@ class system_model_app extends model
 
 			// 删除权限设置
 			$this->db->table('admin_priv')->where('app',$id)->delete();
+
+			//删除菜单
+			$this->db->table('menu')->where('app',$id)->delete();
 
 			// 删除app
 			return $this->delete($id);
@@ -280,10 +288,51 @@ class system_model_app extends model
 		return false;
 	}
 
-	// 插入菜单项
-	public function menu($app)
+	/**
+	 * 插入菜单项
+	 *
+	 * @param  array $menus   菜单数组或者菜单数组的绝对地址
+	 * @param  array $appid   App ID
+	 * @param  string $rootid 菜单的根编号 
+	 * @return bool
+	 */
+	public function menu($menus, $appid, $rootid, $parentid=null)
 	{
-		
+		if ( is_array($menus) )
+		{
+			// 未设置父编号的时候，父编号等于当前组编号
+			$parentid = empty($parentid) ? $rootid : $parentid;
+
+			// 计算当前组内的最大排序
+			$listorder = $this->db->table('menu')->where('rootid', $rootid)->where('parentid',$parentid)->max('listorder');
+
+			foreach ($menus as $key => $menu)
+			{
+				$listorder = $listorder + 1;
+
+				$children = arr::pull($menu, 'children');
+
+				$menudata = array(
+					'id'        => $key,
+					'parentid'  => $parentid,
+					'rootid'    => $rootid,
+					'app'       => $appid,
+					'data'      => $menu,
+					'listorder' => $listorder,		
+				);
+
+				$this->db->table('menu')->data($menudata)->insert();
+
+				if ( $children )
+				{
+					$this->menu($appid, $children, $rootid, $key);
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

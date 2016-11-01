@@ -251,12 +251,24 @@ class request
     /**
      * 判断是当前路由是否为真
      * 
-     * @return boolean [description]
+     * @param  mixed  $url_pattern url表达式 支持 string,array或者多个string参数
+     * @return boolean 
      */
-    public static function is()
+    public static function is($url_pattern)
     {
-        foreach (func_get_args() as $pattern)
+        if ( func_num_args() == 1 )
         {
+            $url_patterns = is_array($url_pattern) ? $url_pattern : explode(',', $url_pattern);
+        }
+        else
+        {
+            $url_patterns = func_get_args();
+        }
+
+        foreach ($url_patterns as $pattern)
+        {
+            $pattern = trim($pattern);
+
             if ( substr_count(ZOTOP_URI, $pattern) OR str::is(urldecode(ZOTOP_URI), $pattern) ) 
             {
                 return true;

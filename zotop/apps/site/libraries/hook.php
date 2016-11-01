@@ -12,7 +12,7 @@ defined('ZOTOP') OR die('No direct access allowed.');
 class site_hook
 {
 	/**
-	 * HOOK globalnavbar
+	 * HOOK system_navbar
 	 * 
 	 * @param  array $nav 快捷导航数组
 	 * @return array
@@ -23,8 +23,8 @@ class site_hook
 			'text'   => C('site.name'),
 			'href'   => 'site/config/index',
 			'allow'  => 'site',
-			'active' => 'site',
-			'class'  => 'hidden-sm'
+			'active' => 'site/*,mobile/*',
+			'class'  => 'sitename hidden-sm'
 		));
 
 		return $nav;
