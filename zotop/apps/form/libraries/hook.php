@@ -17,7 +17,7 @@ class form_hook
 	 * @param $attrs array 控件参数
 	 * @return string 控件代码
 	 */
-	public static function start($start)
+	public static function global_start($start)
 	{
 		$start['form'] = array(
 			'text' => A('form.name'),

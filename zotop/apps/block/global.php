@@ -6,10 +6,10 @@ define('BLOCK_PATH_CACHE', ZOTOP_PATH_RUNTIME . DS . 'block');
 zotop::register('block_hook', A('block.path') . DS . 'libraries' . DS . 'hook.php');
 
 // 开始菜单
-zotop::add('system.start', 'block_hook::start');
+zotop::add('global.start', 'block_hook::global_start');
 
 // 快捷导航
-zotop::add('system.global.navbar', 'block_hook::global_navbar');
+zotop::add('global.navbar', 'block_hook::global_navbar');
 
 // 一键刷新
 zotop::add('system.refresh', 'block_hook::refresh');

@@ -17,7 +17,7 @@ class mobile_hook
 	 * @param $attrs array 参数
 	 * @return array
 	 */
-	public static function start($start)
+	public static function global_start($start)
 	{
 		$start['mobile'] = array(
 			'text'        => A('mobile.name'),

@@ -35,8 +35,8 @@ form::field('color',array('system_field','color'));
  * 初始化开始和全局消息
  *
  */
-zotop::add('system.global.navbar','system_hook::global_start');
-zotop::add('system.global.msg','system_hook::global_msg');
+zotop::add('global.navbar','system_hook::global_navbar');
+zotop::add('global.msg','system_hook::global_msg');
 
 /**
  * 别名解析, 将别名路由到设定的uri
@@ -104,5 +104,62 @@ template::tag('menu','tag_menu');
 function tag_menu($attrs)
 {
     return m('system.menu.tree', $attrs['rootid']);
+}
+
+/**
+ * 后台开始菜单按钮导航
+ * 
+ * @return array
+ */
+function global_start()
+{
+	$start = array();
+
+	$start = zotop::filter('global.start',$start);
+
+	//站点和系统图标放在最后
+	$start = $start + zotop::data(A('site.path').DS.'shortcut.php');
+	$start = $start + zotop::data(A('system.path').DS.'shortcut.php');
+
+	foreach( $start as $id => $nav )
+	{
+		if ( $nav['allow'] === false ) unset($start[$id]);
+	}
+
+	return $start;		
+}
+
+/**
+ * 后台全局导航
+ * 
+ * @param  array $nav 快捷导航数组
+ * @return array
+ */
+function global_navbar()
+{
+	$navbar = array();
+
+	$navbar = zotop::filter('global.navbar',$navbar);
+
+	foreach( $navbar as $id => $nav )
+	{
+		if ( $nav['allow'] === false ) unset($navbar[$id]);
+	}
+
+	return $navbar;	
+}
+
+/**
+ * 后台全局消息提醒
+ * 
+ * @param  array $msg 消息数组
+ * @return array
+ */
+function global_msg()
+{
+	$msg = array();
+	$msg = zotop::filter('global.msg',$msg);
+
+	return $msg;	
 }
 ?>

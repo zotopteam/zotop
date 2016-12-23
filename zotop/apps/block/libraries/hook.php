@@ -18,7 +18,7 @@ class block_hook
 	 * @param  array $nav 
 	 * @return array
 	 */
-	public static function start($nav)
+	public static function global_start($nav)
 	{
 	    $nav['block'] = array(
 	        'text'          => A('block.name'),

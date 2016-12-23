@@ -45,7 +45,7 @@
 	      			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
 	      			<div class="dropdown-menu dropdown-start">
 						<ul class="scrollable">
-							{loop system_hook::start() $s}
+							{loop global_start() $s}
 							<li>
 								<a href="{$s.href}" class="shortcut shortcut-thumb" title="<h4>{$s.text}</h4><h5>{$s.description}</h5>" data-placement="right">
 									<div class="shortcut-icon">
@@ -59,7 +59,7 @@
 									</div>								
 								</a>		
 							</li>
-							{/loop}							
+							{/loop}						
 						</ul>
 						<ul class="hidden">
 							<li><a href="{u('system/system/reboot')}" class="js-confirm"><i class="fa fa-refresh fa-fw"></i> {t('重启系统')}</a></li>
@@ -71,18 +71,18 @@
 	      			</div>  			
 	      		</li>
 
-                {menu rootid="system_navbar"}
+                {loop global_navbar() $r}
                     {if is_string($r)}
                     <li class="text hidden-xs">
                         {$r}
                     </li>                        
                     {elseif $r.children}
-                    <li class="{$r.class} {if request::is($r.active)}active{/if} dropdown hidden-xs">
-                        <a href="{U($r.href)}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.text} <span class="fa fa-angle-down"></span></a>
+                    <li class="{$r.class} {if $r.active}active{/if} dropdown hidden-xs">
+                        <a href="{$r.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.text} <span class="fa fa-angle-down"></span></a>
                         <ul class="dropdown-menu">
                             {loop $r.children $c}
                                 {if is_array($c)}
-                                    <li class="dropdown-menu-item {$c.class}"><a href="{U($c.href)}">{if $c.icon}<i class="{$c.icon}"></i>{/if} {$c.text}</a></li>
+                                    <li class="dropdown-menu-item {$c.class}"><a href="{$c.href}">{if $c.icon}<i class="{$c.icon}"></i>{/if} {$c.text}</a></li>
                                 {elseif $m=='divider'}
                                     <li class="divider" role="separator"></li>                                    
                                 {else}
@@ -92,23 +92,24 @@
                         </ul>                    
                     </li>               
                     {else}
-                    <li class="{$r.class} {if request::is($r.active)}active{/if} hidden-xs">
-                        <a href="{U($r.href)}">{$r.text}</a>
+                    <li class="{$r.class} {if $r.active}active{/if} hidden-xs">
+                        <a href="{$r.href}">{$r.text}</a>
                     </li>                     
                     {/if}
-                {/menu}
+                {/loop}
+
 	      	</ul>
 		</div>
 		<div class="col-xs-6 col-md-5 col-lg-4">
 			<ul class="nav global-navbar pull-right">
-				{if $_GLOBALMSG = zotop::filter('system.global.msg',array()) }
+				{if $GLOBAL_MSG = zotop::filter('global.msg',array()) }
 				<li class="dropdown">
 					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-bell a-flash"></i> <span class="badge badge-xs badge-danger">{count($_GLOBALMSG)}</span>
+						<i class="fa fa-bell a-flash"></i> <span class="badge badge-xs badge-danger">{count($GLOBAL_MSG)}</span>
 					</a>
 					<ul class="dropdown-menu dropdown-menu-right">
-						<li class="dropdown-header">{t('您有 $1 条待处理信息',count($_GLOBALMSG))}</h2>
-						{loop $_GLOBALMSG $msg}
+						<li class="dropdown-header">{t('您有 $1 条待处理信息',count($GLOBAL_MSG))}</h2>
+						{loop $GLOBAL_MSG $msg}
 						<li class="dropmenu-menu-item"><a href="{$msg.href}"><i class="fa fa-{$msg.type} fa-fw"></i> {$msg.text}</a></li>
 						{/loop}
 					</ul>

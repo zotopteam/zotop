@@ -8,8 +8,9 @@ zotop::register(array(
 ));
 
 //system_start
-zotop::add('system.start','developer_system_start');
-function developer_system_start($start)
+zotop::add('global.start','developer_global_start');
+
+function developer_global_start($start)
 {
 	$start = arr::before($start,'system_info','developer',array(
 		'text'        =>	A('developer.name'),
@@ -22,8 +23,9 @@ function developer_system_start($start)
 }
 
 //system_globalnavbar
-zotop::add('system.global.navbar','developer_globalnavbar');
-function developer_globalnavbar($nav)
+zotop::add('global.navbar','developer_global_navbar');
+
+function developer_global_navbar($nav)
 {
 	$nav['developer'] = array(
 		'text'        => A('developer.name'),

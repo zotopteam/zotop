@@ -16,7 +16,7 @@ zotop::register(array(
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'sitemap_hook::start');
+zotop::add('global.start', 'sitemap_hook::global_start');
 
 /**
  * 站点地图

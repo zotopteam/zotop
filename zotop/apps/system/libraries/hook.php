@@ -41,7 +41,7 @@ class system_hook
 	 * @param  array $nav 快捷导航数组
 	 * @return array
 	 */
-	public static function global_start($nav)
+	public static function global_navbar($nav)
 	{
 		$nav['start'] = array(
 			'text'        => t('主页'),

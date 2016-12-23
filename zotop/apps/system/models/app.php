@@ -126,12 +126,12 @@ class system_model_app extends model
 				}
 
 				// 写入菜单
-				foreach (array('system_navbar','system_start') as $menu)
-				{
-					$menus = @include(ZOTOP_PATH_APPS.DS.$dir.DS.'data'.DS.$menu.'.php');
+				// foreach (array('system_navbar','system_start') as $menu)
+				// {
+				// 	$menus = @include(ZOTOP_PATH_APPS.DS.$dir.DS.'data'.DS.$menu.'.php');
 
-					$this->menu($menus, $app['id'], $menu);
-				}				
+				// 	$this->menu($menus, $app['id'], $menu);
+				// }				
 
 				// 写入根权限
 				$this->db->insert('admin_priv', array('id'=>$app['id'], 'name'=>$app['name'], 'app'=>$app['id']));
@@ -289,7 +289,7 @@ class system_model_app extends model
 	}
 
 	/**
-	 * 插入菜单项
+	 * 插入菜单项 暂时废弃
 	 *
 	 * @param  array $menus   菜单数组或者菜单数组的绝对地址
 	 * @param  array $appid   App ID

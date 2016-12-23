@@ -92,20 +92,4 @@ $this->db->createTable('block_datalist',array(
 	'primary'=>array ( 'id' ),
 	'comment' => t('区块数据列表') 
 ));
-
-// 插入开始菜单
-$system_navbar = array(
-	'id'       => 'block',
-	'parentid' => 'system_navbar',
-	'rootid'   => 'system_navbar',
-	'app'      => 'block',
-	'listorder'=> 2,
-	'data'     => array(
-		'text'   => t('区块'),
-		'href'   => 'block/admin',
-		'active' => 'block/*'
-	)
-);
-
-$this->db->table('menu')->data($system_navbar)->insert();
 ?>

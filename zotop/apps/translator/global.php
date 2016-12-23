@@ -4,9 +4,9 @@
 
 //system_start
 
-zotop::add('system.start','translator_system_start');
+zotop::add('global.start','translator_global_start');
 
-function translator_system_start($start)
+function translator_global_start($start)
 {
 	$start['translator'] = array(
 		'text' => A('translator.name'),

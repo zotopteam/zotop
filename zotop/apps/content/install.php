@@ -172,20 +172,4 @@ $this->db->createTable('content_tagdata',array(
 	'primary'=>array (),
 	'comment' => t('tag和content对应关系')
 ));
-
-// 插入开始菜单
-$system_navbar = array(
-	'id'       => 'content',
-	'parentid' => 'system_navbar',
-	'rootid'   => 'system_navbar',
-	'app'      => 'content',
-	'listorder'=> 1,
-	'data'     => array(
-		'text'   => t('内容'),
-		'href'   => 'content/content',
-		'active' => 'content/*'
-	)
-);
-
-$this->db->table('menu')->data($system_navbar)->insert();
 ?>

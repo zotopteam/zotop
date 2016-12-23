@@ -511,19 +511,4 @@ $this->db->createTable('menu', array(
      'comment'=>t('菜单表，包含开始菜单，快捷菜单，站点导航等'),
      'engine'=>'MyISAM'
 ));
-
-// 插入开始菜单
-$system_navbar = array(
-	'id'       => 'start',
-	'parentid' => 'system_navbar',
-	'rootid'   => 'system_navbar',
-	'app'      => 'system',
-	'data'     => array(
-		'text'   => t('主页'),
-		'href'   => 'system/admin',
-		'active' => 'system/admin'
-	)
-);
-
-$this->db->table('menu')->data($system_navbar)->insert();
 ?>

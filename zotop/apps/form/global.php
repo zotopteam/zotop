@@ -15,7 +15,7 @@ zotop::register(array(
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'form_hook::start');
+zotop::add('global.start', 'form_hook::global_start');
 
 
 // 注册一个控件

@@ -43,20 +43,4 @@ $this->db->createTable('guestbook',array(
 	'primary'=>array ( 'id' ),
 	'comment' => t('留言表')
 ));
-
-// 插入开始菜单
-$system_navbar = array(
-	'id'       => 'guestbook',
-	'parentid' => 'system_navbar',
-	'rootid'   => 'system_navbar',
-	'app'      => 'guestbook',
-	'listorder'=> 3,
-	'data'     => array(
-		'text'   => t('留言'),
-		'href'   => 'guestbook/admin',
-		'active' => 'guestbook/*'
-	)
-);
-
-$this->db->table('menu')->data($system_navbar)->insert();
 ?>

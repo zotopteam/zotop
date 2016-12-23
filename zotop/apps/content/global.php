@@ -7,19 +7,19 @@ zotop::register(array(
 /**
  * 开始菜单
  */
-zotop::add('system.start','content_hook::start');
+zotop::add('global.start','content_hook::global_start');
 
 
 /**
  * 全局导航
  */
-zotop::add('system.global.navbar','content_hook::global_navbar');
+zotop::add('global.navbar','content_hook::global_navbar');
 
 
 /**
  * 全局消息
  */
-zotop::add('system.global.msg','content_hook::global_msg');
+zotop::add('global.msg','content_hook::global_msg');
 
 
 /**

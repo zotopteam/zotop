@@ -17,13 +17,13 @@ class site_hook
 	 * @param  array $nav 快捷导航数组
 	 * @return array
 	 */
-	public static function system_navbar($nav)
+	public static function global_navbar($nav)
 	{
 		$nav = arr::unshift($nav,'sitename', array(
 			'text'   => C('site.name'),
-			'href'   => 'site/config/index',
-			'allow'  => 'site',
-			'active' => 'site/*,mobile/*',
+			'href'   => U('site/config/index'),
+			'allow'  => Priv::allow('site'),
+			'active' => Request::is('site/*,mobile/*'),
 			'class'  => 'sitename hidden-sm'
 		));
 

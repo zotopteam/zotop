@@ -16,7 +16,7 @@ class content_hook
 	 * @param $start array 已有数据
 	 * @return array
 	 */
-	public static function start($start)
+	public static function global_start($start)
 	{
 		$models = m('content.model.cache');
 

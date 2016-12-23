@@ -16,10 +16,10 @@ zotop::register(array(
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'mobile_hook::start');
+zotop::add('global.start', 'mobile_hook::global_start');
 
 // 更改顶栏网站名称的状态
-zotop::add('system.global.navbar', 'mobile_hook::global_navbar');
+zotop::add('global.navbar', 'mobile_hook::global_navbar');
 
 // 在站点管理侧边条加入一个链接
 zotop::add('site.admin.sidebar','mobile_hook::admin_sidebar');

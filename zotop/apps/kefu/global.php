@@ -15,7 +15,7 @@ zotop::register(array(
 ));
 
 // 在开始页面注册一个快捷方式
-zotop::add('system.start', 'kefu_hook::start');
+zotop::add('global.start', 'kefu_hook::global_start');
 
 
 zotop::add('site.footer', 'kefu_show');
