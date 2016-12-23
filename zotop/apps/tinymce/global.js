@@ -1,13 +1,9 @@
 //编辑器函数
 $.fn.editor = function(options){
 	var settings = {};
-    //settings.width                         = $(this).outerWidth();
-    //settings.height                        = $(this).outerHeight();
     settings.menubar                       = false;
     //settings.elementpath                 = false;
     settings.language                      = 'zh_CN';
-    settings.wordcount_cleanregex          = /[，！？；：（）【】［］。「」﹁﹂“”、·《》…—～〈〉『』〔〕〖〗]+/g;
-    settings.wordcount_countregex          = /[^\u0000-\u007F]/g;
     settings.skin                          = 'zotop';	
     
     settings.force_br_newlines             = false;
@@ -15,7 +11,7 @@ $.fn.editor = function(options){
     settings.forced_root_block             = 'p';
     settings.invalid_elements              = "script,applet";	
     // repair bug
-    settings.block_formats                 = 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Pre=pre;Div=div;Blockquote=blockquote;';
+    //settings.block_formats                 = 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;Pre=pre;Div=div;Blockquote=blockquote;';
     
     settings.toolbar_items_size            = 'small';
     settings.imagetools_toolbar            = 'alignleft aligncenter alignright imageoptions';
