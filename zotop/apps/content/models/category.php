@@ -42,19 +42,21 @@ class content_model_category extends model
      * @param string $key 如果字段是数组，数组键名
      * @return
      */
-    public function get($id= '', $field = '', $key = '')
+    public function get($id= null, $field = '', $key = '')
     {
-        if ($id and intval($id))
+        if (isset($id))
         {
-            if ( $field )
-            {
-                return $this->category[$id][$field];
-            }
+            $id = intval($id);
 
             if ( $key )
             {
-                return $this->category[$id][$field][$key];
+                return isset($this->category[$id][$field][$key]) ? $this->category[$id][$field][$key] : null;
             }
+
+            if ( $field )
+            {
+                return isset($this->category[$id][$field]) ? $this->category[$id][$field] : null;
+            }            
 
             return isset($this->category[$id]) ? $this->category[$id] : array();
         }

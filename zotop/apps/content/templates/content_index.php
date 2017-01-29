@@ -68,6 +68,7 @@
 			<td>{t('标题')}</td>
 			<td class="text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
 			<td class="text-center hidden-xs hidden-sm">{t('模型')}</td>
+			<td class="text-center hidden-xs hidden-sm">{t('栏目')}</td>
 			<td class="hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
@@ -106,6 +107,7 @@
 			
 				<td class="text-center hidden-xs hidden-sm">{$r['hits']}</td>
 				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
+				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
 				<td class="hidden-xs hidden-sm">
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>

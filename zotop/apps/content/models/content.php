@@ -22,9 +22,9 @@ class content_model_content extends model
     public function status($s='')
     {
         $status = zotop::filter('content.status',array(
-            'publish'   => t('发布'),
-            'pending'   => t('待发'),
-            'draft'     => t('草稿'),
+            'publish'   => t('已发布'),
+            'pending'   => t('待发布'),
+            'draft'     => t('草稿箱'),
             'trash'     => t('回收站'),
         ));
 

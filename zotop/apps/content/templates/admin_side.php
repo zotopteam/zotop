@@ -38,9 +38,7 @@
 			</li>
 			{/loop}		
 
-			<li {if request::is('content/config')}class="active"{/if}>
-				<a href="{u('content/config')}"><i class="fa fa-cog"></i> <span>{t('设置')}</span></a>
-			</li>
+
 			<li {if request::is('content/category')}class="active"{/if}>
 				<a href="{u('content/category')}"><i class="fa fa-sitemap"></i> <span>{t('栏目')}</span></a>
 				</li>
@@ -50,6 +48,9 @@
 			<li {if request::is('content/admintags')}class="active"{/if}>
 				<a href="{u('content/admintags')}"><i class="fa fa-tag"></i> <span>{t('标签')}</span></a>
 			</li>
+			<li {if request::is('content/config')}class="active"{/if}>
+				<a href="{u('content/config')}"><i class="fa fa-cog"></i> <span>{t('设置')}</span></a>
+			</li>			
 		</ul>
 
 
