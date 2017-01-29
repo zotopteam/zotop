@@ -8,18 +8,7 @@
 		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title pull-center">{$title}</div>
 		{else}		
-		<div class="title">{if $title} {$title} {else} {t('内容管理')} {/if}</div>
-
-		<div class="btn-group">
-			{loop m('content.content.status') $s $t}
-			<a href="{u('content/content/index/'.$categoryid.'/'.$s)}" class="btn {if $status == $s}btn-success{else}btn-default{/if}">
-				{$t} 
-				{if $statuscount=m('content.content.statuscount', $category['childids'], $s)}
-				 <span class="badge badge-xs badge-danger">{$statuscount}</span>
-				{/if}
-			</a>
-			{/loop}			
-		</div>
+		<div class="title">{if $title} {$title} {else} {m('content.content.status',$status)} {/if}</div>
 		{/if}
 
 		<form action="{u('content/content/search')}" class="searchbar input-group" method="get" role="search">				
@@ -30,7 +19,7 @@
 		</form>
 
 		<div class="action">
-			{if $models}
+			{if $status=='publish'}
 				{if count($models) < 2}
 					{loop $models $i $m}
 						<a class="btn btn-primary btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
@@ -73,15 +62,12 @@
 		<table class="table table-hover table-nowrap list sortable" id="datalist" data-categoryid="{$category.id}">
 		<thead>
 			<tr>
-			{if $categoryid}
 			<td class="drag"></td>
-			{/if}
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
 			<td class="text-center" width="40">{t('状态')}</td>
 			<td>{t('标题')}</td>
 			<td class="text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
 			<td class="text-center hidden-xs hidden-sm">{t('模型')}</td>
-			<td class="text-center hidden-xs hidden-sm">{t('栏目')}</td>
 			<td class="hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
@@ -89,9 +75,7 @@
 
 		{loop $data $r}
 			<tr data-id="{$r.id}" data-categoryid="{$r.categoryid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
-				{if $categoryid}
 				<td class="drag"></td>
-				{/if}
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
 				<td class="text-center"><i class="fa fa-{$r['status']} fa-2x  text-{$r['status']}" title="{$statuses[$r['status']]}"></i></td>
 				<td >
@@ -122,7 +106,6 @@
 			
 				<td class="text-center hidden-xs hidden-sm">{$r['hits']}</td>
 				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
-				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
 				<td class="hidden-xs hidden-sm">
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
 					<div class="f12 time">{format::date($r['createtime'])}</div>

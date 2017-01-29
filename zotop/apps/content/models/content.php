@@ -24,9 +24,8 @@ class content_model_content extends model
         $status = zotop::filter('content.status',array(
             'publish'   => t('发布'),
             'pending'   => t('待发'),
-            //'reject'    => t('退稿'),
             'draft'     => t('草稿'),
-            //'trash'     => t('回收站'),
+            'trash'     => t('回收站'),
         ));
 
         return $s ? $status[$s] : $status;
@@ -96,13 +95,8 @@ class content_model_content extends model
      * 获取未处理数据条数
      *
      */
-    public function statuscount($categoryid=null, $status='publish')
+    public function statuscount($status='publish')
     {
-        if ( $categoryid )
-        {
-            $this->where('categoryid', 'in', $categoryid);
-        }
-
         if ( $status )
         {
             $this->where('status', '=', $status);
@@ -177,7 +171,7 @@ class content_model_content extends model
 
         if ( empty($data['title']) ) return $this->error(t('标题不能为空'));
         if ( empty($data['modelid']) ) return $this->error(t('模型不能为空'));
-        if ( empty($data['categoryid']) ) return $this->error(t('栏目不能为空'));
+        //if ( empty($data['categoryid']) ) return $this->error(t('栏目不能为空'));
 
         // 检查别名是否存在
         if ( $data['alias'] and $alias = alias($data['alias']) )

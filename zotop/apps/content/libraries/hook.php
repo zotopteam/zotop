@@ -53,7 +53,7 @@ class content_hook
 
 		// 设置提示信息
 		/*
-		if ( $pending = m('content.content.statuscount',0,'pending') )
+		if ( $pending = m('content.content.statuscount', 'pending') )
 		{
 			$start['content']['msg']   = t('%s 条待审',$pending);
 			$start['content']['badge'] = $pending;
@@ -94,7 +94,7 @@ class content_hook
 	{
 		// 设置提示信息
 		
-		if ( $pending = m('content.content.statuscount',0,'pending') )
+		if ( $pending = m('content.content.statuscount', 'pending') )
 		{
 			$msg[] = array(
 				'text' => t('您有 %s 等待审核内容', $pending),
@@ -115,17 +115,35 @@ class content_hook
 	 */
 	public static function manage_menu($content)
 	{
-		$menu = array(
-			'view'   => array('text'=>t('访问'),'icon'=>'fa fa-eye','href'=>$content['url'],'target'=>'_blank'),
-			'edit'   => array('text'=>t('编辑'),'icon'=>'fa fa-edit','href'=>U('content/content/edit/'.$content['id'])),
-			'stick'  => array('text'=>t('置顶'),'icon'=>'fa fa-arrow-up','href'=>U('content/content/stick/'.$content['id'].'/1'), 'class'=>'js-ajax-post'),
-			'delete' => array('text'=>t('删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-confirm')
-		);
-		
-		if ( $content['stick'] )
+		$menu = array();
+		$menu['view'] = array('text'=>t('访问'),'icon'=>'fa fa-eye','href'=>$content['url'],'target'=>'_blank');
+		$menu['edit'] = array('text'=>t('编辑'),'icon'=>'fa fa-edit','href'=>U('content/content/edit/'.$content['id']));
+
+		if ( $content['status'] == 'publish' )
 		{
-			$menu['stick']  = array('text'=>t('取消置顶'),'icon'=>'fa fa-arrow-down','href'=>U('content/content/stick/'.$content['id'].'/0'), 'class'=>'js-ajax-post');
+			if ( $content['stick'] )
+			{
+				$menu['stick_0']  = array('text'=>t('取消置顶'),'icon'=>'fa fa-arrow-down','href'=>U('content/content/stick/'.$content['id'].'/0'), 'class'=>'js-ajax-post');
+			}
+			else
+			{
+				$menu['stick_1']  = array('text'=>t('置顶'),'icon'=>'fa fa-arrow-up','href'=>U('content/content/stick/'.$content['id'].'/1'), 'class'=>'js-ajax-post');
+			}			
 		}
+		else
+		{
+			$menu['publish'] = array('text'=>t('发布'),'icon'=>'fa fa-publish','href'=>U('content/content/status/'.$content['id'].'/publish'), 'class'=>'js-ajax-post');			
+		}
+
+		if ( $content['status'] == 'delete' )
+		{
+			$menu['delete'] = array('text'=>t('彻底删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-ajax-post');
+		}
+		else
+		{
+			$menu['delete'] = array('text'=>t('删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-ajax-post');
+		}
+
 		
 		// hook
 		$menu = zotop::filter('content.manage_menu',$menu);

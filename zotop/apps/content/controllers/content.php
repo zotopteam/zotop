@@ -61,9 +61,10 @@ class content_controller_content extends admin_controller
 	 * 
 	 * @param  integer $categoryid 栏目编号
 	 * @param  string  $status     状态
+	 * @param  string  $userid     用户编号
 	 * @return mixed
 	 */
-    public function action_index($categoryid=0, $status='publish')
+    public function action_index($categoryid=0, $status='publish', $userid=0)
     {
 		// 获取包含子栏目的全部数据
 		if ( $categoryid and $category = $this->category->get($categoryid) )
@@ -77,6 +78,12 @@ class content_controller_content extends admin_controller
 			$this->content->where('status','=',$status);
 		}
 
+		// 用户
+		if ( $userid ) 
+		{
+			$this->content->where('userid','=',$userid);
+		}
+
 		// 获取数据集
 		$dataset = $this->content->orderby('stick','desc')->orderby('listorder','desc')->paginate();
 
@@ -85,7 +92,7 @@ class content_controller_content extends admin_controller
 
 		foreach( $models as $i=>$m )
 		{
-			if ( $m['disabled'] OR $category['settings']['models'][$i]['enabled'] == 0 )
+			if ( $m['disabled'] OR ($categoryid and $category['settings']['models'][$i]['enabled'] == 0 ))
 			{
 				unset($models[$i]);
 			}
@@ -183,15 +190,15 @@ class content_controller_content extends admin_controller
 		{
 			@extract($post);
 
-			if ( empty($id) or empty($listorder) or empty($categoryid) ) return $this->error(t('禁止访问'));
+			if ( empty($id) or empty($listorder) ) return $this->error(t('禁止访问'));
 
 			try
 			{
 				// $categoryid 为排序所在的栏目，不是排序数据的栏目编号，获取下级全部子栏目编号，用于父栏目也可以对所有子栏目的数据进行排序
-				$categoryids = m('content.category.get',$categoryid,'childids');
+				// $categoryids = m('content.category.get',$categoryid,'childids');
 
 				// 将当前列表 $listorder 之前的数据的 listorder 全部加 1， 为拖动的数据保留出位置
-				$this->content->where('categoryid','in',$categoryids)->where('listorder','>=',$listorder)->data('listorder',array('listorder','+',1))->update();
+				$this->content->where('listorder','>=',$listorder)->data('listorder',array('listorder','+',1))->update();
 
 				// 更新拖动的数据为当前 $listorder
 				$this->content->where('id',$id)->data('listorder',$listorder)->data('stick',$stick)->update();
@@ -294,7 +301,7 @@ class content_controller_content extends admin_controller
 		}
 	}
 
-		/**
+	/**
 	 * 根据条目置顶状态设置置顶和取消置顶
 	 *
 	 * @param  int $id 编号
@@ -310,16 +317,50 @@ class content_controller_content extends admin_controller
 		return $this->error($this->content->error());
 	}
 
+	/**
+	 * 设置内容状态
+	 *
+	 * @param  int $id 编号
+	 * @return json
+	 */
+	public function action_status($id, $status)
+	{
+		if ( $this->content->where('id',$id)->data('status',$status)->update() )
+		{
+			return $this->success(t('操作成功'), request::referer());
+		}
+
+		return $this->error($this->content->error());
+	}
+
  	/**
 	 * 删除
 	 *
 	 */
 	public function action_delete($id)
-	{
-		if ( $this->content->delete($id) )
+	{	
+		if ( $data = $this->content->getbyid($id) )
 		{
-			return $this->success(t('删除成功'),request::referer());
+
+			if( $data['status'] == 'delete' )
+			{
+				$this->content->delete($id);
+
+				return $this->success(t('彻底删除成功'),request::referer());
+			}
+
+			if ( $data['status'] == 'trash' )
+			{
+				$this->content->where('id',$id)->data('status', 'delete')->update();
+
+				return $this->success(t('删除成功'),request::referer());
+			}			
+
+			$this->content->where('id',$id)->data('status', 'trash')->update();
+
+			return $this->success(t('已经放入回收站'),request::referer());
 		}
+
 		return $this->error($this->content->error());
 	}
 

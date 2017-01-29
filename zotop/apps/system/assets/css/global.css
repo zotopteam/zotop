@@ -248,7 +248,7 @@ label[for]{cursor:pointer;}
 .nav-side > li.nav-parent.active > a{background-image:url(../images/plus.png);}
 .nav-side > li.nav-active.active > a{background-image:url(../images/minus.png);}
 .nav-side > li.nav-active.active > a:hover{background-image:url(../images/minus.png);}
-.nav-side > li > a > .badge{margin-top:2px;}
+.nav-side > li > a > .badge{margin-top:5px;}
 .nav-side .fa{margin-right:6px; width:16px; text-align:center;}
 .nav-side .children{list-style:none; display:none; margin:5px 0; padding:0;}
 .nav-side .children > li > a{color:#94989d; font-size:13px; display:block; padding:5px 0 5px 27px; -moz-transition:all 0.2s ease-out 0s; -webkit-transition:all 0.2s ease-out 0s; transition:all 0.2s ease-out 0s;}
@@ -491,6 +491,7 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .fa-publish:before{content:'\f058';}
 .fa-pending:before{content:'\f252';}
 .fa-draft:before{content:'\f1cd';}
+.fa-delete:before{content:'\f057';}
 
 .fa-video:before{content:'\f03d';}
 .fa-audio:before{content:'\f028';}
