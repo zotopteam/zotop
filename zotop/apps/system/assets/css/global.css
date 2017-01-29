@@ -109,7 +109,9 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 .table > tbody > tr > td .manage{font-size:13px;margin-top:8px;}
 .table > tbody > tr > td .manage s,.table > tbody > tr > td.manage s{color:#ddd;margin:0 3px;}
 .table > tbody > tr > td.manage{font-size:13px;}
+
 .table th.select,.table td.select{width:38px;text-align:center;}
+.table th.condensed,.table td.condensed{padding-left:8px;padding-right:8px;}
 
 .table > tbody > tr .hover-show{visibility:hidden;}
 .table > tbody > tr:hover .hover-show{visibility:visible;}

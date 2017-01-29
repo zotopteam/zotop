@@ -64,10 +64,9 @@
 			<tr>
 			<td class="drag"></td>
 			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-			<td class="text-center" width="40">{t('状态')}</td>
-			<td>{t('标题')}</td>
+			<td colspan="2" class="condensed">{t('标题')}</td>
+			<td class="text-center hidden-xs hidden-sm" width="40">{t('状态')}</td>
 			<td class="text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
-			<td class="text-center hidden-xs hidden-sm">{t('模型')}</td>
 			<td class="text-center hidden-xs hidden-sm">{t('栏目')}</td>
 			<td class="hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
 			</tr>
@@ -78,8 +77,10 @@
 			<tr data-id="{$r.id}" data-categoryid="{$r.categoryid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
 				<td class="drag"></td>
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-				<td class="text-center"><i class="fa fa-{$r['status']} fa-2x  text-{$r['status']}" title="{$statuses[$r['status']]}"></i></td>
-				<td >
+				<td class="text-center condensed" width="5%">
+					<i class="fa fa-{$r.modelid} {m('content.model.get',$r.modelid,'icon')} fa-2x text-{$r.modelid}" title="{m('content.model.get',$r.modelid,'name')}"></i>
+				</td>
+				<td class="condensed">
 					<p class="title" {if $r['style']}style="{$r['style']}"{/if}>					
 						{$r['title']}
 
@@ -104,9 +105,8 @@
 						{/loop}
 					</div>
 				</td>
-			
+				<td class="text-center hidden-xs hidden-sm"><i class="fa fa-{$r['status']} fa-2x  text-{$r['status']}" title="{$statuses[$r['status']]}"></i></td>			
 				<td class="text-center hidden-xs hidden-sm">{$r['hits']}</td>
-				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.model.get',$r.modelid,'name')}</div></td>
 				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
 				<td class="hidden-xs hidden-sm">
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>

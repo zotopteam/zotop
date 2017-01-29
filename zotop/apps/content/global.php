@@ -33,7 +33,7 @@ zotop::add('member.navlist','content_hook::membernavlist');
  */
 form::field('title', 'content_hook::field_title');
 form::field('summary', 'content_hook::field_summary');
-
+form::field('models', 'content_hook::field_models');
 
 /**
  * 模板标签注册

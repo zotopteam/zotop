@@ -815,13 +815,10 @@ class arr
             $implode = array();
 
             foreach ($var as $key => $value)
-            { 
-                if ( is_array($value) )
-                {
-                    $newline = "\n";
-                    $indent1 = str_repeat('     ', $level+1);
-                    $indent2 = str_repeat('     ', $level);
-                } 
+            {
+                $newline = "\n";
+                $indent1 = str_repeat('     ', intval($level));
+                $indent2 = str_repeat('     ', intval($level-1));
 
                 if ( is_int($key) )
                 {
@@ -829,7 +826,7 @@ class arr
                 }
                 else
                 {
-                    $implode[] = $indent1.var_export($key, true).'=>'.arr::export($value, $level+1);                    
+                    $implode[] = $indent1.var_export($key, true).' => '.arr::export($value, $level+1);                    
                 }
             }
             

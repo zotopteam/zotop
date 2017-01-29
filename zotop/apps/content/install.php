@@ -16,6 +16,7 @@ $this->db->dropTable('content');
 $this->db->createTable('content',array(
 	'fields'=>array(
 		'id'		=> array ( 'type'=>'int', 'length'=>10, 'notnull'=>true, 'unsigned'=>true, 'autoinc'=>true, 'comment' => t('编号') ),
+		'parentid'	=> array ( 'type'=>'int', 'length'=>10, 'default'=>'0', 'notnull'=>true, 'unsigned'=>true, 'comment' => t('父编号') ),
 		'categoryid'=> array ( 'type'=>'smallint', 'length'=>5, 'notnull'=>true, 'unsigned'=>true, 'comment' => t('分类') ),
 		'modelid'	=> array ( 'type'=>'char', 'length'=>32, 'notnull'=>true, 'comment' => t('模型ID') ),
 		'title'		=> array ( 'type'=>'varchar', 'length'=>100, 'notnull'=>true, 'comment' => t('标题') ),

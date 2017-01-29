@@ -137,7 +137,7 @@ class content_hook
 
 		if ( $content['status'] == 'delete' )
 		{
-			$menu['delete'] = array('text'=>t('彻底删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-ajax-post');
+			$menu['delete'] = array('text'=>t('彻底删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-confirm');
 		}
 		else
 		{
@@ -248,7 +248,7 @@ class content_hook
 		$html[]	= html::import(A('content.url').'/common/field.gallery.js');
 		$html[]	= html::import(A('content.url').'/common/field.gallery.css');
 
-		$html[] = '	<div class="gallery-area" id="'.$attrs['id'].'">';
+		$html[] = '<div class="gallery-area" id="'.$attrs['id'].'">';
 		$html[] = '	<div class="gallery-toolbar">';
 		$html[] = '		<a class="btn btn-icon-text upload" id="'.$attrs['id'].'-upload" href="'.U('system/upload/uploadprocess', $upload).'"><i class="icon icon-upload"></i><b>'.t('上传').'</b></a>';
 		$html[] = '		<a class="btn btn-icon-text select" href="'.U('system/upload/image', $upload).'"><i class="icon icon-image"></i><b>'.t('已上传').'</b></a>';
@@ -270,6 +270,66 @@ class content_hook
 
 		return implode("\n",$html);
 	}
+
+	/**
+	 * 多图控件
+	 *
+	 * @param $attrs array 控件参数
+	 * @return string 控件代码
+	 */
+	public static function field_models($attrs)
+	{
+		$models = m('content.model.cache');
+
+		$html[] = '<div class="field_models" id="'.$attrs['id'].'">';
+		$html[] = '	<table class="table table-border table-nowrap table-control">';
+		$html[] = '	<thead>';
+		$html[] = '		<tr>';
+		$html[] = '			<td>'.t('选择模型').'</td>';
+		$html[] = '			<td>'.t('内容页模版').'</td>';
+		$html[] = '		</tr>';			
+		$html[] = '	</thead>';		
+		$html[] = '	<tbody>';
+		
+		foreach ($models as $k=>$m)
+		{
+			if ( $m['disabled'] ) continue;
+
+			if ( is_array($attrs['value']) )
+			{
+				$m['enabled']  = $attrs['value'][$k]['enabled'];
+				$m['template'] = $attrs['value'][$k]['template'];
+			}
+			else
+			{
+				$m['enabled'] = true;
+			}			
+
+			$html[] = '		<tr>';
+			$html[] = '			<td>';
+			$html[] = '				<label>';
+			$html[] = '					<input type="checkbox" name="'.$attrs['name'].'['.$k.'][enabled]'.'" value="1" '.($m['enabled'] ? 'checked' : '').'>';
+			$html[] = '					<span title="'.$m['description'].'" data-placement="right">'.$m['name'].'</span>';
+			$html[] = '				</label>';
+			$html[] = '			</td>';
+			$html[] = '			<td>';
+			
+			if ( $m['template'] )
+			{
+				$html[] = '				'.form::field(array('type'=>'template','name'=>$attrs['name'].'['.$k.'][template]','value'=>$m['template'],'required'=>'required'));
+			}
+
+			$html[] = '			</td>';
+			$html[] = '		</tr>';
+		}
+
+		$html[] = '	</tbody>';
+		$html[] = '	</table>';
+		$html[] = '</div>';
+		$html[] = '<label for="'.$attrs['id'].'" generated="true" class="error"></label>';
+
+		return implode("\n",$html);		
+	}	
 
 	
 	/**
