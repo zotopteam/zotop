@@ -24,7 +24,7 @@ class site_hook
 			'href'   => U('site/config/index'),
 			'allow'  => Priv::allow('site'),
 			'active' => Request::is('site/*,mobile/*'),
-			'class'  => 'sitename hidden-sm'
+			'class'  => 'sitename'
 		));
 
 		return $nav;

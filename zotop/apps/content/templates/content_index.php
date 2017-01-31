@@ -65,7 +65,7 @@
 				<td colspan="2" class="title condensed">{t('标题')}</td>
 				<td class="status text-center hidden-xs hidden-sm" width="40">{t('状态')}</td>
 				<td class="hits text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
-				<td class="category hidden-xs hidden-sm">{t('分类')}</td>
+				<td class="category hidden-xs hidden-sm">{t('栏目')}</td>
 				<td class="datetime hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
@@ -77,8 +77,14 @@
 				<td class="drag"></td>
 				{/if}
 				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r.id}"></td>
-				<td class="model text-center condensed" width="5%">
+				<td class="model text-center condensed vm" width="5%">
+					{if $r.image}
+					<div class="image image-icon">
+						<img src="{$r.image width="50" height="50"}" alt="{t('缩略图')}" title="{m('content.model.get',$r.modelid,'name')}" class="img-responsive img-rounded">					
+					</div>
+					{else}
 					<i class="fa fa-{$r.modelid} {m('content.model.get',$r.modelid,'icon')} fa-2x text-{$r.modelid}" title="{m('content.model.get',$r.modelid,'name')}"></i>
+					{/if}
 				</td>
 				<td class="title condensed">
 					<p class="title" {if $r.style}style="{$r.style}"{/if}>					
@@ -86,7 +92,7 @@
 						{$r.title}
 
 						{if $r.image} 
-						<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
+						<i class="fa fa-image text-success tooltip-block hidden" data-placement="bottom">
 							<span class="tooltip-block-content"><img src="{$r.image}" class="preview"></span>
 						</i> 
 						{/if}

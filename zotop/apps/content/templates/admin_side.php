@@ -3,7 +3,7 @@
 		{A('content.name')}
 	</div><!-- side-header -->
 	<div class="side-body scrollable">
-		<ul class="nav nav-pills nav-stacked nav-side">
+		<ul class="nav nav-pills nav-stacked nav-side nav-side-tree hidden">
 
 			{loop m('content.content.status') $s $t}
 			<li {if request::is('content/content/index') and !$categoryid and $status==$s}class="active"{/if}>
@@ -15,13 +15,13 @@
 				</a>
 				
 				{if $s=='publish'}
-					<table id="tree" class="table nav-treetable hidden hidden-xs" cellspacing="0" cellpadding="0">
+					<table id="tree" class="table nav-treetable" cellspacing="0" cellpadding="0">
 						<tbody>
 							{loop m('content.category.active') $c}
 							<tr data-tt-id="a{$c.id}" {if $c.parentid !=0 }data-tt-parent-id="a{$c.parentid}"{/if} {if $categoryid==$c.id}class="active"{/if}>
 								<td class="name">
 									<a data-href="{u('content/content/index?categoryid='.$c.id.'&status='.$s)}">
-										<i class="fa {if $c.childid}fa-folder{else}fa-file{/if}"></i>{$c.name}
+										<i class="fa {if $c.childid}fa-folder{else}fa-folder{/if}"></i>{$c.name}
 									</a>
 								</td>
 							</tr>
@@ -64,8 +64,11 @@ $(function(){
 		initialState : 'collapsed', //"expanded" or "collapsed".
 		clickableNodeNames : true,
 		stringExpand: null,
-		stringCollapse: null
-	}).removeClass('hidden');
+		stringCollapse: null,
+		onInitialized:function(){
+			$('.nav-side-tree').removeClass('hidden');
+		}
+	});
 
 	{if $categoryid}
 		$("#tree").treetable("reveal", "a{$categoryid}");

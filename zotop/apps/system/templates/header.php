@@ -60,42 +60,35 @@
 								</a>		
 							</li>
 							{/loop}						
-						</ul>
-						<ul class="hidden">
-							<li><a href="{u('system/system/reboot')}" class="js-confirm"><i class="fa fa-refresh fa-fw"></i> {t('重启系统')}</a></li>
-							<li><a href="{u('system/check')}"><i class="fa fa-server fa-fw"></i> {t('系统检测')}</a></li>
-							<li class="divider" role="separator"></li>
-							<li><a href="http://www.zotop.com" target="_blank"><i class="fa fa-globe fa-fw"></i> {t('官方网站')}</a></li>					
-							<li><a href="{u('system/zotop')}"><i class="fa fa-info-circle fa-fw"></i> {t('关于zotop')}</a></li>
-						</ul>   	      				
+						</ul>	      				
 	      			</div>  			
 	      		</li>
 
                 {loop global_navbar() $r}
-                    {if is_string($r)}
-                    <li class="text hidden-xs">
-                        {$r}
-                    </li>                        
-                    {elseif $r.children}
-                    <li class="{$r.class} {if $r.active}active{/if} dropdown hidden-xs">
-                        <a href="{$r.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.text} <span class="fa fa-angle-down"></span></a>
-                        <ul class="dropdown-menu">
-                            {loop $r.children $c}
-                                {if is_array($c)}
-                                    <li class="dropdown-menu-item {$c.class}"><a href="{$c.href}">{if $c.icon}<i class="{$c.icon}"></i>{/if} {$c.text}</a></li>
-                                {elseif $m=='divider'}
-                                    <li class="divider" role="separator"></li>                                    
-                                {else}
-                                    <li class="dropdown-menu-item dropdown-menu-text">{$c}</a></li>
-                                {/if}
-                            {/loop}
-                        </ul>                    
-                    </li>               
-                    {else}
-                    <li class="{$r.class} {if $r.active}active{/if} hidden-xs">
-                        <a href="{$r.href}">{$r.text}</a>
-                    </li>                     
-                    {/if}
+                {if is_string($r)}
+                <li class="text hidden-xs">
+                    {$r}
+                </li>                        
+                {elseif $r.children}
+                <li class="{$r.class} {if $r.active}active{/if} dropdown hidden-xs">
+                    <a href="{$r.href}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{$r.text} <span class="fa fa-angle-down"></span></a>
+                    <ul class="dropdown-menu">
+                        {loop $r.children $c}
+                            {if is_array($c)}
+                                <li class="dropdown-menu-item {$c.class}"><a href="{$c.href}">{if $c.icon}<i class="{$c.icon}"></i>{/if} {$c.text}</a></li>
+                            {elseif $m=='divider'}
+                                <li class="divider" role="separator"></li>                                    
+                            {else}
+                                <li class="dropdown-menu-item dropdown-menu-text">{$c}</a></li>
+                            {/if}
+                        {/loop}
+                    </ul>                    
+                </li>               
+                {else}
+                <li class="{$r.class} {if $r.active}active{/if} hidden-xs">
+                    <a href="{$r.href}">{$r.text}</a>
+                </li>                     
+                {/if}
                 {/loop}
 
 	      	</ul>

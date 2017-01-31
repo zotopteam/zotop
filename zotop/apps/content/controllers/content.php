@@ -74,12 +74,6 @@ class content_controller_content extends admin_controller
 		if ( $status = zotop::get('status','publish') )
 		{
 			$this->content->where('status','=',$status);
-		}		
-
-		// 读取父编号
-		if ( $status == 'publish' )
-		{
-			$this->content->where('categoryid','=',$categoryid);
 		}
 		
 		// 用户

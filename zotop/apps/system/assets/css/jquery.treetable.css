@@ -4,10 +4,10 @@ table.treetable tbody tr td {cursor: default;vertical-align:middle;}
 table.treetable a{cursor:pointer;}
 table.treetable i.icon{margin:0px 5px 0 0;*margin:1px 5px 0 0;}
 table.treetable span.indenter {margin:0;padding: 0;text-align: right;user-select: none;-khtml-user-select: none;-moz-user-select: none;-o-user-select: none;-webkit-user-select: none;}
-table.treetable span.indenter a {display:inline-block;text-decoration: none;width:22px;text-align:center;}
-table.treetable tr.leaf span.indenter:before{content:'';width:22px;display: inline-block;}
-table.treetable tr.collapsed span.indenter a:before{content:'\f105';font-family:FontAwesome;font-size:20px;}
-table.treetable tr.expanded span.indenter a:before {content:'\f107';font-family:FontAwesome;font-size:20px;}
+table.treetable span.indenter a {display:inline-block;text-decoration: none;width:24px;text-align:center;}
+table.treetable tr.leaf span.indenter:before{content:'';width:24px;display: inline-block;}
+table.treetable tr.collapsed span.indenter a:before{content:'\f105';font-family:FontAwesome;}
+table.treetable tr.expanded span.indenter a:before {content:'\f107';font-family:FontAwesome;}
 table.treetable tr.expanded .fa-folder:before{content:'\f07c';}
 table.treetable tr.accept {background-color: #a3bce4;color: #fff}
 table.treetable tr.collapsed.accept td span.indenter a {color:#fff;}

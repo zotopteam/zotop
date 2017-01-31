@@ -43,7 +43,7 @@
 					</div>
 				</div>
 				{/loop}
-			</div>		
+			</div>	
 		</div>		
 
 	</div><!-- main-body -->

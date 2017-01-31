@@ -113,6 +113,7 @@ class content_model_field extends model
 				$fields[$i]['for']		= $r['name'];
 				$fields[$i]['required']	= $r['notnull'];
 				$fields[$i]['tips']		= $r['tips'];
+				$fields[$i]['base']		= $r['base'];
 
 				$fields[$i]['field']['id']			= $r['name'];
 				$fields[$i]['field']['name']		= $r['name'];
