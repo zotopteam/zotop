@@ -35,7 +35,7 @@ class content_hook
 
 			'content'=>array(
 				'text'        => A('content.name'),
-				'href'        => u('content/content'),
+				'href'        => u('content/content/index'),
 				'icon'        => A('content.url').'/app.png',
 				'description' => A('content.description'),
 				'allow'       => priv::allow('content')
@@ -74,7 +74,7 @@ class content_hook
 
 		$nav['content'] = array(
 			'text'        => t('内容'),
-			'href'        => u('content/content'),
+			'href'        => u('content/content/index'),
 			'icon'        => A('content.url').'/app.png',
 			'description' => A('content.description'),
 			'allow'       => priv::allow('content'),
@@ -143,10 +143,15 @@ class content_hook
 		{
 			$menu['delete'] = array('text'=>t('删除'),'icon'=>'fa fa-times','href'=>U('content/content/delete/'.$content['id']), 'class'=>'js-ajax-post');
 		}
-
+		
+		// 模型扩展菜单
+		if ( $extend = m('content.content.extend',$content['modelid']) )
+		{			
+			$menu = $extend->manage_menu($menu, $content);
+		}
 		
 		// hook
-		$menu = zotop::filter('content.manage_menu',$menu);
+		$menu = zotop::filter('content.manage_menu', $menu, $content);
 
 		// 格式化输出
 		$array = array();

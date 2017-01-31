@@ -9,9 +9,9 @@
 		<div class="breadcrumb">
 			<li><a href="{u('content/category')}">{t('栏目管理')}</a></li>
 			{loop $parents $p}
-			<li><a href="{u('content/category/index/'.$p['id'])}">{$p['name']}</a></li>
+			<li><a href="{u('content/category/index/'.$p.id)}">{$p.name}</a></li>
 			{/loop}
-			<li>{if $data['id']}{t('编辑')}{else}{t('添加')}{/if}</li>
+			<li>{if $data.id}{t('编辑')}{else}{t('添加')}{/if}</li>
 		</div>
 		<div class="action">
 		</div>
@@ -19,7 +19,7 @@
 
 	{form::header()}
 	<div class="main-body scrollable">
-		<input type="hidden" name="parentid" value="{$data['parentid']}">
+		<input type="hidden" name="parentid" value="{$data.parentid}">
 
 		<div class="container-fluid">
 
@@ -30,13 +30,13 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目名称'),'name',true)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'name','value'=>$data['name'],'required'=>'required'))}
+					{form::field(array('type'=>'text','name'=>'name','value'=>$data.name,'required'=>'required'))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目别名'),'alias',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'alias','name'=>'alias','value'=>$data['alias'],'data-source'=>'name'))}
+					{form::field(array('type'=>'alias','name'=>'alias','value'=>$data.alias,'data-source'=>'name'))}
 				</div>
 			</div>
 			<div class="form-group">
@@ -49,13 +49,13 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('首页模版'),'settings[template_index]',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'template','name'=>'settings[template_index]','value'=>$data['settings']['template_index']))}
+					{form::field(array('type'=>'template','name'=>'settings[template_index]','value'=>$data.settings.template_index))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('列表页模版'),'settings[template_list]',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'template','name'=>'settings[template_list]','value'=>$data['settings']['template_list']))}
+					{form::field(array('type'=>'template','name'=>'settings[template_list]','value'=>$data.settings.template_list))}
 				</div>
 			</div>
 			<div class="form-group">
@@ -74,13 +74,13 @@
 							<tr>
 								<td>
 									<label>
-										<input type="checkbox" name="settings[models][{$i}][enabled]" value="1" class="vm" {if $m['enabled']}checked="checked"{/if}/>
-										<span title="{$m['description']}" data-placement="right">{$m['name']}</span>
+										<input type="checkbox" name="settings[models][{$i}][enabled]" value="1" class="vm" {if $m.enabled}checked="checked"{/if}/>
+										<span title="{$m.description}" data-placement="right">{$m.name}</span>
 									</label>
 								</td>
 								<td>
-									{if $m['template']}
-										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m['template'],'required'=>'required'))}
+									{if $m.template}
+										{form::field(array('type'=>'template','name'=>'settings[models]['.$i.'][template]','value'=>$m.template,'required'=>'required'))}
 									{/if}
 								</td>
 							</tr>
@@ -95,19 +95,19 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目标题'),'title',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'title','value'=>$data['title']))}
+					{form::field(array('type'=>'text','name'=>'title','value'=>$data.title))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目关键词'),'keywords',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'text','name'=>'keywords','value'=>$data['keywords'],'data-source'=>'title,description'))}
+					{form::field(array('type'=>'text','name'=>'keywords','value'=>$data.keywords,'data-source'=>'title,description'))}
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目描述'),'description',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data['description'],'placeholder'=>t('合理填写有助于搜索引擎排名优化')))}
+					{form::field(array('type'=>'textarea','name'=>'description','value'=>$data.description,'placeholder'=>t('合理填写有助于搜索引擎排名优化')))}
 				</div>
 			</div>
 
@@ -116,7 +116,7 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('是否在导航显示'),'apply-setting-childs',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'settings[isnav]','value'=>$data['settings']['isnav']))}
+					{form::field(array('type'=>'bool','name'=>'settings[isnav]','value'=>$data.settings['isnav']))}
 					<div class="help-block">
 						{t('栏目是否在网站导航条显示')}
 					</div>
@@ -129,13 +129,13 @@
 				<div class="col-sm-2 control-label">{form::label(t('会员投稿'),'settings[contribute]',false)}</div>
 				<div class="col-sm-8">
 
-					{form::field(array('type'=>'radio','options'=>array(0=>t('禁止'), 1=>t('允许')),'name'=>'settings[contribute]','value'=>(int)$data['settings']['contribute']))}
+					{form::field(array('type'=>'radio','options'=>array(0=>t('禁止'), 1=>t('允许')),'name'=>'settings[contribute]','value'=>(int)$data.settings['contribute']))}
 
 					<div class="input-group" id="contribute_point">
 						<span class="input-group-addon">
 							{t('投稿积分')}
 						</span>
-						{form::field(array('type'=>'number','name'=>'settings[contribute_point]','value'=>(int)$data['settings']['contribute_point']))}
+						{form::field(array('type'=>'number','name'=>'settings[contribute_point]','value'=>(int)$data.settings['contribute_point']))}
 						<span class="input-group-addon">
 							{t('正数为增加积分，负数为扣除积分')}
 						</span>						
@@ -157,7 +157,7 @@
 			</div>
 			{/if}
 
-			{if $data['childid']}
+			{if $data.childid}
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('设置复制'),'apply-setting-childs',false)}</div>
 				<div class="col-sm-8">

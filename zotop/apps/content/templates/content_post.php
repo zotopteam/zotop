@@ -4,7 +4,7 @@
 	<div class="main-header">
 		<div class="goback"><a href="javascript:location.href=document.referrer;"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>
 		<div class="title">
-			{if $data['id']}
+			{if $data.id}
 				{t('编辑%s',m('content.model.get',$data.modelid,'name'))}
 			{else}
 				{t('添加%s',m('content.model.get',$data.modelid,'name'))}
@@ -14,31 +14,32 @@
 			<li><a href="{u('content/content')}">{t('内容管理')}</a></li>
 			
 			{loop m('content.category.getparents',$data.categoryid) $p}
-			<li><a href="{u('content/content/index/'.$p['id'].'/publish')}">{$p['name']}</a></li>
+			<li><a href="{u('content/content/index/'.$p.id.'/publish')}">{$p.name}</a></li>
 			{/loop}			
 
-			{if $data['title']}
-			<li>{$data['title']}</li>
+			{if $data.title}
+			<li>{$data.title}</li>
 			{/if}
 		</div>
 	</div><!-- main-header -->
 
-	{form::header()}
+	{form}
 	<div class="main-body scrollable">
 
-		<input type="hidden" name="id" value="{$data['id']}">
-		<input type="hidden" name="modelid" value="{$data['modelid']}">
-		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
-		<input type="hidden" name="status" value="{$data['status']}">
+		<input type="hidden" name="id" value="{$data.id}">
+		<input type="hidden" name="modelid" value="{$data.modelid}">
+		<input type="hidden" name="categoryid" value="{$data.categoryid}">
+		<input type="hidden" name="parentid" value="{$data.parentid}">
+		<input type="hidden" name="status" value="{$data.status}">
 
 		<div class="container-fluid">
 			<div class="form-horizontal">
 				{loop m('content.field.formatted',$data.modelid,$data) $f}
 				<div class="form-group">
-					<div class="col-sm-2 col-md-2 col-lg-1 control-label">{form::label($f['label'],$f['for'],$f['required'])}</div>
+					<div class="col-sm-2 col-md-2 col-lg-1 control-label">{form::label($f.label,$f.for,$f.required)}</div>
 					<div class="col-sm-10 col-md-10 col-lg-10">
-						{form::field($f['field'])}
-						{form::tips($f['tips'])}
+						{form::field($f.field)}
+						{form::tips($f.tips)}
 					</div>
 				</div>
 				{/loop}
@@ -50,14 +51,14 @@
 
 		{form::field(array('type'=>'button','value'=>t('保存并发布'),'class'=>'submit btn-success','rel'=>'publish'))}
 
-		{if $data['id']}
+		{if $data.id}
 		{form::field(array('type'=>'button','value'=>t('保存'),'class'=>'submit btn-primary','rel'=>'save'))}
 		{else}
 		{form::field(array('type'=>'button','value'=>t('保存草稿'),'class'=>'submit btn-primary','rel'=>'draft'))}
 		{/if}
 
 	</div><!-- main-footer -->
-	{form::footer()}
+	{/form}
 
 </div><!-- main -->
 

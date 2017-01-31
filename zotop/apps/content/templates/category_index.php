@@ -10,7 +10,7 @@
 			<li class="back"><a href="{u('content/category/index/'.$category.parentid)}"><i class="fa fa-angle-left"></i><span>{t('上一级')}</span></a></li>
 			<li class="root"><a href="{u('content/category')}">{$title}</a></li>
 			{loop $parents $p}
-			<li><a href="{u('content/category/index/'.$p['id'])}">{$p['name']}</a></li>
+			<li><a href="{u('content/category/index/'.$p.id)}">{$p.name}</a></li>
 			{/loop}
 		</div>
 		{/if}
@@ -40,9 +40,9 @@
 
 			{loop $data $r}
 			<tr>
-				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
 				<td class="text-center">
-					{if $r['disabled']}
+					{if $r.disabled}
 					<i class="fa fa-times-circle fa-2x text-muted"></i>
 					{else}
 					<i class="fa fa-check-circle fa-2x text-success"></i>
@@ -50,31 +50,31 @@
 				</td>				
 				<td>
 					<div class="title">
-						<a href="{u('content/category/index/'.$r['id'])}"><b>{$r['name']}</b></a>						
+						<a href="{u('content/category/index/'.$r.id)}"><b>{$r.name}</b></a>						
 					</div>
 
 					<div class="manage">
-						{if $r['disabled']}
-						<a class="js-confirm" href="{u('content/category/status/'.$r['id'])}">{t('启用')}</a>
+						{if $r.disabled}
+						<a class="js-confirm" href="{u('content/category/status/'.$r.id)}">{t('启用')}</a>
 						{else}
 
-						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
+						<a href="{$r.url}" target="_blank">{t('访问')}</a>
 						<s>|</s>
-						<a href="{u('content/category/index/'.$r['id'])}">{t('子栏目')} [ {if $r['childid']}{count(explode(',',$r['childid']))}{else}0{/if} ]</a>
+						<a href="{u('content/category/index/'.$r.id)}">{t('子栏目')} [ {if $r.childid}{count(explode(',',$r.childid))}{else}0{/if} ]</a>
 						<s>|</s>
-						<a href="{u('content/category/edit/'.$r['id'])}">{t('编辑')}</a>
+						<a href="{u('content/category/edit/'.$r.id)}">{t('编辑')}</a>
 						<s>|</s>
-						<a class="js-open" data-width="600" data-height="300" href="{u('content/category/move/'.$r['id'])}">{t('移动')}</a>
+						<a class="js-open" data-width="600" data-height="300" href="{u('content/category/move/'.$r.id)}">{t('移动')}</a>
 						<s>|</s>
-						<a class="js-confirm" href="{u('content/category/status/'.$r['id'])}">{t('禁用')}</a>
+						<a class="js-confirm" href="{u('content/category/status/'.$r.id)}">{t('禁用')}</a>
 						<s>|</s>
-						<a class="js-confirm" href="{u('content/category/delete/'.$r['id'])}">{t('删除')}</a>
+						<a class="js-confirm" href="{u('content/category/delete/'.$r.id)}">{t('删除')}</a>
 						{/if}
 					</div>
 				</td>				
-				<td class="text-center">{$r['id']}</td>
-				<td>{$r['alias']}</td>
-				<td class="text-center">{intval($r['datacount'])}</td>
+				<td class="text-center">{$r.id}</td>
+				<td>{$r.alias}</td>
+				<td class="text-center">{intval($r.datacount)}</td>
 			</tr>
 			{/loop}
 		

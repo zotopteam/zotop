@@ -44,37 +44,17 @@ class content_model_extend extends model
 		return $data;
 	}
 
-	/**
-	 * 添加数据，返回数据编号 
-	 * 
-	 * @param array &$data 待插入数据
-	 * @return int   返回数据编号
-	 */
-	public function add(&$data)
-	{
-		return $this->insert($data);
-	}
 
 	/**
-	 * 修改数据，返回数据编号
+	 * 扩展菜单
 	 * 
-	 * @param array &$data 待插入数据
-	 * @return int   返回数据编号
+	 * @param  array $menu    菜单数组
+	 * @param  array $content 内容基本数据
+	 * @return array
 	 */
-	public function edit(&$data,$id)
+	public function manage_menu($menu, $content)
 	{
-		return $this->update($data,$id);
-	}
-
-	/**
-	 * 根数数据编号删除数据
-	 * 
-	 * @param  int $id 数据编号
-	 * @return bool   删除成功或者失败
-	 */
-	public function delete($id)
-	{
-		return parent::delete($id);
-	}
+		return $menu;
+	}	
 }
 ?>

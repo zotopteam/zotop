@@ -4,15 +4,10 @@
 	</div><!-- side-header -->
 	<div class="side-body scrollable">
 		<ul class="nav nav-pills nav-stacked nav-side">
-			<li {if ZOTOP_CONTROLLER == 'content' and !$categoryid}class="active"{/if} style="display:none;">
-				<a href="{u('content/content/index')}" ><i class="fa fa-list"></i> <span>{t('内容管理')}</span></a>
-
-
-			</li>
 
 			{loop m('content.content.status') $s $t}
-			<li {if request::is('content/index') and !$categoryid and $status==$s}class="active"{/if}>
-				<a href="{u('content/content/index/0/'.$s)}">
+			<li {if request::is('content/content/index') and !$categoryid and $status==$s}class="active"{/if}>
+				<a href="{u('content/content/index?status='.$s)}">
 					<i class="fa fa-{$s}"></i> <span>{$t} </span>
 					{if $statuscount=m('content.content.statuscount', $s)}
 					<span class="badge badge-xs badge-danger pull-right">{$statuscount number="pretty"}</span>
@@ -23,10 +18,10 @@
 					<table id="tree" class="table nav-treetable hidden hidden-xs" cellspacing="0" cellpadding="0">
 						<tbody>
 							{loop m('content.category.active') $c}
-							<tr data-tt-id="a{$c['id']}" {if $c['parentid'] !=0 }data-tt-parent-id="a{$c['parentid']}"{/if} {if $categoryid==$c['id']}class="active"{/if}>
+							<tr data-tt-id="a{$c.id}" {if $c.parentid !=0 }data-tt-parent-id="a{$c.parentid}"{/if} {if $categoryid==$c.id}class="active"{/if}>
 								<td class="name">
-									<a data-href="{u('content/content/index/'.$c['id'].'/publish')}">
-										<i class="fa {if $c['childid']}fa-folder{else}fa-file{/if}"></i>{$c['name']}
+									<a data-href="{u('content/content/index?categoryid='.$c.id.'&status='.$s)}">
+										<i class="fa {if $c.childid}fa-folder{else}fa-file{/if}"></i>{$c.name}
 									</a>
 								</td>
 							</tr>

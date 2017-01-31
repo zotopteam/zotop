@@ -59,27 +59,31 @@ class content_controller_content extends admin_controller
 	/**
 	 * 内容列表
 	 * 
-	 * @param  integer $categoryid 栏目编号
-	 * @param  string  $status     状态
-	 * @param  string  $userid     用户编号
 	 * @return mixed
 	 */
-    public function action_index($categoryid=0, $status='publish', $userid=0)
+    public function action_index()
     {
-		// 获取包含子栏目的全部数据
-		if ( $categoryid and $category = $this->category->get($categoryid) )
+    	$category = array();
+
+		if ( $categoryid = zotop::get('categoryid',0) and $category = $this->category->get($categoryid))
 		{
 			$this->content->where('categoryid','in',$category['childids']);
 		}
 
 		// 状态
-		if ( $status )
+		if ( $status = zotop::get('status','publish') )
 		{
 			$this->content->where('status','=',$status);
-		}
+		}		
 
+		// 读取父编号
+		if ( $status == 'publish' )
+		{
+			$this->content->where('categoryid','=',$categoryid);
+		}
+		
 		// 用户
-		if ( $userid ) 
+		if ( $userid = zotop::get('userid',0) ) 
 		{
 			$this->content->where('userid','=',$userid);
 		}
@@ -98,11 +102,10 @@ class content_controller_content extends admin_controller
 			}
 		}
 		
-		$this->assign('title',$category['name']);
+		$this->assign('title',$category['title']);
 		$this->assign('categoryid',$categoryid);
 		$this->assign('status',$status);
 		$this->assign('category',$category);
-		$this->assign('categories',$categories);
 		$this->assign('models',$models);
 		$this->assign($dataset);
 		$this->display();
@@ -195,15 +198,23 @@ class content_controller_content extends admin_controller
 			try
 			{
 				// $categoryid 为排序所在的栏目，不是排序数据的栏目编号，获取下级全部子栏目编号，用于父栏目也可以对所有子栏目的数据进行排序
-				// $categoryids = m('content.category.get',$categoryid,'childids');
+				$categoryids = m('content.category.get',$categoryid,'childids');
 
 				// 将当前列表 $listorder 之前的数据的 listorder 全部加 1， 为拖动的数据保留出位置
-				$this->content->where('listorder','>=',$listorder)->data('listorder',array('listorder','+',1))->update();
+				$this->content
+					->where('categoryid','in',$categoryids)
+					->where('listorder','>=',$listorder)
+					->data('listorder',array('listorder','+',1))
+					->update();
 
 				// 更新拖动的数据为当前 $listorder
-				$this->content->where('id',$id)->data('listorder',$listorder)->data('stick',$stick)->update();
+				$this->content
+					->where('id',$id)
+					->data('listorder',$listorder)
+					->data('stick',$stick)
+					->update();
 
-				return $this->success(t('操作成功'),request::referer());
+				return $this->success(t('操作成功'));
 			}
 			catch (Exception $e)
 			{
@@ -221,8 +232,11 @@ class content_controller_content extends admin_controller
 	 * @param  string $modelid 模型编号
 	 * @return mixed
 	 */
-	public function action_add($categoryid, $modelid)
+	public function action_add()
 	{
+		$categoryid = zotop::get('categoryid',0);
+		$modelid  = zotop::get('modelid','category');
+
 		if ( $post = $this->post() )
 		{
 			if ( $id = $this->content->save($post) )
@@ -232,7 +246,7 @@ class content_controller_content extends admin_controller
 					return $this->success(t('保存成功'),$id);
 				}
 
-				return $this->success(t('保存成功'),u('content/content/index/'.$categoryid.'/publish'));
+				return $this->success(t('保存成功'), request::referer());
 			}
 
 			return $this->error($this->content->error());
@@ -240,8 +254,8 @@ class content_controller_content extends admin_controller
 
 		// 默认数据
 		$data = array();
-		$data['modelid'] 	= $modelid;
-		$data['categoryid'] = $categoryid;
+		$data['modelid']    = $modelid;
+		$data['categoryid']   = $categoryid;
 		$data['createtime'] = ZOTOP_TIME;
 
 		$this->assign('title',t('添加'));
@@ -262,15 +276,14 @@ class content_controller_content extends admin_controller
 		{
 			if ( $this->content->save($post) )
 			{
-				return $this->success(t('保存成功'), u('content/content/index/'.$post['categoryid'].'/publish'));
+				return $this->success(t('保存成功'), request::referer());
 			}
 
 			return $this->error($this->content->error());
 		}
 
-		// 获取当前数据，并获取“推荐到区块”的区块编号
-		$data             = $this->content->get($id);
-		$data['blockids'] = arr::column(m('block.datalist')->field('blockid')->where('dataid',$data['dataid'])->select(), 'blockid');
+		// 获取当前数据
+		$data = $this->content->get($id);
 
 		$this->assign('title',t('编辑'));
 		$this->assign('data',$data);
@@ -384,5 +397,7 @@ class content_controller_content extends admin_controller
 
 		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
 	}
+
+	
 }
 ?>

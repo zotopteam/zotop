@@ -43,37 +43,37 @@
 			<tbody>
 			{loop $data $r}
 				<tr>
-					<td class="drag"><input type="hidden" name="id[]" value="{$r['id']}"/></td>
+					<td class="drag"><input type="hidden" name="id[]" value="{$r.id}"/></td>
 					<td class="text-center">
-						{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}
+						{if $r.disabled}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}
 					</td>
 					<td>
-						<div class="title text-overflow">{$r['label']}</div>
+						<div class="title text-overflow">{$r.label}</div>
 						<div class="manage">
-							<a href="{u('content/field/edit/'.$r['id'])}">{t('修改字段')}</a>
+							<a href="{u('content/field/edit/'.$r.id)}">{t('修改字段')}</a>
 							<s>|</s>
-							{if $r['disabled']}
-							<a href="{u('content/field/status/'.$r['id'])}" class="js-confirm">{t('启用')}</a>
+							{if $r.disabled}
+							<a href="{u('content/field/status/'.$r.id)}" class="js-confirm">{t('启用')}</a>
 							{else}
-							<a href="{u('content/field/status/'.$r['id'])}" class="js-confirm">{t('禁用')}</a>
+							<a href="{u('content/field/status/'.$r.id)}" class="js-confirm">{t('禁用')}</a>
 							{/if}
 							<s>|</s>							
-							{if $r['system']}
+							{if $r.system}
 							<a href="javascript:void(0);" class="disabled">{t('删除')}</a>
 							{else}
-							<a href="{u('content/field/delete/'.$r['id'])}" class="js-confirm" data-confirm="<b>{t('您确定要删除吗？删除后将删除全部相关数据并且无法恢复！')}</b>">{t('删除')}</a>
+							<a href="{u('content/field/delete/'.$r.id)}" class="js-confirm" data-confirm="<b>{t('您确定要删除吗？删除后将删除全部相关数据并且无法恢复！')}</b>">{t('删除')}</a>
 							{/if}
 						</div>
 					</td>
-					<td>{$r['name']}</td>
+					<td>{$r.name}</td>
 					<td>
-						{if $controls[$r['control']]}<span title="{$r['control']}">{$controls[$r['control']]['name']}</span>{else}{$r['control']}{/if}
+						{if $controls[$r.control]}<span title="{$r.control}">{$controls[$r.control]['name']}</span>{else}{$r.control}{/if}
 					</td>
-					<td class="text-center">{if $r['system']}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
-					<td class="text-center">{if $r['post']}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
-					<td class="text-center">{if $r['notnull']}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
-					<td class="text-center">{if $r['unique']}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
-					<td class="text-center">{if $r['search']}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r.system}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r.post}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r.notnull}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r.unique}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
+					<td class="text-center">{if $r.search}<i class="fa fa-check-circle text-success"></i>{else}<i class="fa fa-times-circle text-muted"></i>{/if}</td>
 				</tr>
 			{/loop}
 			<tbody>

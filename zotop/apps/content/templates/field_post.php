@@ -17,11 +17,11 @@
 	<div class="main-body scrollable">
 		<div class="container-fluid">
 
-		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data['modelid'],'required'=>'required'))}
-		{form::field(array('type'=>'hidden','name'=>'system','value'=>$data['system'],'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'modelid','value'=>$data.modelid,'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'system','value'=>$data.system,'required'=>'required'))}
 
-		{form::field(array('type'=>'hidden','name'=>'type','value'=>$data['type'],'required'=>'required'))}
-		{form::field(array('type'=>'hidden','name'=>'length','value'=>$data['length'],'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'type','value'=>$data.type,'required'=>'required'))}
+		{form::field(array('type'=>'hidden','name'=>'length','value'=>$data.length,'required'=>'required'))}
 
 			<div class="form-horizontal">
 
@@ -29,14 +29,15 @@
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('控件类型'),'control',true)}</div>
 					<div class="col-sm-5">
-						{form::field(array('type'=>'select','name'=>'control','value'=>$data['control'],'options'=>m('content.field.control_options'),'class'=>'short'))}
+						{form::field(array('type'=>'select','name'=>'control','value'=>$data.control,'options'=>m('content.field.control_options'),'class'=>'short'))}
 					</div>
 				</div>
 				{/if}
+				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('标签名'),'label',true)}</div>
 					<div class="col-sm-5">
-						{form::field(array('type'=>'text','name'=>'label','value'=>$data['label'],'required'=>'required'))}
+						{form::field(array('type'=>'text','name'=>'label','value'=>$data.label,'required'=>'required'))}
 						{form::tips('可读名称，如“名称”，“地址”')}
 					</div>
 				</div>
@@ -60,7 +61,7 @@
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('默认值'),'default',false)}</div>
 					<div class="col-sm-8">
-						{form::field(array('type'=>'text','name'=>'default','value'=>$data['default']))}
+						{form::field(array('type'=>'text','name'=>'default','value'=>$data.default))}
 						{form::tips('多个默认值用英文逗号“,”隔开')}
 					</div>
 				</div>				
@@ -69,7 +70,7 @@
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('输入提示'),'tips',false)}</div>
 					<div class="col-sm-8">
-						{form::field(array('type'=>'text','name'=>'tips','value'=>$data['tips']))}
+						{form::field(array('type'=>'text','name'=>'tips','value'=>$data.tips))}
 						{form::tips('显示在字段别名下方作为表单输入提示')}
 					</div>
 				</div>
@@ -84,7 +85,7 @@
 					<div class="form-group field-notnull">
 						<div class="col-sm-2 control-label">{form::label(t('不能为空'),'notnull',false)}</div>
 						<div class="col-sm-10">
-							{form::field(array('type'=>'bool','name'=>'notnull','value'=>(int)$data['notnull']))}
+							{form::field(array('type'=>'bool','name'=>'notnull','value'=>(int)$data.notnull))}
 						</div>
 					</div>
 
@@ -94,7 +95,7 @@
 							<i class="fa fa-help" title="{t('当表单允许前台发布时是否显示并允许录入数据')}"></i>
 						</div>
 						<div class="col-sm-10">
-							{form::field(array('type'=>'bool','name'=>'post','value'=>$data['post']))}
+							{form::field(array('type'=>'bool','name'=>'post','value'=>$data.post))}
 
 						</div>
 					</div>
@@ -105,7 +106,7 @@
 							<i class="fa fa-help" title="{t('基本信息将显示在添加编辑页面的主要位置')}"></i>
 						</div>
 						<div class="col-sm-10">
-							{form::field(array('type'=>'bool','name'=>'base','value'=>$data['base']))}
+							{form::field(array('type'=>'bool','name'=>'base','value'=>$data.base))}
 						</div>
 					</div>
 
@@ -138,7 +139,7 @@
 	}
 
 	// 默认显示text相关选项
-	show_settings('{$data['control']}');
+	show_settings('{$data.control}');
 
 	// 选择字段类型并显示相关选项
 	$('[name=control]').on('change', function(){

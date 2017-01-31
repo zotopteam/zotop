@@ -102,12 +102,12 @@
                'base' => '1',
                'post' => '0',
                'search' => '0',
-               'system' => '0',
+               'system' => '1',
                'disabled' => '0'
           ),
           'keywords' => array(
                'control' => 'keywords',
-               'label' => '分类关键词',
+               'label' => '关键词',
                'name' => 'keywords',
                'type' => 'varchar',
                'length' => '100',
@@ -126,7 +126,7 @@
           ),
           'summary' => array(
                'control' => 'summary',
-               'label' => '分类描述',
+               'label' => '描述',
                'name' => 'summary',
                'type' => 'varchar',
                'length' => '1000',

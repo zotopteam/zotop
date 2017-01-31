@@ -5,7 +5,7 @@
 	<div class="main-header">
 		<div class="title">{$title}</div>
 		<div class="action">
-			<a href="{u('content/model/add')}" class="btn btn-primary btn-icon-text js-open" data-width="750px" data-height="400px">
+			<a href="{u('content/model/add')}" class="btn btn-primary btn-icon-text">
 				<i class="fa fa-plus"></i><b>{t('新建模型')}</b>
 			</a>
 
@@ -32,33 +32,33 @@
 		<tbody>
 		{loop $data $r}
 			<tr>
-				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r['id']}"></td>
+				<td class="drag">&nbsp;<input type="hidden" name="id[]" value="{$r.id}"></td>
 				<td class="center">
-					{if $r['disabled']}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}
+					{if $r.disabled}<i class="fa fa-times-circle fa-2x text-muted"></i>{else}<i class="fa fa-check-circle fa-2x text-success"></i>{/if}
 				</td>
 				<td>
-					<div class="title"><i class="fa {$r.icon} fa-fw"></i> {$r['name']} </div>
+					<div class="title"><i class="fa {$r.icon} fa-fw"></i> {$r.name} </div>
 					<div class="manage">
-						<a class="js-confirm" href="{u('content/model/status/'.$r['id'])}">{if $r['disabled']}{t('启用')}{else}{t('禁用')}{/if}</a>
+						<a href="{u('content/model/edit/'.$r.id)}">{t('设置')}</a>						
 						<s>|</s>
-						<a href="{u('content/model/edit/'.$r['id'])}" class="js-open" data-width="750px" data-height="400px">{t('设置')}</a>						
+						<a href="{u('content/field/index/'.$r.id)}">{t('字段管理')}</a>
 						<s>|</s>
-						<a href="{u('content/field/index/'.$r['id'])}">{t('字段管理')}</a>
+						<a href="{u('content/model/export/'.$r.id)}">{t('导出模型')}</a>												
 						<s>|</s>
-						<a href="{u('content/model/export/'.$r['id'])}">{t('导出')}</a>												
-						<s>|</s>
-						<a href="{u('content/model/delete/'.$r['id'])}" class="js-confirm">{t('删除')}</a>
+						<a class="js-confirm" href="{u('content/model/status/'.$r.id)}">{if $r.disabled}{t('启用')}{else}{t('禁用')}{/if}</a>
+						<s>|</s>						
+						<a href="{u('content/model/delete/'.$r.id)}" class="js-confirm">{t('删除')}</a>
 					</div>
 				</td>
-				<td>{$r['id']}</td>
-				<td class="hidden-sm">{$r['description']}</td>
+				<td>{$r.id}</td>
+				<td class="hidden-sm">{$r.description}</td>
 				<td class="hidden">					
 					{if $r.app='content'}
 						{if $r.model=='extend'} {t('扩展模型')} {else} {t('基础模型')} {/if}
 					{/if}
 				</td>				
 				
-				<td class="hidden-sm">{$r['datacount']} {t('条')}</td>
+				<td class="hidden-sm">{$r.datacount} {t('条')}</td>
 			</tr>
 		{/loop}
 		</tbody>

@@ -26,7 +26,7 @@
 		{if empty($data)}
 		<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
-			{form::header()}
+			{form referer="request::url()"}
 			<table class="table zebra list datalist" cellspacing="0" cellpadding="0">
 			<thead>
 				<tr>
@@ -39,15 +39,15 @@
 			<tbody>
 			{loop $data $r}
 				<tr>
-					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-					<td>{$r['name']}</td>
-					<td>{$r['quotes']}</td>
-					<td>{$r['hits']}</td>
+					<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r.id}"></td>
+					<td>{$r.name}</td>
+					<td>{$r.quotes}</td>
+					<td>{$r.hits}</td>
 				</tr>
 			{/loop}	
 			</tbody>
 			</table>
-			{form::footer()}
+			{/form}
 		{/if}
 	</div><!-- main-body -->
 	<div class="main-footer">

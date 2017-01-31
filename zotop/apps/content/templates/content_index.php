@@ -22,8 +22,8 @@
 			{if $status=='publish'}
 				{if count($models) < 2}
 					{loop $models $i $m}
-						<a class="btn btn-primary btn-icon-text" href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
-							<i class="fa fa-plus"></i><b>{$m['name']}</b>
+						<a class="btn btn-primary btn-icon-text" href="{u('content/content/add?categoryid='.$categoryid.'&modelid='.$m.id)}" title="{$m.description}">
+							<i class="fa fa-plus"></i><b>{$m.name}</b>
 						</a>
 					{/loop}
 				{else}
@@ -34,18 +34,14 @@
 					<ul class="dropdown-menu">
 						{loop $models $i $m}
 							<li>
-								<a href="{u('content/content/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}">
-									<i class="fa {$m.icon} fa-fw"></i>{$m['name']}
+								<a href="{u('content/content/add?categoryid='.$categoryid.'&modelid='.$m.id)}" data-placement="right" title="{$m.description}">
+									<i class="fa {$m.icon} fa-fw"></i>{$m.name}
 								</a>
 							</li>
 						{/loop}
 					</ul>
 				</div>
 				{/if}
-			{/if}			
-
-			{if $categoryid}
-			<a class="btn btn-default btn-icon-text" href="{u($category['url'])}" target="_blank" title="{t('访问栏目')}"><i class="fa fa-eye"></i><b>{t('访问')}</b></a>
 			{/if}
 
 		</div>
@@ -58,31 +54,36 @@
 		<div class="nodata">{t('暂时没有任何数据')}</div>
 		{else}
 
-		{form::header()}
+		{form referer="request::url()"}
 		<table class="table table-hover table-nowrap list sortable" id="datalist" data-categoryid="{$category.id}">
 		<thead>
 			<tr>
-			<td class="drag"></td>
-			<td class="select"><input type="checkbox" class="checkbox select-all"></td>
-			<td colspan="2" class="condensed">{t('标题')}</td>
-			<td class="text-center hidden-xs hidden-sm" width="40">{t('状态')}</td>
-			<td class="text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
-			<td class="text-center hidden-xs hidden-sm">{t('栏目')}</td>
-			<td class="hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
+				{if $categoryid}
+				<td class="drag"></td>
+				{/if}
+				<td class="select"><input type="checkbox" class="checkbox select-all"></td>
+				<td colspan="2" class="title condensed">{t('标题')}</td>
+				<td class="status text-center hidden-xs hidden-sm" width="40">{t('状态')}</td>
+				<td class="hits text-center hidden-xs hidden-sm" width="80">{t('点击')}</td>
+				<td class="category hidden-xs hidden-sm">{t('分类')}</td>
+				<td class="datetime hidden-xs hidden-sm">{t('发布者/发布时间')}</td>
 			</tr>
 		</thead>
 		<tbody>
 
 		{loop $data $r}
 			<tr data-id="{$r.id}" data-categoryid="{$r.categoryid}" data-listorder="{$r.listorder}" data-stick="{$r.stick}" >
+				{if $categoryid}
 				<td class="drag"></td>
-				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r['id']}"></td>
-				<td class="text-center condensed" width="5%">
+				{/if}
+				<td class="select"><input type="checkbox" class="checkbox" name="id[]" value="{$r.id}"></td>
+				<td class="model text-center condensed" width="5%">
 					<i class="fa fa-{$r.modelid} {m('content.model.get',$r.modelid,'icon')} fa-2x text-{$r.modelid}" title="{m('content.model.get',$r.modelid,'name')}"></i>
 				</td>
-				<td class="condensed">
-					<p class="title" {if $r['style']}style="{$r['style']}"{/if}>					
-						{$r['title']}
+				<td class="title condensed">
+					<p class="title" {if $r.style}style="{$r.style}"{/if}>					
+
+						{$r.title}
 
 						{if $r.image} 
 						<i class="fa fa-image text-success tooltip-block" data-placement="bottom">
@@ -105,19 +106,21 @@
 						{/loop}
 					</div>
 				</td>
-				<td class="text-center hidden-xs hidden-sm"><i class="fa fa-{$r['status']} fa-2x  text-{$r['status']}" title="{$statuses[$r['status']]}"></i></td>			
-				<td class="text-center hidden-xs hidden-sm">{$r['hits']}</td>
-				<td class="text-center hidden-xs hidden-sm"><div class="textflow">{m('content.category.get',$r.categoryid,'name')}</div></td>
-				<td class="hidden-xs hidden-sm">
+				<td class="status text-center hidden-xs hidden-sm"><i class="fa fa-{$r.status} fa-2x text-{$r.status}" title="{$statuses[$r.status]}"></i></td>			
+				<td class="hits text-center hidden-xs hidden-sm">{$r.hits}</td>
+				<td class="category hidden-xs hidden-sm" width="100px">
+					<div class="text-overflow">{m('content.category.get',$r.categoryid,'name')}</div>
+				</td>
+				<td class="datetime hidden-xs hidden-sm">
 					<div class="userinfo" role="{$r.userid}">{m('system.user.get', $r.userid, 'username')}</div>
-					<div class="f12 time">{format::date($r['createtime'])}</div>
+					<div class="time">{$r.createtime date="datetime"}</div>
 				</td>
 			</tr>
 		{/loop}
 		
 		</tbody>
 		</table>
-		{form::footer()}
+		{/form}
 
 		{/if}
 	</div><!-- main-body -->
@@ -136,7 +139,6 @@
 			<a class="btn btn-default operate" href="{u('content/content/operate/move')}" rel="move">{t('移动')}</a>
 			<a class="btn btn-default operate" href="{u('content/content/operate/delete')}" rel="delete">{t('删除')}</a>
 		{/if}
-
 	</div><!-- main-footer -->
 
 </div><!-- main -->
@@ -179,7 +181,6 @@ $(function(){
 					ok:function(categoryid){
 						if ( categoryid ){
 							data.push({name:'categoryid',value:categoryid});
-							$.loading();
 							$.post(href,$.param(data),function(msg){
 								if( msg.state ){
 									$dialog.close();
@@ -193,7 +194,6 @@ $(function(){
 				},true);
 
 			} else {
-				$.loading();
 				$.post(href,$.param(data),function(msg){
 					$.msg(msg);
 				},'json');
@@ -225,7 +225,6 @@ $(function(){
 
 		//zotop.debug(oldindex+'---'+newindex+'--'+ neworder +'--'+ newstick);
 
-		$.loading();
 		$.post('{u('content/content/listorder')}',{categoryid:tr.closest('table').data('categoryid'),id:tr.data('id'),listorder:neworder,stick:newstick},function(data){
 			$.msg(data);
 		},'json');		

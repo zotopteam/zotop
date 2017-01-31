@@ -117,12 +117,14 @@ class form
         $form['method']  = $form['method'] ? $form['method'] : 'post';
         $form['action']  = $form['action'] ? $form['action'] : request::url();
 
-        //dd($form['data']);
+        // 表单referer
+        $referer = arr::pull($form,'referer');
+        $referer = $referer ? $referer : request::referer();
 
-        // 处理表单绑定数据
+        // 表单绑定数据
         self::$data = arr::pull($form,'data');
 
-		return '<form'.form::attributes($form).' novalidate>'."\n".'<input type="hidden" name="referer" value="'.request::referer().'">'."\n";
+		return '<form'.form::attributes($form).' novalidate>'."\n".'<input type="hidden" name="referer" value="'.$referer.'">'."\n";
     }
 
     /**

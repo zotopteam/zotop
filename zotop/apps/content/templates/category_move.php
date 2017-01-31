@@ -3,12 +3,12 @@
 {form::header()}
 	<table id="tree" class="table table-hover table-nowrap table-border list hidden">
 		<tbody>
-			<tr data-tt-id="0" {if $category['parentid'] == 0}class="selected"{/if}>
+			<tr data-tt-id="0" {if $category.parentid == 0}class="selected"{/if}>
 				<td class="name"><i class="icon icon-folder"></i>{t('根栏目')}</td>
 			</tr>
 			{loop m('content.category.active') $c}
-					<tr data-tt-id="{$c['id']}" data-tt-parent-id="{$c['parentid']}" {if $category['parentid'] == $c['id']}class="selected"{/if}>
-						<td class="name"><i class="icon {if $c['childid']}icon-folder{else}icon-item{/if}"></i>{$c['name']}</td>
+					<tr data-tt-id="{$c.id}" data-tt-parent-id="{$c.parentid}" {if $category.parentid == $c.id}class="selected"{/if}>
+						<td class="name"><i class="icon {if $c.childid}icon-folder{else}icon-item{/if}"></i>{$c.name}</td>
 					</tr>
 			{/loop}
 		</tbody>
@@ -53,6 +53,6 @@
 		return false;
 	};
 
-	$dialog.title('{t('移动 %s 到选中栏目下',$category['name'])}');
+	$dialog.title('{t('移动 %s 到选中栏目下',$category.name)}');
 </script>
 {template 'dialog.footer.php'}

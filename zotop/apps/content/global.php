@@ -1,7 +1,8 @@
 <?php
 //注册类库
 zotop::register(array(
-	'content_hook'		=>	ZOTOP_PATH_APPS.DS.'content'.DS.'libraries'.DS.'hook.php',
+    'content_hook'         => ZOTOP_PATH_APPS.DS.'content'.DS.'libraries'.DS.'hook.php',
+    'content_model_extend' => ZOTOP_PATH_APPS.DS.'content'.DS.'models'.DS.'extend.php',
 ));
 
 /**

@@ -160,6 +160,7 @@ class content_controller_model extends admin_controller
 		{
 			return $this->success(t('删除成功'),request::referer());
 		}
+
 		return $this->error($this->model->error());
 	}
 
@@ -221,7 +222,5 @@ class content_controller_model extends admin_controller
 
 		return $this->error($upload->error);
 	}
-
-
 }
 ?>

@@ -21,20 +21,20 @@
 	</div><!-- main-header -->
 	<div class="main-body scrollable">
 
-		<input type="hidden" name="id" value="{$data['id']}">
-		<input type="hidden" name="app" value="{$data['app']}">
-		<input type="hidden" name="modelid" value="{$data['modelid']}">
-		<input type="hidden" name="categoryid" value="{$data['categoryid']}">
-		<input type="hidden" name="status" value="{$data['status']}">
+		<input type="hidden" name="id" value="{$data.id}">
+		<input type="hidden" name="app" value="{$data.app}">
+		<input type="hidden" name="modelid" value="{$data.modelid}">
+		<input type="hidden" name="categoryid" value="{$data.categoryid}">
+		<input type="hidden" name="status" value="{$data.status}">
 
-		{template $data['app'].'/contribute_post_'.$data['modelid'].'.php'}
+		{template $data.app.'/contribute_post_'.$data.modelid.'.php'}
 
 	</div><!-- main-body -->
 	<div class="main-footer">
 
 		{form::field(array('type'=>'button','value'=>t('保存并发布'),'class'=>'submit btn-highlight','rel'=>'publish'))}
 
-		{if $data['id']}
+		{if $data.id}
 		{form::field(array('type'=>'button','value'=>t('保存'),'class'=>'submit btn-primary','rel'=>'save'))}
 		{else}
 		{form::field(array('type'=>'button','value'=>t('保存草稿'),'class'=>'submit btn-primary','rel'=>'draft'))}

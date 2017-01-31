@@ -14,14 +14,14 @@
 
 	<div class="main-header">
 		<div class="title">
-			{if $keywords} {t('搜索 "%s"',$keywords)} {elseif $categoryid}	{$category['name']}	{else} {$title} {/if}
+			{if $keywords} {t('搜索 "%s"',$keywords)} {elseif $categoryid}	{$category.name}	{else} {$title} {/if}
 		</div>
 		<div class="action">
 			{if count($postmodels) < 4}
 
 				{loop $postmodels $i $m}
-					<a class="btn btn-highlight btn-icon-text" href="{u('content/contribute/add/'.$categoryid.'/'.$m['id'])}" title="{$m['description']}">
-						<i class="icon icon-add"></i><b>{$m['name']}</b>
+					<a class="btn btn-highlight btn-icon-text" href="{u('content/contribute/add/'.$categoryid.'/'.$m.id)}" title="{$m.description}">
+						<i class="icon icon-add"></i><b>{$m.name}</b>
 					</a>
 				{/loop}
 
@@ -31,7 +31,7 @@
 				<div class="dropmenu">
 					<div class="dropmenulist">
 						{loop $postmodels $i $m}
-							<a href="{u('content/contribute/add/'.$categoryid.'/'.$m['id'])}" data-placement="right" title="{$m['description']}">{t('添加%s',$m['name'])}</a>
+							<a href="{u('content/contribute/add/'.$categoryid.'/'.$m.id)}" data-placement="right" title="{$m.description}">{t('添加%s',$m.name)}</a>
 						{/loop}
 					</div>
 				</div>
@@ -60,28 +60,28 @@
 		{loop $data $r}
 			<tr>
 				<td>
-					<div class="title textflow" {if $r['style']}style="{$r['style']}"{/if}>
-					{$r['title']}{if $r['thumb']}<i class="icon icon-image" data-src="{$r['thumb']}"></i>{/if}
+					<div class="title textflow" {if $r.style}style="{$r.style}"{/if}>
+					{$r.title}{if $r.thumb}<i class="icon icon-image" data-src="{$r.thumb}"></i>{/if}
 					</div>
 					<div class="manage">
 
 
-						<a href="{u('content/contribute/edit/'.$r['id'])}">{t('编辑')}</a>
+						<a href="{u('content/contribute/edit/'.$r.id)}">{t('编辑')}</a>
 						<s></s>
 
-						<a href="{$r['url']}" target="_blank">{t('访问')}</a>
+						<a href="{$r.url}" target="_blank">{t('访问')}</a>
 						<s></s>
 
 						{zotop::run('content.manage',$r)}
-						<a class="dialog-confirm" href="{u('content/contribute/delete/'.$r['id'])}">{t('删除')}</a>
+						<a class="dialog-confirm" href="{u('content/contribute/delete/'.$r.id)}">{t('删除')}</a>
 					</div>
 				</td>
-				<td><i class="icon icon-{$r['status']} {$r['status']}"></i> {$statuses[$r['status']]}</td>
-				<td>{$r['hits']}</td>
+				<td><i class="icon icon-{$r.status} {$r.status}"></i> {$statuses[$r.status]}</td>
+				<td>{$r.hits}</td>
 				{if !$categoryid}
-				<td><div class="textflow">{$categorys[$r['categoryid']]['name']}</div></td>
+				<td><div class="textflow">{$categorys[$r.categoryid]['name']}</div></td>
 				{/if}
-				<td>{format::date($r['createtime'])}</td>
+				<td>{format::date($r.createtime)}</td>
 			</tr>
 		{/loop}
 		{/if}

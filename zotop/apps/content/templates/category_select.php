@@ -7,8 +7,8 @@
 				<td class="name"><i class="fa fa-folder fa-fw text-primary"></i> {t('根栏目')}</td>
 			</tr>
 			{loop m('content.category.active') $c}
-					<tr data-tt-id="{$c['id']}" data-tt-parent-id="{$c['parentid']}" {if $id == $c['id']}class="selected"{/if}>
-						<td class="name"><i class="fa {if $c['childid']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$c['name']}</td>
+					<tr data-tt-id="{$c.id}" data-tt-parent-id="{$c.parentid}" {if $id == $c.id}class="selected"{/if}>
+						<td class="name"><i class="fa {if $c.childid}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$c.name}</td>
 					</tr>
 			{/loop}
 		</tbody>

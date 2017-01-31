@@ -46,6 +46,7 @@ class content_model_model extends model
 			}
 
 			$this->cache(true);
+
 			return $id;
 		}
 
@@ -144,11 +145,16 @@ class content_model_model extends model
 
 			$this->field = m('content.field');
 
+			$system_fields = arr::column($this->field->system_fields,'name');
+
 			$listorder = 1;
 
 			foreach ($data['fields'] as $name=>$field)
 			{
-				if ( !$field['system'] )
+				$name = strtolower($name);
+
+				// 真实系统字段（zotop_content表）不会被扩展
+				if ( !in_array($name, $system_fields) )
 				{
 					$extendfield[$name] = $this->field->fielddata($field);
 				}
@@ -164,7 +170,7 @@ class content_model_model extends model
 			if ( count($extendfield) > 1 )
 			{
 				$tablename 	= "content_model_{$data['id']}";
-				$schema 	= array('fields'=>$extendfield,'index'=> array(),'unique'	=> array(),'primary'=> array('id'),'comment'=> $data['name']);
+				$schema 	= array('fields'=>$extendfield,'index'=>array(),'unique'=>array(),'primary'=>array('id'),'comment'=>$data['name']);
 
 				if ( $this->db->existsTable($tablename) )
 				{
@@ -276,7 +282,7 @@ class content_model_model extends model
 
 		$disabled = $data['disabled'] ? 0 : 1;
 
-		if ( in_array($id, array('page','link')) )
+		if ( in_array($id, array('category','page','link')) )
 		{
 			return $this->error(t('该模型不能被禁用'));
 		}
