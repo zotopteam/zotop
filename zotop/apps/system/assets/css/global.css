@@ -116,7 +116,7 @@ a.disabled,a[disabled]{cursor:not-allowed;color:#999;}
 
 .table th.select,.table td.select{width:38px;text-align:center;}
 .table th.condensed,.table td.condensed{padding-left:8px;padding-right:8px;}
-.table th.datetime,.table td.datetime{width:140px;}
+.table th.datetime,.table td.datetime{width:180px;}
 
 .table > tbody > tr .hover-show{visibility:hidden;}
 .table > tbody > tr:hover .hover-show{visibility:visible;}
@@ -285,7 +285,7 @@ label[for]{cursor:pointer;}
 
 /*页面样式*/
 html{height:100%;overflow:hidden;}
-body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;line-height:180%;padding-top:50px;width:100%;height:100%;overflow:hidden;}
+body{font-family:"Helvetica Neue",Helvetica,Microsoft Yahei,Hiragino Sans GB,WenQuanYi Micro Hei,sans-serif;line-height:180%;padding-top:50px;height:100%;overflow:hidden;}
 
 .hide{display:none;}
 .show{display:block;}
@@ -331,10 +331,9 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 .global-navbar .dropdown-menu-right:before{left:auto;right:14px;}
 .global-navbar .dropdown-menu-right:after{left:auto;right:15px;}
 
-.global-navbar .dropdown-start ul {padding:0;margin:0;width:600px;max-height:430px;}
-.global-navbar .dropdown-start ul li{height:100px;width:16.6666%;margin:0;padding:0;text-align:center;display:inline-block;float:left;}
-
-
+.global-navbar .dropdown-start .shortcuts {width:600px;max-height:430px;}
+.global-navbar .dropdown-start .shortcuts ul{padding:0;margin:0;float:left;}
+.global-navbar .dropdown-start .shortcuts ul li{height:100px;width:16.6666%;text-align:center;float:left;}
 
 .global-navbar.pull-right > li > a{font-size:14px;}
 

@@ -44,23 +44,25 @@
 	      		<li class="brand dropdown">
 	      			<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{t('逐涛内容管理系统')}</a>
 	      			<div class="dropdown-menu dropdown-start">
-						<ul class="scrollable">
-							{loop global_start() $s}
-							<li>
-								<a href="{$s.href}" class="shortcut shortcut-thumb" title="<h4>{$s.text}</h4><h5>{$s.description}</h5>" data-placement="right">
-									<div class="shortcut-icon">
-										<img src="{$s.icon}">
-										{if isset($s.badge)}
-										<b class="shortcut-badge badge badge-xs badge-danger">{$s.badge}</b>
-										{/if}									
-									</div>
-									<div class="shortcut-text">
-										<h2>{$s.text}</h2>
-									</div>								
-								</a>		
-							</li>
-							{/loop}						
-						</ul>	      				
+                        <div class="shortcuts scrollable">
+    						<ul>
+    							{loop global_start() $s}
+    							<li>
+    								<a href="{$s.href}" class="shortcut shortcut-thumb" title="<h4>{$s.text}</h4><h5>{$s.description}</h5>" data-placement="right">
+    									<div class="shortcut-icon">
+    										<img src="{$s.icon}">
+    										{if isset($s.badge)}
+    										<b class="shortcut-badge badge badge-xs badge-danger">{$s.badge}</b>
+    										{/if}									
+    									</div>
+    									<div class="shortcut-text">
+    										<h2>{$s.text}</h2>
+    									</div>								
+    								</a>		
+    							</li>
+    							{/loop}						
+    						</ul>
+                        </div>      				
 	      			</div>  			
 	      		</li>
 
@@ -148,4 +150,4 @@
 {/if}	
 </header>
 
-<section class="global-body scrollable">
+<section class="global-body">
