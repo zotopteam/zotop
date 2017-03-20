@@ -13,24 +13,25 @@ class block_model_datalist extends model
 	protected $pk = 'id';
 	protected $table = 'block_datalist';
 
-	public $statuses = array();
+    /**
+     * 状态
+     *
+     * @param  string $s 传递具体状态值将获得该状态的名称
+     * @return mixed
+     */
+    public function status($s='')
+    {
+        $status = zotop::filter('block.datalist.status',array(
+			'publish'	=> t('已发布'),
+			//'pending'	=> t('待审'),
+			//'reject'	=> t('退稿'),
+			//'draft'		=> t('草稿'),
+			'history'	=> t('历史记录'),
+			//'trash'		=> t('回收'),
+        ));
 
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->statuses = array
-		(
-			'publish'	=> t('发布'),
-			'pending'	=> t('待审'),
-			'reject'	=> t('退稿'),
-			'draft'		=> t('草稿'),
-			'history'	=> t('历史'),
-			'trash'		=> t('回收'),
-		);
-	}
-
+        return $s ? $status[$s] : $status;
+    }
 
     /**
      * 根据编号获取发布数据列表，用于区块维护显示

@@ -3,18 +3,26 @@
 
 <div class="main side-main">
 	<div class="main-header">
+		<div class="goback"><a href="{U('block/admin/index/'.$category.id)}"><i class="fa fa-angle-left"></i><span>{$block.name}</span></a></div>
+
 		<div class="title">{$title}</div>
 		<ul class="breadcrumb hidden">
 			<li><a href="{u('block/admin/index/'.$categoryid)}">{$category.name}</a></li>
 			<li>{t('内容维护')}</li>		
 		</ul>	
 		<div class="action">
+			<a class="btn btn-default btn-icon-text js-open" href="{u('block/index/preview/'.$block['id'])}" data-width="800px" data-height="400px">
+				<i class="fa fa-eye"></i><b>{t('预览')}</b>
+			</a>		
 			<a class="btn btn-primary btn-icon-text js-open" href="{u('block/datalist/add/'.$block['id'])}" data-width="800px" data-height="400px">
 				<i class="fa fa-plus"></i><b>{t('添加')}</b>
 			</a>
-			<a class="btn btn-default btn-icon-text js-open" href="{u('block/index/preview/'.$block['id'])}" data-width="800px" data-height="400px">
-				<i class="fa fa-eye"></i><b>{t('预览')}</b>
+			<a class="btn btn-success btn-icon-text js-open" href="{u('content/content/select_block/'.$block['id'])}" data-width="80%" data-height="80%">
+				<i class="fa fa-eyedropper"></i><b>{t('选取')}</b>
 			</a>
+			<a class="btn btn-default btn-icon-text" href="{u('block/datalist/history/'.$block['id'])}">
+				<i class="fa fa-history"></i><b>{t('历史记录')}</b>
+			</a>					
 			<a class="btn btn-default btn-icon-text" href="{u('block/admin/edit/'.$block['id'])}">
 				<i class="fa fa-cog"></i><b>{t('设置')}</b>
 			</a>
@@ -53,7 +61,7 @@
 									<div class="tooltip-block-content"><img src="{$r.data.image}" class="preview"></div>
 								</i> 
 							{/if}								
-							{if $r.dataid}<i class="fa fa-share text-success" title="{t('关联数据')}"></i> {/if}
+							{if $r.dataid}<i class="fa fa-share-alt text-success" title="{t('关联数据')}"></i> {/if}
 							{if $r.stick}<i class="fa fa-arrow-up text-success" title="{t('已置顶')}"></i> {/if}
 						</div>
 					</td>
@@ -81,7 +89,6 @@
 		{else}
 		<div class="nodata">{t('暂时没有任何数据')}</div>
 		{/if}
-		
 
 	</div><!-- main-body -->
 	<div class="main-footer">

@@ -392,6 +392,59 @@ class content_controller_content extends admin_controller
 		exit($count ? '"'.t('已经存在，请重新输入').'"' : 'true');
 	}
 
-	
+	/**
+	 * 选取
+	 *
+	 * @param int $categoryid
+     * @return void
+	 */
+    public function action_select_block($blockid)
+    {
+		if ( $post = $this->post() )
+		{
+			if ( empty($post['id']) )
+			{
+				return $this->error(t('请选择要操作的项'));
+			}
+
+			$return   = array();
+			$datalist = $this->content->where('id','in',$post['id'])->full_url(false)->select();
+
+			foreach($datalist as $id=>$data)
+			{
+				$return[$id]['app']     = 'content';
+				$return[$id]['dataid']  = $data['dataid'];				
+				$return[$id]['blockid'] = $blockid;
+				$return[$id]['data']    = 	array(
+					'title'                 => $data['title'],
+					'style'                 => $data['style'],
+					'url'                   => $data['url'],
+					'image'                 => $data['image'],
+					'description'           => $data['summary'],
+					'time'                  => $data['createtime']
+				);
+			}
+
+			exit(json_encode($return));
+		}
+
+		// 应用数据
+		$block = m('block.block')->get($blockid);
+
+
+		if ( $keywords = $_REQUEST['keywords'] )
+		{
+			$this->content->where(array(array('title','like',$keywords),'or',array('keywords','like',$keywords)));
+		}
+
+		// 获取数据集
+		$dataset = $this->content->where('status','=','publish')->orderby('stick','desc')->orderby('listorder','desc')->paginate();		
+
+		$this->assign('title',t('选取内容'));
+		$this->assign('block',$block);
+		$this->assign('keywords',$keywords);
+		$this->assign($dataset);
+		$this->display('content/content_select_block.php');
+    }			
 }
 ?>

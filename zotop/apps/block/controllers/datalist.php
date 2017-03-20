@@ -143,24 +143,31 @@ class block_controller_datalist extends admin_controller
 	 * 历史记录数据源
 	 *
 	 */
-	public function action_historydata()
+	public function action_history($blockid)
 	{
-		@extract($_GET);
+		if ( $keywords = $_REQUEST['keywords'] )
+		{
+			$this->datalist->where('data','like',$keywords);
+		}		
 
-		$dataset = $this->datalist->where('blockid',$blockid)->where('status','history')->orderby('id','desc')->paginate($page, $pagesize);
+		$dataset = $this->datalist->where('blockid',$blockid)->where('status','history')->orderby('id','desc')->paginate();
 
 		//格式化数据
 		foreach ($dataset['data'] as &$data)
 		{
-			$data['url']	= $data['url'] ? U($data['url']) : ''; 
-			$data['manage'] = array(
-				'back' 		=> U('block/datalist/back/'.$data['id']),
-				'edit' 		=> U('block/datalist/edit/'.$data['id']),
-				'delete' 	=> U('block/datalist/delete/'.$data['id']),
-			);
+			$data['data'] = (array)unserialize($data['data']);
+			$data['data']['url']	= $data['data']['url'] ? U($data['data']['url']) : '';
 		}
 
-		exit(json_encode($dataset));
+		// 应用数据
+		$block = $this->block->get($data['blockid']);
+
+		$this->assign('title',t('历史记录'));		
+		$this->assign('block',$block);
+		$this->assign('categoryid',$block['categoryid']);
+		$this->assign('keywords',$keywords);
+		$this->assign($dataset);
+		$this->display('block/datalist_history.php');
 	}
 
 
@@ -178,6 +185,41 @@ class block_controller_datalist extends admin_controller
 		}
 
 		return $this->error($this->datalist->error());		
-	}		
+	}
+
+	/**
+	 * 选取
+	 *
+	 * @param int $categoryid
+     * @return void
+	 */
+    public function action_insert($blockid)
+    {
+		if ( $post = $this->post() )
+		{
+			// 应用数据
+			$block = $this->block->get($blockid);
+
+			// 插入的多条数据
+			foreach ((array)$post['datalist'] as $data)
+			{
+				$data['updatetime'] = ZOTOP_TIME ;
+				$data['status']     = $data['status'] ? $data['status'] : 'publish';
+				$data['userid']     = zotop::user('id');
+				$data['listorder']  = $this->datalist->where('blockid',$data['blockid'])->max('listorder') + 1;
+
+				$this->datalist->insert($data);
+			}
+
+			$this->datalist->updatedata($blockid);
+
+			if ( $this->datalist->error() )
+			{
+				return $this->error($this->datalist->error());
+			}
+
+			return $this->success(t('插入成功'));
+		}
+    }	
 }
 ?>

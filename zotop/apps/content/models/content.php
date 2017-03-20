@@ -13,6 +13,8 @@ class content_model_content extends model
     protected $pk = 'id';
     protected $table = 'content';
 
+    protected $full_url = true;
+
     /**
      * 内容状态
      *
@@ -53,6 +55,19 @@ class content_model_content extends model
     }
 
     /**
+     * 是否为完整链接
+     * 
+     * @param  boolean $full_url [description]
+     * @return [type]            [description]
+     */
+    public function full_url($full_url=true)
+    {
+        $this->full_url = $full_url;
+
+        return $this;
+    }
+
+    /**
      * 获取数据
      *
      * @return array
@@ -63,7 +78,8 @@ class content_model_content extends model
 
         foreach ($data as &$d)
         {
-            $d['url'] = $this->url($d['id'], $d['alias'], $d['url']);
+            $d['url']    = $this->url($d['id'], $d['alias'], $d['url'], $this->full_url);
+            $d['dataid'] = "content-{$d['id']}";
         }
 
         return $data;
