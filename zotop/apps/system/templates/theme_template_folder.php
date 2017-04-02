@@ -1,4 +1,5 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
 	{form::header()}
 
@@ -13,7 +14,8 @@
 			</div>
 
 	{form::footer()}
-
+	
+</div>
 <script type="text/javascript">
 	// 对话框设置
 	$dialog.callbacks['ok'] = function(){

@@ -41,7 +41,7 @@
 <body class="{ZOTOP_APP}-{ZOTOP_CONTROLLER}-{ZOTOP_ACTION} body-dialog">
 {hook 'admin.header'}
 
-<div class="global-body scrollable">
+<div class="global-body">
     
 
 

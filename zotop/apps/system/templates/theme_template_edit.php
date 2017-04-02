@@ -1,9 +1,11 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
-{form}
-	{field type="template_editor" name="content" value="$content"}
-{/form}
+	{form}
+		{field type="template_editor" name="content" value="$content"}
+	{/form}
 
+</div>
 <style>
 .body-dialog .form{padding:0;margin:0;height:100%;position:relative;}
 

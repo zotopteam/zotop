@@ -1,4 +1,5 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
 	{form data="$data"}
 
@@ -12,6 +13,8 @@
 		</div>
 
 	{/form}
+
+</div>
 
 <script type="text/javascript">
 	// 对话框设置

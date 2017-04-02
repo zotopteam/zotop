@@ -1,5 +1,6 @@
 {template 'dialog.header.php'}
 
+<div class="main scrollable">
 {form data="$data"}
 
 	{loop $block.fields $k $f}
@@ -24,6 +25,7 @@
 	{field type="hidden" name="dataid" required="required"}
 
 {/form}
+</div>
 
 <script type="text/javascript">
 

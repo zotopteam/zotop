@@ -1,4 +1,5 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
 	{form::header()}
 
@@ -63,27 +64,29 @@
 
 	{form::footer()}
 
-	<script type="text/javascript">
+</div>
 
-		// 对话框设置
-		$dialog.callbacks['ok'] = function(){
-			$('form.form').submit();
-			return false;
-		};
+<script type="text/javascript">
 
-		$(function(){
-			$('form.form').validate({submitHandler:function(form){
-				var action = $(form).atdiv('action');
-				var data = $(form).serialize();
-				$.loading();
-				$.post(action, data, function(msg){
-					if( msg.state ){
-						$dialog.close();
-					}
-					$.msg(msg);
-				},'json');
-			}});
-		});
-	</script>
+	// 对话框设置
+	$dialog.callbacks['ok'] = function(){
+		$('form.form').submit();
+		return false;
+	};
+
+	$(function(){
+		$('form.form').validate({submitHandler:function(form){
+			var action = $(form).atdiv('action');
+			var data = $(form).serialize();
+			$.loading();
+			$.post(action, data, function(msg){
+				if( msg.state ){
+					$dialog.close();
+				}
+				$.msg(msg);
+			},'json');
+		}});
+	});
+</script>
 	
 {template 'dialog.footer.php'}

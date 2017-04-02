@@ -1,19 +1,22 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
-{form}
-	<table id="tree" class="table table-hover table-nowrap table-border list hidden">
-		<tbody>
-			<tr data-tt-id="0">
-				<td class="name"><i class="fa fa-folder fa-fw text-primary"></i> {t('根栏目')}</td>
-			</tr>
-			{loop m('content.category.active') $c}
-					<tr data-tt-id="{$c.id}" data-tt-parent-id="{$c.parentid}" {if $id == $c.id}class="selected"{/if}>
-						<td class="name"><i class="fa {if $c.childid}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$c.name}</td>
-					</tr>
-			{/loop}
-		</tbody>
-	</table>
-{/form}
+	{form}
+		<table id="tree" class="table table-hover table-nowrap table-border list hidden">
+			<tbody>
+				<tr data-tt-id="0">
+					<td class="name"><i class="fa fa-folder fa-fw text-primary"></i> {t('根栏目')}</td>
+				</tr>
+				{loop m('content.category.active') $c}
+						<tr data-tt-id="{$c.id}" data-tt-parent-id="{$c.parentid}" {if $id == $c.id}class="selected"{/if}>
+							<td class="name"><i class="fa {if $c.childid}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$c.name}</td>
+						</tr>
+				{/loop}
+			</tbody>
+		</table>
+	{/form}
+
+</div>
 
 <link rel="stylesheet" type="text/css" href="{A('system.url')}/assets/css/jquery.treetable.css"/>
 <script type="text/javascript" src="{A('system.url')}/assets/js/jquery.treetable.js"></script>

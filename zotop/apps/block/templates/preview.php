@@ -1,8 +1,9 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
-<div class="preview clearfix">	
-
-{template $template}
+    <div class="preview clearfix">
+    {template $template}
+    </div>
 
 </div>
 

@@ -1,26 +1,28 @@
 {template 'dialog.header.php'}
+<div class="main scrollable">
 
-{form::header()}
-	<table id="tree" class="table table-hover hidden" cellspacing="0" cellpadding="0">
-		<thead>
-			<tr>
-			<th class="select">&nbsp;</th>
-			<th class="w400">{t('权限名称')}</th>
-			<th>{t('权限标识')}</td>
-			</tr>
-		</thead>
-		<tbody>
-		{loop $dataset $data}
-			<tr data-tt-id="{$data['id']}" {if $data['parentid']}data-tt-parent-id="{$data['parentid']}"{/if}>
-				<td class="select center"><input type="checkbox" class="select" name="id[]" value="{$data['id']}" {$data['status']}/></td>
-				<td class="name"><i class="fa {if $data['_child']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$data['name']}</td>
-				<td>{$data['app']}{if !empty($data['controller'])}/{$data['controller']}{/if}{if !empty($data['action'])}/{$data['action']}{/if}</td>
-			</tr>
-		{/loop}
-		</tbody>
-	</table>
-{form::footer()}
+	{form::header()}
+		<table id="tree" class="table table-hover hidden" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+				<th class="select">&nbsp;</th>
+				<th class="w400">{t('权限名称')}</th>
+				<th>{t('权限标识')}</td>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $dataset $data}
+				<tr data-tt-id="{$data['id']}" {if $data['parentid']}data-tt-parent-id="{$data['parentid']}"{/if}>
+					<td class="select center"><input type="checkbox" class="select" name="id[]" value="{$data['id']}" {$data['status']}/></td>
+					<td class="name"><i class="fa {if $data['_child']}fa-folder{else}fa-file{/if} fa-fw text-primary"></i> {$data['name']}</td>
+					<td>{$data['app']}{if !empty($data['controller'])}/{$data['controller']}{/if}{if !empty($data['action'])}/{$data['action']}{/if}</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+	{form::footer()}
 
+</th>
 <link rel="stylesheet" type="text/css" href="{A('system.url')}/assets/css/jquery.treetable.css"/>
 <script type="text/javascript" src="{A('system.url')}/assets/js/jquery.treetable.js"></script>
 <script type="text/javascript">
