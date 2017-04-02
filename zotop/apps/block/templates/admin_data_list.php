@@ -11,17 +11,17 @@
 			<li>{t('内容维护')}</li>		
 		</ul>	
 		<div class="action">
-			<a class="btn btn-default btn-icon-text js-open" href="{u('block/index/preview/'.$block['id'])}" data-width="800px" data-height="400px">
-				<i class="fa fa-eye"></i><b>{t('预览')}</b>
-			</a>		
 			<a class="btn btn-primary btn-icon-text js-open" href="{u('block/datalist/add/'.$block['id'])}" data-width="800px" data-height="400px">
 				<i class="fa fa-plus"></i><b>{t('添加')}</b>
 			</a>
 			<a class="btn btn-success btn-icon-text js-open" href="{u('content/content/select_block/'.$block['id'])}" data-width="80%" data-height="80%">
 				<i class="fa fa-eyedropper"></i><b>{t('选取')}</b>
 			</a>
+			<a class="btn btn-default btn-icon-text js-open" href="{u('block/index/preview/'.$block['id'])}" data-width="800px" data-height="400px">
+				<i class="fa fa-eye"></i><b>{t('预览')}</b>
+			</a>			
 			<a class="btn btn-default btn-icon-text" href="{u('block/datalist/history/'.$block['id'])}">
-				<i class="fa fa-history"></i><b>{t('历史记录')}</b>
+				<i class="fa fa-history"></i><b>{t('历史')}</b>
 			</a>					
 			<a class="btn btn-default btn-icon-text" href="{u('block/admin/edit/'.$block['id'])}">
 				<i class="fa fa-cog"></i><b>{t('设置')}</b>

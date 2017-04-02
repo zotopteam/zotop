@@ -1,6 +1,6 @@
 <?php
 return array (
-  'theme' => 'mobile',
+  'theme' => '',
   'url' => '',
 );
 ?>

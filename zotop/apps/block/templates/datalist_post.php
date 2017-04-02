@@ -2,11 +2,11 @@
 
 {form data="$data"}
 
-
 	{loop $block.fields $k $f}
 
 		{if $f.show and $f.name='data['.$f.name.']'}
 		<div class="form-group">
+		
 			{form::label($f.label, $f.name, $f.required=='required')}
 			
 			{if $f.type == 'title'}
@@ -21,6 +21,7 @@
 	{/loop}
 
 	{field type="hidden" name="blockid" required="required"}
+	{field type="hidden" name="dataid" required="required"}
 
 {/form}
 

@@ -3,8 +3,6 @@
 
 <div class="main side-main">
 	<div class="main-header">
-		
-		
 
 		{if $keywords}
 		<div class="goback"><a href="javascript:history.go(-1);"><i class="fa fa-angle-left"></i><span>{t('返回')}</span></a></div>

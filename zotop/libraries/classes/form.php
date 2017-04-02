@@ -167,8 +167,13 @@ class form
      * 
      * @return [type] [description]
      */
-    public static function data($key)
+    public static function data($key=null)
     {
+        if ( empty($key) )
+        {
+            return self::$data;
+        }
+
         if ( is_array($key) )
         {
             self::$data = array_merge(self::$data, $key);

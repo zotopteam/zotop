@@ -145,6 +145,10 @@ class block_controller_datalist extends admin_controller
 	 */
 	public function action_history($blockid)
 	{
+		// 应用数据
+		$block = $this->block->get($blockid);		
+
+		// 历史数据列表
 		if ( $keywords = $_REQUEST['keywords'] )
 		{
 			$this->datalist->where('data','like',$keywords);
@@ -158,10 +162,7 @@ class block_controller_datalist extends admin_controller
 			$data['data'] = (array)unserialize($data['data']);
 			$data['data']['url']	= $data['data']['url'] ? U($data['data']['url']) : '';
 		}
-
-		// 应用数据
-		$block = $this->block->get($data['blockid']);
-
+		
 		$this->assign('title',t('历史记录'));		
 		$this->assign('block',$block);
 		$this->assign('categoryid',$block['categoryid']);

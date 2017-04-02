@@ -229,7 +229,7 @@ class content_controller_content extends admin_controller
 	public function action_add()
 	{
 		$categoryid = zotop::get('categoryid',0);
-		$modelid  = zotop::get('modelid','category');
+		$modelid    = zotop::get('modelid','category');
 
 		if ( $post = $this->post() )
 		{
@@ -249,7 +249,9 @@ class content_controller_content extends admin_controller
 		// 默认数据
 		$data = array();
 		$data['modelid']    = $modelid;
-		$data['categoryid']   = $categoryid;
+		$data['categoryid'] = $categoryid;
+		$data['parentid']   = zotop::get('parentid',0);;
+		$data['status']     = 'publish';
 		$data['createtime'] = ZOTOP_TIME;
 
 		$this->assign('title',t('添加'));
