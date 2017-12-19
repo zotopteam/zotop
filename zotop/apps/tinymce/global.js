@@ -15,9 +15,10 @@ $.fn.editor = function(options){
     
     settings.toolbar_items_size            = 'small';
     settings.imagetools_toolbar            = 'alignleft aligncenter alignright imageoptions';
+
     settings.powerpaste_allow_local_images = true;
     settings.paste_data_images             = true;
-    
+
     settings.convert_urls                  = false;
     settings.image_advtab                  = true;	
     settings.images_upload_credentials     = true;
@@ -121,3 +122,59 @@ $(function(){
     //     });            
     // });
 });
+
+// $(function(){
+
+//     var main = $('.main-body');
+//     var fixed     = $('.global-header').outerHeight() + $('.main-header').outerHeight(); 
+
+//     function myTimeoutFunction()
+//     {
+//         if ($('.mce-toolbar-grp')) {
+//             clearInterval(timerId);
+//             var selector = $('.mce-toolbar-grp');
+//             var bottom = $(".mce-statusbar");
+//             var toolbarTop = selector.offset().top;       
+
+//             main.scroll(debounce(function () {                  
+
+
+
+//                 var currentScroll = main.scrollTop(); 
+
+//                 console.log(currentScroll);
+
+//                 if (currentScroll >= toolbarTop && currentScroll < bottom.offset().top) {           
+//                     selector.css({                      
+//                         position: 'fixed',
+//                         top: fixed+'px',
+//                         width: selector.width() + 'px'
+//                     });
+//                 } else {                                   
+//                     selector.css({ 
+//                         position: 'static'
+//                     });
+//                 }
+
+//             }));
+//         }
+//     }
+
+//     // from underscore.js
+//     function debounce(func, wait, immediate) {
+//         var timeout;
+//         return function () {
+//             var context = this, args = arguments;
+//             var later = function () {
+//                 timeout = null;
+//                 if (!immediate) func.apply(context, args);
+//             };
+//             var callNow = immediate && !timeout;
+//             clearTimeout(timeout);
+//             timeout = setTimeout(later, wait);
+//             if (callNow) func.apply(context, args);
+//         };
+//     };
+
+//     var timerId = setInterval(myTimeoutFunction, 1500);    
+// });

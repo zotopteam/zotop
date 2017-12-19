@@ -202,7 +202,7 @@ class tinymce_field
 	{
 		if ( $attrs['toolbar'] == 'full' )
 		{
-			$attrs['plugins'] = 'advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table paste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample zotop_pagebreak wordcount nonbreaking noneditable';
+			$attrs['plugins'] = 'advlist autolink lists link image charmap preview anchor searchreplace code fullscreen zotop_media table powerpaste hr textcolor colorpicker textpattern imagetools onekeyclear localautosave tabfocus codesample zotop_pagebreak wordcount nonbreaking noneditable';
 			$attrs['toolbar'] = 'undo redo copy paste pastetext searchreplace removeformat onekeyclear | forecolor backcolor | bold italic underline strikethrough blockquote | subscript superscript | formatselect fontselect fontsizeselect | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent | link unlink anchor | image file video audio media | insertdatetime table  charmap emoticons  hr | visualchars nonbreaking codesample template pagebreak | localautosave preview code fullscreen';
 			$attrs['rows']    = $attrs['rows'] ? $attrs['rows'] : 18;
 		}

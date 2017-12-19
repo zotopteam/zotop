@@ -333,7 +333,7 @@ label.required:after{content:'*';font-size:14px;color:#f00;margin-left:5px;font-
 
 .global-navbar .dropdown-start .shortcuts {width:600px;max-height:430px;}
 .global-navbar .dropdown-start .shortcuts ul{padding:0;margin:0;float:left;}
-.global-navbar .dropdown-start .shortcuts ul li{height:100px;width:16.6666%;text-align:center;float:left;}
+.global-navbar .dropdown-start .shortcuts ul li{height:100px;width:16.6666%;text-align:center;float:left;list-style:none;}
 
 .global-navbar.pull-right > li > a{font-size:14px;}
 
