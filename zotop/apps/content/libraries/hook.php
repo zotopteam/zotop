@@ -118,6 +118,7 @@ class content_hook
 		$menu = array();
 		$menu['view'] = array('text'=>t('访问'),'icon'=>'fa fa-eye','href'=>$content['url'],'target'=>'_blank');
 		$menu['edit'] = array('text'=>t('编辑'),'icon'=>'fa fa-edit','href'=>U('content/content/edit/'.$content['id']));
+		$menu['copy'] = array('text'=>t('复制'),'icon'=>'fa fa-copy','href'=>U('content/content/copy/'.$content['id']),'class'=>'js-ajax-post');
 
 		if ( $content['status'] == 'publish' )
 		{

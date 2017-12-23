@@ -17,7 +17,13 @@
 		<div class="container-fluid">
 			<div class="form-horizontal">
 				<div class="form-title">{t('基本设置')}</div>
-				
+
+				<div class="form-group">
+					<div class="col-sm-2 control-label">{form::label(t('留言本名称'),'title',true)}</div>
+					<div class="col-sm-6">
+						{form::field(array('type'=>'text','name'=>'name','value'=>c('guestbook.name'),'required'=>'required'))}
+					</div>
+				</div>				
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('留言本标题'),'title',true)}</div>
 					<div class="col-sm-6">
@@ -26,13 +32,13 @@
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('留言本说明'),'description',false)}</div>
-					<div class="col-sm-10">
+					<div class="col-sm-8">
 						{form::field(array('type'=>'editor','name'=>'description','value'=>c('guestbook.description'),'rows'=>'10'))}
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="col-sm-2 control-label">{form::label(t('留言本图片'),'image',false)}</div>
-					<div class="col-sm-6">
+					<div class="col-sm-8">
 						{form::field(array('type'=>'image','name'=>'image','value'=>c('guestbook.image'),'watermark'=>0))}
 					</div>
 				</div>

@@ -43,9 +43,14 @@
 				<div class="col-sm-2 control-label">{form::label(t('栏目图片'),'image',false)}</div>
 				<div class="col-sm-8">
 					{field type="image" name="image" value="$data.image" dataid="$data.dataid" watermark="0"}
-					<div class="help-block">{t('根据栏目设计，可以作为栏目banner或者栏目图标使用')}</div>
 				</div>
-			</div>			
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目Banner'),'image',false)}</div>
+				<div class="col-sm-8">
+					{field type="image" name="banner" value="$data.banner" dataid="$data.dataid" watermark="0"}
+				</div>
+			</div>							
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('首页模版'),'settings[template_index]',false)}</div>
 				<div class="col-sm-8">

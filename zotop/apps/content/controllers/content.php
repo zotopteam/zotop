@@ -286,6 +286,27 @@ class content_controller_content extends admin_controller
 		$this->display('content/content_post.php');
 	}
 
+	/**
+	 * 复制内容
+	 * 
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	public function action_copy($id)
+	{
+		// 获取当前数据
+		$data = $this->content->get($id);
+
+		$data['id'] = null;
+
+		if ( $this->content->save($data) ) 
+		{
+			return $this->success(t('操作成功'), request::referer());
+		}
+
+		return $this->error($this->content->error());	
+	}
+
  	/**
 	 * 设置单项数据
 	 *

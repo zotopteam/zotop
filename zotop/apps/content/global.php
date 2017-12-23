@@ -73,8 +73,16 @@ function tag_content($attrs)
     switch(strtolower($attrs['action']))
     {
         case 'category':
-            // 获取分类数据 {content action="category" cid="1"}{/content}
-            $result = m('content.category')->getChild($attrs['cid'], true);
+            if ( $attrs['self'] )
+            {
+                // 获取分类数据 {content action="category" cid="1"}{/content}
+                $result = m('content.category')->get($attrs['cid']);  
+            }
+            else
+            {
+                // 获取子分类数据 {content action="category" cid="1"}{/content}
+                $result = m('content.category')->getChild($attrs['cid'], true);                
+            }
             break;
         case 'position':
             // 获取导航分类数据 {content action="position" cid="1"}{/content}

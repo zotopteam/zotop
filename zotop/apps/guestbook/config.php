@@ -1,6 +1,7 @@
 <?php
 return array(
-	'title' => t('留言本'),
+	'name' => t('留言'),
+	'title' => t('给我们留言'),
 	'description' => t('欢迎给我们留言，或者电话咨询，我们收到留言后将及时回复'),
 	'image' => '',
 
