@@ -40,17 +40,17 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<div class="col-sm-2 control-label">{form::label(t('栏目图片'),'image',false)}</div>
-				<div class="col-sm-8">
-					{field type="image" name="image" value="$data.image" dataid="$data.dataid" watermark="0"}
-				</div>
-			</div>
-			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('栏目Banner'),'image',false)}</div>
 				<div class="col-sm-8">
 					{field type="image" name="banner" value="$data.banner" dataid="$data.dataid" watermark="0"}
 				</div>
-			</div>							
+			</div>				
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('栏目图片'),'image',false)}</div>
+				<div class="col-sm-8">
+					{field type="image" name="image" value="$data.image" dataid="$data.dataid" watermark="0"}
+				</div>
+			</div>						
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('首页模版'),'settings[template_index]',false)}</div>
 				<div class="col-sm-8">
@@ -121,13 +121,22 @@
 			<div class="form-group">
 				<div class="col-sm-2 control-label">{form::label(t('是否在导航显示'),'apply-setting-childs',false)}</div>
 				<div class="col-sm-8">
-					{form::field(array('type'=>'bool','name'=>'settings[isnav]','value'=>$data.settings['isnav']))}
+					{form::field(array('type'=>'bool','name'=>'settings[nav]','value'=>$data.settings['nav']))}
 					<div class="help-block">
 						{t('栏目是否在网站导航条显示')}
 					</div>
 				</div>
 			</div>
 
+			<div class="form-group">
+				<div class="col-sm-2 control-label">{form::label(t('导航菜单显示'),'apply-setting-childs',false)}</div>
+				<div class="col-sm-8">
+					{form::field(array('type'=>'radio','options'=>array(0=>t('无'), 1=>t('子栏目'), 2=>t('内容'), 3=>t('自定义')),'name'=>'settings[menu]','value'=>$data.settings['menu']))}
+					<div class="help-block">
+						{t('栏目在网站导航条显示时，下拉菜单的显示方式')}
+					</div>
+				</div>
+			</div>
 
 			{if a('member')}
 			<div class="form-group">

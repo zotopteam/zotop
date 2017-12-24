@@ -14,10 +14,10 @@
 			<div class="form-title">{t('基本信息')}</div>
 
 			<div class="form-group">
-				<label for="contacts" class="col-sm-2 control-label">{t('联系人')}</label>
+				<label for="company" class="col-sm-2 control-label">{t('公司名称')}</label>
 				<div class="col-sm-8">
-					{field type="text" name="contacts" value="c('site.contacts')"}
-					<div class="help-block">{t('请输入联系人名称，多个之间用英文逗号隔开')}</div>
+					{field type="text" name="company" value="c('site.company')"}
+					<div class="help-block">{t('请输入公司名称')}</div>
 				</div>
 			</div>
 			<div class="form-group">
